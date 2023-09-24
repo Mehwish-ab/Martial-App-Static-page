@@ -1,0 +1,168 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  outline: none;
+  border: none;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+html,
+body {
+  font-family: "EnnVisions";
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+.mt-10 {
+  margin-top: 10px;
+}
+.mt-8 {
+  margin-top: 8px;
+}
+.ant-modal-body {
+  padding: 0px;
+}
+
+/* @media (min-width: 576px) {
+  .container,
+  .container-sm {
+    max-width: 96% !important;
+  }
+} */
+
+/* bootstrap container end */
+
+.arrow-box {
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 30;
+}
+
+@font-face {
+  font-family: "EnnVisions";
+  src: local("SFUIText-Regular"),
+    url("./assets/fonts/product-sans/ProductSans-Regular.woff2")
+      format("truetype");
+}
+@font-face {
+  font-family: "EnnVisionsMedium";
+  src: local("SFUIText-Regular"),
+    url("./assets/fonts/product-sans/ProductSans-Medium.woff2")
+      format("truetype");
+}
+@font-face {
+  font-family: "EnnVisionsBold";
+  src: local("SFUIText-Regular"),
+    url("./assets/fonts/product-sans//ProductSans-Bold.woff2")
+      format("truetype");
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.mobile-nav-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mobile-nav-title p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #aab2ba;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.ant-drawer-close {
+  visibility: hidden;
+}
+
+button {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1100px) {
+  .web-view {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 1100px) {
+  .mobile-view {
+    display: none;
+  }
+}
+
+.page-indicator-section img {
+  cursor: pointer;
+}
+
+.page-indicator-section .indicators .indicator {
+  height: 4px;
+  width: 35px;
+  border-radius: 10px;
+}
+
+.page-indicator-section .indicators .indicator-fill {
+  background-color: #c7112b;
+}
+
+.page-indicator-section .indicators .indicator-null {
+  background-color: #8d99b247;
+}
+
+.ant-drawer-content {
+  background-color: #1b283f !important;
+}
+
+.ant-drawer-body {
+  padding: 0 !important;
+}
+
+.ant-drawer-mask {
+  background: none !important;
+}
+
+.ant-drawer-header {
+  padding: 0 !important;
+}
+
+.ant-drawer-close {
+  margin-right: 0 !important;
+}
+
+.mobile-nav-title {
+  margin-right: 25px;
+  margin-top: 15px;
+}
+
+.ant-modal-content {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.ant-drawer-header {
+  border-bottom: none !important;
+}

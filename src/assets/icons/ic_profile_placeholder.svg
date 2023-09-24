@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44">
+  <g id="ic_profile_placeholder" transform="translate(13081 15424)">
+    <circle id="Ellipse_6" data-name="Ellipse 6" cx="22" cy="22" r="22" transform="translate(-13081 -15424)" fill="#f2f2f2"/>
+    <path id="Path_184" data-name="Path 184" d="M22,1a20.993,20.993,0,1,0,8.174,1.65A21.006,21.006,0,0,0,22,1m0-1A22,22,0,1,1,0,22,22,22,0,0,1,22,0Z" transform="translate(-13081 -15424)" fill="#fff"/>
+    <g id="Group_53" data-name="Group 53" transform="translate(-13097.165 -15417.504)">
+      <g id="Group_50" data-name="Group 50" transform="translate(30.144)">
+        <path id="Path_185" data-name="Path 185" d="M119.049,0a8.258,8.258,0,1,0,8.258,8.258A8.258,8.258,0,0,0,119.049,0Z" transform="translate(-110.791)" fill="#dedede"/>
+      </g>
+      <g id="Group_52" data-name="Group 52" transform="translate(24.165 17.107)">
+        <g id="Group_51" data-name="Group 51">
+          <path id="Path_186" data-name="Path 186" d="M52.575,253.849a7.7,7.7,0,0,0-.829-1.515,10.265,10.265,0,0,0-7.1-4.472,1.52,1.52,0,0,0-1.046.252,8.8,8.8,0,0,1-10.386,0,1.353,1.353,0,0,0-1.046-.252,10.191,10.191,0,0,0-7.1,4.472,8.876,8.876,0,0,0-.829,1.515.767.767,0,0,0,.036.685,14.388,14.388,0,0,0,.974,1.443,13.7,13.7,0,0,0,1.659,1.875,21.6,21.6,0,0,0,1.659,1.443,16.445,16.445,0,0,0,19.618,0,15.855,15.855,0,0,0,1.659-1.443,16.649,16.649,0,0,0,1.659-1.875,12.644,12.644,0,0,0,.974-1.443A.615.615,0,0,0,52.575,253.849Z" transform="translate(-24.165 -247.841)" fill="#dedede"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

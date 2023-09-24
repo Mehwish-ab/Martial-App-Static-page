@@ -1,0 +1,18 @@
+<svg id="heart_1_" data-name="heart (1)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20.868" height="17.741" viewBox="0 0 20.868 17.741">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#c7112b"/>
+      <stop offset="1" stop-color="#b8142b"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_72" data-name="Group 72" transform="translate(0 0)">
+    <g id="Group_71" data-name="Group 71">
+      <path id="Path_318" data-name="Path 318" d="M19.241,40.1a5.787,5.787,0,0,0-8.232-.047l-.564.565-.565-.565A5.788,5.788,0,0,0,1.7,48.242l7.234,7.234a2.146,2.146,0,0,0,3.031,0l7.187-7.187A5.841,5.841,0,0,0,19.241,40.1Z" transform="translate(0 -38.362)" fill="url(#linear-gradient)"/>
+    </g>
+  </g>
+  <g id="Group_74" data-name="Group 74" transform="translate(15.476 1.998)">
+    <g id="Group_73" data-name="Group 73" transform="translate(0 0)">
+      <path id="Path_319" data-name="Path 319" d="M383.23,90.941a3.914,3.914,0,0,0-2.85-3.527.536.536,0,1,0-.287,1.032,2.843,2.843,0,0,1,2.067,2.56.536.536,0,0,0,.534.5h.034A.535.535,0,0,0,383.23,90.941Z" transform="translate(-379.701 -87.395)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

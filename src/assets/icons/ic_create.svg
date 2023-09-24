@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
+  <g id="ic_create" transform="translate(-1032 -28)">
+    <g id="Rectangle_9" data-name="Rectangle 9" transform="translate(1032 28)" fill="#fff" stroke="#c7112b" stroke-width="1.4">
+      <rect width="26" height="26" rx="4" stroke="none"/>
+      <rect x="0.7" y="0.7" width="24.6" height="24.6" rx="3.3" fill="none"/>
+    </g>
+    <g id="Layer_1-2" transform="translate(1011.129 29.899)">
+      <path id="Path_30848" data-name="Path 30848" d="M13.32,6.82a.688.688,0,0,1-.522.506,1.159,1.159,0,0,1-.22.015H7.3V7.5c0,1.683-.007,3.365,0,5.047a.747.747,0,0,1-.525.821H6.522a.693.693,0,0,1-.506-.523A1.085,1.085,0,0,1,6,12.64q0-2.563,0-5.126V7.342H.674a.652.652,0,1,1-.039-1.3c.59,0,1.18,0,1.77,0H6V5.879C6,4.2,6.007,2.514,6,.831A.747.747,0,0,1,6.521.01h.261a.687.687,0,0,1,.505.523A1.163,1.163,0,0,1,7.3.753q0,2.556,0,5.113v.172h.159c1.679,0,3.359.007,5.038,0a.745.745,0,0,1,.82.527V6.82Z" transform="translate(26.887 4.091)" fill="#c7112b" stroke="#c7112b" stroke-width="0.3"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44">
+  <g id="ic_upload_camera_story" transform="translate(-160 -725.194)">
+    <circle id="Ellipse_2581" data-name="Ellipse 2581" cx="22" cy="22" r="22" transform="translate(160 725.194)" fill="#fff" opacity="0.46"/>
+    <circle id="Ellipse_2580" data-name="Ellipse 2580" cx="19" cy="19" r="19" transform="translate(163 728.194)" fill="#fff"/>
+    <g id="Layer_1-2" transform="translate(174.5 738.948)">
+      <path id="Path_32783" data-name="Path 32783" d="M17.564,8.256a.819.819,0,0,1-.507.535Q9.023,12.494.993,16.2a.739.739,0,0,1-.562.07.628.628,0,0,1-.286-1c.383-.52.774-1.035,1.161-1.551L5.37,8.309c.037-.05.072-.1.115-.16L4.312,6.584Q2.248,3.833.184,1.084A.692.692,0,0,1,.01.547.623.623,0,0,1,.931.076C2.037.582,3.14,1.094,4.244,1.6q6.4,2.953,12.8,5.9a.826.826,0,0,1,.521.543v.206Z" transform="translate(-0.003 -0.004)" fill="#4f5460"/>
+    </g>
+  </g>
+</svg>

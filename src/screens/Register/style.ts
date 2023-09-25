@@ -25,7 +25,7 @@ const RegisterStyle = styled.div`
     display: flex;
     p,
     a {
-      font-size: 14px;
+      font-size: 16px;
     }
   }
 

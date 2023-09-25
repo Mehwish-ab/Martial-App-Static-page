@@ -42,7 +42,7 @@ export const GenerateOtpStyle = styled.div`
       font-family: "EnnVisionsMedium";
     }
     p {
-      font-size: 14px;
+      font-size: 16px;
       font-weight: normal;
       color: #8e8e93;
     }

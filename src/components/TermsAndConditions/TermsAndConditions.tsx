@@ -7,6 +7,8 @@ import {
   primaryColor,
   tertiaryGrey7,
 } from "../GlobalStyle";
+import FormControl from "../FormControl";
+import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 
 type termsAndConditionsProps = {
   terms: boolean;
@@ -21,14 +23,16 @@ const TermsAndConditions: React.FC<termsAndConditionsProps> = ({
   return (
     <Wrapper>
       <div className="d-flex justify-content-start mt-3">
-        <span className="me-1">
-          <input
+        <span className="me-2">
+          <FormControl
+            control='checkbox'
             type="checkbox"
             id="terms"
             name="terms"
             checked={terms}
-            onChange={(e) => setTerms(e.target.checked)}
+            onChange={(e:CheckboxChangeEvent) => setTerms(e.target.checked)}
           />
+          
         </span>
 
         <label
@@ -62,15 +66,15 @@ const Wrapper = styled.div`
   .terms {
     max-width: 390px;
     width: 98%;
-    font-size: 14px;
+    font-size: 16px;
     span {
-      font-size: 14px;
+      font-size: 16px;
       &:first-child {
         color: ${lightGrey9};
       }
       &:last-child {
         color: ${tertiaryGrey7};
-        font-size: 14px;
+        font-size: 16px;
       }
     }
   }

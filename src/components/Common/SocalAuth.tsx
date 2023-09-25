@@ -2,6 +2,8 @@ import google from "../../assets/icons/ic_google.svg";
 import facebook from "../../assets/icons/ic_facebook.svg";
 import microsoft from "../../assets/icons/ic_microsoft.svg";
 import apple from "../../assets/icons/ic_apple.svg";
+import discord from "../../assets/icons/ic_discord.svg";
+
 import styled from "styled-components";
 
 const SocalAuth = () => {
@@ -24,13 +26,17 @@ const SocalAuth = () => {
           icon: microsoft,
           title: "Microsoft",
         },
+        {
+          icon: discord,
+          title: "Discord",
+        },
       ].map(({ icon, title }, index) => (
         <div
           className="d-flex align-items-center gap-2 social-auth-btn"
           key={index}
         >
           <img src={icon} alt={title} />
-          <p className="mb-0">{title}</p>
+          {/* <p className="mb-0">{title}</p> */}
         </div>
       ))}
     </Wrapper>
@@ -41,7 +47,7 @@ export default SocalAuth;
 
 const Wrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   width: 96%;
   gap: 10px;
   margin-top: 20px;
@@ -56,4 +62,9 @@ const Wrapper = styled.div`
       font-size: 14px;
     }
   }
+  @media screen and (max-width: 425px){
+      .social-auth-btn{
+        padding: 10px;
+      } 
+    }
 `;

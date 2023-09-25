@@ -152,10 +152,15 @@ const Login = () => {
                             textAlign="end"
                           />
                         </div>
-                        <div className="d-flex justify-content-between mt-20">
-                          <div className="d-flex gap-2">
-                            <input type="checkbox" name="" id="" />
-                            <p className="mb-0">Remember me</p>
+                        <div className="d-flex justify-content-between align-items-center mt-20">
+                          <div className="d-flex align-items-center gap-2">
+                             <FormControl
+                                control='checkbox'
+                                type="checkbox"
+                                id="rememberMe"
+                                name="rememberMe"
+                              />
+                            <p className="mb-0 text-16">Remember me</p>
                           </div>
                           <p
                             className="forget_password mb-0 text-end cursor-pointer"
@@ -180,7 +185,7 @@ const Login = () => {
                             width="100%"
                             type="submit"
                             title="Login"
-                            fontSize="14px"
+                            fontSize="16px"
                             loading={loading}
                           />
                         </div>
@@ -191,13 +196,21 @@ const Login = () => {
               </Formik>
             </div>
 
+            
+            <div className="d-flex or-line mt-20 align-items-center">
+              <div className="line" />
+              <p>Or</p>
+              <div className="line" />
+            </div>
+            <SocalAuth />
+
             <TermsAndConditions
               setTerms={setTerms}
               showTermsError={showTermsError}
               terms={terms}
             />
             <div className="signup-text mt-20">
-              <p className="mb-0">
+              <p className="mb-0 text-16">
                 If you already have an account we'll log you in. If not
               </p>
               <h6 className="ms-1 mt-2">
@@ -206,12 +219,6 @@ const Login = () => {
                 </Link>
               </h6>
             </div>
-            <div className="d-flex or-line mt-20">
-              <div className="line" />
-              <p>Or</p>
-              <div className="line" />
-            </div>
-            <SocalAuth />
           </div>
         </div>
       </LoginStyle>

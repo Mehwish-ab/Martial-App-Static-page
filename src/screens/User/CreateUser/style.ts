@@ -23,7 +23,7 @@ const RegisterStyle = styled.div`
   margin-bottom: 16px;
   p,
   a {
-    font-size: 14px;
+    font-size: 16px;
     margin-bottom: 0px;
   }
   .signup-text {
@@ -106,6 +106,9 @@ const RegisterStyle = styled.div`
           }
         }
       }
+    }
+    a,p{
+      font-size:14px
     }
   }
 `;

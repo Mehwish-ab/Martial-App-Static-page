@@ -18,19 +18,13 @@ export const LoginStyle = styled.div`
   background: ${tertiaryGrey8};
   margin: 0 auto;
   margin-bottom: 16px;
-
+  height: 100vh;
   p {
     margin-bottom: 0px;
   }
 
   .login-container {
-    .line {
-      height: 10px;
-      width: 100%;
-    }
-    .or-line {
-      margin-top: 20px;
-    }
+    
     &-card {
       max-width: 485px;
       display: flex;
@@ -89,9 +83,11 @@ export const LoginStyle = styled.div`
     justify-content: center;
     a {
       color: ${primaryColor};
+      font-size: 16px;
+
     }
     p {
-      font-size: 14px;
+      font-size: 16px;
       font-weight: normal;
       color: ${pureDark};
     }
@@ -124,7 +120,7 @@ export const LoginStyle = styled.div`
   }
   .forget_password {
     color: ${primaryColor};
-    font-size: 14px;
+    font-size: 16px;
     text-decoration: none;
     font-family: "EnnVisionsMedium" !important;
   }
@@ -141,14 +137,11 @@ export const LoginStyle = styled.div`
     width: 155px;
     margin-bottom: 20px;
   }
-  .line {
-    display: none;
-  }
-
+  
   @media screen and (max-width: 425px) {
     .login-container {
       &-card {
-        padding: 3px;
+        padding: 20px 3px;
         &-logo {
           h1 {
             display: none;
@@ -157,7 +150,8 @@ export const LoginStyle = styled.div`
       }
     }
     .signup-text {
-      p {
+      
+      p,a {
         font-size: 14px;
       }
       h6 {
@@ -165,11 +159,7 @@ export const LoginStyle = styled.div`
         margin-left: 3px;
       }
     }
-    .line {
-      display: inline;
-      width: 90%;
-      margin-bottom: 6px;
-    }
+   
   }
 `;
 

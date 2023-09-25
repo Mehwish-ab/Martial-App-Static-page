@@ -196,7 +196,7 @@ const RegisterUser = () => {
                       onFinish={formik.handleSubmit}
                       autoComplete="off"
                     >
-                      <div className="role-section mt-20">
+                      {/* <div className="role-section mt-20">
                         <h6 className="mb-0">Select Your Role</h6>
                         <div className="d-flex gap-2 roles mt-20">
                           <CustomButton
@@ -238,7 +238,7 @@ const RegisterUser = () => {
                             fontFamily={fontFamilyRegular}
                           />
                         </div>
-                      </div>
+                      </div> */}
                       <div className="register-input-fields">
                         <div className="mt-20">
                           <FormControl
@@ -363,7 +363,12 @@ const RegisterUser = () => {
                           />
                         </div>
                         <div className="d-flex gap-2">
-                          <input type="checkbox" name="" id="" />
+                          <FormControl
+                                control='checkbox'
+                                type="checkbox"
+                                id="rememberMe"
+                                name="rememberMe"
+                              />
                           <p className="mb-0">Remember me</p>
                         </div>
 
@@ -381,7 +386,7 @@ const RegisterUser = () => {
                             loading={isLoading}
                           />
                         </div>
-                        <div className="d-flex justify-content-center or-line mt-4">
+                        <div className="d-flex or-line mt-4 align-items-center">
                           <div className="line" />
                           <p>Or</p>
                           <div className="line" />

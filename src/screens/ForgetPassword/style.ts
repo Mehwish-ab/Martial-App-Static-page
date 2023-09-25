@@ -74,7 +74,7 @@ export const ForgetPasswordStyle = styled.div`
       text-decoration: none;
     }
     p {
-      font-size: 14px;
+      font-size: 16px;
       font-weight: normal;
       color: #8e8e93;
     }
@@ -108,7 +108,7 @@ export const ForgetPasswordStyle = styled.div`
   }
   .forget_password {
     color: ${primaryColor};
-    font-size: 14px;
+    font-size: 16px;
     text-decoration: none;
     font-family: "EnnVisionsMedium" !important;
   }

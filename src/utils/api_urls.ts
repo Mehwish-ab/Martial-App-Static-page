@@ -4,7 +4,7 @@ import { loginDataTypes } from "../redux/features/types";
 const liveBaseUrl =
   "https://www.ennvisionapistore.com:8443/martialapp_apis/api/";
 const testBaseUrl =
-  "https://www.ennvisionapistore.com:8443/martialapp_apis/api/";
+  "https://www.ennvisionapistore.com:8443/martialapp_apis/";
 const liveMediaUrl = "https://ennvisionapistore.com:8443";
 const testMediaUrl = "https://ennvisionapistore.com:8443";
 const domianLiveUrl = "https://maritalschool.innovatelq.com/";
@@ -18,7 +18,7 @@ export const live_base_url = isLive ? domianLiveUrl : domianTestUrl;
 export const media_base_url = isLive ? liveMediaUrl : testMediaUrl;
 
 // user urls
-export const app_data_url = "getAppData";
+export const app_data_url = "api/getAppData";
 export const signup_url = "auth/signup";
 export const login_url = "auth/signin";
 export const all_users_url = "admin/user/getAllUsers?pageNo=";
@@ -72,7 +72,6 @@ export const edit_comments_url = "newsfeed/editcomment";
 export const get_comments_url = "newsfeed/getAllComments?newsFeedId=";
 export const delete_comment_url = "newsfeed/deletecomment";
 
-export const verify_otp_url = "otp/verifyOTP";
 export const mpac_create_property_url = "/property/mpac/getMPACProperty";
 export const mpac_card_charging_url =
   "/creditcard/property/chargeMpacFeeByPlans";
@@ -107,7 +106,12 @@ export const get_all_likes_url = "newsfeed/getlikes?newsFeedId=";
 export const location_url = "https://ipinfo.io/json?token=11847a6086fc3e";
 // refresh token url
 export const refresh_token_url = "api/auth/refreshtoken";
+
+
+// forget password urls
 export const generate_otp_url = "otp/generate";
+export const verify_otp_url = "otp/verifyOTP";
+export const reset_password_url = "user/resetPassword";
 
 // user authorized token
 export const authorizationToken = (loginData: loginDataTypes) => {

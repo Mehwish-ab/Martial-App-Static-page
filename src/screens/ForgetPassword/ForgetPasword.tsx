@@ -1,7 +1,6 @@
-import { Formik } from "formik";
+import { ErrorMessage, Formik } from "formik";
 import * as Yup from "yup";
 import { Form } from "antd";
-import FormControl from "../../components/FormControl";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import {
   fontFamilyMedium,
@@ -9,25 +8,53 @@ import {
   pureDark,
 } from "../../components/GlobalStyle";
 import ForgetPasswordStyle from "./style";
-import email_icon from "../../assets/icons/ic_email.svg";
 import Head from "../../components/Head/Head";
+import CustomPhoneInput from "../../components/CustomInputNumber/CustomPhoneInput";
+import { useAppSelector } from "../../app/hooks";
+import { validationFinder } from "../../utils/utilities";
+import Errormsg from "../../components/ErrorMessage";
+import Otp from "./Otp/Otp";
+import CreatePassword from "./CreatePassword/CreatePassword";
+import useGenerateOtp from "../../hooks/useGenerateOtp";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 // initial values types
-type forgetPasswordInitialTypes = {
-  email: string;
+export type forgetPasswordInitialTypes = {
+  phoneNumber: string | number;
 };
 
 const ForgetPassword = () => {
+  const { loading, handleSubmit, error } = useGenerateOtp();
+
   // initialValues
-  const initialValues: forgetPasswordInitialTypes = {
-    email: "",
+  const initialValues = {
+    phoneNumber: "",
   };
+
+  const phoneNumber = validationFinder("CANADA_PHONE_NUMBER")!;
+  const phoneNumberReg = new RegExp(phoneNumber.pattern);
 
   // validation schema
   const validationSchema = Yup.object({
-    email: Yup.string().required("Email is required!"),
+    phoneNumber: Yup.string()
+      .required(phoneNumber.notBlankMsgEn)
+      .matches(phoneNumberReg, phoneNumber.patternMsgEn),
   });
 
+  const {
+    countryName: {
+      results: {
+        countryCode,
+        countryFlagURL,
+        examplePhoneNumber,
+        name,
+        phoneNumberLength,
+      },
+    },
+  } = useAppSelector((state) => state.appData.data);
+
+  // const onFormSubmit =
   return (
     <>
       <Head title="forget-password" />
@@ -44,7 +71,7 @@ const ForgetPassword = () => {
               <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
-                onSubmit={() => {}}
+                onSubmit={handleSubmit}
               >
                 {(formik) => {
                   return (
@@ -54,27 +81,25 @@ const ForgetPassword = () => {
                       autoComplete="off"
                     >
                       <div className="input-fields w-100 mt-20">
-                        <FormControl
-                          control="input"
-                          type="text"
-                          name="email"
-                          fontSize="14px"
-                          label="Email"
-                          labelFamily="EnnVisionsMedium"
-                          placeholder="Enter Email"
-                          border="none"
-                          borderRadius="10px"
-                          fontFamily="EnnVisionsMedium"
-                          labelMarginBottom="8px"
-                          padding="0px"
-                          prefix={<img src={email_icon} alt="email_icon" />}
-                          className={
-                            formik.errors.email && formik.touched.email
-                              ? "is-invalid"
-                              : "customInput"
+                        <CustomPhoneInput
+                          countryNumber={countryCode}
+                          placeholder={examplePhoneNumber}
+                          phoneLength={phoneNumberLength}
+                          countryFlag={countryFlagURL}
+                          phoneValueHandler={(value: number | string) =>
+                            formik.setFieldValue("phoneNumber", value)
                           }
-                          textAlign="end"
+                          label="Phone Number"
+                          value={formik.values.phoneNumber}
+                          name="phoneNumber"
+                          countryName={name}
                         />
+                        <div className="mt-3">
+                          <ErrorMessage
+                            name="phoneNumber"
+                            component={Errormsg}
+                          />
+                        </div>
 
                         <div className="mt-20">
                           <CustomButton

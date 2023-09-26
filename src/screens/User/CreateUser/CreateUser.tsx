@@ -406,7 +406,7 @@ const RegisterUser = () => {
             <div className="signup-text mt-3">
               <p>If you already have an account we'll log you in. If not</p>
               <h6 className="ms-1">
-                <Link to="/login">login.</Link>
+                <Link to="/login">Login.</Link>
               </h6>
             </div>
           </div>

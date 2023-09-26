@@ -18,6 +18,7 @@ type CustomInputTypes = {
   className: string;
   name: string;
   onFocus?: boolean;
+  onKeyUp?: () => void;
   value: string;
   fontFamily?: "EnnVisions" | "EnnVisionsMedium" | "EnnVisionsBold";
   bgColor?: string;
@@ -62,6 +63,7 @@ const CustomInput: React.FC<CustomInputTypes> = ({
   type = "text",
   marginBottom = "0px",
   borderRadius = "8px",
+  onKeyUp,
 }: CustomInputTypes) => {
   return (
     <CustomInputStyle
@@ -92,6 +94,7 @@ const CustomInput: React.FC<CustomInputTypes> = ({
             defaultValue={defaultValue}
             {...field}
             suffix={suffix}
+            onKeyUp={onKeyUp}
           />
         )}
       </Field>

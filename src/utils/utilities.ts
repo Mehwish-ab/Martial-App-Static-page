@@ -41,5 +41,5 @@ export const numberToLocalString = (price: number) => {
 export const validationFinder = (validationKey: string) => {
   return store
     .getState()
-    .appData.data.validations.find(({ key }) => key === validationKey);
+    .appData?.data?.validations?.find(({ key }) => key === validationKey);
 };

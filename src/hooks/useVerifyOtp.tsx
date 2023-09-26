@@ -8,16 +8,21 @@ import {
   generate_otp_url,
   useCaseForgetPassowrd,
   useCaseRegisteration,
+  verify_otp_url,
 } from "../utils/api_urls";
 import { forgetPasswordInitialTypes } from "../screens/ForgetPassword/ForgetPasword";
 import * as Yup from "yup";
+import { OtpPropValues } from "../screens/ForgetPassword/Otp/Otp";
 
-const useGenerateOtp = () => {
+interface Otp {
+  value: string | number;
+}
+const useVerifyOtp = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const toastId = useRef<any>(null);
-  const { setUserPhoneNumber } = useGlobalContext();
+  const { setUserPhoneNumber, userPhoneNumber } = useGlobalContext();
   // get Validations from redux appData
   // const {
   //   countryName: {
@@ -43,17 +48,18 @@ const useGenerateOtp = () => {
   // });
 
   // register phone handler
-  const handleSubmit = async (values: forgetPasswordInitialTypes) => {
-    setUserPhoneNumber(values.phoneNumber.toString());
-    console.log(values.phoneNumber, "phone number");
+  const handleSubmit = async (values: OtpPropValues) => {
+    // setOtp(values.phoneNumber.toString());
+    console.log(values, "otp number");
     const phoneData = {
-      phoneNumber: values.phoneNumber.toString(),
+      phoneNumber: userPhoneNumber,
       useCase: useCaseForgetPassowrd,
+      otp: values.input0 + values.input1 + values.input2 + values.input3,
     };
     try {
       setError("");
       setLoading(true);
-      const { data } = await axios.post(generate_otp_url, phoneData);
+      const { data } = await axios.post(verify_otp_url, phoneData);
       if (data.responseCode === "500") {
         toast(data.responseMessage, {
           type: "error",
@@ -67,7 +73,11 @@ const useGenerateOtp = () => {
         autoClose: 1000,
       });
       setLoading(false);
-      navigate("/register/verify-otp");
+      navigate("/register/create-new-password", {
+        state: {
+          resetPasswordToken: data.results.resetPasswordToken,
+        },
+      });
       console.log({ data });
     } catch (error: any) {
       console.log({ error });
@@ -89,4 +99,4 @@ const useGenerateOtp = () => {
   };
 };
 
-export default useGenerateOtp;
+export default useVerifyOtp;

@@ -1,6 +1,7 @@
-import { InputNumber } from "antd";
+import { InputNumber, Select } from "antd";
 import { CustomPhoneInputStyle } from "./style";
 import { BaseImgContainer } from "../GlobalStyle";
+import useFetch from "../../hooks/useFetch";
 
 type CustomPhoneInputProps = {
   countryNumber: string;
@@ -14,6 +15,8 @@ type CustomPhoneInputProps = {
   value: string | number;
   label?: string;
 };
+
+const { Option } = Select;
 
 const CustomPhoneInput: React.FC<CustomPhoneInputProps> = ({
   countryNumber,

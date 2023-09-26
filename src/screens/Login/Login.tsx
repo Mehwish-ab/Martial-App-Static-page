@@ -154,12 +154,12 @@ const Login = () => {
                         </div>
                         <div className="d-flex justify-content-between align-items-center mt-20">
                           <div className="d-flex align-items-center gap-2">
-                             <FormControl
-                                control='checkbox'
-                                type="checkbox"
-                                id="rememberMe"
-                                name="rememberMe"
-                              />
+                            <FormControl
+                              control="checkbox"
+                              type="checkbox"
+                              id="rememberMe"
+                              name="rememberMe"
+                            />
                             <p className="mb-0 text-16">Remember me</p>
                           </div>
                           <p
@@ -196,7 +196,6 @@ const Login = () => {
               </Formik>
             </div>
 
-            
             <div className="d-flex or-line mt-20 align-items-center">
               <div className="line" />
               <p>Or</p>
@@ -215,7 +214,7 @@ const Login = () => {
               </p>
               <h6 className="ms-1 mt-2">
                 <Link to="/register" className="underline">
-                  register.
+                  Register.
                 </Link>
               </h6>
             </div>

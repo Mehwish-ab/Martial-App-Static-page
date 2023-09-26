@@ -21,7 +21,7 @@ export const ForgetPasswordStyle = styled.div`
   }
   .forget-password-container {
     &-card {
-      max-width: 400px;
+      max-width: 498px;
       display: flex;
       flex-direction: column;
       align-items: center;

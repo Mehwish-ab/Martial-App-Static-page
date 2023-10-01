@@ -19,8 +19,12 @@ export const media_base_url = isLive ? liveMediaUrl : testMediaUrl;
 
 // user urls
 export const app_data_url = "api/getAppData";
+export const screen_translations = 'translation/getScreenTranslation'
 export const signup_url = "auth/signup";
 export const login_url = "auth/signin";
+export const oauth_signup_url = '/oauth2/signup'
+export const oauth_signin_url = '/oauth2/signin'
+
 export const all_users_url = "admin/user/getAllUsers?pageNo=";
 export const user_details_url = "admin/user/getdetails";
 export const profile_details_url = "user/viewUserProfile";

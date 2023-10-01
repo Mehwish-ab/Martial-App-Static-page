@@ -14,11 +14,15 @@ import { validationFinder } from "../../../utils/utilities";
 import * as Yup from "yup";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import useCreateNewPassword from "../../../hooks/useCreateNewPassword";
+import useScreenTranslation from "../../../hooks/useScreenTranslation";
+import { PASSWORD_SCREEN_LABEL_KEYS } from "../constants";
 export interface createNewPasswordValuesType {
   password: string;
   confirmPassword?: string;
 }
 const CreatePassword: React.FC = () => {
+  const { getLabelByKey } = useScreenTranslation("resetPassword");
+
   const initialValues: createNewPasswordValuesType = {
     password: "",
     confirmPassword: "",
@@ -35,7 +39,7 @@ const CreatePassword: React.FC = () => {
       .required("confirm password is required!")
       .oneOf([Yup.ref("password")], "passwords must match"),
   });
-  const { handleSubmit } = useCreateNewPassword();
+  const { handleSubmit, loading } = useCreateNewPassword();
   return (
     <>
       <Head title="Create New Password" />
@@ -43,9 +47,11 @@ const CreatePassword: React.FC = () => {
       <ForgetPasswordStyle>
         <div className="forget-password-container overflow-auto">
           <div className="forget-password-container-card">
-            <h6 className="title">Create New Password</h6>
+            <h6 className="title">
+              {getLabelByKey(PASSWORD_SCREEN_LABEL_KEYS.title)}
+            </h6>
             <p className="text-center forget-password-text mt-20">
-              Your new password must be different from previous used passwords.
+              {getLabelByKey(PASSWORD_SCREEN_LABEL_KEYS.subtitle)}
             </p>
             <div className="forget-password-container-card-form w-100">
               <Formik
@@ -65,13 +71,17 @@ const CreatePassword: React.FC = () => {
                           control="password"
                           type="text"
                           name="password"
-                          label="Password"
+                          label={getLabelByKey(
+                            PASSWORD_SCREEN_LABEL_KEYS.passcodeFieldTitle
+                          )}
                           padding="0px"
                           fontFamily={fontFamilyMedium}
                           prefix={<img src={lock_icon} alt="lock_icon" />}
                           max={6}
                           border="none"
-                          placeholder="Enter Password"
+                          placeholder={getLabelByKey(
+                            PASSWORD_SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
+                          )}
                           className={
                             formik.errors.password && formik.touched.password
                               ? "is-invalid"
@@ -87,9 +97,13 @@ const CreatePassword: React.FC = () => {
                           fontFamily={fontFamilyMedium}
                           prefix={<img src={lock_icon} alt="lock_icon" />}
                           border="none"
-                          label="Confirm Password"
+                          label={getLabelByKey(
+                            PASSWORD_SCREEN_LABEL_KEYS.confrimPasscodeFieldTitle
+                          )}
                           padding="0px"
-                          placeholder="Enter Confirm passcode"
+                          placeholder={getLabelByKey(
+                            PASSWORD_SCREEN_LABEL_KEYS.confrimPasscodeFieldPlaceholder
+                          )}
                           className={
                             formik.errors.confirmPassword &&
                             formik.touched.confirmPassword
@@ -107,9 +121,11 @@ const CreatePassword: React.FC = () => {
                           fontFamily={`${fontFamilyMedium}`}
                           width="100%"
                           type="submit"
-                          title="Submit"
+                          title={getLabelByKey(
+                            PASSWORD_SCREEN_LABEL_KEYS.sumbitButton
+                          )}
                           fontSize="14px"
-                          loading={false}
+                          loading={loading}
                         />
                       </div>
                     </Form>

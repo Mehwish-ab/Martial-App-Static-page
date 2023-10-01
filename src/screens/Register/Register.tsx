@@ -16,7 +16,7 @@ import Head from "../../components/Head/Head";
 import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import TermsAndConditions from "../../components/TermsAndConditions/TermsAndConditions";
-import SocalAuth from "../../components/Common/SocalAuth";
+import OauthLogin from "../../components/Common/OauthLogin/OauthLogin";
 import EnnvisionModal from "../../components/CustomModals/EnnvisionModal";
 import CustomModal from "../../components/Modal/CustomModal";
 import profile_icon from "../../assets/icons/ic_profile.svg";
@@ -30,6 +30,7 @@ import axios from "axios";
 import { signup_url } from "../../utils/api_urls";
 import CustomPhoneInput from "../../components/CustomInputNumber/CustomPhoneInput";
 import Errormsg from "../../components/ErrorMessage";
+import { OAUTH_USECASES } from "../../components/Common/OauthLogin/constants";
 
 // create user initial values types
 type initialValuesType = {
@@ -374,7 +375,7 @@ const RegisterUser = () => {
                           <p>Or</p>
                           <div className="line" />
                         </div>
-                        <SocalAuth />
+                        <OauthLogin usecase={OAUTH_USECASES.register} />
                       </div>
                     </Form>
                   );

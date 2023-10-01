@@ -212,3 +212,12 @@ button {
     width: 96%;
   }
 }
+
+.language-select {
+  position: relative;
+}
+.language-select-inner {
+  position: absolute;
+  right: 30px;
+  top: 10px;
+}

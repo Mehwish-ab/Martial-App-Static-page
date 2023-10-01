@@ -16,7 +16,7 @@ import Head from "../../../components/Head/Head";
 import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import TermsAndConditions from "../../../components/TermsAndConditions/TermsAndConditions";
-import SocalAuth from "../../../components/Common/SocalAuth";
+import OauthLogin from "../../../components/Common/OauthLogin/OauthLogin";
 import EnnvisionModal from "../../../components/CustomModals/EnnvisionModal";
 import CustomModal from "../../../components/Modal/CustomModal";
 import profile_icon from "../../../assets/icons/ic_profile.svg";
@@ -30,6 +30,9 @@ import axios from "axios";
 import { signup_url } from "../../../utils/api_urls";
 import CustomPhoneInput from "../../../components/CustomInputNumber/CustomPhoneInput";
 import Errormsg from "../../../components/ErrorMessage";
+import useScreenTranslation from "../../../hooks/useScreenTranslation";
+import { SCREEN_LABEL_KEYS } from "./constant";
+import { OAUTH_USECASES } from "../../../components/Common/OauthLogin/constants";
 
 // create user initial values types
 type initialValuesType = {
@@ -46,6 +49,8 @@ const RegisterUser = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [terms, setTerms] = useState(false);
   const [showTermsError, setShowTermsError] = useState(false);
+  const { getLabelByKey } = useScreenTranslation("registerScreen");
+
   const scrollViewRef = useRef<any>();
   const navigate = useNavigate();
 
@@ -178,10 +183,11 @@ const RegisterUser = () => {
       <CreateUserStyle>
         <div className="inner-container">
           <div className="inner-container-card">
-            <h6 className="title mb-0">Create Your Account</h6>
+            <h6 className="title mb-0">
+              {getLabelByKey(SCREEN_LABEL_KEYS.title)}
+            </h6>
             <p className="text-center message mt-20">
-              Please fill in the required information to complete your
-              registration and join our us.
+              {getLabelByKey(SCREEN_LABEL_KEYS.subtitle)}
             </p>
             <div className="inner-container-card-form">
               <Formik
@@ -245,10 +251,14 @@ const RegisterUser = () => {
                             control="input"
                             type="text"
                             name="firstName"
-                            label="First Name"
+                            label={getLabelByKey(
+                              SCREEN_LABEL_KEYS.firstNameFieldTitle
+                            )}
                             fontSize="14px"
                             border="none"
-                            placeholder="First Name"
+                            placeholder={getLabelByKey(
+                              SCREEN_LABEL_KEYS.firstNameFieldPlaceholder
+                            )}
                             padding="0px"
                             prefix={
                               <img src={profile_icon} alt="profile_icon" />
@@ -268,14 +278,18 @@ const RegisterUser = () => {
                             type="text"
                             name="lastName"
                             fontSize="14px"
-                            label="Surname  Name"
+                            label={getLabelByKey(
+                              SCREEN_LABEL_KEYS.surNameFieldTitle
+                            )}
                             border="none"
                             labelFamily={fontFamilyMedium}
                             padding="0px"
                             prefix={
                               <img src={profile_icon} alt="profile_icon" />
                             }
-                            placeholder="Enter Surname Name"
+                            placeholder={getLabelByKey(
+                              SCREEN_LABEL_KEYS.surNameFieldPlaceholder
+                            )}
                             className={
                               formik.errors.lastName && formik.touched.lastName
                                 ? "is-invalid"
@@ -291,10 +305,14 @@ const RegisterUser = () => {
                             name="emailAddress"
                             border="none"
                             padding="0px"
-                            label="Email"
+                            label={getLabelByKey(
+                              SCREEN_LABEL_KEYS.emailFieldTitle
+                            )}
                             prefix={<img src={email_icon} alt="email_icon" />}
                             labelFamily={fontFamilyMedium}
-                            placeholder="Enter Email"
+                            placeholder={getLabelByKey(
+                              SCREEN_LABEL_KEYS.emailFieldPlaceholder
+                            )}
                             className={
                               formik.errors.emailAddress &&
                               formik.touched.emailAddress
@@ -306,13 +324,17 @@ const RegisterUser = () => {
                         <div className="mt-20">
                           <CustomPhoneInput
                             countryNumber={countryCode}
-                            placeholder={examplePhoneNumber}
+                            placeholder={getLabelByKey(
+                              SCREEN_LABEL_KEYS.mobileFieldPlaceholder
+                            )}
                             phoneLength={phoneNumberLength}
                             countryFlag={countryFlagURL}
                             phoneValueHandler={(value: number | string) =>
                               formik.setFieldValue("phoneNumber", value)
                             }
-                            label="Phone Number"
+                            label={getLabelByKey(
+                              SCREEN_LABEL_KEYS.mobileFieldTitle
+                            )}
                             value={formik.values.phoneNumber}
                             name="phoneNumber"
                             countryName={name}
@@ -329,13 +351,17 @@ const RegisterUser = () => {
                             control="password"
                             type="text"
                             name="password"
-                            label="Password"
+                            label={getLabelByKey(
+                              SCREEN_LABEL_KEYS.passcodeFieldTitle
+                            )}
                             padding="0px"
                             fontFamily={fontFamilyMedium}
                             prefix={<img src={lock_icon} alt="lock_icon" />}
                             max={6}
                             border="none"
-                            placeholder="Enter Password"
+                            placeholder={getLabelByKey(
+                              SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
+                            )}
                             className={
                               formik.errors.password && formik.touched.password
                                 ? "is-invalid"
@@ -351,9 +377,13 @@ const RegisterUser = () => {
                             fontFamily={fontFamilyMedium}
                             prefix={<img src={lock_icon} alt="lock_icon" />}
                             border="none"
-                            label="Confirm Password"
+                            label={getLabelByKey(
+                              SCREEN_LABEL_KEYS.confrimPasscodeFieldTitle
+                            )}
                             padding="0px"
-                            placeholder="Enter Confirm passcode"
+                            placeholder={getLabelByKey(
+                              SCREEN_LABEL_KEYS.confrimPasscodeFieldPlaceholder
+                            )}
                             className={
                               formik.errors.confirmPassword &&
                               formik.touched.confirmPassword
@@ -364,12 +394,14 @@ const RegisterUser = () => {
                         </div>
                         <div className="d-flex gap-2">
                           <FormControl
-                                control='checkbox'
-                                type="checkbox"
-                                id="rememberMe"
-                                name="rememberMe"
-                              />
-                          <p className="mb-0">Remember me</p>
+                            control="checkbox"
+                            type="checkbox"
+                            id="rememberMe"
+                            name="rememberMe"
+                          />
+                          <p className="mb-0">
+                            {getLabelByKey(SCREEN_LABEL_KEYS.rememberMe)}
+                          </p>
                         </div>
 
                         <div className="mt-3">
@@ -380,7 +412,9 @@ const RegisterUser = () => {
                             padding="11px 8px"
                             width="100%"
                             type="submit"
-                            title="Register"
+                            title={getLabelByKey(
+                              SCREEN_LABEL_KEYS.registerButton
+                            )}
                             fontSize="16px"
                             border=""
                             loading={isLoading}
@@ -388,10 +422,10 @@ const RegisterUser = () => {
                         </div>
                         <div className="d-flex or-line mt-4 align-items-center">
                           <div className="line" />
-                          <p>Or</p>
+                          <p>{getLabelByKey(SCREEN_LABEL_KEYS.or)}</p>
                           <div className="line" />
                         </div>
-                        <SocalAuth />
+                        <OauthLogin usecase={OAUTH_USECASES.register} />
                       </div>
                     </Form>
                   );
@@ -404,7 +438,7 @@ const RegisterUser = () => {
               showTermsError={showTermsError}
             />
             <div className="signup-text mt-3">
-              <p>If you already have an account we'll log you in. If not</p>
+              <p>{getLabelByKey(SCREEN_LABEL_KEYS.login)}</p>
               <h6 className="ms-1">
                 <Link to="/login">Login.</Link>
               </h6>

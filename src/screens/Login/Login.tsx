@@ -21,8 +21,11 @@ import { auth_token_key, base_url, login_url } from "../../utils/api_urls";
 import axios from "axios";
 import { validationFinder } from "../../utils/utilities";
 import { toast } from "react-toastify";
-import SocalAuth from "../../components/Common/SocalAuth";
 
+import useScreenTranslation from "../../hooks/useScreenTranslation";
+import { SCREEN_LABEL_KEYS } from "./constants";
+import OauthLogin from "../../components/Common/OauthLogin/OauthLogin";
+import { OAUTH_USECASES } from "../../components/Common/OauthLogin/constants";
 // initial values types
 type loginValuesType = {
   emailAddress: string;
@@ -34,7 +37,8 @@ const Login = () => {
   const [terms, setTerms] = useState(false);
   const [showTermsError] = useState(false);
   const [loading, setloading] = useState(false);
-
+  const { getLabelByKey } = useScreenTranslation("loginScreen");
+  // console.log("screenTranslation", screenTranslation);
   // initial values
   const initialValues: loginValuesType = {
     emailAddress: "",
@@ -96,9 +100,9 @@ const Login = () => {
       <LoginStyle>
         <div className="login-container overflow-auto">
           <div className="login-container-card">
-            <h6 className="title"> Welcome back!</h6>
+            <h6 className="title">{getLabelByKey(SCREEN_LABEL_KEYS.title)}</h6>
             <p className="text-center login-text">
-              Login to access your account and continue your journey with us
+              {getLabelByKey(SCREEN_LABEL_KEYS.subtitle)}
             </p>
             <div className="login-container-card-form">
               <Formik
@@ -121,8 +125,12 @@ const Login = () => {
                             name="emailAddress"
                             color={lightDark3}
                             padding="0px"
-                            label="Email"
-                            placeholder="Enter Email"
+                            label={getLabelByKey(
+                              SCREEN_LABEL_KEYS.emailFieldTitle
+                            )}
+                            placeholder={getLabelByKey(
+                              SCREEN_LABEL_KEYS.emailFieldPlaceholder
+                            )}
                             prefix={<img src={email_icon} alt="email_icon" />}
                             className={
                               formik.errors.emailAddress &&
@@ -138,8 +146,12 @@ const Login = () => {
                             control="password"
                             type="text"
                             name="password"
-                            label="Passcode"
-                            placeholder="Enter Passcode"
+                            label={getLabelByKey(
+                              SCREEN_LABEL_KEYS.passcodeFieldTitle
+                            )}
+                            placeholder={getLabelByKey(
+                              SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
+                            )}
                             suffix={show_password_icon}
                             prefix={
                               <img src={password_icon} alt="password_icon" />
@@ -160,7 +172,9 @@ const Login = () => {
                               id="rememberMe"
                               name="rememberMe"
                             />
-                            <p className="mb-0 text-16">Remember me</p>
+                            <p className="mb-0 text-16">
+                              {getLabelByKey(SCREEN_LABEL_KEYS.rememberMe)}
+                            </p>
                           </div>
                           <p
                             className="forget_password mb-0 text-end cursor-pointer"
@@ -172,7 +186,7 @@ const Login = () => {
                               })
                             }
                           >
-                            Forgot your password?
+                            {getLabelByKey(SCREEN_LABEL_KEYS.forgotPassword)}
                           </p>
                         </div>
                         <div className="mt-20">
@@ -184,7 +198,7 @@ const Login = () => {
                             fontFamily={fontFamilyMedium}
                             width="100%"
                             type="submit"
-                            title="Login"
+                            title={getLabelByKey(SCREEN_LABEL_KEYS.loginButton)}
                             fontSize="16px"
                             loading={loading}
                           />
@@ -198,10 +212,10 @@ const Login = () => {
 
             <div className="d-flex or-line mt-20 align-items-center">
               <div className="line" />
-              <p>Or</p>
+              <p>{getLabelByKey(SCREEN_LABEL_KEYS.or)}</p>
               <div className="line" />
             </div>
-            <SocalAuth />
+            <OauthLogin usecase={OAUTH_USECASES.login} />
 
             <TermsAndConditions
               setTerms={setTerms}
@@ -210,7 +224,7 @@ const Login = () => {
             />
             <div className="signup-text mt-20">
               <p className="mb-0 text-16">
-                If you already have an account we'll log you in. If not
+                {getLabelByKey(SCREEN_LABEL_KEYS.register)}
               </p>
               <h6 className="ms-1 mt-2">
                 <Link to="/register" className="underline">

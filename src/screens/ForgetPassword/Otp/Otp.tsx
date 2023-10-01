@@ -15,6 +15,8 @@ import {
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import OtpInputsStyled from "./style";
 import useVerifyOtp from "../../../hooks/useVerifyOtp";
+import useScreenTranslation from "../../../hooks/useScreenTranslation";
+import { OTP_SCREEN_LABEL_KEYS } from "../constants";
 
 export interface OtpPropValues {
   input0: string;
@@ -29,6 +31,8 @@ const Otp: React.FC = () => {
     input2: "",
     input3: "",
   };
+  const { getLabelByKey } = useScreenTranslation("veriﬁcationPin");
+
   const validationSchema = Yup.object().shape({
     input0: Yup.string()
       .matches(/^\d$/, "Enter a single digit")
@@ -46,7 +50,7 @@ const Otp: React.FC = () => {
   const initialTimer = { minutes: 2, seconds: 0 };
   const [timer, setTimer] = useState(initialTimer);
 
-  const { handleSubmit } = useVerifyOtp();
+  const { handleSubmit, loading } = useVerifyOtp();
   useEffect(() => {
     const interval = setInterval(() => {
       if (timer.seconds === 0) {
@@ -87,10 +91,11 @@ const Otp: React.FC = () => {
 
       <ForgetPasswordStyle>
         <div className="forget-password-container-card">
-          <h6 className="title">Veriﬁcation one time pin</h6>
+          <h6 className="title">
+            {getLabelByKey(OTP_SCREEN_LABEL_KEYS.title)}
+          </h6>
           <p className="text-center forget-password-text mt-20">
-            A verification code has been sent to your mobile number. Please
-            enter the OTP below to confirm your identity.
+            {getLabelByKey(OTP_SCREEN_LABEL_KEYS.subtitle)}
           </p>
           <h6 className="title mt-1 mb-4">+1 (617) 397-8483 </h6>
 
@@ -104,7 +109,7 @@ const Otp: React.FC = () => {
                 <Form onFinish={handleSubmit}>
                   <OtpInputsStyled>
                     {[0, 1, 2, 3].map((index) => {
-                      return (  
+                      return (
                         <>
                           <Field name={`input${index}`} key={index}>
                             {({ field, meta }: FieldProps<string>) => (
@@ -146,9 +151,9 @@ const Otp: React.FC = () => {
                       fontFamily={`${fontFamilyMedium}`}
                       width="100%"
                       type="submit"
-                      title="Submit"
+                      title={getLabelByKey(OTP_SCREEN_LABEL_KEYS.sumbitButton)}
                       fontSize="14px"
-                      loading={false}
+                      loading={loading}
                     />
                   </div>
                 </Form>

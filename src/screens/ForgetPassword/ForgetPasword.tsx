@@ -18,6 +18,8 @@ import CreatePassword from "./CreatePassword/CreatePassword";
 import useGenerateOtp from "../../hooks/useGenerateOtp";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
+import useScreenTranslation from "../../hooks/useScreenTranslation";
+import { FORGOT_SCREEN_LABEL_KEYS } from "./constants";
 
 // initial values types
 export type forgetPasswordInitialTypes = {
@@ -26,6 +28,7 @@ export type forgetPasswordInitialTypes = {
 
 const ForgetPassword = () => {
   const { loading, handleSubmit, error } = useGenerateOtp();
+  const { getLabelByKey } = useScreenTranslation("forgotPassword");
 
   // initialValues
   const initialValues = {
@@ -62,10 +65,11 @@ const ForgetPassword = () => {
       <ForgetPasswordStyle>
         <div className="forget-password-container overflow-auto">
           <div className="forget-password-container-card">
-            <h6 className="title">Forget Password</h6>
+            <h6 className="title">
+              {getLabelByKey(FORGOT_SCREEN_LABEL_KEYS.title)}
+            </h6>
             <p className="text-center forget-password-text mt-20">
-              Enter the email associated with your account and we'll send an
-              email with instructions to reset your password.
+              {getLabelByKey(FORGOT_SCREEN_LABEL_KEYS.subtitle)}
             </p>
             <div className="forget-password-container-card-form w-100">
               <Formik
@@ -83,13 +87,17 @@ const ForgetPassword = () => {
                       <div className="input-fields w-100 mt-20">
                         <CustomPhoneInput
                           countryNumber={countryCode}
-                          placeholder={examplePhoneNumber}
+                          placeholder={getLabelByKey(
+                            FORGOT_SCREEN_LABEL_KEYS.mobileFieldPlaceholder
+                          )}
                           phoneLength={phoneNumberLength}
                           countryFlag={countryFlagURL}
                           phoneValueHandler={(value: number | string) =>
                             formik.setFieldValue("phoneNumber", value)
                           }
-                          label="Phone Number"
+                          label={getLabelByKey(
+                            FORGOT_SCREEN_LABEL_KEYS.mobileFieldTitle
+                          )}
                           value={formik.values.phoneNumber}
                           name="phoneNumber"
                           countryName={name}
@@ -110,9 +118,11 @@ const ForgetPassword = () => {
                             fontFamily={`${fontFamilyMedium}`}
                             width="100%"
                             type="submit"
-                            title="Submit"
+                            title={getLabelByKey(
+                              FORGOT_SCREEN_LABEL_KEYS.sumbitButton
+                            )}
                             fontSize="14px"
-                            loading={false}
+                            loading={loading}
                           />
                         </div>
                       </div>

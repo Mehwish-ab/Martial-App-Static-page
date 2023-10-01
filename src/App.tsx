@@ -3,7 +3,6 @@ import "./App.css";
 import { ToastContainer } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { setLoginData } from "./redux/features/loginDataSlice";
-import { base_url } from "./utils/api_urls";
 import AppRoutes from "./routes/AppRoutes";
 import Head from "./components/Head/Head";
 import useLocationData from "./maps/GoogleLocation";
@@ -15,10 +14,7 @@ import { lightGrey13 } from "./components/GlobalStyle";
 import { RootState } from "./redux/store";
 import { local_storage_admin_key } from "./utils/axios.utils";
 // api method for refresh token
-import api from "./utils/api";
 import { useLocation, useNavigate } from "react-router-dom";
-import usePostEvent from "./hooks/usePostEvent";
-import usePost from "./hooks/usePost";
 import { useGlobalContext } from "./context/context";
 import { loginDataTypes } from "./redux/features/types";
 
@@ -31,13 +27,11 @@ function App() {
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { loading, error, data } = useAppSelector(
-    (state: RootState) => state.appData
-  );
+  const { loading } = useAppSelector((state: RootState) => state.appData);
+
   const { profileImageURL, setProfileImageURL } = useGlobalContext();
 
-  const { loading: userLocationLoading, error: locationError } =
-    useLocationData();
+  const { loading: userLocationLoading } = useLocationData();
 
   // add login Data in redux sote
   useEffect(() => {
@@ -78,16 +72,22 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    const loadUserFromLocalStorage = async () => {
-      try {
-        await api.get(`${base_url}newsfeed/getstories?pageNo=0`);
-      } catch (error) {
-        // Handle any errors that occur during the API request
-      }
-    };
-    loadUserFromLocalStorage();
-  }, []);
+  // useEffect(() => {
+  //   if (!localStorage.getItem("lang")) {
+  //     let defaultLang: string = "en";
+  //     localStorage.setItem("lang", defaultLang);
+  //   }
+  // }, []);
+  // useEffect(() => {
+  //   const loadUserFromLocalStorage = async () => {
+  //     try {
+  //       await api.get(`${base_url}newsfeed/getstories?pageNo=0`);
+  //     } catch (error) {
+  //       // Handle any errors that occur during the API request
+  //     }
+  //   };
+  //   loadUserFromLocalStorage();
+  // }, []);
 
   return (
     <>

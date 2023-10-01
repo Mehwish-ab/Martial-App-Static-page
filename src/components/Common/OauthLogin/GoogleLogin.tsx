@@ -9,11 +9,11 @@ import {
 import useOauthLogin from "../../../hooks/useOauthLogin";
 
 const clientId =
-  "617581219227-ud3vvdk5req4poungvrt8i8b8os51sbt.apps.googleusercontent.com";
+  "617581219227-ud3vvdk5req4poungvrt8i8b8os51sbt.apps.googleusercontent.com"; // actual project
 // const clientId =
-//   "457101781736-cgfvokh8l1gs4nbgpohso51t710in0fe.apps.googleusercontent.com";umair testing project
+// "457101781736-cgfvokh8l1gs4nbgpohso51t710in0fe.apps.googleusercontent.com"; //umair testing project
 // const clientId =
-//   "225264675338-fmh7lku6vb1b6rsg544fc431dic4qu0n.apps.googleusercontent.com"; // arslan testing project
+// "225264675338-fmh7lku6vb1b6rsg544fc431dic4qu0n.apps.googleusercontent.com"; // arslan testing project
 
 const GoogleLogin = ({ usecase }: OauthPropTypes) => {
   const { handleSignin, handleSignup } = useOauthLogin();
@@ -39,6 +39,7 @@ const GoogleLogin = ({ usecase }: OauthPropTypes) => {
       discoveryDocs="claims_supported"
       onResolve={onResolve}
       onReject={onReject}
+      scope="https://www.googleapis.com/auth/userinfo.email"
     >
       <LoginButton type={google} alt={"Google"} />
     </LoginSocialGoogle>

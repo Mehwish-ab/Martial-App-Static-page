@@ -19,7 +19,7 @@ const AppleLogin = ({ usecase }: OauthPropTypes) => {
       onReject={onReject}
       scope={"name email"}
       // redirect_uri="http://localhost:3000/auth/callback/apple"
-      redirect_uri="https://martialapp.com/auth/callback/apple "
+      redirect_uri="https://maritalschool.innovatelq.com/auth/callback/apple"
     >
       <LoginButton type={apple} alt={"Apple"} />
     </LoginSocialApple>

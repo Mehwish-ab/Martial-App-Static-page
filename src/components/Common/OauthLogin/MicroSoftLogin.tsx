@@ -1,4 +1,4 @@
-import { IResolveParams } from "reactjs-social-login";
+import { IResolveParams, LoginSocialMicrosoft } from "reactjs-social-login";
 import LoginButton from "./LoginButton";
 import microsoft from "../../../assets/icons/ic_microsoft.svg";
 import { PublicClientApplication } from "@azure/msal-browser";
@@ -15,8 +15,9 @@ const clientId = "95b82b00-311b-44b5-a6f8-d46da51e852c";
 const config = {
   auth: {
     clientId: clientId,
-    // redirectUri: "http://localhost:3000",
-    redirectUri: "https://maritalschool.innovatelq.com/",
+    redirectUri: "http://localhost:3000",
+    scope: ["openid", "profile", "email", "User.read"],
+    // redirectUri: "https://maritalschool.innovatelq.com/",
   },
   cache: {
     cacheLocation: "localstorage",
@@ -64,9 +65,11 @@ const MicroSoftLogin = ({ usecase }: OauthPropTypes) => {
   };
 
   return (
-    <div onClick={handleClick}>
-      <LoginButton type={microsoft} alt={"Microsoft"} />
-    </div>
+    <>
+      <div onClick={handleClick}>
+        <LoginButton type={microsoft} alt={"Microsoft"} />
+      </div>
+    </>
   );
 };
 

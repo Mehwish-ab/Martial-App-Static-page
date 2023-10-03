@@ -8,31 +8,34 @@ import {
   tertiaryGrey7,
 } from "../GlobalStyle";
 import FormControl from "../FormControl";
-import type { CheckboxChangeEvent } from 'antd/es/checkbox';
+import type { CheckboxChangeEvent } from "antd/es/checkbox";
+import useScreenTranslation from "../../hooks/useScreenTranslation";
 
 type termsAndConditionsProps = {
   terms: boolean;
   setTerms: React.Dispatch<React.SetStateAction<boolean>>;
   showTermsError: boolean;
+  screen: string;
 };
 const TermsAndConditions: React.FC<termsAndConditionsProps> = ({
   terms,
   setTerms,
   showTermsError,
+  screen,
 }) => {
+  const { getLabelByKey } = useScreenTranslation(screen);
   return (
     <Wrapper>
       <div className="d-flex justify-content-start mt-3">
         <span className="me-2">
           <FormControl
-            control='checkbox'
+            control="checkbox"
             type="checkbox"
             id="terms"
             name="terms"
             checked={terms}
-            onChange={(e:CheckboxChangeEvent) => setTerms(e.target.checked)}
+            onChange={(e: CheckboxChangeEvent) => setTerms(e.target.checked)}
           />
-          
         </span>
 
         <label
@@ -40,13 +43,14 @@ const TermsAndConditions: React.FC<termsAndConditionsProps> = ({
           className="terms d-flex flex-column justify-content-center cursor-pointer"
         >
           <span>
-            Agree to Martial App's
+            {getLabelByKey("legalNote")}
             <Link to="#" className="me-1">
-              Terms of Use.
+              {getLabelByKey("legalNoteTerm")}
             </Link>
-            &
+            {getLabelByKey("legalNoteAnd")}
+
             <Link className="ms-1" to="#">
-              Privacy Policy.
+              {getLabelByKey("legalNotePolicy")}
             </Link>
           </span>
         </label>

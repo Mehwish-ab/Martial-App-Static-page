@@ -148,13 +148,13 @@ const RegisterUser = () => {
       setTimeout(() => {
         setIsShowModal(false);
         navigate("/login");
-      }, 2000);
+      }, 3000);
       setIsLoading(false);
     } catch (error: any) {
       setIsLoading(false);
       toast(error.response.data.responseMessage, {
         type: "error",
-        autoClose: 1000,
+        autoClose: 2000,
       });
     }
   };
@@ -386,6 +386,7 @@ const RegisterUser = () => {
               terms={terms}
               setTerms={setTerms}
               showTermsError={showTermsError}
+              screen="registerScreen"
             />
             <div className="signup-text mt-3">
               <p>If you already have an account we'll log you in. If not</p>

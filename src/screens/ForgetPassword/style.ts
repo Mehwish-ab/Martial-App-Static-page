@@ -128,7 +128,7 @@ export const ForgetPasswordStyle = styled.div`
   .line {
     display: none;
   }
-
+  
   @media screen and (max-width: 425px) {
     .forget-password-container {
       &-card {

@@ -20,8 +20,8 @@ export const media_base_url = isLive ? liveMediaUrl : testMediaUrl;
 // user urls
 export const app_data_url = "api/getAppData";
 export const screen_translations = 'translation/getScreenTranslation'
-export const signup_url = "auth/signup";
-export const login_url = "auth/signin";
+export const signup_url = "api/auth/signup";
+export const login_url = "api/auth/signin";
 export const oauth_signup_url = '/oauth2/signup'
 export const oauth_signin_url = '/oauth2/signin'
 

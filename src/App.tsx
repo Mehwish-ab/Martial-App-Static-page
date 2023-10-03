@@ -28,11 +28,19 @@ function App() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { loading } = useAppSelector((state: RootState) => state.appData);
+  const { selectedLanguage } = useAppSelector(
+    (state: RootState) => state.selectedLanguage
+  );
 
   const { profileImageURL, setProfileImageURL } = useGlobalContext();
 
   const { loading: userLocationLoading } = useLocationData();
 
+  const htmlDirection =
+    selectedLanguage === "ar" || selectedLanguage === "ur" ? "rtl" : "ltr";
+  useEffect(() => {
+    document.documentElement.setAttribute("dir", htmlDirection);
+  }, [htmlDirection]);
   // add login Data in redux sote
   useEffect(() => {
     if (profileImageURL) {

@@ -4,7 +4,7 @@ interface SelectedLanguageInitialState{
   selectedLanguage: string
 }
 const initialState: SelectedLanguageInitialState ={
-  selectedLanguage: localStorage.getItem('lang') || 'es'
+  selectedLanguage: localStorage.getItem('lang') || 'en'
 }
 const selectedLanguageSlice = createSlice({
   name: 'selectedLanguage',

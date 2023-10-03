@@ -17,6 +17,7 @@ import OtpInputsStyled from "./style";
 import useVerifyOtp from "../../../hooks/useVerifyOtp";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { OTP_SCREEN_LABEL_KEYS } from "../constants";
+import { useGlobalContext } from "../../../context/context";
 
 export interface OtpPropValues {
   input0: string;
@@ -32,6 +33,7 @@ const Otp: React.FC = () => {
     input3: "",
   };
   const { getLabelByKey } = useScreenTranslation("veriﬁcationPin");
+  const { userPhoneNumber } = useGlobalContext();
 
   const validationSchema = Yup.object().shape({
     input0: Yup.string()
@@ -97,7 +99,7 @@ const Otp: React.FC = () => {
           <p className="text-center forget-password-text mt-20">
             {getLabelByKey(OTP_SCREEN_LABEL_KEYS.subtitle)}
           </p>
-          <h6 className="title mt-1 mb-4">+1 (617) 397-8483 </h6>
+          <h6 className="title mt-1 mb-4">{userPhoneNumber}</h6>
 
           <div className="forget-password-container-card-form w-100">
             <Formik

@@ -24,5 +24,6 @@ export const SCREEN_LABEL_KEYS = {
   microsoft: 'microsoft',
   discord: 'discord',
   legalNote: 'legalNote',
-  login: 'login'
+  login: 'login',
+  loginAccount: 'loginAccount'
 }

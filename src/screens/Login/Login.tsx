@@ -221,6 +221,7 @@ const Login = () => {
               setTerms={setTerms}
               showTermsError={showTermsError}
               terms={terms}
+              screen={"loginScreen"}
             />
             <div className="signup-text mt-20">
               <p className="mb-0 text-16">
@@ -228,7 +229,7 @@ const Login = () => {
               </p>
               <h6 className="ms-1 mt-2">
                 <Link to="/register" className="underline">
-                  Register.
+                  {getLabelByKey(SCREEN_LABEL_KEYS.registerAccount)}
                 </Link>
               </h6>
             </div>

@@ -436,11 +436,14 @@ const RegisterUser = () => {
               terms={terms}
               setTerms={setTerms}
               showTermsError={showTermsError}
+              screen="registerScreen"
             />
             <div className="signup-text mt-3">
               <p>{getLabelByKey(SCREEN_LABEL_KEYS.login)}</p>
               <h6 className="ms-1">
-                <Link to="/login">Login.</Link>
+                <Link to="/login">
+                  {getLabelByKey(SCREEN_LABEL_KEYS.loginAccount)}
+                </Link>
               </h6>
             </div>
           </div>

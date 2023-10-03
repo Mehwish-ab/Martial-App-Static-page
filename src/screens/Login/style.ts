@@ -36,8 +36,12 @@ export const LoginStyle = styled.div`
       margin: auto;
       padding: 20px 12px;
       background-color: ${whiteColor};
+      &-inner{
+          width: 96%;
+        }
       &-form {
-        width: 96%;
+        width: 100%;
+        
         .login-input-fields {
           &-field {
             margin-top: 20px;
@@ -130,7 +134,7 @@ export const LoginStyle = styled.div`
     }
   }
   .ant-input-suffix {
-    margin-left: 30px;
+    // margin-left: 30px;
   }
   .logo {
     height: 60px;
@@ -141,7 +145,7 @@ export const LoginStyle = styled.div`
   @media screen and (max-width: 425px) {
     .login-container {
       &-card {
-        padding: 20px 3px;
+        padding: 20px 16px;
         &-logo {
           h1 {
             display: none;

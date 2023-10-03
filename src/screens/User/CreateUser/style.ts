@@ -10,13 +10,10 @@ import {
 } from "../../../components/GlobalStyle";
 
 const RegisterStyle = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  // justify-content: center;
   background: ${tertiaryGrey8};
   margin: 0 auto;
   overflow-y: auto;
@@ -28,6 +25,8 @@ const RegisterStyle = styled.div`
   }
   .signup-text {
     display: flex;
+    justify-content:center;
+    align-items:center;
   }
 
   .role-section {
@@ -39,6 +38,9 @@ const RegisterStyle = styled.div`
   .inner-container {
     margin-top: 8px;
     &-card {
+      &-inner{
+        width: 96%;
+      }
       .title {
         font-family: ${fontFamilyMedium};
         font-size: 20px;
@@ -53,15 +55,15 @@ const RegisterStyle = styled.div`
       align-items: center;
       background-color: white;
       border-radius: 6px;
-      width: 96%;
+      width: 100%;
       margin: auto;
 
       padding: 20px 12px;
       &-form {
-        width: 96%;
+        width: 100%;
       }
     }
-  }
+  } 
 
   a {
     font-family: ${fontFamilyMedium};
@@ -93,13 +95,13 @@ const RegisterStyle = styled.div`
   }
 
   .ant-input-suffix {
-    margin-left: 30px;
+    // margin-left: 30px;
   }
 
   @media screen and (max-width: 425px) {
     .inner-container {
       &-card {
-        padding: 3px;
+        padding: 7px 14px;
         &-logo {
           h1 {
             display: none;

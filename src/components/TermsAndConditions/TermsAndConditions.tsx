@@ -26,8 +26,8 @@ const TermsAndConditions: React.FC<termsAndConditionsProps> = ({
   const { getLabelByKey } = useScreenTranslation(screen);
   return (
     <Wrapper>
-      <div className="d-flex justify-content-start mt-3">
-        <span className="me-2">
+      <div className="d-flex justify-content-start mt-3 gap-2">
+        <span className="">
           <FormControl
             control="checkbox"
             type="checkbox"
@@ -44,12 +44,12 @@ const TermsAndConditions: React.FC<termsAndConditionsProps> = ({
         >
           <span>
             {getLabelByKey("legalNote")}
-            <Link to="#" className="me-1">
+            <Link to="#" className="ms-1 me-1">
               {getLabelByKey("legalNoteTerm")}
             </Link>
             {getLabelByKey("legalNoteAnd")}
 
-            <Link className="ms-1" to="#">
+            <Link className="ms-1 me-1" to="#">
               {getLabelByKey("legalNotePolicy")}
             </Link>
           </span>
@@ -65,11 +65,11 @@ const TermsAndConditions: React.FC<termsAndConditionsProps> = ({
 export default TermsAndConditions;
 
 const Wrapper = styled.div`
-  width: 96%;
+  width: 100%;
 
   .terms {
-    max-width: 390px;
-    width: 98%;
+    // max-width: 390px;
+    width: 100%;
     font-size: 16px;
     span {
       font-size: 16px;

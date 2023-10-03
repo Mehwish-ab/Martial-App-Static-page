@@ -86,7 +86,7 @@ const UpdateUserStyle = styled.div`
   }
 
   .ant-input-suffix {
-    margin-left: 30px;
+    // margin-left: 30px;
   }
 
   @media screen and (max-width: 425px) {

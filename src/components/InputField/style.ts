@@ -15,7 +15,7 @@ const InputFieldStyle = styled.div<any>`
     padding: 0;
   }
   .ant-input-suffix {
-    margin-right: 10px;
+    // margin-right: 10px;
   }
 `;
 
@@ -43,6 +43,6 @@ export const TextFieldStyle = styled.div<any>`
     padding: 0;
   }
   .ant-input-suffix {
-    margin-right: 10px;
+    // margin-right: 10px;
   }
 `;

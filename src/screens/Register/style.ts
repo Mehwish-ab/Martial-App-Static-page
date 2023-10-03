@@ -23,6 +23,8 @@ const RegisterStyle = styled.div`
   margin-bottom: 16px;
   .signup-text {
     display: flex;
+    justif-content:center;
+    align-items:center;
     p,
     a {
       font-size: 16px;
@@ -92,7 +94,7 @@ const RegisterStyle = styled.div`
   }
 
   .ant-input-suffix {
-    margin-left: 30px;
+    // margin-left: 30px;
   }
 
   @media screen and (max-width: 425px) {

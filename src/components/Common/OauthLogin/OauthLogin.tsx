@@ -23,7 +23,7 @@ export default OauthLogin;
 const Wrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  width: 96%;
+  width: 100%;
   gap: 10px;
   margin-top: 20px;
 

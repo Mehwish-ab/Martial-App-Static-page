@@ -93,78 +93,81 @@ const Otp: React.FC = () => {
 
       <ForgetPasswordStyle>
         <div className="forget-password-container-card">
-          <h6 className="title">
-            {getLabelByKey(OTP_SCREEN_LABEL_KEYS.title)}
-          </h6>
-          <p className="text-center forget-password-text mt-20">
-            {getLabelByKey(OTP_SCREEN_LABEL_KEYS.subtitle)}
-          </p>
-          <h6 className="title mt-1 mb-4">{userPhoneNumber}</h6>
-
-          <div className="forget-password-container-card-form w-100">
-            <Formik
-              initialValues={initialValues}
-              validationSchema={validationSchema}
-              onSubmit={handleSubmit}
-            >
-              {({ handleSubmit, errors, touched, values }) => (
-                <Form onFinish={handleSubmit}>
-                  <OtpInputsStyled>
-                    {[0, 1, 2, 3].map((index) => {
-                      return (
-                        <>
-                          <Field name={`input${index}`} key={index}>
-                            {({ field, meta }: FieldProps<string>) => (
-                              <Input
-                                {...field}
-                                className="customInput otp-input"
-                                placeholder="-"
-                                maxLength={1}
-                                onKeyUp={(e) => {
-                                  if (e.key.match(/^\d$/)) {
-                                    const nextIndex =
-                                      index < 3 ? index + 1 : index;
-                                    if (
-                                      (values as any)[`input${nextIndex}`] ===
-                                      ""
-                                    ) {
-                                      const nextField =
-                                        document.getElementsByName(
-                                          `input${nextIndex}`
-                                        )[0];
-                                      nextField?.focus();
+          <div className="forget-password-container-card-inner">
+            <h6 className="title text-center">
+              {getLabelByKey(OTP_SCREEN_LABEL_KEYS.title)}
+            </h6>
+            <p className="text-center forget-password-text mt-20">
+              {getLabelByKey(OTP_SCREEN_LABEL_KEYS.subtitle)}
+            </p>
+            <h6 className="title mt-1 mb-4 text-center">{userPhoneNumber}</h6>
+            <div className="forget-password-container-card-form w-100">
+              <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={handleSubmit}
+              >
+                {({ handleSubmit, errors, touched, values }) => (
+                  <Form onFinish={handleSubmit}>
+                    <OtpInputsStyled>
+                      {[0, 1, 2, 3].map((index) => {
+                        return (
+                          <>
+                            <Field name={`input${index}`} key={index}>
+                              {({ field, meta }: FieldProps<string>) => (
+                                <Input
+                                  {...field}
+                                  className="customInput otp-input"
+                                  placeholder="-"
+                                  maxLength={1}
+                                  onKeyUp={(e) => {
+                                    if (e.key.match(/^\d$/)) {
+                                      const nextIndex =
+                                        index < 3 ? index + 1 : index;
+                                      if (
+                                        (values as any)[`input${nextIndex}`] ===
+                                        ""
+                                      ) {
+                                        const nextField =
+                                          document.getElementsByName(
+                                            `input${nextIndex}`
+                                          )[0];
+                                        nextField?.focus();
+                                      }
                                     }
-                                  }
-                                }}
-                              />
-                            )}
-                          </Field>
-                        </>
-                      );
-                    })}
-                  </OtpInputsStyled>
+                                  }}
+                                />
+                              )}
+                            </Field>
+                          </>
+                        );
+                      })}
+                    </OtpInputsStyled>
 
-                  <div className="mt-20">
-                    <CustomButton
-                      bgcolor={lightBlue3}
-                      textTransform="Captilize"
-                      color={pureDark}
-                      padding="8px"
-                      fontFamily={`${fontFamilyMedium}`}
-                      width="100%"
-                      type="submit"
-                      title={getLabelByKey(OTP_SCREEN_LABEL_KEYS.sumbitButton)}
-                      fontSize="14px"
-                      loading={loading}
-                    />
-                  </div>
-                </Form>
-              )}
-            </Formik>
+                    <div className="mt-20">
+                      <CustomButton
+                        bgcolor={lightBlue3}
+                        textTransform="Captilize"
+                        color={pureDark}
+                        padding="8px"
+                        fontFamily={`${fontFamilyMedium}`}
+                        width="100%"
+                        type="submit"
+                        title={getLabelByKey(
+                          OTP_SCREEN_LABEL_KEYS.sumbitButton
+                        )}
+                        fontSize="14px"
+                        loading={loading}
+                      />
+                    </div>
+                  </Form>
+                )}
+              </Formik>
+            </div>
+            <p className="text-center forget-password-text mt-3">
+              {formatTimer()}
+            </p>
           </div>
-          <p className="text-center forget-password-text mt-3">
-            {formatTimer()}
-          </p>
         </div>
       </ForgetPasswordStyle>
     </>

@@ -21,7 +21,7 @@ export const ForgetPasswordStyle = styled.div`
   }
   .forget-password-container {
     &-card {
-      max-width: 498px;
+      max-width: 485px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -30,8 +30,9 @@ export const ForgetPasswordStyle = styled.div`
       width: 100%;
       margin: auto;
       padding: 20px 12px;
-      background-color: ${whiteColor} &-form {
-        width: 96%;
+      background-color: ${whiteColor};
+      &-inner {
+        width: 95%;
       }
       .title {
         color: #061229;
@@ -118,7 +119,7 @@ export const ForgetPasswordStyle = styled.div`
     }
   }
   .ant-input-suffix {
-    margin-left: 30px;
+    // margin-left: 30px;
   }
   .logo {
     height: 60px;
@@ -132,7 +133,12 @@ export const ForgetPasswordStyle = styled.div`
   @media screen and (max-width: 425px) {
     .forget-password-container {
       &-card {
-        padding: 3px;
+        padding-left: 3px;
+        padding-right: 3px;
+
+        &-inner{
+          width: 90%;
+        }
         &-logo {
           h1 {
             display: none;

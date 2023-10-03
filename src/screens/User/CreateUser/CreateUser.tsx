@@ -13,7 +13,7 @@ import {
   whiteColor,
 } from "../../../components/GlobalStyle";
 import Head from "../../../components/Head/Head";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import TermsAndConditions from "../../../components/TermsAndConditions/TermsAndConditions";
 import OauthLogin from "../../../components/Common/OauthLogin/OauthLogin";
@@ -33,13 +33,16 @@ import Errormsg from "../../../components/ErrorMessage";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { SCREEN_LABEL_KEYS } from "./constant";
 import { OAUTH_USECASES } from "../../../components/Common/OauthLogin/constants";
-
+import Input, { getCountryCallingCode } from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 // create user initial values types
 type initialValuesType = {
   firstName: string;
   lastName: string;
   emailAddress: string;
-  phoneNumber: string | number;
+  phoneNumber: string;
   password: string;
   confirmPassword?: string;
 };
@@ -53,7 +56,9 @@ const RegisterUser = () => {
 
   const scrollViewRef = useRef<any>();
   const navigate = useNavigate();
-
+  const { selectedLanguage } = useSelector(
+    (state: RootState) => state.selectedLanguage
+  );
   const initialValues: initialValuesType = {
     firstName: "",
     lastName: "",
@@ -69,17 +74,43 @@ const RegisterUser = () => {
   // get Validations from redux appData
   const {
     countryName: {
-      results: {
-        countryCode,
-        countryFlagURL,
-        examplePhoneNumber,
-        name,
-        phoneNumberLength,
-      },
+      results: { countryCode, name },
     },
   } = useAppSelector((state) => state.appData.data);
   // create user initial values
+  useEffect(() => {
+    const countrySelect = document.querySelector(
+      ".PhoneInput .PhoneInputCountry"
+    );
+    const phoneNumberInput = document.querySelector(".PhoneInput input");
 
+    if (countrySelect) {
+      if (selectedLanguage === "ur" || selectedLanguage === "ar") {
+        countrySelect.classList.remove("country-left-to-right-border-radius");
+        countrySelect.classList.add("country-right-to-left-border-radius");
+      } else {
+        countrySelect.classList.add("country-left-to-right-border-radius");
+        countrySelect.classList.remove("country-right-to-left-border-radius");
+      }
+    }
+    if (phoneNumberInput) {
+      if (selectedLanguage === "ur" || selectedLanguage === "ar") {
+        phoneNumberInput.classList.add(
+          "phone-number-right-to-left-border-radius"
+        );
+        phoneNumberInput.classList.remove(
+          "phone-number-left-to-right-border-radius"
+        );
+      } else {
+        phoneNumberInput.classList.add(
+          "phone-number-left-to-right-border-radius"
+        );
+        phoneNumberInput.classList.remove(
+          "phone-number-right-to-left-border-radius"
+        );
+      }
+    }
+  }, [selectedLanguage]);
   // user validations
   const firstName = validationFinder("USER_FIRSTNAME")!;
   const lastName = validationFinder("USER_LASTNAME")!;
@@ -183,26 +214,27 @@ const RegisterUser = () => {
       <CreateUserStyle>
         <div className="inner-container">
           <div className="inner-container-card">
-            <h6 className="title mb-0">
-              {getLabelByKey(SCREEN_LABEL_KEYS.title)}
-            </h6>
-            <p className="text-center message mt-20">
+            <div className="inner-container-card-inner">
+              <h6 className="title mb-0 text-center">
+                {getLabelByKey(SCREEN_LABEL_KEYS.title)}
+              </h6>
+              {/* <p className="text-center message mt-20">
               {getLabelByKey(SCREEN_LABEL_KEYS.subtitle)}
-            </p>
-            <div className="inner-container-card-form">
-              <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={onSubmit}
-              >
-                {(formik) => {
-                  return (
-                    <Form
-                      name="basic"
-                      onFinish={formik.handleSubmit}
-                      autoComplete="off"
-                    >
-                      {/* <div className="role-section mt-20">
+            </p> */}
+              <div className="inner-container-card-form">
+                <Formik
+                  initialValues={initialValues}
+                  validationSchema={validationSchema}
+                  onSubmit={onSubmit}
+                >
+                  {(formik) => {
+                    return (
+                      <Form
+                        name="basic"
+                        onFinish={formik.handleSubmit}
+                        autoComplete="off"
+                      >
+                        {/* <div className="role-section mt-20">
                         <h6 className="mb-0">Select Your Role</h6>
                         <div className="d-flex gap-2 roles mt-20">
                           <CustomButton
@@ -245,84 +277,109 @@ const RegisterUser = () => {
                           />
                         </div>
                       </div> */}
-                      <div className="register-input-fields">
-                        <div className="mt-20">
-                          <FormControl
-                            control="input"
-                            type="text"
-                            name="firstName"
-                            label={getLabelByKey(
-                              SCREEN_LABEL_KEYS.firstNameFieldTitle
-                            )}
-                            fontSize="14px"
-                            border="none"
-                            placeholder={getLabelByKey(
-                              SCREEN_LABEL_KEYS.firstNameFieldPlaceholder
-                            )}
-                            padding="0px"
-                            prefix={
-                              <img src={profile_icon} alt="profile_icon" />
-                            }
-                            labelFamily={fontFamilyMedium}
-                            className={
-                              formik.errors.firstName &&
-                              formik.touched.firstName
-                                ? "is-invalid"
-                                : "customInput"
-                            }
-                          />
-                        </div>
-                        <div className="mt-20">
-                          <FormControl
-                            control="input"
-                            type="text"
-                            name="lastName"
-                            fontSize="14px"
-                            label={getLabelByKey(
-                              SCREEN_LABEL_KEYS.surNameFieldTitle
-                            )}
-                            border="none"
-                            labelFamily={fontFamilyMedium}
-                            padding="0px"
-                            prefix={
-                              <img src={profile_icon} alt="profile_icon" />
-                            }
-                            placeholder={getLabelByKey(
-                              SCREEN_LABEL_KEYS.surNameFieldPlaceholder
-                            )}
-                            className={
-                              formik.errors.lastName && formik.touched.lastName
-                                ? "is-invalid"
-                                : "customInput"
-                            }
-                          />
-                        </div>
-                        <div className="mt-20">
-                          <FormControl
-                            control="input"
-                            type="email"
-                            fontSize="14px"
-                            name="emailAddress"
-                            border="none"
-                            padding="0px"
-                            label={getLabelByKey(
-                              SCREEN_LABEL_KEYS.emailFieldTitle
-                            )}
-                            prefix={<img src={email_icon} alt="email_icon" />}
-                            labelFamily={fontFamilyMedium}
-                            placeholder={getLabelByKey(
-                              SCREEN_LABEL_KEYS.emailFieldPlaceholder
-                            )}
-                            className={
-                              formik.errors.emailAddress &&
-                              formik.touched.emailAddress
-                                ? "is-invalid"
-                                : "customInput"
-                            }
-                          />
-                        </div>
-                        <div className="mt-20">
-                          <CustomPhoneInput
+                        <div className="register-input-fields">
+                          <div className="mt-20">
+                            <FormControl
+                              control="input"
+                              type="text"
+                              name="firstName"
+                              label={getLabelByKey(
+                                SCREEN_LABEL_KEYS.firstNameFieldTitle
+                              )}
+                              fontSize="14px"
+                              border="none"
+                              placeholder={getLabelByKey(
+                                SCREEN_LABEL_KEYS.firstNameFieldPlaceholder
+                              )}
+                              padding="10px"
+                              // prefix={
+                              //   <img src={profile_icon} alt="profile_icon" />
+                              // }
+                              labelFamily={fontFamilyMedium}
+                              className={
+                                formik.errors.firstName &&
+                                formik.touched.firstName
+                                  ? "is-invalid"
+                                  : "customInput"
+                              }
+                            />
+                          </div>
+                          <div className="mt-20">
+                            <FormControl
+                              control="input"
+                              type="text"
+                              name="lastName"
+                              fontSize="14px"
+                              label={getLabelByKey(
+                                SCREEN_LABEL_KEYS.surNameFieldTitle
+                              )}
+                              border="none"
+                              labelFamily={fontFamilyMedium}
+                              padding="10px"
+                              // prefix={
+                              //   <img src={profile_icon} alt="profile_icon" />
+                              // }
+                              placeholder={getLabelByKey(
+                                SCREEN_LABEL_KEYS.surNameFieldPlaceholder
+                              )}
+                              className={
+                                formik.errors.lastName &&
+                                formik.touched.lastName
+                                  ? "is-invalid"
+                                  : "customInput"
+                              }
+                            />
+                          </div>
+                          <div className="mt-20">
+                            <FormControl
+                              control="input"
+                              type="email"
+                              fontSize="14px"
+                              name="emailAddress"
+                              border="none"
+                              padding="10px"
+                              label={getLabelByKey(
+                                SCREEN_LABEL_KEYS.emailFieldTitle
+                              )}
+                              // prefix={<img src={email_icon} alt="email_icon" />}
+                              labelFamily={fontFamilyMedium}
+                              placeholder={getLabelByKey(
+                                SCREEN_LABEL_KEYS.emailFieldPlaceholder
+                              )}
+                              className={
+                                formik.errors.emailAddress &&
+                                formik.touched.emailAddress
+                                  ? "is-invalid"
+                                  : "customInput"
+                              }
+                            />
+                          </div>
+                          <div className="mt-20">
+                            <label
+                              htmlFor="phoneNumber"
+                              className="custom-phone-input-label"
+                            >
+                              {getLabelByKey(
+                                SCREEN_LABEL_KEYS.mobileFieldTitle
+                              )}
+                            </label>
+                            <Input
+                              defaultCountry="US"
+                              international
+                              placeholder={getLabelByKey(
+                                SCREEN_LABEL_KEYS.mobileFieldPlaceholder
+                              )}
+                              value={formik.values.phoneNumber}
+                              onChange={(e: string) => {
+                                formik.setValues({
+                                  ...formik.values,
+                                  phoneNumber: e,
+                                });
+                              }}
+                              withCountryCallingCode
+                              countryCallingCodeEditable
+                            />
+                            {/* <CustomPhoneInput
                             countryNumber={countryCode}
                             placeholder={getLabelByKey(
                               SCREEN_LABEL_KEYS.mobileFieldPlaceholder
@@ -338,113 +395,115 @@ const RegisterUser = () => {
                             value={formik.values.phoneNumber}
                             name="phoneNumber"
                             countryName={name}
-                          />
-                          <div className="mt-3">
-                            <ErrorMessage
-                              name="phoneNumber"
-                              component={Errormsg}
+                          /> */}
+                            <div className="mt-3">
+                              <ErrorMessage
+                                name="phoneNumber"
+                                component={Errormsg}
+                              />
+                            </div>
+                          </div>
+                          <div className="mt-20">
+                            <FormControl
+                              control="password"
+                              type="text"
+                              name="password"
+                              label={getLabelByKey(
+                                SCREEN_LABEL_KEYS.passcodeFieldTitle
+                              )}
+                              padding="10px"
+                              fontFamily={fontFamilyMedium}
+                              // prefix={<img src={lock_icon} alt="lock_icon" />}
+                              max={6}
+                              border="none"
+                              placeholder={getLabelByKey(
+                                SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
+                              )}
+                              className={
+                                formik.errors.password &&
+                                formik.touched.password
+                                  ? "is-invalid"
+                                  : "customPasswordInput"
+                              }
                             />
                           </div>
-                        </div>
-                        <div className="mt-20">
-                          <FormControl
-                            control="password"
-                            type="text"
-                            name="password"
-                            label={getLabelByKey(
-                              SCREEN_LABEL_KEYS.passcodeFieldTitle
-                            )}
-                            padding="0px"
-                            fontFamily={fontFamilyMedium}
-                            prefix={<img src={lock_icon} alt="lock_icon" />}
-                            max={6}
-                            border="none"
-                            placeholder={getLabelByKey(
-                              SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
-                            )}
-                            className={
-                              formik.errors.password && formik.touched.password
-                                ? "is-invalid"
-                                : "customPasswordInput"
-                            }
-                          />
-                        </div>
-                        <div className="mt-20">
-                          <FormControl
-                            control="password"
-                            type="text"
-                            name="confirmPassword"
-                            fontFamily={fontFamilyMedium}
-                            prefix={<img src={lock_icon} alt="lock_icon" />}
-                            border="none"
-                            label={getLabelByKey(
-                              SCREEN_LABEL_KEYS.confrimPasscodeFieldTitle
-                            )}
-                            padding="0px"
-                            placeholder={getLabelByKey(
-                              SCREEN_LABEL_KEYS.confrimPasscodeFieldPlaceholder
-                            )}
-                            className={
-                              formik.errors.confirmPassword &&
-                              formik.touched.confirmPassword
-                                ? "is-invalid"
-                                : "customPasswordInput"
-                            }
-                          />
-                        </div>
-                        <div className="d-flex gap-2">
-                          <FormControl
-                            control="checkbox"
-                            type="checkbox"
-                            id="rememberMe"
-                            name="rememberMe"
-                          />
-                          <p className="mb-0">
-                            {getLabelByKey(SCREEN_LABEL_KEYS.rememberMe)}
-                          </p>
-                        </div>
+                          <div className="mt-20">
+                            <FormControl
+                              control="password"
+                              type="text"
+                              name="confirmPassword"
+                              fontFamily={fontFamilyMedium}
+                              // prefix={<img src={lock_icon} alt="lock_icon" />}
+                              border="none"
+                              label={getLabelByKey(
+                                SCREEN_LABEL_KEYS.confrimPasscodeFieldTitle
+                              )}
+                              padding="10px"
+                              placeholder={getLabelByKey(
+                                SCREEN_LABEL_KEYS.confrimPasscodeFieldPlaceholder
+                              )}
+                              className={
+                                formik.errors.confirmPassword &&
+                                formik.touched.confirmPassword
+                                  ? "is-invalid"
+                                  : "customPasswordInput"
+                              }
+                            />
+                          </div>
+                          <div className="mt-20 d-flex align-items-center gap-2">
+                            <FormControl
+                              control="checkbox"
+                              type="checkbox"
+                              id="rememberMe"
+                              name="rememberMe"
+                            />
+                            <p className="mb-0 text-14">
+                              {getLabelByKey(SCREEN_LABEL_KEYS.rememberMe)}
+                            </p>
+                          </div>
 
-                        <div className="mt-3">
-                          <CustomButton
-                            bgcolor={lightBlue3}
-                            textTransform="Captilize"
-                            color={pureDark}
-                            padding="11px 8px"
-                            width="100%"
-                            type="submit"
-                            title={getLabelByKey(
-                              SCREEN_LABEL_KEYS.registerButton
-                            )}
-                            fontSize="16px"
-                            border=""
-                            loading={isLoading}
-                          />
-                        </div>
-                        <div className="d-flex or-line mt-4 align-items-center">
+                          <div className="mt-20">
+                            <CustomButton
+                              bgcolor={lightBlue3}
+                              textTransform="Captilize"
+                              color={pureDark}
+                              padding="11px 8px"
+                              width="100%"
+                              type="submit"
+                              title={getLabelByKey(
+                                SCREEN_LABEL_KEYS.registerButton
+                              )}
+                              fontSize="16px"
+                              border=""
+                              loading={isLoading}
+                            />
+                          </div>
+                          {/* <div className="d-flex or-line mt-4 align-items-center">
                           <div className="line" />
                           <p>{getLabelByKey(SCREEN_LABEL_KEYS.or)}</p>
                           <div className="line" />
+                        </div> */}
+                          <OauthLogin usecase={OAUTH_USECASES.register} />
                         </div>
-                        <OauthLogin usecase={OAUTH_USECASES.register} />
-                      </div>
-                    </Form>
-                  );
-                }}
-              </Formik>
-            </div>
-            <TermsAndConditions
-              terms={terms}
-              setTerms={setTerms}
-              showTermsError={showTermsError}
-              screen="registerScreen"
-            />
-            <div className="signup-text mt-3">
-              <p>{getLabelByKey(SCREEN_LABEL_KEYS.login)}</p>
-              <h6 className="ms-1">
-                <Link to="/login">
-                  {getLabelByKey(SCREEN_LABEL_KEYS.loginAccount)}
-                </Link>
-              </h6>
+                      </Form>
+                    );
+                  }}
+                </Formik>
+              </div>
+              <TermsAndConditions
+                terms={terms}
+                setTerms={setTerms}
+                showTermsError={showTermsError}
+                screen="registerScreen"
+              />
+              <div className="signup-text mt-3">
+                <p>{getLabelByKey(SCREEN_LABEL_KEYS.login)}</p>
+                <h6 className="me-1 ms-1 mb-0">
+                  <Link to="/login">
+                    {getLabelByKey(SCREEN_LABEL_KEYS.loginAccount)}
+                  </Link>
+                </h6>
+              </div>
             </div>
           </div>
         </div>

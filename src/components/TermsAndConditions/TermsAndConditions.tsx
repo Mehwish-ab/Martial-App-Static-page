@@ -70,15 +70,15 @@ const Wrapper = styled.div`
   .terms {
     // max-width: 390px;
     width: 100%;
-    font-size: 16px;
+    font-size: 14px;
     span {
-      font-size: 16px;
+      font-size: 14px;
       &:first-child {
         color: ${lightGrey9};
       }
       &:last-child {
         color: ${tertiaryGrey7};
-        font-size: 16px;
+        font-size: 14px;
       }
     }
   }
@@ -87,5 +87,6 @@ const Wrapper = styled.div`
     text-decoration: underline;
     color: ${primaryColor};
     margin: 0 2px;
+    font-size: 14px;
   }
 `;

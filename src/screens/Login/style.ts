@@ -87,11 +87,11 @@ export const LoginStyle = styled.div`
     justify-content: center;
     a {
       color: ${primaryColor};
-      font-size: 16px;
+      font-size: 14px;
 
     }
     p {
-      font-size: 16px;
+      font-size: 14px;
       font-weight: normal;
       color: ${pureDark};
     }
@@ -124,7 +124,7 @@ export const LoginStyle = styled.div`
   }
   .forget_password {
     color: ${primaryColor};
-    font-size: 16px;
+    font-size: 14px;
     text-decoration: none;
     font-family: "EnnVisionsMedium" !important;
   }

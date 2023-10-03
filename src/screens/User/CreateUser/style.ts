@@ -18,15 +18,16 @@ const RegisterStyle = styled.div`
   margin: 0 auto;
   overflow-y: auto;
   margin-bottom: 16px;
-  p,
-  a {
-    font-size: 16px;
-    margin-bottom: 0px;
-  }
+ 
   .signup-text {
     display: flex;
     justify-content:center;
     align-items:center;
+
+    p,a,h6 {
+        font-size: 14px;
+        margin-bottom: 0
+      }
   }
 
   .role-section {

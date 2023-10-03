@@ -234,7 +234,7 @@ const Login = () => {
                 screen={"loginScreen"}
               />
               <div className="signup-text mt-20">
-                <p className="mb-0 text-16">
+                <p className="mb-0">
                   {getLabelByKey(SCREEN_LABEL_KEYS.register)}
                 </p>
 

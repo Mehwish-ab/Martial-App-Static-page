@@ -31,7 +31,7 @@ const CustomPasswordInput = (props: CustomPasswordInputProps) => {
     className,
     placeholder,
     name,
-    labelFont = "16px",
+    labelFont = "15px",
     labelFamily = fontFamilyMedium,
     labelMarginBottom = "10px",
     fontFamily = fontFamilyRegular,
@@ -39,8 +39,8 @@ const CustomPasswordInput = (props: CustomPasswordInputProps) => {
     showErrorMessage = true,
     padding = "10px",
     placeholderFamily = fontFamilyRegular,
-    placeholderFont = "16px",
-    fontSize = "16px",
+    placeholderFont = "15px",
+    fontSize = "15px",
     ...rest
   } = props;
   return (

@@ -80,23 +80,6 @@ function App() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (!localStorage.getItem("lang")) {
-  //     let defaultLang: string = "en";
-  //     localStorage.setItem("lang", defaultLang);
-  //   }
-  // }, []);
-  // useEffect(() => {
-  //   const loadUserFromLocalStorage = async () => {
-  //     try {
-  //       await api.get(`${base_url}newsfeed/getstories?pageNo=0`);
-  //     } catch (error) {
-  //       // Handle any errors that occur during the API request
-  //     }
-  //   };
-  //   loadUserFromLocalStorage();
-  // }, []);
-
   return (
     <>
       <Head title="admin-home" />

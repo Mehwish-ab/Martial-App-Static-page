@@ -19,7 +19,6 @@ import { setLanguage } from "../redux/features/selectedLanguageSlice";
 function AppRoutes() {
   const dispatch = useDispatch();
   const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
     dispatch(setLanguage(value));
   };
   const { selectedLanguage } = useSelector(

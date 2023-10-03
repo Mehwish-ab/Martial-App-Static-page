@@ -103,6 +103,7 @@ const useLocationData = () => {
         (error) => {
           console.log("Error retrieving location:", error);
           store.dispatch(getAppData("Canada"));
+          store.dispatch(getScreenTranslation());
           setError("Error retrieving location.");
           setLoading(false);
         }

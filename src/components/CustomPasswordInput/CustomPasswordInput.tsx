@@ -7,6 +7,7 @@ import {
   fontFamilyRegular,
   tertiaryGrewish,
 } from "../GlobalStyle";
+import useScreenTranslation from "../../hooks/useScreenTranslation";
 
 type CustomPasswordInputProps = {
   label: string;
@@ -43,6 +44,7 @@ const CustomPasswordInput = (props: CustomPasswordInputProps) => {
     fontSize = "15px",
     ...rest
   } = props;
+  const { getLabelByKey } = useScreenTranslation("loginScreen");
   return (
     <CustomPasswordInputStyle
       fontFamily={fontFamily}
@@ -65,9 +67,13 @@ const CustomPasswordInput = (props: CustomPasswordInputProps) => {
             {...field}
             iconRender={(visible) =>
               visible ? (
-                <span className="paswordIconLabel">Hide</span>
+                <span className="paswordIconLabel">
+                  {getLabelByKey("hide")}
+                </span>
               ) : (
-                <span className="paswordIconLabel">Show</span>
+                <span className="paswordIconLabel">
+                  {getLabelByKey("show")}
+                </span>
               )
             }
           />

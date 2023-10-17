@@ -22,6 +22,12 @@ export const getAppData = createAsyncThunk(
       const { data } = await axios.post(base_url + app_data_url, {
         countryName: country,
       });
+      data.results.statusData.activities.forEach((element: any) => {
+        element.id = element.id.toString();
+      });
+      data.results.statusData.facilities.forEach((element: any) => {
+        element.id = element.id.toString();
+      });
       return data.results;
     } catch (error: any) {
       console.log({ error });

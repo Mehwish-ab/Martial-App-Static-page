@@ -17,8 +17,8 @@ import {
 } from "./types";
 
 type contextApiData = {
-  showSidebar: boolean;
-  setShowSidebar: Dispatch<SetStateAction<boolean>>;
+  // showSidebar: boolean;
+  // setShowSidebar: Dispatch<SetStateAction<boolean>>;
   searchText: string;
   setSearchText: Dispatch<SetStateAction<string>>;
   searchHandler: () => void;
@@ -73,7 +73,7 @@ type appProviderProps = {
 };
 
 const AppProvider: React.FC<appProviderProps> = ({ children }) => {
-  const [showSidebar, setShowSidebar] = useState(false);
+  // const [showSidebar, setShowSidebar] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [usersListPage, setUsersListPage] = useState(1);
@@ -118,10 +118,10 @@ const AppProvider: React.FC<appProviderProps> = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
-        showSidebar,
+        // showSidebar,
         profileImageURL,
         setProfileImageURL,
-        setShowSidebar,
+        // setShowSidebar,
         searchText,
         setSearchText,
         searchHandler,

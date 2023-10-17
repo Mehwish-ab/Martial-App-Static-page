@@ -87,7 +87,7 @@ export const lightGrey10 = "#e5e2e2";
 export const lightGrey11 = "rgb(239, 239, 244)";
 export const lightGrey12 = "#F3F6F9";
 export const lightGrey13 = "#E5E5E5";
-export const tertiaryBlue = "#007aff";
+export const tertiaryBlue = "#E8F2F6";
 export const tertiaryBlue1 = "#1088e9";
 
 export const secondaryGreen = "#32D74B";
@@ -121,6 +121,7 @@ export const tertiaryGrey24 = "#E0E0E0";
 export const lightColor1 = "#F5F5F5";
 
 export const secondaryBlue = "#0A84FF";
+export const darkBlue = "#006197";
 export const lightBlue = "#04A4D8";
 export const lightBlue2 = "#049CCE";
 export const lightBlue3 = "#C1EAFA";

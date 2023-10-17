@@ -141,11 +141,9 @@ button {
 .page-indicator-section .indicators .indicator-null {
   background-color: #8d99b247;
 }
-
-.ant-drawer-content {
-  background-color: #1b283f !important;
+.ant-drawer-left > .ant-drawer-content-wrapper {
+  box-shadow: none !important;
 }
-
 .ant-drawer-body {
   padding: 0 !important;
 }
@@ -271,7 +269,7 @@ button {
   display: block;
   color: rgb(27, 40, 63);
   text-transform: capitalize;
-  font-size: 14px;
+  font-size: 16px !important;
   font-family: EnnVisionsMedium;
   margin-bottom: 10px;
 }
@@ -280,4 +278,13 @@ button {
 }
 .letter-spacing-1 {
   letter-spacing: 1px;
+}
+
+.Toastify__toast-container {
+  width: 500px !important;
+  border-radius: 20px !important;
+}
+.ant-layout,
+.ant-layout-sider-light {
+  background: transparent !important;
 }

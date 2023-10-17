@@ -8,7 +8,7 @@ import updateUserSlice from "./features/admin/user/updateUserSlice";
 import userProfileSlice from "./features/admin/user/userProfileDetailsSlice";
 import screenTranslationSlice from "./features/screenTranslationSlice";
 import selectedLanguageSlice from "./features/selectedLanguageSlice";
-
+import dashboardDataSlice from "./features/dashboard/dashboardDataSlice";
 const store = configureStore({
   reducer: {
     userLocation: locationSlice,
@@ -19,7 +19,8 @@ const store = configureStore({
     updateUserStatus: updateUserStatusSlice,
     updateUser: updateUserSlice,
     translations: screenTranslationSlice,
-    selectedLanguage: selectedLanguageSlice
+    selectedLanguage: selectedLanguageSlice,
+    dashboardData: dashboardDataSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

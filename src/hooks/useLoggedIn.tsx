@@ -2,12 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../context/context";
 
 const useLoggedIn = () => {
-  const { setShowSidebar } = useGlobalContext();
+  // const { setShowSidebar } = useGlobalContext();
   const navigate = useNavigate();
 
   // login handler
   const useLoggedIn = () => {
-    setShowSidebar(false);
+    // setShowSidebar(false);
     navigate("/login");
   };
 

@@ -9,18 +9,14 @@ import {
 } from "../../components/GlobalStyle";
 import ForgetPasswordStyle from "./style";
 import Head from "../../components/Head/Head";
-import CustomPhoneInput from "../../components/CustomInputNumber/CustomPhoneInput";
-import { useAppSelector } from "../../app/hooks";
 import { validationFinder } from "../../utils/utilities";
 import Errormsg from "../../components/ErrorMessage";
-import Otp from "./Otp/Otp";
-import CreatePassword from "./CreatePassword/CreatePassword";
 import useGenerateOtp from "../../hooks/useGenerateOtp";
-import Input, { getCountryCallingCode } from "react-phone-number-input";
+import Input from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import useScreenTranslation from "../../hooks/useScreenTranslation";
 import { FORGOT_SCREEN_LABEL_KEYS } from "./constants";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 

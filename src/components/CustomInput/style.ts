@@ -28,7 +28,7 @@ const CustomInputStyle = styled.div<InputStyleProps>`
   }
 
   .customInput {
-    border-radius: 8px !important;
+    border-radius: 10px !important;
     margin-bottom: 0px !important;
   }
   .ant-input {

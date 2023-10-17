@@ -1,38 +1,47 @@
 import styled from "styled-components";
-import { lightGrey4, secondaryDark3 } from "../GlobalStyle";
+import {
+  darkBlue,
+  lightGrey4,
+  secondaryDark3,
+  tertiaryBlue,
+  whiteColor,
+} from "../GlobalStyle";
 
-const SidebarStyle = styled.div`
-  width: 250px;
-  background-color: ${secondaryDark3};
-  height: 93vh;
-  position: fixed;
-  padding: 20px;
-  overflow-y: auto;
-  z-index: 20;
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  &::-webkit-scrollbar {
-    display: none;
-  }
+export const SidebarStyle = styled.div`
+  border-radius: 20px;
+  position: relative;
 
-  /* Hide scrollbar for IE, Edge and Firefox */
-  & {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-  }
-  .expand-menu {
-    transition: all 1s ease-out;
-    transform-origin: top;
-  }
-  p {
-    color: ${lightGrey4};
-    margin: 0;
-    cursor: pointer;
-  }
-  .inner-container {
-    img {
-      cursor: pointer;
+  .logout-btn-container {
+    width: 90%;
+    margin: 150px auto 16px;
+
+    button {
+      font-weight: 600;
+      background: ${tertiaryBlue};
     }
   }
 `;
 
-export default SidebarStyle;
+export const ActivitesStyled = styled.div`
+  // width: 290px;
+  background: white;
+  border-radius: 20px;
+
+  .row {
+    widht: 85% !important;
+    margin: 20px auto;
+    padding: 20px 0;
+  }
+  h3,
+  a {
+    font-size: 24px;
+    font-family: "EnnVisions", sans-serif;
+    color: ${darkBlue};
+    font-weight: 500;
+  }
+  a {
+    font-size: 16px;
+    margin-right: 20px;
+    text-decoration: none;
+  }
+`;

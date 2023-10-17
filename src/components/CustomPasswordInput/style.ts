@@ -35,7 +35,7 @@ export const CustomPasswordInputStyle = styled.div<CustomPasswordInputTypes>`
     padding: ${(props) => props.padding};
   }
   .customInput {
-    border-radius: 8px !important;
+    border-radius: 10px !important;
     margin-bottom: 0px;
   }
 
@@ -48,6 +48,7 @@ export const CustomPasswordInputStyle = styled.div<CustomPasswordInputTypes>`
   }
   .ant-input-affix-wrapper {
     border: ${(props) => props.border};
+    border-radius: 10px;
   }
 `;
 

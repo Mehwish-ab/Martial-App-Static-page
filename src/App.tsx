@@ -60,7 +60,7 @@ function App() {
     } else {
       dispatch(setLoginData(JSON.parse(loginData!)));
     }
-  }, [profileImageURL]);
+  }, []);
 
   // scroll to top when we navigate to new route
   useEffect(() => {

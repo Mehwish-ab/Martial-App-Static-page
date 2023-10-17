@@ -26,8 +26,10 @@ import useScreenTranslation from "../../hooks/useScreenTranslation";
 import { SCREEN_LABEL_KEYS } from "./constants";
 import OauthLogin from "../../components/Common/OauthLogin/OauthLogin";
 import { OAUTH_USECASES } from "../../components/Common/OauthLogin/constants";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import MessageModal from "../../components/Common/MessageModal/MessageModal";
+import { setLoginData } from "../../redux/features/loginDataSlice";
 // initial values types
 type loginValuesType = {
   emailAddress: string;
@@ -68,6 +70,7 @@ const Login = () => {
       .matches(passwordReg, password.patternMsgEn),
   });
 
+  const dispatch = useDispatch();
   // login handle submit
   const handleSubmit = async (values: loginValuesType) => {
     try {
@@ -76,20 +79,29 @@ const Login = () => {
         data: { results },
       } = await axios.post(base_url + login_url, values);
       localStorage.setItem(auth_token_key, JSON.stringify(results));
-      // dispatch(setLoginData(results));
-      toast("Login Successfully", {
-        type: "success",
-        autoClose: 1000,
-      });
+      dispatch(setLoginData(results));
+      toast(
+        <MessageModal
+          message="Login Successfully"
+          description="You are successfully logged in to your account."
+          type="success"
+        />,
+        {
+          autoClose: 1000,
+        }
+      );
       setloading(false);
-      navigate("/");
+      navigate("/school/create");
     } catch (error: any) {
       setloading(false);
       if (error.code) {
-        toast(error.response.data.responseMessage, {
-          type: "error",
-          autoClose: 1000,
-        });
+        toast(
+          <MessageModal
+            message={error.response.data.responseMessage}
+            description="Please enter correct email or password"
+            type="error"
+          />
+        );
         return;
       }
       toast(error.response.data.responseMessage, {

@@ -367,6 +367,23 @@ export interface appDataTypes {
   serverTimeZone: string;
   countryName: CountryName;
   validations: Validation[];
+  statusData: StatusDataTypes;
+}
+
+export interface StatusDataTypes {
+  activities: DataTypesWithIdAndMultipleLangLabel[];
+  facilities: DataTypesWithIdAndMultipleLangLabel[];
+  language: DataTypesWithIdAndMultipleLangLabel[];
+  currency: DataTypesWithIdAndMultipleLangLabel[];
+  businessTypes: DataTypesWithIdAndMultipleLangLabel[];
+}
+export interface DataTypesWithIdAndMultipleLangLabel {
+  id: string;
+  en: string;
+  es: string;
+  pt: string;
+  ar: string;
+  ur: string;
 }
 
 export interface AppTheme {

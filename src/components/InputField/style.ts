@@ -13,6 +13,7 @@ const InputFieldStyle = styled.div<any>`
   }
   .ant-input-affix-wrapper {
     padding: 0;
+    border-radius: 10px;
   }
   .ant-input-suffix {
     // margin-right: 10px;
@@ -41,6 +42,7 @@ export const TextFieldStyle = styled.div<any>`
   }
   .ant-input-affix-wrapper {
     padding: 0;
+    border-radius: 10px;
   }
   .ant-input-suffix {
     // margin-right: 10px;

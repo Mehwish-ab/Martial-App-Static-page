@@ -115,7 +115,7 @@ const RegisterUser = () => {
   const firstName = validationFinder("USER_FIRSTNAME")!;
   const lastName = validationFinder("USER_LASTNAME")!;
   const emailAddress = validationFinder("EMAIL_ADDRESS")!;
-  const phoneNumber = validationFinder("CANADA_PHONE_NUMBER")!;
+  const phoneNumber = validationFinder("PHONE_NUMBER")!;
   const password = validationFinder("PASSWORD")!;
   // user regExpressions
   const firstNameReg = new RegExp(firstName.pattern);

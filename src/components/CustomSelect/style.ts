@@ -37,7 +37,7 @@ export const CustomSelectStyle = styled.div<CustomSelectProps>`
   .ant-select {
     background: ${(props) => props.bgColor};
     border: ${(props) => props.border};
-    border-radius: 3px;
+    border-radius: 10px;
     width: 100%;
     padding: ${(props) => props.padding} !important;
     font-size: ${(props) => props.fontSize};

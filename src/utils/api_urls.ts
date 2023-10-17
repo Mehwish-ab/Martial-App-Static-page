@@ -3,8 +3,7 @@ import { loginDataTypes } from "../redux/features/types";
 // base urls
 const liveBaseUrl =
   "https://www.ennvisionapistore.com:8443/martialapp_apis/api/";
-const testBaseUrl =
-  "https://www.ennvisionapistore.com:8443/martialapp_apis/";
+const testBaseUrl = "https://www.ennvisionapistore.com:8443/martialapp_apis/";
 const liveMediaUrl = "https://ennvisionapistore.com:8443";
 const testMediaUrl = "https://ennvisionapistore.com:8443";
 const domianLiveUrl = "https://maritalschool.innovatelq.com/";
@@ -19,11 +18,11 @@ export const media_base_url = isLive ? liveMediaUrl : testMediaUrl;
 
 // user urls
 export const app_data_url = "api/getAppData";
-export const screen_translations = 'translation/getScreenTranslation'
+export const screen_translations = "translation/getScreenTranslation";
 export const signup_url = "api/auth/signup";
 export const login_url = "api/auth/signin";
-export const oauth_signup_url = '/oauth2/signup'
-export const oauth_signin_url = '/oauth2/signin'
+export const oauth_signup_url = "/oauth2/signup";
+export const oauth_signin_url = "/oauth2/signin";
 
 export const all_users_url = "admin/user/getAllUsers?pageNo=";
 export const user_details_url = "admin/user/getdetails";
@@ -111,16 +110,17 @@ export const location_url = "https://ipinfo.io/json?token=11847a6086fc3e";
 // refresh token url
 export const refresh_token_url = "api/auth/refreshtoken";
 
-
 // forget password urls
 export const generate_otp_url = "otp/generate";
 export const verify_otp_url = "otp/verifyOTP";
 export const reset_password_url = "user/resetPassword";
 
 // user authorized token
-export const authorizationToken = (loginData: loginDataTypes) => {
+export const authorizationToken = (loginData: loginDataTypes | string) => {
   return {
-    Authorization: `Bearer ${loginData.jwtDetails.token}`,
+    Authorization: `Bearer ${
+      typeof loginData === "string" ? loginData : loginData.jwtDetails.token
+    }`,
   };
 };
 
@@ -130,6 +130,11 @@ export const refreshToken = (loginData: loginDataTypes) => {
     refreshToken: `Bearer ${loginData.jwtDetails.refreshToken}`,
   };
 };
+
+// school endpoints
+export const create_school_url = "school/create";
+export const edit_school_url = "school/edit";
+export const get_school_by_user_id_url = "school/getById";
 
 // key of token data in local storage of browser
 export const auth_token_key = "ennvision-admin:token";

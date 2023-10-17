@@ -25,11 +25,11 @@ export const CustomPhoneInputStyle = styled.div`
   .ant-input-number-group .ant-input-number {
     padding: 6px !important;
     border: 1px solid rgb(198, 198, 200) !important;
-    border-radius: 0 8px 8px 0 !important;
+    border-radius: 0 10px 10px 0 !important;
   }
   .ant-input-number-group-addon {
     width: 80px;
-    border-radius: 8px 0 0 8px;
+    border-radius: 10px 0 0 10px;
     border: 1px solid rgb(198, 198, 200);
   }
 `;

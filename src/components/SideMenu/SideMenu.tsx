@@ -6,21 +6,27 @@ type sideMenuProps = {
   children: React.ReactNode;
 };
 const SideMenu: React.FC<sideMenuProps> = ({ children }) => {
-  const { showSidebar, setShowSidebar } = useGlobalContext();
-  const onClose = () => {
-    setShowSidebar(false);
-  };
+  // const { showSidebar, setShowSidebar } = useGlobalContext();
+  // const onClose = () => {
+  //   setShowSidebar(false);
+  // };
   return (
     <SideMenuStyle>
       <Drawer
         style={{
-          marginTop: "66px",
+          marginLeft: "32px",
+          marginTop: "32px",
         }}
         width={250}
+        drawerStyle={{
+          borderRadius: 20,
+          background: "#fff",
+          border: "1px solid #fff",
+        }}
         placement={"left"}
-        closable={false}
-        onClose={onClose}
-        open={showSidebar}
+        closable={true}
+        // onClose={onClose}
+        open={true}
         key={"left"}
       >
         {children}

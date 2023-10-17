@@ -119,6 +119,7 @@ const useLocationData = () => {
   };
 
   useEffect(() => {
+    console.log("running 1");
     getLocation();
   }, []);
 

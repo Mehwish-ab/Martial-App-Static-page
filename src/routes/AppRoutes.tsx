@@ -15,6 +15,13 @@ import { Select } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { setLanguage } from "../redux/features/selectedLanguageSlice";
+import CreateSchool from "../screens/CreateSchool/CreateSchool";
+import Layout from "antd/lib/layout/layout";
+import AppLayout from "../components/Layout/Layout";
+// import { loginData } from "../App";
+import { lazy, useEffect } from "react";
+import { local_storage_admin_key } from "../utils/axios.utils";
+import EditSchool from "../screens/CreateSchool/EditSchool/EditSchool";
 
 function AppRoutes() {
   const dispatch = useDispatch();
@@ -24,9 +31,10 @@ function AppRoutes() {
   const { selectedLanguage } = useSelector(
     (state: RootState) => state.selectedLanguage
   );
+
   return (
     <>
-      <div className="language-select">
+      {/* <div className="language-select">
         <div className="language-select-inner">
           <Select
             defaultValue={selectedLanguage}
@@ -41,9 +49,8 @@ function AppRoutes() {
             ]}
           />
         </div>
-      </div>
+      </div> */}
       <Routes>
-        <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<CreateUser />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
@@ -51,6 +58,31 @@ function AppRoutes() {
         <Route
           path="/register/create-new-password"
           element={<CreatePassword />}
+        />
+
+        <Route
+          path={"/"}
+          element={
+            <AppLayout>
+              <Home />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/school/create"
+          element={
+            <AppLayout>
+              <CreateSchool />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/school/edit/:schoolId"
+          element={
+            <AppLayout>
+              <EditSchool />
+            </AppLayout>
+          }
         />
 
         {/* error page */}

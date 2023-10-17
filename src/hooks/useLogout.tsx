@@ -6,14 +6,14 @@ import { removeLoginData } from "../redux/features/loginDataSlice";
 
 const useLogout = () => {
   const dispatch = useAppDispatch();
-  const { setShowSidebar } = useGlobalContext();
+  // const { setShowSidebar } = useGlobalContext();
   const navigate = useNavigate();
 
   // logout handler
   const logoutHandler = () => {
     localStorage.removeItem(local_storage_admin_key);
     dispatch(removeLoginData());
-    setShowSidebar(false);
+    // setShowSidebar(false);
     navigate("/");
   };
 

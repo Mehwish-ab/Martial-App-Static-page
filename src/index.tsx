@@ -44,6 +44,7 @@ export const initializeApp = async () => {
       config.headers["loggingToken"] = UUID;
       config.headers["userName"] = userDetails.username || "AnonymousUser";
       config.headers["lang"] = "en";
+
       return config;
     },
     (error) => {

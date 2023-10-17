@@ -19,7 +19,7 @@ export const CustomDatePickerStyle = styled.div<CustomDateProps>`
     background-color: red;
   }
   label {
-    font-size: 14px;
+    font-size: 16px;
     text-transform: capitalize;
     font-family: ${(props) => props.labelFamily};
     display: block;

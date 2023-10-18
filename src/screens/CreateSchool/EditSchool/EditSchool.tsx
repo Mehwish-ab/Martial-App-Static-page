@@ -1,11 +1,8 @@
 import { CreateSchoolStyled } from "../styles";
-import profileImg from "../../../../assets/images/create_school_user_profile.svg";
-import banner from "../../../../assets/images/create_school_banner.svg";
-import { ErrorMessage, Formik, useFormik, useFormikContext } from "formik";
+import { ErrorMessage, Formik } from "formik";
 import { Form } from "antd";
 
 import { Col, Row } from "react-bootstrap";
-import searchIcon from "../../../../assets/icons/ic_search.svg";
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
@@ -19,20 +16,19 @@ import {
 } from "../../Home/constants";
 import { validationFinder } from "../../../utils/utilities";
 import { DataTypesWithIdAndMultipleLangLabel } from "../../../redux/features/types";
-import AppLayout from "../../../components/Layout/Layout";
 import OverlayImages from "../../Home/OverlayImages/OverlayImages";
 import FormControl from "../../../components/FormControl";
 import {
   fontFamilyMedium,
+  fontFamilyRegular,
   lightBlue3,
   pureDark,
 } from "../../../components/GlobalStyle";
-import SearchGoogleLocation from "../../../components/Common/SearchGoogleLocation/SearchGoogleLocation";
 import CustomPhoneInput from "../../../components/CustomPhoneInput/CustomPhoneInput";
 import CheckboxesList from "../../../components/CustomCheckbox/CheckboxesList";
 import PaymentInformation from "../../../components/Common/PaymentInformation/PaymentInformation";
 import CustomButton from "../../../components/CustomButton/CustomButton";
-import { useEffect, useState } from "react";
+import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
 
 const EditSchool = () => {
   const { getLabelByKey } = useScreenTranslation("schoolCreate");
@@ -193,19 +189,20 @@ const EditSchool = () => {
                 <div className="mt-20">
                   <Row>
                     <Col md="12">
-                      <SearchGoogleLocation
-                        name="address"
-                        value={formik.values.address}
+                      <PlacesAutoCompleteInput
                         label={getLabelByKey("address")}
                         placeholder={getLabelByKey("addressPlaceholder")}
+                        handleChange={(val: any) => {
+                          formik.setFieldValue("address", val);
+                        }}
                         className={
                           formik.errors.address && formik.touched.address
                             ? "is-invalid"
                             : "customInput"
                         }
-                        setFieldValue={(val: any) => {
-                          formik.setFieldValue("address", val);
-                        }}
+                        formik={formik}
+                        name="address"
+                        value={formik.values.address}
                       />
                     </Col>
                   </Row>
@@ -225,7 +222,19 @@ const EditSchool = () => {
                       />
                       <ErrorMessage name={"businessPhoneNumber"}>
                         {(msg) => (
-                          <div className="error-message is-invalid">{msg}</div>
+                          <div
+                            className="error-message is-invalid"
+                            style={{
+                              color: "red",
+                              textAlign: "start",
+                              marginLeft: "3px",
+                              fontSize: "12px",
+                              letterSpacing: "1px",
+                              fontFamily: fontFamilyRegular,
+                            }}
+                          >
+                            {msg}
+                          </div>
                         )}
                       </ErrorMessage>
                     </Col>
@@ -346,9 +355,7 @@ const EditSchool = () => {
 
                 <PaymentInformation formik={formik} />
               </div>
-              {Object.keys(formik.errors).map((error) => {
-                return <li>{error}</li>;
-              })}
+
               <div className="mt-20 d-flex justify-content-end">
                 <CustomButton
                   bgcolor={lightBlue3}

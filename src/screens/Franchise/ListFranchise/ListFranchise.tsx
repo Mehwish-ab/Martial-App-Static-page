@@ -25,7 +25,7 @@ import {
 import { BELTS_SELECT_OPTIONS } from "../../Home/constants";
 import { MenuInfo } from "rc-menu/lib/interface";
 
-const ListBranch: React.FC = () => {
+const ListFranchise: React.FC = () => {
   const navigate = useNavigate();
   const { branchData, loading, error } = useSelector(
     (state: RootState) => state.branchData
@@ -94,7 +94,7 @@ const ListBranch: React.FC = () => {
   ];
 
   const onClick = (record: BranchDataType) => {
-    navigate(`/branch/edit/${record.branchId}`, {
+    navigate(`/franchise/edit/${record.branchId}`, {
       state: {
         branchToEdit: record as BranchDataType,
       },
@@ -104,8 +104,6 @@ const ListBranch: React.FC = () => {
   useEffect(() => {
     store.dispatch(getBranchBySchoolId());
   }, []);
-
-  console.log(branchData);
 
   return (
     <>
@@ -121,14 +119,14 @@ const ListBranch: React.FC = () => {
   );
 };
 
-export default ListBranch;
+export default ListFranchise;
 
 const RenderTableTitle = () => {
   const navigate = useNavigate();
 
   return (
     <div className="d-flex justify-content-between">
-      <h3 className="table-heading">Branch Information</h3>
+      <h3 className="table-heading">Franchise Information</h3>
       <CustomButton
         bgcolor={tertiaryBlue2}
         textTransform="Captilize"
@@ -141,7 +139,7 @@ const RenderTableTitle = () => {
         fontSize="17px"
         icon={<img src={plusIcon} alt="edit icon" />}
         clicked={() => {
-          navigate(`/branch/create`);
+          navigate(`/franchise/create`);
         }}
       />
     </div>

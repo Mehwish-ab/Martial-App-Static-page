@@ -71,7 +71,15 @@ const initialState: BranchDataInitialState = {
 const branchSlice = createSlice({
   name: "branchData",
   initialState,
-  reducers: {},
+  reducers: {
+    updateBranch: (state, action) => {
+      const updatedBranch: BranchDataType = action.payload;
+      const index = state.branchData.data.findIndex(
+        (b) => b.branchId === updatedBranch.branchId
+      );
+      state.branchData.data[index] = updatedBranch;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(getBranchBySchoolId.pending, (state, action) => {
@@ -97,11 +105,14 @@ export const getBranchBySchoolId = createAsyncThunk(
   "branchData/getBranchBySchoolId",
   async () => {
     const state = store.getState();
+    console.log("state", state);
     try {
       const { data } = await axios.post(
         `${base_url}${get_branch_by_school_id_url}`,
         {
-          schoolId: state.loginData.data?.schoolId,
+          schoolId:
+            state.loginData.data?.schoolId ||
+            state.dashboardData.schoolData.schoolId,
         },
         {
           headers: {
@@ -123,5 +134,7 @@ export const getBranchBySchoolId = createAsyncThunk(
     }
   }
 );
+
+export const { updateBranch } = branchSlice.actions;
 
 export default branchSlice.reducer;

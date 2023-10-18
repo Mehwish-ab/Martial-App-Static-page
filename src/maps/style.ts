@@ -1,14 +1,27 @@
 import styled from "styled-components";
-import { fontFamilyMedium, lightGrey2 } from "../components/GlobalStyle";
+import {
+  fontFamilyMedium,
+  fontFamilyRegular,
+  lightGrey2,
+} from "../components/GlobalStyle";
 
 export const PlacesAutocompleteStyle = styled.div`
   label {
     font-family: ${fontFamilyMedium};
+    margin-bottom: 10px;
   }
   input {
     border: 1px solid ${lightGrey2};
     padding: 7px;
     width: 100%;
+    border-radius: 10px;
+    padding: 14px !important;
+
+    &::placeholder {
+      font-family: ${fontFamilyRegular};
+      color: rgb(198, 198, 200);
+      font-size: 16px;
+    }
   }
 `;
 

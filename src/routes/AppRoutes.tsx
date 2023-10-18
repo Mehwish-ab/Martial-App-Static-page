@@ -25,6 +25,9 @@ import EditSchool from "../screens/CreateSchool/EditSchool/EditSchool";
 import CreateBranch from "../screens/Branches/CreateBranch/CreateBranch";
 import EditBranch from "../screens/Branches/EditBranch/EditBranch";
 import ListBranch from "../screens/Branches/ListBranch/ListBranch";
+import ListFranchise from "../screens/Franchise/ListFranchise/ListFranchise";
+import CreateFranchise from "../screens/Franchise/CreateFranchise/CreateFranchise";
+import EditFranchise from "../screens/Franchise/EditFranchise/EditFranchise";
 
 function AppRoutes() {
   const dispatch = useDispatch();
@@ -109,6 +112,33 @@ function AppRoutes() {
           element={
             <AppLayout>
               <EditBranch />
+            </AppLayout>
+          }
+        />
+
+        <Route
+          path="/franchise/list"
+          element={
+            <AppLayout>
+              <ListFranchise />
+            </AppLayout>
+          }
+        />
+
+        <Route
+          path="/franchise/create"
+          element={
+            <AppLayout>
+              <CreateFranchise />
+            </AppLayout>
+          }
+        />
+
+        <Route
+          path="/franchise/edit/:franchiseId"
+          element={
+            <AppLayout>
+              <EditFranchise />
             </AppLayout>
           }
         />

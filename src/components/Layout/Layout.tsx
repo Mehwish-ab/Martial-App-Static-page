@@ -31,6 +31,7 @@ const AppLayout = (props: any) => {
             style={{
               padding: 0,
               background: "transparent",
+              marginBottom: 20,
             }}
           >
             <Navbar />

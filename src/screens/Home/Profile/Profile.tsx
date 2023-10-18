@@ -79,10 +79,10 @@ const Profile = () => {
               </Col>
             </Row>
             <Row>
-              <Col md="6" className="d-flex align-items-center mb-3 gap-2">
+              {/* <Col md="6" className="d-flex align-items-center mb-3 gap-2">
                 <img src={emailIcon} alt="email icon" />
                 <p className="mb-0">{schoolData.emailAddress || "-"}</p>
-              </Col>
+              </Col> */}
 
               <Col md="6" className="d-flex align-items-center mb-3 gap-2">
                 <img src={phoneIcon} alt="phone icon" />

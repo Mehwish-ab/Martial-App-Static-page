@@ -5,7 +5,7 @@ export const CustomCheckboxListStyled = styled.div`
   .checkboxes_row {
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
   }
   .checkbox_col {
     label {
@@ -22,7 +22,7 @@ export const CustomCheckboxListStyled = styled.div`
 
   @media screen and ${mediaDeviceMin.mobileL} {
     .checkboxes_row {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 

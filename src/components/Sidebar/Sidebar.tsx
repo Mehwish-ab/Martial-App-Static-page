@@ -39,6 +39,7 @@ const menuLinks: any = {
   qrCode: "/qr-code",
   setting: "",
   listbranch: "/branch/list",
+  listFranchise: "/franchise/list",
 };
 
 const menuLinksKeys: any = {
@@ -51,6 +52,7 @@ const menuLinksKeys: any = {
   qrCode: "qr-code",
   setting: "setting",
   listbranch: "listbranch",
+  listFranchise: "listFranchise",
 };
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -91,7 +93,15 @@ const Sidebar = () => {
       label: getLabel("Branch", menuLinks.listbranch, menuLinksKeys.listbranch),
       icon: getMenuIcon(dashboard),
     },
-
+    {
+      key: menuLinksKeys.listFranchise,
+      label: getLabel(
+        "Franchise",
+        menuLinks.listFranchise,
+        menuLinksKeys.listFranchise
+      ),
+      icon: getMenuIcon(dashboard),
+    },
     {
       key: menuLinksKeys.membership,
       label: getLabel(

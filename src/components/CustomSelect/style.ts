@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { tertiaryGrey7 } from "../GlobalStyle";
+import { mediaDeviceMax, tertiaryGrey7 } from "../GlobalStyle";
 
 type CustomSelectProps = {
   padding: string;
@@ -27,6 +27,10 @@ export const CustomSelectStyle = styled.div<CustomSelectProps>`
     color: #000000;
     img {
       height: 10px !important;
+
+      @media screen and (${mediaDeviceMax.laptop}) {
+        height: 8px !important;
+      }
     }
   }
 
@@ -41,6 +45,11 @@ export const CustomSelectStyle = styled.div<CustomSelectProps>`
     width: 100%;
     padding: ${(props) => props.padding} !important;
     font-size: ${(props) => props.fontSize};
+
+    @media screen and (${mediaDeviceMax.laptop}) {
+      padding: 7px !important;
+      font-size: 14px !important;
+    }
   }
 `;
 export default CustomSelectStyle;

@@ -14,6 +14,7 @@ import { loginDataTypes } from "../redux/features/types";
 const useCreateSchool = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isUploadImgModalVisible, setIsUploadImgVisible] = useState(false);
   const toastId = useRef<any>(null);
   const { schoolId } = useParams();
   const navigate = useNavigate();
@@ -70,6 +71,7 @@ const useCreateSchool = () => {
       });
       setLoading(false);
       console.log({ data });
+      // setIsUploadImgVisible(true);
       navigate("/");
       resetForm();
     } catch (error: any) {
@@ -89,6 +91,8 @@ const useCreateSchool = () => {
     loading,
     handleSubmit,
     error,
+    isUploadImgModalVisible,
+    setIsUploadImgVisible,
   };
 };
 

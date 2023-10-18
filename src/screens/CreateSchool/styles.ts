@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { darkBlue } from "../../components/GlobalStyle";
+import { darkBlue, mediaDeviceMax } from "../../components/GlobalStyle";
 
 export const CreateSchoolStyled = styled.div`
   h3 {
@@ -9,8 +9,9 @@ export const CreateSchoolStyled = styled.div`
 
   .form {
     padding: 16px;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+    // border-bottom-left-radius: 20px;
+    // border-bottom-right-radius: 20px;
+    border-radius: 20px;
   }
 
   .payment_card {
@@ -22,10 +23,18 @@ export const CreateSchoolStyled = styled.div`
   .ant-form label {
     font-size: 16px !important;
     font-family: EnnVisionsMedium, sans-serif;
+
+    @media screen and (${mediaDeviceMax.laptop}) {
+      font-size: 14px !important;
+    }
   }
 
   .ant-input {
     padding: 14px !important;
+
+    @media screen and (${mediaDeviceMax.laptop}) {
+      padding: 10px !important;
+    }
   }
   .PhoneInput,
   .PhoneInputInput {

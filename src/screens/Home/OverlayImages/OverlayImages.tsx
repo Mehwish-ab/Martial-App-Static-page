@@ -75,7 +75,6 @@ const OverlayImages = ({
         }
       } catch (error) {
         setLoading(false);
-
         message.error(`${info.file.name} file upload failed.`);
       }
     },
@@ -124,6 +123,7 @@ const OverlayImages = ({
           message.error(`${info.file.name} file upload failed.`);
         }
       } catch (error) {
+        setLoading(false);
         message.error(`${info.file.name} file upload failed.`);
       }
     },

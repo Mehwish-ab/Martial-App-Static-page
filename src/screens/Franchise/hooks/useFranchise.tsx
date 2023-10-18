@@ -6,12 +6,11 @@ import {
   create_branch_url,
   edit_branch_url,
 } from "../../../utils/api_urls";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { useNavigate, useParams } from "react-router-dom";
 import { loginDataTypes } from "../../../redux/features/types";
-import { CreateBranchInitialValues } from "../constant";
-import { updateBranch } from "../../../redux/features/branch/branchSlice";
+import { CreateFranchiseInitialValues } from "../constant";
 const useBranch = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -20,19 +19,18 @@ const useBranch = () => {
   const navigate = useNavigate();
   const { loginData } = useSelector((state: RootState) => state);
   const { schoolData } = useSelector((state: RootState) => state.dashboardData);
-  const dispatch = useDispatch();
   const handleSubmit = async (
-    values: CreateBranchInitialValues,
+    values: CreateFranchiseInitialValues,
     { resetForm }: any
   ) => {
     const userDetails = loginData.data?.userDetails;
     console.log("values", values);
     const payload = {
       userId: userDetails?.id || "",
-      branchName: values.branchName,
-      branchType: values.branchType,
+      // branchName: values.branchName,
+      // branchType: values.branchType,
       address: values.address,
-      phoneNumber: values?.branchPhoneNumber || "",
+      // phoneNumber: values?.branchPhoneNumber || "",
       belts: values.belts == "1" ? true : false,
       activities: values.selectedActivities.join(","),
       facilities: values.selectedActivities.join(","),
@@ -73,7 +71,6 @@ const useBranch = () => {
       });
       setLoading(false);
       console.log({ data });
-      dispatch(updateBranch(data.results));
       navigate("/branch/list");
       resetForm();
     } catch (error: any) {

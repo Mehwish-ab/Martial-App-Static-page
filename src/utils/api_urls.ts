@@ -136,5 +136,10 @@ export const create_school_url = "school/create";
 export const edit_school_url = "school/edit";
 export const get_school_by_user_id_url = "school/getById";
 
+// branch endpoint
+export const create_branch_url = "branch/create";
+export const edit_branch_url = "branch/edit";
+export const get_branch_by_school_id_url = "branch/getBySchoolId";
+
 // key of token data in local storage of browser
 export const auth_token_key = "ennvision-admin:token";

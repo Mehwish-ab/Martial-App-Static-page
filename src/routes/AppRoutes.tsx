@@ -22,6 +22,9 @@ import AppLayout from "../components/Layout/Layout";
 import { lazy, useEffect } from "react";
 import { local_storage_admin_key } from "../utils/axios.utils";
 import EditSchool from "../screens/CreateSchool/EditSchool/EditSchool";
+import CreateBranch from "../screens/Branches/CreateBranch/CreateBranch";
+import EditBranch from "../screens/Branches/EditBranch/EditBranch";
+import ListBranch from "../screens/Branches/ListBranch/ListBranch";
 
 function AppRoutes() {
   const dispatch = useDispatch();
@@ -81,6 +84,31 @@ function AppRoutes() {
           element={
             <AppLayout>
               <EditSchool />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/branch/list"
+          element={
+            <AppLayout>
+              <ListBranch />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/branch/create"
+          element={
+            <AppLayout>
+              <CreateBranch />
+            </AppLayout>
+          }
+        />
+
+        <Route
+          path="/branch/edit/:branchId"
+          element={
+            <AppLayout>
+              <EditBranch />
             </AppLayout>
           }
         />

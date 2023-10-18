@@ -467,6 +467,7 @@ export type loginDataTypes = {
     userLastName: string;
     countryCode: string;
   };
+  schoolId: number;
 };
 
 // professional Detail Types

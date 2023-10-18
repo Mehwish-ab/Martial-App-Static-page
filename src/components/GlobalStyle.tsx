@@ -54,7 +54,7 @@ export const mediaDeviceMax = {
   desktop: `(max-width: ${deviceSize.desktop})`,
   desktopL: `(max-width: ${deviceSize.desktop})`,
 };
-
+export const mainColor = "#3D86AF";
 export const basicColor = "#C0922E";
 export const primaryRed = "#C7112B";
 export const primaryColor = "#00B0E9";
@@ -89,6 +89,7 @@ export const lightGrey12 = "#F3F6F9";
 export const lightGrey13 = "#E5E5E5";
 export const tertiaryBlue = "#E8F2F6";
 export const tertiaryBlue1 = "#1088e9";
+export const tertiaryBlue2 = "#A6D1EC";
 
 export const secondaryGreen = "#32D74B";
 export const greenishColor = "#34C759";
@@ -125,7 +126,7 @@ export const darkBlue = "#006197";
 export const lightBlue = "#04A4D8";
 export const lightBlue2 = "#049CCE";
 export const lightBlue3 = "#C1EAFA";
-
+export const darkGery = "#333333";
 export const tertiaryGrewish = "#C6C6C8";
 
 export const FlexContainer = styled.div`

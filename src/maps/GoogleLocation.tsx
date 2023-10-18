@@ -4,6 +4,7 @@ import { getAppData } from "../redux/features/appDataSlice";
 import store from "../redux/store";
 import { MAP_API } from "../App";
 import { getScreenTranslation } from "../redux/features/screenTranslationSlice";
+import { getSchoolByUserId } from "../redux/features/dashboard/dashboardDataSlice";
 
 interface Location {
   latitude: number;
@@ -98,12 +99,16 @@ const useLocationData = () => {
           store.dispatch(addCurrentLocation(locationData));
           store.dispatch(getAppData(country));
           store.dispatch(getScreenTranslation());
+          store.dispatch(getSchoolByUserId());
+
           setLoading(false);
         },
         (error) => {
           console.log("Error retrieving location:", error);
           store.dispatch(getAppData("Canada"));
           store.dispatch(getScreenTranslation());
+          store.dispatch(getSchoolByUserId());
+
           setError("Error retrieving location.");
           setLoading(false);
         }

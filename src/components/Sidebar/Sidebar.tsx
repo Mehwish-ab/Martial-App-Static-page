@@ -38,6 +38,7 @@ const menuLinks: any = {
   booking: "",
   qrCode: "/qr-code",
   setting: "",
+  listbranch: "/branch/list",
 };
 
 const menuLinksKeys: any = {
@@ -49,6 +50,7 @@ const menuLinksKeys: any = {
   booking: "booking",
   qrCode: "qr-code",
   setting: "setting",
+  listbranch: "listbranch",
 };
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -84,6 +86,12 @@ const Sidebar = () => {
       ),
       icon: getMenuIcon(dashboard),
     },
+    {
+      key: menuLinksKeys.listbranch,
+      label: getLabel("Branch", menuLinks.listbranch, menuLinksKeys.listbranch),
+      icon: getMenuIcon(dashboard),
+    },
+
     {
       key: menuLinksKeys.membership,
       label: getLabel(

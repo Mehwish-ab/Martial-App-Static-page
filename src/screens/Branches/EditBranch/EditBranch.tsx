@@ -1,4 +1,4 @@
-import { CreateSchoolStyled } from "../styles";
+import { CreateSchoolStyled } from "../../CreateSchool/styles";
 import profileImg from "../../../../assets/images/create_school_user_profile.svg";
 import banner from "../../../../assets/images/create_school_banner.svg";
 import { ErrorMessage, Formik, useFormik, useFormikContext } from "formik";
@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { RootState } from "../../../redux/store";
 import useCreateSchool from "../../../hooks/useCreateSchool";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import {
   BELTS_SELECT_OPTIONS,
   CreateSchoolInitialValues,
@@ -32,57 +32,34 @@ import CustomPhoneInput from "../../../components/CustomPhoneInput/CustomPhoneIn
 import CheckboxesList from "../../../components/CustomCheckbox/CheckboxesList";
 import PaymentInformation from "../../../components/Common/PaymentInformation/PaymentInformation";
 import CustomButton from "../../../components/CustomButton/CustomButton";
+import { CreateBranchInitialValues } from "../constant";
 import { useEffect, useState } from "react";
+import { BranchDataType } from "../../../redux/features/branch/branchSlice";
+import useBranch from "../hooks/useBranch";
 
-const EditSchool = () => {
+const EditBranch = () => {
   const { getLabelByKey } = useScreenTranslation("schoolCreate");
   const {
-    statusData: { activities, facilities, currency, language, businessTypes },
+    statusData: { activities, facilities, businessTypes },
   } = useSelector((state: RootState) => state.appData.data);
-  const { schoolData } = useSelector((state: RootState) => state.dashboardData);
-  const { handleSubmit, loading } = useCreateSchool();
-  const { schoolId } = useParams();
-
+  const { data: branchData } = useSelector(
+    (state: RootState) => state.branchData.branchData
+  );
+  const { loading, handleSubmit } = useBranch();
+  const { branchId } = useParams();
+  const location = useLocation();
+  const branchToEdit: BranchDataType = location.state.branchToEdit;
+  // const [branchToEdit, setBranchToEdit] = useState({});
+  // const handleSubmit = () => {};
   const { selectedLanguage } = useSelector(
     (state: RootState) => state.selectedLanguage
   );
 
-  const businessName = validationFinder("BUSINESS_NAME")!;
-  const businessNameReg = new RegExp(businessName.pattern);
+  const branchName = validationFinder("BUSINESS_NAME")!;
+  const branchNameReg = new RegExp(branchName.pattern);
   const address = validationFinder("ADDRESS")!;
   const addressReg = new RegExp(address.pattern);
-  const businessPhoneNumber = validationFinder("PHONE_NUMBER")!;
-
-  const validationSchema = Yup.object({
-    businessName: Yup.string()
-      .required(businessName.notBlankMsgEn)
-      .matches(businessNameReg, businessName.patternMsgEn),
-    address: Yup.string()
-      .required(address.notBlankMsgEn)
-      .matches(addressReg, address.patternMsgEn),
-    businessType: Yup.string().required("Please select business type"),
-    businessPhoneNumber: Yup.string().required(
-      businessPhoneNumber.notBlankMsgEn
-    ),
-    belts: Yup.string().required("Please select belts"),
-    defaultLanguage: Yup.string().required("Please select default language"),
-    defaultCurrency: Yup.string().required("Please select default currency"),
-    description: Yup.string().required("Please enter description"),
-    stripePublishableKey: Yup.string().required(
-      "Please enter stipe publishable key"
-    ),
-    stripeSecretKey: Yup.string().required("Please enter stipe secret key"),
-    cardAccessToken: Yup.string().required("Please enter card access token"),
-    cardClientId: Yup.string().required("Please enter card client id"),
-    cardWebHook: Yup.string().required("Please enter card web hook"),
-    cardClientSecret: Yup.string().required("Please enter card client secret"),
-    selectedActivities: Yup.array()
-      .of(Yup.string().required("Select an activity"))
-      .min(1, "Select at least one activity"),
-    selectedFacilities: Yup.array()
-      .of(Yup.string().required("Select an activity"))
-      .min(1, "Select at least one facility"),
-  });
+  const branchPhoneNumber = validationFinder("PHONE_NUMBER")!;
 
   const createOptions = (list: DataTypesWithIdAndMultipleLangLabel[]) => {
     let options: SelectOptionsDataTypes[] = [];
@@ -98,34 +75,93 @@ const EditSchool = () => {
     return options;
   };
 
-  const initialValuesForEdit: CreateSchoolInitialValues = {
-    businessName: schoolData.businessName,
-    businessType: schoolData.businessType.toString(),
-    address: schoolData.address,
-    businessPhoneNumber: schoolData.phoneNumber,
-    belts: schoolData.belts ? 1 : 2, // 1 for yes, 2 for no
-    defaultLanguage: schoolData.languageId,
-    defaultCurrency: schoolData.currencyId,
-    description: schoolData.description,
-    stripePublishableKey: schoolData.stripePublicKey,
-    stripeSecretKey: schoolData.stripeSecretKey,
-    cardAccessToken: schoolData.gclAccessToken,
-    cardClientId: schoolData.gclClientId,
-    cardWebHook: schoolData.gclWebHook,
-    cardClientSecret: schoolData.gclClientSecret,
-    selectedActivities: schoolData.activities.split(",").map(String),
-    selectedFacilities: schoolData.facilities.split(",").map(String),
+  const initialValues: CreateBranchInitialValues = {
+    branchName: branchToEdit ? branchToEdit.branchName : "",
+    branchType: branchToEdit ? branchToEdit.branchType : "",
+    address: branchToEdit ? branchToEdit.address : "",
+    branchPhoneNumber: branchToEdit ? branchToEdit.phoneNumber : "",
+    belts: branchToEdit ? (branchToEdit.belts ? 1 : 2) : "",
+    description: branchToEdit ? branchToEdit.description : "",
+    stripePublishableKey: branchToEdit ? branchToEdit.stripePublicKey : "",
+    stripeSecretKey: branchToEdit ? branchToEdit.stripeSecretKey : "",
+    cardAccessToken: branchToEdit ? branchToEdit.gclAccessToken : "",
+    cardClientId: branchToEdit ? branchToEdit.gclClientId : "",
+    cardWebHook: branchToEdit ? branchToEdit.gclWebHook : "",
+    cardClientSecret: branchToEdit ? branchToEdit.gclClientSecret : "",
+    selectedActivities: branchToEdit
+      ? branchToEdit.activities.split(",").map(String)
+      : [],
+    selectedFacilities: branchToEdit
+      ? branchToEdit.facilities.split(",").map(String)
+      : [],
+    schoolStripeMethod: branchToEdit
+      ? branchToEdit.schoolStripeMethod || false
+      : false,
+    schoolGclMethod: branchToEdit
+      ? branchToEdit.schoolGclMethod || false
+      : false,
   };
+  const validationSchema = Yup.object({
+    branchName: Yup.string()
+      .required(branchName.notBlankMsgEn)
+      .matches(branchNameReg, branchName.patternMsgEn),
+    address: Yup.string()
+      .required(address.notBlankMsgEn)
+      .matches(addressReg, address.patternMsgEn),
+    branchType: Yup.string().required("Please select branch type"),
+    branchPhoneNumber: Yup.string().required(branchPhoneNumber.notBlankMsgEn),
+    belts: Yup.string().required("Please select belts"),
+    description: Yup.string().required("Please enter description"),
+    stripePublishableKey: Yup.string().when("schoolStripeMethod", {
+      is: false,
+      then: Yup.string().required("Please enter stripe publishable key"),
+      otherwise: Yup.string().notRequired(),
+    }),
+    stripeSecretKey: Yup.string().when("schoolStripeMethod", {
+      is: false,
+      then: Yup.string().required("Please enter stripe secret key"),
+      otherwise: Yup.string().notRequired(),
+    }),
+    cardAccessToken: Yup.string().when("schoolGclMethod", {
+      is: false,
+      then: Yup.string().required("Please enter card access token"),
+      otherwise: Yup.string().notRequired(),
+    }),
+    cardClientId: Yup.string().when("schoolGclMethod", {
+      is: false,
+      then: Yup.string().required("Please enter card client id"),
+      otherwise: Yup.string().notRequired(),
+    }),
+    cardWebHook: Yup.string().when("schoolGclMethod", {
+      is: false,
+      then: Yup.string().required("Please enter card web hook"),
+      otherwise: Yup.string().notRequired(),
+    }),
+    cardClientSecret: Yup.string().when("schoolGclMethod", {
+      is: false,
+      then: Yup.string().required("Please enter card client secret"),
+      otherwise: Yup.string().notRequired(),
+    }),
+    selectedActivities: Yup.array()
+      .of(Yup.string().required("Select an activity"))
+      .min(1, "Select at least one activity"),
+    selectedFacilities: Yup.array()
+      .of(Yup.string().required("Select an activity"))
+      .min(1, "Select at least one facility"),
+
+    schoolStripeMethod: Yup.boolean(),
+    schoolGclMethod: Yup.boolean(),
+  });
 
   return (
     <CreateSchoolStyled>
       <OverlayImages
-        backgroundImg={schoolData.bannerPicture || ""}
-        overlayImg={schoolData.profilePicture || ""}
+        backgroundImg={branchToEdit?.bannerPicture || ""}
+        overlayImg={branchToEdit?.profilePicture || ""}
         isEditable={true}
       />
       <Formik
-        initialValues={initialValuesForEdit}
+        initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
@@ -137,7 +173,7 @@ const EditSchool = () => {
               autoComplete="off"
             >
               <div className="bg-white form">
-                <h3>School Information</h3>
+                <h3>Branch Information</h3>
 
                 <div className="mt-20">
                   <Row>
@@ -145,18 +181,17 @@ const EditSchool = () => {
                       <FormControl
                         control="input"
                         type="text"
-                        name="businessName"
-                        label={getLabelByKey("businessName")}
+                        name="branchName"
+                        label={getLabelByKey("branchName")}
                         padding="10px"
                         fontFamily={fontFamilyMedium}
                         fontSize="16px"
                         // prefix={<img src={lock_icon} alt="lock_icon" />}
                         max={6}
                         // border="none"
-                        placeholder={getLabelByKey("businessNamePlaceholder")}
+                        placeholder={getLabelByKey("branchName")}
                         className={
-                          formik.errors.businessName &&
-                          formik.touched.businessName
+                          formik.errors.branchName && formik.touched.branchName
                             ? "is-invalid"
                             : "customInput"
                         }
@@ -166,23 +201,23 @@ const EditSchool = () => {
                       <FormControl
                         control="select"
                         type="text"
-                        name="businessType"
+                        name="branchType"
                         fontFamily={fontFamilyMedium}
                         // prefix={<img src={lock_icon} alt="lock_icon" />}
-                        label={getLabelByKey("businessType")}
+                        label={getLabelByKey("branchType")}
                         padding="10px"
-                        placeholder={getLabelByKey("businessTypePlaceholder")}
+                        placeholder={getLabelByKey("branchType")}
                         className={
-                          formik.errors.businessType &&
-                          formik.touched.businessType
+                          formik.errors.branchType && formik.touched.branchType
                             ? "is-invalid"
                             : "customInput"
                         }
                         options={createOptions(businessTypes)}
                         defaultValue={
-                          schoolId
+                          branchId
                             ? createOptions(businessTypes).find(
-                                (item) => item.value === schoolData.businessType
+                                (item) =>
+                                  item.value === initialValues.branchType
                               )?.label
                             : undefined
                         }
@@ -197,7 +232,7 @@ const EditSchool = () => {
                         name="address"
                         value={formik.values.address}
                         label={getLabelByKey("address")}
-                        placeholder={getLabelByKey("addressPlaceholder")}
+                        placeholder={getLabelByKey("address")}
                         className={
                           formik.errors.address && formik.touched.address
                             ? "is-invalid"
@@ -214,16 +249,16 @@ const EditSchool = () => {
                   <Row>
                     <Col md="6">
                       <CustomPhoneInput
-                        label={getLabelByKey("businessPhoneNumber")}
-                        name="businessPhoneNumber"
-                        value={formik.values.businessPhoneNumber}
-                        placeholder={getLabelByKey("businessPhoneNumber")}
+                        label={getLabelByKey("branchPhoneNumber")}
+                        name="branchPhoneNumber"
+                        value={formik.values.branchPhoneNumber}
+                        placeholder={getLabelByKey("branchPhoneNumber")}
                         limitMaxLength={true}
                         handleOnChange={(e: string) => {
-                          formik.setFieldValue("businessPhoneNumber", e);
+                          formik.setFieldValue("branchPhoneNumber", e);
                         }}
                       />
-                      <ErrorMessage name={"businessPhoneNumber"}>
+                      <ErrorMessage name={"branchPhoneNumber"}>
                         {(msg) => (
                           <div className="error-message is-invalid">{msg}</div>
                         )}
@@ -238,7 +273,7 @@ const EditSchool = () => {
                         // prefix={<img src={lock_icon} alt="lock_icon" />}
                         label={getLabelByKey("belts")}
                         padding="10px"
-                        placeholder={getLabelByKey("beltsPlaceholder")}
+                        placeholder={getLabelByKey("belts")}
                         className={
                           formik.errors.belts && formik.touched.belts
                             ? "is-invalid"
@@ -246,67 +281,10 @@ const EditSchool = () => {
                         }
                         options={BELTS_SELECT_OPTIONS}
                         defaultValue={
-                          schoolId
+                          branchId
                             ? BELTS_SELECT_OPTIONS.find(
-                                (item) =>
-                                  item.value === initialValuesForEdit.belts
+                                (item) => item.value === initialValues.belts
                               )?.label
-                            : undefined
-                        }
-                      />
-                    </Col>
-                  </Row>
-                </div>
-                <div className="mt-20">
-                  <Row>
-                    <Col md="6">
-                      <FormControl
-                        control="select"
-                        type="text"
-                        name="defaultLanguage"
-                        fontFamily={fontFamilyMedium}
-                        // prefix={<img src={lock_icon} alt="lock_icon" />}
-                        label={getLabelByKey("defaultLanguage")}
-                        padding="10px"
-                        placeholder={getLabelByKey("defaultLanguage")}
-                        className={
-                          formik.errors.defaultLanguage &&
-                          formik.touched.defaultLanguage
-                            ? "is-invalid"
-                            : "customInput"
-                        }
-                        options={createOptions(language)}
-                        defaultValue={
-                          schoolId
-                            ? createOptions(language).find(
-                                (item) => item.value === schoolData.languageId
-                              )?.label
-                            : undefined
-                        }
-                      />
-                    </Col>
-                    <Col md="6">
-                      <FormControl
-                        control="select"
-                        type="text"
-                        name="defaultCurrency"
-                        fontFamily={fontFamilyMedium}
-                        // prefix={<img src={lock_icon} alt="lock_icon" />}
-                        label={getLabelByKey("defaultCurrency")}
-                        padding="10px"
-                        placeholder={getLabelByKey("defaultCurrency")}
-                        className={
-                          formik.errors.defaultCurrency &&
-                          formik.touched.defaultCurrency
-                            ? "is-invalid"
-                            : "customInput"
-                        }
-                        options={createOptions(currency)}
-                        defaultValue={
-                          schoolId
-                            ? createOptions(currency).find(
-                                (item) => item.value === schoolData.currencyId
-                              )?.value
                             : undefined
                         }
                       />
@@ -316,13 +294,13 @@ const EditSchool = () => {
 
                 <CheckboxesList
                   name="selectedActivities"
-                  label={getLabelByKey("activity")}
+                  label="Activity"
                   list={activities}
                 />
 
                 <CheckboxesList
                   name="selectedFacilities"
-                  label={getLabelByKey("facilities")}
+                  label="Facility"
                   list={facilities}
                 />
                 <div className="mt-20">
@@ -334,7 +312,7 @@ const EditSchool = () => {
                     // prefix={<img src={lock_icon} alt="lock_icon" />}
                     label={getLabelByKey("description")}
                     padding="10px"
-                    placeholder={getLabelByKey("enterDescription")}
+                    placeholder={getLabelByKey("description")}
                     className={
                       formik.errors.description && formik.touched.description
                         ? "is-invalid"
@@ -344,7 +322,7 @@ const EditSchool = () => {
                   />
                 </div>
 
-                <PaymentInformation formik={formik} />
+                <PaymentInformation formik={formik} showPaymentMethods={true} />
               </div>
               {Object.keys(formik.errors).map((error) => {
                 return <li>{error}</li>;
@@ -361,7 +339,7 @@ const EditSchool = () => {
                   // title={getLabelByKey(
                   //   PASSWORD_SCREEN_LABEL_KEYS.sumbitButton
                   // )}
-                  title={getLabelByKey("primaryButton")}
+                  title="Submit"
                   fontSize="17px"
                   disabled={!formik.isValid}
                   loading={loading}
@@ -375,4 +353,4 @@ const EditSchool = () => {
   );
 };
 
-export default EditSchool;
+export default EditBranch;

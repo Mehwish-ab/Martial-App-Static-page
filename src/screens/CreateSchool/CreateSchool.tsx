@@ -153,7 +153,7 @@ const CreateSchool = () => {
                         // prefix={<img src={lock_icon} alt="lock_icon" />}
                         max={6}
                         // border="none"
-                        placeholder={getLabelByKey("businessName")}
+                        placeholder={getLabelByKey("businessNamePlaceholder")}
                         className={
                           formik.errors.businessName &&
                           formik.touched.businessName
@@ -171,7 +171,7 @@ const CreateSchool = () => {
                         // prefix={<img src={lock_icon} alt="lock_icon" />}
                         label={getLabelByKey("businessType")}
                         padding="10px"
-                        placeholder={getLabelByKey("businessType")}
+                        placeholder={getLabelByKey("businessTypePlaceholder")}
                         className={
                           formik.errors.businessType &&
                           formik.touched.businessType
@@ -190,7 +190,7 @@ const CreateSchool = () => {
                         name="address"
                         value={formik.values.address}
                         label={getLabelByKey("address")}
-                        placeholder={getLabelByKey("address")}
+                        placeholder={getLabelByKey("addressPlaceholder")}
                         className={
                           formik.errors.address && formik.touched.address
                             ? "is-invalid"
@@ -265,7 +265,7 @@ const CreateSchool = () => {
                         // prefix={<img src={lock_icon} alt="lock_icon" />}
                         label={getLabelByKey("belts")}
                         padding="10px"
-                        placeholder={getLabelByKey("belts")}
+                        placeholder={getLabelByKey("beltsPlaceholder")}
                         className={
                           formik.errors.belts && formik.touched.belts
                             ? "is-invalid"
@@ -321,13 +321,13 @@ const CreateSchool = () => {
 
                 <CheckboxesList
                   name="selectedActivities"
-                  label="Activity"
+                  label={getLabelByKey("activity")}
                   list={activities}
                 />
 
                 <CheckboxesList
                   name="selectedFacilities"
-                  label="Facility"
+                  label={getLabelByKey("facilities")}
                   list={facilities}
                 />
                 <div className="mt-20">
@@ -339,7 +339,7 @@ const CreateSchool = () => {
                     // prefix={<img src={lock_icon} alt="lock_icon" />}
                     label={getLabelByKey("description")}
                     padding="10px"
-                    placeholder={getLabelByKey("description")}
+                    placeholder={getLabelByKey("enterDescription")}
                     className={
                       formik.errors.description && formik.touched.description
                         ? "is-invalid"
@@ -366,7 +366,7 @@ const CreateSchool = () => {
                   // title={getLabelByKey(
                   //   PASSWORD_SCREEN_LABEL_KEYS.sumbitButton
                   // )}
-                  title="Submit"
+                  title={getLabelByKey("primaryButton")}
                   fontSize="17px"
                   disabled={!formik.isValid}
                   loading={loading}

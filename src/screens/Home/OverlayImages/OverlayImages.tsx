@@ -10,6 +10,8 @@ import profile from "../../../assets/images/create_school_user_profile.svg";
 import banner from "../../../assets/images/create_school_banner.svg";
 import Loader from "../../../components/Loader/Loader";
 import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 interface OverlayImagesProps {
   backgroundImg: any;
   overlayImg: any;
@@ -23,7 +25,12 @@ const OverlayImages = ({
   isEditable,
 }: OverlayImagesProps) => {
   const { schoolId } = useParams();
-  const jwtDetails = JSON.parse(loginData || "{}")?.jwtDetails || ({} as any);
+  const { branchId } = useParams();
+
+  // const jwtDetails =
+  const jwtDetails = useSelector(
+    (state: RootState) => state.loginData.data?.jwtDetails
+  );
   // const fileExtRegex = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i;
   const [profileImg, setProfileImg] = useState(overlayImg);
   const [bannerImg, setBannerImg] = useState(backgroundImg);
@@ -34,6 +41,17 @@ const OverlayImages = ({
     setBannerImg(backgroundImg);
   }, [overlayImg, backgroundImg]);
 
+  let useCaseOfBanner = branchId
+    ? "BRANCH_BANNER_IMAGE"
+    : schoolId
+    ? "SCHOOL_BANNER_IMAGE"
+    : "";
+
+  let useCaseOfProfile = branchId
+    ? "BRANCH_PROFILE_IMAGE"
+    : schoolId
+    ? "SCHOOL_PROFILE_PICTURE"
+    : "";
   const BannerImgUploadProps = {
     name: "bannerImg",
     customRequest: async (info: any) => {
@@ -48,8 +66,8 @@ const OverlayImages = ({
           new Blob(
             [
               JSON.stringify({
-                id: schoolId,
-                useCase: "SCHOOL_BANNER_IMAGE",
+                id: schoolId || branchId || "",
+                useCase: useCaseOfBanner,
               }),
             ],
             { type: "application/json" }
@@ -60,7 +78,7 @@ const OverlayImages = ({
           headers: {
             LoggingToken: "4d0a9ee9-68d4-4977",
             lang: "en",
-            ...authorizationToken(jwtDetails?.token),
+            ...authorizationToken(jwtDetails?.token || ""),
           },
         });
 
@@ -97,8 +115,8 @@ const OverlayImages = ({
           new Blob(
             [
               JSON.stringify({
-                id: schoolId,
-                useCase: "SCHOOL_PROFILE_PICTURE",
+                id: schoolId || branchId || "",
+                useCase: useCaseOfProfile,
               }),
             ],
             { type: "application/json" }
@@ -109,7 +127,7 @@ const OverlayImages = ({
           headers: {
             LoggingToken: "4d0a9ee9-68d4-4977",
             lang: "en",
-            ...authorizationToken(jwtDetails?.token),
+            ...authorizationToken(jwtDetails?.token || ""),
           },
         });
 

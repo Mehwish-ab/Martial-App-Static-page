@@ -8,6 +8,36 @@
   border: none;
 }
 
+/* Transparent Scrollbar */
+/* Hide the default scrollbar */
+::-webkit-scrollbar {
+  width: 12px; /* Adjust as needed */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Make the track transparent */
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent; /* Make the thumb (the draggable part) transparent */
+  border: none; /* Remove the border */
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin; /* Enable Firefox scrollbar styling */
+  scrollbar-color: transparent transparent; /* Make the thumb and track transparent */
+}
+
+/* Optionally, you can style the thumb when it's hovered or being actively used */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.2); /* Add some transparency on hover */
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: rgba(0, 0, 0, 0.4); /* Add more transparency when actively used */
+}
+
 p,
 h1,
 h2,
@@ -298,4 +328,25 @@ button {
 .ant-dropdown-menu-item,
 .ant-dropdown-menu-submenu-title {
   padding-right: 50px !important;
+}
+.content-styles {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 16px;
+  flex-direction: row;
+}
+
+@media screen and (max-width: 1000px) {
+  .content-styles {
+    flex-direction: column;
+  }
+}
+.navbar-styles {
+  height: 90px !important;
+}
+@media screen and (max-width: 768px) {
+  .navbar-styles {
+    height: 150px !important;
+  }
 }

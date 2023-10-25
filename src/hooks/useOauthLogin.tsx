@@ -2,16 +2,24 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { oauth_signin_url, oauth_signup_url } from "../utils/api_urls";
+import {
+  auth_token_key,
+  oauth_signin_url,
+  oauth_signup_url,
+} from "../utils/api_urls";
 import { useAppSelector } from "../app/hooks";
 import { RootState } from "../redux/store";
 import { OauthApiValueTypes } from "../components/Common/OauthLogin/constants";
+import { setLoginData } from "../redux/features/loginDataSlice";
+import MessageModal from "../components/Common/MessageModal/MessageModal";
+import { useDispatch } from "react-redux";
 
 const useOauthLogin = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const toastId = useRef<any>(null);
+  const dispatch = useDispatch();
 
   const {
     countryName: {
@@ -39,11 +47,20 @@ const useOauthLogin = () => {
         setLoading(false);
         return;
       }
-      toastId.current = toast(data.responseMessage, {
-        type: "success",
-        autoClose: 1000,
-      });
+      localStorage.setItem(auth_token_key, JSON.stringify(data.results));
+      dispatch(setLoginData(data.results));
+      toast(
+        <MessageModal
+          message="Login Successfully"
+          description="You are successfully logged in to your account."
+          type="success"
+        />,
+        {
+          autoClose: 1000,
+        }
+      );
       setLoading(false);
+      navigate("/school/create");
       // navigate("/register/create-new-password", {
       //   state: {
       //     resetPasswordToken: data.results.resetPasswordToken,

@@ -40,7 +40,7 @@ const EditBranch = () => {
   const { loading, handleSubmit } = useBranch();
   const { branchId } = useParams();
   const location = useLocation();
-  const branchToEdit: BranchDataType = location.state.branchToEdit;
+  const branchToEdit: BranchDataType = location.state?.branchToEdit;
   const { selectedLanguage } = useSelector(
     (state: RootState) => state.selectedLanguage
   );

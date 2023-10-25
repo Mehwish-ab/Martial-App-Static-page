@@ -45,7 +45,7 @@ export const mediaDeviceMax = {
   mobileL: `(max-width: ${deviceSize.mobileL})`,
   mobileXL: `(max-width: ${deviceSize.mobileXL})`,
   mobileBS: `(max-width: ${deviceSize.mobileBS})`,
-  tabletS: `(max-width: ${deviceSize.tabletL})`,
+  tabletS: `(max-width: ${deviceSize.tabletS})`,
   tabletB: `(max-width: ${deviceSize.tabletB})`,
   tablet: `(max-width: ${deviceSize.tablet})`,
   tabletL: `(max-width: ${deviceSize.tabletL})`,
@@ -87,6 +87,7 @@ export const lightGrey10 = "#e5e2e2";
 export const lightGrey11 = "rgb(239, 239, 244)";
 export const lightGrey12 = "#F3F6F9";
 export const lightGrey13 = "#E5E5E5";
+export const lightGrey14 = "#ECEAEA";
 export const tertiaryBlue = "#E8F2F6";
 export const tertiaryBlue1 = "#1088e9";
 export const tertiaryBlue2 = "#A6D1EC";

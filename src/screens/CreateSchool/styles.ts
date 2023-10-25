@@ -7,6 +7,13 @@ export const CreateSchoolStyled = styled.div`
     font-size: 18px;
   }
 
+  .mt-20 {
+    .row {
+      @media screen and ${mediaDeviceMax.tablet} {
+        gap: 20px;
+      }
+    }
+  }
   .form {
     padding: 16px;
     // border-bottom-left-radius: 20px;

@@ -100,51 +100,23 @@ export const HeroSectionStyle = styled.div`
 `;
 export const GlobalContainer = styled.div`
   display: flex;
-  margin: 32px;
+  margin: 0 0 0 16px;
   gap: 16px;
+  @media screen and (max-width: 991px) {
+    margin-left: 0;
+  }
 
-  .ant-menu {
-    padding-top: 50px;
-    padding-top: 20px;
+  .content-left-width {
+    margin-left: 250px;
 
-    border-radius: 20px;
-
-    &-item {
-      height: 47px !important;
+    @media screen and (max-width: 991px) {
+      margin-left: 0;
     }
-    &-item,
-    &-submenu {
-      width: 90% !important;
-      margin-left: auto;
-      margin-right: auto;
-      justify-content: flex-start !important;
-      transition: all 0.3s !important;
-      &::after {
-        border-right: 0 !important;
-      }
-      span {
-        font-weight: 400;
-        font-size: 16px;
-        color: ${pureDark2} !important;
-      }
-    }
+  }
 
-    &-sub {
-      background: white !important;
-    }
-
-    &-item-active,
-    &-item-selected {
-      background: ${lightBlue3}!important;
-      border-radius: 10px;
-      justify-content: center !important;
-      padding-left: 16px !important;
-      font-weight: 500;
-      span {
-        flex: none !important;
-        font-weight: 700;
-      }
-    }
+  .page-content {
+    margin-left: 16px;
+    // margin-right: 400px;
   }
 
   .right-sider-width {

@@ -6,19 +6,21 @@ import Sidebar from "../Sidebar/Sidebar";
 import { Home } from "../../screens/pages";
 import CreateSchool from "../../screens/CreateSchool/CreateSchool";
 
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
+import NavbarSmallScreen from "../Navbar/NavbarSmallScreen";
 const { Header, Content, Footer, Sider } = Layout;
 
 const AppLayout = (props: any) => {
   // const {
   //   token: { colorBgContainer },
   // } = theme?.useToken();
+  const [collapsed, setCollapsed] = useState(false);
 
   console.log(props.children);
   return (
@@ -26,27 +28,29 @@ const AppLayout = (props: any) => {
       <Layout>
         <Sidebar />
 
-        <Layout className="px-3">
+        <Layout className="content-left-width">
           <Header
             style={{
-              padding: 0,
-              background: "transparent",
+              padding: "16px",
+              background: "white",
               marginBottom: 20,
+              position: "sticky",
+              top: 0,
+              zIndex: 1,
+              width: "100%",
+              // height: 90,
             }}
+            className="navbar-styles"
           >
             <Navbar />
+            {/* <NavbarSmallScreen /> */}
           </Header>
 
-          <Content>{props.children}</Content>
+          <Content className="content-styles">
+            <Layout style={{ flex: 3 }}>{props.children}</Layout>
+            <Rightbar />
+          </Content>
         </Layout>
-        <Sider
-          breakpoint="lg"
-          collapsedWidth="0"
-          theme="light"
-          className="right-sider-width"
-        >
-          <Rightbar />
-        </Sider>
       </Layout>
     </GlobalContainer>
   );

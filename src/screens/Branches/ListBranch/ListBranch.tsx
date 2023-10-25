@@ -115,6 +115,7 @@ const ListBranch: React.FC = () => {
           columns={columns}
           dataSource={branchData?.data}
           title={() => <RenderTableTitle />}
+          scroll={{ x: true }}
         />
       </ListBranchStyled>
     </>
@@ -127,7 +128,7 @@ const RenderTableTitle = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="d-flex justify-content-between">
+    <div className="d-flex justify-content-between align-items-center">
       <h3 className="table-heading">Branch Information</h3>
       <CustomButton
         bgcolor={tertiaryBlue2}

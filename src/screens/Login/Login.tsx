@@ -30,6 +30,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import MessageModal from "../../components/Common/MessageModal/MessageModal";
 import { setLoginData } from "../../redux/features/loginDataSlice";
+import useOauthLogin from "../../hooks/useOauthLogin";
 // initial values types
 type loginValuesType = {
   emailAddress: string;
@@ -42,6 +43,7 @@ const Login = () => {
   const [showTermsError] = useState(false);
   const [loading, setloading] = useState(false);
   const { getLabelByKey } = useScreenTranslation("loginScreen");
+  const { loading: oAuthLoading } = useOauthLogin();
   const { selectedLanguage } = useSelector(
     (state: RootState) => state.selectedLanguage
   );
@@ -72,6 +74,7 @@ const Login = () => {
 
   const dispatch = useDispatch();
   // login handle submit
+  console.log(initialValues);
   const handleSubmit = async (values: loginValuesType) => {
     try {
       setloading(true);
@@ -222,7 +225,7 @@ const Login = () => {
                                 SCREEN_LABEL_KEYS.loginButton
                               )}
                               fontSize="16px"
-                              loading={loading}
+                              loading={loading || oAuthLoading}
                             />
                           </div>
                         </div>

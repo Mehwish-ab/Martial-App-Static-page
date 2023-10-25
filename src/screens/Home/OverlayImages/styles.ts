@@ -36,7 +36,7 @@ export const OverlayImagesStyled = styled.div`
       width: 170px;
       height: 170px;
       display: block;
-      z-index: 9;
+      z-index: 0;
 
       > img {
         width: 170px;

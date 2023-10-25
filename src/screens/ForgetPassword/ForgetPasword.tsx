@@ -36,7 +36,7 @@ const ForgetPassword = () => {
     phoneNumber: "",
   };
 
-  const phoneNumber = validationFinder("CANADA_PHONE_NUMBER")!;
+  const phoneNumber = validationFinder("PHONE_NUMBER")!;
   const phoneNumberReg = new RegExp(phoneNumber.pattern);
 
   // validation schema

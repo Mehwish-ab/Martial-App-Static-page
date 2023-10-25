@@ -1,11 +1,5 @@
 import styled from "styled-components";
-import {
-  darkBlue,
-  lightGrey4,
-  secondaryDark3,
-  tertiaryBlue,
-  whiteColor,
-} from "../GlobalStyle";
+import { darkBlue, tertiaryBlue } from "../GlobalStyle";
 
 export const SidebarStyle = styled.div`
   border-radius: 20px;

@@ -28,15 +28,24 @@ const menuLinks: any = {
 
 const menuLinksKeys: any = {
   dashboard: "dashboard",
-  createSchool: "createSchool",
-  membership: "membership",
-  payment: "payment",
+  school: "school",
+  branches: "branches",
+  franchises: "franchises",
+  instructor: "instructor",
+  timeTable: "timeTable",
   classes: "classes",
-  booking: "booking",
-  qrCode: "qr-code",
+  membership: "membership",
+  rules: "rules",
+  notification: "notification",
+  transactionsHistory: "transactionsHistory",
+  subscriptionHistory: "subscriptionHistory",
   setting: "setting",
-  listbranch: "listbranch",
-  listFranchise: "listFranchise",
+  language: "language",
+  currency: "currency",
+  helpAndSupport: "helpAndSupport",
+  customerServices: "customerServices",
+  reports: "reports",
+  qrCode: "qrCode",
 };
 
 const NavigationMenu = () => {
@@ -59,25 +68,52 @@ const NavigationMenu = () => {
       icon: getMenuIcon(dashboard),
     },
     {
-      key: menuLinksKeys.createSchool,
+      key: menuLinksKeys.school,
       label: getLabel(
-        "Create School",
-        menuLinks.createSchool,
-        menuLinksKeys.createSchool
+        "School",
+        menuLinks.school,
+        menuLinksKeys.school
       ),
       icon: getMenuIcon(dashboard),
     },
     {
-      key: menuLinksKeys.listbranch,
-      label: getLabel("Branch", menuLinks.listbranch, menuLinksKeys.listbranch),
+      key: menuLinksKeys.branches,
+      label: getLabel("Branches", menuLinks.branches, menuLinksKeys.branches),
       icon: getMenuIcon(dashboard),
     },
     {
-      key: menuLinksKeys.listFranchise,
+      key: menuLinksKeys.franchises,
       label: getLabel(
-        "Franchise",
-        menuLinks.listFranchise,
-        menuLinksKeys.listFranchise
+        "Franchises",
+        menuLinks.franchises,
+        menuLinksKeys.franchises
+      ),
+      icon: getMenuIcon(dashboard),
+    },
+    {
+      key: menuLinksKeys.instructor,
+      label: getLabel(
+        "Instructor",
+        menuLinks.instructor,
+        menuLinksKeys.instructor
+      ),
+      icon: getMenuIcon(dashboard),
+    },
+    {
+      key: menuLinksKeys.timeTable,
+      label: getLabel(
+        "TimeTable",
+        menuLinks.timeTable,
+        menuLinksKeys.timeTable
+      ),
+      icon: getMenuIcon(dashboard),
+    },
+    {
+      key: menuLinksKeys.classes,
+      label: getLabel(
+        "Classes",
+        menuLinks.classes,
+        menuLinksKeys.classes
       ),
       icon: getMenuIcon(dashboard),
     },
@@ -86,30 +122,25 @@ const NavigationMenu = () => {
       label: getLabel(
         "Membership",
         menuLinks.membership,
-        menuLinksKeys.createSchool
+        menuLinksKeys.membership
       ),
       icon: getMenuIcon(membership),
     },
     {
-      key: menuLinksKeys.payment,
-      label: getLabel("Payment", menuLinks.payment, menuLinksKeys.payment),
+      key: menuLinksKeys.rules,
+      label: getLabel("Rules", menuLinks.rules, menuLinksKeys.rules),
       icon: getMenuIcon(payment),
     },
     {
-      key: menuLinksKeys.classes,
-      label: getLabel("Classes", menuLinks.classes, menuLinksKeys.classes),
+      key: menuLinksKeys.notification,
+      label: getLabel("Notification", menuLinks.notification, menuLinksKeys.notification),
       icon: getMenuIcon(classes),
     },
     {
-      key: menuLinksKeys.booking,
-      label: getLabel("Booking", menuLinks.booking, menuLinksKeys.booking),
+      key: menuLinksKeys.transactionsHistory,
+      label: getLabel("TransactionsHistory", menuLinks.transactionsHistory, menuLinksKeys.transactionsHistory),
       children: childListOfBooking,
       icon: getMenuIcon(booking),
-    },
-    {
-      key: menuLinksKeys.qrCode,
-      label: getLabel("QR Code", menuLinks.qrCode, menuLinksKeys.qrCode),
-      icon: getMenuIcon(qrCode),
     },
     {
       key: menuLinksKeys.setting,
@@ -117,6 +148,32 @@ const NavigationMenu = () => {
       children: childListOfSetting,
       icon: getMenuIcon(setting),
     },
+    {
+      key: menuLinksKeys.language,
+      label: getLabel("language", menuLinks.language, menuLinksKeys.language),
+      icon: getMenuIcon(qrCode),
+    },
+    {
+      key: menuLinksKeys.helpAndSupport,
+      label: getLabel("Help & Support", menuLinks.helpAndSupport, menuLinksKeys.helpAndSupport),
+      icon: getMenuIcon(qrCode),
+    },
+    {
+      key: menuLinksKeys.customerServices,
+      label: getLabel("Customer Services", menuLinks.customerServices, menuLinksKeys.customerServices),
+      icon: getMenuIcon(qrCode),
+    },
+    {
+      key: menuLinksKeys.reports,
+      label: getLabel("Reports", menuLinks.reports, menuLinksKeys.reports),
+      icon: getMenuIcon(qrCode),
+    },
+    {
+      key: menuLinksKeys.qrCode,
+      label: getLabel("QR Code", menuLinks.qrCode, menuLinksKeys.qrCode),
+      icon: getMenuIcon(qrCode),
+    },
+
   ];
 
   let defaultSelectedKey = "";

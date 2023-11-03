@@ -48,7 +48,7 @@ const AppLayout = (props: any) => {
 
           <Content className="content-styles">
             <Layout style={{ flex: 3 }}>{props.children}</Layout>
-            <Rightbar />
+            {/* <Rightbar /> */}
           </Content>
         </Layout>
       </Layout>

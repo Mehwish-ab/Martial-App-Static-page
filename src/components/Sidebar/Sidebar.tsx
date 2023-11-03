@@ -67,7 +67,7 @@ const Sidebar = () => {
           </div>
         </div>
 
-        <ActivitesStyled>
+        {/* <ActivitesStyled>
           <div className="row">
             <div className="col-md-6">
               <h3>Activities</h3>
@@ -89,7 +89,7 @@ const Sidebar = () => {
               <img src={yoga} alt="" />
             </div>
           </div>
-        </ActivitesStyled>
+        </ActivitesStyled> */}
       </SidebarStyle>
     </Sider>
   );

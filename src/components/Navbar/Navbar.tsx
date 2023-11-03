@@ -44,7 +44,7 @@ function Navbar() {
             <img src={logo} alt="" />
           </div> */}
           <div className="left-bar d-flex align-items-center">
-            <Select
+            {/* <Select
               className="navbar-select"
               id={"category"}
               suffixIcon={
@@ -66,7 +66,7 @@ function Navbar() {
               // form.setFieldValue(name, val);
               // }}
               options={[]}
-            />
+            /> */}
 
             <Input
               ref={searchRef}

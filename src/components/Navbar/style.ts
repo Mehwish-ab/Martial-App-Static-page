@@ -29,9 +29,11 @@ export const NavbarStyle = styled.div`
       flex: 1;
 
       .custom-input {
-        height: 60px;
-        border-top-right-radius: 10px !important;
-        border-bottom-right-radius: 10px !important;
+        height: 40px;
+        border: none;
+        border-bottom: 10px;
+        border-radius: unset;
+       border-bottom: 1px solid black;
 
         @media screen and ${mediaDeviceMax.tabletL} {
           height: 50px;

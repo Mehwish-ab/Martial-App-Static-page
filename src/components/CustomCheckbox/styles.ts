@@ -1,5 +1,9 @@
 import styled from "styled-components";
-import { mediaDeviceMin } from "../GlobalStyle";
+import {
+  fontFamilyBold,
+  fontFamilyRegular,
+  mediaDeviceMin,
+} from "../GlobalStyle";
 
 export const CustomCheckboxListStyled = styled.div`
   .checkboxes_row {
@@ -57,5 +61,27 @@ export const CustomCheckboxListStyled = styled.div`
     margin-left: 3px;
     font-size: 12px;
     letter-spacing: 1px;
+  }
+`;
+
+export const CheckboxesSelectStyled = styled.div`
+  margin-top: 20px;
+  width: 100%;
+  overflow: hidden;
+`;
+
+export const CheckboxSelectTriggerStyled = styled.div`
+  width: 100%;
+  border: 1px solid #d9d9d9;
+  padding: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  label {
+    font-family: ${fontFamilyBold};
+    font-size: 16px;
   }
 `;

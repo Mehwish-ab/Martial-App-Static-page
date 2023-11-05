@@ -1,17 +1,18 @@
-import { OverlayImagesStyled } from "./styles";
-import { Button, message, Upload } from "antd";
-import editIcon from "../../../assets/icons/ic_edit.svg";
-import axios from "axios";
-import { authorizationToken, base_url } from "../../../utils/api_urls";
-import { loginData } from "../../../App";
-import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import profile from "../../../assets/images/create_school_user_profile.svg";
-import banner from "../../../assets/images/create_school_banner.svg";
-import Loader from "../../../components/Loader/Loader";
-import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
+import { useParams } from "react-router-dom";
+import { Button, message, Upload } from "antd";
+import axios from "axios";
+
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
+
+import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
+import { OverlayImagesStyled } from "./styles";
+import { authorizationToken, base_url } from "../../../utils/api_urls";
+
+import editIcon from "../../../assets/icons/ic_edit.svg";
+import profile from "../../../assets/images/create_school_user_profile.svg";
+import banner from "../../../assets/images/create_school_banner.svg";
 interface OverlayImagesProps {
   backgroundImg: any;
   overlayImg: any;

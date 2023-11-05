@@ -12,12 +12,12 @@ export type CreateSchoolInitialValues = {
   defaultLanguage: string | number;
   defaultCurrency: string | number;
   description: string;
-  stripePublishableKey: string;
-  stripeSecretKey: string;
-  cardAccessToken: string;
-  cardClientId: string;
-  cardWebHook: string;
-  cardClientSecret: string;
+  // stripePublishableKey: string;
+  // stripeSecretKey: string;
+  // cardAccessToken: string;
+  // cardClientId: string;
+  // cardWebHook: string;
+  // cardClientSecret: string;
   selectedActivities: string[];
   selectedFacilities: string[];
 };

@@ -28,6 +28,7 @@ import ListBranch from "../screens/Branches/ListBranch/ListBranch";
 import ListFranchise from "../screens/Franchise/ListFranchise/ListFranchise";
 import CreateFranchise from "../screens/Franchise/CreateFranchise/CreateFranchise";
 import EditFranchise from "../screens/Franchise/EditFranchise/EditFranchise";
+import ViewBranch from "../screens/Branches/ViewBranch/ViewBranch";
 
 function AppRoutes() {
   const dispatch = useDispatch();
@@ -115,7 +116,14 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
+        <Route
+          path="/branch/view/:branchId"
+          element={
+            <AppLayout>
+              <ViewBranch />
+            </AppLayout>
+          }
+        />
         <Route
           path="/franchise/list"
           element={

@@ -14,10 +14,11 @@ const useLogout = () => {
     localStorage.removeItem(local_storage_admin_key);
     dispatch(removeLoginData());
     // setShowSidebar(false);
+    window.location.reload();
     navigate("/");
   };
 
-  return logoutHandler;
+  return { logoutHandler };
 };
 
 export default useLogout;

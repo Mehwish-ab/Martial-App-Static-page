@@ -101,7 +101,7 @@ export const getSchoolByUserId = createAsyncThunk(
         },
         {
           headers: {
-            ...authorizationToken(state.loginData.data as loginDataTypes),
+            ...authorizationToken(state.loginData?.data as loginDataTypes),
           },
         }
       );

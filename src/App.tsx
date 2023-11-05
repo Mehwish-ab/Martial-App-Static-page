@@ -70,14 +70,14 @@ function App() {
   useEffect(() => {
     const regex = /\bregister\b/;
     let register = regex.test(pathname);
-    // if (pathname === "/login" || register || pathname === "/") {
-    //   if (loginData) {
-    //     return navigate("/");
-    //   }
-    // }
-    // if (!loginData) {
-    //   return navigate("/login");
-    // }
+    if (pathname === "/login" || register || pathname === "/") {
+      if (loginData) {
+        return navigate("/");
+      }
+    }
+    if (!loginData) {
+      return navigate("/login");
+    }
   }, []);
 
   return (
@@ -86,7 +86,7 @@ function App() {
       <SkeletonTheme
         baseColor={lightGrey13}
         highlightColor={lightGrey13}
-      // borderRadius="0.5rem"
+        // borderRadius="0.5rem"
       >
         <ToastContainer />
         <ErrorBoundary

@@ -33,7 +33,7 @@ const useBranch = () => {
       branchType: values.branchType,
       address: values.address,
       phoneNumber: values?.branchPhoneNumber || "",
-      belts: values.belts == "1" ? true : false,
+      // belts: values.belts == "1" ? true : false,
       activities: values.selectedActivities.join(","),
       facilities: values.selectedActivities.join(","),
       description: values.description,

@@ -259,12 +259,14 @@ const CreateFranchise = () => {
                   name="selectedActivities"
                   label="Activity"
                   list={activities}
+                  showErrorMsgInList={false}
                 />
 
                 <CheckboxesList
                   name="selectedFacilities"
                   label="Facility"
                   list={facilities}
+                  showErrorMsgInList={false}
                 />
                 <div className="mt-20">
                   <FormControl

@@ -1,33 +1,31 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { Dropdown, MenuProps, Space, Table, Tag } from "antd";
-import type { ColumnsType } from "antd/es/table";
-import { ListBranchStyled } from "./styles";
-import CustomButton from "../../../components/CustomButton/CustomButton";
-import {
-  fontFamilyMedium,
-  mainColor,
-  pureDark,
-  tertiaryBlue2,
-} from "../../../components/GlobalStyle";
-import { Link, useNavigate } from "react-router-dom";
-import plusIcon from "../../../assets/icons/ic_plus.svg";
-import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
-
-import { DownOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import store, { RootState } from "../../../redux/store";
-import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
 import {
   BranchDataType,
   getBranchBySchoolId,
 } from "../../../redux/features/branch/branchSlice";
-import { BELTS_SELECT_OPTIONS } from "../../Home/constants";
-import { MenuInfo } from "rc-menu/lib/interface";
+
+import { Dropdown, Space, Table, Tag } from "antd";
+import type { ColumnsType } from "antd/es/table";
+import CustomButton from "../../../components/CustomButton/CustomButton";
+import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
+
+import { ListBranchStyled } from "./styles";
+import {
+  fontFamilyMedium,
+  pureDark,
+  tertiaryBlue2,
+} from "../../../components/GlobalStyle";
+
+import plusIcon from "../../../assets/icons/ic_plus.svg";
+import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
 
 const ListBranch: React.FC = () => {
   const navigate = useNavigate();
-  const { branchData, loading, error } = useSelector(
+  const { branchData, loading } = useSelector(
     (state: RootState) => state.branchData
   );
 
@@ -73,8 +71,13 @@ const ListBranch: React.FC = () => {
         const items = [
           {
             key: "1",
+            label: "View",
+            onClick: () => navigation(record, "view"),
+          },
+          {
+            key: "2",
             label: "Edit",
-            onClick: () => onClick(record),
+            onClick: () => navigation(record, "edit"),
           },
         ];
 
@@ -93,19 +96,28 @@ const ListBranch: React.FC = () => {
     },
   ];
 
-  const onClick = (record: BranchDataType) => {
-    navigate(`/branch/edit/${record.branchId}`, {
-      state: {
-        branchToEdit: record as BranchDataType,
-      },
-    }); // Navigate to the edit page with the rowId
+  const navigation = (record: BranchDataType, redirectTo: string) => {
+    switch (redirectTo) {
+      case "edit":
+        navigate(`/branch/edit/${record.branchId}`, {
+          state: {
+            branchToEdit: record as BranchDataType,
+          },
+        });
+        break;
+
+      case "view":
+        navigate(`/branch/view/${record.branchId}`, {
+          state: {
+            branch: record as BranchDataType,
+          },
+        });
+    }
   };
 
   useEffect(() => {
     store.dispatch(getBranchBySchoolId());
   }, []);
-
-  console.log(branchData);
 
   return (
     <>

@@ -59,7 +59,7 @@ ul li {
 }
 
 .mt-20 {
-  margin-top: 20px;
+  margin-top: 20px !important;
 }
 .mt-10 {
   margin-top: 10px;

@@ -28,11 +28,12 @@ import { CreateSchoolStyled } from "../../CreateSchool/styles";
 import { CreateBranchInitialValues } from "../constant";
 import useBranch from "../hooks/useBranch";
 import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
+import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelect";
 
 const CreateBranch = () => {
   const { getLabelByKey } = useScreenTranslation("branchCreate");
   const {
-    statusData: { activities, facilities, businessTypes },
+    statusData: { activities, facilities, businessTypes, language, currency },
   } = useSelector((state: RootState) => state.appData.data);
   const { loading, handleSubmit } = useBranch();
   const initialValues: CreateBranchInitialValues = {
@@ -40,7 +41,10 @@ const CreateBranch = () => {
     branchType: "",
     address: "",
     branchPhoneNumber: "",
-    belts: "",
+    defaultLanguage: "",
+    defaultCurrency: "",
+    // belts: "",
+    ranks: "",
     description: "",
     stripePublishableKey: "",
     stripeSecretKey: "",
@@ -73,7 +77,10 @@ const CreateBranch = () => {
       .matches(addressReg, address.patternMsgEn),
     branchType: Yup.string().required("Please select branch type"),
     branchPhoneNumber: Yup.string().required(branchPhoneNumber.notBlankMsgEn),
-    belts: Yup.string().required("Please select belts"),
+    defaultLanguage: Yup.string().required("Please select default language"),
+    defaultCurrency: Yup.string().required("Please select default currency"),
+    // belts: Yup.string().required("Please select belts"),
+    ranks: Yup.string().required("Please select ranks"),
     description: Yup.string().required("Please enter description"),
     stripePublishableKey: Yup.string().when("schoolStripeMethod", {
       is: false,
@@ -148,150 +155,185 @@ const CreateBranch = () => {
               <div className="bg-white form">
                 <h3>Branch Information</h3>
 
-                <div className="mt-20">
-                  <Row>
-                    <Col md="6">
-                      <FormControl
-                        control="input"
-                        type="text"
-                        name="branchName"
-                        label={getLabelByKey("branchName")}
-                        padding="10px"
-                        fontFamily={fontFamilyMedium}
-                        fontSize="16px"
-                        max={6}
-                        placeholder={getLabelByKey("branchName")}
-                        className={
-                          formik.errors.branchName && formik.touched.branchName
-                            ? "is-invalid"
-                            : "customInput"
-                        }
-                      />
-                    </Col>
-                    <Col md="6">
-                      <FormControl
-                        control="select"
-                        type="text"
-                        name="branchType"
-                        fontFamily={fontFamilyMedium}
-                        // prefix={<img src={lock_icon} alt="lock_icon" />}
-                        label={getLabelByKey("branchType")}
-                        padding="10px"
-                        placeholder={getLabelByKey("branchType")}
-                        className={
-                          formik.errors.branchType && formik.touched.branchType
-                            ? "is-invalid"
-                            : "customInput"
-                        }
-                        options={createOptions(businessTypes)}
-                      />
-                    </Col>
-                  </Row>
-                </div>
-                <div className="mt-20">
-                  <Row>
-                    <Col md="12">
-                      <PlacesAutoCompleteInput
-                        label={getLabelByKey("address")}
-                        placeholder={getLabelByKey("addressPlaceholder")}
-                        handleChange={(val: any) => {
-                          formik.setFieldValue("address", val);
-                        }}
-                        className={
-                          formik.errors.address && formik.touched.address
-                            ? "is-invalid"
-                            : "customInput"
-                        }
-                        formik={formik}
-                        name="address"
-                        value={formik.values.address}
-                      />
-                    </Col>
-                  </Row>
-                </div>
-                <div className="mt-20">
-                  <Row>
-                    <Col md="6">
-                      <CustomPhoneInput
-                        label={getLabelByKey("branchPhoneNumber")}
-                        name="branchPhoneNumber"
-                        value={formik.values.branchPhoneNumber}
-                        placeholder={getLabelByKey("branchPhoneNumber")}
-                        limitMaxLength={true}
-                        handleOnChange={(e: string) => {
-                          formik.setFieldValue("branchPhoneNumber", e);
-                        }}
-                      />
-                      <ErrorMessage name={"branchPhoneNumber"}>
-                        {(msg) => (
-                          <div
-                            className="error-message is-invalid"
-                            style={{
-                              color: "red",
-                              textAlign: "start",
-                              marginLeft: "3px",
-                              fontSize: "12px",
-                              letterSpacing: "1px",
-                              fontFamily: fontFamilyRegular,
-                            }}
-                          >
-                            {msg}
-                          </div>
-                        )}
-                      </ErrorMessage>
-                    </Col>
-                    <Col md="6">
-                      <FormControl
-                        control="select"
-                        type="text"
-                        name="belts"
-                        fontFamily={fontFamilyMedium}
-                        // prefix={<img src={lock_icon} alt="lock_icon" />}
-                        label={getLabelByKey("belts")}
-                        padding="10px"
-                        placeholder={getLabelByKey("belts")}
-                        className={
-                          formik.errors.belts && formik.touched.belts
-                            ? "is-invalid"
-                            : "customInput"
-                        }
-                        options={BELTS_SELECT_OPTIONS}
-                      />
-                    </Col>
-                  </Row>
-                </div>
+                <Row>
+                  <Col md="4" className="mt-20">
+                    <FormControl
+                      control="input"
+                      type="text"
+                      name="branchName"
+                      label={getLabelByKey("branchName")}
+                      padding="10px"
+                      fontFamily={fontFamilyMedium}
+                      fontSize="16px"
+                      max={6}
+                      placeholder={getLabelByKey("branchName")}
+                      className={
+                        formik.errors.branchName && formik.touched.branchName
+                          ? "is-invalid"
+                          : "customInput"
+                      }
+                    />
+                  </Col>
+                  <Col md="4" className="mt-20">
+                    <FormControl
+                      control="select"
+                      type="text"
+                      name="branchType"
+                      fontFamily={fontFamilyMedium}
+                      // prefix={<img src={lock_icon} alt="lock_icon" />}
+                      label={getLabelByKey("branchType")}
+                      padding="10px"
+                      placeholder={getLabelByKey("branchType")}
+                      className={
+                        formik.errors.branchType && formik.touched.branchType
+                          ? "is-invalid"
+                          : "customInput"
+                      }
+                      options={createOptions(businessTypes)}
+                    />
+                  </Col>
+                  <Col md="4" className="mt-20">
+                    <CustomPhoneInput
+                      label={getLabelByKey("branchPhoneNumber")}
+                      name="branchPhoneNumber"
+                      value={formik.values.branchPhoneNumber}
+                      placeholder={getLabelByKey("branchPhoneNumber")}
+                      limitMaxLength={true}
+                      handleOnChange={(e: string) => {
+                        formik.setFieldValue("branchPhoneNumber", e);
+                      }}
+                    />
+                    <ErrorMessage name={"branchPhoneNumber"}>
+                      {(msg) => (
+                        <div
+                          className="error-message is-invalid"
+                          style={{
+                            color: "red",
+                            textAlign: "start",
+                            marginLeft: "3px",
+                            fontSize: "12px",
+                            letterSpacing: "1px",
+                            fontFamily: fontFamilyRegular,
+                          }}
+                        >
+                          {msg}
+                        </div>
+                      )}
+                    </ErrorMessage>
+                  </Col>
+                  <Col md="4" className="mt-20">
+                    <PlacesAutoCompleteInput
+                      label={getLabelByKey("address")}
+                      placeholder={getLabelByKey("addressPlaceholder")}
+                      handleChange={(val: any) => {
+                        formik.setFieldValue("address", val);
+                      }}
+                      className={
+                        formik.errors.address && formik.touched.address
+                          ? "is-invalid"
+                          : "customInput"
+                      }
+                      formik={formik}
+                      name="address"
+                      value={formik.values.address}
+                    />
+                  </Col>
 
-                <CheckboxesList
-                  name="selectedActivities"
-                  label="Activity"
-                  list={activities}
-                />
+                  <Col md="4" className="mt-20">
+                    <FormControl
+                      control="select"
+                      type="text"
+                      name="defaultLanguage"
+                      fontFamily={fontFamilyMedium}
+                      // prefix={<img src={lock_icon} alt="lock_icon" />}
+                      label={getLabelByKey("defaultLanguage")}
+                      padding="10px"
+                      placeholder={getLabelByKey("defaultLanguage")}
+                      className={
+                        formik.errors.defaultLanguage &&
+                        formik.touched.defaultLanguage
+                          ? "is-invalid"
+                          : "customInput"
+                      }
+                      options={createOptions(language)}
+                    />
+                  </Col>
+                  <Col md="4" className="mt-20">
+                    <FormControl
+                      control="select"
+                      type="text"
+                      name="defaultCurrency"
+                      fontFamily={fontFamilyMedium}
+                      // prefix={<img src={lock_icon} alt="lock_icon" />}
+                      label={getLabelByKey("defaultCurrency")}
+                      padding="10px"
+                      placeholder={getLabelByKey("defaultCurrency")}
+                      className={
+                        formik.errors.defaultCurrency &&
+                        formik.touched.defaultCurrency
+                          ? "is-invalid"
+                          : "customInput"
+                      }
+                      options={createOptions(currency)}
+                    />
+                  </Col>
+                  <Col md="4" className="mt-20">
+                    <FormControl
+                      control="select"
+                      type="text"
+                      name="ranks"
+                      fontFamily={fontFamilyMedium}
+                      // prefix={<img src={lock_icon} alt="lock_icon" />}
+                      label={getLabelByKey("ranks")}
+                      padding="10px"
+                      placeholder={getLabelByKey("ranks")}
+                      className={
+                        formik.errors.ranks && formik.touched.ranks
+                          ? "is-invalid"
+                          : "customInput"
+                      }
+                      options={BELTS_SELECT_OPTIONS}
+                    />
+                  </Col>
 
-                <CheckboxesList
-                  name="selectedFacilities"
-                  label="Facility"
-                  list={facilities}
-                />
-                <div className="mt-20">
-                  <FormControl
-                    control="textarea"
-                    type="text"
-                    name="description"
-                    fontFamily={fontFamilyMedium}
-                    // prefix={<img src={lock_icon} alt="lock_icon" />}
-                    label={getLabelByKey("description")}
-                    padding="10px"
-                    placeholder={getLabelByKey("description")}
-                    className={
-                      formik.errors.description && formik.touched.description
-                        ? "is-invalid"
-                        : "customInput"
-                    }
-                    height="200px"
-                  />
-                </div>
+                  <Col md="4">
+                    <CheckboxesSelect
+                      name="selectedActivities"
+                      label="Activity"
+                      list={activities}
+                      showErrorMsgInList={false}
+                    />
+                  </Col>
+                  <Col md="4">
+                    <CheckboxesSelect
+                      name="selectedFacilities"
+                      label="Facility"
+                      list={facilities}
+                      showErrorMsgInList={false}
+                    />
+                  </Col>
 
-                <PaymentInformation formik={formik} showPaymentMethods={true} />
+                  <div className="mt-20">
+                    <FormControl
+                      control="textarea"
+                      type="text"
+                      name="description"
+                      fontFamily={fontFamilyMedium}
+                      // prefix={<img src={lock_icon} alt="lock_icon" />}
+                      label={getLabelByKey("description")}
+                      padding="10px"
+                      placeholder={getLabelByKey("description")}
+                      className={
+                        formik.errors.description && formik.touched.description
+                          ? "is-invalid"
+                          : "customInput"
+                      }
+                      height="200px"
+                    />
+                  </div>
+
+                  {/* <PaymentInformation formik={formik} showPaymentMethods={true} /> */}
+                </Row>
               </div>
 
               <div className="mt-20 d-flex justify-content-end">

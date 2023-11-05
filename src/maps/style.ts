@@ -11,7 +11,7 @@ export const PlacesAutocompleteStyle = styled.div`
     margin-bottom: 10px;
   }
   input {
-    border: 1px solid ${lightGrey2};
+    // border: 1px solid ${lightGrey2};
     padding: 7px;
     width: 100%;
     border-radius: 10px;

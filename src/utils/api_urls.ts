@@ -119,7 +119,7 @@ export const reset_password_url = "user/resetPassword";
 export const authorizationToken = (loginData: loginDataTypes | string) => {
   return {
     Authorization: `Bearer ${
-      typeof loginData === "string" ? loginData : loginData.jwtDetails.token
+      typeof loginData === "string" ? loginData : loginData?.jwtDetails?.token
     }`,
   };
 };

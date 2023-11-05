@@ -5,29 +5,29 @@ import {
 } from "../../../components/GlobalStyle";
 
 export const ProfileStyled = styled.div`
-  .profileImg {
-    .img {
-      width: 224px !important;
-      height: 224px !important;
-      bottom: -100px !important;
+  // .profileImg {
+  //   .img {
+  //     width: 224px !important;
+  //     height: 224px !important;
+  //     bottom: -100px !important;
 
-      @media screen and (max-width: 1480px) {
-        width: 200px !important;
-        height: 200px !important;
-        bottom: -50px !important;
-      }
+  //     @media screen and (max-width: 1480px) {
+  //       width: 200px !important;
+  //       height: 200px !important;
+  //       bottom: -50px !important;
+  //     }
 
-      img {
-        width: 224px !important;
-        height: 224px !important;
+  //     img {
+  //       width: 224px !important;
+  //       height: 224px !important;
 
-        @media screen and (max-width: 1480px) {
-          width: 170px !important;
-          height: 170px !important;
-        }
-      }
-    }
-  }
+  //       @media screen and (max-width: 1480px) {
+  //         width: 170px !important;
+  //         height: 170px !important;
+  //       }
+  //     }
+  //   }
+  // }
 
   .profile_section {
     border-bottom-left-radius: 20px;
@@ -35,13 +35,13 @@ export const ProfileStyled = styled.div`
     padding: 16px;
 
     .profile {
-      width: 70%;
-      margin-left: auto;
+      // width: 70%;
+      // margin-left: auto;
       padding: 0 10px;
 
       @media screen and (max-width: 1480px) {
-        width: 100%;
-        margin-left: 0;
+        // width: 100%;
+        // margin-left: 0;
         margin-top: 16px;
       }
 

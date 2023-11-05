@@ -22,7 +22,11 @@ import { message } from "antd";
 import MessageModal from "../../../components/Common/MessageModal/MessageModal";
 import { toast } from "react-toastify";
 import { getSchoolByUserId } from "../../../redux/features/dashboard/dashboardDataSlice";
+import useLogout from "../../../hooks/useLogout";
 const Profile = () => {
+  const navigate = useNavigate();
+  const { logoutHandler } = useLogout();
+
   const { schoolData, loading, error } = useSelector(
     (state: RootState) => state.dashboardData
   );
@@ -31,10 +35,14 @@ const Profile = () => {
     store.dispatch(getSchoolByUserId());
   }, []);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (error) {
+      logoutHandler();
+    }
+  }, [error]);
+
   return (
     <ProfileStyled>
-      {/* {error && <MessageModal message={error} description="" type="error" />} */}
       {loading && <LoadingOverlay message={error || ""} />}
       <OverlayImages
         backgroundImg={schoolData.bannerPicture}
@@ -47,7 +55,7 @@ const Profile = () => {
           <div className="profile">
             <Row>
               <Col md="10">
-                <h1>{schoolData.businessName}</h1>
+                <h4>{schoolData.businessName}</h4>
               </Col>
               <Col md="2" className="d-flex justify-content-end">
                 <CustomButton
@@ -73,21 +81,31 @@ const Profile = () => {
               </Col>
             </Row>
             <Row>
-              <h4>Stevens Wilson</h4>
+              {/* <h4>Stevens Wilson</h4> */}
               <Col md="12" className="d-flex align-items-center mb-3 gap-2">
                 <img src={addressIcon} alt="address icon" />
-                <p className="mb-0">{schoolData.address} 76 St Maurices Road, Priest Hutton, United Kingdom, LA6 2YZ</p>
+                <p className="mb-0">
+                  {schoolData.address}
+                  {/* 76 St Maurices Road, Priest Hutton,
+                  United Kingdom, LA6 2YZ */}
+                </p>
               </Col>
             </Row>
             <Row>
               <Col md="6" className="d-flex align-items-center mb-3 gap-2">
                 <img src={emailIcon} alt="email icon" />
-                <p className="mb-0">{schoolData.emailAddress} Stevens.wilson@gmail.com</p>
+                <p className="mb-0">
+                  {schoolData.emailAddress}
+                  {/* Stevens.wilson@gmail.com */}
+                </p>
               </Col>
 
               <Col md="6" className="d-flex align-items-center mb-3 gap-2">
                 <img src={phoneIcon} alt="phone icon" />
-                <p className="mb-0">{schoolData.phoneNumber} +4167045720</p>
+                <p className="mb-0">
+                  {schoolData.phoneNumber}
+                  {/* +4167045720 */}
+                </p>
               </Col>
 
               <Col md="6" className="d-flex align-items-center mb-3 gap-2">

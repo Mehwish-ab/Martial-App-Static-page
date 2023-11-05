@@ -298,6 +298,7 @@ const EditFranchise = () => {
                 <CheckboxesList
                   name="selectedActivities"
                   label="Activity"
+                  showErrorMsgInList={false}
                   list={activities}
                 />
 
@@ -305,6 +306,7 @@ const EditFranchise = () => {
                   name="selectedFacilities"
                   label="Facility"
                   list={facilities}
+                  showErrorMsgInList={false}
                 />
                 <div className="mt-20">
                   <FormControl

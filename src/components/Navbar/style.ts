@@ -33,13 +33,14 @@ export const NavbarStyle = styled.div`
         border: none;
         border-bottom: 10px;
         border-radius: unset;
-       border-bottom: 1px solid black;
+        border-bottom: 1px solid black;
+        max-width: 280px;
 
         @media screen and ${mediaDeviceMax.tabletL} {
           height: 50px;
         }
 
-        @media screen and ${mediaDeviceMax.tablet} {
+        @media screen and ${mediaDeviceMax.tabletS} {
           display: none;
         }
       }
@@ -148,7 +149,7 @@ export default NavbarStyle;
 
 export const NavbarRow2Styled = styled.div`
   display: none;
-  @media screen and ${mediaDeviceMax.tablet} {
+  @media screen and ${mediaDeviceMax.tabletS} {
     display: block;
   }
   .left-bar {
@@ -156,12 +157,11 @@ export const NavbarRow2Styled = styled.div`
     margin-top: 10px;
 
     .custom-input {
-      height: 50px;
-      border-top-right-radius: 10px !important;
-      border-bottom-right-radius: 10px !important;
-      @media screen and ${mediaDeviceMax.mobileBS} {
-        border-radius: 10px !important;
-      }
+      height: 40px;
+      border: none;
+      border-bottom: 10px;
+      border-radius: unset;
+      border-bottom: 1px solid black;
     }
 
     .navbar-select {

@@ -99,7 +99,6 @@ const useLocationData = () => {
           store.dispatch(addCurrentLocation(locationData));
           store.dispatch(getAppData(country));
           store.dispatch(getScreenTranslation());
-          store.dispatch(getSchoolByUserId());
 
           setLoading(false);
         },
@@ -107,7 +106,6 @@ const useLocationData = () => {
           console.log("Error retrieving location:", error);
           store.dispatch(getAppData("Canada"));
           store.dispatch(getScreenTranslation());
-          store.dispatch(getSchoolByUserId());
 
           setError("Error retrieving location.");
           setLoading(false);

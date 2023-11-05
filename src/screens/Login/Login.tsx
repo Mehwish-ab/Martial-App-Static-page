@@ -27,10 +27,11 @@ import { SCREEN_LABEL_KEYS } from "./constants";
 import OauthLogin from "../../components/Common/OauthLogin/OauthLogin";
 import { OAUTH_USECASES } from "../../components/Common/OauthLogin/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import store, { RootState } from "../../redux/store";
 import MessageModal from "../../components/Common/MessageModal/MessageModal";
 import { setLoginData } from "../../redux/features/loginDataSlice";
 import useOauthLogin from "../../hooks/useOauthLogin";
+import { getSchoolByUserId } from "../../redux/features/dashboard/dashboardDataSlice";
 // initial values types
 type loginValuesType = {
   emailAddress: string;
@@ -73,6 +74,7 @@ const Login = () => {
   });
 
   const dispatch = useDispatch();
+
   // login handle submit
   console.log(initialValues);
   const handleSubmit = async (values: loginValuesType) => {
@@ -94,6 +96,7 @@ const Login = () => {
         }
       );
       setloading(false);
+      if (results.schoolId) store.dispatch(getSchoolByUserId());
       navigate("/school/create");
     } catch (error: any) {
       setloading(false);

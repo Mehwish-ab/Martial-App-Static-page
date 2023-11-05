@@ -43,7 +43,7 @@ function Navbar() {
           {/* <div className="logo">
             <img src={logo} alt="" />
           </div> */}
-          <div className="left-bar d-flex align-items-center">
+          <div className="left-bar d-flex align-items-center justify-content-end">
             {/* <Select
               className="navbar-select"
               id={"category"}
@@ -79,10 +79,10 @@ function Navbar() {
           </div>
 
           <div className="right-bar d-flex gap-3 align-items-center">
-            <div className="date-time-area px-3">
+            {/* <div className="date-time-area px-3">
               <img src={cloudIcon} alt="" />
               <span className="date">10-21-2023</span>
-            </div>
+            </div> */}
 
             <div className="notification-area">
               <CustomButton
@@ -111,7 +111,7 @@ function Navbar() {
         <NavbarRow2Styled>
           <div className="d-flex align-items-center justify-content-between row2">
             <div className="left-bar d-flex align-items-center">
-              <Select
+              {/* <Select
                 className="navbar-select"
                 id={"category"}
                 suffixIcon={
@@ -133,7 +133,7 @@ function Navbar() {
                 // form.setFieldValue(name, val);
                 // }}
                 options={[]}
-              />
+              /> */}
 
               <Input
                 ref={searchRef}

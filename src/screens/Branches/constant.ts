@@ -3,7 +3,10 @@ export interface CreateBranchInitialValues {
   branchType: string | number;
   address: string;
   branchPhoneNumber: string;
-  belts: string | number;
+  // belts: string | number;
+  ranks: string | number;
+  defaultLanguage: string | number;
+  defaultCurrency: string | number;
   description: string;
   stripePublishableKey: string;
   stripeSecretKey: string;

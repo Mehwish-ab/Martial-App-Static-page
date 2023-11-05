@@ -12,7 +12,10 @@ export interface BranchDataType {
   branchType: number | string;
   address: string;
   phoneNumber: string;
+  languageId: number;
+  currencyId: number;
   belts: boolean;
+  ranks: boolean;
   schoolStripeMethod: boolean;
   schoolGclMethod: boolean;
   activities: string;
@@ -39,26 +42,6 @@ export interface BranchDataInitialState {
   error: string | undefined;
 }
 const initialState: BranchDataInitialState = {
-  // branchData: {
-  //   branchId: 0,
-  //   schoolId: 0,
-  //   branchName: "",
-  //   branchType: 0,
-  //   address: "",
-  //   phoneNumber: "",
-  //   belts: false,
-  //   schoolStripeMethod: false,
-  //   schoolGclMethod: false,
-  //   activities: "",
-  //   facilities: "",
-  //   description: "",
-  //   stripePublicKey: "",
-  //   stripeSecretKey: "",
-  //   gclAccessToken: "",
-  //   gclClientId: "",
-  //   gclWebHook: "",
-  //   gclClientSecret: "",
-  // },
   branchData: {
     data: [],
     currentPage: 0,

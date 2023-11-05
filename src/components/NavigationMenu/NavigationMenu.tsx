@@ -11,26 +11,27 @@ import setting from "../../assets/icons/ic_setting.svg";
 import { childListOfBooking, childListOfSetting } from "../Sidebar/constants";
 import { SidebarStyle } from "../Sidebar/style";
 import { NavigationMenuStyled } from "./styles";
+import { useEffect, useState } from "react";
 type MenuItem = Required<MenuProps>["items"][number];
 
 const menuLinks: any = {
   dashboard: "/",
   createSchool: "/school/create",
+  listBranch: "/branch/list",
+  listFranchise: "/franchise/list",
   membership: "/membership",
   payment: "/payment",
   classes: "/classes",
   booking: "",
   qrCode: "/qr-code",
   setting: "",
-  listbranch: "/branch/list",
-  listFranchise: "/franchise/list",
 };
 
 const menuLinksKeys: any = {
   dashboard: "dashboard",
-  school: "school",
-  branches: "branches",
-  franchises: "franchises",
+  createSchool: "createSchool",
+  listBranch: "listBranch",
+  listFranchise: "listFranchise",
   instructor: "instructor",
   timeTable: "timeTable",
   classes: "classes",
@@ -68,25 +69,29 @@ const NavigationMenu = () => {
       icon: getMenuIcon(dashboard),
     },
     {
-      key: menuLinksKeys.school,
+      key: menuLinksKeys.createSchool,
       label: getLabel(
         "School",
-        menuLinks.school,
-        menuLinksKeys.school
+        menuLinks.createSchool,
+        menuLinksKeys.createSchool
       ),
       icon: getMenuIcon(dashboard),
     },
     {
-      key: menuLinksKeys.branches,
-      label: getLabel("Branches", menuLinks.branches, menuLinksKeys.branches),
+      key: menuLinksKeys.listBranch,
+      label: getLabel(
+        "Branches",
+        menuLinks.listBranch,
+        menuLinksKeys.listBranch
+      ),
       icon: getMenuIcon(dashboard),
     },
     {
-      key: menuLinksKeys.franchises,
+      key: menuLinksKeys.listFranchise,
       label: getLabel(
         "Franchises",
-        menuLinks.franchises,
-        menuLinksKeys.franchises
+        menuLinks.listFranchise,
+        menuLinksKeys.listFranchise
       ),
       icon: getMenuIcon(dashboard),
     },
@@ -110,11 +115,7 @@ const NavigationMenu = () => {
     },
     {
       key: menuLinksKeys.classes,
-      label: getLabel(
-        "Classes",
-        menuLinks.classes,
-        menuLinksKeys.classes
-      ),
+      label: getLabel("Classes", menuLinks.classes, menuLinksKeys.classes),
       icon: getMenuIcon(dashboard),
     },
     {
@@ -133,12 +134,20 @@ const NavigationMenu = () => {
     },
     {
       key: menuLinksKeys.notification,
-      label: getLabel("Notification", menuLinks.notification, menuLinksKeys.notification),
+      label: getLabel(
+        "Notification",
+        menuLinks.notification,
+        menuLinksKeys.notification
+      ),
       icon: getMenuIcon(classes),
     },
     {
       key: menuLinksKeys.transactionsHistory,
-      label: getLabel("TransactionsHistory", menuLinks.transactionsHistory, menuLinksKeys.transactionsHistory),
+      label: getLabel(
+        "TransactionsHistory",
+        menuLinks.transactionsHistory,
+        menuLinksKeys.transactionsHistory
+      ),
       children: childListOfBooking,
       icon: getMenuIcon(booking),
     },
@@ -155,12 +164,20 @@ const NavigationMenu = () => {
     },
     {
       key: menuLinksKeys.helpAndSupport,
-      label: getLabel("Help & Support", menuLinks.helpAndSupport, menuLinksKeys.helpAndSupport),
+      label: getLabel(
+        "Help & Support",
+        menuLinks.helpAndSupport,
+        menuLinksKeys.helpAndSupport
+      ),
       icon: getMenuIcon(qrCode),
     },
     {
       key: menuLinksKeys.customerServices,
-      label: getLabel("Customer Services", menuLinks.customerServices, menuLinksKeys.customerServices),
+      label: getLabel(
+        "Customer Services",
+        menuLinks.customerServices,
+        menuLinksKeys.customerServices
+      ),
       icon: getMenuIcon(qrCode),
     },
     {
@@ -173,23 +190,30 @@ const NavigationMenu = () => {
       label: getLabel("QR Code", menuLinks.qrCode, menuLinksKeys.qrCode),
       icon: getMenuIcon(qrCode),
     },
-
   ];
 
-  let defaultSelectedKey = "";
+  const [selectedKey, setSelectedKey] = useState("");
 
-  Object.keys(menuLinks).forEach((key) => {
-    if (location.pathname === menuLinks[key]) {
-      defaultSelectedKey = key;
+  useEffect(() => {
+    if (location.pathname !== "/") {
+      let tempSidebar = [...sidebarData];
+      let listWithNoDashboard = tempSidebar.filter(
+        (item: any) => item.key !== "dashboard"
+      );
+      const key =
+        listWithNoDashboard.find((item: any) => {
+          return location.pathname.startsWith(menuLinks[item.key]);
+        })?.key || "";
+      setSelectedKey(key.toString());
     }
-  });
+  }, [location.pathname]);
   return (
     <NavigationMenuStyled>
       <div className="logo text-center">
         <img src={logo} alt="" />
       </div>
       <Menu
-        defaultSelectedKeys={[defaultSelectedKey]}
+        defaultSelectedKeys={[selectedKey]}
         mode="inline"
         items={sidebarData}
       />

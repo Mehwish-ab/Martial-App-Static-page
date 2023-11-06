@@ -13,8 +13,8 @@ export interface SchoolDataType {
   address: string;
   phoneNumber: string;
   belts: boolean;
-  languageId: number;
-  currencyId: number;
+  defaultLanguageId: number;
+  defaultCurrencyId: number;
   activities: string;
   facilities: string;
   description: string;
@@ -44,8 +44,8 @@ const initialState: DashboardDataInitialState = {
     address: "",
     phoneNumber: "",
     belts: false,
-    languageId: 0,
-    currencyId: 0,
+    defaultCurrencyId: 0,
+    defaultLanguageId: 0,
     activities: "",
     facilities: "",
     description: "",

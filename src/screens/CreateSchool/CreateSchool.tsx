@@ -207,7 +207,7 @@ const CreateSchool = () => {
                   <Col md="4" className="mt-20">
                     <PlacesAutoCompleteInput
                       label={getLabelByKey("address")}
-                      placeholder={getLabelByKey("addressPlaceholder")}
+                      placeholder={getLabelByKey("enterCompleteAddress")}
                       handleChange={(val: any) => {
                         formik.setFieldValue("address", val);
                       }}

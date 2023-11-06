@@ -12,8 +12,8 @@ export interface BranchDataType {
   branchType: number | string;
   address: string;
   phoneNumber: string;
-  languageId: number;
-  currencyId: number;
+  defaultLanguageId: number;
+  defaultCurrencyId: number;
   belts: boolean;
   ranks: boolean;
   schoolStripeMethod: boolean;

@@ -3,16 +3,19 @@ export interface CreateFranchiseInitialValues {
   franchiseType: string | number;
   address: string;
   franchisePhoneNumber: string;
-  belts: string | number;
+  // belts: string | number;
+  ranks: string | number;
   description: string;
-  stripePublishableKey: string;
-  stripeSecretKey: string;
-  cardAccessToken: string;
-  cardClientId: string;
-  cardWebHook: string;
-  cardClientSecret: string;
+  defaultLanguage: string | number;
+  defaultCurrency: string | number;
   selectedActivities: string[];
   selectedFacilities: string[];
-  schoolStripeMethod: boolean;
-  schoolGclMethod: boolean;
+  // stripePublishableKey: string;
+  // stripeSecretKey: string;
+  // cardAccessToken: string;
+  // cardClientId: string;
+  // cardWebHook: string;
+  // cardClientSecret: string;
+  // schoolStripeMethod: boolean;
+  // schoolGclMethod: boolean;
 }

@@ -1,6 +1,6 @@
 import { Card, List } from "antd";
 import OverlayImages from "../../Home/OverlayImages/OverlayImages";
-import { ViewBranchStyled } from "./styles";
+import { ViewFranchiseStyled } from "./styles";
 import { useLocation } from "react-router-dom";
 import { BranchDataType } from "../../../redux/features/branch/branchSlice";
 import { Col, Row } from "react-bootstrap";
@@ -9,8 +9,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { DataTypesWithIdAndMultipleLangLabel } from "../../../redux/features/types";
 
-const ViewBranch = () => {
-  const { getLabelByKey } = useScreenTranslation("branchCreate");
+const ViewFranchise = () => {
+  const { getLabelByKey } = useScreenTranslation("franchiseCreate");
 
   const location = useLocation();
   const branch: BranchDataType = location.state?.branch;
@@ -32,21 +32,21 @@ const ViewBranch = () => {
 
   console.log(defaultLanguage, defaultCurrency);
   return (
-    <ViewBranchStyled>
+    <ViewFranchiseStyled>
       <OverlayImages
         overlayImg={branch.profilePicture || ""}
         backgroundImg={branch.bannerPicture || ""}
         isEditable={false}
       />
 
-      <h3>Branch Information</h3>
+      <h3>Franchise Information</h3>
 
       <Card>
         <Row>
           <Col md="4">
             <div className="list-item">
               <div className="list-item-title">
-                {getLabelByKey("branchName")}
+                {getLabelByKey("franchiseName")}
               </div>
               <div className="list-item-value">{branch.branchName || "--"}</div>
             </div>
@@ -54,7 +54,7 @@ const ViewBranch = () => {
           <Col md="4">
             <div className="list-item">
               <div className="list-item-title">
-                {getLabelByKey("branchType")}
+                {getLabelByKey("franchiseType")}
               </div>
               <div className="list-item-value">{branch.branchType || "--"}</div>
             </div>
@@ -62,7 +62,7 @@ const ViewBranch = () => {
           <Col md="4">
             <div className="list-item">
               <div className="list-item-title">
-                {getLabelByKey("branchPhoneNumber")}
+                {getLabelByKey("franchisePhoneNumber")}
               </div>
               <div className="list-item-value">
                 {branch.phoneNumber || "--"}
@@ -77,7 +77,7 @@ const ViewBranch = () => {
           </Col>
           <Col md="4">
             <div className="list-item">
-              <div className="list-item-title">{getLabelByKey("belts")}</div>
+              <div className="list-item-title">{getLabelByKey("ranking")}</div>
               <div className="list-item-value">
                 {branch.belts ? "Yes" : "No"}
               </div>
@@ -133,8 +133,8 @@ const ViewBranch = () => {
           </Col>
         </Row>
       </Card>
-    </ViewBranchStyled>
+    </ViewFranchiseStyled>
   );
 };
 
-export default ViewBranch;
+export default ViewFranchise;

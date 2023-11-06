@@ -139,7 +139,7 @@ const CreateBranch = () => {
 
   return (
     <CreateSchoolStyled>
-      <OverlayImages backgroundImg={""} overlayImg={""} isEditable={false} />
+      {/* <OverlayImages backgroundImg={""} overlayImg={""} isEditable={false} /> */}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -224,7 +224,7 @@ const CreateBranch = () => {
                   <Col md="4" className="mt-20">
                     <PlacesAutoCompleteInput
                       label={getLabelByKey("address")}
-                      placeholder={getLabelByKey("addressPlaceholder")}
+                      placeholder={getLabelByKey("enterCompleteAddress")}
                       handleChange={(val: any) => {
                         formik.setFieldValue("address", val);
                       }}
@@ -284,9 +284,9 @@ const CreateBranch = () => {
                       name="ranks"
                       fontFamily={fontFamilyMedium}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
-                      label={getLabelByKey("ranks")}
+                      label={getLabelByKey("belts")}
                       padding="10px"
-                      placeholder={getLabelByKey("ranks")}
+                      placeholder={getLabelByKey("belts")}
                       className={
                         formik.errors.ranks && formik.touched.ranks
                           ? "is-invalid"

@@ -1,19 +1,20 @@
 import { Card, List } from "antd";
 import OverlayImages from "../../Home/OverlayImages/OverlayImages";
-import { ViewBranchStyled } from "./styles";
-import { useLocation } from "react-router-dom";
+import { ViewSchoolStyled } from "./styles";
+import { useLocation, useParams } from "react-router-dom";
 import { BranchDataType } from "../../../redux/features/branch/branchSlice";
 import { Col, Row } from "react-bootstrap";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
+import store, { RootState } from "../../../redux/store";
+import { DataTypeWithIdAndCurrentLangLabel } from "../../Home/constants";
 import { DataTypesWithIdAndMultipleLangLabel } from "../../../redux/features/types";
+import { useEffect } from "react";
+import { getSchoolByUserId } from "../../../redux/features/dashboard/dashboardDataSlice";
 
-const ViewBranch = () => {
-  const { getLabelByKey } = useScreenTranslation("branchCreate");
-
-  const location = useLocation();
-  const branch: BranchDataType = location.state?.branch;
+const ViewSchool = () => {
+  const { getLabelByKey } = useScreenTranslation("schoolCreate");
+  const { schoolData } = useSelector((state: RootState) => state.dashboardData);
   const { language, currency } = useSelector(
     (state: RootState) => state.appData.data.statusData
   );
@@ -22,64 +23,75 @@ const ViewBranch = () => {
   );
   let defaultLanguage = language.find(
     (item: DataTypesWithIdAndMultipleLangLabel) =>
-      +item.id == +branch.defaultLanguageId
+      +item.id == +schoolData.defaultLanguageId
   );
 
   let defaultCurrency = currency.find(
     (item: DataTypesWithIdAndMultipleLangLabel) =>
-      +item.id == +branch.defaultCurrencyId
+      +item.id == +schoolData.defaultCurrencyId
   );
 
-  console.log(defaultLanguage, defaultCurrency);
+  useEffect(() => {
+    store.dispatch(getSchoolByUserId());
+  }, []);
+
+  console.log(schoolData, defaultLanguage, defaultCurrency);
+
   return (
-    <ViewBranchStyled>
+    <ViewSchoolStyled>
       <OverlayImages
-        overlayImg={branch.profilePicture || ""}
-        backgroundImg={branch.bannerPicture || ""}
+        overlayImg={schoolData.profilePicture || ""}
+        backgroundImg={schoolData.bannerPicture || ""}
         isEditable={false}
       />
 
-      <h3>Branch Information</h3>
+      <h3>School Information</h3>
 
       <Card>
         <Row>
           <Col md="4">
             <div className="list-item">
               <div className="list-item-title">
-                {getLabelByKey("branchName")}
-              </div>
-              <div className="list-item-value">{branch.branchName || "--"}</div>
-            </div>
-          </Col>
-          <Col md="4">
-            <div className="list-item">
-              <div className="list-item-title">
-                {getLabelByKey("branchType")}
-              </div>
-              <div className="list-item-value">{branch.branchType || "--"}</div>
-            </div>
-          </Col>
-          <Col md="4">
-            <div className="list-item">
-              <div className="list-item-title">
-                {getLabelByKey("branchPhoneNumber")}
+                {getLabelByKey("businessName")}
               </div>
               <div className="list-item-value">
-                {branch.phoneNumber || "--"}
+                {schoolData.businessName || "--"}
+              </div>
+            </div>
+          </Col>
+          <Col md="4">
+            <div className="list-item">
+              <div className="list-item-title">
+                {getLabelByKey("businessType")}
+              </div>
+              <div className="list-item-value">
+                {schoolData.businessType || "--"}
+              </div>
+            </div>
+          </Col>
+          <Col md="4">
+            <div className="list-item">
+              <div className="list-item-title">
+                {getLabelByKey("businessPhoneNumber")}
+              </div>
+              <div className="list-item-value">
+                {schoolData.phoneNumber || "--"}
               </div>
             </div>
           </Col>
           <Col md="4">
             <div className="list-item">
               <div className="list-item-title">{getLabelByKey("address")}</div>
-              <div className="list-item-value">{branch.address || "--"}</div>
+              <div className="list-item-value">
+                {schoolData.address || "--"}
+              </div>
             </div>
           </Col>
           <Col md="4">
             <div className="list-item">
               <div className="list-item-title">{getLabelByKey("belts")}</div>
               <div className="list-item-value">
-                {branch.belts ? "Yes" : "No"}
+                {schoolData.belts ? "Yes" : "No"}
               </div>
             </div>
           </Col>
@@ -101,7 +113,7 @@ const ViewBranch = () => {
                 {getLabelByKey("defaultCurrency")}
               </div>
               <div className="list-item-value">
-                {(defaultCurrency &&
+                {(defaultLanguage &&
                   (defaultCurrency as any)[selectedLanguage]) ||
                   "--"}
               </div>
@@ -110,7 +122,9 @@ const ViewBranch = () => {
           <Col md="4">
             <div className="list-item">
               <div className="list-item-title">{getLabelByKey("activity")}</div>
-              <div className="list-item-value">{branch.activities || "--"}</div>
+              <div className="list-item-value">
+                {schoolData.activities || "--"}
+              </div>
             </div>
           </Col>
           <Col md="4">
@@ -118,7 +132,9 @@ const ViewBranch = () => {
               <div className="list-item-title">
                 {getLabelByKey("facilities")}
               </div>
-              <div className="list-item-value">{branch.facilities || "--"}</div>
+              <div className="list-item-value">
+                {schoolData.facilities || "--"}
+              </div>
             </div>
           </Col>
           <Col md="12">
@@ -127,14 +143,14 @@ const ViewBranch = () => {
                 {getLabelByKey("description")}
               </div>
               <div className="list-item-value">
-                {branch.description || "--"}
+                {schoolData.description || "--"}
               </div>
             </div>
           </Col>
         </Row>
       </Card>
-    </ViewBranchStyled>
+    </ViewSchoolStyled>
   );
 };
 
-export default ViewBranch;
+export default ViewSchool;

@@ -11,7 +11,7 @@ import { RootState } from "../../../redux/store";
 import { useNavigate, useParams } from "react-router-dom";
 import { loginDataTypes } from "../../../redux/features/types";
 import { CreateFranchiseInitialValues } from "../constant";
-const useBranch = () => {
+const useFranchise = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const toastId = useRef<any>(null);
@@ -31,19 +31,19 @@ const useBranch = () => {
       // branchType: values.branchType,
       address: values.address,
       // phoneNumber: values?.branchPhoneNumber || "",
-      belts: values.belts == "1" ? true : false,
+      belts: values.ranks == "1" ? true : false,
       activities: values.selectedActivities.join(","),
       facilities: values.selectedActivities.join(","),
       description: values.description,
-      stripePublicKey: values.stripePublishableKey,
-      stripeSecretKey: values.stripeSecretKey,
-      gclAccessToken: values.cardAccessToken,
-      gclClientId: values.cardClientId,
-      gclWebHook: values.cardWebHook,
-      gclClientSecret: values.cardClientSecret,
       schoolId: schoolData.schoolId || loginData.data?.schoolId,
-      schoolStripeMethod: values.schoolStripeMethod,
-      schoolGclMethod: values.schoolGclMethod,
+      // stripePublicKey: values.stripePublishableKey,
+      // stripeSecretKey: values.stripeSecretKey,
+      // gclAccessToken: values.cardAccessToken,
+      // gclClientId: values.cardClientId,
+      // gclWebHook: values.cardWebHook,
+      // gclClientSecret: values.cardClientSecret,
+      // schoolStripeMethod: values.schoolStripeMethod,
+      // schoolGclMethod: values.schoolGclMethod,
 
       ...(branchId && { branchId }), // Add schoolId conditionally
     };
@@ -93,4 +93,4 @@ const useBranch = () => {
   };
 };
 
-export default useBranch;
+export default useFranchise;

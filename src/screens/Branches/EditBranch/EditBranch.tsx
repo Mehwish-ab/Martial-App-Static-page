@@ -70,8 +70,8 @@ const EditBranch = () => {
     address: branchToEdit.address,
     branchPhoneNumber: branchToEdit.phoneNumber,
     // belts: branchToEdit.belts ? 1 : 2,
-    defaultLanguage: branchToEdit.languageId,
-    defaultCurrency: branchToEdit.currencyId,
+    defaultLanguage: branchToEdit.defaultLanguageId,
+    defaultCurrency: branchToEdit.defaultCurrencyId,
     ranks: branchToEdit.ranks ? 1 : 2,
     description: branchToEdit.description,
     stripePublishableKey: branchToEdit.stripePublicKey,
@@ -81,10 +81,10 @@ const EditBranch = () => {
     cardWebHook: branchToEdit.gclWebHook,
     cardClientSecret: branchToEdit.gclClientSecret,
     selectedActivities: branchToEdit
-      ? branchToEdit.activities.split(",").map(String)
+      ? branchToEdit.activities?.split(",").map(String)
       : [],
     selectedFacilities: branchToEdit
-      ? branchToEdit.facilities.split(",").map(String)
+      ? branchToEdit.facilities?.split(",").map(String)
       : [],
     schoolStripeMethod: branchToEdit.schoolStripeMethod || false,
     schoolGclMethod: branchToEdit.schoolGclMethod || false,
@@ -245,7 +245,7 @@ const EditBranch = () => {
                   <Col md="4" className="mt-20">
                     <PlacesAutoCompleteInput
                       label={getLabelByKey("address")}
-                      placeholder={getLabelByKey("addressPlaceholder")}
+                      placeholder={getLabelByKey("enterCompleteAddress")}
                       handleChange={(val: any) => {
                         formik.setFieldValue("address", val);
                       }}
@@ -304,9 +304,9 @@ const EditBranch = () => {
                       name="ranks"
                       fontFamily={fontFamilyMedium}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
-                      label={getLabelByKey("ranks")}
+                      label={getLabelByKey("belts")}
                       padding="10px"
-                      placeholder={getLabelByKey("ranks")}
+                      placeholder={getLabelByKey("belts")}
                       className={
                         formik.errors.ranks && formik.touched.ranks
                           ? "is-invalid"
@@ -315,7 +315,7 @@ const EditBranch = () => {
                       options={BELTS_SELECT_OPTIONS}
                     />
                   </Col>
-                  <Col md="4" className="mt-20">
+                  <Col md="4">
                     <CheckboxesSelect
                       name="selectedActivities"
                       label="Activity"
@@ -324,7 +324,7 @@ const EditBranch = () => {
                     />
                   </Col>
 
-                  <Col md="4" className="mt-20">
+                  <Col md="4">
                     <CheckboxesSelect
                       name="selectedFacilities"
                       label="Facility"

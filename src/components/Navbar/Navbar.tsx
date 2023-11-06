@@ -1,5 +1,16 @@
 import { useRef, useState } from "react";
-import { Avatar, Badge, Button, Drawer, Input, InputRef, Select } from "antd";
+import { Link } from "react-router-dom";
+import {
+  Avatar,
+  Badge,
+  Button,
+  Drawer,
+  Dropdown,
+  Input,
+  InputRef,
+  MenuProps,
+  Select,
+} from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 
 import { useGlobalContext } from "../../context/context";
@@ -8,6 +19,7 @@ import NavigationMenu from "../NavigationMenu/NavigationMenu";
 import NavbarStyle, { NavbarRow2Styled } from "./style";
 
 import CustomButton from "../CustomButton/CustomButton";
+
 import dropDownArrow from "../../assets/icons/ic_drop_down.svg";
 import searchIcon from "../../assets/icons/ic_search(1).svg";
 import notificationIcon from "../../assets/icons/ic_notitfication.svg";
@@ -15,11 +27,45 @@ import profileIcon from "../../assets/icons/ic_profile_avatar.svg";
 import ukIcon from "../../assets/icons/ic_uk_flag.svg";
 import cloudIcon from "../../assets/icons/ic_cloud.svg";
 import logo from "../../assets/icons/logo.svg";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 function Navbar() {
   const { searchText, setSearchText } = useGlobalContext();
   const searchRef = useRef<InputRef>(null);
+  const { schoolId } = useSelector(
+    (state: RootState) => state.dashboardData.schoolData
+  );
   const [drawerVisible, setDrawerVisible] = useState(false);
+  const items: MenuProps["items"] = [
+    {
+      key: "1",
+      label: (
+        <Link to={"#"} style={{ textDecoration: "none" }}>
+          Profile
+        </Link>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+        <Link
+          to={`/school/edit/${schoolId}`}
+          style={{ textDecoration: "none" }}
+        >
+          Edit
+        </Link>
+      ),
+    },
+    {
+      key: "3",
+      label: (
+        <Link to={"#"} style={{ textDecoration: "none" }}>
+          Payment
+        </Link>
+      ),
+    },
+  ];
   return (
     <>
       <NavbarStyle>
@@ -40,34 +86,8 @@ function Navbar() {
               onClick={() => setDrawerVisible(true)}
             />
           </div>
-          {/* <div className="logo">
-            <img src={logo} alt="" />
-          </div> */}
-          <div className="left-bar d-flex align-items-center justify-content-end">
-            {/* <Select
-              className="navbar-select"
-              id={"category"}
-              suffixIcon={
-                <img
-                  style={{
-                    height: "6px",
-                  }}
-                  src={dropDownArrow}
-                  alt="arrow"
-                />
-              }
-              // defaultValue={defaultValue}
-              // {...rest}
-              // onSelect={(val, event) => onSelect(val, event.key)}
-              placeholder={"Select category"}
-              // You have to provide the onChange function and on changing the value you should call
-              // the setFieldValue function provided by the prop of "form"
-              // onChange={(val: any) => {
-              // form.setFieldValue(name, val);
-              // }}
-              options={[]}
-            /> */}
 
+          <div className="left-bar d-flex align-items-center justify-content-end">
             <Input
               ref={searchRef}
               value={searchText}
@@ -79,11 +99,6 @@ function Navbar() {
           </div>
 
           <div className="right-bar d-flex gap-3 align-items-center">
-            {/* <div className="date-time-area px-3">
-              <img src={cloudIcon} alt="" />
-              <span className="date">10-21-2023</span>
-            </div> */}
-
             <div className="notification-area">
               <CustomButton
                 title=""
@@ -106,35 +121,17 @@ function Navbar() {
                 <Avatar size={40} src={ukIcon} shape="square" />
               </Badge>
             </div>
+            <Dropdown menu={{ items }} placement="bottomLeft" arrow>
+              <Button
+                icon={<img src={dropDownArrow} alt="dropdown" />}
+                style={{ border: "none" }}
+              />
+            </Dropdown>
           </div>
         </div>
         <NavbarRow2Styled>
           <div className="d-flex align-items-center justify-content-between row2">
             <div className="left-bar d-flex align-items-center">
-              {/* <Select
-                className="navbar-select"
-                id={"category"}
-                suffixIcon={
-                  <img
-                    style={{
-                      height: "6px",
-                    }}
-                    src={dropDownArrow}
-                    alt="arrow"
-                  />
-                }
-                // defaultValue={defaultValue}
-                // {...rest}
-                // onSelect={(val, event) => onSelect(val, event.key)}
-                placeholder={"Select category"}
-                // You have to provide the onChange function and on changing the value you should call
-                // the setFieldValue function provided by the prop of "form"
-                // onChange={(val: any) => {
-                // form.setFieldValue(name, val);
-                // }}
-                options={[]}
-              /> */}
-
               <Input
                 ref={searchRef}
                 value={searchText}

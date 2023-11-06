@@ -31,15 +31,23 @@ const ListFranchise: React.FC = () => {
     (state: RootState) => state.branchData
   );
 
-  const { businessTypes } = useSelector(
+  const { businessTypes, activities } = useSelector(
     (state: RootState) => state.appData.data.statusData
   );
+
+  const { selectedLanguage } = useSelector(
+    (state: RootState) => state.selectedLanguage
+  );
   const columns: ColumnsType<BranchDataType> = [
+    {
+      title: "Id",
+      dataIndex: "branchId",
+      key: "branchId",
+    },
     {
       title: "Name",
       dataIndex: "branchName",
       key: "branchName",
-      // render: (text) => <a>{text}</a>,
     },
     {
       title: "Type",
@@ -50,22 +58,32 @@ const ListFranchise: React.FC = () => {
         return <p>{item?.en}</p>;
       },
     },
+
+    {
+      title: "Activity",
+      dataIndex: "activity",
+      key: "activity",
+      render: (_, { activities: commaSeparatedIds }) => {
+        const filteredObjects = activities.filter((obj) => {
+          const objId = obj.id;
+          return commaSeparatedIds.split(",").includes(objId.toString());
+        });
+        let names = filteredObjects
+          .map((obj) => (obj as any)[selectedLanguage])
+          .join(", ");
+        const maxLength = 20;
+
+        if (names.length > maxLength) {
+          names = names.slice(0, maxLength - 3) + "...";
+        }
+        return <p>{names}</p>;
+      },
+    },
     {
       title: "Phone Number",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
     },
-    {
-      title: "Belts",
-      key: "tags",
-      dataIndex: "tags",
-      render: (_, { belts }) => {
-        return (
-          <Tag color={belts ? "green" : "red"}>{belts ? "Yes" : "No"}</Tag>
-        );
-      },
-    },
-
     {
       title: "Action",
       key: "action",
@@ -73,8 +91,18 @@ const ListFranchise: React.FC = () => {
         const items = [
           {
             key: "1",
+            label: "View",
+            onClick: () => navigation(record, "view"),
+          },
+          {
+            key: "2",
             label: "Edit",
-            onClick: () => onClick(record),
+            onClick: () => navigation(record, "edit"),
+          },
+          {
+            key: "3",
+            label: "Subscribe",
+            onClick: () => navigation(record, "subscribe"),
           },
         ];
 
@@ -93,12 +121,31 @@ const ListFranchise: React.FC = () => {
     },
   ];
 
-  const onClick = (record: BranchDataType) => {
-    navigate(`/franchise/edit/${record.branchId}`, {
-      state: {
-        branchToEdit: record as BranchDataType,
-      },
-    }); // Navigate to the edit page with the rowId
+  const navigation = (record: BranchDataType, redirectTo: string) => {
+    switch (redirectTo) {
+      case "edit":
+        navigate(`/franchise/edit/${record.branchId}`, {
+          state: {
+            branchToEdit: record as BranchDataType,
+          },
+        });
+        break;
+
+      case "view":
+        navigate(`/franchise/view/${record.branchId}`, {
+          state: {
+            branch: record as BranchDataType,
+          },
+        });
+        break;
+
+      case "subscribe":
+        navigate(`/franchise/subscribe/${record.branchId}`, {
+          state: {
+            branch: record as BranchDataType,
+          },
+        });
+    }
   };
 
   useEffect(() => {

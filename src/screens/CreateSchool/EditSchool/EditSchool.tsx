@@ -101,8 +101,8 @@ const EditSchool = () => {
     address: schoolData.address,
     businessPhoneNumber: schoolData.phoneNumber,
     belts: schoolData.belts ? 1 : 2, // 1 for yes, 2 for no
-    defaultLanguage: schoolData.languageId,
-    defaultCurrency: schoolData.currencyId,
+    defaultLanguage: schoolData.defaultLanguageId,
+    defaultCurrency: schoolData.defaultCurrencyId,
     description: schoolData.description,
     // stripePublishableKey: schoolData.stripePublicKey,
     // stripeSecretKey: schoolData.stripeSecretKey,
@@ -277,7 +277,8 @@ const EditSchool = () => {
                       defaultValue={
                         schoolId
                           ? createOptions(language).find(
-                              (item) => item.value === schoolData.languageId
+                              (item) =>
+                                item.value === schoolData.defaultLanguageId
                             )?.label
                           : undefined
                       }
@@ -303,7 +304,8 @@ const EditSchool = () => {
                       defaultValue={
                         schoolId
                           ? createOptions(currency).find(
-                              (item) => item.value === schoolData.currencyId
+                              (item) =>
+                                item.value === schoolData.defaultCurrencyId
                             )?.value
                           : undefined
                       }

@@ -22,6 +22,7 @@ import {
 
 import plusIcon from "../../../assets/icons/ic_plus.svg";
 import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
+import { ipForImages } from "../../Home/OverlayImages/OverlayImages";
 
 const ListBranch: React.FC = () => {
   const navigate = useNavigate();
@@ -29,10 +30,33 @@ const ListBranch: React.FC = () => {
     (state: RootState) => state.branchData
   );
 
-  const { businessTypes } = useSelector(
+  const { businessTypes, activities } = useSelector(
     (state: RootState) => state.appData.data.statusData
   );
+
+  const { selectedLanguage } = useSelector(
+    (state: RootState) => state.selectedLanguage
+  );
   const columns: ColumnsType<BranchDataType> = [
+    {
+      title: "Id",
+      dataIndex: "branchId",
+      key: "branchId",
+    },
+    {
+      title: "Image",
+      dataIndex: "profilePicture",
+      key: "profilePicture",
+      render: (text) => (
+        <div style={{ width: 50, height: 50 }}>
+          <img
+            src={ipForImages + text}
+            alt="branch img"
+            style={{ objectFit: "contain", width: "100%" }}
+          />
+        </div>
+      ),
+    },
     {
       title: "Name",
       dataIndex: "branchName",
@@ -49,20 +73,41 @@ const ListBranch: React.FC = () => {
       },
     },
     {
+      title: "Activity",
+      dataIndex: "activity",
+      key: "activity",
+      render: (_, { activities: commaSeparatedIds }) => {
+        const filteredObjects = activities.filter((obj) => {
+          const objId = obj.id;
+          return commaSeparatedIds.split(",").includes(objId.toString());
+        });
+        let names = filteredObjects
+          .map((obj) => (obj as any)[selectedLanguage])
+          .join(", ");
+        const maxLength = 20;
+
+        if (names.length > maxLength) {
+          names = names.slice(0, maxLength - 3) + "...";
+        }
+        return <p>{names}</p>;
+      },
+    },
+
+    {
       title: "Phone Number",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
     },
-    {
-      title: "Belts",
-      key: "tags",
-      dataIndex: "tags",
-      render: (_, { belts }) => {
-        return (
-          <Tag color={belts ? "green" : "red"}>{belts ? "Yes" : "No"}</Tag>
-        );
-      },
-    },
+    // {
+    //   title: "Belts",
+    //   key: "tags",
+    //   dataIndex: "tags",
+    //   render: (_, { belts }) => {
+    //     return (
+    //       <Tag color={belts ? "green" : "red"}>{belts ? "Yes" : "No"}</Tag>
+    //     );
+    //   },
+    // },
 
     {
       title: "Action",

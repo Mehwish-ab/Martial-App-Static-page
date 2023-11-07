@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
-import { Dropdown, MenuProps, Space, Table, Tag } from "antd";
+import { Dropdown, Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { ListBranchStyled } from "./styles";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import {
   fontFamilyMedium,
-  mainColor,
   pureDark,
   tertiaryBlue2,
 } from "../../../components/GlobalStyle";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import plusIcon from "../../../assets/icons/ic_plus.svg";
 import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
 
-import { DownOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import store, { RootState } from "../../../redux/store";
 import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
@@ -22,8 +20,8 @@ import {
   BranchDataType,
   getBranchBySchoolId,
 } from "../../../redux/features/branch/branchSlice";
-import { BELTS_SELECT_OPTIONS } from "../../Home/constants";
-import { MenuInfo } from "rc-menu/lib/interface";
+
+import CardView from "../CardView/CardView";
 
 const ListFranchise: React.FC = () => {
   const navigate = useNavigate();
@@ -162,6 +160,8 @@ const ListFranchise: React.FC = () => {
           title={() => <RenderTableTitle />}
         />
       </ListBranchStyled>
+
+      <CardView />
     </>
   );
 };

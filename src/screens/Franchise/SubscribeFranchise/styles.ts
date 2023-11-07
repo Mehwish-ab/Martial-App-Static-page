@@ -27,20 +27,39 @@ export const SubscribeFranchiseStyled = styled.div`
     flex-wrap: wrap;
 
     .plan {
+      &-button {
+        display: none;
+      }
+
+      &:hover {
+        cursor: pointer;
+        // height: 560px;
+        background: #98cde1;
+      }
+      &:hover .plan-button {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
       width: 410px;
-      min-heigth: 500px;
+      height: 500px;
       border: 1px solid ${tertiaryGrey24};
       border-radius: 10px;
       padding: 16px;
       margin-bottom: 16px;
       margin-right: 16px;
+      position: relative;
+      transition: all 0.3s ease;
 
       &-heading {
         font-size: 18px;
         font-weight: 400;
         font-family: ${fontFamilyRegular};
         color: ${pureDark2};
-        margin-bottom: 20px;
+        margin-bottom: 12px;
       }
 
       &-price {
@@ -48,11 +67,11 @@ export const SubscribeFranchiseStyled = styled.div`
         font-weight: 500;
         font-family: ${fontFamilyMedium};
         color: ${darkBlue};
-        margin-bottom: 20px;
+        margin-bottom: 12px;
       }
 
       &-description {
-        margin-bottom: 20px;
+        margin-bottom: 12px;
 
         &-heading {
           font-size: 18px;

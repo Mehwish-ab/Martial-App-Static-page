@@ -31,6 +31,8 @@ import EditFranchise from "../screens/Franchise/EditFranchise/EditFranchise";
 import ViewBranch from "../screens/Branches/ViewBranch/ViewBranch";
 import ViewFranchise from "../screens/Franchise/ViewFranchise/ViewFranchise";
 import SubscribeFranchise from "../screens/Franchise/SubscribeFranchise/SubscribeFranchise";
+import ListInstructor from "../screens/Instructor/ListInstructor/ListInstructor";
+import CreateInstructor from "../screens/Instructor/CreateInstructor/CreateInstructor";
 
 function AppRoutes() {
   const dispatch = useDispatch();
@@ -169,6 +171,25 @@ function AppRoutes() {
             </AppLayout>
           }
         />
+
+        <Route
+          path="/instructor/list"
+          element={
+            <AppLayout>
+              <ListInstructor />
+            </AppLayout>
+          }
+        />
+
+        <Route
+          path="/instructor/create"
+          element={
+            <AppLayout>
+              <CreateInstructor />
+            </AppLayout>
+          }
+        />
+
         {/* error page */}
         <Route path="*" element={<ErrorPage404 />} />
       </Routes>

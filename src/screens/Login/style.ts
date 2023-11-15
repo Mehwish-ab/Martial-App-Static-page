@@ -9,6 +9,10 @@ import {
   tertiaryGrey12,
   tertiaryGrey8,
   whiteColor,
+  darkGery,
+  tertiaryGrey24,
+  lightDark2,
+  mainColor,
 } from "../../components/GlobalStyle";
 
 export const LoginStyle = styled.div`
@@ -46,12 +50,24 @@ export const LoginStyle = styled.div`
           &-field {
             margin-top: 20px;
           }
+          img {
+            color: black;
+          }
+         
         }
       }
       .title {
         color: ${pureDark2};
         font-size: 22px;
+        font-weight: 500;
         font-family: ${fontFamilyMedium};
+      }
+      .subtitle {
+        width: 75%;
+        color: ${darkGery}
+        margin: 10px auto 0;
+        font-weight: 400;
+        font-size: 16px;
       }
       .login-text {
         font-size: 16px;
@@ -61,7 +77,6 @@ export const LoginStyle = styled.div`
 
       &-logo {
         text-align: center;
-
         img {
           width: 164px;
           margin-bottom: 0;
@@ -101,11 +116,18 @@ export const LoginStyle = styled.div`
       color: ${basicColor};
     }
   }
+
+  .loginBtn > div > button{
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+  
   .is-invalid {
     border: 1px solid red;
     background: white;
     border-radius: 8px;
-    padding: 10px;
     width: 100%;
     width: -moz-available;
     outline: none;
@@ -114,17 +136,33 @@ export const LoginStyle = styled.div`
   .customInput,
   .customPasswordInput {
     background: white;
-    border: 1px solid #c6c6c8;
-    border-radius: 2px;
-    padding: 10px;
+    border: 1px solid ${tertiaryGrey24};
+    border-radius: 8px !important;
     width: 100%;
+    padding: 4px 11px !important;
     width: -moz-available;
     outline: none;
     margin-bottom: 8px;
+    
+    input[placeholder] {
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      color: ${lightDark2};
+    }
+  }
+  .loginInvalidPassword > input{
+    padding: 10px !important;
+    }
+
+  .loginPassword > input{
+    padding: 10px !important;
   }
   .forget_password {
-    color: ${primaryColor};
-    font-size: 14px;
+    color: ${mainColor};
+    font-size: 16px;
+    font-weight: 500;
     text-decoration: none;
     font-family: "EnnVisionsMedium" !important;
   }
@@ -163,7 +201,7 @@ export const LoginStyle = styled.div`
         margin-left: 3px;
       }
     }
-   
+    
   }
 `;
 

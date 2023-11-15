@@ -12,7 +12,7 @@ const MessageModal = ({ type, message, description }: MessageModalProps) => {
   return (
     <MessageModalStyled>
       <div className="d-flex justify-content-center align-items-center flex-column pt-4 gap-3 modal_content">
-        <img src={type === "success" ? successIcon : errorIcon} alt="" />
+        {/* <img src={type === "success" ? successIcon : errorIcon} alt="" /> */}
         <h4 className="message">{message}</h4>
         <p className="description">{description}</p>
       </div>

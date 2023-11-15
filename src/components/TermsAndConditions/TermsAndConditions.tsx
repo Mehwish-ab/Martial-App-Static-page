@@ -65,11 +65,11 @@ const TermsAndConditions: React.FC<termsAndConditionsProps> = ({
 export default TermsAndConditions;
 
 const Wrapper = styled.div`
-  width: 100%;
+  // width: 100%;
 
   .terms {
     // max-width: 390px;
-    width: 100%;
+    // width: 100%;
     font-size: 14px;
     span {
       font-size: 14px;

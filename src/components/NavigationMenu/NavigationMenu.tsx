@@ -1,13 +1,13 @@
 import { Menu, MenuProps } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
-import membership from "../../assets/icons/ic_dashboard_..svg";
+// import membership from "../../assets/icons/ic_dashboard_..svg";
 import logo from "../../assets/icons/ic_logo.svg";
-import dashboard from "../../assets/icons/ic_membership.svg";
-import payment from "../../assets/icons/ic_membership.svg";
-import classes from "../../assets/icons/ic_classes.svg";
-import booking from "../../assets/icons/ic_booking.svg";
-import qrCode from "../../assets/icons/ic_qr_code.svg";
-import setting from "../../assets/icons/ic_setting.svg";
+// import dashboard from "../../assets/icons/ic_membership.svg";
+// import payment from "../../assets/icons/ic_membership.svg";
+// import classes from "../../assets/icons/ic_classes.svg";
+// import booking from "../../assets/icons/ic_booking.svg";
+// import qrCode from "../../assets/icons/ic_qr_code.svg";
+// import setting from "../../assets/icons/ic_setting.svg";
 import { childListOfBooking, childListOfSetting } from "../Sidebar/constants";
 import { SidebarStyle } from "../Sidebar/style";
 import { NavigationMenuStyled } from "./styles";
@@ -68,7 +68,6 @@ const NavigationMenu = () => {
     {
       key: menuLinksKeys.dashboard,
       label: getLabel("Dasboard", menuLinks.dashboard, menuLinks.dashboard),
-      icon: getMenuIcon(dashboard),
     },
     {
       key: menuLinksKeys.createSchool,
@@ -77,7 +76,6 @@ const NavigationMenu = () => {
         menuLinks.createSchool,
         menuLinksKeys.createSchool
       ),
-      icon: getMenuIcon(dashboard),
     },
     {
       key: menuLinksKeys.listBranch,
@@ -86,7 +84,6 @@ const NavigationMenu = () => {
         menuLinks.listBranch,
         menuLinksKeys.listBranch
       ),
-      icon: getMenuIcon(dashboard),
     },
     {
       key: menuLinksKeys.listFranchise,
@@ -95,7 +92,6 @@ const NavigationMenu = () => {
         menuLinks.listFranchise,
         menuLinksKeys.listFranchise
       ),
-      icon: getMenuIcon(dashboard),
     },
     {
       key: menuLinksKeys.instructor,
@@ -104,7 +100,6 @@ const NavigationMenu = () => {
         menuLinks.instructor,
         menuLinksKeys.instructor
       ),
-      icon: getMenuIcon(dashboard),
     },
     {
       key: menuLinksKeys.timeTable,
@@ -113,12 +108,10 @@ const NavigationMenu = () => {
         menuLinks.timeTable,
         menuLinksKeys.timeTable
       ),
-      icon: getMenuIcon(dashboard),
     },
     {
       key: menuLinksKeys.classes,
       label: getLabel("Classes", menuLinks.classes, menuLinksKeys.classes),
-      icon: getMenuIcon(dashboard),
     },
     {
       key: menuLinksKeys.membership,
@@ -127,12 +120,10 @@ const NavigationMenu = () => {
         menuLinks.membership,
         menuLinksKeys.membership
       ),
-      icon: getMenuIcon(membership),
     },
     {
       key: menuLinksKeys.rules,
       label: getLabel("Rules", menuLinks.rules, menuLinksKeys.rules),
-      icon: getMenuIcon(payment),
     },
     {
       key: menuLinksKeys.notification,
@@ -141,7 +132,6 @@ const NavigationMenu = () => {
         menuLinks.notification,
         menuLinksKeys.notification
       ),
-      icon: getMenuIcon(classes),
     },
     {
       key: menuLinksKeys.transactionsHistory,
@@ -151,18 +141,15 @@ const NavigationMenu = () => {
         menuLinksKeys.transactionsHistory
       ),
       children: childListOfBooking,
-      icon: getMenuIcon(booking),
     },
     {
       key: menuLinksKeys.setting,
       label: getLabel("Setting", menuLinks.setting, menuLinksKeys.setting),
       children: childListOfSetting,
-      icon: getMenuIcon(setting),
     },
     {
       key: menuLinksKeys.language,
       label: getLabel("language", menuLinks.language, menuLinksKeys.language),
-      icon: getMenuIcon(qrCode),
     },
     {
       key: menuLinksKeys.helpAndSupport,
@@ -171,7 +158,6 @@ const NavigationMenu = () => {
         menuLinks.helpAndSupport,
         menuLinksKeys.helpAndSupport
       ),
-      icon: getMenuIcon(qrCode),
     },
     {
       key: menuLinksKeys.customerServices,
@@ -180,17 +166,14 @@ const NavigationMenu = () => {
         menuLinks.customerServices,
         menuLinksKeys.customerServices
       ),
-      icon: getMenuIcon(qrCode),
     },
     {
       key: menuLinksKeys.reports,
       label: getLabel("Reports", menuLinks.reports, menuLinksKeys.reports),
-      icon: getMenuIcon(qrCode),
     },
     {
       key: menuLinksKeys.qrCode,
       label: getLabel("QR Code", menuLinks.qrCode, menuLinksKeys.qrCode),
-      icon: getMenuIcon(qrCode),
     },
   ];
 

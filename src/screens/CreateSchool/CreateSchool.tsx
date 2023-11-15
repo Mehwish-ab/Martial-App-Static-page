@@ -221,7 +221,8 @@ const CreateSchool = () => {
                       value={formik.values.address}
                     />
                   </Col>
-                  <Col md="4" className="mt-20">
+                  <Col md="8">
+                  <Col md="4" className="mt-20 d-inline-block">
                     <FormControl
                       control="select"
                       type="text"
@@ -239,7 +240,7 @@ const CreateSchool = () => {
                       options={BELTS_SELECT_OPTIONS}
                     />
                   </Col>
-                  <Col md="4" className="mt-20">
+                  <Col md="4" className="mt-20 d-inline-block px-3">
                     <FormControl
                       control="select"
                       type="text"
@@ -258,7 +259,7 @@ const CreateSchool = () => {
                       options={createOptions(language)}
                     />
                   </Col>
-                  <Col md="4" className="mt-20">
+                  <Col md="4" className="mt-20 d-inline-block">
                     <FormControl
                       control="select"
                       type="text"
@@ -277,8 +278,10 @@ const CreateSchool = () => {
                       options={createOptions(currency)}
                     />
                   </Col>
+                  </Col>
 
-                  <Col md="4" className="">
+
+                  <Col md="6" className="">
                     <CheckboxesSelect
                       list={activities}
                       name="selectedActivities"
@@ -287,7 +290,7 @@ const CreateSchool = () => {
                     />
                   </Col>
 
-                  <Col md="4" className="">
+                  <Col md="6" className="">
                     <CheckboxesSelect
                       name="selectedFacilities"
                       label={getLabelByKey("facilities")}
@@ -324,12 +327,12 @@ const CreateSchool = () => {
                   bgcolor={lightBlue3}
                   textTransform="Captilize"
                   color={pureDark}
-                  padding="12px 100px"
+                  padding="15px 102px"
                   fontFamily={`${fontFamilyMedium}`}
                   width="fit-content"
                   type="submit"
                   title={getLabelByKey("primaryButton")}
-                  fontSize="17px"
+                  fontSize="18px"
                   loading={loading}
                 />
               </div>

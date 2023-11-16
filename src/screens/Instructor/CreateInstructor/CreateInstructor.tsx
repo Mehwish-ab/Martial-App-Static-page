@@ -1,24 +1,17 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import profileImg from "../../../../assets/images/create_school_user_profile.svg";
-import banner from "../../../../assets/images/create_school_banner.svg";
 import { ErrorMessage, Formik } from "formik";
 import { Form } from "antd";
 
 import { Col, Row } from "react-bootstrap";
-import searchIcon from "../../../assets/icons/ic_search.svg";
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { RootState } from "../../../redux/store";
-import useCreateSchool from "../../../hooks/useCreateSchool";
 import {
-  BELTS_SELECT_OPTIONS,
   SelectOptionsDataTypes,
 } from "../../Home/constants";
 import { validationFinder } from "../../../utils/utilities";
 import { DataTypesWithIdAndMultipleLangLabel } from "../../../redux/features/types";
-import OverlayImages from "../../Home/OverlayImages/OverlayImages";
 import FormControl from "../../../components/FormControl";
 import {
   fontFamilyMedium,
@@ -26,10 +19,7 @@ import {
   pureDark,
   pureDark2,
 } from "../../../components/GlobalStyle";
-import SearchGoogleLocation from "../../../components/Common/SearchGoogleLocation/SearchGoogleLocation";
 import CustomPhoneInput from "../../../components/CustomPhoneInput/CustomPhoneInput";
-import CheckboxesList from "../../../components/CustomCheckbox/CheckboxesList";
-import PaymentInformation from "../../../components/Common/PaymentInformation/PaymentInformation";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import { CreateSchoolStyled } from "../../CreateSchool/styles";
 import { CreateInstructorInitialValues } from "../constant";
@@ -37,14 +27,15 @@ import useBranch from "../../../../src/screens/Franchise/hooks/useFranchise";
 import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelect";
 import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
 import TermsAndConditions from "../../../components/TermsAndConditions/TermsAndConditions";
-import IC_Calendar from "../../../assets/icons/ic_calendar.svg";
 
 const CreateInstructor = () => {
-  const { getLabelByKey } = useScreenTranslation("franchiseCreate");
+  const { getLabelByKey } = useScreenTranslation("instructorCreate");
   const {
     statusData: { activities, facilities, businessTypes },
   } = useSelector((state: RootState) => state.appData.data);
+
   const { loading, handleSubmit } = useBranch();
+
   const initialValues: CreateInstructorInitialValues = {
     instructorName: "",
     emailAddress: "",
@@ -57,14 +48,7 @@ const CreateInstructor = () => {
     selectedActivities: [],
     selectedFacilities: [],
     termCondition: "",
-    // stripePublishableKey: "",
-    // stripeSecretKey: "",
-    // cardAccessToken: "",
-    // cardClientId: "",
-    // cardWebHook: "",
-    // cardClientSecret: "",
-    // schoolStripeMethod: false,
-    // schoolGclMethod: false,
+    ranks: ""
   };
 
   const { selectedLanguage } = useSelector(
@@ -77,6 +61,7 @@ const CreateInstructor = () => {
   const addressReg = new RegExp(address.pattern);
   const emailAddress = validationFinder("EMAIL_ADDRESS")!;
   const emailAddressReg = new RegExp(emailAddress.pattern);
+
   const franchisePhoneNumber = validationFinder("PHONE_NUMBER")!;
   const [terms, setTerms] = useState(false);
   const [showTermsError] = useState(false);
@@ -154,11 +139,10 @@ const CreateInstructor = () => {
 
   return (
     <CreateSchoolStyled>
-      {/* <OverlayImages backgroundImg={""} overlayImg={""} isEditable={false} /> */}
       <Formik
         initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+        // validationSchema={validationSchema}
+        onSubmit={() => {}}
       >
         {(formik) => {
           return (
@@ -185,8 +169,8 @@ const CreateInstructor = () => {
                       // placeholder={getLabelByKey("instructorName")}
                       placeholder="Instructor Name"
                       className={
-                        formik.errors.franchiseName &&
-                        formik.touched.franchiseName
+                        formik.errors.instructorName &&
+                        formik.touched.instructorName
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -217,7 +201,7 @@ const CreateInstructor = () => {
                       // label={getLabelByKey("instructorPhoneNumber")}
                       label="Instructor Phone Number"
                       name="instructorPhoneNumber"
-                      value={formik.values.franchisePhoneNumber}
+                      value={formik.values.instructorPhoneNumber}
                       placeholder={getLabelByKey("instructorPhoneNumber")}
                       limitMaxLength={true}
                       handleOnChange={(e: string) => {
@@ -263,8 +247,8 @@ const CreateInstructor = () => {
                         // placeholder={getLabelByKey("yearsOfExperience")}
                         placeholder="Years Of Experience"
                         className={
-                          formik.errors.defaultLanguage &&
-                          formik.touched.defaultLanguage
+                          formik.errors.yearsOfExperience &&
+                          formik.touched.yearsOfExperience
                             ? "is-invalid"
                             : "customInput"
                         }
@@ -274,7 +258,7 @@ const CreateInstructor = () => {
                       <FormControl
                         control="select"
                         type="text"
-                        name="ranking"
+                        name="ranks"
                         fontFamily={fontFamilyMedium}
                         // label={getLabelByKey("ranking")}
                         label="Ranking"
@@ -300,8 +284,8 @@ const CreateInstructor = () => {
                         // placeholder={getLabelByKey("latestCertification")}
                         placeholder="Pound"
                         className={
-                          formik.errors.defaultCurrency &&
-                          formik.touched.defaultCurrency
+                          formik.errors.latestCertification &&
+                          formik.touched.latestCertification
                             ? "is-invalid"
                             : "customInput"
                         }
@@ -389,16 +373,9 @@ const CreateInstructor = () => {
                     </div>
                   </div>
 
-                  {/* <PaymentInformation
-                    formik={formik}
-                    showPaymentMethods={true}
-                  /> */}
                 </Row>
               </div>
 
-              {/* {Object.keys(formik.errors).map((item: any) => {
-                return <li>{item}</li>;
-              })} */}
               <div className="mt-20 d-flex justify-content-end">
                 <CustomButton
                   bgcolor={lightBlue3}

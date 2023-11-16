@@ -22,13 +22,19 @@ import {
 } from "../../../redux/features/branch/branchSlice";
 import CardView from "../../Franchise/CardView/CardView";
 import { ListBranchStyled } from "../../Franchise/ListFranchise/styles";
+import useScreenTranslation from "../../../hooks/useScreenTranslation";
 
 
 const ListInstructor: React.FC = () => {
+  const { getLabelByKey } = useScreenTranslation("instructorList");
+
   const navigate = useNavigate();
   const { branchData, loading, error } = useSelector(
     (state: RootState) => state.branchData
   );
+
+
+
 
   const { businessTypes, activities } = useSelector(
     (state: RootState) => state.appData.data.statusData
@@ -37,55 +43,52 @@ const ListInstructor: React.FC = () => {
   const { selectedLanguage } = useSelector(
     (state: RootState) => state.selectedLanguage
   );
+
+
   const columns: ColumnsType<BranchDataType> = [
     {
-      title: "Id",
-      dataIndex: "branchId",
-      key: "branchId",
+      title: getLabelByKey("Id"),
+      dataIndex: "instructorId",
+      key: "instructorId",
     },
     {
-      title: "Name",
-      dataIndex: "branchName",
-      key: "branchName",
+      title: getLabelByKey("Image"),
+      dataIndex: "instructorImage",
+      key: "instructorImage",
     },
     {
-      title: "Type",
-      dataIndex: "branchType",
-      key: "branchType",
-      render: (_, { branchType }) => {
-        let item = businessTypes.find((b) => b.id === branchType);
-        return <p>{item?.en}</p>;
-      },
-    },
-
-    {
-      title: "Activity",
-      dataIndex: "activity",
-      key: "activity",
-      render: (_, { activities: commaSeparatedIds }) => {
-        const filteredObjects = activities.filter((obj) => {
-          const objId = obj.id;
-          return commaSeparatedIds.split(",").includes(objId.toString());
-        });
-        let names = filteredObjects
-          .map((obj) => (obj as any)[selectedLanguage])
-          .join(", ");
-        const maxLength = 20;
-
-        if (names.length > maxLength) {
-          names = names.slice(0, maxLength - 3) + "...";
-        }
-        return <p>{names}</p>;
-      },
+      title: getLabelByKey("name"),
+      dataIndex: "instructorName",
+      key: "instructorName",
     },
     {
-      title: "Phone Number",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
+      title: getLabelByKey("specializations"),
+      dataIndex: "instructorSpecilization",
+      key: "instructorSpecilization",
     },
     {
-      title: "Action",
-      key: "action",
+      title: getLabelByKey("ranking"),
+      dataIndex: "instructorRanking",
+      key: "instructorRanking",
+    },
+    {
+      title: getLabelByKey("experience"),
+      dataIndex: "instructorExperience",
+      key: "instructorExperience",
+    },
+    {
+      title: getLabelByKey("phoneNumber"),
+      dataIndex: "instructorPhoneNumber",
+      key: "instructorPhoneNumber",
+    },
+    {
+      title: getLabelByKey("status"),
+      dataIndex: "instructorStatus",
+      key: "instructorStatus",
+    },
+    {
+      title: getLabelByKey("actions"),
+      key: "instructoraction",
       render: (_, record) => {
         const items = [
           {
@@ -104,7 +107,6 @@ const ListInstructor: React.FC = () => {
             onClick: () => navigation(record, "subscribe"),
           },
         ];
-
         return (
           <Space size="middle">
             <Dropdown menu={{ items }}>
@@ -119,6 +121,95 @@ const ListInstructor: React.FC = () => {
       },
     },
   ];
+
+
+  // const columns: ColumnsType<BranchDataType> = [
+  //   {
+  //     title: getLabelByKey("Id"),
+  //     dataIndex: "branchId",
+  //     key: "branchId",
+  //   },
+  //   {
+  //     title: getLabelByKey("Image") ,
+  //     dataIndex: "Image",
+  //     key: "Image",
+  //   },
+  //   {
+  //     title: getLabelByKey("name") ,
+  //     dataIndex: "name",
+  //     key: "name",
+  //   },
+  //   {
+  //     title: getLabelByKey("Type"),
+  //     dataIndex: "branchType",
+  //     key: "branchType",
+  //     render: (_, { branchType }) => {
+  //       let item = businessTypes.find((b) => b.id === branchType);
+  //       return <p>{item?.en}</p>;
+  //     },
+  //   },
+
+  //   {
+  //     title:getLabelByKey("Activity"),
+  //     dataIndex: "activity",
+  //     key: "activity",
+  //     render: (_, { activities: commaSeparatedIds }) => {
+  //       const filteredObjects = activities.filter((obj) => {
+  //         const objId = obj.id;
+  //         return commaSeparatedIds.split(",").includes(objId.toString());
+  //       });
+  //       let names = filteredObjects
+  //         .map((obj) => (obj as any)[selectedLanguage])
+  //         .join(", ");
+  //       const maxLength = 20;
+
+  //       if (names.length > maxLength) {
+  //         names = names.slice(0, maxLength - 3) + "...";
+  //       }
+  //       return <p>{names}</p>;
+  //     },
+  //   },
+  //   {
+  //     title: getLabelByKey("Phone Number"),
+  //     dataIndex: "phoneNumber",
+  //     key: "phoneNumber",
+  //   },
+  //   {
+  //     title: "Action",
+  //     key: "action",
+  //     render: (_, record) => {
+  //       const items = [
+  //         {
+  //           key: "1",
+  //           label: "View",
+  //           onClick: () => navigation(record, "view"),
+  //         },
+  //         {
+  //           key: "2",
+  //           label: "Edit",
+  //           onClick: () => navigation(record, "edit"),
+  //         },
+  //         {
+  //           key: "3",
+  //           label: "Subscribe",
+  //           onClick: () => navigation(record, "subscribe"),
+  //         },
+  //       ];
+
+  //       return (
+  //         <Space size="middle">
+  //           <Dropdown menu={{ items }}>
+  //             <img
+  //               src={actionMenuTogglerIcon}
+  //               alt="action menu"
+  //               style={{ cursor: "pointer" }}
+  //             />
+  //           </Dropdown>
+  //         </Space>
+  //       );
+  //     },
+  //   },
+  // ];
 
   const navigation = (record: BranchDataType, redirectTo: string) => {
     switch (redirectTo) {
@@ -171,10 +262,11 @@ export default ListInstructor;
 
 const RenderTableTitle = () => {
   const navigate = useNavigate();
+  const { getLabelByKey } = useScreenTranslation("instructorList");
 
   return (
     <div className="d-flex justify-content-between">
-      <h3 className="table-heading">Instructor</h3>
+      <h3 className="table-heading">{getLabelByKey("title")}</h3>
       <CustomButton
         bgcolor={tertiaryBlue2}
         textTransform="Captilize"

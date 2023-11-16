@@ -94,11 +94,11 @@ const NavigationMenu = () => {
       ),
     },
     {
-      key: menuLinksKeys.instructor,
+      key: menuLinksKeys.listInstructor,
       label: getLabel(
         "Instructor",
-        menuLinks.instructor,
-        menuLinksKeys.instructor
+        menuLinks.listInstructor,
+        menuLinksKeys.listInstructor
       ),
     },
     {

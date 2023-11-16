@@ -26,11 +26,13 @@ import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelec
 import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
 
 const CreateInstructor = () => {
-  const { getLabelByKey } = useScreenTranslation("franchiseCreate");
+  const { getLabelByKey } = useScreenTranslation("instructorCreate");
   const {
     statusData: { activities, facilities, businessTypes },
   } = useSelector((state: RootState) => state.appData.data);
+
   const { loading, handleSubmit } = useBranch();
+
   const initialValues: CreateInstructorInitialValues = {
     instructorName: "",
     emailAddress: "",
@@ -51,6 +53,7 @@ const CreateInstructor = () => {
   const addressReg = new RegExp(address.pattern);
   const emailAddress = validationFinder("EMAIL_ADDRESS")!;
   const emailAddressReg = new RegExp(emailAddress.pattern);
+
   const franchisePhoneNumber = validationFinder("PHONE_NUMBER")!;
 
 
@@ -87,8 +90,8 @@ const CreateInstructor = () => {
     <CreateSchoolStyled>
       <Formik
         initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+        // validationSchema={validationSchema}
+        onSubmit={() => { }}
       >
         {(formik) => {
           return (
@@ -128,7 +131,7 @@ const CreateInstructor = () => {
                     <CustomPhoneInput
                       label="Instructor Phone Number"
                       name="instructorPhoneNumber"
-                      value={formik.values.franchisePhoneNumber}
+                      value={formik.values.instructorPhoneNumber}
                       placeholder={getLabelByKey("instructorPhoneNumber")}
                       limitMaxLength={true}
                       handleOnChange={(e: string) => {
@@ -170,7 +173,7 @@ const CreateInstructor = () => {
                       <FormControl
                         control="select"
                         type="text"
-                        name="ranking"
+                        name="ranks"
                         fontFamily={fontFamilyMedium}
                         label="Ranking"
                         padding="10px"

@@ -10,6 +10,7 @@ export interface CreateInstructorInitialValues {
   selectedActivities: string[];
   selectedFacilities: string[];
   termCondition: string;
+  ranks: string;
   // stripePublishableKey: string;
   // stripeSecretKey: string;
   // cardAccessToken: string;

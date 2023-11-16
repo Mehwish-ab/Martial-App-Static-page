@@ -33,6 +33,7 @@ import ViewFranchise from "../screens/Franchise/ViewFranchise/ViewFranchise";
 import SubscribeFranchise from "../screens/Franchise/SubscribeFranchise/SubscribeFranchise";
 import ListInstructor from "../screens/Instructor/ListInstructor/ListInstructor";
 import CreateInstructor from "../screens/Instructor/CreateInstructor/CreateInstructor";
+import InformationInstructor from "../screens/Instructor/InformationInstructor/InformationInstructor";
 
 function AppRoutes() {
   const dispatch = useDispatch();
@@ -186,6 +187,15 @@ function AppRoutes() {
           element={
             <AppLayout>
               <CreateInstructor />
+            </AppLayout>
+          }
+        />
+
+        <Route
+          path="/instructor"
+          element={
+            <AppLayout>
+              <InformationInstructor />
             </AppLayout>
           }
         />

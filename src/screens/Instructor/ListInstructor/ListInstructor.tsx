@@ -20,7 +20,6 @@ import {
   BranchDataType,
   getBranchBySchoolId,
 } from "../../../redux/features/branch/branchSlice";
-import CardView from "../../Franchise/CardView/CardView";
 import { ListBranchStyled } from "../../Franchise/ListFranchise/styles";
 
 
@@ -162,7 +161,6 @@ const ListInstructor: React.FC = () => {
         />
       </ListBranchStyled>
 
-      <CardView />
     </>
   );
 };
@@ -171,7 +169,6 @@ export default ListInstructor;
 
 const RenderTableTitle = () => {
   const navigate = useNavigate();
-
   return (
     <div className="d-flex justify-content-between">
       <h3 className="table-heading">Instructor</h3>

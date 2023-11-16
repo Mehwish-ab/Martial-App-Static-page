@@ -67,18 +67,18 @@ function App() {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [pathname]);
 
-  useEffect(() => {
-    const regex = /\bregister\b/;
-    let register = regex.test(pathname);
-    if (pathname === "/login" || register || pathname === "/") {
-      if (loginData) {
-        return navigate("/");
-      }
-    }
-    if (!loginData) {
-      return navigate("/login");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const regex = /\bregister\b/;
+  //   let register = regex.test(pathname);
+  //   if (pathname === "/login" || register || pathname === "/") {
+  //     if (loginData) {
+  //       return navigate("/");
+  //     }
+  //   }
+  //   if (!loginData) {
+  //     return navigate("/login");
+  //   }
+  // }, []);
 
   return (
     <>

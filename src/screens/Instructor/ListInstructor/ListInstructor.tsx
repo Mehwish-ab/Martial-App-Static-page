@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Dropdown, Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
@@ -20,9 +20,12 @@ import {
   BranchDataType,
   getBranchBySchoolId,
 } from "../../../redux/features/branch/branchSlice";
+
+import { InstructorDataType } from "../../../redux/features/instructor/instructorSlice";
+import CardView from "../../Franchise/CardView/CardView";
 import { ListBranchStyled } from "../../Franchise/ListFranchise/styles";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
-
+import DummyData from "./dummyData.json";
 
 const ListInstructor: React.FC = () => {
   const { getLabelByKey } = useScreenTranslation("instructorList");
@@ -44,7 +47,7 @@ const ListInstructor: React.FC = () => {
   );
 
 
-  const columns: ColumnsType<BranchDataType> = [
+  const columns: ColumnsType<InstructorDataType> = [
     {
       title: getLabelByKey("Id"),
       dataIndex: "instructorId",
@@ -54,6 +57,10 @@ const ListInstructor: React.FC = () => {
       title: getLabelByKey("Image"),
       dataIndex: "instructorImage",
       key: "instructorImage",
+      render: (DummyData) => {
+
+        return <img src={DummyData} />;
+      }
     },
     {
       title: getLabelByKey("name"),
@@ -210,36 +217,35 @@ const ListInstructor: React.FC = () => {
   //   },
   // ];
 
-  const navigation = (record: BranchDataType, redirectTo: string) => {
+  const navigation = (record: InstructorDataType, redirectTo: string) => {
     switch (redirectTo) {
       case "edit":
-        navigate(`/franchise/edit/${record.branchId}`, {
+        navigate(`/instructor/edit/${record.instructorId}`, {
           state: {
-            branchToEdit: record as BranchDataType,
+            branchToEdit: record as InstructorDataType,
           },
         });
         break;
 
       case "view":
-        navigate(`/franchise/view/${record.branchId}`, {
+        navigate(`/instructor/view/${record.instructorId}`, {
           state: {
-            branch: record as BranchDataType,
+            branch: record as InstructorDataType,
           },
         });
         break;
 
       case "subscribe":
-        navigate(`/franchise/subscribe/${record.branchId}`, {
+        navigate(`/instructor/subscribe/${record.instructorId}`, {
           state: {
-            branch: record as BranchDataType,
+            branch: record as InstructorDataType,
           },
         });
     }
   };
 
-  useEffect(() => {
-    store.dispatch(getBranchBySchoolId());
-  }, []);
+
+
 
   return (
     <>
@@ -247,7 +253,7 @@ const ListInstructor: React.FC = () => {
       <ListBranchStyled>
         <Table
           columns={columns}
-          dataSource={branchData?.data}
+          dataSource={DummyData}
           title={() => <RenderTableTitle />}
         />
       </ListBranchStyled>
@@ -277,7 +283,7 @@ const RenderTableTitle = () => {
         fontSize="17px"
         icon={<img src={plusIcon} alt="edit icon" />}
         clicked={() => {
-          navigate(`/franchise/create`);
+          navigate(`/instructor/create`);
         }}
       />
     </div>

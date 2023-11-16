@@ -33,6 +33,8 @@ import ViewFranchise from "../screens/Franchise/ViewFranchise/ViewFranchise";
 import SubscribeFranchise from "../screens/Franchise/SubscribeFranchise/SubscribeFranchise";
 import ListInstructor from "../screens/Instructor/ListInstructor/ListInstructor";
 import CreateInstructor from "../screens/Instructor/CreateInstructor/CreateInstructor";
+import ListTimeTable from "../screens/TimeTable/ListTimeTable/ListTimeTable";
+import CreateTimeTable from "../screens/TimeTable/CreateTimeTable/CreateTimeTable";
 
 function AppRoutes() {
   const dispatch = useDispatch();
@@ -186,6 +188,23 @@ function AppRoutes() {
           element={
             <AppLayout>
               <CreateInstructor />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/timetable/list"
+          element={
+            <AppLayout>
+              <ListTimeTable />
+            </AppLayout>
+          }
+        />
+
+        <Route
+          path="/timetable/create"
+          element={
+            <AppLayout>
+              <CreateTimeTable />
             </AppLayout>
           }
         />

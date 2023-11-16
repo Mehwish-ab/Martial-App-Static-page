@@ -280,7 +280,7 @@ const CreateInstructor = () => {
                         fontFamily={fontFamilyMedium}
                         // label={getLabelByKey("latestCertification")}
                         label="Latest Certification"
-                        padding="10px"
+                        padding="10px"A
                         // placeholder={getLabelByKey("latestCertification")}
                         placeholder="Pound"
                         className={

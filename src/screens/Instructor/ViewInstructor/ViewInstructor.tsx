@@ -1,18 +1,18 @@
-import { Card, List } from "antd";
+import { Card } from "antd";
 import OverlayImages from "../../Home/OverlayImages/OverlayImages";
 import { ViewInstructorStyled } from "./styles";
 import { useLocation } from "react-router-dom";
 import { BranchDataType } from "../../../redux/features/branch/branchSlice";
-import useScreenTranslation from "../../../hooks/useScreenTranslation";
+// import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { Col, Row } from "react-bootstrap";
-import { ErrorMessage, Field, Formik } from "formik";
+import { Field, Formik } from "formik";
 import { useState, useEffect } from "react";
 
 
 
 
 const ViewInstructor = () => {
-  const { getLabelByKey } = useScreenTranslation("branchCreate");
+  // const { getLabelByKey } = useScreenTranslation("branchCreate");
   const [initialValues, setInitialValues] = useState({
     termCondition: false, agreement: false, liability: false
   });

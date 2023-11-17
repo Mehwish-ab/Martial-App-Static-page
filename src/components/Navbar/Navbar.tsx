@@ -9,7 +9,6 @@ import {
   Input,
   InputRef,
   MenuProps,
-  Select,
 } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 
@@ -25,8 +24,8 @@ import searchIcon from "../../assets/icons/ic_search(1).svg";
 import notificationIcon from "../../assets/icons/ic_notitfication.svg";
 import profileIcon from "../../assets/icons/ic_profile_avatar.svg";
 import ukIcon from "../../assets/icons/ic_uk_flag.svg";
-import cloudIcon from "../../assets/icons/ic_cloud.svg";
-import logo from "../../assets/icons/logo.svg";
+// import cloudIcon from "../../assets/icons/ic_cloud.svg";
+// import logo from "../../assets/icons/logo.svg";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 
@@ -105,7 +104,7 @@ function Navbar() {
                 icon={<img src={notificationIcon} alt="notification " />}
                 type="button"
                 bgcolor={"white"}
-                width="50px"
+                width="40px"
                 color=""
                 padding=""
               />
@@ -113,12 +112,20 @@ function Navbar() {
             </div>
             <div className="profile-area">
               <Badge dot color="green">
-                <Avatar size={50} src={profileIcon} shape="square" />
+                <Avatar size={45} src={profileIcon} shape="square" />
               </Badge>
+              <h3 style={{
+                display: "inline-block",
+                fontSize: "16px",
+                fontStyle: "normal",
+                fontWeight: "400",
+                lineHeight: "normal",
+                marginLeft: "10px",
+              }}>Adnan Quarshi</h3>
             </div>
             <div className="language-area">
               <Badge>
-                <Avatar size={40} src={ukIcon} shape="square" />
+                <Avatar size={33} src={ukIcon} shape="square" />
               </Badge>
             </div>
             <Dropdown menu={{ items }} placement="bottomLeft" arrow>

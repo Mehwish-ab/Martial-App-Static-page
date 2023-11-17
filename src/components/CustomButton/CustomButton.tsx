@@ -1,6 +1,7 @@
 import { Button } from "antd";
 import { fontFamilyMedium } from "../GlobalStyle";
 import CustormButtonStyle from "./style";
+import styled from "styled-components"
 
 export type ButtonProps = {
   title: string;
@@ -72,3 +73,35 @@ const CustomButton = ({
 };
 
 export default CustomButton;
+
+export const  CustomDiv = styled.div`
+  position: relative;
+  display: flex;
+  .instructorDateSection, .mainarrow, .dateRange {
+    display: flex;
+}
+  .arrowleft, .arrowright, .dateRange, .dateToday {
+    border-radius: 8px;
+    border: 1px solid rgb(232, 232, 232);
+    background: rgb(255, 255, 255);
+    color: rgb(51, 51, 51);
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    padding: 11px 14px;
+    margin-right: 20px;
+    height: 40px;
+    cursor: pointer;
+}
+.dateRange {
+  p{
+    margin-right: 10px;
+    color: rgb(51, 51, 51);
+    font-size: 15px;
+  }
+  img{
+    margin-left: 10px;
+  }
+}
+`;

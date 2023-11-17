@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
-
+import React from "react";
 import { Dropdown, Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { ListInstructorStyled } from "./styles";
-import CustomButton from "../../../components/CustomButton/CustomButton";
+import CustomButton, { CustomDiv } from "../../../components/CustomButton/CustomButton";
 import {
   fontFamilyMedium,
   pureDark,
@@ -14,37 +13,38 @@ import plusIcon from "../../../assets/icons/ic_plus.svg";
 import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
 
 import { useSelector } from "react-redux";
-import store, { RootState } from "../../../redux/store";
+// import store, { RootState } from "../../../redux/store";
+import { RootState } from "../../../redux/store";
 import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
-import {
-  BranchDataType,
-  getBranchBySchoolId,
-} from "../../../redux/features/branch/branchSlice";
 
 import { InstructorDataType } from "../../../redux/features/instructor/instructorSlice";
-import CardView from "../../Franchise/CardView/CardView";
-import { ListBranchStyled } from "../../Franchise/ListFranchise/styles";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import DummyData from "./dummyData.json";
+import BeltImage from "../../../assets/images/BlueBelt.svg";
+import StatusActiveError from "../../../assets/images/activeBtnError.svg"
+import RightArrow from "../../../assets/images/rightArrow.svg";
+import LeftArrow from "../../../assets/images/leftArrow.svg";
+import DateCalander from "../../../assets/images/dateCalander.svg";
 
 const ListInstructor: React.FC = () => {
   const { getLabelByKey } = useScreenTranslation("instructorList");
 
   const navigate = useNavigate();
-  const { branchData, loading, error } = useSelector(
+  // const { branchData, loading, error } = useSelector(
+  //   (state: RootState) => state.branchData
+  // );
+
+  const { loading } = useSelector(
     (state: RootState) => state.branchData
   );
 
+  // const { businessTypes, activities } = useSelector(
+  //   (state: RootState) => state.appData.data.statusData
+  // );
 
-
-
-  const { businessTypes, activities } = useSelector(
-    (state: RootState) => state.appData.data.statusData
-  );
-
-  const { selectedLanguage } = useSelector(
-    (state: RootState) => state.selectedLanguage
-  );
+  // const { selectedLanguage } = useSelector(
+  //   (state: RootState) => state.selectedLanguage
+  // );
 
 
   const columns: ColumnsType<InstructorDataType> = [
@@ -59,7 +59,7 @@ const ListInstructor: React.FC = () => {
       key: "instructorImage",
       render: (DummyData) => {
 
-        return <img src={DummyData} width={44} />;
+        return <img src={DummyData} width={44} alt="dummy images data" />;
       }
     },
     {
@@ -72,7 +72,7 @@ const ListInstructor: React.FC = () => {
       dataIndex: "instructorSpecilization",
       key: "instructorSpecilization",
       render: (DummyData) => {
-        return <p className="sub-title fs-6">
+        return <p className="sub-title">
           {DummyData?.length > 33
             ? `${DummyData.slice(0, 50)}...`
             : DummyData}
@@ -83,9 +83,13 @@ const ListInstructor: React.FC = () => {
       title: getLabelByKey("ranking"),
       dataIndex: "instructorRanking",
       key: "instructorRanking",
+      render: (DummyData) => {
+        return <img src={BeltImage} alt="image" width="159px" height="18px" />
+      },
     },
     {
-      title: getLabelByKey("experience"),
+      // title: getLabelByKey("experiences"),
+      title: "Experience",
       dataIndex: "instructorExperience",
       key: "instructorExperience",
     },
@@ -98,6 +102,14 @@ const ListInstructor: React.FC = () => {
       title: getLabelByKey("status"),
       dataIndex: "instructorStatus",
       key: "instructorStatus",
+      render: (DummyData) => {
+        return (
+          <div>
+            <button>{DummyData}</button>
+            <img src={StatusActiveError} alt="image" />
+          </div>
+        );
+      },
     },
     {
       title: getLabelByKey("actions"),
@@ -257,13 +269,13 @@ const ListInstructor: React.FC = () => {
   return (
     <>
       {loading && <LoadingOverlay message="" />}
-      <ListBranchStyled>
+      <ListInstructorStyled>
         <Table
           columns={columns}
           dataSource={DummyData as unknown as InstructorDataType[]}
           title={() => <RenderTableTitle />}
         />
-      </ListBranchStyled>
+      </ListInstructorStyled>
 
     </>
   );
@@ -278,21 +290,40 @@ const RenderTableTitle = () => {
   return (
     <div className="d-flex justify-content-between">
       <h3 className="table-heading">{getLabelByKey("title")}</h3>
-      <CustomButton
-        bgcolor={tertiaryBlue2}
-        textTransform="Captilize"
-        color={pureDark}
-        padding="8px 10px"
-        fontFamily={`${fontFamilyMedium}`}
-        width="fit-content"
-        type="submit"
-        title=""
-        fontSize="17px"
-        icon={<img src={plusIcon} alt="edit icon" />}
-        clicked={() => {
-          navigate(`/instructor/create`);
-        }}
-      />
+      <CustomDiv>
+        <div className="instructorDateSection">
+          <div className="mainarrow">
+          <div className="arrowright">
+            <img src={LeftArrow} alt="Date" />    
+            </div> 
+            <div className="arrowleft">
+              <img src={RightArrow} alt="Date" />  
+            </div> 
+             
+          </div>
+          <div className="dateRange">
+            <p>Mon, Sep 11, 2023 - Thu Sep 21, 2023</p>
+            <img src={DateCalander} alt="" />
+            </div>
+          <div className="dateToday">Today</div>
+        </div>
+        <CustomButton
+          bgcolor={tertiaryBlue2}
+          textTransform="Captilize"
+          color={pureDark}
+          padding="8px 10px"
+          fontFamily={`${fontFamilyMedium}`}
+          width="fit-content"
+          type="submit"
+          title=""
+          fontSize="17px"
+          icon={<img src={plusIcon} alt="edit icon" />}
+          clicked={() => {
+            navigate(`/instructor/create`);
+          }}
+        />
+      </CustomDiv>
+
     </div>
   );
 };

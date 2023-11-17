@@ -192,6 +192,15 @@ function AppRoutes() {
         />
 
         <Route
+          path="/instructor/update"
+          element={
+            <AppLayout>
+              <CreateInstructor />
+            </AppLayout>
+          }
+        />
+
+        <Route
           path="/instructor"
           element={
             <AppLayout>

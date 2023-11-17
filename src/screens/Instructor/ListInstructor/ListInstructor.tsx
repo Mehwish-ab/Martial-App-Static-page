@@ -253,7 +253,7 @@ const ListInstructor: React.FC = () => {
       <ListBranchStyled>
         <Table
           columns={columns}
-          dataSource={DummyData}
+          dataSource={DummyData as unknown as InstructorDataType[]}
           title={() => <RenderTableTitle />}
         />
       </ListBranchStyled>

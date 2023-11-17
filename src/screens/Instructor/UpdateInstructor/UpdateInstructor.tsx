@@ -21,7 +21,6 @@ import CustomPhoneInput from "../../../components/CustomPhoneInput/CustomPhoneIn
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import { CreateSchoolStyled } from "../../CreateSchool/styles";
 import { CreateInstructorInitialValues } from "../constant";
-import useBranch from "../../../../src/screens/Franchise/hooks/useFranchise";
 import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelect";
 import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
 
@@ -30,8 +29,6 @@ const CreateInstructor = () => {
   const {
     statusData: { activities, facilities, businessTypes },
   } = useSelector((state: RootState) => state.appData.data);
-
-  const { loading, handleSubmit } = useBranch();
 
   const initialValues: CreateInstructorInitialValues = {
     instructorName: "",
@@ -45,7 +42,7 @@ const CreateInstructor = () => {
     selectedActivities: [],
     selectedFacilities: [],
     termCondition: "",
-    ranks: ""
+    ranks: ''
   };
 
   const franchiseName = validationFinder("BUSINESS_NAME")!;
@@ -270,9 +267,9 @@ const CreateInstructor = () => {
                   fontFamily={`${fontFamilyMedium}`}
                   width="fit-content"
                   type="submit"
-                  title={getLabelByKey("primaryButton")}
+                  title="Update"
                   fontSize="18px"
-                  loading={loading}
+                  loading={false}
                 />
               </div>
             </Form>

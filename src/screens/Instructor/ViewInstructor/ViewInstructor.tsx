@@ -6,15 +6,34 @@ import { BranchDataType } from "../../../redux/features/branch/branchSlice";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { Col, Row } from "react-bootstrap";
 import { ErrorMessage, Field, Formik } from "formik";
+import { useState, useEffect } from "react";
 
 
 
 
 const ViewInstructor = () => {
   const { getLabelByKey } = useScreenTranslation("branchCreate");
+  const [initialValues, setInitialValues] = useState({
+    termCondition: false, agreement: false, liability: false
+  });
 
   const location = useLocation();
   const branch: BranchDataType = location.state?.branch;
+
+
+  useEffect(() => {
+
+    // TODO: this state will be set after getting response from api
+    setInitialValues({
+      termCondition: false, agreement: false, liability: false
+    });
+    return () => {
+      setInitialValues({
+        termCondition: false, agreement: false, liability: false
+      });
+    };
+  }, []);
+
 
 
   return (
@@ -119,7 +138,7 @@ const ViewInstructor = () => {
           </Col>
         </Row>
       </Card>
-      <Formik>
+      <Formik initialValues={initialValues} onSubmit={() => { console.log("") }}>
         <div className="d-flex flex-column ms-4">
           <label htmlFor="termCondition">
             <div className="mt-3 d-flex align-content-start justify-content-start">

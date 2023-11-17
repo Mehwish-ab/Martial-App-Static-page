@@ -59,7 +59,7 @@ const ListInstructor: React.FC = () => {
       key: "instructorImage",
       render: (DummyData) => {
 
-        return <img src={DummyData} />;
+        return <img src={DummyData} width={44} />;
       }
     },
     {
@@ -71,6 +71,13 @@ const ListInstructor: React.FC = () => {
       title: getLabelByKey("specializations"),
       dataIndex: "instructorSpecilization",
       key: "instructorSpecilization",
+      render: (DummyData) => {
+        return <p className="sub-title fs-6">
+          {DummyData?.length > 33
+            ? `${DummyData.slice(0, 50)}...`
+            : DummyData}
+        </p>
+      }
     },
     {
       title: getLabelByKey("ranking"),

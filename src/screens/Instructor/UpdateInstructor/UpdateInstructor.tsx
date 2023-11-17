@@ -194,7 +194,7 @@ const CreateInstructor = () => {
                   <Col md="6">
                     <CheckboxesSelect
                       name="selectedFacilities"
-                      label="Specializations"
+                      label="Select Specializations"
                       list={facilities}
                       showErrorMsgInList={false}
                     />
@@ -215,7 +215,7 @@ const CreateInstructor = () => {
                       type="text"
                       name="description"
                       fontFamily={fontFamilyMedium}
-                      label={getLabelByKey("description")}
+                      label="Biography or introduction"
                       padding="10px"
                       placeholder={getLabelByKey("description")}
                       height="200px"

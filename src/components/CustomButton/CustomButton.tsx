@@ -74,7 +74,7 @@ const CustomButton = ({
 
 export default CustomButton;
 
-export const  CustomDiv = styled.div`
+export const CustomDiv = styled.div`
   position: relative;
   display: flex;
   .instructorDateSection, .mainarrow, .dateRange {
@@ -89,7 +89,7 @@ export const  CustomDiv = styled.div`
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    padding: 11px 14px;
+    padding: 10px 10px;
     margin-right: 20px;
     height: 40px;
     cursor: pointer;

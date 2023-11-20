@@ -3,6 +3,7 @@ import {
   fontFamilyBold,
   mediaDeviceMax,
   tertiaryGrey21,
+  lightDark2,
 } from "../GlobalStyle";
 
 export const NavbarStyle = styled.div`
@@ -110,9 +111,13 @@ export const NavbarStyle = styled.div`
       }
     }
 
+    .navbarSearchField > input::placeholder {
+        color: ${lightDark2};
+    }
+
     .notification-count {
       position: absolute;
-      top: -32px;
+      top: -20px;
       right: 7px;
       content: "";
       z-index: 1;

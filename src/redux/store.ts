@@ -10,6 +10,8 @@ import screenTranslationSlice from "./features/screenTranslationSlice";
 import selectedLanguageSlice from "./features/selectedLanguageSlice";
 import dashboardDataSlice from "./features/dashboard/dashboardDataSlice";
 import branchSlice from "./features/branch/branchSlice";
+import timeTableSlice from "./features/TimeTable/TimeTableSlice"
+import instructorSlice from "./features/instructor/instructorSlice"
 const store = configureStore({
   reducer: {
     userLocation: locationSlice,
@@ -23,6 +25,8 @@ const store = configureStore({
     selectedLanguage: selectedLanguageSlice,
     dashboardData: dashboardDataSlice,
     branchData: branchSlice,
+    timeTableData: timeTableSlice,
+    instructorData: instructorSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

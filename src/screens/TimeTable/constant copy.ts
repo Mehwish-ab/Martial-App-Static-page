@@ -1,4 +1,4 @@
-export interface CreateTimeTableInitialValues {
+export interface CreateInstructorInitialValues {
   instructorName: string;
   emailAddress: string;
   instructorPhoneNumber: string;
@@ -10,6 +10,7 @@ export interface CreateTimeTableInitialValues {
   selectedActivities: string[];
   selectedFacilities: string[];
   termCondition: string;
+  ranks: string;
   // stripePublishableKey: string;
   // stripeSecretKey: string;
   // cardAccessToken: string;

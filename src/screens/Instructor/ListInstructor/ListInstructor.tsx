@@ -293,18 +293,18 @@ const RenderTableTitle = () => {
       <CustomDiv>
         <div className="instructorDateSection">
           <div className="mainarrow">
-          <div className="arrowright">
-            <img src={LeftArrow} alt="Date" />    
-            </div> 
+            <div className="arrowright">
+              <img src={LeftArrow} alt="Date" />
+            </div>
             <div className="arrowleft">
-              <img src={RightArrow} alt="Date" />  
-            </div> 
-             
+              <img src={RightArrow} alt="Date" />
+            </div>
+
           </div>
           <div className="dateRange">
             <p>Mon, Sep 11, 2023 - Thu Sep 21, 2023</p>
             <img src={DateCalander} alt="" />
-            </div>
+          </div>
           <div className="dateToday">Today</div>
         </div>
         <CustomButton

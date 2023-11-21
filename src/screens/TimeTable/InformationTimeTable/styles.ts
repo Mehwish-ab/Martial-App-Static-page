@@ -7,11 +7,14 @@ import {
   pureDark2,
   lightDark2,
   lightDark3,
+  tertiaryGrey24,
+
   fontFamilyRegular,
+  mediaDeviceMax,
   // mainColor,
 } from "../../../components/GlobalStyle";
 
-export const CreateTimeTableStyled = styled.div`
+export const InformationTimeTableStyle = styled.div`
   background-color: #fff;
   padding: 16px;
   border-radius: 20px;
@@ -112,8 +115,8 @@ export const CreateTimeTableStyled = styled.div`
     text-align: center;
   }
 
-  .ant-table-tbody > tr > td:nth-child(8),
-  .ant-table-thead > tr > th:nth-child(8){
+  .ant-table-tbody > tr > td:nth-child(7),
+  .ant-table-thead > tr > th:nth-child(7){
     text-align: center;
   }
 
@@ -195,6 +198,30 @@ export const CreateTimeTableStyled = styled.div`
         margin-top: 65px;
     }
     
+    .list-item {
+      border-bottom: 1px solid ${tertiaryGrey24};
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+
+      &-title {
+        font-size: 12px;
+        color: ${lightDark2};
+        font-weight: 400;
+        font-family: ${fontFamilyRegular};
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+
+      &-value {
+        margin-top: 6px;
+        font-size: 14px;
+        color: ${pureDark2};
+        font-weight: 400;
+        font-style: normal;
+        line-height: normal;
+        font-family: ${fontFamilyRegular};
+      }
   
 
 `;

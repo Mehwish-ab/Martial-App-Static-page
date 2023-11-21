@@ -1,5 +1,5 @@
 import React from "react";
-import { Dropdown, Form, Space } from "antd";
+import { Col, Dropdown, Form, Space } from "antd";
 import { ErrorMessage, Field, Formik } from "formik";
 import { useNavigate } from "react-router-dom";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
@@ -10,11 +10,6 @@ import FormControl from "../../../components/FormControl";
 import { useSelector } from "react-redux";
 import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
 import DummyData from "./dummyData.json";
-
-
-
-
-
 
 import DateCalander from "../../../assets/images/dateCalander.svg";
 import {
@@ -27,7 +22,7 @@ import {
     pureDark,
     // mainColor,
 } from "../../../components/GlobalStyle";
-import { CreateTimeTableStyled } from "./styles";
+import { InformationTimeTableStyle } from "./styles";
 import { Table } from "antd";
 import { CreateTimeTableInitialValues } from "../constant";
 import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
@@ -36,7 +31,7 @@ import { RootState } from "../../../redux/store";
 import { ColumnsType } from "antd/lib/table";
 // import { FormControl } from "react-bootstrap";
 
-const CreateTimeTable: React.FC = () => {
+const InformationTimeTable: React.FC = () => {
     const { getLabelByKey } = useScreenTranslation("listTimeTable");
 
     const navigate = useNavigate();
@@ -61,9 +56,8 @@ const CreateTimeTable: React.FC = () => {
             key: "createTimeTableStartDate",
             render: (DummyData) => {
                 return (
-                    <div className="timeTableBox border rounded-2 p-2 d-flex justify-content-between align-items-center">
-                        <div>{DummyData}</div>
-                        <img src={Clock} alt="clock" />
+                    <div className="list-item mb-0">
+                        <div className="list-item-value ms-2">{DummyData}</div>
                     </div>
                 );
             },
@@ -74,9 +68,8 @@ const CreateTimeTable: React.FC = () => {
             key: "createTimeTableEndDate",
             render: (DummyData) => {
                 return (
-                    <div className="timeTableBox border rounded-2 p-2 d-flex justify-content-between align-items-center">
-                        <div>{DummyData}</div>
-                        <img src={Clock} alt="clock" />
+                    <div className="list-item mb-0">
+                        <div className="list-item-value ms-2">{DummyData}</div>
                     </div>
                 );
             },
@@ -88,9 +81,8 @@ const CreateTimeTable: React.FC = () => {
             key: "createTimeTableStartBreak",
             render: (DummyData) => {
                 return (
-                    <div className="timeTableBox border rounded-2 p-2 d-flex justify-content-between align-items-center">
-                        <div>{DummyData}</div>
-                        <img src={Clock} alt="clock" />
+                    <div className="list-item mb-0">
+                        <div className="list-item-value ms-2">{DummyData}</div>
                     </div>
                 );
             },
@@ -102,9 +94,8 @@ const CreateTimeTable: React.FC = () => {
             key: "createTimeTableEndBreak",
             render: (DummyData) => {
                 return (
-                    <div className="timeTableBox border rounded-2 p-2 d-flex justify-content-between align-items-center">
-                        <div>{DummyData}</div>
-                        <img src={Clock} alt="clock" />
+                    <div className="list-item mb-0">
+                        <div className="list-item-value ms-2">{DummyData}</div>
                     </div>
                 );
             },
@@ -119,18 +110,6 @@ const CreateTimeTable: React.FC = () => {
                     <div>
                         <button>{DummyData}</button>
                         <img src={StatusActiveError} alt="image" />
-                    </div>
-                );
-            },
-        },
-        {
-            title: "Slot",
-            dataIndex: "createTimeTableSlot",
-            key: "createTimeTableSlot",
-            render: (DummyData) => {
-                return (
-                    <div>
-                        <button>{DummyData}</button>
                     </div>
                 );
             },
@@ -205,33 +184,20 @@ const CreateTimeTable: React.FC = () => {
     return (
         <>
             {loading && <LoadingOverlay message="" />}
-            <CreateTimeTableStyled>
+            <InformationTimeTableStyle>
                 <Table
+                    className="mb-5 "
                     columns={columns}
                     dataSource={DummyData as any}
                     title={() => <RenderTableTitle />}
                     pagination={false}
                 />
-                <div className="mt-20 d-flex justify-content-end">
-                    <CustomButton
-                        bgcolor={lightBlue3}
-                        textTransform="Captilize"
-                        color={pureDark}
-                        padding="12px 100px"
-                        fontFamily={`${fontFamilyMedium}`}
-                        width="fit-content"
-                        type="submit"
-                        title="Submit"
-                        fontSize="18px"
-                        loading={loading}
-                    />
-                </div>
-            </CreateTimeTableStyled>
+            </InformationTimeTableStyle>
         </>
     );
 };
 
-export default CreateTimeTable;
+export default InformationTimeTable;
 
 
 const RenderTableTitle = () => {
@@ -270,44 +236,36 @@ const RenderTableTitle = () => {
                             <h3 className="timetable-heading">Time Table</h3 >
                             <CustomDiv>
                                 <div className="col-4 titleField">
-                                    <FormControl
-                                        control="input"
-                                        type="text"
-                                        name="title"
-                                        label="Title"
-                                        padding="10px"
-                                        fontFamily={fontFamilyMedium}
-                                        fontSize="16px"
-                                        max={6}
-                                        placeholder="Enter Title  name"
-                                    />
+                                    <div className="list-item">
+                                        <div className="list-item-title">
+                                            Title
+                                        </div>
+                                        <div className="list-item-value">Karate Classes Schudle</div>
+                                    </div>
                                 </div>
                                 <div className="col-8 d-flex ">
                                     <div className="col-4 repeatField d-inline-block ps-4">
-                                        <FormControl
-                                            control="select"
-                                            type="text"
-                                            name="repeattimetable"
-                                            label="Repeat Time Table"
-                                            padding="7px"
-                                            fontFamily={fontFamilyMedium}
-                                            fontSize="16px"
-                                            max={6}
-                                            placeholder="Yes"
-                                        />
-                                    </div>
-                                    <div className="col-4 endDate d-inline-block ps-4">
-                                        <label>Start Date</label>
-                                        <div className="endDate_input">
-                                            <p>Monday, October 27, 2023</p>
-                                            <img src={DateCalander} alt="" style={{ width: "23px", height: "23px" }} />
+                                        <div className="list-item">
+                                            <div className="list-item-title">
+                                                Repeat Time Table
+                                            </div>
+                                            <div className="list-item-value">Yes</div>
                                         </div>
                                     </div>
                                     <div className="col-4 endDate d-inline-block ps-4">
-                                        <label>End Date</label>
-                                        <div className="endDate_input">
-                                            <p>Monday, October 27, 2023</p>
-                                            <img src={DateCalander} alt="" style={{ width: "23px", height: "23px" }} />
+                                        <div className="list-item">
+                                            <div className="list-item-title">
+                                                Start Date
+                                            </div>
+                                            <div className="list-item-value">Monday, October 27, 2023</div>
+                                        </div>
+                                    </div>
+                                    <div className="col-4 endDate d-inline-block ps-4">
+                                        <div className="list-item">
+                                            <div className="list-item-title">
+                                                End Date
+                                            </div>
+                                            <div className="list-item-value">Monday, October 27, 2023</div>
                                         </div>
                                     </div>
                                 </div>

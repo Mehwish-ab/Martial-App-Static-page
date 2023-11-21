@@ -36,6 +36,7 @@ import CreateInstructor from "../screens/Instructor/CreateInstructor/CreateInstr
 import InformationInstructor from "../screens/Instructor/InformationInstructor/InformationInstructor";
 import ListTimeTable from "../screens/TimeTable/ListTimeTable/ListTimeTable";
 import CreateTimeTable from "../screens/TimeTable/CreateTimeTable/createTimeTable";
+import InformationTimeTable from "../screens/TimeTable/InformationTimeTable/InformationTimeTable";
 
 function AppRoutes() {
   const dispatch = useDispatch();
@@ -225,6 +226,15 @@ function AppRoutes() {
           element={
             <AppLayout>
               <CreateTimeTable />
+            </AppLayout>
+          }
+        />
+
+        <Route
+          path="/timetable/information"
+          element={
+            <AppLayout>
+              <InformationTimeTable />
             </AppLayout>
           }
         />

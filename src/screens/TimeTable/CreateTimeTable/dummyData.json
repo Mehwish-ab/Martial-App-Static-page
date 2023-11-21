@@ -1,0 +1,65 @@
+[
+  {
+    "createTimeTableWeekDay": "MONDAY",
+    "createTimeTableStartDate": "12:30 AM",
+    "createTimeTableEndDate": "12:30 AM",
+    "createTimeTableStartBreak": "12:30 AM",
+    "createTimeTableEndBreak": "12:30 AM",
+    "createTimeTableStatus": "Off",
+    "createTimeTableSlot": "Add"
+  },
+  {
+    "createTimeTableWeekDay": "TUESDAY",
+    "createTimeTableStartDate": "12:30 AM",
+    "createTimeTableEndDate": "12:30 AM",
+    "createTimeTableStartBreak": "12:30 AM",
+    "createTimeTableEndBreak": "12:30 AM",
+    "createTimeTableStatus": "Off",
+    "createTimeTableSlot": "Add"
+  },
+  {
+    "createTimeTableWeekDay": "WEDNESDAY",
+    "createTimeTableStartDate": "12:30 AM",
+    "createTimeTableEndDate": "12:30 AM",
+    "createTimeTableStartBreak": "12:30 AM",
+    "createTimeTableEndBreak": "12:30 AM",
+    "createTimeTableStatus": "Off",
+    "createTimeTableSlot": "Add"
+  },
+  {
+    "createTimeTableWeekDay": "THURSDAY",
+    "createTimeTableStartDate": "12:30 AM",
+    "createTimeTableEndDate": "12:30 AM",
+    "createTimeTableStartBreak": "12:30 AM",
+    "createTimeTableEndBreak": "12:30 AM",
+    "createTimeTableStatus": "Off",
+    "createTimeTableSlot": "Add"
+  },
+  {
+    "createTimeTableWeekDay": "FRIDAY",
+    "createTimeTableStartDate": "--:--",
+    "createTimeTableEndDate": "--:--",
+    "createTimeTableStartBreak": "--:--",
+    "createTimeTableEndBreak": "--:--",
+    "createTimeTableStatus": "Off",
+    "createTimeTableSlot": "Duplicate"
+  },
+  {
+    "createTimeTableWeekDay": "SATURDAY",
+    "createTimeTableStartDate": "--:--",
+    "createTimeTableEndDate": "--:--",
+    "createTimeTableStartBreak": "--:--",
+    "createTimeTableEndBreak": "--:--",
+    "createTimeTableStatus": "Off",
+    "createTimeTableSlot": "Duplicate"
+  },
+  {
+    "createTimeTableWeekDay": "SUNDAY",
+    "createTimeTableStartDate": "--:--",
+    "createTimeTableEndDate": "--:--",
+    "createTimeTableStartBreak": "--:--",
+    "createTimeTableEndBreak": "--:--",
+    "createTimeTableStatus": "Off",
+    "createTimeTableSlot": "Duplicate"
+  }
+]

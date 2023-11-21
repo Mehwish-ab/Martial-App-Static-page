@@ -9,7 +9,6 @@ import {
   Input,
   InputRef,
   MenuProps,
-  Select,
 } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 
@@ -25,10 +24,11 @@ import searchIcon from "../../assets/icons/ic_search(1).svg";
 import notificationIcon from "../../assets/icons/ic_notitfication.svg";
 import profileIcon from "../../assets/icons/ic_profile_avatar.svg";
 import ukIcon from "../../assets/icons/ic_uk_flag.svg";
-import cloudIcon from "../../assets/icons/ic_cloud.svg";
-import logo from "../../assets/icons/logo.svg";
+// import cloudIcon from "../../assets/icons/ic_cloud.svg";
+// import logo from "../../assets/icons/logo.svg";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { fontFamilyMedium } from "../GlobalStyle";
 
 function Navbar() {
   const { searchText, setSearchText } = useGlobalContext();
@@ -78,7 +78,7 @@ function Navbar() {
         >
           <NavigationMenu />
         </Drawer>
-        <div className="top-side d-flex align-items-center justify-content-between gap-4">
+        <div className="top-side d-flex align-items-center justify-content-between gap-2">
           <div className="menu-toggler">
             <Button
               className="menu"
@@ -87,13 +87,13 @@ function Navbar() {
             />
           </div>
 
-          <div className="left-bar d-flex align-items-center justify-content-end">
+          <div className="navbarSearchField left-bar d-flex align-items-center justify-content-end">
             <Input
               ref={searchRef}
               value={searchText}
-              placeholder="Search ..."
+              placeholder="Search..."
               onChange={(e) => setSearchText(e.target.value)}
-              suffix={<img src={searchIcon} alt="search-icon" />}
+              suffix={<img src={searchIcon} alt="search-icon" width={16} />}
               className="custom-input"
             />
           </div>
@@ -102,23 +102,32 @@ function Navbar() {
             <div className="notification-area">
               <CustomButton
                 title=""
-                icon={<img src={notificationIcon} alt="notification " />}
+                icon={<img src={notificationIcon} alt="notification" width="22px" />}
                 type="button"
                 bgcolor={"white"}
-                width="50px"
+                width="40px"
                 color=""
                 padding=""
               />
               <span className="notification-count">4</span>
             </div>
             <div className="profile-area">
-              <Badge dot color="green">
-                <Avatar size={50} src={profileIcon} shape="square" />
+              <Badge dot color="green" style={{ width: "10px", height: "10px", top: "10px" }}>
+                <Avatar src={profileIcon} shape="square" style={{ width: "45px", height: "45px" }} />
               </Badge>
+              <h3 style={{
+                display: "inline-block",
+                fontSize: "16px",
+                fontStyle: "normal",
+                fontWeight: "400",
+                lineHeight: "normal",
+                marginLeft: "10px",
+                fontFamily: "${fontFamilyMedium}",
+              }}>Adnan Qureshi</h3>
             </div>
             <div className="language-area">
               <Badge>
-                <Avatar size={40} src={ukIcon} shape="square" />
+                <Avatar src={ukIcon} shape="square" style={{ width: "29px", height: "23px" }} />
               </Badge>
             </div>
             <Dropdown menu={{ items }} placement="bottomLeft" arrow>

@@ -7,7 +7,7 @@ import CustomButton from "../../components/CustomButton/CustomButton";
 import {
   fontFamilyMedium,
   lightBlue3,
-  lightDark3,
+  pureDark2,
   pureDark,
 } from "../../components/GlobalStyle";
 import LoginStyle from "./style";
@@ -123,10 +123,10 @@ const Login = () => {
       <LoginStyle>
         <div className="login-container overflow-auto">
           <div className="login-container-card">
-            {/* <h6 className="title">{getLabelByKey(SCREEN_LABEL_KEYS.title)}</h6> */}
             <h6 className="text-center title">
-              {getLabelByKey(SCREEN_LABEL_KEYS.loginButton)}
+              {getLabelByKey(SCREEN_LABEL_KEYS.title)}
             </h6>
+            <p className="subtitle text-center">{getLabelByKey(SCREEN_LABEL_KEYS.subtitle)}</p>
             <div className="login-container-card-inner">
               <div className="login-container-card-form">
                 <Formik
@@ -147,22 +147,22 @@ const Login = () => {
                               control="input"
                               type="text"
                               name="emailAddress"
-                              color={lightDark3}
-                              padding="10px"
+                              color={pureDark2}
                               label={getLabelByKey(
                                 SCREEN_LABEL_KEYS.emailFieldTitle
                               )}
                               placeholder={getLabelByKey(
                                 SCREEN_LABEL_KEYS.emailFieldPlaceholder
                               )}
-                              // prefix={<img src={email_icon} alt="email_icon" />}
+                              prefix={<img src={email_icon} alt="email_icon" />}
                               className={
                                 formik.errors.emailAddress &&
                                 formik.touched.emailAddress
                                   ? "is-invalid"
                                   : "customInput"
+
                               }
-                              textAlign="end"
+                              textalign="end"
                             />
                           </div>
                           <div className="mt-20">
@@ -170,24 +170,26 @@ const Login = () => {
                               control="password"
                               type="text"
                               name="password"
+                              color={pureDark2}
                               label={getLabelByKey(
                                 SCREEN_LABEL_KEYS.passcodeFieldTitle
-                              )}
+                                )}
+                                padding="10px"
                               placeholder={getLabelByKey(
                                 SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
                               )}
                               suffix={show_password_icon}
-                              // prefix={
-                              //   <img src={password_icon} alt="password_icon" />
-                              // }
-                              padding="10px"
+                              prefix={
+                                <img src={password_icon} alt="password_icon" />
+                              }
                               className={
                                 formik.errors.password &&
                                 formik.touched.password
-                                  ? "is-invalid"
-                                  : "customPasswordInput"
+                                  ? "is-invalid loginInvalidPassword"
+                                  : "customPasswordInput loginPassword"
+                                  
                               }
-                              textAlign="end"
+                              textalign="end"
                             />
                           </div>
                           <div className="d-flex justify-content-between align-items-center mt-20">
@@ -198,7 +200,7 @@ const Login = () => {
                                 id="rememberMe"
                                 name="rememberMe"
                               />
-                              <p className="mb-0 text-14">
+                              <p className="mb-0 text-14 fw-normal">
                                 {getLabelByKey(SCREEN_LABEL_KEYS.rememberMe)}
                               </p>
                             </div>
@@ -215,11 +217,11 @@ const Login = () => {
                               {getLabelByKey(SCREEN_LABEL_KEYS.forgotPassword)}
                             </p>
                           </div>
-                          <div className="mt-20">
+                          <div className="mt-20 loginBtn">
                             <CustomButton
                               bgcolor={lightBlue3}
                               textTransform="Captilize"
-                              color={pureDark}
+                              color={pureDark2}
                               padding="10px"
                               fontFamily={fontFamilyMedium}
                               width="100%"
@@ -238,11 +240,11 @@ const Login = () => {
                 </Formik>
               </div>
 
-              {/* <div className="d-flex or-line mt-20 align-items-center">
+              <div className="d-flex or-line fs-6 mt-20 align-items-center">
                 <div className="line" />
                 <p>{getLabelByKey(SCREEN_LABEL_KEYS.or)}</p>
                 <div className="line" />
-              </div> */}
+              </div>
               <OauthLogin usecase={OAUTH_USECASES.login} />
 
               <TermsAndConditions

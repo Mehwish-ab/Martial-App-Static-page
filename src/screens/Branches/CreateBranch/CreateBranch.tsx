@@ -238,8 +238,8 @@ const CreateBranch = () => {
                       value={formik.values.address}
                     />
                   </Col>
-
-                  <Col md="4" className="mt-20">
+                  <Col md="8">
+                  <Col md="4" className="mt-20 d-inline-block">
                     <FormControl
                       control="select"
                       type="text"
@@ -258,7 +258,7 @@ const CreateBranch = () => {
                       options={createOptions(language)}
                     />
                   </Col>
-                  <Col md="4" className="mt-20">
+                  <Col md="4" className="mt-20 d-inline-block px-3">
                     <FormControl
                       control="select"
                       type="text"
@@ -277,7 +277,7 @@ const CreateBranch = () => {
                       options={createOptions(currency)}
                     />
                   </Col>
-                  <Col md="4" className="mt-20">
+                  <Col md="4" className="mt-20 d-inline-block">
                     <FormControl
                       control="select"
                       type="text"
@@ -295,8 +295,10 @@ const CreateBranch = () => {
                       options={BELTS_SELECT_OPTIONS}
                     />
                   </Col>
+                  </Col>
 
-                  <Col md="4">
+
+                  <Col md="6">
                     <CheckboxesSelect
                       name="selectedActivities"
                       label="Activity"
@@ -304,7 +306,7 @@ const CreateBranch = () => {
                       showErrorMsgInList={false}
                     />
                   </Col>
-                  <Col md="4">
+                  <Col md="6">
                     <CheckboxesSelect
                       name="selectedFacilities"
                       label="Facility"

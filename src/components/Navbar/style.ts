@@ -2,9 +2,8 @@ import styled from "styled-components";
 import {
   fontFamilyBold,
   mediaDeviceMax,
-  secondaryDark3,
   tertiaryGrey21,
-  whiteColor,
+  lightDark2,
 } from "../GlobalStyle";
 
 export const NavbarStyle = styled.div`
@@ -33,9 +32,11 @@ export const NavbarStyle = styled.div`
         border: none;
         border-bottom: 10px;
         border-radius: unset;
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid #EAEAEA;
         max-width: 280px;
-
+        :[placeholder]{
+          color: #4F4F4F;
+        }
         @media screen and ${mediaDeviceMax.tabletL} {
           height: 50px;
         }
@@ -110,20 +111,25 @@ export const NavbarStyle = styled.div`
       }
     }
 
+    .navbarSearchField > input::placeholder {
+        color: ${lightDark2};
+    }
+
     .notification-count {
       position: absolute;
-      top: -32px;
+      top: -20px;
       right: 7px;
       content: "";
       z-index: 1;
       color: white;
+      font-size: 12px;
       &::before {
         content: "";
         position: absolute;
-        top: 21px;
-        right: -5px;
-        width: 20px;
-        height: 20px;
+        top: 23px;
+        right: -6px;
+        width: 17px;
+        height: 17px;
         background: red;
         border-radius: 50%;
         z-index: -1;

@@ -31,6 +31,11 @@ import EditFranchise from "../screens/Franchise/EditFranchise/EditFranchise";
 import ViewBranch from "../screens/Branches/ViewBranch/ViewBranch";
 import ViewFranchise from "../screens/Franchise/ViewFranchise/ViewFranchise";
 import SubscribeFranchise from "../screens/Franchise/SubscribeFranchise/SubscribeFranchise";
+import ListInstructor from "../screens/Instructor/ListInstructor/ListInstructor";
+import CreateInstructor from "../screens/Instructor/CreateInstructor/CreateInstructor";
+import InformationInstructor from "../screens/Instructor/InformationInstructor/InformationInstructor";
+import ListTimeTable from "../screens/TimeTable/ListTimeTable/ListTimeTable";
+import CreateTimeTable from "../screens/TimeTable/CreateTimeTable/createTimeTable";
 
 function AppRoutes() {
   const dispatch = useDispatch();
@@ -169,6 +174,61 @@ function AppRoutes() {
             </AppLayout>
           }
         />
+
+        <Route
+          path="/instructor/list"
+          element={
+            <AppLayout>
+              <ListInstructor />
+            </AppLayout>
+          }
+        />
+
+        <Route
+          path="/instructor/create"
+          element={
+            <AppLayout>
+              <CreateInstructor />
+            </AppLayout>
+          }
+        />
+
+        <Route
+          path="/instructor/update"
+          element={
+            <AppLayout>
+              <CreateInstructor />
+            </AppLayout>
+          }
+        />
+
+        <Route
+          path="/instructor"
+          element={
+            <AppLayout>
+              <InformationInstructor />
+            </AppLayout>
+          }
+        />
+
+        <Route
+          path="/timetable/list"
+          element={
+            <AppLayout>
+              <ListTimeTable />
+            </AppLayout>
+          }
+        />
+
+        <Route
+          path="/timetable/create"
+          element={
+            <AppLayout>
+              <CreateTimeTable />
+            </AppLayout>
+          }
+        />
+
         {/* error page */}
         <Route path="*" element={<ErrorPage404 />} />
       </Routes>

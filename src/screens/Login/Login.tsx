@@ -75,7 +75,7 @@ const Login = () => {
 
   const dispatch = useDispatch();
 
-  // login handle submit
+  // login handle submit 
   console.log(initialValues);
   const handleSubmit = async (values: loginValuesType) => {
     try {
@@ -157,7 +157,7 @@ const Login = () => {
                               prefix={<img src={email_icon} alt="email_icon" />}
                               className={
                                 formik.errors.emailAddress &&
-                                formik.touched.emailAddress
+                                  formik.touched.emailAddress
                                   ? "is-invalid"
                                   : "customInput"
 
@@ -171,23 +171,25 @@ const Login = () => {
                               type="text"
                               name="password"
                               color={pureDark2}
-                              label={getLabelByKey(
-                                SCREEN_LABEL_KEYS.passcodeFieldTitle
-                                )}
-                                padding="10px"
-                              placeholder={getLabelByKey(
-                                SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
-                              )}
+                              // label={getLabelByKey(
+                              //   SCREEN_LABEL_KEYS.passcodeFieldTitle
+                              // )}
+                              label="Passcode"
+                              padding="10px"
+                              // placeholder={getLabelByKey(
+                              //   SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
+                              // )}
+                              placeholder="Enter Passcode"
                               suffix={show_password_icon}
                               prefix={
                                 <img src={password_icon} alt="password_icon" />
                               }
                               className={
                                 formik.errors.password &&
-                                formik.touched.password
+                                  formik.touched.password
                                   ? "is-invalid loginInvalidPassword"
                                   : "customPasswordInput loginPassword"
-                                  
+
                               }
                               textalign="end"
                             />
@@ -246,7 +248,6 @@ const Login = () => {
                 <div className="line" />
               </div>
               <OauthLogin usecase={OAUTH_USECASES.login} />
-
               <TermsAndConditions
                 setTerms={setTerms}
                 showTermsError={showTermsError}
@@ -255,18 +256,19 @@ const Login = () => {
               />
               <div className="signup-text mt-20">
                 <p className="mb-0">
-                  {getLabelByKey(SCREEN_LABEL_KEYS.register)}
+                  {/* {getLabelByKey(SCREEN_LABEL_KEYS.register)} */}
+                  If you have an account we'll log you in. If not
                 </p>
 
                 <h6
-                  className={`${
-                    selectedLanguage === "ar" || selectedLanguage === "ur"
-                      ? "me-1"
-                      : "ms-1"
-                  } mt-2`}
+                  className={`${selectedLanguage === "ar" || selectedLanguage === "ur"
+                    ? "me-1"
+                    : "ms-1"
+                    } mt-2`}
                 >
                   <Link to="/register" className="underline">
-                    {getLabelByKey(SCREEN_LABEL_KEYS.registerAccount)}
+                    {/* {getLabelByKey(SCREEN_LABEL_KEYS.registerAccount)} */}
+                    register.
                   </Link>
                 </h6>
               </div>

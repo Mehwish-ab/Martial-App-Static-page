@@ -13,6 +13,8 @@ import {
   tertiaryGrey24,
   lightDark2,
   mainColor,
+  darkBlue,
+  fontFamilyBold,
 } from "../../components/GlobalStyle";
 
 export const LoginStyle = styled.div`
@@ -61,6 +63,7 @@ export const LoginStyle = styled.div`
         font-size: 22px;
         font-weight: 500;
         font-family: ${fontFamilyMedium};
+        line-height: 26px;
       }
       .subtitle {
         width: 75%;
@@ -68,6 +71,7 @@ export const LoginStyle = styled.div`
         margin: 10px auto 0;
         font-weight: 400;
         font-size: 16px;
+        line-height: 19px;
       }
       .login-text {
         font-size: 16px;
@@ -101,8 +105,12 @@ export const LoginStyle = styled.div`
     align-items: center;
     justify-content: center;
     a {
-      color: ${primaryColor};
+      color: ${darkBlue};
       font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      font-family: ${fontFamilyMedium};
 
     }
     p {
@@ -113,7 +121,7 @@ export const LoginStyle = styled.div`
     h6 {
       font-size: 14px;
       font-weight: normal;
-      color: ${basicColor};
+      color: ${darkBlue};
     }
   }
 
@@ -144,7 +152,7 @@ export const LoginStyle = styled.div`
     outline: none;
     margin-bottom: 8px;
     
-    input[placeholder] {
+    input::placeholder {
       font-size: 16px;
       font-style: normal;
       font-weight: 400;
@@ -199,6 +207,7 @@ export const LoginStyle = styled.div`
       h6 {
         font-size: 14px;
         margin-left: 3px;
+        font-weight: 500;
       }
     }
     

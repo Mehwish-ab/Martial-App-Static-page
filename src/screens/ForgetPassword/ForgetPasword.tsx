@@ -91,7 +91,7 @@ const ForgetPassword = () => {
               <h6 className="title text-center">
                 {getLabelByKey(FORGOT_SCREEN_LABEL_KEYS.title)}
               </h6>
-              <p className="text-center forget-password-text mt-20">
+              <p className="text-center forget-password-text mt-10">
                 {getLabelByKey(FORGOT_SCREEN_LABEL_KEYS.subtitle)}
               </p>
               <div className="forget-password-container-card-form w-100">
@@ -107,14 +107,15 @@ const ForgetPassword = () => {
                         onFinish={formik.handleSubmit}
                         autoComplete="off"
                       >
-                        <div className="input-fields w-100 mt-20">
+                        <div className="phone-input-fields w-100">
                           <label
                             className="custom-phone-input-label"
                             htmlFor="phoneNumber"
                           >
-                            {getLabelByKey(
+                            {/* {getLabelByKey(
                               FORGOT_SCREEN_LABEL_KEYS.mobileFieldTitle
-                            )}
+                            )} */}
+                            Phone
                           </label>
                           <Input
                             defaultCountry="US"

@@ -218,9 +218,9 @@ const RegisterUser = () => {
               <h6 className="title mb-0 text-center">
                 {getLabelByKey(SCREEN_LABEL_KEYS.title)}
               </h6>
-              {/* <p className="text-center message mt-20">
-              {getLabelByKey(SCREEN_LABEL_KEYS.subtitle)}
-            </p> */}
+              <p className="text-center message mt-10">
+                {getLabelByKey(SCREEN_LABEL_KEYS.subtitle)}
+              </p>
               <div className="inner-container-card-form">
                 <Formik
                   initialValues={initialValues}
@@ -286,7 +286,7 @@ const RegisterUser = () => {
                               label={getLabelByKey(
                                 SCREEN_LABEL_KEYS.firstNameFieldTitle
                               )}
-                              fontSize="14px"
+                              fontSize="16px"
                               border="none"
                               placeholder={getLabelByKey(
                                 SCREEN_LABEL_KEYS.firstNameFieldPlaceholder
@@ -298,7 +298,7 @@ const RegisterUser = () => {
                               labelFamily={fontFamilyMedium}
                               className={
                                 formik.errors.firstName &&
-                                formik.touched.firstName
+                                  formik.touched.firstName
                                   ? "is-invalid"
                                   : "customInput"
                               }
@@ -324,7 +324,7 @@ const RegisterUser = () => {
                               )}
                               className={
                                 formik.errors.lastName &&
-                                formik.touched.lastName
+                                  formik.touched.lastName
                                   ? "is-invalid"
                                   : "customInput"
                               }
@@ -348,7 +348,7 @@ const RegisterUser = () => {
                               )}
                               className={
                                 formik.errors.emailAddress &&
-                                formik.touched.emailAddress
+                                  formik.touched.emailAddress
                                   ? "is-invalid"
                                   : "customInput"
                               }
@@ -403,52 +403,57 @@ const RegisterUser = () => {
                               />
                             </div>
                           </div>
-                          <div className="mt-20">
-                            <FormControl
-                              control="password"
-                              type="text"
-                              name="password"
-                              label={getLabelByKey(
-                                SCREEN_LABEL_KEYS.passcodeFieldTitle
-                              )}
-                              padding="10px"
-                              fontFamily={fontFamilyMedium}
-                              // prefix={<img src={lock_icon} alt="lock_icon" />}
-                              max={6}
-                              border="none"
-                              placeholder={getLabelByKey(
-                                SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
-                              )}
-                              className={
-                                formik.errors.password &&
-                                formik.touched.password
-                                  ? "is-invalid"
-                                  : "customPasswordInput"
-                              }
-                            />
-                          </div>
-                          <div className="mt-20">
-                            <FormControl
-                              control="password"
-                              type="text"
-                              name="confirmPassword"
-                              fontFamily={fontFamilyMedium}
-                              // prefix={<img src={lock_icon} alt="lock_icon" />}
-                              border="none"
-                              label={getLabelByKey(
-                                SCREEN_LABEL_KEYS.confrimPasscodeFieldTitle
-                              )}
-                              padding="10px"
-                              placeholder={getLabelByKey(
-                                SCREEN_LABEL_KEYS.confrimPasscodeFieldPlaceholder
-                              )}
-                              className={
-                                formik.errors.confirmPassword &&
-                                formik.touched.confirmPassword
-                                  ? "is-invalid"
-                                  : "customPasswordInput"
-                              }
-                            />
+                          <div className="createUserPassword">
+                            <div className="mt-20">
+                              <FormControl
+                                control="password"
+                                type="text"
+                                name="password"
+                                // label={getLabelByKey(
+                                //   SCREEN_LABEL_KEYS.passcodeFieldTitle
+                                // )}
+                                label="Passcode"
+                                padding="10px"
+                                fontFamily={fontFamilyMedium}
+                                // prefix={<img src={lock_icon} alt="lock_icon" />}
+                                max={6}
+                                border="none"
+                                // placeholder={getLabelByKey(
+                                //   SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
+                                // )}
+                                placeholder="Enter 6 Digit Password"
+                                className={
+                                  formik.errors.password &&
+                                    formik.touched.password
+                                    ? "is-invalid"
+                                    : "customPasswordInput"
+                                }
+                              />
+                            </div>
+                            <div className="mt-20">
+                              <FormControl
+                                control="password"
+                                type="text"
+                                name="confirmPassword"
+                                fontFamily={fontFamilyMedium}
+                                // prefix={<img src={lock_icon} alt="lock_icon" />}
+                                border="none"
+                                label={getLabelByKey(
+                                  SCREEN_LABEL_KEYS.confrimPasscodeFieldTitle
+                                )}
+                                padding="10px"
+                                // placeholder={getLabelByKey(
+                                //   SCREEN_LABEL_KEYS.confrimPasscodeFieldPlaceholder
+                                // )}
+                                placeholder="Enter Confirm 6 Digit Passcode"
+                                className={
+                                  formik.errors.confirmPassword &&
+                                    formik.touched.confirmPassword
+                                    ? "is-invalid"
+                                    : "customPasswordInput"
+                                }
+                              />
+                            </div>
                           </div>
                           <div className="mt-20 d-flex align-items-center gap-2">
                             <FormControl
@@ -479,23 +484,23 @@ const RegisterUser = () => {
                             />
                           </div>
                           {/* <div className="d-flex or-line mt-4 align-items-center">
-                          <div className="line" />
-                          <p>{getLabelByKey(SCREEN_LABEL_KEYS.or)}</p>
-                          <div className="line" />
-                        </div> */}
-                          <OauthLogin usecase={OAUTH_USECASES.register} />
+                            <div className="line" />
+                            <p>{getLabelByKey(SCREEN_LABEL_KEYS.or)}</p>
+                            <div className="line" />
+                          </div> */}
+                          {/* <OauthLogin usecase={OAUTH_USECASES.register} /> */}
                         </div>
                       </Form>
                     );
                   }}
                 </Formik>
               </div>
-              <TermsAndConditions
+              {/* <TermsAndConditions
                 terms={terms}
                 setTerms={setTerms}
                 showTermsError={showTermsError}
                 screen="registerScreen"
-              />
+              /> */}
               <div className="signup-text mt-3">
                 <p>{getLabelByKey(SCREEN_LABEL_KEYS.login)}</p>
                 <h6 className="me-1 ms-1 mb-0">

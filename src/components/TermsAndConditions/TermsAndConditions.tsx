@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import {
+  darkBlue,
   fontFamilyMedium,
   lightGrey9,
   primaryColor,
@@ -43,10 +44,12 @@ const TermsAndConditions: React.FC<termsAndConditionsProps> = ({
           className="terms d-flex flex-column justify-content-center cursor-pointer"
         >
           <span>
-            {getLabelByKey("legalNote")}
+            {/* {getLabelByKey("legalNote")} */}
+            Agree to Martial App's
             <Link to="#" className="ms-1 me-1">
               {getLabelByKey("legalNoteTerm")}
             </Link>
+
             {getLabelByKey("legalNoteAnd")}
 
             <Link className="ms-1 me-1" to="#">
@@ -85,7 +88,7 @@ const Wrapper = styled.div`
   a {
     font-family: ${fontFamilyMedium};
     text-decoration: underline;
-    color: ${primaryColor};
+    color: ${darkBlue};
     margin: 0 2px;
     font-size: 14px;
   }

@@ -21,27 +21,99 @@ export const ForgetPasswordStyle = styled.div`
   }
   .forget-password-container {
     &-card {
-      max-width: 485px;
+      max-width: 498px;
       display: flex;
       flex-direction: column;
       align-items: center;
       background-color: white;
-      border-radius: 6px;
+      border-radius: 20px;
       width: 100%;
       margin: auto;
-      padding: 20px 12px;
+      padding: 25px 23px 19px;
       background-color: ${whiteColor};
       &-inner {
-        width: 95%;
+        width: 100%;
       }
       .title {
-        color: #061229;
+        color: #000;
         font-size: 22px;
         font-family: ${fontFamilyMedium};
         margin-bottom: 0;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
       }
       .forget-password-text {
+        color: #000;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
         font-size: 14px;
+      }
+
+
+
+      .phone-input-fields{
+        margin-top: 17px;
+      }
+
+      .PhoneInput {
+        /* border: 1px solid black; */
+        width: 100%;
+        height: 48px;
+        /* border: 1px solid rgb(198, 198, 200); */
+        border-radius: 8px;
+      }
+      .PhoneInput .PhoneInputCountry {
+        width: 80px;
+        position: relative;
+        padding: 0 11px;
+        font-weight: normal;
+        font-size: 14px;
+        text-align: center;
+        background-color: #fff;
+        transition: all 0.3s;
+        justify-content: center;
+        border: 1px solid #EAEAEA;
+        border-right: none;
+        margin-right: 0;
+      }
+      .country-left-to-right-border-radius {
+        border-radius: 8px 0 0 8px;
+      }
+      .country-right-to-left-border-radius {
+        border-radius: 0 8px 8px 0;
+      }
+      .PhoneInput input {
+        width: 100%;
+        height: 48px;
+        padding: 0 11px;
+        background-color: transparent;
+        border: 1px solid #EAEAEA;
+        border-left: none;
+        outline: 0;
+        transition: all 0.3s linear;
+        appearance: textfield !important;
+        font-family: EnnVisionsMedium;
+        font-size: 14px;
+      }
+      .phone-number-right-to-left-border-radius {
+        border-radius: 8px 0 0 8px;
+      }
+      .phone-number-left-to-right-border-radius {
+        border-radius: 0 8px 8px 0;
+      }
+      .PhoneInput input::placeholder {
+        font-family: EnnVisionsMedium;
+        color: rgb(198, 198, 200);
+      }
+      .custom-phone-input-label {
+        display: block;
+        color: rgb(27, 40, 63);
+        text-transform: capitalize;
+        font-size: 16px !important;
+        font-family: EnnVisionsMedium, sans-serif;
+        margin-bottom: 10px;
       }
 
       &-logo {

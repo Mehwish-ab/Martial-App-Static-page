@@ -43,7 +43,7 @@ const RegisterStyle = styled.div`
       .title {
         font-family: ${fontFamilyMedium};
         font-size: 20px;
-      }
+              }
       .message {
         font-size: 13px;
         color: ${lightGrey9};
@@ -56,7 +56,7 @@ const RegisterStyle = styled.div`
       border-radius: 6px;
       width: 96%;
       margin: auto;
-
+      
       padding: 20px 12px;
       &-form {
         width: 96%;

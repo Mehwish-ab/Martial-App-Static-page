@@ -1,8 +1,12 @@
 import styled from "styled-components";
 import {
+  darkBlue,
   fontFamilyMedium,
+  lightDark2,
+  lightDark3,
   lightGrey9,
   primaryColor,
+  pureDark2,
   secondaryDark3,
   tertiaryGrey12,
   tertiaryGrey24,
@@ -28,6 +32,18 @@ const RegisterStyle = styled.div`
         font-size: 14px;
         margin-bottom: 0
       }
+      a{
+        font-family: ${fontFamilyMedium};
+        text-decoration: underline;
+        color: ${darkBlue};
+        margin: 0 2px;
+      }
+      h6{
+        color: ${darkBlue};
+      }
+      a:hover{
+        text-decoration: none;
+      }
   }
 
   .role-section {
@@ -37,41 +53,43 @@ const RegisterStyle = styled.div`
     }
   }
   .inner-container {
-    margin-top: 8px;
+    padding-top: 8px;
     &-card {
       &-inner{
-        width: 96%;
+        width: 100%;
       }
       .title {
         font-family: ${fontFamilyMedium};
         font-size: 20px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        color: ${pureDark2};
       }
       .message {
+        color: ${lightDark3};
         font-size: 16px;
-        color: ${lightGrey9};
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
       }
       max-width: 485px;
       display: flex;
       flex-direction: column;
       align-items: center;
       background-color: white;
-      border-radius: 6px;
+      border-radius: 20px;
       width: 100%;
       margin: auto;
-
-      padding: 20px 12px;
+      padding: 28px 23px 24px;
       &-form {
         width: 100%;
       }
     }
   } 
 
-  a {
-    font-family: ${fontFamilyMedium};
-    text-decoration: none;
-    color: ${primaryColor};
-    margin: 0 2px;
-  }
+
+
   .is-invalid {
     border: 1px solid red;
     border-radius: 5px;
@@ -95,8 +113,26 @@ const RegisterStyle = styled.div`
     margin-bottom: 8px;
   }
 
+  .customInput::placeholder{
+    font-style: normal;
+    color: ${lightDark2};
+    font-weight: 400;
+    line-height: normal;
+    font-size: 16px;
+  }
+
   .ant-input-suffix {
     // margin-left: 30px;
+  }
+  
+  .createUserPassword div {
+    input::placeholder{
+      font-style: normal;
+      color: ${lightDark2};
+      font-weight: 400;
+      line-height: normal;
+      font-size: 16px;
+  }
   }
 
   @media screen and (max-width: 425px) {

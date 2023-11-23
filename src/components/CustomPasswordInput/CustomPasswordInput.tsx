@@ -2,6 +2,10 @@ import { Field, ErrorMessage } from "formik";
 import ErrorMsg from "../ErrorMessage";
 import { Input } from "antd";
 import CustomPasswordInputStyle from "./style";
+import show_password_icon from "../../assets/icons/ic_show_passcode.svg";
+import hide_password_icon from "../../assets/icons/ic_hidePassword.svg";
+
+
 import {
   fontFamilyMedium,
   fontFamilyRegular,
@@ -68,11 +72,13 @@ const CustomPasswordInput = (props: CustomPasswordInputProps) => {
             iconRender={(visible) =>
               visible ? (
                 <span className="paswordIconLabel">
-                  {getLabelByKey("hide")}
+                  {/* {getLabelByKey("hide")} */}
+                  <img src={hide_password_icon} alt="" />
                 </span>
               ) : (
                 <span className="paswordIconLabel">
-                  {getLabelByKey("show")}
+                  {/* {getLabelByKey("show")} */}
+                  <img src={show_password_icon} alt="" />
                 </span>
               )
             }

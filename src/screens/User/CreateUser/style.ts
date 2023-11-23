@@ -22,6 +22,8 @@ const RegisterStyle = styled.div`
   margin: 0 auto;
   overflow-y: auto;
   margin-bottom: 16px;
+
+ 
  
   .signup-text {
     display: flex;
@@ -44,6 +46,94 @@ const RegisterStyle = styled.div`
       a:hover{
         text-decoration: none;
       }
+    }
+
+    .register-input-fields label{
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+
+  .phone-input-fields{
+    margin-top: 17px;
+  }
+
+  .PhoneInput {
+    /* border: 1px solid black; */
+    width: 100%;
+    height: 52px;
+    /* border: 1px solid rgb(198, 198, 200); */
+    border-radius: 8px;
+  }
+  .PhoneInput .PhoneInputCountry {
+    width: 80px;
+    position: relative;
+    padding: 0 11px;
+    font-weight: normal;
+    font-size: 14px;
+    text-align: center;
+    background-color: #fff;
+    transition: all 0.3s;
+    justify-content: center;
+    border-right: none;
+    margin-right: 0;
+  }
+  .PhoneInput:hover input, .PhoneInput:hover .PhoneInputCountry {
+    border-color: rgb(64, 169, 255);
+    border-right-width: 1px;
+    z-index: 1;
+  }
+  .country-left-to-right-border-radius {
+    border-radius: 8px 0 0 8px;
+  }
+  .country-right-to-left-border-radius {
+    border-radius: 0 8px 8px 0;
+  }
+
+  .PhoneInputCountrySelectArrow{
+    font-size: 28px;
+    color: #000 !important;
+    opacity: 1;
+  }
+
+  .PhoneInputCountryIcon {
+    width: 33px;
+    height: 22px;
+    object-fit: cover;
+  }
+
+  .PhoneInput input {
+    width: 100%;
+    height: 52px;
+    padding: 0 11px 0px 0px;
+    background-color: transparent;
+    border-left: none;
+    outline: 0;
+    transition: all 0.3s linear;
+    appearance: textfield !important;
+    font-family: EnnVisionsMedium;
+    font-size: 14px;
+  }
+  .phone-number-right-to-left-border-radius {
+    border-radius: 8px 0 0 8px;
+  }
+  .phone-number-left-to-right-border-radius {
+    border-radius: 0 8px 8px 0;
+  }
+  .PhoneInput input::placeholder {
+    font-family: EnnVisionsMedium;
+    color: rgb(198, 198, 200);
+  }
+  .custom-phone-input-label {
+    display: block;
+    color: rgb(27, 40, 63);
+    text-transform: capitalize;
+    font-size: 16px !important;
+    font-family: EnnVisionsMedium, sans-serif;
+    margin-bottom: 10px;
   }
 
   .role-section {
@@ -88,51 +178,82 @@ const RegisterStyle = styled.div`
     }
   } 
 
-
-
   .is-invalid {
     border: 1px solid red;
-    border-radius: 5px;
     background: white;
-    border-radius: 2px;
-    padding: 10px;
+    padding: 15.5px;
     width: 100%;
     width: -moz-available;
     outline: none;
-    margin-bottom: 8px;
-  }
-  .customInput,
-  .customPasswordInput {
-    background: white;
-    border: 1px solid #c6c6c8;
-    border-radius: 2px;
-    padding: 10px;
-    width: 100%;
-    width: -moz-available;
-    outline: none;
-    margin-bottom: 8px;
-  }
-
-  .customInput::placeholder{
-    font-style: normal;
-    color: ${lightDark2};
-    font-weight: 400;
     line-height: normal;
+    margin-bottom: 2px;
     font-size: 16px;
+    input{
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
   }
-
-  .ant-input-suffix {
-    // margin-left: 30px;
-  }
-  
-  .createUserPassword div {
-    input::placeholder{
+  .customInput{
+    font-size: 16px;
+    background: white;
+    padding: 15.5px;
+    width: 100%;
+    width: -moz-available;
+    outline: none;
+    line-height: normal;
+    border-radius: 8px;
+    border: 1px solid ${tertiaryGrey24};
+    ::placeholder{
       font-style: normal;
       color: ${lightDark2};
       font-weight: 400;
       line-height: normal;
       font-size: 16px;
+    }
   }
+
+  
+  .customPasswordInput {
+    font-size: 16px;
+    background: white;
+    padding: 15.5px;
+    width: 100%;
+    width: -moz-available;
+    outline: none;
+    line-height: normal;
+    border-radius: 8px;
+    border: 1px solid ${tertiaryGrey24};
+    input{
+      line-height: normal;
+      &::placeholder{
+        font-style: normal;
+        color: ${lightDark2};
+        font-weight: 400;
+        line-height: normal;
+        font-size: 16px;
+      }
+    }
+  }
+
+
+
+  input[type="email"]:hover {
+    border-color: #40a9ff;
+    border-right-width: 1px;
+    z-index: 1;
+  }
+  input[type="text"]:hover {
+    border-color: #40a9ff;
+    border-right-width: 1px;
+    z-index: 1;
+  }
+
+  input[type="text"] + div,
+  input[type="email"] + div, 
+  .ant-input-affix-wrapper + div{
+    text-align: right !important;
   }
 
   @media screen and (max-width: 425px) {
@@ -150,6 +271,8 @@ const RegisterStyle = styled.div`
       font-size:14px
     }
   }
+ 
+
 `;
 
 export default RegisterStyle;
@@ -188,4 +311,6 @@ export const CreatedUserModalStyle = styled.div`
       border-bottom: 1px solid ${tertiaryGrey12};
     }
   }
+
+  
 `;

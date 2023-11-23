@@ -28,11 +28,11 @@ const CustomInputStyle = styled.div<InputStyleProps>`
   }
 
   .customInput {
-    border-radius: 10px !important;
-    margin-bottom: 0px !important;
+    border-radius: 10px;
+    margin-bottom: 0px;
   }
   .ant-input {
-    padding: ${(props) => props.padding} !important;
+    padding: ${(props) => props.padding};
     border: "none";
     font-family: ${(props) => props.fontFamily};
     font-size: ${(props) => props.fontSize};

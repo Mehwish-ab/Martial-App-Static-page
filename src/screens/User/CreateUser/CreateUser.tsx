@@ -234,49 +234,7 @@ const RegisterUser = () => {
                         onFinish={formik.handleSubmit}
                         autoComplete="off"
                       >
-                        {/* <div className="role-section mt-20">
-                        <h6 className="mb-0">Select Your Role</h6>
-                        <div className="d-flex gap-2 roles mt-20">
-                          <CustomButton
-                            bgcolor={whiteColor}
-                            textTransform="Captilize"
-                            color={lightDark2}
-                            padding="8px"
-                            width="100%"
-                            icon={
-                              <img
-                                className="me-1 mb-1"
-                                src={ic_building}
-                                alt="buiding_icon"
-                              />
-                            }
-                            type="submit"
-                            title=" School"
-                            fontSize="16px"
-                            loading={isLoading}
-                            fontFamily={fontFamilyRegular}
-                          />
-                          <CustomButton
-                            bgcolor={whiteColor}
-                            textTransform="Captilize"
-                            color={lightDark2}
-                            icon={
-                              <img
-                                className="me-1 mb-1"
-                                src={profile_icon}
-                                alt="profile_icon"
-                              />
-                            }
-                            padding="8px"
-                            width="100%"
-                            type="submit"
-                            title="Student"
-                            fontSize="16px"
-                            loading={isLoading}
-                            fontFamily={fontFamilyRegular}
-                          />
-                        </div>
-                      </div> */}
+
                         <div className="register-input-fields">
                           <div className="mt-20">
                             <FormControl
@@ -291,7 +249,6 @@ const RegisterUser = () => {
                               placeholder={getLabelByKey(
                                 SCREEN_LABEL_KEYS.firstNameFieldPlaceholder
                               )}
-                              padding="10px"
                               // prefix={
                               //   <img src={profile_icon} alt="profile_icon" />
                               // }
@@ -309,13 +266,12 @@ const RegisterUser = () => {
                               control="input"
                               type="text"
                               name="lastName"
-                              fontSize="14px"
+                              fontSize="16px"
                               label={getLabelByKey(
                                 SCREEN_LABEL_KEYS.surNameFieldTitle
                               )}
                               border="none"
                               labelFamily={fontFamilyMedium}
-                              padding="10px"
                               // prefix={
                               //   <img src={profile_icon} alt="profile_icon" />
                               // }
@@ -334,10 +290,9 @@ const RegisterUser = () => {
                             <FormControl
                               control="input"
                               type="email"
-                              fontSize="14px"
+                              fontSize="16px"
                               name="emailAddress"
                               border="none"
-                              padding="10px"
                               label={getLabelByKey(
                                 SCREEN_LABEL_KEYS.emailFieldTitle
                               )}
@@ -413,11 +368,8 @@ const RegisterUser = () => {
                                 //   SCREEN_LABEL_KEYS.passcodeFieldTitle
                                 // )}
                                 label="Passcode"
-                                padding="10px"
                                 fontFamily={fontFamilyMedium}
-                                // prefix={<img src={lock_icon} alt="lock_icon" />}
                                 max={6}
-                                border="none"
                                 // placeholder={getLabelByKey(
                                 //   SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
                                 // )}
@@ -436,12 +388,10 @@ const RegisterUser = () => {
                                 type="text"
                                 name="confirmPassword"
                                 fontFamily={fontFamilyMedium}
-                                // prefix={<img src={lock_icon} alt="lock_icon" />}
                                 border="none"
                                 label={getLabelByKey(
                                   SCREEN_LABEL_KEYS.confrimPasscodeFieldTitle
                                 )}
-                                padding="10px"
                                 // placeholder={getLabelByKey(
                                 //   SCREEN_LABEL_KEYS.confrimPasscodeFieldPlaceholder
                                 // )}

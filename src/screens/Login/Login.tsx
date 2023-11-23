@@ -154,11 +154,11 @@ const Login = () => {
                               placeholder={getLabelByKey(
                                 SCREEN_LABEL_KEYS.emailFieldPlaceholder
                               )}
-                              prefix={<img src={email_icon} alt="email_icon" />}
+                              // prefix={<img src={email_icon} alt="email_icon" />}
                               className={
                                 formik.errors.emailAddress &&
                                   formik.touched.emailAddress
-                                  ? "is-invalid"
+                                  ? "is-invalid is-invalidEmail"
                                   : "customInput"
 
                               }
@@ -181,9 +181,9 @@ const Login = () => {
                               // )}
                               placeholder="Enter Passcode"
                               suffix={show_password_icon}
-                              prefix={
-                                <img src={password_icon} alt="password_icon" />
-                              }
+                              // prefix={
+                              //   <img src={password_icon} alt="password_icon" />
+                              // }
                               className={
                                 formik.errors.password &&
                                   formik.touched.password

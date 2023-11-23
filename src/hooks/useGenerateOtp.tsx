@@ -54,14 +54,14 @@ const useGenerateOtp = () => {
       setError("");
       setLoading(true);
       const { data } = await axios.post(generate_otp_url, phoneData);
-      if (data.responseCode === "500") {
-        toast(data.responseMessage, {
-          type: "error",
-          autoClose: 1000,
-        });
-        setLoading(false);
-        return;
-      }
+      // if (data.responseCode === "500") {
+      //   toast(data.responseMessage, {
+      //     type: "error",
+      //     autoClose: 1000,
+      //   });
+      //   setLoading(false);
+      //   return;
+      // }
       toastId.current = toast(data.responseMessage, {
         type: "success",
         autoClose: 1000,

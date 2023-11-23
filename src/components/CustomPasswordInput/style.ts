@@ -31,11 +31,11 @@ export const CustomPasswordInputStyle = styled.div<CustomPasswordInputTypes>`
 
   .customPasswordInput {
     background: white;
-    border-radius: 8px !important;
+    border-radius: 8px;
     padding: ${(props) => props.padding};
   }
   .customInput {
-    border-radius: 10px !important;
+    border-radius: 10px;
     margin-bottom: 0px;
   }
 

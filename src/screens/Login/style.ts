@@ -49,11 +49,8 @@ export const LoginStyle = styled.div`
         width: 100%;
         
         .login-input-fields {
-          &-field {
-            margin-top: 20px;
-          }
-          img {
-            color: black;
+          label {
+            line-height: 19px;
           }
          
         }
@@ -131,6 +128,10 @@ export const LoginStyle = styled.div`
     font-weight: 500;
     line-height: normal;
   }
+
+  .is-invalidEmail{
+    padding: 13px 21px !important;
+  }
   
   .is-invalid {
     border: 1px solid red;
@@ -141,7 +142,7 @@ export const LoginStyle = styled.div`
     outline: none;
     margin-bottom: 8px;
   }
-  .customInput,
+
   .customPasswordInput {
     background: white;
     border: 1px solid ${tertiaryGrey24};
@@ -149,9 +150,7 @@ export const LoginStyle = styled.div`
     width: 100%;
     padding: 4px 11px !important;
     width: -moz-available;
-    outline: none;
-    margin-bottom: 8px;
-    
+    outline: none;    
     input::placeholder {
       font-size: 16px;
       font-style: normal;
@@ -160,6 +159,44 @@ export const LoginStyle = styled.div`
       color: ${lightDark2};
     }
   }
+
+  .customInput{
+    background: white;
+    border: 1px solid ${tertiaryGrey24};
+    border-radius: 8px !important;
+    width: 100%;
+    padding: 13px 21px !important;
+    width: -moz-available;
+    outline: none;    
+  }
+  .customInput::placeholder {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    color: ${lightDark2};
+  }
+
+  input[type="text"] + div, 
+  .ant-input-affix-wrapper + div{
+    text-align: right !important;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: normal;
+  }
+
+  p{
+    line-height: normal;
+  }
+
+  input[type="text"]:hover {
+    border-color: #40a9ff;
+    border-right-width: 1px;
+    z-index: 1;
+  }
+
   .loginInvalidPassword > input{
     padding: 10px !important;
     }
@@ -167,6 +204,8 @@ export const LoginStyle = styled.div`
   .loginPassword > input{
     padding: 10px !important;
   }
+
+
   .forget_password {
     color: ${mainColor};
     font-size: 16px;

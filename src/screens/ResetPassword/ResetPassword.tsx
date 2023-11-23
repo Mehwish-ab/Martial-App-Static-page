@@ -23,7 +23,7 @@ const validationSchema = Yup.object({
     .min(6, "Minimum six character is required"),
 });
 
-const Index = ({ logIn }: any) => {
+const ResetPassword = ({ logIn }: any) => {
   const navigation = useNavigate();
 
   const moveToLogin = () => {
@@ -59,7 +59,7 @@ const Index = ({ logIn }: any) => {
                       name="basic"
                       onFinish={formik.handleSubmit}
                       autoComplete="off"
-                      // validateMessages={validationSchema}
+                    // validateMessages={validationSchema}
                     >
                       <Row className="mt-2">
                         <Col md={12}>
@@ -130,4 +130,4 @@ const Index = ({ logIn }: any) => {
   );
 };
 
-export default Index;
+export default ResetPassword;

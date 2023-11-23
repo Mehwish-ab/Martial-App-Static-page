@@ -6,6 +6,10 @@ import {
   tertiaryGrey12,
   tertiaryGrey8,
   whiteColor,
+  lightGrey9,
+  pureDark2,
+  lightDark3,
+  tertiaryGrey24,
 } from "../../components/GlobalStyle";
 
 export const ForgetPasswordStyle = styled.div`
@@ -29,29 +33,98 @@ export const ForgetPasswordStyle = styled.div`
       border-radius: 20px;
       width: 100%;
       margin: auto;
-      padding: 25px 23px 19px;
+      padding: 0px 23px 19px;
       background-color: ${whiteColor};
       &-inner {
         width: 100%;
       }
       .title {
         color: #000;
-        font-size: 22px;
+        font-size: 18px;
         font-family: ${fontFamilyMedium};
         margin-bottom: 0;
         font-style: normal;
         font-weight: 500;
         line-height: normal;
+        margin-top: 14px;
       }
       .forget-password-text {
-        color: #000;
+        color: ${lightGrey9};
+        font-size: 16px;
         font-style: normal;
         font-weight: 400;
         line-height: normal;
-        font-size: 14px;
+        padding: 0px 26px;
+      }
+
+      .forget-password-OTPtext{
+        color: ${pureDark2};
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+
+      .forget-password-phoneNumber{
+        font-size: 18px;
+        font-family: ${fontFamilyMedium};
+        color: ${lightGrey9};
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        margin: 8px 0px 20px 0px;
+
+      }
+
+      .PhoneInputCountrySelectArrow{
+        font-size: 28px;
+        color: #000 !important;
+        opacity: 1;
+      }
+    
+      .PhoneInputCountryIcon {
+        width: 33px;
+        height: 22px;
+        object-fit: cover;
       }
 
 
+      .forget-password-container-card-form{
+        label{
+          color: ${pureDark2};
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
+          font-size: 16px;
+          margin-bottom: 8px;
+        }
+        input{
+          padding: 10px;
+        }
+      }
+
+      .ant-input-affix-wrapper + div{
+        text-align: right !important;
+      }
+
+      .create-title{
+        color: ${pureDark2};
+        font-family: ${fontFamilyMedium};
+        margin-bottom: 0;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        margin-top: 26px;
+        font-size: 22px;
+      }
+
+      .create-password-text{
+        color: ${lightDark3};
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
 
       .phone-input-fields{
         margin-top: 17px;
@@ -60,7 +133,7 @@ export const ForgetPasswordStyle = styled.div`
       .PhoneInput {
         /* border: 1px solid black; */
         width: 100%;
-        height: 48px;
+        height: 52px;
         /* border: 1px solid rgb(198, 198, 200); */
         border-radius: 8px;
       }
@@ -78,15 +151,34 @@ export const ForgetPasswordStyle = styled.div`
         border-right: none;
         margin-right: 0;
       }
+
+      .PhoneInput:hover input, .PhoneInput:hover .PhoneInputCountry {
+        border-color: rgb(64, 169, 255);
+        border-right-width: 1px;
+        z-index: 1;
+      }
       .country-left-to-right-border-radius {
         border-radius: 8px 0 0 8px;
       }
       .country-right-to-left-border-radius {
         border-radius: 0 8px 8px 0;
       }
+
+      .PhoneInputCountrySelectArrow{
+        font-size: 28px;
+        color: #000 !important;
+      }
+
+      .closeButtonIcon{
+        position: absolute;
+        right: 0px;
+        top: 10px;
+        cursor: pointer;
+      }
+
       .PhoneInput input {
         width: 100%;
-        height: 48px;
+        height: 52px;
         padding: 0 11px;
         background-color: transparent;
         border: 1px solid #EAEAEA;
@@ -161,29 +253,28 @@ export const ForgetPasswordStyle = styled.div`
     border: 1px solid red;
     border-radius: 5px;
     background: white;
-    border-radius: 2px;
-    padding: 10px;
+    border-radius: 10px;
+    padding: 3.4px 11px;
     width: 100%;
     width: -moz-available;
     outline: none;
-    margin-bottom: 8px;
+    margin-bottom: 2px;
   }
   .customInput,
   .customPasswordInput {
     background: white;
-    border: 1px solid #c6c6c8;
-    border-radius: 2px;
-    padding: 10px;
+    border: 1px solid ${tertiaryGrey24};
+    border-radius: 10px;
+    padding: 3.4px 11px;
     width: 100%;
     width: -moz-available;
     outline: none;
-    margin-bottom: 8px;
   }
   .forget_password {
     color: ${primaryColor};
     font-size: 16px;
     text-decoration: none;
-    font-family: "EnnVisionsMedium" !important;
+    font-family: ${fontFamilyMedium};
   }
   .remember-password {
     &-text {

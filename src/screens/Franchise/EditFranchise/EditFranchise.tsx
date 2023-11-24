@@ -41,8 +41,10 @@ import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelec
 const EditFranchise = () => {
   const { getLabelByKey } = useScreenTranslation("franchiseUpdate");
   const {
-    statusData: { activities, facilities, businessTypes },
+    statusData: { activities, facilities },
+    dropdowns:  { businessTypes }
   } = useSelector((state: RootState) => state.appData.data);
+
   const { data: branchData } = useSelector(
     (state: RootState) => state.branchData.branchData
   );

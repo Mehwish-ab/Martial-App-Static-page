@@ -28,7 +28,7 @@ import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
 const CreateInstructor = () => {
   const { getLabelByKey } = useScreenTranslation("instructorCreate");
   const {
-    statusData: { activities, facilities, businessTypes },
+    statusData: { activities, facilities },
   } = useSelector((state: RootState) => state.appData.data);
 
   const { loading, handleSubmit } = useBranch();

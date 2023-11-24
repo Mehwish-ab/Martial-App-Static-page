@@ -29,9 +29,11 @@ const ListFranchise: React.FC = () => {
     (state: RootState) => state.branchData
   );
 
-  const { businessTypes, activities } = useSelector(
-    (state: RootState) => state.appData.data.statusData
-  );
+  const {
+    statusData: { activities },
+    dropdowns:  { businessTypes }
+  } = useSelector((state: RootState) => state.appData.data);
+
 
   const { selectedLanguage } = useSelector(
     (state: RootState) => state.selectedLanguage

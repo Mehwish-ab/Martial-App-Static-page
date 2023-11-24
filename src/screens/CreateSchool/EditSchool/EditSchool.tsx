@@ -34,8 +34,10 @@ import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelec
 const EditSchool = () => {
   const { getLabelByKey } = useScreenTranslation("schoolCreate");
   const {
-    statusData: { activities, facilities, currency, language, businessTypes },
+    statusData: { activities, facilities },
+    dropdowns:  { currency, language, businessTypes }
   } = useSelector((state: RootState) => state.appData.data);
+
   const { schoolData } = useSelector((state: RootState) => state.dashboardData);
   const { handleSubmit, loading } = useCreateSchool();
   const { schoolId } = useParams();

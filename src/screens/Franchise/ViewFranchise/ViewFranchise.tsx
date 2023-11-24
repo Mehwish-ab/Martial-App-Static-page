@@ -15,7 +15,7 @@ const ViewFranchise = () => {
   const location = useLocation();
   const branch: BranchDataType = location.state?.branch;
   const { language, currency } = useSelector(
-    (state: RootState) => state.appData.data.statusData
+    (state: RootState) => state.appData.data.dropdowns
   );
   const { selectedLanguage } = useSelector(
     (state: RootState) => state.selectedLanguage

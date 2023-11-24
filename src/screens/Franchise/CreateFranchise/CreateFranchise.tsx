@@ -37,8 +37,10 @@ import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
 const CreateFranchise = () => {
   const { getLabelByKey } = useScreenTranslation("franchiseCreate");
   const {
-    statusData: { activities, facilities, businessTypes },
+    statusData: { activities, facilities },
+    dropdowns:  { businessTypes }
   } = useSelector((state: RootState) => state.appData.data);
+
   const { loading, handleSubmit } = useBranch();
   const initialValues: CreateFranchiseInitialValues = {
     franchiseName: "",

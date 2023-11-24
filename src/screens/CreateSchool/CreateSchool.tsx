@@ -34,7 +34,8 @@ import CheckboxesSelect from "../../components/CustomCheckbox/CheckboxesSelect";
 const CreateSchool = () => {
   const { getLabelByKey } = useScreenTranslation("schoolCreate");
   const {
-    statusData: { activities, facilities, currency, language, businessTypes },
+    statusData: { activities, facilities },
+    dropdowns:  { currency, language, businessTypes }
   } = useSelector((state: RootState) => state.appData.data);
   const { handleSubmit, loading } = useCreateSchool();
 
@@ -100,7 +101,7 @@ const CreateSchool = () => {
 
   const createOptions = (list: DataTypesWithIdAndMultipleLangLabel[]) => {
     let options: SelectOptionsDataTypes[] = [];
-    list.forEach((item) => {
+    list?.forEach((item) => {
       let obj = {
         label: (item as any)[selectedLanguage],
         value: item.id,

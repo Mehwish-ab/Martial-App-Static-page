@@ -33,8 +33,10 @@ import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelec
 const CreateBranch = () => {
   const { getLabelByKey } = useScreenTranslation("branchCreate");
   const {
-    statusData: { activities, facilities, businessTypes, language, currency },
+    statusData: { activities, facilities },
+    dropdowns:  { currency, language, businessTypes }
   } = useSelector((state: RootState) => state.appData.data);
+  
   const { loading, handleSubmit } = useBranch();
   const initialValues: CreateBranchInitialValues = {
     branchName: "",

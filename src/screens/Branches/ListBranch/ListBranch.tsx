@@ -30,8 +30,12 @@ const ListBranch: React.FC = () => {
     (state: RootState) => state.branchData
   );
 
-  const { businessTypes, activities } = useSelector(
+  const { activities } = useSelector(
     (state: RootState) => state.appData.data.statusData
+  );
+
+  const { businessTypes } = useSelector(
+    (state: RootState) => state.appData.data.dropdowns
   );
 
   const { selectedLanguage } = useSelector(

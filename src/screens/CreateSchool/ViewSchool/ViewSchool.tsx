@@ -16,7 +16,7 @@ const ViewSchool = () => {
   const { getLabelByKey } = useScreenTranslation("schoolCreate");
   const { schoolData } = useSelector((state: RootState) => state.dashboardData);
   const { language, currency } = useSelector(
-    (state: RootState) => state.appData.data.statusData
+    (state: RootState) => state.appData.data.dropdowns
   );
   const { selectedLanguage } = useSelector(
     (state: RootState) => state.selectedLanguage

@@ -422,7 +422,7 @@ const RegisterUser = () => {
                               bgcolor={lightBlue3}
                               textTransform="Captilize"
                               color={pureDark}
-                              padding="11px 8px"
+                              padding="12.7px 8px"
                               width="100%"
                               type="submit"
                               title={getLabelByKey(

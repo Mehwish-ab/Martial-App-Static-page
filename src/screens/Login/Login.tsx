@@ -224,7 +224,7 @@ const Login = () => {
                               bgcolor={lightBlue3}
                               textTransform="Captilize"
                               color={pureDark2}
-                              padding="10px"
+                              padding="16px"
                               fontFamily={fontFamilyMedium}
                               width="100%"
                               type="submit"

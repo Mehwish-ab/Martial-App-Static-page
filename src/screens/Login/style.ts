@@ -140,7 +140,7 @@ export const LoginStyle = styled.div`
     width: 100%;
     width: -moz-available;
     outline: none;
-    margin-bottom: 8px;
+    margin-bottom: 2px;
   }
 
   .customPasswordInput {

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { secondaryDark3 } from "../GlobalStyle";
+import { lightBlue2, pureDark2, secondaryDark3 } from "../GlobalStyle";
 
 type customTextareaProps = {
   height: string;
@@ -10,7 +10,7 @@ export const CustomTextAreaContaienr = styled.div<customTextareaProps>`
   label {
     font-size: 16px;
     text-transform: capitalize;
-    color: ${secondaryDark3};
+    color: ${pureDark2};
     font-family: EnnVisionsMedium;
     display: block;
     margin-bottom: 10px;

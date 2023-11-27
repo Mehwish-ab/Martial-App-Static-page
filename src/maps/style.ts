@@ -2,12 +2,15 @@ import styled from "styled-components";
 import {
   fontFamilyMedium,
   fontFamilyRegular,
+  lightDark2,
   lightGrey2,
+  pureDark2,
 } from "../components/GlobalStyle";
 
 export const PlacesAutocompleteStyle = styled.div`
   label {
     font-family: ${fontFamilyMedium};
+    color: ${pureDark2};
     margin-bottom: 10px;
   }
   input {
@@ -19,7 +22,7 @@ export const PlacesAutocompleteStyle = styled.div`
 
     &::placeholder {
       font-family: ${fontFamilyRegular};
-      color: rgb(198, 198, 200);
+      color: ${lightDark2};
       font-size: 16px;
     }
   }
@@ -32,7 +35,7 @@ export const AutoCompleteSuggestionsStyle = styled.div`
     font-size: 14px;
   }
   input {
-    padding: 8px;
+    padding: 13px !important;
     border: 1px solid #efeff4;
     width: 100%;
     font-size: 14px;

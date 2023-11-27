@@ -28,7 +28,7 @@ import ukIcon from "../../assets/icons/ic_uk_flag.svg";
 // import logo from "../../assets/icons/logo.svg";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { fontFamilyMedium } from "../GlobalStyle";
+import { fontFamilyMedium, pureDark2 } from "../GlobalStyle";
 
 function Navbar() {
   const { searchText, setSearchText } = useGlobalContext();
@@ -123,19 +123,22 @@ function Navbar() {
                 lineHeight: "normal",
                 marginLeft: "10px",
                 fontFamily: "${fontFamilyMedium}",
+                color: "${pureDark2}",
               }}>Adnan Qureshi</h3>
             </div>
-            <div className="language-area">
-              <Badge>
-                <Avatar src={ukIcon} shape="square" style={{ width: "29px", height: "23px" }} />
-              </Badge>
+            <div className="d-flex align-items-center ">
+              <div className="language-area">
+                <Badge>
+                  <Avatar src={ukIcon} shape="square" style={{ width: "33px", height: "23px" }} />
+                </Badge>
+              </div>
+              <Dropdown menu={{ items }} placement="bottomLeft" arrow>
+                <Button
+                  icon={<img src={dropDownArrow} alt="dropdown" />}
+                  style={{ border: "none" }}
+                />
+              </Dropdown>
             </div>
-            <Dropdown menu={{ items }} placement="bottomLeft" arrow>
-              <Button
-                icon={<img src={dropDownArrow} alt="dropdown" />}
-                style={{ border: "none" }}
-              />
-            </Dropdown>
           </div>
         </div>
         <NavbarRow2Styled>
@@ -152,7 +155,7 @@ function Navbar() {
             </div>
           </div>
         </NavbarRow2Styled>
-      </NavbarStyle>
+      </NavbarStyle >
     </>
   );
 }

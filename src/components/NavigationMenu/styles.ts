@@ -3,13 +3,15 @@ import { lightBlue3, pureDark2 } from "../GlobalStyle";
 
 export const NavigationMenuStyled = styled.div`
   .ant-menu {
-    padding-top: 50px;
     padding-top: 20px;
-
-    border-radius: 20px;
-
+    border: none;
+    
     &-item {
       height: 47px !important;
+      padding-left: 0 !important; 
+      &:hover{
+        padding-left: 0;
+      }
     }
     &-item,
     &-submenu {
@@ -18,6 +20,26 @@ export const NavigationMenuStyled = styled.div`
       margin-right: auto;
       justify-content: flex-start !important;
       transition: all 0.3s !important;
+      .ant-menu-item:active, .ant-menu-submenu-title:active {
+        background: transparent !important;
+        font-weight: 700;
+    }
+      > .ant-menu-submenu-title{
+        padding-left: 0 !important;
+        transition: all 0.3s !important;
+        &:active{
+          font-weight: 500;
+          font-size: 18px;
+        }
+        &:active{
+
+          font-weight: 500;
+        }
+        + ul{
+          padding-top: 00px !important;
+          transition: all 0.3s !important;
+        }
+      }
       &::after {
         border-right: 0 !important;
       }
@@ -34,15 +56,18 @@ export const NavigationMenuStyled = styled.div`
 
     &-item-active,
     &-item-selected {
-      background: ${lightBlue3}!important;
-      border-radius: 10px;
-      justify-content: center !important;
-      padding-left: 16px !important;
+      background: transparent !important;
+      padding-left: 0px !important;
       font-weight: 500;
+      font-size: 18px;
       span {
         flex: none !important;
+        font-size: 18px;
         font-weight: 700;
+
       }
     }
   }
+
+
 `;

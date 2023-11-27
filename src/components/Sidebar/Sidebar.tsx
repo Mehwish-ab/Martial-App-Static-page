@@ -47,7 +47,7 @@ const Sidebar = () => {
             background: "white",
             borderRadius: 20,
             paddingBottom: 16,
-            paddingTop: 32,
+            paddingTop: 9,
           }}
         >
           <NavigationMenu />

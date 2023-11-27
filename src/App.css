@@ -255,6 +255,18 @@ button {
   /* border: 1px solid rgb(198, 198, 200); */
   border-radius: 8px;
 }
+
+.PhoneInputCountrySelectArrow{
+  font-size: 28px;
+  color: #000 !important;
+  opacity: 1;
+}
+.PhoneInputCountryIcon {
+  width: 33px !important;
+  height: 22px !important;
+  object-fit: cover;
+}
+
 .PhoneInput .PhoneInputCountry {
   width: 80px;
   position: relative;
@@ -262,10 +274,11 @@ button {
   font-weight: normal;
   font-size: 14px;
   text-align: center;
-  background-color: #fafafa;
+  background-color: transparent;
   transition: all 0.3s;
   justify-content: center;
   border: 1px solid rgb(198, 198, 200);
+  border-right: none;
   margin-right: 0;
 }
 .country-left-to-right-border-radius {
@@ -280,6 +293,7 @@ button {
   padding: 0 11px;
   background-color: transparent;
   border: 1px solid rgb(198, 198, 200);
+  border-left: none;
   outline: 0;
   transition: all 0.3s linear;
   appearance: textfield !important;
@@ -298,12 +312,18 @@ button {
 }
 .custom-phone-input-label {
   display: block;
-  color: rgb(27, 40, 63);
+  color: #061229;
   text-transform: capitalize;
   font-size: 16px !important;
   font-family: EnnVisionsMedium, sans-serif;
   margin-bottom: 10px;
 }
+.PhoneInput:hover input, .PhoneInput:hover .PhoneInputCountry {
+  border-color: rgb(64, 169, 255);
+  border-right-width: 1px;
+  z-index: 1;
+}
+
 .text-14 {
   font-size: 14px;
 }

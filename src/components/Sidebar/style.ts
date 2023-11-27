@@ -10,6 +10,7 @@ export const SidebarStyle = styled.div`
     margin: 150px auto 16px;
 
     button {
+      font-size: 17px;
       font-weight: 600;
       background: ${tertiaryBlue};
     }

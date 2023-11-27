@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { FieldStyleBasicProps } from "../FormControl";
-import { secondaryDark3 } from "../GlobalStyle";
+import { lightDark2, pureDark2, secondaryDark3 } from "../GlobalStyle";
 
 interface InputStyleProps extends FieldStyleBasicProps {
   fontSize: string;
@@ -20,7 +20,7 @@ const CustomInputStyle = styled.div<InputStyleProps>`
 
   label {
     display: block;
-    color: ${secondaryDark3};
+    color: ${pureDark2};
     text-transform: capitalize;
     font-size: ${(props) => props.labelFont};
     font-family: ${(props) => props.labelFamily};
@@ -40,6 +40,7 @@ const CustomInputStyle = styled.div<InputStyleProps>`
     &::placeholder {
       font-family: ${(props) => props.placeholderFamily};
       font-size: ${(props) => props.placeholderFont};
+      color: ${lightDark2};
     }
   }
 `;

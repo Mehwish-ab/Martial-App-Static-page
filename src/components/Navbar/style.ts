@@ -34,8 +34,9 @@ export const NavbarStyle = styled.div`
         border-radius: unset;
         border-bottom: 1px solid #EAEAEA;
         max-width: 280px;
-        :[placeholder]{
-          color: #4F4F4F;
+        border-radius: 9px;
+        input::placeholder{
+          color: #4F4F4F !important;
         }
         @media screen and ${mediaDeviceMax.tabletL} {
           height: 50px;
@@ -168,6 +169,7 @@ export const NavbarRow2Styled = styled.div`
       border-bottom: 10px;
       border-radius: unset;
       border-bottom: 1px solid black;
+
     }
 
     .navbar-select {

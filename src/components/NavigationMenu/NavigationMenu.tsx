@@ -1,13 +1,6 @@
 import { Menu, MenuProps } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
-// import membership from "../../assets/icons/ic_dashboard_..svg";
 import logo from "../../assets/icons/ic_logo.svg";
-// import dashboard from "../../assets/icons/ic_membership.svg";
-// import payment from "../../assets/icons/ic_membership.svg";
-// import classes from "../../assets/icons/ic_classes.svg";
-// import booking from "../../assets/icons/ic_booking.svg";
-// import qrCode from "../../assets/icons/ic_qr_code.svg";
-// import setting from "../../assets/icons/ic_setting.svg";
 import { childListOfBooking, childListOfSetting } from "../Sidebar/constants";
 import { SidebarStyle } from "../Sidebar/style";
 import { NavigationMenuStyled } from "./styles";

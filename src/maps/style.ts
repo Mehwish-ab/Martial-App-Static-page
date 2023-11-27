@@ -22,6 +22,14 @@ export const PlacesAutocompleteStyle = styled.div`
       color: rgb(198, 198, 200);
       font-size: 16px;
     }
+  } 
+  .PlacesAutocomplete{
+    position: relative;
+  }
+  .PlacesAutocomplete span{
+    position: absolute;
+    top: 12px;
+    right: 12px;
   }
 `;
 

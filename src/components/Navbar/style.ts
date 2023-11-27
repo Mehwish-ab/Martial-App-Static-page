@@ -207,8 +207,7 @@ export const NavbarSmallScreenStyled = styled.div`
   .top-side .navbarSearchField > .ant-input::placeholder ,
    input:placeholder-shown, 
    #root .ant-input::-webkit-input-placeholder  {
-    // color: ${lightDark2} !important;
-    color: #ff0000 !important;
+    color: ${lightDark2} !important;
     opacity: 1 !important;
   }
 `;

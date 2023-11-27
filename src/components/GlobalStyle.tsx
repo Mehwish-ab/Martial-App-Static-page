@@ -179,7 +179,7 @@ export const TertiaryHeading = styled.h3`
     line-height: 18px;
   }
 `;
-export const InputErrorMessage = styled.div`maastrichtBlue
+export const InputErrorMessage = styled.div`
   color: red;
   text-align: start;
   margin-left: 3px;

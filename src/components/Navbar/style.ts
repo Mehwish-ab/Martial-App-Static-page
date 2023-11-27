@@ -113,7 +113,7 @@ export const NavbarStyle = styled.div`
     }
 
     .navbarSearchField > input::placeholder {
-        color: ${lightDark2};
+        // color: ${lightDark2};
     }
 
     .notification-count {
@@ -202,5 +202,13 @@ export const NavbarSmallScreenStyled = styled.div`
     @media screen and ${mediaDeviceMax.mobileXL} {
       width: 50px;
     }
+  }
+  .top-side .navbarSearchField > .ant-input::-webkit-input-placeholder ,
+  .top-side .navbarSearchField > .ant-input::placeholder ,
+   input:placeholder-shown, 
+   #root .ant-input::-webkit-input-placeholder  {
+    // color: ${lightDark2} !important;
+    color: #ff0000 !important;
+    opacity: 1 !important;
   }
 `;

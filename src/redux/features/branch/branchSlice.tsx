@@ -29,6 +29,7 @@ export interface BranchDataType {
   gclClientSecret: string;
   bannerPicture: string | null | undefined;
   profilePicture: string | null | undefined;
+  status: string;
 }
 export interface GetBranchBySchoolResTypes {
   data: BranchDataType[];

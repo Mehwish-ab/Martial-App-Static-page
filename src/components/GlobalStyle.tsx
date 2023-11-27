@@ -130,6 +130,8 @@ export const lightBlue3 = "#C1EAFA";
 export const darkGery = "#333333";
 export const tertiaryGrewish = "#C6C6C8";
 
+export const maastrichtBlue = "#0F1E3C";
+
 export const FlexContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -177,7 +179,7 @@ export const TertiaryHeading = styled.h3`
     line-height: 18px;
   }
 `;
-export const InputErrorMessage = styled.div`
+export const InputErrorMessage = styled.div`maastrichtBlue
   color: red;
   text-align: start;
   margin-left: 3px;

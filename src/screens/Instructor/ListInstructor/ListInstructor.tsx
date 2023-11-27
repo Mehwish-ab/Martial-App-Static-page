@@ -84,7 +84,7 @@ const ListInstructor: React.FC = () => {
       dataIndex: "instructorRanking",
       key: "instructorRanking",
       render: (DummyData) => {
-        return <img src={BeltImage} alt="image" width="159px" height="18px" />
+        return <div className="progress" style={{background: "#386BB4", borderRadius: "4px", border: "1px solid #231F20"}}><div className="progress-bar" role="progressbar" style={{width: "40%", background: "#231F20"}} aria-valuenow={40} aria-valuemin={10} aria-valuemax={100}></div></div>
       },
     },
     {

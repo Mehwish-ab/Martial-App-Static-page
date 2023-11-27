@@ -35,7 +35,7 @@ export const NavbarStyle = styled.div`
         border-bottom: 1px solid #EAEAEA;
         max-width: 280px;
         :[placeholder]{
-          color: #4F4F4F;
+          color: ${lightDark2};
         }
         @media screen and ${mediaDeviceMax.tabletL} {
           height: 50px;
@@ -112,7 +112,7 @@ export const NavbarStyle = styled.div`
     }
 
     .navbarSearchField > input::placeholder {
-        color: ${lightDark2};
+        // color: ${lightDark2};
     }
 
     .notification-count {
@@ -200,5 +200,13 @@ export const NavbarSmallScreenStyled = styled.div`
     @media screen and ${mediaDeviceMax.mobileXL} {
       width: 50px;
     }
+  }
+  .top-side .navbarSearchField > .ant-input::-webkit-input-placeholder ,
+  .top-side .navbarSearchField > .ant-input::placeholder ,
+   input:placeholder-shown, 
+   #root .ant-input::-webkit-input-placeholder  {
+    // color: ${lightDark2} !important;
+    color: #ff0000 !important;
+    opacity: 1 !important;
   }
 `;

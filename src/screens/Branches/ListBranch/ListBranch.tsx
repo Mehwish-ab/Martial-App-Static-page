@@ -23,6 +23,13 @@ import {
 import plusIcon from "../../../assets/icons/ic_plus.svg";
 import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
 import { ipForImages } from "../../Home/OverlayImages/OverlayImages";
+import DummyData from "./dummyData.json";
+import StatusActiveError from "../../../assets/images/activeBtnError.svg"
+
+
+
+
+
 
 const ListBranch: React.FC = () => {
   const navigate = useNavigate();
@@ -51,15 +58,19 @@ const ListBranch: React.FC = () => {
       title: "Image",
       dataIndex: "profilePicture",
       key: "profilePicture",
-      render: (text) => (
-        <div style={{ width: 50, height: 50 }}>
-          <img
-            src={ipForImages + text}
-            alt="branch img"
-            style={{ objectFit: "contain", width: "100%" }}
-          />
-        </div>
-      ),
+      // render: (text) => (
+      //   <div style={{ width: 50, height: 50 }}>
+      //     <img
+      //       src={ipForImages + text}
+      //       alt="branch img"
+      //       style={{ objectFit: "contain", width: "100%" }}
+      //     />
+      //   </div>
+      // ),
+      render: (DummyData) => {
+
+        return <img src={DummyData} width={44} height={44} alt="dummy images data" />;
+      }
     },
     {
       title: "Name",
@@ -71,30 +82,38 @@ const ListBranch: React.FC = () => {
       title: "Type",
       dataIndex: "branchType",
       key: "branchType",
-      render: (_, { branchType }) => {
-        let item = businessTypes.find((b) => b.id === branchType);
-        return <p>{item?.en}</p>;
-      },
+      // render: (_, { branchType }) => {
+      //   let item = businessTypes.find((b) => b.id === branchType);
+      //   return <p>{item?.en}</p>;
+      // },
     },
     {
       title: "Activity",
-      dataIndex: "activity",
-      key: "activity",
-      render: (_, { activities: commaSeparatedIds }) => {
-        const filteredObjects = activities.filter((obj) => {
-          const objId = obj.id;
-          return commaSeparatedIds.split(",").includes(objId.toString());
-        });
-        let names = filteredObjects
-          .map((obj) => (obj as any)[selectedLanguage])
-          .join(", ");
-        const maxLength = 20;
+      dataIndex: "activities",
+      key: "activities",
+      render: (DummyData) => {
 
-        if (names.length > maxLength) {
-          names = names.slice(0, maxLength - 3) + "...";
-        }
-        return <p>{names}</p>;
-      },
+        return <p className="sub-title">
+        {DummyData?.length > 33
+          ? `${DummyData.slice(0, 38)}...`
+          : DummyData}
+      </p>;
+      }
+      // render: (_, { activities: commaSeparatedIds }) => {
+      //   const filteredObjects = activities.filter((obj) => {
+      //     const objId = obj.id;
+      //     return commaSeparatedIds.split(",").includes(objId.toString());
+      //   });
+      //   let names = filteredObjects
+      //     .map((obj) => (obj as any)[selectedLanguage])
+      //     .join(", ");
+      //   const maxLength = 20;
+
+      //   if (names.length > maxLength) {
+      //     names = names.slice(0, maxLength - 3) + "...";
+      //   }
+      //   return <p>{names}</p>;
+      // },
     },
 
     {
@@ -102,17 +121,19 @@ const ListBranch: React.FC = () => {
       dataIndex: "phoneNumber",
       key: "phoneNumber",
     },
-    // {
-    //   title: "Belts",
-    //   key: "tags",
-    //   dataIndex: "tags",
-    //   render: (_, { belts }) => {
-    //     return (
-    //       <Tag color={belts ? "green" : "red"}>{belts ? "Yes" : "No"}</Tag>
-    //     );
-    //   },
-    // },
-
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "Staus",
+      render: (DummyData) => {
+        return (
+          <div>
+            <button>{DummyData}</button>
+            <img src={StatusActiveError} alt="image" />
+          </div>
+        );
+      },
+    },
     {
       title: "Action",
       key: "action",
@@ -127,6 +148,16 @@ const ListBranch: React.FC = () => {
             key: "2",
             label: "Edit",
             onClick: () => navigation(record, "edit"),
+          },
+          {
+            key: "3",
+            label: "Payment",
+            onClick: () => navigation(record, "payment"),
+          },
+          {
+            key: "4",
+            label: "Delete",
+            onClick: () => navigation(record, "delete"),
           },
         ];
 
@@ -180,7 +211,7 @@ const ListBranch: React.FC = () => {
       <ListBranchStyled>
         <Table
           columns={columns}
-          dataSource={branchData?.data}
+          dataSource={DummyData as any}
           title={() => <RenderTableTitle />}
           scroll={{ x: true }}
         />

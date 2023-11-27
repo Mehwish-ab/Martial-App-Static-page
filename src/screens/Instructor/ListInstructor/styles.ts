@@ -38,9 +38,15 @@ export const ListInstructorStyled = styled.div`
   .ant-table-thead > tr > th{
     color: ${darkGery};
   }
-  .ant-table-thead > tr > th:first-child, .ant-table-tbody > tr > td:first-child, 
-  .ant-table-thead > tr > th:nth-child(2), .ant-table-tbody > tr > td:nth-child(2),
-  .ant-table-thead > tr > th:nth-child(5), .ant-table-tbody > tr > td:nth-child(5),
+  .ant-table-thead > tr > th:first-child, .ant-table-tbody > tr > td:first-child{
+    width: 1%;
+  }
+  .ant-table-thead > tr > th:nth-child(2), .ant-table-tbody > tr > td:nth-child(2){
+    width: 4%;
+  }
+  .ant-table-thead > tr > th:nth-child(3), .ant-table-thead > tr > td:nth-child(3){
+    width: 15%;
+  }
   .ant-table-thead > tr > th:nth-child(6), .ant-table-tbody > tr > td:nth-child(6){
     width: 5%;
   }
@@ -48,7 +54,7 @@ export const ListInstructorStyled = styled.div`
   .ant-table-thead > tr > th:nth-child(6), .ant-table-tbody > tr > td:nth-child(6){
     width: 12%;
   }
-  .ant-table-thead > tr > th:nth-child(3), .ant-table-thead > tr > td:nth-child(3),
+
   .ant-table-thead > tr > th:nth-child(7), .ant-table-tbody > tr > td:nth-child(7){
     width: 13%;
   }
@@ -72,9 +78,9 @@ export const ListInstructorStyled = styled.div`
     position: relative;
     top: 5px;
   }
-  .ant-table-tbody > tr > td:nth-child(8),
   .ant-table-tbody > tr > td:nth-child(8) div{
     position: relative;
+    width: 116px;
   }
   .ant-table-tbody > tr > td:nth-child(8) button{
     font-style: normal;

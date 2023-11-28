@@ -20,7 +20,9 @@ import OverlayImages from "../../Home/OverlayImages/OverlayImages";
 import FormControl from "../../../components/FormControl";
 import {
   fontFamilyMedium,
+  fontFamilyRegular,
   lightBlue3,
+  maastrichtBlue,
   pureDark,
 } from "../../../components/GlobalStyle";
 import SearchGoogleLocation from "../../../components/Common/SearchGoogleLocation/SearchGoogleLocation";
@@ -38,7 +40,7 @@ const CreateFranchise = () => {
   const { getLabelByKey } = useScreenTranslation("franchiseCreate");
   const {
     statusData: { activities, facilities },
-    dropdowns:  { businessTypes }
+    dropdowns: { businessTypes }
   } = useSelector((state: RootState) => state.appData.data);
 
   const { loading, handleSubmit } = useBranch();
@@ -168,13 +170,13 @@ const CreateFranchise = () => {
                       name="franchiseName"
                       label={getLabelByKey("franchiseName")}
                       padding="10px"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       fontSize="16px"
                       max={6}
                       placeholder={getLabelByKey("franchiseName")}
                       className={
                         formik.errors.franchiseName &&
-                        formik.touched.franchiseName
+                          formik.touched.franchiseName
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -185,14 +187,14 @@ const CreateFranchise = () => {
                       control="select"
                       type="text"
                       name="franchiseType"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("franchiseType")}
                       padding="10px"
                       placeholder={getLabelByKey("franchiseType")}
                       className={
                         formik.errors.franchiseType &&
-                        formik.touched.franchiseType
+                          formik.touched.franchiseType
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -239,7 +241,7 @@ const CreateFranchise = () => {
                       control="select"
                       type="text"
                       name="belts"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       label={getLabelByKey("ranking")}
                       padding="10px"
                       placeholder={getLabelByKey("ranking")}
@@ -256,13 +258,13 @@ const CreateFranchise = () => {
                       control="select"
                       type="text"
                       name="belts"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       label={getLabelByKey("defaultLanguage")}
                       padding="10px"
                       placeholder={getLabelByKey("defaultLanguage")}
                       className={
                         formik.errors.defaultLanguage &&
-                        formik.touched.defaultLanguage
+                          formik.touched.defaultLanguage
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -274,13 +276,13 @@ const CreateFranchise = () => {
                       control="select"
                       type="text"
                       name="belts"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       label={getLabelByKey("defaultCurrency")}
                       padding="10px"
                       placeholder={getLabelByKey("defaultCurrency")}
                       className={
                         formik.errors.defaultCurrency &&
-                        formik.touched.defaultCurrency
+                          formik.touched.defaultCurrency
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -310,7 +312,7 @@ const CreateFranchise = () => {
                       control="textarea"
                       type="text"
                       name="description"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("description")}
                       padding="10px"
@@ -336,15 +338,15 @@ const CreateFranchise = () => {
               })} */}
               <div className="mt-20 d-flex justify-content-end">
                 <CustomButton
-                  bgcolor={lightBlue3}
+                  bgcolor=''
                   textTransform="Captilize"
-                  color={pureDark}
-                  padding="12px 100px"
+                  color={maastrichtBlue}
+                  padding="14px 102.50px"
                   fontFamily={`${fontFamilyMedium}`}
                   width="fit-content"
                   type="submit"
                   title={getLabelByKey("primaryButton")}
-                  fontSize="17px"
+                  fontSize="18px"
                   loading={loading}
                 />
               </div>

@@ -8,7 +8,7 @@ const CustomSelect = (props: any) => {
     name,
     placeholder,
     onSelect,
-    padding = "8px",
+    padding = "10px",
     defaultValue,
     label,
     options,

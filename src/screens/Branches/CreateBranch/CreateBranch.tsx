@@ -18,6 +18,7 @@ import {
   fontFamilyMedium,
   fontFamilyRegular,
   lightBlue3,
+  maastrichtBlue,
   pureDark,
 } from "../../../components/GlobalStyle";
 import CustomPhoneInput from "../../../components/CustomPhoneInput/CustomPhoneInput";
@@ -34,9 +35,9 @@ const CreateBranch = () => {
   const { getLabelByKey } = useScreenTranslation("branchCreate");
   const {
     statusData: { activities, facilities },
-    dropdowns:  { currency, language, businessTypes }
+    dropdowns: { currency, language, businessTypes }
   } = useSelector((state: RootState) => state.appData.data);
-  
+
   const { loading, handleSubmit } = useBranch();
   const initialValues: CreateBranchInitialValues = {
     branchName: "",
@@ -165,7 +166,7 @@ const CreateBranch = () => {
                       name="branchName"
                       label={getLabelByKey("branchName")}
                       padding="10px"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       fontSize="16px"
                       max={6}
                       placeholder={getLabelByKey("branchName")}
@@ -181,7 +182,7 @@ const CreateBranch = () => {
                       control="select"
                       type="text"
                       name="branchType"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("branchType")}
                       padding="10px"
@@ -215,7 +216,6 @@ const CreateBranch = () => {
                             marginLeft: "3px",
                             fontSize: "12px",
                             letterSpacing: "1px",
-                            fontFamily: fontFamilyRegular,
                           }}
                         >
                           {msg}
@@ -241,62 +241,62 @@ const CreateBranch = () => {
                     />
                   </Col>
                   <Col md="8">
-                  <Col md="4" className="mt-20 d-inline-block">
-                    <FormControl
-                      control="select"
-                      type="text"
-                      name="defaultLanguage"
-                      fontFamily={fontFamilyMedium}
-                      // prefix={<img src={lock_icon} alt="lock_icon" />}
-                      label={getLabelByKey("defaultLanguage")}
-                      padding="10px"
-                      placeholder={getLabelByKey("defaultLanguage")}
-                      className={
-                        formik.errors.defaultLanguage &&
-                        formik.touched.defaultLanguage
-                          ? "is-invalid"
-                          : "customInput"
-                      }
-                      options={createOptions(language)}
-                    />
-                  </Col>
-                  <Col md="4" className="mt-20 d-inline-block px-3">
-                    <FormControl
-                      control="select"
-                      type="text"
-                      name="defaultCurrency"
-                      fontFamily={fontFamilyMedium}
-                      // prefix={<img src={lock_icon} alt="lock_icon" />}
-                      label={getLabelByKey("defaultCurrency")}
-                      padding="10px"
-                      placeholder={getLabelByKey("defaultCurrency")}
-                      className={
-                        formik.errors.defaultCurrency &&
-                        formik.touched.defaultCurrency
-                          ? "is-invalid"
-                          : "customInput"
-                      }
-                      options={createOptions(currency)}
-                    />
-                  </Col>
-                  <Col md="4" className="mt-20 d-inline-block">
-                    <FormControl
-                      control="select"
-                      type="text"
-                      name="ranks"
-                      fontFamily={fontFamilyMedium}
-                      // prefix={<img src={lock_icon} alt="lock_icon" />}
-                      label={getLabelByKey("belts")}
-                      padding="10px"
-                      placeholder={getLabelByKey("belts")}
-                      className={
-                        formik.errors.ranks && formik.touched.ranks
-                          ? "is-invalid"
-                          : "customInput"
-                      }
-                      options={BELTS_SELECT_OPTIONS}
-                    />
-                  </Col>
+                    <Col md="4" className="mt-20 d-inline-block">
+                      <FormControl
+                        control="select"
+                        type="text"
+                        name="defaultLanguage"
+                        fontFamily={fontFamilyRegular}
+                        // prefix={<img src={lock_icon} alt="lock_icon" />}
+                        label={getLabelByKey("defaultLanguage")}
+                        padding="10px"
+                        placeholder={getLabelByKey("defaultLanguage")}
+                        className={
+                          formik.errors.defaultLanguage &&
+                            formik.touched.defaultLanguage
+                            ? "is-invalid"
+                            : "customInput"
+                        }
+                        options={createOptions(language)}
+                      />
+                    </Col>
+                    <Col md="4" className="mt-20 d-inline-block px-3">
+                      <FormControl
+                        control="select"
+                        type="text"
+                        name="defaultCurrency"
+                        fontFamily={fontFamilyRegular}
+                        // prefix={<img src={lock_icon} alt="lock_icon" />}
+                        label={getLabelByKey("defaultCurrency")}
+                        padding="10px"
+                        placeholder={getLabelByKey("defaultCurrency")}
+                        className={
+                          formik.errors.defaultCurrency &&
+                            formik.touched.defaultCurrency
+                            ? "is-invalid"
+                            : "customInput"
+                        }
+                        options={createOptions(currency)}
+                      />
+                    </Col>
+                    <Col md="4" className="mt-20 d-inline-block">
+                      <FormControl
+                        control="select"
+                        type="text"
+                        name="ranks"
+                        fontFamily={fontFamilyRegular}
+                        // prefix={<img src={lock_icon} alt="lock_icon" />}
+                        label={getLabelByKey("belts")}
+                        padding="10px"
+                        placeholder={getLabelByKey("belts")}
+                        className={
+                          formik.errors.ranks && formik.touched.ranks
+                            ? "is-invalid"
+                            : "customInput"
+                        }
+                        options={BELTS_SELECT_OPTIONS}
+                      />
+                    </Col>
                   </Col>
 
 
@@ -322,7 +322,7 @@ const CreateBranch = () => {
                       control="textarea"
                       type="text"
                       name="description"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("description")}
                       padding="10px"
@@ -342,15 +342,15 @@ const CreateBranch = () => {
 
               <div className="mt-20 d-flex justify-content-end">
                 <CustomButton
-                  bgcolor={lightBlue3}
+                  bgcolor=''
                   textTransform="Captilize"
-                  color={pureDark}
-                  padding="12px 100px"
+                  color={maastrichtBlue}
+                  padding="14px 102.50px"
                   fontFamily={`${fontFamilyMedium}`}
                   width="fit-content"
                   type="submit"
                   title={getLabelByKey("primaryButton")}
-                  fontSize="17px"
+                  fontSize="18px"
                   loading={loading}
                 />
               </div>

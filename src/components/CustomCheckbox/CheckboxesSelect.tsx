@@ -13,7 +13,7 @@ const CheckboxesSelect = ({
 }: CheckboxesListProps) => {
   return (
     <CheckboxesSelectStyled>
-      <label htmlFor="" style={{ marginBottom: 10, display: "block" }}>
+      <label htmlFor="" className="title" >
         {label}
       </label>
       <Dropdown

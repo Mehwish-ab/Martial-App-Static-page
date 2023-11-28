@@ -81,7 +81,7 @@ export const NavbarStyle = styled.div`
           display: none;
         }
         .ant-select-selector {
-          height: 60px !important;
+          height: 50px !important;
           align-items: center;
           border-top-left-radius: 10px !important;
           border-bottom-left-radius: 10px !important;

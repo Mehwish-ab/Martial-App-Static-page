@@ -21,6 +21,7 @@ import {
   fontFamilyMedium,
   fontFamilyRegular,
   lightBlue3,
+  maastrichtBlue,
   pureDark,
 } from "../../components/GlobalStyle";
 import CustomPhoneInput from "../../components/CustomPhoneInput/CustomPhoneInput";
@@ -220,10 +221,9 @@ const CreateSchool = () => {
                         control="select"
                         type="text"
                         name="belts"
-                        fontFamily={fontFamilyMedium}
+                        fontFamily={fontFamilyRegular}
                         // prefix={<img src={lock_icon} alt="lock_icon" />}
                         label={getLabelByKey("belts")}
-                        padding="10px"
                         placeholder={getLabelByKey("beltsPlaceholder")}
                         className={
                           formik.errors.belts && formik.touched.belts
@@ -238,10 +238,9 @@ const CreateSchool = () => {
                         control="select"
                         type="text"
                         name="defaultLanguage"
-                        fontFamily={fontFamilyMedium}
+                        fontFamily={fontFamilyRegular}
                         // prefix={<img src={lock_icon} alt="lock_icon" />}
                         label={getLabelByKey("defaultLanguage")}
-                        padding="10px"
                         placeholder={getLabelByKey("defaultLanguage")}
                         className={
                           formik.errors.defaultLanguage &&
@@ -257,10 +256,9 @@ const CreateSchool = () => {
                         control="select"
                         type="text"
                         name="defaultCurrency"
-                        fontFamily={fontFamilyMedium}
+                        fontFamily={fontFamilyRegular}
                         // prefix={<img src={lock_icon} alt="lock_icon" />}
                         label={getLabelByKey("defaultCurrency")}
-                        padding="10px"
                         placeholder={getLabelByKey("defaultCurrency")}
                         className={
                           formik.errors.defaultCurrency &&
@@ -272,8 +270,6 @@ const CreateSchool = () => {
                       />
                     </Col>
                   </Col>
-
-
                   <Col md="6" className="">
                     <CheckboxesSelect
                       list={activities}
@@ -297,7 +293,7 @@ const CreateSchool = () => {
                       control="textarea"
                       type="text"
                       name="description"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("description")}
                       padding="10px"
@@ -317,10 +313,10 @@ const CreateSchool = () => {
 
               <div className="mt-20 d-flex justify-content-end">
                 <CustomButton
-                  bgcolor={lightBlue3}
+                  bgcolor=''
                   textTransform="Captilize"
-                  color={pureDark}
-                  padding="15px 102px"
+                  color={maastrichtBlue}
+                  padding="14px 102.50px"
                   fontFamily={`${fontFamilyMedium}`}
                   width="fit-content"
                   type="submit"

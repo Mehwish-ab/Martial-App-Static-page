@@ -21,7 +21,7 @@ export const PlacesAutocompleteStyle = styled.div`
     color: ${lightDark2};
     font-family: ${fontFamilyRegular};
     font-size: 16px;
-    padding: 12px 35px 12px 12px;
+    padding: 12px 35px 12px 10px;
     &::placeholder {
       font-size: 16px;
       font-family: ${fontFamilyRegular};

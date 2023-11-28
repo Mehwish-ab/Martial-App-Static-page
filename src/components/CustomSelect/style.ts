@@ -56,5 +56,8 @@ export const CustomSelectStyle = styled.div<CustomSelectProps>`
       font-size: 14px !important;
     }
   }
+  .custom-select-inner .ant-select-selector{
+    padding: 0 !important;
+  }
 `;
 export default CustomSelectStyle;

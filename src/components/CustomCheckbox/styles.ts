@@ -2,7 +2,9 @@ import styled from "styled-components";
 import {
   fontFamilyBold,
   fontFamilyRegular,
+  lightDark2,
   mediaDeviceMin,
+  pureDark2,
 } from "../GlobalStyle";
 
 export const CustomCheckboxListStyled = styled.div`
@@ -65,23 +67,37 @@ export const CustomCheckboxListStyled = styled.div`
 `;
 
 export const CheckboxesSelectStyled = styled.div`
-  margin-top: 20px;
-  width: 100%;
-  overflow: hidden;
+overflow: hidden;
+width: 100%;
+margin-top: 20px;
+.title{
+  font-family: ${fontFamilyRegular};
+    font-size: 16px;
+    margin-bottom: 7px;
+    color: ${pureDark2};
+    display: block;
+}
+  
 `;
 
 export const CheckboxSelectTriggerStyled = styled.div`
+
   width: 100%;
-  border: 1px solid #d9d9d9;
-  padding: 14px;
+  height: 50px;
+  border: 1px solid #E0E0E0;
+  padding: 10px;
   border-radius: 8px;
   cursor: pointer;
+  font-size: 16px;
+  color: ${lightDark2};
+  font-family: ${fontFamilyRegular};
   display: flex;
   justify-content: space-between;
   align-items: center;
 
+
   label {
-    font-family: ${fontFamilyBold};
+    font-family: ${fontFamilyRegular};
     font-size: 16px;
   }
 `;

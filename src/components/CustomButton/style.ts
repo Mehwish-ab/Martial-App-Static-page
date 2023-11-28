@@ -17,12 +17,11 @@ const CustomButtonStyle = styled.div<CustomButtonProps>`
 
   .ant-btn {
     outline: none;
-    background-color: linear-gradient(270.24deg, #C0E9F9 0.21%, #A2DDF3 97.73%);
-    ;
+    background-color: ${(props) => props.bgcolor};
     color: ${(props) => props.color};
     padding: ${(props) => props.padding};
     font-size: ${(props) => props.fontSize};
-    border-radius: 10px;
+    border-radius: 8px;
     text-transform: ${(props) => props.textTransform};
     width: -moz-available;
     width: -webkit-fill-available;
@@ -31,7 +30,6 @@ const CustomButtonStyle = styled.div<CustomButtonProps>`
     border: ${(props) => props.border};
     font-family: ${(props) => props.fontFamily};
     cursor: pointer;
-    line-height: normal;
     &:hover {
       outline: none;
     }

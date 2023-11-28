@@ -127,6 +127,7 @@ export const LoginStyle = styled.div`
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    background-color: linear-gradient(270.24deg, #C0E9F9 0.21%, #A2DDF3 97.73%) !important;
   }
 
   .is-invalidEmail{

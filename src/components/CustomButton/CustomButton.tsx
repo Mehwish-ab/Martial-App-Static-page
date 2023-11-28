@@ -27,7 +27,7 @@ export type ButtonProps = {
 const CustomButton = ({
   title,
   type = "button",
-  bgcolor,
+  bgcolor = 'linear-gradient(270.24deg, #C0E9F9 0.21%, #A2DDF3 97.73%)',
   disabled,
   width,
   color,

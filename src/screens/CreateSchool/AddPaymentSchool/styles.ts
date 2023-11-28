@@ -214,6 +214,17 @@ export const AddPaymentMethod = styled.div`
   .ant-table-tbody > tr:nth-child(6) > td:nth-child(5) button{
     background-color: ${Diamond} !important;
     color: ${lightDark3} !important;
+    font-size: 14px !important;
+    display: block;
+    position: relative;
+    text-align: center;
+    width: 90px;
+    height: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 7px 10px;
+    border-radius: 4px;
   }
   .ant-table-tbody > tr:nth-child(6) > td:nth-child(4) button{
     background-color: transparent !important;

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { mediaDeviceMax, tertiaryGrey7 } from "../GlobalStyle";
+import { lightDark2, mediaDeviceMax, pureDark2, tertiaryGrey7 } from "../GlobalStyle";
 
 type CustomSelectProps = {
   padding: string;
@@ -16,8 +16,8 @@ export const CustomSelectStyle = styled.div<CustomSelectProps>`
   width: 100%;
 
   label {
-    font-size: 13px;
     text-transform: capitalize;
+    color: ${pureDark2};
     display: block;
     font-family: ${(props) => props.labelFamily};
     margin-bottom: ${(props) => props.labelMarginBottom};
@@ -35,16 +35,21 @@ export const CustomSelectStyle = styled.div<CustomSelectProps>`
   }
 
   .ant-select-selection-placeholder {
-    color: ${tertiaryGrey7};
+    color: ${lightDark2};
   }
 
   .ant-select {
+    height: 50px;
     background: ${(props) => props.bgColor};
     border: ${(props) => props.border};
     border-radius: 10px;
+    color: ${pureDark2};
     width: 100%;
-    padding: ${(props) => props.padding} !important;
+    padding: ${(props) => props.padding};
     font-size: ${(props) => props.fontSize};
+    &::placeholder {
+      color: ${lightDark2};
+    }
 
     @media screen and (${mediaDeviceMax.laptop}) {
       padding: 7px !important;

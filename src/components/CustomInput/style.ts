@@ -27,10 +27,6 @@ const CustomInputStyle = styled.div<InputStyleProps>`
     margin-bottom: ${(props) => props.labelMarginBottom};
   }
 
-  .customInput {
-    border-radius: 10px;
-    margin-bottom: 0px;
-  }
   .ant-input {
     padding: ${(props) => props.padding};
     border: "none";

@@ -30,7 +30,7 @@ import CustomButton from "../../components/CustomButton/CustomButton";
 import PlacesAutoCompleteInput from "../../maps/PlacesAutocomplete";
 import PaymentInfoTable from "../../components/Common/PaymentInformation/PaymentInfoTable";
 import CheckboxesSelect from "../../components/CustomCheckbox/CheckboxesSelect";
-import CustomInputStyle from "../../components/CustomInput/style";
+// import CustomInputStyle from "../../components/CustomInput/style";
 
 const CreateSchool = () => {
   const { getLabelByKey } = useScreenTranslation("schoolCreate");
@@ -139,7 +139,6 @@ const CreateSchool = () => {
                       type="text"
                       name="businessName"
                       label={getLabelByKey("businessName")}
-                      fontFamily={fontFamilyMedium}
                       fontSize="16px"
                       max={6}
                       placeholder={getLabelByKey("businessNamePlaceholder")}
@@ -157,10 +156,8 @@ const CreateSchool = () => {
                       control="select"
                       type="text"
                       name="businessType"
-                      fontFamily={fontFamilyMedium}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("businessType")}
-                      padding="10px"
                       placeholder={getLabelByKey("businessTypePlaceholder")}
                       className={
                         formik.errors.businessType &&

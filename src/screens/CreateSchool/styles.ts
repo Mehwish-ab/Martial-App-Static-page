@@ -1,18 +1,15 @@
 import styled from "styled-components";
-import { darkBlue, mediaDeviceMax, pureDark2, maastrichtBlue, lightDark2 } from "../../components/GlobalStyle";
+import { darkBlue, mediaDeviceMax, pureDark2, maastrichtBlue, lightDark2, fontFamilyMedium } from "../../components/GlobalStyle";
 
 export const CreateSchoolStyled = styled.div`
-  h3 {
-    color: ${pureDark2};
-    font-size: 18px;
-  }
+
 
 .form {
   padding: 16px;
   border-radius: 20px;
     h3 {
       font-size: 18px;
-      font-weight: 500;
+      font-family: ${fontFamilyMedium};
       color: ${pureDark2};
     }
   }
@@ -31,17 +28,12 @@ export const CreateSchoolStyled = styled.div`
   }
 
   .ant-form label {
-    font-size: 16px !important;
-    font-family: EnnVisionsMedium, sans-serif;
-    color: ${pureDark2};
-
     @media screen and (${mediaDeviceMax.laptop}) {
       font-size: 14px !important;
     }
   }
 
   .ant-input {
-    padding: 12px;
     input::placeholder{
       color: ${lightDark2} !important;
     }
@@ -50,10 +42,7 @@ export const CreateSchoolStyled = styled.div`
       padding: 10px !important;
     }
   }
-  .PhoneInput,
-  .PhoneInputInput {
-    height: 53px !important;
-  }
+  
   .ant-btn{
     background: linear-gradient(270deg, #C0E9F9 0.21%, #A2DDF3 97.73%);
     color: ${maastrichtBlue};

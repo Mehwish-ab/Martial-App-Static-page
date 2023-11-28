@@ -9,21 +9,23 @@ import {
 
 export const PlacesAutocompleteStyle = styled.div`
   label {
-    font-family: ${fontFamilyMedium};
+    font-family: ${fontFamilyRegular};
+    font-size: 16px;
     color: ${pureDark2};
-    margin-bottom: 10px;
+    margin-bottom: 7px;
   }
   input {
-    // border: 1px solid ${lightGrey2};
-    padding: 7px;
     width: 100%;
+    height: 50px;
     border-radius: 10px;
-    padding: 14px !important;
-
+    color: ${lightDark2};
+    font-family: ${fontFamilyRegular};
+    font-size: 16px;
+    padding: 12px 35px 12px 12px;
     &::placeholder {
+      font-size: 16px;
       font-family: ${fontFamilyRegular};
       color: ${lightDark2};
-      font-size: 16px;
     }
   } 
   .PlacesAutocomplete{
@@ -32,7 +34,7 @@ export const PlacesAutocompleteStyle = styled.div`
   .PlacesAutocomplete span{
     position: absolute;
     top: 12px;
-    right: 12px;
+    right: 15px;
   }
 `;
 

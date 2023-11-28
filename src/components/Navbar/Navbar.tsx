@@ -15,7 +15,7 @@ import { MenuOutlined } from "@ant-design/icons";
 import { useGlobalContext } from "../../context/context";
 
 import NavigationMenu from "../NavigationMenu/NavigationMenu";
-import NavbarStyle, { NavbarRow2Styled } from "./style";
+import NavbarStyle, { NavbarRow2Styled, DropDownStyling } from "./style";
 
 import CustomButton from "../CustomButton/CustomButton";
 
@@ -78,7 +78,7 @@ function Navbar() {
         >
           <NavigationMenu />
         </Drawer>
-        <div className="top-side d-flex align-items-center justify-content-between gap-2">
+        <div className="top-side d-flex align-items-center justify-content-between">
           <div className="menu-toggler">
             <Button
               className="menu"
@@ -86,23 +86,21 @@ function Navbar() {
               onClick={() => setDrawerVisible(true)}
             />
           </div>
-
           <div className="navbarSearchField left-bar d-flex align-items-center justify-content-end">
             <Input
               ref={searchRef}
               value={searchText}
               placeholder="Search..."
               onChange={(e) => setSearchText(e.target.value)}
-              suffix={<img src={searchIcon} alt="search-icon" width={16} />}
+              suffix={<img src={searchIcon} alt="search-icon" width={21} height={21} />}
               className="custom-input"
             />
           </div>
-
-          <div className="right-bar d-flex gap-3 align-items-center">
+          <div className="right-bar d-flex  align-items-center">
             <div className="notification-area">
               <CustomButton
                 title=""
-                icon={<img src={notificationIcon} alt="notification" width="22px" />}
+                icon={<img src={notificationIcon} alt="notification" width={17} height={19} />}
                 type="button"
                 bgcolor={"white"}
                 width="40px"
@@ -112,32 +110,25 @@ function Navbar() {
               <span className="notification-count">4</span>
             </div>
             <div className="profile-area">
-              <Badge dot color="green" style={{ width: "10px", height: "10px", top: "10px" }}>
+              <Badge dot color="green" style={{ width: "12px", height: "12px", top: "10px" }}>
                 <Avatar src={profileIcon} shape="square" style={{ width: "45px", height: "45px" }} />
               </Badge>
-              <h3 style={{
-                display: "inline-block",
-                fontSize: "16px",
-                fontStyle: "normal",
-                fontWeight: "400",
-                lineHeight: "normal",
-                marginLeft: "10px",
-                fontFamily: "${fontFamilyMedium}",
-                color: "${pureDark2}",
-              }}>Adnan Qureshi</h3>
+              <h3 className="profileName">Adnan Qureshi</h3>
             </div>
-            <div className="d-flex align-items-center ">
+            <div className="d-flex align-items-start  ">
               <div className="language-area">
                 <Badge>
-                  <Avatar src={ukIcon} shape="square" style={{ width: "33px", height: "23px" }} />
+                  <Avatar src={ukIcon} shape="square" style={{ width: "33px", height: "23px", borderRadius: '5px', }} />
                 </Badge>
               </div>
-              <Dropdown menu={{ items }} placement="bottomLeft" arrow>
-                <Button
-                  icon={<img src={dropDownArrow} alt="dropdown" />}
-                  style={{ border: "none" }}
-                />
-              </Dropdown>
+              <DropDownStyling>
+                <Dropdown menu={{ items }} placement="bottomLeft" arrow>
+                  <Button
+                    icon={<img src={dropDownArrow} alt="dropdown" width={12} height={7} style={{ marginBottom: '4px', }} />}
+                    style={{ border: "none", }}
+                  />
+                </Dropdown>
+              </DropDownStyling>
             </div>
           </div>
         </div>

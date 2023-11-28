@@ -4,6 +4,9 @@ import {
   mediaDeviceMax,
   tertiaryGrey21,
   lightDark2,
+  fontFamilyRegular,
+  fontFamilyMedium,
+  pureDark2,
 } from "../GlobalStyle";
 
 export const NavbarStyle = styled.div`
@@ -23,7 +26,20 @@ export const NavbarStyle = styled.div`
       align-items: center;
     }
   }
+  .profileName{
+    display: inline-block;
+    font-size: 16px;
+    font-style: normal;
+    line-height: normal;
+    margin-left: 10px;
+    font-family: ${fontFamilyRegular};
+    color: ${pureDark2};
+  }
+  
   .top-side {
+    .right-bar{
+      gap: 16px;
+    }
     .left-bar {
       flex: 1;
 
@@ -33,10 +49,13 @@ export const NavbarStyle = styled.div`
         border-bottom: 10px;
         border-radius: unset;
         border-bottom: 1px solid #EAEAEA;
-        max-width: 280px;
+        max-width: 347px;
         border-radius: 9px;
+        font-family: ${fontFamilyRegular};
         input::placeholder{
           color: #4F4F4F !important;
+          font-family: ${fontFamilyRegular};
+          
         }
         @media screen and ${mediaDeviceMax.tabletL} {
           height: 50px;
@@ -47,6 +66,7 @@ export const NavbarStyle = styled.div`
         }
       }
 
+     
       .navbar-select {
         max-width: 300px;
         width: 100%;
@@ -112,25 +132,22 @@ export const NavbarStyle = styled.div`
       }
     }
 
-    .navbarSearchField > input::placeholder {
-        // color: ${lightDark2};
-    }
 
     .notification-count {
       position: absolute;
-      top: -20px;
-      right: 7px;
+      top: -15px;
+      right: 5px;
       content: "";
       z-index: 1;
       color: white;
-      font-size: 12px;
+      font-size: 10px;
       &::before {
         content: "";
         position: absolute;
-        top: 23px;
-        right: -6px;
-        width: 17px;
-        height: 17px;
+        top: 25px;
+        right: -4.5px;
+        width: 14px;
+        height: 14px;
         background: red;
         border-radius: 50%;
         z-index: -1;
@@ -210,4 +227,8 @@ export const NavbarSmallScreenStyled = styled.div`
     color: ${lightDark2} !important;
     opacity: 1 !important;
   }
+`;
+
+export const DropDownStyling = styled.div`
+
 `;

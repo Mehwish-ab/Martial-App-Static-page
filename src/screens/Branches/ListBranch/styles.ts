@@ -100,7 +100,6 @@ export const ListBranchStyled = styled.div`
     line-height: normal;
     margin-bottom: 0 !important;
     position: relative;
-    top: 5px;
   }
   .ant-table-tbody > tr > td:nth-child(7) div{
     position: relative;

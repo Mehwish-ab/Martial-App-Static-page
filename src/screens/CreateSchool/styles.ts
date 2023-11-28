@@ -44,7 +44,7 @@ export const CreateSchoolStyled = styled.div`
   }
   
   .ant-btn{
-    background: linear-gradient(270deg, #C0E9F9 0.21%, #A2DDF3 97.73%);
+    // background: linear-gradient(270deg, #C0E9F9 0.21%, #A2DDF3 97.73%);
     color: ${maastrichtBlue};
   }
 

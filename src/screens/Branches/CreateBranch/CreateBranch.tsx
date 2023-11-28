@@ -342,7 +342,7 @@ const CreateBranch = () => {
 
               <div className="mt-20 d-flex justify-content-end">
                 <CustomButton
-                  bgcolor=''
+                  bgcolor={lightBlue3}
                   textTransform="Captilize"
                   color={maastrichtBlue}
                   padding="14px 102.50px"

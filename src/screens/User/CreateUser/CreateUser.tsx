@@ -405,7 +405,7 @@ const RegisterUser = () => {
                               />
                             </div>
                           </div>
-                          <div className="mt-20 d-flex align-items-center gap-2">
+                          <div className="mt-20 d-flex gap-2">
                             <FormControl
                               control="checkbox"
                               type="checkbox"

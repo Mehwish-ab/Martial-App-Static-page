@@ -10,7 +10,7 @@ import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
 import { OverlayImagesStyled } from "./styles";
 import { authorizationToken, base_url } from "../../../utils/api_urls";
 
-import editIcon from "../../../assets/icons/ic_edit.svg";
+import editIcon from "../../../assets/icons/ic_cameraIcon.svg";
 import profile from "../../../assets/images/create_school_user_profile.svg";
 import banner from "../../../assets/images/create_school_banner.svg";
 interface OverlayImagesProps {

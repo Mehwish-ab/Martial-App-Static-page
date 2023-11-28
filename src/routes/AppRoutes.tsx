@@ -22,6 +22,7 @@ import AppLayout from "../components/Layout/Layout";
 import { lazy, useEffect } from "react";
 import { local_storage_admin_key } from "../utils/axios.utils";
 import EditSchool from "../screens/CreateSchool/EditSchool/EditSchool";
+
 import CreateBranch from "../screens/Branches/CreateBranch/CreateBranch";
 import EditBranch from "../screens/Branches/EditBranch/EditBranch";
 import ListBranch from "../screens/Branches/ListBranch/ListBranch";
@@ -37,6 +38,10 @@ import InformationInstructor from "../screens/Instructor/InformationInstructor/I
 import ListTimeTable from "../screens/TimeTable/ListTimeTable/ListTimeTable";
 import CreateTimeTable from "../screens/TimeTable/CreateTimeTable/createTimeTable";
 import InformationTimeTable from "../screens/TimeTable/InformationTimeTable/InformationTimeTable";
+import BranchInformation from "../screens/Branches/BranchInformation/BranchInformation";
+import ViewSchool from "../screens/CreateSchool/ViewSchool/ViewSchool";
+import { AddPaymentMethod } from "../screens/CreateSchool/AddPaymentSchool/styles";
+import AddPaymentSchool from "../screens/CreateSchool/AddPaymentSchool/AddPaymentSchool";
 
 function AppRoutes() {
   const dispatch = useDispatch();
@@ -100,10 +105,27 @@ function AppRoutes() {
           }
         />
         <Route
+          path="/school/add-payment-method"
+          element={
+            <AppLayout>
+              <AddPaymentSchool />
+            </AppLayout>
+          }
+        />
+
+        <Route
           path="/branch/list"
           element={
             <AppLayout>
               <ListBranch />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/branch/information"
+          element={
+            <AppLayout>
+              <BranchInformation />
             </AppLayout>
           }
         />

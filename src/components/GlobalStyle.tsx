@@ -131,6 +131,11 @@ export const darkGery = "#333333";
 export const tertiaryGrewish = "#C6C6C8";
 
 export const maastrichtBlue = "#0F1E3C";
+export const Diamond = "#C0E9F9";
+export const Apple = "#4caf50";
+export const ColumbiaBlue = "#DFC1C1";
+export const GrayX11 = "#BDBDBD";
+export const AlizarinCrimson = "#E51D35";
 
 export const FlexContainer = styled.div`
   display: flex;

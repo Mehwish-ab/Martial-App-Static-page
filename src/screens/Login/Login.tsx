@@ -87,7 +87,7 @@ const Login = () => {
       dispatch(setLoginData(results));
       toast(
         <MessageModal
-          message="Login Successfully"
+          message="Successful"
           description="You are successfully logged in to your account."
           type="success"
         />,

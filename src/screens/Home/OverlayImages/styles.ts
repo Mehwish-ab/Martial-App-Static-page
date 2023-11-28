@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { whiteColor } from "../../../components/GlobalStyle";
 
 export const OverlayImagesStyled = styled.div`
   .image_section {
@@ -48,8 +49,21 @@ export const OverlayImagesStyled = styled.div`
     }
     .changeProfileImgButton {
       position: absolute;
-      top: 5px;
+      bottom: 8px;
       right: 10px;
+    }
+  }
+  .ant-btn-icon-only{
+    border-radius: 6px;
+    border: 0.5px solid rgb(193, 223, 223);
+    background: ${whiteColor};
+    width: 31px;
+    height: 30px;
+    padding: 0px 0px;
+    line-height: normal;
+    img{
+      position: relative;
+      top: -1px;
     }
   }
 `;

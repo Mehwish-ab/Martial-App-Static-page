@@ -284,28 +284,30 @@ button {
   background-color: transparent;
   transition: all 0.3s;
   justify-content: center;
-  border: 1px solid #d9d9d9;
+  border: 1px solid #E0E0E0;
   border-right: none;
   margin-right: 0;
 }
 .country-left-to-right-border-radius {
-  border-radius: 8px 0 0 8px;
+  border-radius: 10px 0 0 10px;
 }
 .country-right-to-left-border-radius {
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 10px 10px 0;
 }
 .PhoneInput input {
   width: 100%;
   height: 50px;
   padding: 0 11px;
   background-color: transparent;
-  border: 1px solid #d9d9d9;
+  border: 1px solid #E0E0E0;
   border-left: none;
   outline: 0;
   transition: all 0.3s linear;
   appearance: textfield !important;
-  font-family: EnnVisionsMedium;
-  font-size: 14px;
+  font-family: EnnVisions;
+  font-size: 16px;
+  font-weight: 400;
+  color: #061229;
 }
 .phone-number-right-to-left-border-radius {
   border-radius: 8px 0 0 8px;
@@ -314,12 +316,15 @@ button {
   border-radius: 0 8px 8px 0;
 }
 .PhoneInput input::placeholder {
-  font-family: EnnVisionsMedium;
-  color: rgb(198, 198, 200);
+  font-family: EnnVisions;
+  color: #4F4F4F;
+  font-weight: 400;
+  font-size: 16px;
 }
 .custom-phone-input-label {
   display: block;
   color: #061229;
+  font-weight: 400;
   text-transform: capitalize;
   font-size: 16px !important;
   font-family: EnnVisions;

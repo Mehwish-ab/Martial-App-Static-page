@@ -3,16 +3,16 @@ import { mediaDeviceMax, pureDark2, maastrichtBlue, lightDark2, fontFamilyMedium
 
 export const CreateSchoolStyled = styled.div`
 
-
+margin-bottom: 20px;
+h3 {
+  font-weight: 500;
+  font-size: 18px;
+  font-family: ${fontFamilyMedium};
+  color: ${pureDark2};
+}
 .form {
   padding: 16px;
   border-radius: 20px;
-    h3 {
-      font-weight: 500;
-      font-size: 18px;
-      font-family: ${fontFamilyMedium};
-      color: ${pureDark2};
-    }
   }
 .mt-20 {
   .row {

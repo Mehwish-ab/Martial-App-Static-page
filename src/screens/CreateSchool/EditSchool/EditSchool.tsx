@@ -35,7 +35,7 @@ const EditSchool = () => {
   const { getLabelByKey } = useScreenTranslation("schoolCreate");
   const {
     statusData: { activities, facilities },
-    dropdowns:  { currency, language, businessTypes }
+    dropdowns: { currency, language, businessTypes }
   } = useSelector((state: RootState) => state.appData.data);
 
   const { schoolData } = useSelector((state: RootState) => state.dashboardData);
@@ -139,9 +139,8 @@ const EditSchool = () => {
               onFinish={formik.handleSubmit}
               autoComplete="off"
             >
-              <div className="bg-white form">
-                <h3>School Information</h3>
-
+              <h3 className="mt-20 ps-3">School Information</h3>
+              <div className="bg-white form mt-10">
                 <Row>
                   <Col md="4" className="mt-20">
                     <FormControl
@@ -150,7 +149,7 @@ const EditSchool = () => {
                       name="businessName"
                       label={getLabelByKey("businessName")}
                       padding="10px"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       fontSize="16px"
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       max={6}
@@ -158,7 +157,7 @@ const EditSchool = () => {
                       placeholder={getLabelByKey("businessNamePlaceholder")}
                       className={
                         formik.errors.businessName &&
-                        formik.touched.businessName
+                          formik.touched.businessName
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -169,14 +168,12 @@ const EditSchool = () => {
                       control="select"
                       type="text"
                       name="businessType"
-                      fontFamily={fontFamilyMedium}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("businessType")}
-                      padding="10px"
                       placeholder={getLabelByKey("businessTypePlaceholder")}
                       className={
                         formik.errors.businessType &&
-                        formik.touched.businessType
+                          formik.touched.businessType
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -184,8 +181,8 @@ const EditSchool = () => {
                       defaultValue={
                         schoolId
                           ? createOptions(businessTypes).find(
-                              (item) => item.value === schoolData.businessType
-                            )?.label
+                            (item) => item.value === schoolData.businessType
+                          )?.label
                           : undefined
                       }
                     />
@@ -242,10 +239,9 @@ const EditSchool = () => {
                       control="select"
                       type="text"
                       name="belts"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("belts")}
-                      padding="10px"
                       placeholder={getLabelByKey("beltsPlaceholder")}
                       className={
                         formik.errors.belts && formik.touched.belts
@@ -256,9 +252,9 @@ const EditSchool = () => {
                       defaultValue={
                         schoolId
                           ? BELTS_SELECT_OPTIONS.find(
-                              (item) =>
-                                item.value === initialValuesForEdit.belts
-                            )?.label
+                            (item) =>
+                              item.value === initialValuesForEdit.belts
+                          )?.label
                           : undefined
                       }
                     />
@@ -268,14 +264,13 @@ const EditSchool = () => {
                       control="select"
                       type="text"
                       name="defaultLanguage"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("defaultLanguage")}
-                      padding="10px"
                       placeholder={getLabelByKey("defaultLanguage")}
                       className={
                         formik.errors.defaultLanguage &&
-                        formik.touched.defaultLanguage
+                          formik.touched.defaultLanguage
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -283,9 +278,9 @@ const EditSchool = () => {
                       defaultValue={
                         schoolId
                           ? createOptions(language).find(
-                              (item) =>
-                                item.value === schoolData.defaultLanguageId
-                            )?.label
+                            (item) =>
+                              item.value === schoolData.defaultLanguageId
+                          )?.label
                           : undefined
                       }
                     />
@@ -295,14 +290,13 @@ const EditSchool = () => {
                       control="select"
                       type="text"
                       name="defaultCurrency"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("defaultCurrency")}
-                      padding="10px"
                       placeholder={getLabelByKey("defaultCurrency")}
                       className={
                         formik.errors.defaultCurrency &&
-                        formik.touched.defaultCurrency
+                          formik.touched.defaultCurrency
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -310,9 +304,9 @@ const EditSchool = () => {
                       defaultValue={
                         schoolId
                           ? createOptions(currency).find(
-                              (item) =>
-                                item.value === schoolData.defaultCurrencyId
-                            )?.value
+                            (item) =>
+                              item.value === schoolData.defaultCurrencyId
+                          )?.value
                           : undefined
                       }
                     />
@@ -340,7 +334,7 @@ const EditSchool = () => {
                       control="textarea"
                       type="text"
                       name="description"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("description")}
                       padding="10px"

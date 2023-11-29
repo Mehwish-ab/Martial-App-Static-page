@@ -12,6 +12,7 @@ export const PlacesAutocompleteStyle = styled.div`
     font-family: ${fontFamilyRegular};
     font-size: 16px;
     color: ${pureDark2};
+    font-weight: 400;
     margin-bottom: 7px;
   }
   input {
@@ -21,9 +22,11 @@ export const PlacesAutocompleteStyle = styled.div`
     color: ${lightDark2};
     font-family: ${fontFamilyRegular};
     font-size: 16px;
+    font-weight: 400;
     padding: 12px 35px 12px 10px;
     &::placeholder {
       font-size: 16px;
+      font-weight: 400;
       font-family: ${fontFamilyRegular};
       color: ${lightDark2};
     }

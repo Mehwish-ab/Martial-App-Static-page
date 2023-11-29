@@ -3,20 +3,20 @@ import ErrorMsg from "../ErrorMessage";
 import { Select } from "antd";
 import CustomSelectStyle from "./style";
 import dropDownArrow from "../../assets/icons/ic_add_property_dropdown.svg";
-import { tertiaryGrey21 } from "../GlobalStyle";
+import { fontFamilyRegular, tertiaryGrey24 } from "../GlobalStyle";
 const CustomSelect = (props: any) => {
   const {
     name,
     placeholder,
     onSelect,
-    padding = "7px 10px",
+    padding = "8px 10px",
     defaultValue,
     label,
     options,
     bgColor,
-    border = `1px solid ${tertiaryGrey21}`,
-    fontFamily = "EnnVisions",
-    labelFamily = "EnnVisions",
+    border = `1px solid ${tertiaryGrey24}`,
+    fontFamily = `${fontFamilyRegular}`,
+    labelFamily = `${fontFamilyRegular}`,
     labelMarginBottom = "7px",
     labelFont = "16px",
     fontSize = "16px",

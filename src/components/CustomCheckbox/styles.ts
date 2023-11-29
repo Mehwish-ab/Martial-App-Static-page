@@ -15,6 +15,10 @@ export const CustomCheckboxListStyled = styled.div`
   }
   .checkbox_col {
     label {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 22px;
+      font-family: ${fontFamilyRegular};
       white-space: nowrap;
       input[type="checkbox"] {
         width: 24px;
@@ -73,6 +77,7 @@ margin-top: 20px;
 .title{
   font-family: ${fontFamilyRegular};
     font-size: 16px;
+    font-weight: 400;
     margin-bottom: 7px;
     color: ${pureDark2};
     display: block;
@@ -81,14 +86,14 @@ margin-top: 20px;
 `;
 
 export const CheckboxSelectTriggerStyled = styled.div`
-
   width: 100%;
   height: 50px;
   border: 1px solid #E0E0E0;
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 16px;
+  font-weight: 400;
   color: ${lightDark2};
   font-family: ${fontFamilyRegular};
   display: flex;
@@ -99,5 +104,7 @@ export const CheckboxSelectTriggerStyled = styled.div`
   label {
     font-family: ${fontFamilyRegular};
     font-size: 16px;
+    font-weight: 400;
+    color: ${lightDark2};
   }
 `;

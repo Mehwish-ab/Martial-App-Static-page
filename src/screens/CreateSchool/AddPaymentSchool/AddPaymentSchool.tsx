@@ -18,36 +18,36 @@ import { fontFamilyMedium, pureDark, tertiaryBlue2 } from "../../../components/G
 import plusIcon from "../../../assets/icons/ic_plus.svg";
 import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
 
-const AddPaymentSchool: React.FC = () =>  {
+const AddPaymentSchool: React.FC = () => {
   const navigate = useNavigate();
   const { getLabelByKey } = useScreenTranslation("schoolCreate");
 
   const location = useLocation();
   const branch: BranchDataType = location.state?.branch;
-//   const { language, currency } = useSelector(
-//     (state: RootState) => state.appData.data.dropdowns
-//   );
+  //   const { language, currency } = useSelector(
+  //     (state: RootState) => state.appData.data.dropdowns
+  //   );
 
-const { branchData, loading } = useSelector(
+  const { branchData, loading } = useSelector(
     (state: RootState) => state.branchData
   );
 
-//   const { selectedLanguage } = useSelector(
-//     (state: RootState) => state.selectedLanguage
-//   );
-//   let defaultLanguage = language.find(
-//     (item: DataTypesWithIdAndMultipleLangLabel) =>
-//       +item.id == +branch.defaultLanguageId
-//   );
+  //   const { selectedLanguage } = useSelector(
+  //     (state: RootState) => state.selectedLanguage
+  //   );
+  //   let defaultLanguage = language.find(
+  //     (item: DataTypesWithIdAndMultipleLangLabel) =>
+  //       +item.id == +branch.defaultLanguageId
+  //   );
 
-//   let defaultCurrency = currency.find(
-//     (item: DataTypesWithIdAndMultipleLangLabel) =>
-//       +item.id == +branch.defaultCurrencyId
-//   );
+  //   let defaultCurrency = currency.find(
+  //     (item: DataTypesWithIdAndMultipleLangLabel) =>
+  //       +item.id == +branch.defaultCurrencyId
+  //   );
 
-//   console.log(defaultLanguage, defaultCurrency);
+  //   console.log(defaultLanguage, defaultCurrency);
 
-const navigation = (record: BranchDataType, redirectTo: string) => {
+  const navigation = (record: BranchDataType, redirectTo: string) => {
     switch (redirectTo) {
       case "edit":
         navigate(`/branch/edit/${record.branchId}`, {
@@ -67,7 +67,7 @@ const navigation = (record: BranchDataType, redirectTo: string) => {
   };
 
 
-const columns: ColumnsType<BranchDataType> = [
+  const columns: ColumnsType<BranchDataType> = [
     {
       title: "Payment Information",
       dataIndex: "paymentMethod",
@@ -112,7 +112,7 @@ const columns: ColumnsType<BranchDataType> = [
     {
       title: "Action",
       key: "action",
-      render: (value: any, record: BranchDataType,index:number) :any => {
+      render: (value: any, record: BranchDataType, index: number): any => {
         const items = [
           {
             key: "1",
@@ -162,14 +162,14 @@ const columns: ColumnsType<BranchDataType> = [
         isEditable={true}
       /> */}
       {/* <OverlayImages backgroundImg={""} overlayImg={""} isEditable={false} /> */}
-                 
+
       {loading && <LoadingOverlay message="" />}
       <h3 className="table-heading">Payment Information</h3>
-        <Table
-          columns={columns}
-          dataSource={DummyData as any}
-          scroll={{ x: true }}
-        />
+      <Table
+        columns={columns}
+        dataSource={DummyData as any}
+        scroll={{ x: true }}
+      />
     </AddPaymentMethod>
   );
 };

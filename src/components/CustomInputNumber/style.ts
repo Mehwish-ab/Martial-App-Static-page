@@ -18,6 +18,7 @@ export default CustomInputStyle;
 export const CustomPhoneInputStyle = styled.div`
   label {
     font-family: ${fontFamilyRegular};
+    font-weight: 400;
     font-size: 16px;
     color: ${pureDark2};
   }

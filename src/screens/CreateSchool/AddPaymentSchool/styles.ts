@@ -22,14 +22,14 @@ import {
 export const AddPaymentMethod = styled.div`
 
 
-  h3 {
+.table-heading {
     color: ${pureDark2};
     font-size: 18px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     line-height: normal;
-    margin: 21px 10px 7px;
-    font-family: ${fontFamilyRegular};
+    margin: 13px 10px;
+    font-family: ${fontFamilyMedium};
   }
   }
 
@@ -82,7 +82,6 @@ export const AddPaymentMethod = styled.div`
 
   .ant-table table {
     border-radius: 10px;
-    border: 1px solid #E0E0E0;
     background: #FFF;
   }
   .ant-table table  td:first-child {
@@ -90,7 +89,7 @@ export const AddPaymentMethod = styled.div`
     border-bottom-left-radius: 10px;
    }
    
-   .ant-table table  td:last-child {
+   .ant-table table tbody tr  td:last-child {
      border-top-right-radius: 10px;
      border-bottom-right-radius: 10px;
     }

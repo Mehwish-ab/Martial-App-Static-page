@@ -19,6 +19,7 @@ export const CustomSelectStyle = styled.div<CustomSelectProps>`
     text-transform: capitalize;
     color: ${pureDark2};
     display: block;
+    font-weight: 400;
     font-family: ${(props) => props.labelFamily};
     margin-bottom: ${(props) => props.labelMarginBottom};
     font-size: ${(props) => props.labelFont};
@@ -36,7 +37,14 @@ export const CustomSelectStyle = styled.div<CustomSelectProps>`
 
   .ant-select-selection-placeholder {
     color: ${lightDark2};
-    font-family: ${fontFamilyRegular}
+    font-weight: 400;
+    font-family: ${fontFamilyRegular};
+    font-size: 16px;
+  }
+  .ant-select-selection-item{
+    color: ${lightDark2};
+    font-weight: 400;
+    font-family: ${fontFamilyRegular};
     font-size: 16px;
   }
 
@@ -45,12 +53,17 @@ export const CustomSelectStyle = styled.div<CustomSelectProps>`
     background: ${(props) => props.bgColor};
     border: ${(props) => props.border};
     border-radius: 10px;
-    color: ${pureDark2};
+    font-family: ${fontFamilyRegular}
+    color: ${lightDark2};
+    font-weight: 400;
     width: 100%;
     padding: ${(props) => props.padding};
     font-size: ${(props) => props.fontSize};
-    &::placeholder {
+    input::placeholder {
       color: ${lightDark2};
+      font-weight: 400;
+      font-family: ${fontFamilyRegular}
+      font-size: 16px;
     }
 
     @media screen and (${mediaDeviceMax.laptop}) {

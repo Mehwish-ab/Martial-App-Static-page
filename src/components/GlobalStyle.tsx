@@ -121,6 +121,8 @@ export const tertiaryGrey23 = "#FBF9F9";
 export const tertiaryGrey24 = "#E0E0E0";
 
 export const lightColor1 = "#F5F5F5";
+export const linearGradientBtns = 'linear-gradient(270.24deg, #C0E9F9 0.21%, #A2DDF3 97.73%)';
+
 
 export const secondaryBlue = "#0A84FF";
 export const darkBlue = "#006197";

@@ -405,14 +405,14 @@ const RegisterUser = () => {
                               />
                             </div>
                           </div>
-                          <div className="mt-20 d-flex gap-2">
+                          <div className="mt-20 d-flex align-items-center gap-2">
                             <FormControl
                               control="checkbox"
                               type="checkbox"
                               id="rememberMe"
                               name="rememberMe"
                             />
-                            <p className="mb-0 text-14">
+                            <p className="mb-0 text-14 lh-base mt-1">
                               {getLabelByKey(SCREEN_LABEL_KEYS.rememberMe)}
                             </p>
                           </div>

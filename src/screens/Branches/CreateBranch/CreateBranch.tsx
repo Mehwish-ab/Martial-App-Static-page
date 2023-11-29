@@ -316,7 +316,6 @@ const CreateBranch = () => {
                       showErrorMsgInList={false}
                     />
                   </Col>
-
                   <div className="mt-20">
                     <FormControl
                       control="textarea"
@@ -335,11 +334,9 @@ const CreateBranch = () => {
                       height="200px"
                     />
                   </div>
-
                   {/* <PaymentInformation formik={formik} showPaymentMethods={true} /> */}
                 </Row>
               </div>
-
               <div className="mt-20 d-flex justify-content-end">
                 <CustomButton
                   bgcolor={lightBlue3}

@@ -6,6 +6,7 @@ import {
   fontFamilyMedium,
   lightBlue3,
   pureDark,
+  pureDark2,
 } from "../../components/GlobalStyle";
 import ForgetPasswordStyle from "./style";
 import Head from "../../components/Head/Head";
@@ -150,8 +151,8 @@ const ForgetPassword = () => {
                             <CustomButton
                               bgcolor={lightBlue3}
                               textTransform="Captilize"
-                              color={pureDark}
-                              padding="8px"
+                              color={pureDark2}
+                              padding="14px"
                               fontFamily={`${fontFamilyMedium}`}
                               width="100%"
                               type="submit"

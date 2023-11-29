@@ -52,8 +52,8 @@ html,
 body,
 p,
 a,
-span,
-label,
+/* span, */
+/* label, */
 ul li {
   font-family: "EnnVisions";
 }

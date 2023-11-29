@@ -49,7 +49,8 @@ const RegisterStyle = styled.div`
       }
     }
 
-    .register-input-fields label{
+    .register-input-fields {
+    label{
       font-style: normal;
       line-height: normal;
       font-size: 16px;
@@ -57,6 +58,11 @@ const RegisterStyle = styled.div`
       font-family: ${fontFamilyMedium} !important;
       margin-bottom: 8px;
     }
+    .ant-checkbox-wrapper{
+      margin-bottom: 0px;
+    }
+    }
+
 
   .role-section {
     font-family: ${fontFamilyMedium};

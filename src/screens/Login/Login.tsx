@@ -181,9 +181,6 @@ const Login = () => {
                               // )}
                               placeholder="Enter Passcode"
                               suffix={show_password_icon}
-                              // prefix={
-                              //   <img src={password_icon} alt="password_icon" />
-                              // }
                               className={
                                 formik.errors.password &&
                                   formik.touched.password
@@ -195,7 +192,7 @@ const Login = () => {
                             />
                           </div>
                           <div className="d-flex justify-content-between align-items-center mt-20">
-                            <div className="d-flex align-items-center gap-2">
+                            <div className="d-flex align-items-center gap-2 checkBoxstyling">
                               <FormControl
                                 control="checkbox"
                                 type="checkbox"

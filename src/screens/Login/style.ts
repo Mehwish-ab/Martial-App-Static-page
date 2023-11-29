@@ -1,9 +1,7 @@
 import styled from "styled-components";
 import {
-  basicColor,
   fontFamilyMedium,
   lightDark3,
-  primaryColor,
   pureDark,
   pureDark2,
   tertiaryGrey12,
@@ -14,7 +12,6 @@ import {
   lightDark2,
   mainColor,
   darkBlue,
-  fontFamilyBold,
   fontFamilyRegular,
 } from "../../components/GlobalStyle";
 

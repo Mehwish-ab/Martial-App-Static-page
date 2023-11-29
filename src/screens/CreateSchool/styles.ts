@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { darkBlue, mediaDeviceMax, pureDark2, maastrichtBlue, lightDark2, fontFamilyMedium } from "../../components/GlobalStyle";
+import { mediaDeviceMax, pureDark2, maastrichtBlue, lightDark2, fontFamilyMedium } from "../../components/GlobalStyle";
 
 export const CreateSchoolStyled = styled.div`
 

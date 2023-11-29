@@ -162,7 +162,7 @@ const RegisterStyle = styled.div`
     }
   }
 
-
+  
 
   input[type="email"]:hover {
     border-color: #40a9ff;

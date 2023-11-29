@@ -37,10 +37,12 @@ import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
 
 const CreateFranchise = () => {
   const { getLabelByKey } = useScreenTranslation("franchiseCreate");
+
   const {
     statusData: { activities, facilities },
-    dropdowns: { businessTypes }
+    dropdowns: { currency, language, businessTypes }
   } = useSelector((state: RootState) => state.appData.data);
+
 
   const { loading, handleSubmit } = useBranch();
   const initialValues: CreateFranchiseInitialValues = {
@@ -73,6 +75,7 @@ const CreateFranchise = () => {
   const address = validationFinder("ADDRESS")!;
   const addressReg = new RegExp(address.pattern);
   const franchisePhoneNumber = validationFinder("PHONE_NUMBER")!;
+  const ranks = validationFinder("Ranks");
 
   const validationSchema = Yup.object({
     franchiseName: Yup.string()
@@ -85,7 +88,8 @@ const CreateFranchise = () => {
     franchisePhoneNumber: Yup.string().required(
       franchisePhoneNumber.notBlankMsgEn
     ),
-    belts: Yup.string().required("Please select belts"),
+    // belts: Yup.string().required("Please select belts"),
+    ranks: Yup.string().required("Please select ranks"),
     description: Yup.string().required("Please enter description"),
     defaultLanguage: Yup.string().required("Please select default language"),
     defaultCurrency: Yup.string().required("Please select default currency"),
@@ -189,7 +193,6 @@ const CreateFranchise = () => {
                       fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("franchiseType")}
-                      padding="10px"
                       placeholder={getLabelByKey("franchiseType")}
                       className={
                         formik.errors.franchiseType &&
@@ -213,7 +216,18 @@ const CreateFranchise = () => {
                     />
                     <ErrorMessage name={"franchisePhoneNumber"}>
                       {(msg) => (
-                        <div className="error-message is-invalid">{msg}</div>
+                        <div
+                          className="error-message is-invalid"
+                          style={{
+                            color: "red",
+                            textAlign: "end",
+                            marginLeft: "3px",
+                            fontSize: "12px",
+                            letterSpacing: "1px",
+                          }}
+                        >
+                          {msg}
+                        </div>
                       )}
                     </ErrorMessage>
                   </Col>
@@ -236,13 +250,14 @@ const CreateFranchise = () => {
                   </Col>
 
                   <Col md="4" className="mt-20">
+
                     <FormControl
                       control="select"
                       type="text"
-                      name="belts"
+                      name="ranks"
                       fontFamily={fontFamilyRegular}
+                      // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("ranking")}
-                      padding="10px"
                       placeholder={getLabelByKey("ranking")}
                       className={
                         formik.errors.ranks && formik.touched.ranks
@@ -253,31 +268,33 @@ const CreateFranchise = () => {
                     />
                   </Col>
                   <Col md="4" className="mt-20">
+
                     <FormControl
                       control="select"
                       type="text"
-                      name="belts"
+                      name="defaultLanguage"
                       fontFamily={fontFamilyRegular}
+                      // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("defaultLanguage")}
-                      padding="10px"
                       placeholder={getLabelByKey("defaultLanguage")}
                       className={
-                        formik.errors.defaultLanguage &&
-                          formik.touched.defaultLanguage
+                        formik?.errors?.defaultLanguage &&
+                          formik?.touched?.defaultLanguage
                           ? "is-invalid"
                           : "customInput"
                       }
-                      options={BELTS_SELECT_OPTIONS}
+                      options={createOptions(language)}
                     />
                   </Col>
                   <Col md="4" className="mt-20">
+
                     <FormControl
                       control="select"
                       type="text"
-                      name="belts"
+                      name="defaultCurrency"
                       fontFamily={fontFamilyRegular}
+                      // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("defaultCurrency")}
-                      padding="10px"
                       placeholder={getLabelByKey("defaultCurrency")}
                       className={
                         formik.errors.defaultCurrency &&
@@ -285,7 +302,7 @@ const CreateFranchise = () => {
                           ? "is-invalid"
                           : "customInput"
                       }
-                      options={BELTS_SELECT_OPTIONS}
+                      options={createOptions(currency)}
                     />
                   </Col>
                   <Col md="4">

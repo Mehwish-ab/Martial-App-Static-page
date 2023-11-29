@@ -14,7 +14,8 @@ export const ViewSchoolStyled = styled.div`
     margin: 16px 0;
     color: ${pureDark2};
     font-size: 18px;
-    font-weight: 500;
+    padding-left: 20px;
+    font-family: ${fontFamilyMedium};
   }
   
   .ant-card.ant-card-bordered {
@@ -43,7 +44,7 @@ export const ViewSchoolStyled = styled.div`
       &-value {
         font-size: 14px;
         color: ${pureDark2};
-        font-weight: 500;
+        font-weight: 400;
         font-family: ${fontFamilyRegular};
 
         @media screen and ${mediaDeviceMax.laptop} {

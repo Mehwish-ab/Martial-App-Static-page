@@ -1,32 +1,19 @@
 import styled from "styled-components";
+import { mediaDeviceMax, pureDark2 } from "../GlobalStyle";
 
 export const CustomSelectContainer = styled.div`
   margin-bottom: 10px;
   width: 100%;
 
-  /* 
-  .custom-select-inner{
-    position: relative;
-
-  }
-
-  .custom-select-inner::after {
-  content: '>';
-  transform: rotate(90deg);
-  font-size: 1.5rem;
-  top: 6px;
-  right: 15px;
-  position: absolute;
-} */
-
   label {
     font-size: 13px;
     text-transform: capitalize;
     display: block;
+    color: ${pureDark2};
     margin-bottom: 10px;
   }
   .ant-select-arrow {
-    color: #000000;
+    color: #000000; 
   }
 
   .ant-select {

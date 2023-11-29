@@ -31,7 +31,7 @@ const CheckboxesSelect = ({
       >
         <CheckboxSelectTriggerStyled>
           <label htmlFor="">{label}</label>
-          <img src={dropDownArrow} alt="" />
+          <img src={dropDownArrow} alt="" height={10} />
         </CheckboxSelectTriggerStyled>
       </Dropdown>
       <ErrorMessage name={name} component={Errormsg} />

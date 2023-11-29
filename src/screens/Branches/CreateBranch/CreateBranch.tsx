@@ -185,7 +185,6 @@ const CreateBranch = () => {
                       fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("branchType")}
-                      padding="10px"
                       placeholder={getLabelByKey("branchType")}
                       className={
                         formik.errors.branchType && formik.touched.branchType
@@ -212,7 +211,7 @@ const CreateBranch = () => {
                           className="error-message is-invalid"
                           style={{
                             color: "red",
-                            textAlign: "start",
+                            textAlign: "end",
                             marginLeft: "3px",
                             fontSize: "12px",
                             letterSpacing: "1px",
@@ -249,7 +248,6 @@ const CreateBranch = () => {
                         fontFamily={fontFamilyRegular}
                         // prefix={<img src={lock_icon} alt="lock_icon" />}
                         label={getLabelByKey("defaultLanguage")}
-                        padding="10px"
                         placeholder={getLabelByKey("defaultLanguage")}
                         className={
                           formik.errors.defaultLanguage &&
@@ -268,7 +266,6 @@ const CreateBranch = () => {
                         fontFamily={fontFamilyRegular}
                         // prefix={<img src={lock_icon} alt="lock_icon" />}
                         label={getLabelByKey("defaultCurrency")}
-                        padding="10px"
                         placeholder={getLabelByKey("defaultCurrency")}
                         className={
                           formik.errors.defaultCurrency &&
@@ -287,7 +284,6 @@ const CreateBranch = () => {
                         fontFamily={fontFamilyRegular}
                         // prefix={<img src={lock_icon} alt="lock_icon" />}
                         label={getLabelByKey("belts")}
-                        padding="10px"
                         placeholder={getLabelByKey("belts")}
                         className={
                           formik.errors.ranks && formik.touched.ranks

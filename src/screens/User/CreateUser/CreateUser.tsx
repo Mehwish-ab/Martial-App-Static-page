@@ -348,7 +348,7 @@ const RegisterUser = () => {
                             name="phoneNumber"
                             countryName={name}
                           /> */}
-                            <div className="mt-3">
+                            <div className="mt-1">
                               <ErrorMessage
                                 name="phoneNumber"
                                 component={Errormsg}

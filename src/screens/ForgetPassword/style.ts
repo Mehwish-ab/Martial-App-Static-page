@@ -19,6 +19,8 @@ export const ForgetPasswordStyle = styled.div`
   height: 100vh;
   background: ${tertiaryGrey8};
   margin: 0 auto;
+  
+
 
   p {
     margin-bottom: 0px;
@@ -218,6 +220,7 @@ export const ForgetPasswordStyle = styled.div`
   .line {
     display: none;
   }
+  
   
   @media screen and (max-width: 425px) {
     .forget-password-container {

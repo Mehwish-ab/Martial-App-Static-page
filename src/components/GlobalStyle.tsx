@@ -159,8 +159,8 @@ export const ButtonContainer = styled.div`
 
 export const ErrorText = styled.p`
   font-family: ${fontFamilyMedium};
-  margin-top: 10px;
   color: ${primaryRed};
+  text-align: right;
 `;
 
 export const PrimaryHeading2 = styled.h3`
@@ -188,8 +188,7 @@ export const TertiaryHeading = styled.h3`
 `;
 export const InputErrorMessage = styled.div`
   color: red;
-  text-align: start;
-  margin-left: 3px;
+  text-align: right;
   font-size: 12px;
   letter-spacing: 1px;
 `;

@@ -45,7 +45,7 @@ const CreateSchool = () => {
   const initialValues: CreateSchoolInitialValues = {
     businessName: "",
     businessType: "",
-    address: "demoAddress",
+    address: "",
     businessPhoneNumber: "",
     belts: "",
     defaultLanguage: "",
@@ -82,7 +82,7 @@ const CreateSchool = () => {
     address: Yup.string()
       .required(address.notBlankMsgEn)
       .matches(addressReg, address.patternMsgEn),
-      
+
     businessType: Yup.string().required("Please select business type"),
     businessPhoneNumber: Yup.string().required(
       businessPhoneNumber.notBlankMsgEn
@@ -192,7 +192,7 @@ const CreateSchool = () => {
                           className="error-message is-invalid"
                           style={{
                             color: "red",
-                            textAlign: "start",
+                            textAlign: "right",
                             marginLeft: "3px",
                             fontSize: "12px",
                             letterSpacing: "1px",

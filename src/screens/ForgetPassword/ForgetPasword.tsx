@@ -140,7 +140,7 @@ const ForgetPassword = () => {
                             withCountryCallingCode
                             countryCallingCodeEditable
                           />
-                          <div className="mt-3">
+                          <div className="mt-1">
                             <ErrorMessage
                               name="phoneNumber"
                               component={Errormsg}

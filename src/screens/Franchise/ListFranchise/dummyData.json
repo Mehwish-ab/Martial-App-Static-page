@@ -1,0 +1,801 @@
+[{
+  "franchiseId": 1,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+  "activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta Jiu Jitsu, Karate, Judo, Krav Maga, Ta",
+  "phoneNumber": "877-746-2856",
+  "status": "Active"
+}, {
+  "franchiseId": 2,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "456-113-8723",
+  "status": "Active"
+}, {
+  "franchiseId": 3,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "317-721-2149",
+  "status": "Active"
+}, {
+  "franchiseId": 4,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "115-760-9463",
+  "status": "Active"
+}, {
+  "franchiseId": 5,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "584-811-6745",
+  "status": "Active"
+}, {
+  "franchiseId": 6,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "135-761-7214",
+  "status": "Active"
+}, {
+  "franchiseId": 7,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "820-513-8011",
+  "status": "Active"
+}, {
+  "franchiseId": 8,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+  "activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "631-104-9537",
+  "status": "Active"
+}, {
+  "franchiseId": 9,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "298-428-7055",
+  "status": "Active"
+}, {
+  "franchiseId": 10,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "929-237-6682",
+  "status": "Active"
+}, {
+  "franchiseId": 11,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "907-392-1256",
+  "status": "Active"
+}, {
+  "franchiseId": 12,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "424-115-4134",
+  "status": "Active"
+}, {
+  "franchiseId": 13,
+  "profilePicture": "/create_school_user_profile.svg", 
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "945-629-2251",
+  "status": "Active"
+}, {
+  "franchiseId": 14,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "231-876-0620",
+  "status": "Active"
+}, {
+  "franchiseId": 15,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "405-788-3565",
+  "status": "Active"
+}, {
+  "franchiseId": 16,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "546-950-9938",
+  "status": "Active"
+}, {
+  "franchiseId": 17,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "749-423-6633",
+  "status": "Active"
+}, {
+  "franchiseId": 18,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "309-784-3070",
+  "status": "Active"
+}, {
+  "franchiseId": 19,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "508-571-0161",
+  "status": "Active"
+}, {
+  "franchiseId": 20,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "980-357-6621",
+  "status": "Active"
+}, {
+  "franchiseId": 21,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "486-993-7863",
+  "status": "Active"
+}, {
+  "franchiseId": 22,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "552-286-3662",
+  "status": "Active"
+}, {
+  "franchiseId": 23,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "993-378-4011",
+  "status": "Active"
+}, {
+  "franchiseId": 24,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "106-545-1461",
+  "status": "Active"
+}, {
+  "franchiseId": 25,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "790-668-9749",
+  "status": "Active"
+}, {
+  "franchiseId": 26,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+  "activities": "Pellentesque eget nunc.",
+  "phoneNumber": "238-470-0395",
+  "status": "Active"
+}, {
+  "franchiseId": 27,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "431-738-0340",
+  "status": "Active"
+}, {
+  "franchiseId": 28,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "964-119-5737",
+  "status": "Active"
+}, {
+  "franchiseId": 29,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "893-497-4730",
+  "status": "Active"
+}, {
+  "franchiseId": 30,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "197-316-9187",
+  "status": "Active"
+}, {
+  "franchiseId": 31,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "520-721-0528",
+  "status": "Active"
+}, {
+  "franchiseId": 32,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "372-393-9952",
+  "status": "Active"
+}, {
+  "franchiseId": 33,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "512-502-6874",
+  "status": "Active"
+}, {
+  "franchiseId": 34,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "326-583-4050",
+  "status": "Active"
+}, {
+  "franchiseId": 35,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "578-364-4331",
+  "status": "Active"
+}, {
+  "franchiseId": 36,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "260-721-6537",
+  "status": "Active"
+}, {
+  "franchiseId": 37,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "763-924-6814",
+  "status": "Active"
+}, {
+  "franchiseId": 38,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "291-936-9788",
+  "status": "Active"
+}, {
+  "franchiseId": 39,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "632-578-2454",
+  "status": "Active"
+}, {
+  "franchiseId": 40,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "202-399-9564",
+  "status": "Active"
+}, {
+  "franchiseId": 41,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "789-351-7450",
+  "status": "Active"
+}, {
+  "franchiseId": 42,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "889-410-0556",
+  "status": "Active"
+}, {
+  "franchiseId": 43,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "298-180-0600",
+  "status": "Active"
+}, {
+  "franchiseId": 44,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "844-162-4086",
+  "status": "Active"
+}, {
+  "franchiseId": 45,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "814-332-6842",
+  "status": "Active"
+}, {
+  "franchiseId": 46,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "894-121-5521",
+  "status": "Active"
+}, {
+  "franchiseId": 47,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "335-113-3974",
+  "status": "Active"
+}, {
+  "franchiseId": 48,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "495-469-1956",
+  "status": "Active"
+}, {
+  "franchiseId": 49,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "406-859-4197",
+  "status": "Active"
+}, {
+  "franchiseId": 50,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "164-491-3361",
+  "status": "Active"
+}, {
+  "franchiseId": 51,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "353-336-5235",
+  "status": "Active"
+}, {
+  "franchiseId": 52,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "274-639-5247",
+  "status": "Active"
+}, {
+  "franchiseId": 53,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "554-316-4447",
+  "status": "Active"
+}, {
+  "franchiseId": 54,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "692-862-6281",
+  "status": "Active"
+}, {
+  "franchiseId": 55,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "430-353-9808",
+  "status": "Active"
+}, {
+  "franchiseId": 56,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "192-167-0249",
+  "status": "Active"
+}, {
+  "franchiseId": 57,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "345-385-9775",
+  "status": "Active"
+}, {
+  "franchiseId": 58,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "603-497-2314",
+  "status": "Active"
+}, {
+  "franchiseId": 59,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "891-289-4174",
+  "status": "Active"
+}, {
+  "franchiseId": 60,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "664-422-9383",
+  "status": "Active"
+}, {
+  "franchiseId": 61,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "578-480-7559",
+  "status": "Active"
+}, {
+  "franchiseId": 62,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "151-226-6265",
+  "status": "Active"
+}, {
+  "franchiseId": 63,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "145-360-6308",
+  "status": "Active"
+}, {
+  "franchiseId": 64,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "253-994-8876",
+  "status": "Active"
+}, {
+  "franchiseId": 65,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "623-519-1751",
+  "status": "Active"
+}, {
+  "franchiseId": 66,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "981-906-8891",
+  "status": "Active"
+}, {
+  "franchiseId": 67,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "532-991-9090",
+  "status": "Active"
+}, {
+  "franchiseId": 68,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "517-510-6274",
+  "status": "Active"
+}, {
+  "franchiseId": 69,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "518-693-9882",
+  "status": "Active"
+}, {
+  "franchiseId": 70,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "579-342-7871",
+  "status": "Active"
+}, {
+  "franchiseId": 71,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "901-953-3436",
+  "status": "Active"
+}, {
+  "franchiseId": 72,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "816-531-0596",
+  "status": "Active"
+}, {
+  "franchiseId": 73,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "181-468-5580",
+  "status": "Active"
+}, {
+  "franchiseId": 74,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "872-736-8043",
+  "status": "Active"
+}, {
+  "franchiseId": 75,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "840-197-5661",
+  "status": "Active"
+}, {
+  "franchiseId": 76,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "915-929-0644",
+  "status": "Active"
+}, {
+  "franchiseId": 77,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "486-683-3645",
+  "status": "Active"
+}, {
+  "franchiseId": 78,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "305-249-4421",
+  "status": "Active"
+}, {
+  "franchiseId": 79,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "171-243-3734",
+  "status": "Active"
+}, {
+  "franchiseId": 80,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "346-713-2362",
+  "status": "Active"
+}, {
+  "franchiseId": 81,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "895-124-8564",
+  "status": "Active"
+}, {
+  "franchiseId": 82,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "300-592-8571",
+  "status": "Active"
+}, {
+  "franchiseId": 83,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "981-593-5373",
+  "status": "Active"
+}, {
+  "franchiseId": 84,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "979-688-7223",
+  "status": "Active"
+}, {
+  "franchiseId": 85,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "613-271-2746",
+  "status": "Active"
+}, {
+  "franchiseId": 86,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "926-486-0346",
+  "status": "Active"
+}, {
+  "franchiseId": 87,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "416-578-4702",
+  "status": "Active"
+}, {
+  "franchiseId": 88,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "531-909-3329",
+  "status": "Active"
+}, {
+  "franchiseId": 89,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "563-802-1326",
+  "status": "Active"
+}, {
+  "franchiseId": 90,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "700-454-7920",
+  "status": "Active"
+}, {
+  "franchiseId": 91,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "298-794-3278",
+  "status": "Active"
+}, {
+  "franchiseId": 92,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "887-613-3855",
+  "status": "Active"
+}, {
+  "franchiseId": 93,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "126-883-0162",
+  "status": "Active"
+}, {
+  "franchiseId": 94,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "301-849-1871",
+  "status": "Active"
+}, {
+  "franchiseId": 95,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "811-432-5529",
+  "status": "Active"
+}, {
+  "franchiseId": 96,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "627-956-2136",
+  "status": "Active"
+}, {
+  "franchiseId": 97,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "184-212-5254",
+  "status": "Active"
+}, {
+  "franchiseId": 98,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "948-959-4351",
+  "status": "Active"
+}, {
+  "franchiseId": 99,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "125-632-0183",
+  "status": "Active"
+}, {
+  "franchiseId": 100,
+  "profilePicture": "/create_school_user_profile.svg",
+  "franchiseName": "IMAS - Innovative Martial Arts Systems",
+  "franchiseType": "School",
+"activities": "Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, Jiu Jitsu, Karate, Judo, Krav Maga, Ta, ",
+  "phoneNumber": "958-139-2430",
+  "status": "Active"
+}]

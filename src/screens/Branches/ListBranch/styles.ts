@@ -13,9 +13,9 @@ export const ListBranchStyled = styled.div`
   border-radius: 20px;
 
   .table-heading {
-    font-size: 23px !important;
-    font-family: ${fontFamilyBold} !important;
-    color: ${darkBlue};
+    font-size: 18px !important;
+    font-family: ${fontFamilyMedium} !important;
+    color: ${darkGery};
   }
   .ant-table-thead > tr > th {
     background: transparent !important;
@@ -140,4 +140,37 @@ export const ListBranchStyled = styled.div`
     text-align: center;
   }
 
+`;
+
+
+export const CustomDiv = styled.div`
+  position: relative;
+  display: flex;
+  .instructorDateSection, .mainarrow, .dateRange {
+    display: flex;
+}
+  .arrowleft, .arrowright, .dateRange, .dateToday {
+    border-radius: 8px;
+    border: 1px solid rgb(232, 232, 232);
+    background: rgb(255, 255, 255);
+    color: rgb(51, 51, 51);
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    padding: 10px 10px;
+    margin-right: 20px;
+    height: 40px;
+    cursor: pointer;
+}
+.dateRange {
+  p{
+    margin-right: 10px;
+    color: rgb(51, 51, 51);
+    font-size: 15px;
+  }
+  img{
+    margin-left: 10px;
+  }
+}
 `;

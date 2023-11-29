@@ -126,11 +126,11 @@ const ListInstructor: React.FC = () => {
             label: "Edit",
             onClick: () => navigation(record, "edit"),
           },
-          {
-            key: "3",
-            label: "Subscribe",
-            onClick: () => navigation(record, "subscribe"),
-          },
+          // {
+          //   key: "3",
+          //   label: "Subscribe",
+          //   onClick: () => navigation(record, "subscribe"),
+          // },
         ];
         return (
           <Space size="middle">
@@ -254,12 +254,12 @@ const ListInstructor: React.FC = () => {
         });
         break;
 
-      case "subscribe":
-        navigate(`/instructor/subscribe/${record.instructorId}`, {
-          state: {
-            branch: record as InstructorDataType,
-          },
-        });
+      // case "subscribe":
+      //   navigate(`/instructor/subscribe/${record.instructorId}`, {
+      //     state: {
+      //       branch: record as InstructorDataType,
+      //     },
+      //   });
     }
   };
 

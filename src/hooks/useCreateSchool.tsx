@@ -9,7 +9,7 @@ import {
 } from "../utils/api_urls";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { loginDataTypes } from "../redux/features/types";
 const useCreateSchool = () => {
   const [loading, setLoading] = useState(false);
@@ -22,17 +22,19 @@ const useCreateSchool = () => {
   const handleSubmit = async (
     values: CreateSchoolInitialValues,
     { resetForm }: any
-  ) => {
+    ) => {
+      
+      console.log(">> im in handleSubmit")
     const userDetails = loginData.data?.userDetails;
-    const jwtDetails = loginData.data?.jwtDetails;
+    // const jwtDetails = loginData.data?.jwtDetails;
 
     const payload = {
       userId: userDetails?.id || "",
-      businessName: values.businessName,
-      businessType: values.businessType,
-      address: values.address,
+      businessName: values.businessName || "",
+      businessType: values.businessType ,
+      address: values.address || "",
       phoneNumber: values?.businessPhoneNumber || "",
-      belts: values.belts == "1" ? true : false,
+      belts: values.belts === "1" ? true : false,
       languageId: values.defaultLanguage,
       currencyId: values.defaultCurrency,
       activities: values.selectedActivities.join(","),
@@ -44,6 +46,10 @@ const useCreateSchool = () => {
       gclClientId: "",
       gclWebHook: "",
       gclClientSecret: "",
+      rank: values.rank || "",
+      defaultCurrencyId: values.defaultCurrencyId || "",
+      defaultLanguageId: values.defaultLanguageId || "", 
+
       // stripePublicKey: values.stripePublishableKey ,
       // stripeSecretKey: values.stripeSecretKey,
       // gclAccessToken: values.cardAccessToken,
@@ -76,7 +82,7 @@ const useCreateSchool = () => {
         autoClose: 1000,
       });
       setLoading(false);
-      console.log({ data });
+      // console.log({ data });
       // setIsUploadImgVisible(true);
       navigate("/");
       resetForm();
@@ -93,6 +99,8 @@ const useCreateSchool = () => {
       });
     }
   };
+
+  // console.log( "HandleSubmittt")
   return {
     loading,
     handleSubmit,

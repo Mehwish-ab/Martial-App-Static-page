@@ -97,7 +97,7 @@ const Login = () => {
       );
       setloading(false);
       if (results.schoolId) store.dispatch(getSchoolByUserId());
-      navigate("/school/create");
+      navigate("/");
     } catch (error: any) {
       setloading(false);
       if (error.code) {
@@ -116,6 +116,8 @@ const Login = () => {
       });
     }
   };
+
+
 
   return (
     <>

@@ -2,7 +2,7 @@ import { Menu, MenuProps } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/icons/ic_logo.svg";
 import { childListOfBooking, childListOfSetting } from "../Sidebar/constants";
-import { SidebarStyle } from "../Sidebar/style";
+// import { SidebarStyle } from "../Sidebar/style";
 import { NavigationMenuStyled } from "./styles";
 import { useEffect, useState } from "react";
 type MenuItem = Required<MenuProps>["items"][number];
@@ -48,7 +48,7 @@ const NavigationMenu = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const getMenuIcon = (file: any) => <img src={file} alt="" />;
+  // const getMenuIcon = (file: any) => <img src={file} alt="" />;
 
   const navigation = (link: string, key: string) => {
     navigate(link);

@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import {
   fontFamilyMedium,
-  lightBlue3,
+  // lightBlue3,
   lightGrey3,
   mediaDeviceMax,
   primaryColor,
   pureDark,
-  pureDark2,
+  // pureDark2,
   secondaryDark4,
   whiteColor,
 } from "../../components/GlobalStyle";

@@ -6,33 +6,30 @@ import CustomButton from "../../../components/CustomButton/CustomButton";
 import CreateUserStyle from "./style";
 import {
   fontFamilyMedium,
-  fontFamilyRegular,
   lightBlue3,
-  lightDark2,
   pureDark,
-  whiteColor,
 } from "../../../components/GlobalStyle";
 import Head from "../../../components/Head/Head";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import TermsAndConditions from "../../../components/TermsAndConditions/TermsAndConditions";
-import OauthLogin from "../../../components/Common/OauthLogin/OauthLogin";
+// import TermsAndConditions from "../../../components/TermsAndConditions/TermsAndConditions";
+// import OauthLogin from "../../../components/Common/OauthLogin/OauthLogin";
 import EnnvisionModal from "../../../components/CustomModals/EnnvisionModal";
 import CustomModal from "../../../components/Modal/CustomModal";
-import profile_icon from "../../../assets/icons/ic_profile.svg";
-import lock_icon from "../../../assets/icons/password.svg";
-import email_icon from "../../../assets/icons/ic_email.svg";
-import ic_building from "../../../assets/icons/ic_building.svg";
+// import profile_icon from "../../../assets/icons/ic_profile.svg";
+// import lock_icon from "../../../assets/icons/password.svg";
+// import email_icon from "../../../assets/icons/ic_email.svg";
+// import ic_building from "../../../assets/icons/ic_building.svg";
 import { useAppSelector } from "../../../app/hooks";
 import { validationFinder } from "../../../utils/utilities";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { signup_url } from "../../../utils/api_urls";
-import CustomPhoneInput from "../../../components/CustomInputNumber/CustomPhoneInput";
+// import CustomPhoneInput from "../../../components/CustomInputNumber/CustomPhoneInput";
 import Errormsg from "../../../components/ErrorMessage";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { SCREEN_LABEL_KEYS } from "./constant";
-import { OAUTH_USECASES } from "../../../components/Common/OauthLogin/constants";
+// import { OAUTH_USECASES } from "../../../components/Common/OauthLogin/constants";
 import Input, { getCountryCallingCode } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { useSelector } from "react-redux";

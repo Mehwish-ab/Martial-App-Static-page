@@ -1,34 +1,33 @@
-import profileImg from "../../../../assets/images/create_school_user_profile.svg";
-import banner from "../../../../assets/images/create_school_banner.svg";
+// import profileImg from "../../../../assets/images/create_school_user_profile.svg";
+// import banner from "../../../../assets/images/create_school_banner.svg";
 import { ErrorMessage, Formik } from "formik";
 import { Form } from "antd";
 
 import { Col, Row } from "react-bootstrap";
-import searchIcon from "../../../assets/icons/ic_search.svg";
+// import searchIcon from "../../../assets/icons/ic_search.svg";
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { RootState } from "../../../redux/store";
-import useCreateSchool from "../../../hooks/useCreateSchool";
+// import useCreateSchool from "../../../hooks/useCreateSchool";
 import {
   BELTS_SELECT_OPTIONS,
   SelectOptionsDataTypes,
 } from "../../Home/constants";
 import { validationFinder } from "../../../utils/utilities";
 import { DataTypesWithIdAndMultipleLangLabel } from "../../../redux/features/types";
-import OverlayImages from "../../Home/OverlayImages/OverlayImages";
+// import OverlayImages from "../../Home/OverlayImages/OverlayImages";
 import FormControl from "../../../components/FormControl";
 import {
   fontFamilyMedium,
   fontFamilyRegular,
   lightBlue3,
   maastrichtBlue,
-  pureDark,
 } from "../../../components/GlobalStyle";
-import SearchGoogleLocation from "../../../components/Common/SearchGoogleLocation/SearchGoogleLocation";
+// import SearchGoogleLocation from "../../../components/Common/SearchGoogleLocation/SearchGoogleLocation";
 import CustomPhoneInput from "../../../components/CustomPhoneInput/CustomPhoneInput";
-import CheckboxesList from "../../../components/CustomCheckbox/CheckboxesList";
-import PaymentInformation from "../../../components/Common/PaymentInformation/PaymentInformation";
+// import CheckboxesList from "../../../components/CustomCheckbox/CheckboxesList";
+// import PaymentInformation from "../../../components/Common/PaymentInformation/PaymentInformation";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import { CreateSchoolStyled } from "../../CreateSchool/styles";
 import { CreateFranchiseInitialValues } from "../constant";

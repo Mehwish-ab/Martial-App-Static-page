@@ -11,8 +11,15 @@ import { DataTypeWithIdAndCurrentLangLabel } from "../../Home/constants";
 import { DataTypesWithIdAndMultipleLangLabel } from "../../../redux/features/types";
 import { useEffect } from "react";
 import { getSchoolByUserId } from "../../../redux/features/dashboard/dashboardDataSlice";
+import { fontFamilyMedium, lightBlue3, pureDark2 } from "../../../components/GlobalStyle";
+import CustomButton from "../../../components/CustomButton/CustomButton";
+import useDeleteUser from "../../../hooks/useDeleteUser";
+import { useNavigate } from "react-router-dom";
+
 
 const ViewSchool = () => {
+  const navigate = useNavigate();
+  const { deleteUser } = useDeleteUser();
   const { getLabelByKey } = useScreenTranslation("schoolCreate");
   const { schoolData } = useSelector((state: RootState) => state.dashboardData);
   const { language, currency } = useSelector(
@@ -30,7 +37,13 @@ const ViewSchool = () => {
     (item: DataTypesWithIdAndMultipleLangLabel) =>
       +item.id == +schoolData.defaultCurrencyId
   );
-
+  const handleUpdateClick = () => {
+    navigate(`/school/edit/:${schoolData.schoolId}`);
+  };
+  const handleDeleteClick = async () => {
+    if (schoolData.schoolId > 0) await deleteUser(schoolData.schoolId);
+    else navigate("/school/create");
+  };
   useEffect(() => {
     store.dispatch(getSchoolByUserId());
   }, []);
@@ -45,7 +58,6 @@ const ViewSchool = () => {
         backgroundImg={schoolData.bannerPicture || ""}
         isEditable={true}
       />
-
       <h3>School Information</h3>
 
       <Card>
@@ -150,6 +162,36 @@ const ViewSchool = () => {
           </Col>
         </Row>
       </Card>
+      <div className="mt-20 mb-3 d-flex justify-content-end gap-3">
+        <div>
+          <CustomButton
+            bgcolor={lightBlue3}
+            textTransform="Capitalize"
+            color={pureDark2}
+            padding="14px 102.50px"
+            fontFamily={`${fontFamilyMedium}`}
+            width="fit-content"
+            type="submit"
+            title="Delete"
+            fontSize="18px"
+            clicked={handleDeleteClick}
+          />
+        </div>
+        <div>
+          <CustomButton
+            bgcolor={lightBlue3}
+            textTransform="Capitalize"
+            color={pureDark2}
+            padding="15px 102px"
+            fontFamily={`${fontFamilyMedium}`}
+            width="fit-content"
+            type="submit"
+            title="Update"
+            fontSize="18px"
+            clicked={handleUpdateClick}
+          />
+        </div>
+      </div>
     </ViewSchoolStyled>
   );
 };

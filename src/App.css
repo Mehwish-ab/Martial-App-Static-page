@@ -90,6 +90,11 @@ ul li {
 }
 
 @font-face {
+  font-family: "EnnVisionsLight";
+  src: local("SFUIText-Light"),
+    url("./assets/fonts/EnnVisionsLight.otf") format("truetype");
+}
+@font-face {
   font-family: "EnnVisions";
   src: local("SFUIText-Regular"),
     url("./assets/fonts/EnnVisions.otf") format("truetype");

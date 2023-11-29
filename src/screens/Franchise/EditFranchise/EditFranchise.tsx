@@ -42,7 +42,7 @@ const EditFranchise = () => {
   const { getLabelByKey } = useScreenTranslation("franchiseUpdate");
   const {
     statusData: { activities, facilities },
-    dropdowns:  { businessTypes }
+    dropdowns: { businessTypes }
   } = useSelector((state: RootState) => state.appData.data);
 
   const { data: branchData } = useSelector(
@@ -181,8 +181,8 @@ const EditFranchise = () => {
               onFinish={formik.handleSubmit}
               autoComplete="off"
             >
-              <div className="bg-white form">
-                <h3>Branch Information</h3>
+              <div className="bg-white form mt-20">
+                <h3>Franchise Information</h3>
 
                 <Row>
                   <Col md="4" className="mt-20">
@@ -200,7 +200,7 @@ const EditFranchise = () => {
                       placeholder={getLabelByKey("franchiseName")}
                       className={
                         formik.errors.franchiseName &&
-                        formik.touched.franchiseName
+                          formik.touched.franchiseName
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -218,7 +218,7 @@ const EditFranchise = () => {
                       placeholder={getLabelByKey("franchiseType")}
                       className={
                         formik.errors.franchiseType &&
-                        formik.touched.franchiseType
+                          formik.touched.franchiseType
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -226,9 +226,9 @@ const EditFranchise = () => {
                       defaultValue={
                         branchId
                           ? createOptions(businessTypes).find(
-                              (item) =>
-                                item.value === initialValues.franchiseType
-                            )?.label
+                            (item) =>
+                              item.value === initialValues.franchiseType
+                          )?.label
                           : undefined
                       }
                     />
@@ -287,8 +287,8 @@ const EditFranchise = () => {
                       defaultValue={
                         branchId
                           ? BELTS_SELECT_OPTIONS.find(
-                              (item) => item.value === initialValues.ranks
-                            )?.label
+                            (item) => item.value === initialValues.ranks
+                          )?.label
                           : undefined
                       }
                     />
@@ -322,7 +322,7 @@ const EditFranchise = () => {
                       placeholder={getLabelByKey("defaultCurrency")}
                       className={
                         formik.errors.defaultCurrency &&
-                        formik.touched.defaultCurrency
+                          formik.touched.defaultCurrency
                           ? "is-invalid"
                           : "customInput"
                       }

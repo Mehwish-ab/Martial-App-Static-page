@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { lightDark2, mediaDeviceMax, pureDark2, tertiaryGrey7 } from "../GlobalStyle";
+import { fontFamilyMedium, fontFamilyRegular, lightDark2, mediaDeviceMax, pureDark2, tertiaryGrey7 } from "../GlobalStyle";
 
 type CustomSelectProps = {
   padding: string;
@@ -36,6 +36,8 @@ export const CustomSelectStyle = styled.div<CustomSelectProps>`
 
   .ant-select-selection-placeholder {
     color: ${lightDark2};
+    font-family: ${fontFamilyRegular}
+    font-size: 16px;
   }
 
   .ant-select {

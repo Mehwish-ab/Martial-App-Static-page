@@ -8,6 +8,7 @@ export const CreateSchoolStyled = styled.div`
   padding: 16px;
   border-radius: 20px;
     h3 {
+      font-weight: 500;
       font-size: 18px;
       font-family: ${fontFamilyMedium};
       color: ${pureDark2};

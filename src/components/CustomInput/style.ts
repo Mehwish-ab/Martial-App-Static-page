@@ -21,6 +21,7 @@ const CustomInputStyle = styled.div<InputStyleProps>`
   label {
     display: block;
     color: ${pureDark2};
+    font-weight: 500;
     text-transform: capitalize;
     font-size: ${(props) => props.labelFont};
     font-family: ${(props) => props.labelFamily};
@@ -31,6 +32,8 @@ const CustomInputStyle = styled.div<InputStyleProps>`
     height: 50px;
     padding: ${(props) => props.padding};
     border: "none";
+    font-weight: 400;
+    color: ${lightDark2};
     font-family: ${(props) => props.fontFamily};
     font-size: ${(props) => props.fontSize};
     border-radius: ${(props) => props.borderRadius};
@@ -38,6 +41,7 @@ const CustomInputStyle = styled.div<InputStyleProps>`
       font-family: ${(props) => props.placeholderFamily};
       font-size: ${(props) => props.placeholderFont};
       color: ${lightDark2};
+      font-weight: 400;
     }
   }
 `;

@@ -3,6 +3,7 @@ import ErrorMsg from "../ErrorMessage";
 import { Select } from "antd";
 import CustomSelectStyle from "./style";
 import dropDownArrow from "../../assets/icons/ic_add_property_dropdown.svg";
+import { tertiaryGrey21 } from "../GlobalStyle";
 const CustomSelect = (props: any) => {
   const {
     name,
@@ -13,7 +14,7 @@ const CustomSelect = (props: any) => {
     label,
     options,
     bgColor,
-    border = "1px solid #d9d9d9",
+    border = `1px solid ${tertiaryGrey21}`,
     fontFamily = "EnnVisions",
     labelFamily = "EnnVisions",
     labelMarginBottom = "7px",

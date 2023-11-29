@@ -43,7 +43,7 @@ const ViewSchool = () => {
       <OverlayImages
         overlayImg={schoolData.profilePicture || ""}
         backgroundImg={schoolData.bannerPicture || ""}
-        isEditable={false}
+        isEditable={true}
       />
 
       <h3>School Information</h3>
@@ -139,7 +139,7 @@ const ViewSchool = () => {
             </div>
           </Col>
           <Col md="12">
-            <div className="list-item">
+            <div className="list-item mb-0">
               <div className="list-item-title">
                 {getLabelByKey("description")}
               </div>

@@ -163,7 +163,7 @@ const CreateFranchise = () => {
               autoComplete="off"
             >
               <div className="bg-white form">
-                <h3>Branch Information</h3>
+                <h3>Franchise Information</h3>
 
                 <Row>
                   <Col md="4" className="mt-20">

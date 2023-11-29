@@ -45,14 +45,14 @@ const OverlayImages = ({
   let useCaseOfBanner = branchId
     ? "BRANCH_BANNER_IMAGE"
     : schoolId
-    ? "SCHOOL_BANNER_IMAGE"
-    : "";
+      ? "SCHOOL_BANNER_IMAGE"
+      : "";
 
   let useCaseOfProfile = branchId
     ? "BRANCH_PROFILE_IMAGE"
     : schoolId
-    ? "SCHOOL_PROFILE_PICTURE"
-    : "";
+      ? "SCHOOL_PROFILE_PICTURE"
+      : "";
   const BannerImgUploadProps = {
     name: "bannerImg",
     customRequest: async (info: any) => {

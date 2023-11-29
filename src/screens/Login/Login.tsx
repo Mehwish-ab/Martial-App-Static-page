@@ -267,7 +267,7 @@ const Login = () => {
                 >
                   <Link to="/register" className="underline">
                     {/* {getLabelByKey(SCREEN_LABEL_KEYS.registerAccount)} */}
-                    register.
+                    Register.
                   </Link>
                 </h6>
               </div>

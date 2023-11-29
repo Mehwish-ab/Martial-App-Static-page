@@ -191,6 +191,7 @@ export const InputErrorMessage = styled.div`
   text-align: right;
   font-size: 12px;
   letter-spacing: 1px;
+  font-family: "EnnVisions"
 `;
 
 export const SecondaryHeading = styled.h5`

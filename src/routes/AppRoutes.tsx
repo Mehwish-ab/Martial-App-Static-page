@@ -43,6 +43,8 @@ import ViewSchool from "../screens/CreateSchool/ViewSchool/ViewSchool";
 import { AddPaymentMethod } from "../screens/CreateSchool/AddPaymentSchool/styles";
 import AddPaymentSchool from "../screens/CreateSchool/AddPaymentSchool/AddPaymentSchool";
 import AddPaymentFranchise from "../screens/Franchise/AddPaymentFranchise/AddPaymentFranchise";
+import ViewInstructor from "../screens/Instructor/ViewInstructor/ViewInstructor";
+import EditInstructor from "../screens/Instructor/EditInstructor/EditInstructor";
 
 function AppRoutes() {
   const dispatch = useDispatch();
@@ -200,7 +202,7 @@ function AppRoutes() {
         />
 
         <Route
-          path="/franchise/add-payment-information"
+          path="/franchise/add-payment-information/:franchiseId"
           element={
             <AppLayout>
               <AddPaymentFranchise />
@@ -237,6 +239,24 @@ function AppRoutes() {
             </AppLayout>
           }
         />
+
+        <Route
+          path="/instructor/edit/:instructorId"
+          element={
+            <AppLayout>
+              <EditInstructor />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/instructor/view/:instructorId"
+          element={
+            <AppLayout>
+              <ViewInstructor />
+            </AppLayout>
+          }
+        />
+
 
         <Route
           path="/instructor"

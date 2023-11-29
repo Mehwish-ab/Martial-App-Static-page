@@ -138,3 +138,5 @@ const ViewFranchise = () => {
 };
 
 export default ViewFranchise;
+
+

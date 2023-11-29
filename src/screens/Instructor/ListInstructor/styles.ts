@@ -13,9 +13,9 @@ export const ListInstructorStyled = styled.div`
   border-radius: 20px;
 
   .table-heading {
-    font-size: 23px !important;
-    font-family: ${fontFamilyBold} !important;
-    color: ${darkBlue};
+    font-size: 18px !important;
+    font-family: ${fontFamilyMedium} !important;
+    color: ${darkGery};
   }
   .ant-table-thead > tr > th {
     background: transparent !important;

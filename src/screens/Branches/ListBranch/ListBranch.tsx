@@ -13,7 +13,7 @@ import type { ColumnsType } from "antd/es/table";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
 
-import { ListBranchStyled } from "./styles";
+import { CustomDiv, ListBranchStyled } from "./styles";
 import {
   fontFamilyMedium,
   pureDark,
@@ -25,13 +25,16 @@ import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.
 import { ipForImages } from "../../Home/OverlayImages/OverlayImages";
 import DummyData from "./dummyData.json";
 import StatusActiveError from "../../../assets/images/activeBtnError.svg"
-
+import RightArrow from "../../../assets/images/rightArrow.svg";
+import LeftArrow from "../../../assets/images/leftArrow.svg";
+import DateCalander from "../../../assets/images/dateCalander.svg";
 
 
 
 
 
 const ListBranch: React.FC = () => {
+  // const { getLabelByKey } = useScreenTranslation("BranchList");
   const navigate = useNavigate();
   const { branchData, loading } = useSelector(
     (state: RootState) => state.branchData
@@ -226,23 +229,43 @@ const RenderTableTitle = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="d-flex justify-content-between align-items-center">
-      <h3 className="table-heading">Branch Information</h3>
-      <CustomButton
-        bgcolor={tertiaryBlue2}
-        textTransform="Captilize"
-        color={pureDark}
-        padding="8px 10px"
-        fontFamily={`${fontFamilyMedium}`}
-        width="fit-content"
-        type="submit"
-        title=""
-        fontSize="17px"
-        icon={<img src={plusIcon} alt="edit icon" />}
-        clicked={() => {
-          navigate(`/branch/create`);
-        }}
-      />
+    <div className="d-flex justify-content-between align-center">
+      {/* <h3 className="table-heading">{getLabelByKey("title")}</h3> */}
+      <h3 className="table-heading">Branch List</h3>
+      <CustomDiv>
+        <div className="instructorDateSection">
+          <div className="mainarrow">
+            <div className="arrowright">
+              <img src={LeftArrow} alt="Date" />
+            </div>
+            <div className="arrowleft">
+              <img src={RightArrow} alt="Date" />
+            </div>
+
+          </div>
+          <div className="dateRange">
+            <p>Mon, Sep 11, 2023 - Thu Sep 21, 2023</p>
+            <img src={DateCalander} alt="" />
+          </div>
+          <div className="dateToday">Today</div>
+        </div>
+        <CustomButton
+          bgcolor={tertiaryBlue2}
+          textTransform="Captilize"
+          color={pureDark}
+          padding="8px 10px"
+          fontFamily={`${fontFamilyMedium}`}
+          width="fit-content"
+          type="submit"
+          title=""
+          fontSize="17px"
+          icon={<img src={plusIcon} alt="edit icon" />}
+          clicked={() => {
+            navigate(`/instructor/create`);
+          }}
+        />
+      </CustomDiv>
+
     </div>
   );
 };

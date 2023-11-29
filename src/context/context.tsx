@@ -113,7 +113,7 @@ const AppProvider: React.FC<appProviderProps> = ({ children }) => {
 
   const searchHandler = () => {};
   // console.log({ createPropertyReport, createPropertyPlan });
-  console.log({ generatePropertyType });
+  // console.log({ generatePropertyType });
 
   return (
     <AppContext.Provider

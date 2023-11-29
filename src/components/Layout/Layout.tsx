@@ -22,7 +22,7 @@ const AppLayout = (props: any) => {
   // } = theme?.useToken();
   const [collapsed, setCollapsed] = useState(false);
 
-  console.log(props.children);
+  // console.log(props.children);
   return (
     <GlobalContainer>
       <Layout>

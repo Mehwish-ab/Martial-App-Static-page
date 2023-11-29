@@ -26,9 +26,9 @@ import profileIcon from "../../assets/icons/ic_profile_avatar.svg";
 import ukIcon from "../../assets/icons/ic_uk_flag.svg";
 // import cloudIcon from "../../assets/icons/ic_cloud.svg";
 // import logo from "../../assets/icons/logo.svg";
+// import { fontFamilyMedium, pureDark2 } from "../GlobalStyle";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { fontFamilyMedium, pureDark2 } from "../GlobalStyle";
 
 function Navbar() {
   const { searchText, setSearchText } = useGlobalContext();

@@ -25,8 +25,8 @@ import {
   pureDark,
 } from "../../../components/GlobalStyle";
 import CustomPhoneInput from "../../../components/CustomPhoneInput/CustomPhoneInput";
-import CheckboxesList from "../../../components/CustomCheckbox/CheckboxesList";
-import PaymentInformation from "../../../components/Common/PaymentInformation/PaymentInformation";
+// import CheckboxesList from "../../../components/CustomCheckbox/CheckboxesList";
+// import PaymentInformation from "../../../components/Common/PaymentInformation/PaymentInformation";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
 import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelect";
@@ -39,6 +39,7 @@ const EditSchool = () => {
   } = useSelector((state: RootState) => state.appData.data);
 
   const { schoolData } = useSelector((state: RootState) => state.dashboardData);
+  console.log("ranksss", schoolData)
   const { handleSubmit, loading } = useCreateSchool();
   const { schoolId } = useParams();
 
@@ -106,6 +107,9 @@ const EditSchool = () => {
     defaultLanguage: schoolData.defaultLanguageId,
     defaultCurrency: schoolData.defaultCurrencyId,
     description: schoolData.description,
+    rank: true,
+    defaultCurrencyId: 1,
+    defaultLanguageId: 1,
     // stripePublishableKey: schoolData.stripePublicKey,
     // stripeSecretKey: schoolData.stripeSecretKey,
     // cardAccessToken: schoolData.gclAccessToken,

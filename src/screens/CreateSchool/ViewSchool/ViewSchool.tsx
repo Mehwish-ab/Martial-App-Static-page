@@ -35,7 +35,8 @@ const ViewSchool = () => {
     store.dispatch(getSchoolByUserId());
   }, []);
 
-  console.log(schoolData, defaultLanguage, defaultCurrency);
+  // console.log(schoolData, defaultLanguage, defaultCurrency);
+  // console.log("schoolID", schoolData )
 
   return (
     <ViewSchoolStyled>

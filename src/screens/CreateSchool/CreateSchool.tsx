@@ -1,6 +1,6 @@
 import { CreateSchoolStyled } from "./styles";
 import { ErrorMessage, Formik } from "formik";
-import { Dropdown, Form, Tag } from "antd";
+import { Form } from "antd";
 
 import { Col, Row } from "react-bootstrap";
 import * as Yup from "yup";
@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import useScreenTranslation from "../../hooks/useScreenTranslation";
 import { RootState } from "../../redux/store";
 import useCreateSchool from "../../hooks/useCreateSchool";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import {
   BELTS_SELECT_OPTIONS,
   CreateSchoolInitialValues,
@@ -25,11 +25,12 @@ import {
   pureDark,
 } from "../../components/GlobalStyle";
 import CustomPhoneInput from "../../components/CustomPhoneInput/CustomPhoneInput";
-import CheckboxesList from "../../components/CustomCheckbox/CheckboxesList";
-import PaymentInformation from "../../components/Common/PaymentInformation/PaymentInformation";
+// import CheckboxesList from "../../components/CustomCheckbox/CheckboxesList";
+// import PaymentInformation from "../../components/Common/PaymentInformation/PaymentInformation";
+// import PaymentInfoTable from "../../components/Common/PaymentInformation/PaymentInfoTable";
+// import CustomInputStyle from "../../components/CustomInput/style";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import PlacesAutoCompleteInput from "../../maps/PlacesAutocomplete";
-import PaymentInfoTable from "../../components/Common/PaymentInformation/PaymentInfoTable";
 import CheckboxesSelect from "../../components/CustomCheckbox/CheckboxesSelect";
 // import CustomInputStyle from "../../components/CustomInput/style";
 
@@ -44,12 +45,16 @@ const CreateSchool = () => {
   const initialValues: CreateSchoolInitialValues = {
     businessName: "",
     businessType: "",
-    address: "",
+    address: "demoAddress",
     businessPhoneNumber: "",
     belts: "",
     defaultLanguage: "",
     defaultCurrency: "",
     description: "",
+    rank: true,
+    defaultCurrencyId: 1,
+    defaultLanguageId: 1,
+    // ranks:"",
     // stripePublishableKey: "",
     // stripeSecretKey: "",
     // cardAccessToken: "",
@@ -77,6 +82,7 @@ const CreateSchool = () => {
     address: Yup.string()
       .required(address.notBlankMsgEn)
       .matches(addressReg, address.patternMsgEn),
+      
     businessType: Yup.string().required("Please select business type"),
     businessPhoneNumber: Yup.string().required(
       businessPhoneNumber.notBlankMsgEn

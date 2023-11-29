@@ -1,0 +1,31 @@
+[{
+    "paymentMethod": "Gocardless",
+   "accountNumber": "UK Martial  App",
+    "countryName": "United Kingdom",
+    "mode": "Live",
+    "status": "Active"
+  }, {
+    "paymentMethod": "PayPal",
+   "accountNumber": "UK Martial  App",
+    "countryName": "United Kingdom",
+    "mode": "Live",
+    "status": "Active"
+  }, {
+    "paymentMethod": "Stripe",
+   "accountNumber": "UK Martial  App",
+    "countryName": "United Kingdom",
+    "mode": "Test",
+    "status": "De-Active"
+  }, {
+    "paymentMethod": "Bank Account",
+   "accountNumber": "UK Martial  App",
+    "countryName": "United Kingdom",
+    "mode": "Live",
+    "status": "Active"
+  }, {
+    "paymentMethod": "Cash",
+   "accountNumber": "--",
+    "countryName": "--",
+    "mode": "--",
+    "status": "Add"
+  }]

@@ -8,8 +8,8 @@ import { authorizationToken } from "../../../utils/api_urls";
 export interface FranchiseDataType {
   franchiseId: number;
   schoolId: number;
-  branchName: string;
-  branchType: number | string;
+  franchiseName: string;
+  franchiseType: number | string;
   address: string;
   phoneNumber: string;
   defaultLanguageId: number;
@@ -27,7 +27,7 @@ export interface FranchiseDataType {
   gclClientId: string;
   gclWebHook: string;
   gclClientSecret: string;
-  bannerPicture: string | null | undefined;
+  franchisePicture: string | null | undefined;
   profilePicture: string | null | undefined;
   status: string;
   paymentMethod: string;

@@ -81,18 +81,18 @@ const EditFranchise = () => {
   const initialValues: CreateFranchiseInitialValues = {
     franchiseName: "",
     franchiseType: "",
-    address: branchToEdit ? branchToEdit.address : "",
-    franchisePhoneNumber: branchToEdit ? branchToEdit.phoneNumber : "",
-    ranks: branchToEdit ? (branchToEdit.ranks ? 1 : 2) : "",
-    description: branchToEdit ? branchToEdit.description : "",
+    address: branchToEdit ? branchToEdit?.address : "",
+    franchisePhoneNumber: branchToEdit ? branchToEdit?.phoneNumber : "",
+    ranks: branchToEdit ? (branchToEdit?.ranks ? 1 : 2) : "",
+    description: branchToEdit ? branchToEdit?.description : "",
     selectedActivities: branchToEdit
-      ? branchToEdit.activities?.split(",").map(String)
+      ? branchToEdit?.activities?.split(",").map(String)
       : [],
     selectedFacilities: branchToEdit
-      ? branchToEdit.facilities?.split(",").map(String)
+      ? branchToEdit?.facilities?.split(",").map(String)
       : [],
-    defaultLanguage: branchToEdit.defaultLanguageId,
-    defaultCurrency: branchToEdit.defaultCurrencyId,
+    defaultLanguage: branchToEdit?.defaultLanguageId,
+    defaultCurrency: branchToEdit?.defaultCurrencyId,
     // stripePublishableKey: branchToEdit ? branchToEdit.stripePublicKey : "",
     // stripeSecretKey: branchToEdit ? branchToEdit.stripeSecretKey : "",
     // cardAccessToken: branchToEdit ? branchToEdit.gclAccessToken : "",
@@ -108,14 +108,14 @@ const EditFranchise = () => {
   };
   const validationSchema = Yup.object({
     branchName: Yup.string()
-      .required(franchiseName.notBlankMsgEn)
-      .matches(franchiseNameReg, franchiseName.patternMsgEn),
+      .required(franchiseName?.notBlankMsgEn)
+      .matches(franchiseNameReg, franchiseName?.patternMsgEn),
     address: Yup.string()
       .required(address.notBlankMsgEn)
-      .matches(addressReg, address.patternMsgEn),
+      .matches(addressReg, address?.patternMsgEn),
     branchType: Yup.string().required("Please select franchise type"),
     branchPhoneNumber: Yup.string().required(
-      franchisePhoneNumber.notBlankMsgEn
+      franchisePhoneNumber?.notBlankMsgEn
     ),
     ranks: Yup.string().required("Please select ranks"),
     description: Yup.string().required("Please enter description"),
@@ -125,8 +125,8 @@ const EditFranchise = () => {
     selectedFacilities: Yup.array()
       .of(Yup.string().required("Select an activity"))
       .min(1, "Select at least one facility"),
-    defaultLanguage: Yup.string().required("Please select default language"),
-    defaultCurrency: Yup.string().required("Please select default currency"),
+    // defaultLanguage: Yup.string().required("Please select default language"),
+    // defaultCurrency: Yup.string().required("Please select default currency"),
     // stripePublishableKey: Yup.string().when("schoolStripeMethod", {
     //   is: false,
     //   then: Yup.string().required("Please enter stripe publishable key"),
@@ -302,12 +302,12 @@ const EditFranchise = () => {
                       label={getLabelByKey("defaultLanguage")}
                       padding="10px"
                       placeholder={getLabelByKey("defaultLanguage")}
-                      className={
-                        formik.errors.defaultLanguage &&
-                        formik.touched.defaultLanguage
-                          ? "is-invalid"
-                          : "customInput"
-                      }
+                      // className={
+                      //   formik?.errors?.defaultLanguage &&
+                      //   formik?.touched?.defaultLanguage
+                      //     ? "is-invalid"
+                      //     : "customInput"
+                      // }
                       options={BELTS_SELECT_OPTIONS}
                     />
                   </Col>

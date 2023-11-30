@@ -156,7 +156,8 @@ function AppRoutes() {
           path="/branch/view/:branchId"
           element={
             <AppLayout>
-              <ViewBranch />
+              {/* <ViewBranch /> */}
+              <BranchInformation />
             </AppLayout>
           }
         />
@@ -296,7 +297,7 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-        
+
 
         <Route
           path="/timetable/list"

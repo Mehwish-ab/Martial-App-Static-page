@@ -80,9 +80,9 @@ const ViewBranch = () => {
           <Col md="4">
             <div className="list-item">
               <div className="list-item-title">
-              a Adress
+                Address
                 {/* {getLabelByKey("address")} */}
-                </div>
+              </div>
               <div className="list-item-value">
                 {branch?.address || "--"}
               </div>
@@ -93,7 +93,7 @@ const ViewBranch = () => {
               <div className="list-item-title">
                 {/* {getLabelByKey("belts")} */}
                 Belts
-                </div>
+              </div>
               <div className="list-item-value">
                 {branch?.belts ? "Yes" : "No"}
               </div>
@@ -133,7 +133,7 @@ const ViewBranch = () => {
               </div>
               <div className="list-item-value">
                 {branch?.activities || "--"}
-                </div>
+              </div>
             </div>
           </Col>
           <Col md="4">
@@ -146,7 +146,7 @@ const ViewBranch = () => {
             </div>
           </Col>
           <Col md="12">
-            <div className="list-item">
+            <div className="list-item mb-0">
               <div className="list-item-title">
                 {/* {getLabelByKey("description")} */}
                 Description

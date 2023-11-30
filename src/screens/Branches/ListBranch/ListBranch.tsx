@@ -165,20 +165,20 @@ const ListBranch: React.FC = () => {
           },
         });
         break;
-        case "payment":
-          navigate(`/branch/add-payment-information/${record.branchId}`, {
-            state: {
-              branchToEdit: record as BranchDataType,
-            },
-          });
-          break;
-  
-        case "delete":
-          navigate(`/branch/delete/${record.branchId}`, {
-            state: {
-              branch: record as BranchDataType,
-            },
-          });
+      case "payment":
+        navigate(`/branch/add-payment-information/${record.branchId}`, {
+          state: {
+            branchToEdit: record as BranchDataType,
+          },
+        });
+        break;
+
+      case "delete":
+        navigate(`/branch/delete/${record.branchId}`, {
+          state: {
+            branch: record as BranchDataType,
+          },
+        });
     }
   };
 
@@ -194,7 +194,7 @@ const ListBranch: React.FC = () => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
-  const rowSelection = { selectedRowKeys, onChange: onSelectChange};
+  const rowSelection = { selectedRowKeys, onChange: onSelectChange };
 
 
 
@@ -261,7 +261,7 @@ const RenderTableTitle = () => {
           fontSize="17px"
           icon={<img src={plusIcon} alt="edit icon" width={23} height={23} />}
           clicked={() => {
-            navigate(`/instructor/create`);
+            navigate(`/branch/create`);
           }}
         />
       </CustomDiv>

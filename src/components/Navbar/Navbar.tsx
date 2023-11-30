@@ -118,13 +118,13 @@ function Navbar() {
             <div className="d-flex align-items-start  ">
               <div className="language-area">
                 <Badge>
-                  <Avatar src={ukIcon} shape="square" style={{ width: "33px", height: "23px", borderRadius: '5px', }} />
+                  <Avatar src={ukIcon} shape="square" style={{ width: "26px", height: "16px", borderRadius: '3px', }} />
                 </Badge>
               </div>
               <DropDownStyling>
                 <Dropdown menu={{ items }} placement="bottomLeft" arrow>
                   <Button
-                    icon={<img src={dropDownArrow} alt="dropdown" width={12} height={7} style={{ marginBottom: '4px', }} />}
+                    icon={<img src={dropDownArrow} alt="dropdown" width={10} height={7} style={{ marginBottom: '4px', }} />}
                     style={{ border: "none", }}
                   />
                 </Dropdown>

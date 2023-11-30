@@ -49,9 +49,8 @@ const CustomSelect = (props: any) => {
                 id={name}
                 suffixIcon={
                   <img
-                    style={{
-                      height: "6px",
-                    }}
+                    height={7}
+                    width={12}
                     src={dropDownArrow}
                     alt="arrow"
                   />

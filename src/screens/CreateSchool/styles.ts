@@ -2,16 +2,16 @@ import styled from "styled-components";
 import { mediaDeviceMax, pureDark2, maastrichtBlue, lightDark2, fontFamilyMedium } from "../../components/GlobalStyle";
 
 export const CreateSchoolStyled = styled.div`
-
 margin-bottom: 20px;
 h3 {
   font-weight: 500;
   font-size: 18px;
   font-family: ${fontFamilyMedium};
   color: ${pureDark2};
+  margin-bottom: 2px;
 }
 .form {
-  padding: 16px;
+  padding: 20px;
   border-radius: 20px;
   }
 .mt-20 {
@@ -45,7 +45,6 @@ h3 {
   }
   
   .ant-btn{
-    // background: linear-gradient(270deg, #C0E9F9 0.21%, #A2DDF3 97.73%);
     color: ${maastrichtBlue};
   }
 

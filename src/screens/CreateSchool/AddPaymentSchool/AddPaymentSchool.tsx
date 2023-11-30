@@ -158,13 +158,6 @@ const AddPaymentSchool: React.FC = () => {
 
   return (
     <AddPaymentMethod>
-      {/* <OverlayImages
-        overlayImg={branch?.profilePicture || ""}
-        backgroundImg={branch?.bannerPicture || ""}
-        isEditable={true}
-      /> */}
-      {/* <OverlayImages backgroundImg={""} overlayImg={""} isEditable={false} /> */}
-
       {loading && <LoadingOverlay message="" />}
       <h3 className="table-heading">Payment Information</h3>
       <Table

@@ -47,13 +47,19 @@ export const CustomSelectStyle = styled.div<CustomSelectProps>`
     font-family: ${fontFamilyRegular};
     font-size: 16px;
   }
+  .ant-select-item{
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    font-family: ${fontFamilyRegular};
+  }
 
   .ant-select {
     height: 50px;
     background: ${(props) => props.bgColor};
     border: ${(props) => props.border};
     border-radius: 10px;
-    font-family: ${fontFamilyRegular}
+    font-family: ${fontFamilyRegular};
     color: ${lightDark2};
     font-weight: 400;
     width: 100%;

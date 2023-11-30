@@ -356,7 +356,7 @@ const EditSchool = () => {
                   bgcolor={lightBlue3}
                   textTransform="Captilize"
                   color={pureDark}
-                  padding="12px 100px"
+                  padding="11px 40.50px"
                   fontFamily={`${fontFamilyMedium}`}
                   width="fit-content"
                   type="submit"

@@ -168,7 +168,7 @@ const ViewSchool = () => {
             bgcolor={lightBlue3}
             textTransform="Capitalize"
             color={pureDark2}
-            padding="14px 102.50px"
+            padding="11px 40.50px"
             fontFamily={`${fontFamilyMedium}`}
             width="fit-content"
             type="submit"
@@ -182,7 +182,7 @@ const ViewSchool = () => {
             bgcolor={lightBlue3}
             textTransform="Capitalize"
             color={pureDark2}
-            padding="15px 102px"
+            padding="11px 40.50px"
             fontFamily={`${fontFamilyMedium}`}
             width="fit-content"
             type="submit"

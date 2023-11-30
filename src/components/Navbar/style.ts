@@ -129,6 +129,7 @@ export const NavbarStyle = styled.div`
       }
       > .ant-btn-icon-only {
         vertical-align: 0;
+        
       }
     }
 
@@ -166,6 +167,7 @@ export const NavbarStyle = styled.div`
       border: 1px solid ${tertiaryGrey21};
       width: 50px;
       height: 50px;
+
     }
   }
 `;
@@ -230,5 +232,9 @@ export const NavbarSmallScreenStyled = styled.div`
 `;
 
 export const DropDownStyling = styled.div`
-
+.ant-btn-icon-only {
+  width: 24px;
+  height: 32px;
+        
+      }
 `;

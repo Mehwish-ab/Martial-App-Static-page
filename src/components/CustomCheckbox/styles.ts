@@ -63,7 +63,7 @@ export const CustomCheckboxListStyled = styled.div`
 
   .invalid-activity {
     color: red;
-    text-align: start;
+    text-align: end;
     margin-left: 3px;
     font-size: 12px;
     letter-spacing: 1px;

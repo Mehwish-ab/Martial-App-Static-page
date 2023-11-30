@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import {
-  fontFamilyBold,
   fontFamilyMedium,
   lightDark2,
   mediaDeviceMax,
@@ -31,8 +30,7 @@ export const AddPaymentMethod = styled.div`
     margin: 13px 10px;
     font-family: ${fontFamilyMedium};
   }
-  }
-
+ 
   .ant-card.ant-card-bordered {
     border-radius: 10px;
 
@@ -70,7 +68,7 @@ export const AddPaymentMethod = styled.div`
   .ant-table-thead > tr > th {
     background: transparent !important;
     border-bottom: none !important;
-    color: ${darkBlue};
+    color: ${pureDark2};
     font-family: ${fontFamilyRegular};
     font-size: 16px !important;
     &::before {
@@ -83,15 +81,7 @@ export const AddPaymentMethod = styled.div`
     background: ${whiteColor};
     padding: 16px 20px;
   }
-  .ant-table table  td:first-child {
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-   }
-   
-   .ant-table table tbody tr  td:last-child {
-     border-top-right-radius: 10px;
-     border-bottom-right-radius: 10px;
-    }
+  
   .ant-table-tbody > tr > .ant-table-cell,
   .ant-table-tbody > tr > .ant-table-cell a {
     font-family: ${fontFamilyMedium};
@@ -113,8 +103,7 @@ export const AddPaymentMethod = styled.div`
   }
   .ant-table-thead > tr > td{
     color: ${darkGery};
-    font-family: ${fontFamilyRegular};
-    font-size: 14px !important;
+    font-family: ${fontFamilyRegular};    font-size: 14px !important;
     line-height: 23px;
     font-weight: 400;
   }
@@ -239,7 +228,6 @@ export const AddPaymentMethod = styled.div`
   .ant-table table > .ant-table-tbody > tr:nth-child(even){
     background-color: ${tertiaryGrey10};
   }
-
   .ant-pagination{
     display: none;
   }

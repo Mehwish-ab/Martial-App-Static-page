@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import {
+  AntiFlashWhite,
+  BallBlue,
   darkBlue,
   darkGery,
   fontFamilyBold,
@@ -7,6 +9,7 @@ import {
   fontFamilyRegular,
   mainColor,
   pureDark2,
+  whiteColor,
 } from "../../../components/GlobalStyle";
 
 export const ListBranchStyled = styled.div`
@@ -126,59 +129,88 @@ export const ListBranchStyled = styled.div`
   .ant-table-tbody > tr:nth-child(odd) td{
     background-color: #fff;
   }
-
-
-
   .ant-dropdown-trigger{
     text-align: center;
   }
 
-`;
-
-
-export const CustomDiv = styled.div`
-  position: relative;
-  display: flex;
-  .instructorDateSection, .mainarrow, .dateRange {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-.instructorDateSection{
-  margin-right: 10px;
-}
-  .arrowleft, .arrowright, .dateRange, .dateToday {
-    border-radius: 8px;
-    border: 1px solid #E8E8E8;
-    background: rgb(255, 255, 255);
-    color: #333;
-    font-size: 15px;
+  // pagination
+  .ant-pagination{
+    margin-top: 45px;
+  }
+  .ant-pagination li:first-child{
+    position: absolute;
+    left: 0;
+  }
+  .ant-pagination .ant-pagination-options{
+    display: none !important;
+    opacity: 0;
+    visibility: hidden;
+    visibility: hidden;
+    z-index: -1;
+  }
+  .ant-pagination-prev .ant-pagination-item-link span, .ant-pagination-next .ant-pagination-item-link span{
+    position: relative;
+  }
+  .ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link  {
+    border: none
+  }
+  .ant-pagination-prev .ant-pagination-item-link span:before{
+    content: 'prev';
     font-family: ${fontFamilyMedium};
+    font-size: 14px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    padding: 10px 10px;
-    height: 40px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.dateRange {
-  gap: 17px;
-  p{
-    color: #333;
-    font-size: 15px;
-    margin-bottom: 0;
+    display: block;
+  }
+  .ant-pagination-next .ant-pagination-item-link span:before{
+    content: 'next';
+    font-family: ${fontFamilyMedium};
+    font-size: 14px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     line-height: normal;
-    font-family: ${fontFamilyRegular};
-    > span{
-      font-weight: 500;
-      font-family: ${fontFamilyMedium};
+    display: block;
+  }
+  .ant-pagination-prev  .ant-pagination-item-link span svg, .ant-pagination-next  .ant-pagination-item-link span svg{ 
+    display: none;
+  }
+  .ant-pagination-item {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px;
+    border: 1px solid ${AntiFlashWhite};
+  }
+  .ant-pagination-item a {
+    border-radius: 8px;
+    background: ${whiteColor};
+    padding: 7px 12px;
+    line-height: normal;
+  }
+  .ant-pagination-item-active a{
+    border-radius: 8px;
+    background: ${BallBlue};
+    color: ${whiteColor};
+    padding: 7px 12px;
+    line-height: normal;
+  }
+  .ant-pagination-total-text{
+    color: #333;
+    font-family: ${fontFamilyMedium};
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    display: inline-block;
+    > span > span{
+      width: 47px;
+      padding: 7px 31px 8px 9px;
+      border-radius: 8px;
+      border: 1px solid #F1F1F1;
+      display: inline-block;
+      margin: 0px 5px;
     }
   }
-
-}
 `;
+
+

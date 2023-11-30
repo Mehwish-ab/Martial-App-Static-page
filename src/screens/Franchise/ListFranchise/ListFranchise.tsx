@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Dropdown, Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
@@ -209,6 +209,19 @@ const ListFranchise: React.FC = () => {
     store.dispatch(getBranchBySchoolId());
   }, []);
 
+
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [current, setCurrent] = useState(1);
+
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const rowSelection = { selectedRowKeys, onChange: onSelectChange};
+
+
+
   return (
     <>
       {loading && <LoadingOverlay message="" />}
@@ -217,10 +230,19 @@ const ListFranchise: React.FC = () => {
           columns={columns}
           dataSource={DummyData as any}
           title={() => <RenderTableTitle />}
+          pagination={{
+            showTotal: (total, range) => (
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: `Page <span className='paginationVal'>${range[0]}</span> of ${range[1]}`,
+                }}
+              />
+            ),
+          }}
         />
       </ListFranchiseStyled>
 
-      <CardView />
+      {/* <CardView /> */}
     </>
   );
 };

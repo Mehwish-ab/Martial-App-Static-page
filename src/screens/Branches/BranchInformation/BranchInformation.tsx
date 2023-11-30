@@ -288,6 +288,7 @@ const columns: ColumnsType<BranchDataType> = [
           columns={columns}
           dataSource={DummyData as any}
           scroll={{ x: true }}
+          
         />
 
 

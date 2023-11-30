@@ -148,7 +148,6 @@ export const AddPaymentMethod = styled.div`
     line-height: normal;
     margin-bottom: 0 !important;
     position: relative;
-    top: 5px;
   }
   .ant-table-tbody > tr > td:nth-child(4) div, .ant-table-tbody > tr > td:nth-child(5) div{
     position: relative;

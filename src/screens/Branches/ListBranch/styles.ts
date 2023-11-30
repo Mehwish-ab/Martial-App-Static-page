@@ -4,7 +4,9 @@ import {
   darkGery,
   fontFamilyBold,
   fontFamilyMedium,
+  fontFamilyRegular,
   mainColor,
+  pureDark2,
 } from "../../../components/GlobalStyle";
 
 export const ListBranchStyled = styled.div`
@@ -14,16 +16,18 @@ export const ListBranchStyled = styled.div`
 
   .table-heading {
     font-size: 18px !important;
-    font-family: ${fontFamilyMedium} !important;
-    color: ${darkGery};
+    font-family: ${fontFamilyMedium};
+    color: ${pureDark2};
+    font-weight: 500;
   }
   .ant-table-thead > tr > th {
     background: transparent !important;
-    border-bottom: none !important;
-    color: ${darkBlue};
+    border-bottom: none;
+    color: ${pureDark2};
+    font-weight: 500;
+    padding: 4px;
     font-family: ${fontFamilyMedium};
-    font-size: 16px !important;
-
+    font-size: 16px;
     &::before {
       display: none !important;
     }
@@ -31,25 +35,16 @@ export const ListBranchStyled = styled.div`
 
   .ant-table-tbody > tr > .ant-table-cell,
   .ant-table-tbody > tr > .ant-table-cell a {
-    font-family: ${fontFamilyMedium};
-    font-size: 14px !important;
+    font-family: ${fontFamilyRegular};
+    font-size: 14px;
     color: ${darkGery}!important;
+    padding: 4px;
+    font-weight: 400;
+    p {
+      margin-bottom: 0px;
+    }
   }
 
-  .ant-table-tbody > tr > .ant-table-cell,
-  .ant-table-tbody > tr > .ant-table-cell a {
-    font-family: ${fontFamilyMedium};
-    font-size: 14px !important;
-    color: ${darkGery}!important;
-  }
-  .ant-table-thead > tr > th{
-    color: ${darkGery};
-  }
-  .ant-table-thead > tr > td{
-    color: ${darkGery};
-    font-size: 14px !important;
-    line-height: 23px;
-  }
   .ant-table-thead > tr > th:first-child, 
   .ant-table-tbody > tr > td:first-child{
     width: 3%;
@@ -125,17 +120,15 @@ export const ListBranchStyled = styled.div`
     right: 6%;
     top: -5px;
   }
-  .ant-table-tbody > tr:nth-child(odd) td{
+  .ant-table-tbody > tr:nth-child(even) td{
     background-color: #FAFAFA;
   }
-  .ant-table-tbody > tr:nth-child(even) td{
+  .ant-table-tbody > tr:nth-child(odd) td{
     background-color: #fff;
   }
 
 
-  .table-heading{
-    color: ${darkGery};
-  }
+
   .ant-dropdown-trigger{
     text-align: center;
   }
@@ -148,29 +141,44 @@ export const CustomDiv = styled.div`
   display: flex;
   .instructorDateSection, .mainarrow, .dateRange {
     display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.instructorDateSection{
+  margin-right: 10px;
 }
   .arrowleft, .arrowright, .dateRange, .dateToday {
     border-radius: 8px;
-    border: 1px solid rgb(232, 232, 232);
+    border: 1px solid #E8E8E8;
     background: rgb(255, 255, 255);
-    color: rgb(51, 51, 51);
+    color: #333;
     font-size: 15px;
+    font-family: ${fontFamilyMedium};
     font-style: normal;
     font-weight: 500;
     line-height: normal;
     padding: 10px 10px;
-    margin-right: 20px;
     height: 40px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .dateRange {
+  gap: 17px;
   p{
-    margin-right: 10px;
-    color: rgb(51, 51, 51);
+    color: #333;
     font-size: 15px;
+    margin-bottom: 0;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    font-family: ${fontFamilyRegular};
+    > span{
+      font-weight: 500;
+      font-family: ${fontFamilyMedium};
+    }
   }
-  img{
-    margin-left: 10px;
-  }
+
 }
 `;

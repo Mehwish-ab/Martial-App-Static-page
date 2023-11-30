@@ -61,17 +61,7 @@ const ListBranch: React.FC = () => {
       title: "Image",
       dataIndex: "profilePicture",
       key: "profilePicture",
-      // render: (text) => (
-      //   <div style={{ width: 50, height: 50 }}>
-      //     <img
-      //       src={ipForImages + text}
-      //       alt="branch img"
-      //       style={{ objectFit: "contain", width: "100%" }}
-      //     />
-      //   </div>
-      // ),
       render: (DummyData) => {
-
         return <img src={DummyData} width={44} height={44} alt="dummy images data" />;
       }
     },
@@ -85,10 +75,6 @@ const ListBranch: React.FC = () => {
       title: "Type",
       dataIndex: "branchType",
       key: "branchType",
-      // render: (_, { branchType }) => {
-      //   let item = businessTypes.find((b) => b.id === branchType);
-      //   return <p>{item?.en}</p>;
-      // },
     },
     {
       title: "Activity",
@@ -97,28 +83,12 @@ const ListBranch: React.FC = () => {
       render: (DummyData) => {
 
         return <p className="sub-title">
-        {DummyData?.length > 33
-          ? `${DummyData.slice(0, 38)}...`
-          : DummyData}
-      </p>;
+          {DummyData?.length > 33
+            ? `${DummyData.slice(0, 38)}...`
+            : DummyData}
+        </p>;
       }
-      // render: (_, { activities: commaSeparatedIds }) => {
-      //   const filteredObjects = activities.filter((obj) => {
-      //     const objId = obj.id;
-      //     return commaSeparatedIds.split(",").includes(objId.toString());
-      //   });
-      //   let names = filteredObjects
-      //     .map((obj) => (obj as any)[selectedLanguage])
-      //     .join(", ");
-      //   const maxLength = 20;
-
-      //   if (names.length > maxLength) {
-      //     names = names.slice(0, maxLength - 3) + "...";
-      //   }
-      //   return <p>{names}</p>;
-      // },
     },
-
     {
       title: "Phone Number",
       dataIndex: "phoneNumber",
@@ -174,12 +144,6 @@ const ListBranch: React.FC = () => {
               />
             </Dropdown>
           </Space>
-
-
-
-
-
-
         );
       },
     },
@@ -231,21 +195,20 @@ const RenderTableTitle = () => {
   return (
     <div className="d-flex justify-content-between align-center">
       {/* <h3 className="table-heading">{getLabelByKey("title")}</h3> */}
-      <h3 className="table-heading">Branch List</h3>
+      <h3 className="table-heading">Branches</h3>
       <CustomDiv>
         <div className="instructorDateSection">
           <div className="mainarrow">
             <div className="arrowright">
-              <img src={LeftArrow} alt="Date" />
+              <img src={LeftArrow} alt="Date" width={18} height={12} />
             </div>
             <div className="arrowleft">
-              <img src={RightArrow} alt="Date" />
+              <img src={RightArrow} alt="Date" width={18} height={12} />
             </div>
-
           </div>
           <div className="dateRange">
-            <p>Mon, Sep 11, 2023 - Thu Sep 21, 2023</p>
-            <img src={DateCalander} alt="" />
+            <p><span>Mon,</span> Sep 11, 2023 - <span>Thu,</span> Sep 21, 2023</p>
+            <img src={DateCalander} alt="Calander" width={21} height={21} />
           </div>
           <div className="dateToday">Today</div>
         </div>
@@ -253,13 +216,13 @@ const RenderTableTitle = () => {
           bgcolor={tertiaryBlue2}
           textTransform="Captilize"
           color={pureDark}
-          padding="8px 10px"
+          padding="6.5px 0px"
           fontFamily={`${fontFamilyMedium}`}
-          width="fit-content"
+          width="40px"
           type="submit"
           title=""
           fontSize="17px"
-          icon={<img src={plusIcon} alt="edit icon" />}
+          icon={<img src={plusIcon} alt="edit icon" width={23} height={23} />}
           clicked={() => {
             navigate(`/instructor/create`);
           }}

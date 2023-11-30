@@ -165,6 +165,21 @@ const ListBranch: React.FC = () => {
             branch: record as BranchDataType,
           },
         });
+        break;
+        case "payment":
+          navigate(`/branch/add-payment-information/${record.branchId}`, {
+            state: {
+              branchToEdit: record as BranchDataType,
+            },
+          });
+          break;
+  
+        case "delete":
+          navigate(`/branch/delete/${record.branchId}`, {
+            state: {
+              branch: record as BranchDataType,
+            },
+          });
     }
   };
 

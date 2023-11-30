@@ -34,9 +34,7 @@ export const AddPaymentMethod = styled.div`
   }
 
   .ant-card.ant-card-bordered {
-    border-radius: 20px !important;
     border-radius: 10px;
-    border: 1px solid #E0E0E0;
 
     .list-item {
       border-bottom: 1px solid ${tertiaryGrey24};
@@ -81,8 +79,9 @@ export const AddPaymentMethod = styled.div`
   }
 
   .ant-table table {
-    border-radius: 10px;
-    background: #FFF;
+    border-radius: 20px;
+    background: ${whiteColor};
+    padding: 16px 20px;
   }
   .ant-table table  td:first-child {
     border-top-left-radius: 10px;
@@ -108,14 +107,16 @@ export const AddPaymentMethod = styled.div`
   }
   .ant-table-thead > tr > th{
     color: ${darkGery};
-    font-family: ${fontFamilyRegular};
+    font-family: ${fontFamilyMedium};
     font-size: 16px !important;
+    font-weight: 500;
   }
   .ant-table-thead > tr > td{
     color: ${darkGery};
     font-family: ${fontFamilyRegular};
     font-size: 14px !important;
     line-height: 23px;
+    font-weight: 400;
   }
   .ant-table-thead > tr > th, 
   .ant-table-tbody > tr > td{
@@ -147,7 +148,6 @@ export const AddPaymentMethod = styled.div`
     line-height: normal;
     margin-bottom: 0 !important;
     position: relative;
-    top: 5px;
   }
   .ant-table-tbody > tr > td:nth-child(4) div, .ant-table-tbody > tr > td:nth-child(5) div{
     position: relative;
@@ -233,11 +233,14 @@ export const AddPaymentMethod = styled.div`
     background-color: transparent !important;
 }
 
-  .ant-table-tbody > tr:nth-child(odd) td{
-    background-color: ${tertiaryGrey10};
-  }
-  .ant-table-tbody > tr:nth-child(even) td{
+  .ant-table table > .ant-table-tbody  > tr:nth-child(odd){
     background-color: ${whiteColor};
   }
+  .ant-table table > .ant-table-tbody > tr:nth-child(even){
+    background-color: ${tertiaryGrey10};
+  }
 
+  .ant-pagination{
+    display: none;
+  }
 `;

@@ -90,7 +90,7 @@ const columns: ColumnsType<BranchDataType> = [
       key: "mode",
       render: (DummyData) => {
         return (
-          <div>
+          <div className={DummyData}>
             <button>{DummyData}</button>
             <img src={StatusActiveError} alt="image" />
           </div>
@@ -103,7 +103,7 @@ const columns: ColumnsType<BranchDataType> = [
       key: "Staus",
       render: (DummyData) => {
         return (
-          <div>
+          <div className={DummyData}>
             <button>{DummyData}</button>
             <img src={StatusActiveError} alt="image" />
           </div>
@@ -113,7 +113,7 @@ const columns: ColumnsType<BranchDataType> = [
     {
       title: "Action",
       key: "action",
-      render: (value: any, record: BranchDataType,index:number) :any => {
+      render: (value, record: BranchDataType,index) :any => {
         const items = [
           {
             key: "1",

@@ -19,54 +19,18 @@ import {
   AlizarinCrimson
 } from "../../../components/GlobalStyle";
 
-export const InformationBranchStyled = styled.div`
+export const AddPaymentMethod = styled.div`
+
+
 h3 {
   color: ${pureDark2};
   font-size: 18px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  margin: 24px 10px 12px;
+  margin: 13px 10px;
   font-family: ${fontFamilyMedium};
 }
-
-.ant-card.ant-card-bordered {
-  border-radius: 10px;
-
-  .list-item {
-    border-bottom: 1px solid ${tertiaryGrey24};
-    padding-bottom: 8px;
-    margin-bottom: 20px;
-
-    &-title {
-      color: ${lightDark2};
-      font-family: ${fontFamilyRegular};
-      font-size: 12px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-
-      @media screen and ${mediaDeviceMax.laptop} {
-        font-size: 12px;
-      }h3 {
-        color: ${pureDark2};
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: normal;
-        margin: 13px 10px;
-        font-family: ${fontFamilyMedium};
-      }
-      font-family: ${fontFamilyRegular};
-
-      @media screen and ${mediaDeviceMax.laptop} {
-        font-size: 14px;
-      }
-    }
-  }
-}
-
-
 
   .ant-table-thead > tr > th {
     background: transparent !important;
@@ -240,10 +204,7 @@ h3 {
   .ant-table table > .ant-table-tbody > tr:nth-child(even){
     background-color: ${tertiaryGrey10};
   }
-
-.ant-pagination{
-  display: none;
-}
-
-
+  .ant-pagination{
+    display: none;
+  }
 `;

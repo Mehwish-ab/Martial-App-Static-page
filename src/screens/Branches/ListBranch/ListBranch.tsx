@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
@@ -13,7 +13,8 @@ import type { ColumnsType } from "antd/es/table";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
 
-import { CustomDiv, ListBranchStyled } from "./styles";
+import { ListBranchStyled } from "./styles";
+import { CustomDiv } from "./CustomDiv";
 import {
   fontFamilyMedium,
   pureDark,
@@ -28,8 +29,6 @@ import StatusActiveError from "../../../assets/images/activeBtnError.svg"
 import RightArrow from "../../../assets/images/rightArrow.svg";
 import LeftArrow from "../../../assets/images/leftArrow.svg";
 import DateCalander from "../../../assets/images/dateCalander.svg";
-
-
 
 
 
@@ -187,6 +186,20 @@ const ListBranch: React.FC = () => {
     store.dispatch(getBranchBySchoolId());
   }, []);
 
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [current, setCurrent] = useState(1);
+
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const rowSelection = { selectedRowKeys, onChange: onSelectChange};
+
+
+
+
+
   return (
     <>
       {loading && <LoadingOverlay message="" />}
@@ -196,6 +209,15 @@ const ListBranch: React.FC = () => {
           dataSource={DummyData as any}
           title={() => <RenderTableTitle />}
           scroll={{ x: true }}
+          pagination={{
+            showTotal: (total, range) => (
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: `Page <span className='paginationVal'>${range[0]}</span> of ${range[1]}`,
+                }}
+              />
+            ),
+          }}
         />
       </ListBranchStyled>
     </>

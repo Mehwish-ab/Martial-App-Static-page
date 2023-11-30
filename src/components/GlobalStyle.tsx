@@ -138,6 +138,8 @@ export const Apple = "#4caf50";
 export const ColumbiaBlue = "#DFC1C1";
 export const GrayX11 = "#BDBDBD";
 export const AlizarinCrimson = "#E51D35";
+export const AntiFlashWhite = "#F1F1F1";
+export const BallBlue = "#2EABD8";
 
 export const FlexContainer = styled.div`
   display: flex;

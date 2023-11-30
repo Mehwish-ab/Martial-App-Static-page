@@ -22,7 +22,7 @@ import {
 import plusIcon from "../../../assets/icons/ic_plus.svg";
 import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
 
-const AddPaymentSchool: React.FC = () => {
+const AddPaymentBranch: React.FC = () => {
   const navigate = useNavigate();
   const { getLabelByKey } = useScreenTranslation("schoolCreate");
 
@@ -176,4 +176,4 @@ const AddPaymentSchool: React.FC = () => {
   );
 };
 
-export default AddPaymentSchool;
+export default AddPaymentBranch;

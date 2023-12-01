@@ -1,14 +1,13 @@
 import { CreateSchoolStyled } from "./styles";
 import { ErrorMessage, Formik } from "formik";
-import { Dropdown, Form, Tag } from "antd";
+import { Form } from "antd";
 
 import { Col, Row } from "react-bootstrap";
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import useScreenTranslation from "../../hooks/useScreenTranslation";
 import { RootState } from "../../redux/store";
-import useCreateSchool from "../../hooks/useCreateSchool";
-import { useParams } from "react-router-dom";
+import useSchool from "../../hooks/useCreateSchool";
 import {
   BELTS_SELECT_OPTIONS,
   CreateSchoolInitialValues,
@@ -24,21 +23,17 @@ import {
   pureDark,
 } from "../../components/GlobalStyle";
 import CustomPhoneInput from "../../components/CustomPhoneInput/CustomPhoneInput";
-import CheckboxesList from "../../components/CustomCheckbox/CheckboxesList";
-import PaymentInformation from "../../components/Common/PaymentInformation/PaymentInformation";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import PlacesAutoCompleteInput from "../../maps/PlacesAutocomplete";
-import PaymentInfoTable from "../../components/Common/PaymentInformation/PaymentInfoTable";
 import CheckboxesSelect from "../../components/CustomCheckbox/CheckboxesSelect";
-import CustomInputStyle from "../../components/CustomInput/style";
 
 const CreateSchool = () => {
   const { getLabelByKey } = useScreenTranslation("schoolCreate");
   const {
     statusData: { activities, facilities },
-    dropdowns: { currency, language, businessTypes }
+    dropdowns: { currency, language, businessTypes },
   } = useSelector((state: RootState) => state.appData.data);
-  const { handleSubmit, loading } = useCreateSchool();
+  const { handleSubmit, loading, Createmodal } = useSchool();
 
   const initialValues: CreateSchoolInitialValues = {
     businessName: "",
@@ -116,7 +111,7 @@ const CreateSchool = () => {
 
   return (
     <CreateSchoolStyled>
-
+      {Createmodal().modalComponent}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -145,12 +140,11 @@ const CreateSchool = () => {
                       placeholder={getLabelByKey("businessNamePlaceholder")}
                       className={
                         formik.errors.businessName &&
-                          formik.touched.businessName
+                        formik.touched.businessName
                           ? "is-invalid"
                           : "customInput"
                       }
                     />
-
                   </Col>
                   <Col md="4" className="mt-20">
                     <FormControl
@@ -164,7 +158,7 @@ const CreateSchool = () => {
                       placeholder={getLabelByKey("businessTypePlaceholder")}
                       className={
                         formik.errors.businessType &&
-                          formik.touched.businessType
+                        formik.touched.businessType
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -248,7 +242,7 @@ const CreateSchool = () => {
                         placeholder={getLabelByKey("defaultLanguage")}
                         className={
                           formik.errors.defaultLanguage &&
-                            formik.touched.defaultLanguage
+                          formik.touched.defaultLanguage
                             ? "is-invalid"
                             : "customInput"
                         }
@@ -267,7 +261,7 @@ const CreateSchool = () => {
                         placeholder={getLabelByKey("defaultCurrency")}
                         className={
                           formik.errors.defaultCurrency &&
-                            formik.touched.defaultCurrency
+                          formik.touched.defaultCurrency
                             ? "is-invalid"
                             : "customInput"
                         }
@@ -275,7 +269,6 @@ const CreateSchool = () => {
                       />
                     </Col>
                   </Col>
-
 
                   <Col md="6" className="">
                     <CheckboxesSelect

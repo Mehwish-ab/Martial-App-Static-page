@@ -37,6 +37,12 @@ import InformationInstructor from "../screens/Instructor/InformationInstructor/I
 import ListTimeTable from "../screens/TimeTable/ListTimeTable/ListTimeTable";
 import CreateTimeTable from "../screens/TimeTable/CreateTimeTable/createTimeTable";
 import InformationTimeTable from "../screens/TimeTable/InformationTimeTable/InformationTimeTable";
+import ViewSchool from "../screens/CreateSchool/ViewSchool/ViewSchool";
+import CreateMembership from "../screens/Membership/CreateMembership/CreateMembership";
+import ListMembership from "../screens/Membership/ListMembership/ListMembership";
+import ListClass from "../screens/Class/ListClasses/ListClasses";
+import CreateClass from "../screens/Class/CreateClasses/CreateClass";
+import UpdateClass from "../screens/Class/UpdateClass/UpdateClass";
 
 function AppRoutes() {
   const dispatch = useDispatch();
@@ -88,6 +94,14 @@ function AppRoutes() {
           element={
             <AppLayout>
               <CreateSchool />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/school/view"
+          element={
+            <AppLayout>
+              <ViewSchool />
             </AppLayout>
           }
         />
@@ -235,6 +249,46 @@ function AppRoutes() {
           element={
             <AppLayout>
               <InformationTimeTable />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/membership/create"
+          element={
+            <AppLayout>
+              <CreateMembership />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/membership/list"
+          element={
+            <AppLayout>
+              <ListMembership />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/class/create"
+          element={
+            <AppLayout>
+              <CreateClass />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/class/update/:id"
+          element={
+            <AppLayout>
+              <UpdateClass />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/class/list"
+          element={
+            <AppLayout>
+              <ListClass />
             </AppLayout>
           }
         />

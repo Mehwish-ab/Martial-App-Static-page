@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { RootState } from "../../../redux/store";
-import useCreateSchool from "../../../hooks/useCreateSchool";
+import useSchool from "../../../hooks/useCreateSchool";
 import { useParams } from "react-router-dom";
 import {
   BELTS_SELECT_OPTIONS,
@@ -25,21 +25,19 @@ import {
   pureDark,
 } from "../../../components/GlobalStyle";
 import CustomPhoneInput from "../../../components/CustomPhoneInput/CustomPhoneInput";
-import CheckboxesList from "../../../components/CustomCheckbox/CheckboxesList";
-import PaymentInformation from "../../../components/Common/PaymentInformation/PaymentInformation";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
 import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelect";
 
 const EditSchool = () => {
+  const { editSchool, loading, UpdateModal } = useSchool();
   const { getLabelByKey } = useScreenTranslation("schoolCreate");
   const {
     statusData: { activities, facilities },
-    dropdowns:  { currency, language, businessTypes }
+    dropdowns: { currency, language, businessTypes },
   } = useSelector((state: RootState) => state.appData.data);
 
   const { schoolData } = useSelector((state: RootState) => state.dashboardData);
-  const { handleSubmit, loading } = useCreateSchool();
   const { schoolId } = useParams();
 
   const { selectedLanguage } = useSelector(
@@ -82,7 +80,9 @@ const EditSchool = () => {
       .of(Yup.string().required("Select at least one facility"))
       .min(1, "Select at least one facility"),
   });
-
+  const handleEditSchool = async (value: any) => {
+    await editSchool(schoolData.schoolId, value);
+  };
   const createOptions = (list: DataTypesWithIdAndMultipleLangLabel[]) => {
     let options: SelectOptionsDataTypes[] = [];
     list.forEach((item) => {
@@ -102,7 +102,7 @@ const EditSchool = () => {
     businessType: schoolData.businessType.toString(),
     address: schoolData.address,
     businessPhoneNumber: schoolData.phoneNumber,
-    belts: schoolData.belts ? 1 : 2, // 1 for yes, 2 for no
+    belts: schoolData.rank ? 1 : 2, // 1 for yes, 2 for no
     defaultLanguage: schoolData.defaultLanguageId,
     defaultCurrency: schoolData.defaultCurrencyId,
     description: schoolData.description,
@@ -118,6 +118,7 @@ const EditSchool = () => {
 
   return (
     <CreateSchoolStyled>
+      {UpdateModal().modalComponent}
       <OverlayImages
         backgroundImg={schoolData.bannerPicture || ""}
         overlayImg={schoolData.profilePicture || ""}
@@ -126,9 +127,11 @@ const EditSchool = () => {
       <Formik
         initialValues={initialValuesForEdit}
         validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+        onSubmit={handleEditSchool}
       >
         {(formik) => {
+          console.log("Form Values:", formik);
+
           return (
             <Form
               name="basic"
@@ -242,6 +245,7 @@ const EditSchool = () => {
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("belts")}
                       padding="10px"
+                      defaultValue={schoolData.rank === true ? "Yes" : "No"}
                       placeholder={getLabelByKey("beltsPlaceholder")}
                       className={
                         formik.errors.belts && formik.touched.belts
@@ -249,15 +253,24 @@ const EditSchool = () => {
                           : "customInput"
                       }
                       options={BELTS_SELECT_OPTIONS}
-                      defaultValue={
-                        schoolId
-                          ? BELTS_SELECT_OPTIONS.find(
-                              (item) =>
-                                item.value === initialValuesForEdit.belts
-                            )?.label
-                          : undefined
-                      }
                     />
+
+                    {/* //   control="select"
+                    //   type="text"
+                    //   name="belts"
+                    //   fontFamily={fontFamilyMedium}
+                    //   // prefix={<img src={lock_icon} alt="lock_icon" />}
+                    //   label={getLabelByKey("belts")}
+                    //   padding="10px"
+                    //   value={schoolData.belts === false ? "Yes" : "No"}
+                    //   placeholder={getLabelByKey("beltsPlaceholder")}
+                    //   className={
+                    //     formik.errors.rank && formik.touched.rank
+                    //       ? "is-invalid"
+                    //       : "customInput"
+                    //   }
+                    //   options={BELTS_SELECT_OPTIONS}
+                    // /> */}
                   </Col>
                   <Col md="4" className="mt-20">
                     <FormControl
@@ -362,8 +375,9 @@ const EditSchool = () => {
                   fontFamily={`${fontFamilyMedium}`}
                   width="fit-content"
                   type="submit"
-                  title={getLabelByKey("primaryButton")}
+                  title="Update"
                   fontSize="17px"
+                  clicked={() => handleEditSchool(formik.values)}
                   loading={loading}
                 />
               </div>

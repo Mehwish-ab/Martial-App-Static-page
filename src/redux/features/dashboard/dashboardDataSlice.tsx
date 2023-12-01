@@ -12,7 +12,7 @@ export interface SchoolDataType {
   businessType: number | string;
   address: string;
   phoneNumber: string;
-  belts: boolean;
+  rank: boolean;
   defaultLanguageId: number;
   defaultCurrencyId: number;
   activities: string;
@@ -43,7 +43,7 @@ const initialState: DashboardDataInitialState = {
     businessType: "0",
     address: "",
     phoneNumber: "",
-    belts: false,
+    rank: false,
     defaultCurrencyId: 0,
     defaultLanguageId: 0,
     activities: "",

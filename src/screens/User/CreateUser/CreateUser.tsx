@@ -6,34 +6,24 @@ import CustomButton from "../../../components/CustomButton/CustomButton";
 import CreateUserStyle from "./style";
 import {
   fontFamilyMedium,
-  fontFamilyRegular,
   lightBlue3,
-  lightDark2,
   pureDark,
-  whiteColor,
 } from "../../../components/GlobalStyle";
 import Head from "../../../components/Head/Head";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import TermsAndConditions from "../../../components/TermsAndConditions/TermsAndConditions";
-import OauthLogin from "../../../components/Common/OauthLogin/OauthLogin";
 import EnnvisionModal from "../../../components/CustomModals/EnnvisionModal";
 import CustomModal from "../../../components/Modal/CustomModal";
-import profile_icon from "../../../assets/icons/ic_profile.svg";
-import lock_icon from "../../../assets/icons/password.svg";
-import email_icon from "../../../assets/icons/ic_email.svg";
-import ic_building from "../../../assets/icons/ic_building.svg";
 import { useAppSelector } from "../../../app/hooks";
 import { validationFinder } from "../../../utils/utilities";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { signup_url } from "../../../utils/api_urls";
-import CustomPhoneInput from "../../../components/CustomInputNumber/CustomPhoneInput";
 import Errormsg from "../../../components/ErrorMessage";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { SCREEN_LABEL_KEYS } from "./constant";
-import { OAUTH_USECASES } from "../../../components/Common/OauthLogin/constants";
-import Input, { getCountryCallingCode } from "react-phone-number-input";
+import Input from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
@@ -234,7 +224,6 @@ const RegisterUser = () => {
                         onFinish={formik.handleSubmit}
                         autoComplete="off"
                       >
-
                         <div className="register-input-fields">
                           <div className="mt-20">
                             <FormControl
@@ -255,7 +244,7 @@ const RegisterUser = () => {
                               labelFamily={fontFamilyMedium}
                               className={
                                 formik.errors.firstName &&
-                                  formik.touched.firstName
+                                formik.touched.firstName
                                   ? "is-invalid"
                                   : "customInput"
                               }
@@ -280,7 +269,7 @@ const RegisterUser = () => {
                               )}
                               className={
                                 formik.errors.lastName &&
-                                  formik.touched.lastName
+                                formik.touched.lastName
                                   ? "is-invalid"
                                   : "customInput"
                               }
@@ -303,7 +292,7 @@ const RegisterUser = () => {
                               )}
                               className={
                                 formik.errors.emailAddress &&
-                                  formik.touched.emailAddress
+                                formik.touched.emailAddress
                                   ? "is-invalid"
                                   : "customInput"
                               }
@@ -376,7 +365,7 @@ const RegisterUser = () => {
                                 placeholder="Enter 6 Digit Password"
                                 className={
                                   formik.errors.password &&
-                                    formik.touched.password
+                                  formik.touched.password
                                     ? "is-invalid"
                                     : "customPasswordInput"
                                 }
@@ -398,7 +387,7 @@ const RegisterUser = () => {
                                 placeholder="Enter Confirm 6 Digit Passcode"
                                 className={
                                   formik.errors.confirmPassword &&
-                                    formik.touched.confirmPassword
+                                  formik.touched.confirmPassword
                                     ? "is-invalid"
                                     : "customPasswordInput"
                                 }
@@ -416,7 +405,12 @@ const RegisterUser = () => {
                               {getLabelByKey(SCREEN_LABEL_KEYS.rememberMe)}
                             </p>
                           </div>
-
+                          <TermsAndConditions
+                            terms={terms}
+                            setTerms={setTerms}
+                            showTermsError={showTermsError}
+                            screen="registerScreen"
+                          />
                           <div className="mt-20">
                             <CustomButton
                               bgcolor={lightBlue3}
@@ -433,6 +427,7 @@ const RegisterUser = () => {
                               loading={isLoading}
                             />
                           </div>
+                          {/* to show login using google, facebook, apple, microsoft and discord. */}
                           {/* <div className="d-flex or-line mt-4 align-items-center">
                             <div className="line" />
                             <p>{getLabelByKey(SCREEN_LABEL_KEYS.or)}</p>
@@ -445,12 +440,6 @@ const RegisterUser = () => {
                   }}
                 </Formik>
               </div>
-              {/* <TermsAndConditions
-                terms={terms}
-                setTerms={setTerms}
-                showTermsError={showTermsError}
-                screen="registerScreen"
-              /> */}
               <div className="signup-text mt-3">
                 <p>{getLabelByKey(SCREEN_LABEL_KEYS.login)}</p>
                 <h6 className="me-1 ms-1 mb-0">

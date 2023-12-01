@@ -9,16 +9,26 @@ import {
 } from "../utils/api_urls";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { loginDataTypes } from "../redux/features/types";
+import EnnvisionModal from "../components/CustomModals/EnnvisionModal";
+import CustomModal from "../components/Modal/CustomModal";
+import { useAppSelector } from "../app/hooks";
 const useCreateSchool = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isUploadImgModalVisible, setIsUploadImgVisible] = useState(false);
   const toastId = useRef<any>(null);
   const { schoolId } = useParams();
+  const [data, setData] = useState<unknown>({});
+  const { data: logindata } = useAppSelector((state) => state.loginData);
+
   const navigate = useNavigate();
+
+  const [isShowModal, setIsShowModal] = useState(false);
   const { loginData } = useSelector((state: RootState) => state);
+
+  // to create School
   const handleSubmit = async (
     values: CreateSchoolInitialValues,
     { resetForm }: any
@@ -32,11 +42,11 @@ const useCreateSchool = () => {
       businessType: values.businessType,
       address: values.address,
       phoneNumber: values?.businessPhoneNumber || "",
-      belts: values.belts == "1" ? true : false,
-      languageId: values.defaultLanguage,
-      currencyId: values.defaultCurrency,
+      rank: values.belts === 1 ? true : false,
+      defaultLanguageId: values.defaultLanguage,
+      defaultCurrencyId: values.defaultCurrency,
       activities: values.selectedActivities.join(","),
-      facilities: values.selectedActivities.join(","),
+      facilities: values.selectedFacilities.join(","),
       description: values.description,
       stripePublicKey: "",
       stripeSecretKey: "",
@@ -71,14 +81,20 @@ const useCreateSchool = () => {
         setLoading(false);
         return;
       }
-      toastId.current = toast(data.responseMessage, {
-        type: "success",
-        autoClose: 1000,
-      });
-      setLoading(false);
+      setIsShowModal(true);
+      setTimeout(() => {
+        setLoading(false);
+        setIsShowModal(false);
+        navigate("/school/view");
+      }, 3000);
+      // toastId.current = toast(data.responseMessage, {
+      //   type: "success",
+      //   autoClose: 1000,
+      // });
+      //setLoading(false);
       console.log({ data });
-      // setIsUploadImgVisible(true);
-      navigate("/");
+      //setIsUploadImgVisible(true);
+      // navigate("/");
       resetForm();
     } catch (error: any) {
       console.log({ error });
@@ -87,18 +103,225 @@ const useCreateSchool = () => {
       setTimeout(() => {
         setError("");
       }, 2000);
-      toastId.current = toast(error.response.data.responseMessage, {
+      toastId.current = toast(error.message, {
         type: "error",
         autoClose: 1000,
       });
     }
   };
+
+  //to edit school
+  const editSchool = async (
+    schoolId: number,
+    values: CreateSchoolInitialValues
+  ) => {
+    const url = edit_school_url;
+    const userDetails = loginData.data?.userDetails;
+
+    try {
+      setError("");
+      setLoading(true);
+
+      const payload = {
+        userId: userDetails?.id || "",
+        businessName: values.businessName,
+        businessType: values.businessType,
+        address: values.address,
+        phoneNumber: values?.businessPhoneNumber || "",
+        rank: values.belts === 1 ? true : false,
+        defaultLanguageId: values.defaultLanguage,
+        defaultCurrencyId: values.defaultCurrency,
+        activities: values.selectedActivities.join(","),
+        facilities: values.selectedFacilities.join(","),
+        description: values.description,
+        stripePublicKey: "",
+        stripeSecretKey: "",
+        gclAccessToken: "",
+        gclClientId: "",
+        gclWebHook: "",
+        gclClientSecret: "",
+
+        // stripePublicKey: values.stripePublishableKey ,
+        // stripeSecretKey: values.stripeSecretKey,
+        // gclAccessToken: values.cardAccessToken,
+        // gclClientId: values.cardClientId,
+        // gclWebHook: values.cardWebHook,
+        // gclClientSecret: values.cardClientSecret,
+
+        ...(schoolId && { schoolId }), // Add schoolId conditionally
+      };
+
+      const { data } = await axios.post(url, payload, {
+        headers: {
+          ...authorizationToken(loginData.data as loginDataTypes),
+        },
+      });
+      if (data.responseCode === "500") {
+        // toast(data.responseMessage, {
+        //   type: "error",
+        //   autoClose: 1000,
+        // });
+        setLoading(false);
+        return;
+      }
+      // toastId.current = toast(data.responseMessage, {
+      //   type: "success",
+      //   autoClose: 5000,
+      // });
+
+      setIsShowModal(true);
+      setTimeout(() => {
+        setLoading(false);
+        setIsShowModal(false);
+        navigate("/school/view");
+      }, 3000);
+
+      // navigate("/school/view");
+      console.log({ data });
+      //setIsUploadImgVisible(true);
+      // navigate("/school/view");
+    } catch (error: any) {
+      console.log({ error });
+      setLoading(false);
+      setError(error.response.data.responseMessage);
+      let id = setTimeout(() => {
+        setError("");
+      }, 3000);
+      if (!setIsShowModal) {
+        clearTimeout(id);
+      }
+      toastId.current = toast(error.response.data.errors, {
+        type: "error",
+        autoClose: 1000,
+      });
+    }
+  };
+
+  //to selete school
+
+  const deleteSchool = async (userId: number) => {
+    const url = "/school/delete";
+
+    try {
+      setError("");
+      setLoading(true);
+      const { data } = await axios.post(
+        url,
+        { schoolId: userId },
+        {
+          headers: {
+            ...authorizationToken(logindata!),
+          },
+        }
+      );
+      if (data.responseCode === "500") {
+        toast(data.responseMessage, {
+          type: "error",
+          autoClose: 1000,
+        });
+        setLoading(false);
+        return;
+      }
+      // toastId.current = toast(data.responseMessage, {
+      //   type: "success",
+      //   autoClose: 1000,
+      // });
+      setIsShowModal(true);
+      setTimeout(() => {
+        setLoading(false);
+        setIsShowModal(false);
+        navigate("/school");
+      }, 3000);
+      setData("results: " + data.results);
+      console.log("data", { data });
+      setLoading(false);
+      // navigate("/school");
+    } catch (error: any) {
+      console.log("api error", error);
+      setError(error.response.data.responseMessage);
+      setLoading(false);
+      console.log(error.response.data.responseMessage, "error in api data");
+    }
+  };
+
+  const deletemodal = () => {
+    return {
+      modalComponent: (
+        <CustomModal
+          isModalVisible={isShowModal}
+          setIsModalVisible={setIsShowModal}
+          showCloseBtn={false}
+        >
+          {" "}
+          <EnnvisionModal
+            doTask={() => {
+              navigate("/school/view");
+              setIsShowModal(false);
+            }}
+            title="Successfully Account Removed"
+            description="The student class has been successfully removed, and please note that any associated data will be retained for a period of 30 days before it is permanently deleted from our system."
+          />
+        </CustomModal>
+      ),
+    };
+  };
+
+  const Createmodal = () => {
+    return {
+      modalComponent: (
+        <CustomModal
+          isModalVisible={isShowModal}
+          setIsModalVisible={setIsShowModal}
+          showCloseBtn={false}
+        >
+          {" "}
+          <EnnvisionModal
+            doTask={() => {
+              navigate("/school/view");
+              setIsShowModal(false);
+            }}
+            title="Complete Profile Successfully!"
+            description="Congratulations! Your profile has been successfully completed, ensuring a seamless experience within the Marital"
+          />
+        </CustomModal>
+      ),
+    };
+  };
+
+  const UpdateModal = () => {
+    return {
+      modalComponent: (
+        <CustomModal
+          isModalVisible={isShowModal}
+          setIsModalVisible={setIsShowModal}
+          showCloseBtn={false}
+        >
+          {" "}
+          <EnnvisionModal
+            doTask={() => {
+              navigate("/school/view");
+              setIsShowModal(false);
+            }}
+            title="Update Profile Successfully!"
+            description="Congratulations! on updating your profile! Your changes have been successfully saved, enhancing your experience within the Marital platform."
+          />
+        </CustomModal>
+      ),
+    };
+  };
+
   return {
     loading,
     handleSubmit,
+    editSchool,
+    deleteSchool,
+    data,
     error,
     isUploadImgModalVisible,
     setIsUploadImgVisible,
+    deletemodal,
+    Createmodal,
+    UpdateModal,
   };
 };
 

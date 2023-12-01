@@ -4,7 +4,7 @@ export interface CreateBranchInitialValues {
   address: string;
   branchPhoneNumber: string;
   // belts: string | number;
-  ranks: string | number;
+  rank: string | number;
   defaultLanguage: string | number;
   defaultCurrency: string | number;
   description: string;

@@ -7,13 +7,17 @@ import {
   edit_branch_url,
 } from "../../../utils/api_urls";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
+import store, { RootState } from "../../../redux/store";
 import { useNavigate, useParams } from "react-router-dom";
 import { loginDataTypes } from "../../../redux/features/types";
 import { CreateBranchInitialValues } from "../constant";
-import { updateBranch } from "../../../redux/features/branch/branchSlice";
+import EnnvisionModal from "../../../components/CustomModals/EnnvisionModal";
+import CustomModal from "../../../components/Modal/CustomModal";
+
 const useBranch = () => {
   const [loading, setLoading] = useState(false);
+  const [isShowModal, setIsShowModal] = useState(false);
+
   const [error, setError] = useState("");
   const toastId = useRef<any>(null);
   const { branchId } = useParams();
@@ -33,7 +37,7 @@ const useBranch = () => {
       branchType: values.branchType,
       address: values.address,
       phoneNumber: values?.branchPhoneNumber || "",
-      // belts: values.belts == "1" ? true : false,
+      rank: values.rank == "1" ? true : false,
       activities: values.selectedActivities.join(","),
       facilities: values.selectedActivities.join(","),
       description: values.description,
@@ -54,7 +58,7 @@ const useBranch = () => {
     try {
       setError("");
       setLoading(true);
-      const { data } = await axios.post(endpoint, payload, {
+      const { data } = await axios.post(create_branch_url, payload, {
         headers: {
           ...authorizationToken(loginData.data as loginDataTypes),
         },
@@ -67,23 +71,30 @@ const useBranch = () => {
         setLoading(false);
         return;
       }
-      toastId.current = toast(data.responseMessage, {
-        type: "success",
-        autoClose: 1000,
-      });
-      setLoading(false);
+      setIsShowModal(true);
+      setTimeout(() => {
+        setLoading(false);
+        setIsShowModal(false);
+        navigate("/school/view");
+      }, 3000);
+      // toastId.current = toast(data.responseMessage, {
+      //   type: "success",
+      //   autoClose: 1000,
+      // });
+      //setLoading(false);
       console.log({ data });
-      dispatch(updateBranch(data.results));
-      navigate("/branch/list");
+      //setIsUploadImgVisible(true);
+      // navigate("/");
       resetForm();
     } catch (error: any) {
-      console.log({ error });
+      console.error("Error:", error.message);
+      //console.log({ error });
       setLoading(false);
-      setError(error.response.data.responseMessage);
+      //setError(error.response.data.responseMessage);
       setTimeout(() => {
         setError("");
       }, 2000);
-      toastId.current = toast(error.response.data.responseMessage, {
+      toastId.current = toast(error, {
         type: "error",
         autoClose: 1000,
       });
@@ -93,6 +104,23 @@ const useBranch = () => {
     loading,
     handleSubmit,
     error,
+    modalComponent: (
+      <CustomModal
+        isModalVisible={isShowModal}
+        setIsModalVisible={setIsShowModal}
+        showCloseBtn={false}
+      >
+        {" "}
+        <EnnvisionModal
+          doTask={() => {
+            navigate("/school/view");
+            setIsShowModal(false);
+          }}
+          title="Complete Profile Successfully!"
+          description="Congratulations! Your profile has been successfully completed, ensuring a seamless experience within the Marital"
+        />
+      </CustomModal>
+    ),
   };
 };
 

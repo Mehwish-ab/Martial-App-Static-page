@@ -34,7 +34,7 @@ const EditBranch = () => {
   const { getLabelByKey } = useScreenTranslation("branchCreate");
   const {
     statusData: { activities, facilities },
-    dropdowns:  { currency, language, businessTypes }
+    dropdowns: { currency, language, businessTypes },
   } = useSelector((state: RootState) => state.appData.data);
 
   const { loading, handleSubmit } = useBranch();
@@ -73,7 +73,7 @@ const EditBranch = () => {
     // belts: branchToEdit.belts ? 1 : 2,
     defaultLanguage: branchToEdit.defaultLanguageId,
     defaultCurrency: branchToEdit.defaultCurrencyId,
-    ranks: branchToEdit.ranks ? 1 : 2,
+    rank: branchToEdit.ranks ? 1 : 2,
     description: branchToEdit.description,
     stripePublishableKey: branchToEdit.stripePublicKey,
     stripeSecretKey: branchToEdit.stripeSecretKey,
@@ -309,7 +309,7 @@ const EditBranch = () => {
                       padding="10px"
                       placeholder={getLabelByKey("belts")}
                       className={
-                        formik.errors.ranks && formik.touched.ranks
+                        formik.errors.rank && formik.touched.rank
                           ? "is-invalid"
                           : "customInput"
                       }

@@ -195,17 +195,17 @@ const BranchInformation: React.FC = () => {
               </div>
             </div>
           </Col>
-          <Col md="12">
+          <Col md="4">
+            <div className="list-item">
+              <div className="list-item-title">Address</div>
+              <div className="list-item-value">
+                {branch.address || "--"}
+              </div>
+            </div>
+          </Col>
+          <Col md="8">
             <Row>
-              <Col md="3">
-                <div className="list-item">
-                  <div className="list-item-title">Address</div>
-                  <div className="list-item-value">
-                    {branch.address || "--"}
-                  </div>
-                </div>
-              </Col>
-              <Col md="3">
+              <Col md="4">
                 <div className="list-item">
                   <div className="list-item-title">Belts</div>
                   <div className="list-item-value">
@@ -213,7 +213,7 @@ const BranchInformation: React.FC = () => {
                   </div>
                 </div>
               </Col>
-              <Col md="3">
+              <Col md="4">
                 <div className="list-item">
                   <div className="list-item-title">
                     Default Language
@@ -227,7 +227,7 @@ const BranchInformation: React.FC = () => {
                   </div>
                 </div>
               </Col>
-              <Col md="3">
+              <Col md="4">
                 <div className="list-item">
                   <div className="list-item-title">
                     Default Currency

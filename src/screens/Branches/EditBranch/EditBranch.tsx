@@ -211,7 +211,6 @@ const EditBranch = () => {
                       }
                     />
                   </Col>
-
                   <Col md="4" className="mt-20">
                     <CustomPhoneInput
                       label={getLabelByKey("branchPhoneNumber")}
@@ -241,6 +240,7 @@ const EditBranch = () => {
                       )}
                     </ErrorMessage>
                   </Col>
+
                   <Col md="4" className="mt-20">
                     <PlacesAutoCompleteInput
                       label={getLabelByKey("address")}
@@ -258,60 +258,65 @@ const EditBranch = () => {
                       value={formik.values.address}
                     />
                   </Col>
-                  <Col md="4" className="mt-20">
-                    <FormControl
-                      control="select"
-                      type="text"
-                      name="defaultLanguage"
-                      fontFamily={fontFamilyRegular}
-                      // prefix={<img src={lock_icon} alt="lock_icon" />}
-                      label={getLabelByKey("defaultLanguage")}
-                      placeholder={getLabelByKey("defaultLanguage")}
-                      className={
-                        formik.errors.defaultLanguage &&
-                          formik.touched.defaultLanguage
-                          ? "is-invalid"
-                          : "customInput"
-                      }
-                      options={createOptions(language)}
-                    />
+                  <Col md="8">
+                    <Row>
+                      <Col md="4" className="mt-20">
+                        <FormControl
+                          control="select"
+                          type="text"
+                          name="ranks"
+                          fontFamily={fontFamilyRegular}
+                          // prefix={<img src={lock_icon} alt="lock_icon" />}
+                          label={getLabelByKey("belts")}
+                          placeholder={getLabelByKey("belts")}
+                          className={
+                            formik.errors.rank && formik.touched.rank
+                              ? "is-invalid"
+                              : "customInput"
+                          }
+                          options={BELTS_SELECT_OPTIONS}
+                        />
+                      </Col>
+                      <Col md="4" className="mt-20">
+                        <FormControl
+                          control="select"
+                          type="text"
+                          name="defaultLanguage"
+                          fontFamily={fontFamilyRegular}
+                          // prefix={<img src={lock_icon} alt="lock_icon" />}
+                          label={getLabelByKey("defaultLanguage")}
+                          placeholder={getLabelByKey("defaultLanguage")}
+                          className={
+                            formik.errors.defaultLanguage &&
+                              formik.touched.defaultLanguage
+                              ? "is-invalid"
+                              : "customInput"
+                          }
+                          options={createOptions(language)}
+                        />
+                      </Col>
+                      <Col md="4" className="mt-20">
+                        <FormControl
+                          control="select"
+                          type="text"
+                          name="defaultCurrency"
+                          fontFamily={fontFamilyRegular}
+                          // prefix={<img src={lock_icon} alt="lock_icon" />}
+                          label={getLabelByKey("defaultCurrency")}
+                          placeholder={getLabelByKey("defaultCurrency")}
+                          className={
+                            formik.errors.defaultCurrency &&
+                              formik.touched.defaultCurrency
+                              ? "is-invalid"
+                              : "customInput"
+                          }
+                          options={createOptions(currency)}
+                        />
+                      </Col>
+                    </Row>
                   </Col>
-                  <Col md="4" className="mt-20">
-                    <FormControl
-                      control="select"
-                      type="text"
-                      name="defaultCurrency"
-                      fontFamily={fontFamilyRegular}
-                      // prefix={<img src={lock_icon} alt="lock_icon" />}
-                      label={getLabelByKey("defaultCurrency")}
-                      placeholder={getLabelByKey("defaultCurrency")}
-                      className={
-                        formik.errors.defaultCurrency &&
-                          formik.touched.defaultCurrency
-                          ? "is-invalid"
-                          : "customInput"
-                      }
-                      options={createOptions(currency)}
-                    />
-                  </Col>
-                  <Col md="4" className="mt-20">
-                    <FormControl
-                      control="select"
-                      type="text"
-                      name="ranks"
-                      fontFamily={fontFamilyRegular}
-                      // prefix={<img src={lock_icon} alt="lock_icon" />}
-                      label={getLabelByKey("belts")}
-                      placeholder={getLabelByKey("belts")}
-                      className={
-                        formik.errors.rank && formik.touched.rank
-                          ? "is-invalid"
-                          : "customInput"
-                      }
-                      options={BELTS_SELECT_OPTIONS}
-                    />
-                  </Col>
-                  <Col md="4">
+
+                  <Col md="6">
                     <CheckboxesSelect
                       name="selectedActivities"
                       label="Activity"
@@ -320,7 +325,7 @@ const EditBranch = () => {
                     />
                   </Col>
 
-                  <Col md="4">
+                  <Col md="6">
                     <CheckboxesSelect
                       name="selectedFacilities"
                       label="Facility"

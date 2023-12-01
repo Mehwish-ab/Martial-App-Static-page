@@ -111,45 +111,49 @@ const ViewSchool = () => {
               </div>
             </div>
           </Col>
+          <Col md="8">
+            <Row>
+              <Col md="4">
+                <div className="list-item">
+                  <div className="list-item-title">{getLabelByKey("belts")}</div>
+                  <div className="list-item-value">
+                    {schoolData.rank
+                      ? "Yes"
+                      : schoolData.rank === false
+                        ? "No"
+                        : "--"}
+                  </div>
+                </div>
+              </Col>
+              <Col md="4">
+                <div className="list-item">
+                  <div className="list-item-title">
+                    {getLabelByKey("defaultLanguage")}
+                  </div>
 
-          <Col md="4">
-            <div className="list-item">
-              <div className="list-item-title">{getLabelByKey("belts")}</div>
-              <div className="list-item-value">
-                {schoolData.rank
-                  ? "Yes"
-                  : schoolData.rank === false
-                  ? "No"
-                  : "--"}
-              </div>
-            </div>
+                  <div className="list-item-value">
+                    {(defaultLanguage &&
+                      (defaultLanguage as any)[selectedLanguage]) ||
+                      "--"}
+                  </div>
+                </div>
+              </Col>
+              <Col md="4">
+                <div className="list-item">
+                  <div className="list-item-title">
+                    {getLabelByKey("defaultCurrency")}
+                  </div>
+                  <div className="list-item-value">
+                    {(defaultLanguage &&
+                      (defaultCurrency as any)[selectedLanguage]) ||
+                      "--"}
+                  </div>
+                </div>
+              </Col>
+            </Row>
           </Col>
-          <Col md="4">
-            <div className="list-item">
-              <div className="list-item-title">
-                {getLabelByKey("defaultLanguage")}
-              </div>
 
-              <div className="list-item-value">
-                {(defaultLanguage &&
-                  (defaultLanguage as any)[selectedLanguage]) ||
-                  "--"}
-              </div>
-            </div>
-          </Col>
-          <Col md="4">
-            <div className="list-item">
-              <div className="list-item-title">
-                {getLabelByKey("defaultCurrency")}
-              </div>
-              <div className="list-item-value">
-                {(defaultLanguage &&
-                  (defaultCurrency as any)[selectedLanguage]) ||
-                  "--"}
-              </div>
-            </div>
-          </Col>
-          <Col md="4">
+          <Col md="6">
             <div className="list-item">
               <div className="list-item-title">{getLabelByKey("activity")}</div>
               <div className="list-item-value">
@@ -157,7 +161,7 @@ const ViewSchool = () => {
               </div>
             </div>
           </Col>
-          <Col md="4">
+          <Col md="6">
             <div className="list-item">
               <div className="list-item-title">
                 {getLabelByKey("facilities")}

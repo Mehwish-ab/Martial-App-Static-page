@@ -1,9 +1,7 @@
 import styled from "styled-components";
 import {
-  basicColor,
   fontFamilyMedium,
   lightDark3,
-  primaryColor,
   pureDark,
   pureDark2,
   tertiaryGrey12,
@@ -14,7 +12,7 @@ import {
   lightDark2,
   mainColor,
   darkBlue,
-  fontFamilyBold,
+  fontFamilyRegular,
 } from "../../components/GlobalStyle";
 
 export const LoginStyle = styled.div`
@@ -30,7 +28,6 @@ export const LoginStyle = styled.div`
   }
 
   .login-container {
-    
     &-card {
       max-width: 485px;
       display: flex;
@@ -42,23 +39,9 @@ export const LoginStyle = styled.div`
       margin: auto;
       padding: 20px 12px;
       background-color: ${whiteColor};
-      &-inner{
-          width: 96%;
-        }
-      &-form {
-        width: 100%;
-        
-        .login-input-fields {
-          label {
-            line-height: 19px;
-          }
-         
-        }
-      }
-      .title {
+      .title{
         color: ${pureDark2};
         font-size: 22px;
-        font-weight: 500;
         font-family: ${fontFamilyMedium};
         line-height: 26px;
       }
@@ -70,6 +53,29 @@ export const LoginStyle = styled.div`
         font-size: 16px;
         line-height: 19px;
       }
+      &-inner{
+          width: 96%;
+        }
+      &-form {
+        width: 100%;
+        .login-input-fields {
+           > div:first-child label{
+            line-height: 19px;
+            margin-bottom: 10px;
+            font-family: ${fontFamilyMedium};
+            font-size: 16px;
+            color: ${pureDark2};
+          }
+          > div:nth-child(2) label{
+            line-height: 19px;
+            margin-bottom: 10px;
+            font-family: ${fontFamilyMedium};
+            font-size: 16px;
+            color: ${pureDark2};
+          }
+      }
+
+  
       .login-text {
         font-size: 16px;
         color: ${lightDark3};
@@ -105,7 +111,6 @@ export const LoginStyle = styled.div`
       color: ${darkBlue};
       font-size: 14px;
       font-style: normal;
-      font-weight: 500;
       line-height: normal;
       font-family: ${fontFamilyMedium};
 
@@ -167,13 +172,14 @@ export const LoginStyle = styled.div`
     width: 100%;
     padding: 13px 21px !important;
     width: -moz-available;
+    font-family: ${fontFamilyRegular};
     outline: none;    
   }
   .customInput::placeholder {
     font-size: 16px;
     font-style: normal;
-    font-weight: 400;
     line-height: normal;
+    font-family: ${fontFamilyRegular};
     color: ${lightDark2};
   }
 

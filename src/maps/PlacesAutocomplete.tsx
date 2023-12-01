@@ -33,7 +33,6 @@ const PlacesAutoCompleteInput: React.FC<placesAutoCompleteInputProps> = ({
   suffix,
   value,
 }) => {
-  console.log(formik);
   return (
     <PlacesAutocompleteStyle>
       {showLabel && <label htmlFor="places-suggestion">{label}</label>}

@@ -13,7 +13,7 @@ const CheckboxesSelect = ({
 }: CheckboxesListProps) => {
   return (
     <CheckboxesSelectStyled>
-      <label htmlFor="" style={{ marginBottom: 10, display: "block" }}>
+      <label htmlFor="" className="title" >
         {label}
       </label>
       <Dropdown
@@ -31,7 +31,7 @@ const CheckboxesSelect = ({
       >
         <CheckboxSelectTriggerStyled>
           <label htmlFor="">{label}</label>
-          <img src={dropDownArrow} alt="" />
+          <img src={dropDownArrow} alt="" height={7} width={12} />
         </CheckboxSelectTriggerStyled>
       </Dropdown>
       <ErrorMessage name={name} component={Errormsg} />

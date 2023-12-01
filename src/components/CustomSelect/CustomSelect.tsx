@@ -3,20 +3,21 @@ import ErrorMsg from "../ErrorMessage";
 import { Select } from "antd";
 import CustomSelectStyle from "./style";
 import dropDownArrow from "../../assets/icons/ic_add_property_dropdown.svg";
+import { fontFamilyRegular, tertiaryGrey24 } from "../GlobalStyle";
 const CustomSelect = (props: any) => {
   const {
     name,
     placeholder,
     onSelect,
-    padding = "3px",
+    padding = "8px 10px",
     defaultValue,
     label,
     options,
     bgColor,
-    border = "1px solid #d9d9d9",
-    fontFamily = "EnnVisions",
-    labelFamily = "EnnVisionsMedium",
-    labelMarginBottom = "10px",
+    border = `1px solid ${tertiaryGrey24}`,
+    fontFamily = `${fontFamilyRegular}`,
+    labelFamily = `${fontFamilyRegular}`,
+    labelMarginBottom = "7px",
     labelFont = "16px",
     fontSize = "16px",
     onChange,
@@ -48,9 +49,8 @@ const CustomSelect = (props: any) => {
                 id={name}
                 suffixIcon={
                   <img
-                    style={{
-                      height: "6px",
-                    }}
+                    height={7}
+                    width={12}
                     src={dropDownArrow}
                     alt="arrow"
                   />

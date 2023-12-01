@@ -87,7 +87,7 @@ const Login = () => {
       dispatch(setLoginData(results));
       toast(
         <MessageModal
-          message="Login Successfully"
+          message="Successful"
           description="You are successfully logged in to your account."
           type="success"
         />,
@@ -97,7 +97,7 @@ const Login = () => {
       );
       setloading(false);
       if (results.schoolId) store.dispatch(getSchoolByUserId());
-      navigate("/school/create");
+      navigate("/");
     } catch (error: any) {
       setloading(false);
       if (error.code) {
@@ -116,6 +116,8 @@ const Login = () => {
       });
     }
   };
+
+
 
   return (
     <>
@@ -181,9 +183,6 @@ const Login = () => {
                               // )}
                               placeholder="Enter Passcode"
                               suffix={show_password_icon}
-                              // prefix={
-                              //   <img src={password_icon} alt="password_icon" />
-                              // }
                               className={
                                 formik.errors.password &&
                                   formik.touched.password
@@ -195,7 +194,7 @@ const Login = () => {
                             />
                           </div>
                           <div className="d-flex justify-content-between align-items-center mt-20">
-                            <div className="d-flex align-items-center gap-2">
+                            <div className="d-flex align-items-center gap-2 checkBoxstyling">
                               <FormControl
                                 control="checkbox"
                                 type="checkbox"
@@ -268,7 +267,7 @@ const Login = () => {
                 >
                   <Link to="/register" className="underline">
                     {/* {getLabelByKey(SCREEN_LABEL_KEYS.registerAccount)} */}
-                    register.
+                    Register.
                   </Link>
                 </h6>
               </div>

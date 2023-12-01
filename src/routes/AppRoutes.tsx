@@ -22,6 +22,7 @@ import AppLayout from "../components/Layout/Layout";
 import { lazy, useEffect } from "react";
 import { local_storage_admin_key } from "../utils/axios.utils";
 import EditSchool from "../screens/CreateSchool/EditSchool/EditSchool";
+
 import CreateBranch from "../screens/Branches/CreateBranch/CreateBranch";
 import EditBranch from "../screens/Branches/EditBranch/EditBranch";
 import ListBranch from "../screens/Branches/ListBranch/ListBranch";
@@ -43,6 +44,15 @@ import ListMembership from "../screens/Membership/ListMembership/ListMembership"
 import ListClass from "../screens/Class/ListClasses/ListClasses";
 import CreateClass from "../screens/Class/CreateClasses/CreateClass";
 import UpdateClass from "../screens/Class/UpdateClass/UpdateClass";
+import BranchInformation from "../screens/Branches/BranchInformation/BranchInformation";
+import { AddPaymentMethod } from "../screens/CreateSchool/AddPaymentSchool/styles";
+import AddPaymentSchool from "../screens/CreateSchool/AddPaymentSchool/AddPaymentSchool";
+import AddPaymentFranchise from "../screens/Franchise/AddPaymentFranchise/AddPaymentFranchise";
+import ViewInstructor from "../screens/Instructor/ViewInstructor/ViewInstructor";
+import EditInstructor from "../screens/Instructor/EditInstructor/EditInstructor";
+import AddPaymentInstructor from "../screens/Instructor/AddPaymentInstructor/AddPaymentInstructor";
+import SchoolFranchise from "../screens/Franchise/SchoolFranchise/SchoolFranchise";
+import AddPaymentBranch from "../screens/Branches/AddPaymentBranch/AddPaymentBranch";
 
 function AppRoutes() {
   const dispatch = useDispatch();
@@ -114,10 +124,27 @@ function AppRoutes() {
           }
         />
         <Route
+          path="/school/add-payment-information/:schoolId"
+          element={
+            <AppLayout>
+              <AddPaymentSchool />
+            </AppLayout>
+          }
+        />
+
+        <Route
           path="/branch/list"
           element={
             <AppLayout>
               <ListBranch />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/branch/information"
+          element={
+            <AppLayout>
+              <BranchInformation />
             </AppLayout>
           }
         />
@@ -142,10 +169,21 @@ function AppRoutes() {
           path="/branch/view/:branchId"
           element={
             <AppLayout>
-              <ViewBranch />
+              {/* <ViewBranch /> */}
+              <BranchInformation />
             </AppLayout>
           }
         />
+
+        <Route
+          path="/branch/add-payment-information/:branchId"
+          element={
+            <AppLayout>
+              <AddPaymentBranch />
+            </AppLayout>
+          }
+        />
+
         <Route
           path="/franchise/list"
           element={
@@ -191,6 +229,23 @@ function AppRoutes() {
         />
 
         <Route
+          path="/franchise/add-payment-information/:franchiseId"
+          element={
+            <AppLayout>
+              <AddPaymentFranchise />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/franchise/school-franchise"
+          element={
+            <AppLayout>
+              <SchoolFranchise />
+            </AppLayout>
+          }
+        />
+
+        <Route
           path="/instructor/list"
           element={
             <AppLayout>
@@ -218,10 +273,36 @@ function AppRoutes() {
         />
 
         <Route
+          path="/instructor/edit/:instructorId"
+          element={
+            <AppLayout>
+              <EditInstructor />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/instructor/view/:instructorId"
+          element={
+            <AppLayout>
+              <ViewInstructor />
+            </AppLayout>
+          }
+        />
+
+        <Route
           path="/instructor"
           element={
             <AppLayout>
               <InformationInstructor />
+            </AppLayout>
+          }
+        />
+
+        <Route
+          path="/instructor/add-payment-information"
+          element={
+            <AppLayout>
+              <AddPaymentInstructor />
             </AppLayout>
           }
         />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Dropdown, Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { ListInstructorStyled } from "./styles";
@@ -126,11 +126,11 @@ const ListInstructor: React.FC = () => {
             label: "Edit",
             onClick: () => navigation(record, "edit"),
           },
-          {
-            key: "3",
-            label: "Subscribe",
-            onClick: () => navigation(record, "subscribe"),
-          },
+          // {
+          //   key: "3",
+          //   label: "Subscribe",
+          //   onClick: () => navigation(record, "subscribe"),
+          // },
         ];
         return (
           <Space size="middle">
@@ -254,16 +254,24 @@ const ListInstructor: React.FC = () => {
         });
         break;
 
-      case "subscribe":
-        navigate(`/instructor/subscribe/${record.instructorId}`, {
-          state: {
-            branch: record as InstructorDataType,
-          },
-        });
+      // case "subscribe":
+      //   navigate(`/instructor/subscribe/${record.instructorId}`, {
+      //     state: {
+      //       branch: record as InstructorDataType,
+      //     },
+      //   });
     }
   };
 
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [current, setCurrent] = useState(1);
 
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const rowSelection = { selectedRowKeys, onChange: onSelectChange};
 
 
   return (
@@ -274,6 +282,15 @@ const ListInstructor: React.FC = () => {
           columns={columns}
           dataSource={DummyData as unknown as InstructorDataType[]}
           title={() => <RenderTableTitle />}
+          pagination={{
+            showTotal: (total, range) => (
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: `Page <span className='paginationVal'>${range[0]}</span> of ${range[1]}`,
+                }}
+              />
+            ),
+          }}
         />
       </ListInstructorStyled>
 

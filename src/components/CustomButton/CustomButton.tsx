@@ -31,7 +31,7 @@ const CustomButton = ({
   disabled,
   width,
   color,
-  padding,
+  padding = "0px",
   clicked,
   form,
   key,
@@ -42,7 +42,7 @@ const CustomButton = ({
   border = "none",
   loading = false,
   textTransform = "uppercase",
-  borderRadius = "8px",
+  borderRadius = "10px",
 }: ButtonProps) => {
   return (
     <CustormButtonStyle

@@ -121,6 +121,8 @@ export const tertiaryGrey23 = "#FBF9F9";
 export const tertiaryGrey24 = "#E0E0E0";
 
 export const lightColor1 = "#F5F5F5";
+export const linearGradientBtns = 'linear-gradient(270.24deg, #C0E9F9 0.21%, #A2DDF3 97.73%)';
+
 
 export const secondaryBlue = "#0A84FF";
 export const darkBlue = "#006197";
@@ -131,6 +133,13 @@ export const darkGery = "#333333";
 export const tertiaryGrewish = "#C6C6C8";
 
 export const maastrichtBlue = "#0F1E3C";
+export const Diamond = "#C0E9F9";
+export const Apple = "#4caf50";
+export const ColumbiaBlue = "#DFC1C1";
+export const GrayX11 = "#BDBDBD";
+export const AlizarinCrimson = "#E51D35";
+export const AntiFlashWhite = "#F1F1F1";
+export const BallBlue = "#2EABD8";
 
 export const FlexContainer = styled.div`
   display: flex;
@@ -152,8 +161,8 @@ export const ButtonContainer = styled.div`
 
 export const ErrorText = styled.p`
   font-family: ${fontFamilyMedium};
-  margin-top: 10px;
   color: ${primaryRed};
+  text-align: right;
 `;
 
 export const PrimaryHeading2 = styled.h3`
@@ -181,10 +190,10 @@ export const TertiaryHeading = styled.h3`
 `;
 export const InputErrorMessage = styled.div`
   color: red;
-  text-align: start;
-  margin-left: 3px;
+  text-align: right;
   font-size: 12px;
   letter-spacing: 1px;
+  font-family: "EnnVisions"
 `;
 
 export const SecondaryHeading = styled.h5`

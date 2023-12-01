@@ -16,15 +16,15 @@ import useSchool from "../../../hooks/useCreateSchool";
 
 import {
   lightBlue3,
-  pureDark,
+  pureDark2,
   fontFamilyMedium,
 } from "../../../components/GlobalStyle";
 
 const ViewSchool = () => {
+  const navigate = useNavigate();
   const { getLabelByKey } = useScreenTranslation("schoolCreate");
   const { deleteSchool, deletemodal, loading } = useSchool();
 
-  const navigate = useNavigate();
   const { schoolData } = useSelector((state: RootState) => state.dashboardData);
   const { language, currency } = useSelector(
     (state: RootState) => state.appData.data.dropdowns
@@ -45,9 +45,6 @@ const ViewSchool = () => {
   };
 
   const handleDeleteClick = async () => {
-    console.log("handleDeleteClick");
-    //setIsConfirmationVisible(true);
-
     if (schoolData.schoolId > 0) await deleteSchool(schoolData.schoolId);
     else navigate("/school/create");
   };
@@ -70,7 +67,7 @@ const ViewSchool = () => {
       <OverlayImages
         backgroundImg={schoolData.bannerPicture || ""}
         overlayImg={schoolData.profilePicture || ""}
-        isEditable={false}
+        isEditable={true}
       />
       <h3>School Information</h3>
 
@@ -171,7 +168,7 @@ const ViewSchool = () => {
             </div>
           </Col>
           <Col md="12">
-            <div className="list-item">
+            <div className="list-item mb-0">
               <div className="list-item-title">
                 {getLabelByKey("description")}
               </div>
@@ -182,13 +179,13 @@ const ViewSchool = () => {
           </Col>
         </Row>
       </Card>
-      <div className="mt-20 d-flex justify-content-end my-4">
-        <div style={{ marginRight: "10px" }}>
+      <div className="mt-20 mb-3 d-flex justify-content-end gap-3">
+        <div>
           <CustomButton
             bgcolor={lightBlue3}
             textTransform="Capitalize"
-            color={pureDark}
-            padding="15px 102px"
+            color={pureDark2}
+            padding="11px 40.50px"
             fontFamily={`${fontFamilyMedium}`}
             width="fit-content"
             type="submit"
@@ -198,12 +195,12 @@ const ViewSchool = () => {
             clicked={handleDeleteClick}
           />
         </div>
-        <div style={{ marginLeft: "10px" }}>
+        <div>
           <CustomButton
             bgcolor={lightBlue3}
             textTransform="Capitalize"
-            color={pureDark}
-            padding="15px 102px"
+            color={pureDark2}
+            padding="11px 40.50px"
             fontFamily={`${fontFamilyMedium}`}
             width="fit-content"
             type="submit"

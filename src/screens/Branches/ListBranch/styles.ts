@@ -1,10 +1,15 @@
 import styled from "styled-components";
 import {
+  AntiFlashWhite,
+  BallBlue,
   darkBlue,
   darkGery,
   fontFamilyBold,
   fontFamilyMedium,
+  fontFamilyRegular,
   mainColor,
+  pureDark2,
+  whiteColor,
 } from "../../../components/GlobalStyle";
 
 export const ListBranchStyled = styled.div`
@@ -13,17 +18,19 @@ export const ListBranchStyled = styled.div`
   border-radius: 20px;
 
   .table-heading {
-    font-size: 23px !important;
-    font-family: ${fontFamilyBold} !important;
-    color: ${darkBlue};
+    font-size: 18px !important;
+    font-family: ${fontFamilyMedium};
+    color: ${pureDark2};
+    font-weight: 500;
   }
   .ant-table-thead > tr > th {
     background: transparent !important;
-    border-bottom: none !important;
-    color: ${darkBlue};
+    border-bottom: none;
+    color: ${pureDark2};
+    font-weight: 500;
+    padding: 4px;
     font-family: ${fontFamilyMedium};
-    font-size: 16px !important;
-
+    font-size: 16px;
     &::before {
       display: none !important;
     }
@@ -31,25 +38,16 @@ export const ListBranchStyled = styled.div`
 
   .ant-table-tbody > tr > .ant-table-cell,
   .ant-table-tbody > tr > .ant-table-cell a {
-    font-family: ${fontFamilyMedium};
-    font-size: 14px !important;
+    font-family: ${fontFamilyRegular};
+    font-size: 14px;
     color: ${darkGery}!important;
+    padding: 4px;
+    font-weight: 400;
+    p {
+      margin-bottom: 0px;
+    }
   }
 
-  .ant-table-tbody > tr > .ant-table-cell,
-  .ant-table-tbody > tr > .ant-table-cell a {
-    font-family: ${fontFamilyMedium};
-    font-size: 14px !important;
-    color: ${darkGery}!important;
-  }
-  .ant-table-thead > tr > th{
-    color: ${darkGery};
-  }
-  .ant-table-thead > tr > td{
-    color: ${darkGery};
-    font-size: 14px !important;
-    line-height: 23px;
-  }
   .ant-table-thead > tr > th:first-child, 
   .ant-table-tbody > tr > td:first-child{
     width: 3%;
@@ -100,7 +98,6 @@ export const ListBranchStyled = styled.div`
     line-height: normal;
     margin-bottom: 0 !important;
     position: relative;
-    top: 5px;
   }
   .ant-table-tbody > tr > td:nth-child(7) div{
     position: relative;
@@ -126,19 +123,94 @@ export const ListBranchStyled = styled.div`
     right: 6%;
     top: -5px;
   }
-  .ant-table-tbody > tr:nth-child(odd) td{
+  .ant-table-tbody > tr:nth-child(even) td{
     background-color: #FAFAFA;
   }
-  .ant-table-tbody > tr:nth-child(even) td{
+  .ant-table-tbody > tr:nth-child(odd) td{
     background-color: #fff;
-  }
-
-
-  .table-heading{
-    color: ${darkGery};
   }
   .ant-dropdown-trigger{
     text-align: center;
   }
 
+  // pagination
+  .ant-pagination{
+    margin-top: 45px;
+  }
+  .ant-pagination li:first-child{
+    position: absolute;
+    left: 0;
+  }
+  .ant-pagination .ant-pagination-options{
+    display: none !important;
+    opacity: 0;
+    visibility: hidden;
+    visibility: hidden;
+    z-index: -1;
+  }
+  .ant-pagination-prev .ant-pagination-item-link span, .ant-pagination-next .ant-pagination-item-link span{
+    position: relative;
+  }
+  .ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link  {
+    border: none
+  }
+  .ant-pagination-prev .ant-pagination-item-link span:before{
+    content: 'prev';
+    font-family: ${fontFamilyMedium};
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    display: block;
+  }
+  .ant-pagination-next .ant-pagination-item-link span:before{
+    content: 'next';
+    font-family: ${fontFamilyMedium};
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    display: block;
+  }
+  .ant-pagination-prev  .ant-pagination-item-link span svg, .ant-pagination-next  .ant-pagination-item-link span svg{ 
+    display: none;
+  }
+  .ant-pagination-item {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px;
+    border: 1px solid ${AntiFlashWhite};
+  }
+  .ant-pagination-item a {
+    border-radius: 8px;
+    background: ${whiteColor};
+    padding: 7px 12px;
+    line-height: normal;
+  }
+  .ant-pagination-item-active a{
+    border-radius: 8px;
+    background: ${BallBlue};
+    color: ${whiteColor};
+    padding: 7px 12px;
+    line-height: normal;
+  }
+  .ant-pagination-total-text{
+    color: #333;
+    font-family: ${fontFamilyMedium};
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    display: inline-block;
+    > span > span{
+      width: 47px;
+      padding: 7px 31px 8px 9px;
+      border-radius: 8px;
+      border: 1px solid #F1F1F1;
+      display: inline-block;
+      margin: 0px 5px;
+    }
+  }
 `;
+
+

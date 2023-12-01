@@ -14,6 +14,7 @@ import { loginDataTypes } from "../redux/features/types";
 import EnnvisionModal from "../components/CustomModals/EnnvisionModal";
 import CustomModal from "../components/Modal/CustomModal";
 import { useAppSelector } from "../app/hooks";
+
 const useCreateSchool = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -29,20 +30,20 @@ const useCreateSchool = () => {
   const { loginData } = useSelector((state: RootState) => state);
 
   // to create School
-  const handleSubmit = async (
+  const handleCreateSubmit = async (
     values: CreateSchoolInitialValues,
     { resetForm }: any
   ) => {
+    console.log(">> im in handleSubmit");
     const userDetails = loginData.data?.userDetails;
-    const jwtDetails = loginData.data?.jwtDetails;
 
     const payload = {
       userId: userDetails?.id || "",
-      businessName: values.businessName,
+      businessName: values.businessName || "",
       businessType: values.businessType,
-      address: values.address,
+      address: values.address || "",
       phoneNumber: values?.businessPhoneNumber || "",
-      rank: values.belts === 1 ? true : false,
+      rank: values.rank ? true : false,
       defaultLanguageId: values.defaultLanguage,
       defaultCurrencyId: values.defaultCurrency,
       activities: values.selectedActivities.join(","),
@@ -54,12 +55,6 @@ const useCreateSchool = () => {
       gclClientId: "",
       gclWebHook: "",
       gclClientSecret: "",
-      // stripePublicKey: values.stripePublishableKey ,
-      // stripeSecretKey: values.stripeSecretKey,
-      // gclAccessToken: values.cardAccessToken,
-      // gclClientId: values.cardClientId,
-      // gclWebHook: values.cardWebHook,
-      // gclClientSecret: values.cardClientSecret,
 
       ...(schoolId && { schoolId }), // Add schoolId conditionally
     };
@@ -92,12 +87,12 @@ const useCreateSchool = () => {
       //   autoClose: 1000,
       // });
       //setLoading(false);
-      console.log({ data });
+      console.log("data", { data });
       //setIsUploadImgVisible(true);
       // navigate("/");
       resetForm();
     } catch (error: any) {
-      console.log({ error });
+      console.log("error", { error });
       setLoading(false);
       setError(error.response.data.responseMessage);
       setTimeout(() => {
@@ -128,7 +123,7 @@ const useCreateSchool = () => {
         businessType: values.businessType,
         address: values.address,
         phoneNumber: values?.businessPhoneNumber || "",
-        rank: values.belts === 1 ? true : false,
+        rank: values.rank ? true : false,
         defaultLanguageId: values.defaultLanguage,
         defaultCurrencyId: values.defaultCurrency,
         activities: values.selectedActivities.join(","),
@@ -141,13 +136,6 @@ const useCreateSchool = () => {
         gclWebHook: "",
         gclClientSecret: "",
 
-        // stripePublicKey: values.stripePublishableKey ,
-        // stripeSecretKey: values.stripeSecretKey,
-        // gclAccessToken: values.cardAccessToken,
-        // gclClientId: values.cardClientId,
-        // gclWebHook: values.cardWebHook,
-        // gclClientSecret: values.cardClientSecret,
-
         ...(schoolId && { schoolId }), // Add schoolId conditionally
       };
 
@@ -157,17 +145,9 @@ const useCreateSchool = () => {
         },
       });
       if (data.responseCode === "500") {
-        // toast(data.responseMessage, {
-        //   type: "error",
-        //   autoClose: 1000,
-        // });
         setLoading(false);
         return;
       }
-      // toastId.current = toast(data.responseMessage, {
-      //   type: "success",
-      //   autoClose: 5000,
-      // });
 
       setIsShowModal(true);
       setTimeout(() => {
@@ -197,10 +177,10 @@ const useCreateSchool = () => {
     }
   };
 
-  //to selete school
-
+  //to delete school
   const deleteSchool = async (userId: number) => {
     const url = "/school/delete";
+    console.log(">> im in deleteSchool button");
 
     try {
       setError("");
@@ -312,7 +292,7 @@ const useCreateSchool = () => {
 
   return {
     loading,
-    handleSubmit,
+    handleCreateSubmit,
     editSchool,
     deleteSchool,
     data,

@@ -102,10 +102,12 @@ const EditSchool = () => {
     businessType: schoolData.businessType.toString(),
     address: schoolData.address,
     businessPhoneNumber: schoolData.phoneNumber,
-    belts: schoolData.rank ? 1 : 2, // 1 for yes, 2 for no
     defaultLanguage: schoolData.defaultLanguageId,
     defaultCurrency: schoolData.defaultCurrencyId,
     description: schoolData.description,
+    rank: true,
+    defaultCurrencyId: 1,
+    defaultLanguageId: 1,
     // stripePublishableKey: schoolData.stripePublicKey,
     // stripeSecretKey: schoolData.stripeSecretKey,
     // cardAccessToken: schoolData.gclAccessToken,
@@ -138,9 +140,8 @@ const EditSchool = () => {
               onFinish={formik.handleSubmit}
               autoComplete="off"
             >
-              <div className="bg-white form">
-                <h3>School Information</h3>
-
+              <h3 className="mt-20 ps-3">School Information</h3>
+              <div className="bg-white form mt-10">
                 <Row>
                   <Col md="4" className="mt-20">
                     <FormControl
@@ -149,7 +150,7 @@ const EditSchool = () => {
                       name="businessName"
                       label={getLabelByKey("businessName")}
                       padding="10px"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       fontSize="16px"
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       max={6}
@@ -168,10 +169,8 @@ const EditSchool = () => {
                       control="select"
                       type="text"
                       name="businessType"
-                      fontFamily={fontFamilyMedium}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("businessType")}
-                      padding="10px"
                       placeholder={getLabelByKey("businessTypePlaceholder")}
                       className={
                         formik.errors.businessType &&
@@ -241,18 +240,24 @@ const EditSchool = () => {
                       control="select"
                       type="text"
                       name="belts"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("belts")}
-                      padding="10px"
-                      defaultValue={schoolData.rank === true ? "Yes" : "No"}
+                      // defaultValue={schoolData.rank === true ? "Yes" : "No"}
                       placeholder={getLabelByKey("beltsPlaceholder")}
                       className={
-                        formik.errors.belts && formik.touched.belts
+                        formik.errors.rank && formik.touched.rank
                           ? "is-invalid"
                           : "customInput"
                       }
                       options={BELTS_SELECT_OPTIONS}
+                      defaultValue={
+                        schoolId
+                          ? BELTS_SELECT_OPTIONS.find(
+                              (item) => item.value === initialValuesForEdit.rank
+                            )?.label
+                          : undefined
+                      }
                     />
 
                     {/* //   control="select"
@@ -277,10 +282,9 @@ const EditSchool = () => {
                       control="select"
                       type="text"
                       name="defaultLanguage"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("defaultLanguage")}
-                      padding="10px"
                       placeholder={getLabelByKey("defaultLanguage")}
                       className={
                         formik.errors.defaultLanguage &&
@@ -304,10 +308,9 @@ const EditSchool = () => {
                       control="select"
                       type="text"
                       name="defaultCurrency"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("defaultCurrency")}
-                      padding="10px"
                       placeholder={getLabelByKey("defaultCurrency")}
                       className={
                         formik.errors.defaultCurrency &&
@@ -349,7 +352,7 @@ const EditSchool = () => {
                       control="textarea"
                       type="text"
                       name="description"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("description")}
                       padding="10px"
@@ -371,7 +374,7 @@ const EditSchool = () => {
                   bgcolor={lightBlue3}
                   textTransform="Captilize"
                   color={pureDark}
-                  padding="12px 100px"
+                  padding="11px 40.50px"
                   fontFamily={`${fontFamilyMedium}`}
                   width="fit-content"
                   type="submit"

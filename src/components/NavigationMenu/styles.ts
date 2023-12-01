@@ -1,14 +1,16 @@
 import styled from "styled-components";
-import { lightBlue3, pureDark2 } from "../GlobalStyle";
+import { fontFamilyBold, fontFamilyMedium, lightBlue3, pureDark2 } from "../GlobalStyle";
 
 export const NavigationMenuStyled = styled.div`
   .ant-menu {
     padding-top: 20px;
     border: none;
+
     
     &-item {
       height: 47px !important;
-      padding-left: 0 !important; 
+      padding-left: 0 !important;
+      display: block !important;
       &:hover{
         padding-left: 0;
       }
@@ -22,18 +24,18 @@ export const NavigationMenuStyled = styled.div`
       transition: all 0.3s !important;
       .ant-menu-item:active, .ant-menu-submenu-title:active {
         background: transparent !important;
-        font-weight: 700;
-    }
+        font-family: ${fontFamilyMedium};
+      }
       > .ant-menu-submenu-title{
+        width: 100%;
         padding-left: 0 !important;
         transition: all 0.3s !important;
         &:active{
-          font-weight: 500;
-          font-size: 18px;
+          font-family: ${fontFamilyMedium};
+          font-size: 16px;
         }
         &:active{
-
-          font-weight: 500;
+          font-family: ${fontFamilyMedium};
         }
         + ul{
           padding-top: 00px !important;
@@ -49,22 +51,24 @@ export const NavigationMenuStyled = styled.div`
         color: ${pureDark2} !important;
       }
     }
+    &-item{
 
+    }
     &-sub {
       background: white !important;
     }
 
     &-item-active,
     &-item-selected {
+      width: 100%;
       background: transparent !important;
       padding-left: 0px !important;
-      font-weight: 500;
-      font-size: 18px;
+      font-family: ${fontFamilyMedium};
+      font-size: 16px;
       span {
         flex: none !important;
-        font-size: 18px;
-        font-weight: 700;
-
+        font-size: 16px;
+        font-family: ${fontFamilyMedium}
       }
     }
   }

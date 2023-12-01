@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {
   fontFamilyBold,
   fontFamilyMedium,
+  fontFamilyRegular,
   lightDark2,
   mediaDeviceMax,
   pureDark2,
@@ -13,11 +14,14 @@ export const ViewSchoolStyled = styled.div`
     margin: 16px 0;
     color: ${pureDark2};
     font-size: 18px;
-    font-weight: 500;
+    padding-left: 20px;
+    font-family: ${fontFamilyMedium};
   }
-
+  
   .ant-card.ant-card-bordered {
     border-radius: 20px !important;
+    border-radius: 10px;
+    border: 1px solid #E0E0E0;
 
     .list-item {
       border-bottom: 1px solid ${tertiaryGrey24};
@@ -25,10 +29,12 @@ export const ViewSchoolStyled = styled.div`
       margin-bottom: 20px;
 
       &-title {
-        font-size: 14px;
         color: ${lightDark2};
-        font-weight: 500;
-        font-family: ${fontFamilyMedium};
+        font-family: ${fontFamilyRegular};
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
 
         @media screen and ${mediaDeviceMax.laptop} {
           font-size: 12px;
@@ -36,10 +42,10 @@ export const ViewSchoolStyled = styled.div`
       }
 
       &-value {
-        font-size: 16px;
+        font-size: 14px;
         color: ${pureDark2};
-        font-weight: 500;
-        font-family: ${fontFamilyBold};
+        font-weight: 400;
+        font-family: ${fontFamilyRegular};
 
         @media screen and ${mediaDeviceMax.laptop} {
           font-size: 14px;

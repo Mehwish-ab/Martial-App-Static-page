@@ -1,9 +1,12 @@
 import styled from "styled-components";
 import {
+  AntiFlashWhite,
+  BallBlue,
   darkBlue,
   darkGery,
   fontFamilyBold,
   fontFamilyMedium,
+  whiteColor,
   // mainColor,
 } from "../../../components/GlobalStyle";
 
@@ -13,9 +16,9 @@ export const ListInstructorStyled = styled.div`
   border-radius: 20px;
 
   .table-heading {
-    font-size: 23px !important;
-    font-family: ${fontFamilyBold} !important;
-    color: ${darkBlue};
+    font-size: 18px !important;
+    font-family: ${fontFamilyMedium} !important;
+    color: ${darkGery};
   }
   .ant-table-thead > tr > th {
     background: transparent !important;
@@ -113,4 +116,85 @@ export const ListInstructorStyled = styled.div`
   .table-heading{
     color: ${darkGery};
   }
+
+
+  // pagination
+  .ant-pagination{
+    margin-top: 45px;
+  }
+  .ant-pagination li:first-child{
+    position: absolute;
+    left: 0;
+  }
+  .ant-pagination .ant-pagination-options{
+    display: none !important;
+    opacity: 0;
+    visibility: hidden;
+    visibility: hidden;
+    z-index: -1;
+  }
+  .ant-pagination-prev .ant-pagination-item-link span, .ant-pagination-next .ant-pagination-item-link span{
+    position: relative;
+  }
+  .ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link  {
+    border: none
+  }
+  .ant-pagination-prev .ant-pagination-item-link span:before{
+    content: 'prev';
+    font-family: ${fontFamilyMedium};
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    display: block;
+  }
+  .ant-pagination-next .ant-pagination-item-link span:before{
+    content: 'next';
+    font-family: ${fontFamilyMedium};
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    display: block;
+  }
+  .ant-pagination-prev  .ant-pagination-item-link span svg, .ant-pagination-next  .ant-pagination-item-link span svg{ 
+    display: none;
+  }
+  .ant-pagination-item {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px;
+    border: 1px solid ${AntiFlashWhite};
+  }
+  .ant-pagination-item a {
+    border-radius: 8px;
+    background: ${whiteColor};
+    padding: 7px 12px;
+    line-height: normal;
+  }
+  .ant-pagination-item-active a{
+    border-radius: 8px;
+    background: ${BallBlue};
+    color: ${whiteColor};
+    padding: 7px 12px;
+    line-height: normal;
+  }
+  .ant-pagination-total-text{
+    color: #333;
+    font-family: ${fontFamilyMedium};
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    display: inline-block;
+    > span > span{
+      width: 47px;
+      padding: 7px 31px 8px 9px;
+      border-radius: 8px;
+      border: 1px solid #F1F1F1;
+      display: inline-block;
+      margin: 0px 5px;
+    }
+  }
+
 `;

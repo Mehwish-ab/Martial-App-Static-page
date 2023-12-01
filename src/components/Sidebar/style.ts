@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { darkBlue, tertiaryBlue } from "../GlobalStyle";
+import { darkBlue, fontFamilyMedium, tertiaryBlue } from "../GlobalStyle";
 
 export const SidebarStyle = styled.div`
   border-radius: 20px;
@@ -11,7 +11,8 @@ export const SidebarStyle = styled.div`
 
     button {
       font-size: 17px;
-      font-weight: 600;
+      font-weight: 500;
+      font-family: ${fontFamilyMedium}
       background: ${tertiaryBlue};
     }
   }

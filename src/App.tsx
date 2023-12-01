@@ -17,6 +17,7 @@ import { local_storage_admin_key } from "./utils/axios.utils";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useGlobalContext } from "./context/context";
 import { loginDataTypes } from "./redux/features/types";
+import { useSelector } from "react-redux";
 
 export const MAP_API = "AIzaSyC6PLT5-mrVFJcFqFixXZTW4d7Fj1EZg3Q";
 
@@ -27,6 +28,8 @@ function App() {
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { schoolData } = useSelector((state: RootState) => state.dashboardData);
+  // console.log("schoolIDLogin", schoolData )
   const { loading } = useAppSelector((state: RootState) => state.appData);
   const { selectedLanguage } = useAppSelector(
     (state: RootState) => state.selectedLanguage
@@ -71,8 +74,11 @@ function App() {
     const regex = /\bregister\b/;
     let register = regex.test(pathname);
     if (pathname === "/login" || register || pathname === "/") {
-      if (loginData) {
+      if (loginData && schoolData?.schoolId !== 0) {
         return navigate("/");
+      }
+      else if (loginData && schoolData?.schoolId === 0) {
+        return navigate("/school/create");
       }
     }
     if (!loginData) {

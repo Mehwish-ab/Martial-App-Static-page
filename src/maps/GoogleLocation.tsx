@@ -41,9 +41,9 @@ const useLocationData = () => {
   });
 
   const getLocation = () => {
-    console.log("use geolocation");
+    // console.log("use geolocation");
     if (navigator.geolocation) {
-      console.log("use if geolocation");
+      // console.log("use if geolocation");
 
       navigator.geolocation.getCurrentPosition(
         async (position: Position) => {
@@ -103,7 +103,7 @@ const useLocationData = () => {
           setLoading(false);
         },
         (error) => {
-          console.log("Error retrieving location:", error);
+          // console.log("Error retrieving location:", error);
           store.dispatch(getAppData("Canada"));
           store.dispatch(getScreenTranslation());
 
@@ -112,17 +112,17 @@ const useLocationData = () => {
         }
       );
     } else {
-      console.log(
-        "Geolocation is not supported by this browser.",
-        "error in geolocation"
-      );
+      // console.log(
+      //   "Geolocation is not supported by this browser.",
+      //   "error in geolocation"
+      // );
       setError("Geolocation is not supported by this browser.");
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    console.log("running 1");
+    // console.log("running 1");
     getLocation();
   }, []);
 

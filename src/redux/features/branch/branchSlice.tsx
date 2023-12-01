@@ -30,6 +30,16 @@ export interface BranchDataType {
   bannerPicture: string | null | undefined;
   profilePicture: string | null | undefined;
   status: string;
+  paymentMethod: string;
+  accountNumber: string;
+  countryName: string;
+  mode: string;
+
+
+
+
+
+
 }
 export interface GetBranchBySchoolResTypes {
   data: BranchDataType[];

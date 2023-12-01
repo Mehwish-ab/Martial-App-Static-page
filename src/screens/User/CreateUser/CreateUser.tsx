@@ -24,9 +24,11 @@ import Errormsg from "../../../components/ErrorMessage";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { SCREEN_LABEL_KEYS } from "./constant";
 import Input from "react-phone-number-input";
+
 import "react-phone-number-input/style.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
+
 // create user initial values types
 type initialValuesType = {
   firstName: string;
@@ -340,7 +342,7 @@ const RegisterUser = () => {
                             name="phoneNumber"
                             countryName={name}
                           /> */}
-                            <div className="mt-3">
+                            <div className="mt-1">
                               <ErrorMessage
                                 name="phoneNumber"
                                 component={Errormsg}
@@ -401,7 +403,7 @@ const RegisterUser = () => {
                               id="rememberMe"
                               name="rememberMe"
                             />
-                            <p className="mb-0 text-14">
+                            <p className="mb-0 text-14 lh-base mt-1">
                               {getLabelByKey(SCREEN_LABEL_KEYS.rememberMe)}
                             </p>
                           </div>

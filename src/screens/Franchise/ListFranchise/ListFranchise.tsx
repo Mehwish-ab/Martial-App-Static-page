@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Dropdown, Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { ListBranchStyled } from "./styles";
+import { ListFranchiseStyled } from "./styles";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import {
   fontFamilyMedium,
@@ -22,6 +22,13 @@ import {
 } from "../../../redux/features/branch/branchSlice";
 
 import CardView from "../CardView/CardView";
+import { FranchiseDataType } from "../../../redux/features/franchise/franchiseSlice";
+import DummyData from "./dummyData.json";
+import StatusActiveError from "../../../assets/images/activeBtnError.svg"
+import RightArrow from "../../../assets/images/rightArrow.svg";
+import LeftArrow from "../../../assets/images/leftArrow.svg";
+import DateCalander from "../../../assets/images/dateCalander.svg";
+import { CustomDiv } from "../ViewFranchise/styles";
 
 const ListFranchise: React.FC = () => {
   const navigate = useNavigate();
@@ -38,45 +45,56 @@ const ListFranchise: React.FC = () => {
   const { selectedLanguage } = useSelector(
     (state: RootState) => state.selectedLanguage
   );
-  const columns: ColumnsType<BranchDataType> = [
+  const columns: ColumnsType<FranchiseDataType> = [
     {
       title: "Id",
-      dataIndex: "branchId",
-      key: "branchId",
+      dataIndex: "franchiseId",
+      key: "franchiseId",
+    },
+    {
+      title: "Image",
+      dataIndex: "profilePicture",
+      key: "profilePicture",
+      // render: (text) => (
+      //   <div style={{ width: 50, height: 50 }}>
+      //     <img
+      //       src={ipForImages + text}
+      //       alt="branch img"
+      //       style={{ objectFit: "contain", width: "100%" }}
+      //     />
+      //   </div>
+      // ),
+      render: (DummyData) => {
+
+        return <img src={DummyData} width={44} height={44} alt="dummy images data" />;
+      }
     },
     {
       title: "Name",
-      dataIndex: "branchName",
-      key: "branchName",
+      dataIndex: "franchiseName",
+      key: "franchiseName",
     },
     {
       title: "Type",
-      dataIndex: "branchType",
-      key: "branchType",
-      render: (_, { branchType }) => {
-        let item = businessTypes.find((b) => b.id === branchType);
-        return <p>{item?.en}</p>;
-      },
+      dataIndex: "franchiseType",
+      key: "franchiseType",
+      // render: (_, { franchiseType }) => {
+      //   let item = businessTypes.find((b) => b.id === franchiseType);
+      //   return <p>{item?.en}</p>;
+      // },
     },
 
     {
       title: "Activity",
-      dataIndex: "activity",
-      key: "activity",
-      render: (_, { activities: commaSeparatedIds }) => {
-        const filteredObjects = activities.filter((obj) => {
-          const objId = obj.id;
-          return commaSeparatedIds.split(",").includes(objId.toString());
-        });
-        let names = filteredObjects
-          .map((obj) => (obj as any)[selectedLanguage])
-          .join(", ");
-        const maxLength = 20;
+      dataIndex: "activities",
+      key: "activities",
+      render: (DummyData) => {
 
-        if (names.length > maxLength) {
-          names = names.slice(0, maxLength - 3) + "...";
-        }
-        return <p>{names}</p>;
+        return <p className="sub-title">
+        {DummyData?.length > 33
+          ? `${DummyData.slice(0, 38)}...`
+          : DummyData}
+      </p>;
       },
     },
     {
@@ -85,9 +103,22 @@ const ListFranchise: React.FC = () => {
       key: "phoneNumber",
     },
     {
+      title: "Status",
+      dataIndex: "status",
+      key: "Staus",
+      render: (DummyData) => {
+        return (
+          <div>
+            <button>{DummyData}</button>
+            <img src={StatusActiveError} alt="image" />
+          </div>
+        );
+      },
+    },
+    {
       title: "Action",
       key: "action",
-      render: (_, record) => {
+      render: (value: any, record: FranchiseDataType,index:number) :any => {
         const items = [
           {
             key: "1",
@@ -101,8 +132,18 @@ const ListFranchise: React.FC = () => {
           },
           {
             key: "3",
+            label: "Payment",
+            onClick: () => navigation(record, "payment"),
+          },
+          {
+            key: "4",
             label: "Subscribe",
             onClick: () => navigation(record, "subscribe"),
+          },
+          {
+            key: "5",
+            label: "Delete",
+            onClick: () => navigation(record, "delete"),
           },
         ];
 
@@ -121,30 +162,46 @@ const ListFranchise: React.FC = () => {
     },
   ];
 
-  const navigation = (record: BranchDataType, redirectTo: string) => {
+  const navigation = (record: FranchiseDataType, redirectTo: string) => {
     switch (redirectTo) {
       case "edit":
-        navigate(`/franchise/edit/${record.branchId}`, {
+        navigate(`/franchise/edit/${record.franchiseId}`, {
           state: {
-            branchToEdit: record as BranchDataType,
+            franchiseToEdit: record as FranchiseDataType,
           },
         });
         break;
 
       case "view":
-        navigate(`/franchise/view/${record.branchId}`, {
+        navigate(`/franchise/view/${record.franchiseId}`, {
           state: {
-            branch: record as BranchDataType,
+            branch: record as FranchiseDataType,
           },
         });
         break;
 
-      case "subscribe":
-        navigate(`/franchise/subscribe/${record.branchId}`, {
+      case "payment":
+        navigate(`/franchise/add-payment-information/${record.franchiseId}`, {
           state: {
-            branch: record as BranchDataType,
+            branch: record as FranchiseDataType,
           },
         });
+        break;
+
+        case "subscribe":
+          navigate(`/franchise/subscribe/${record.franchiseId}`, {
+            state: {
+              branch: record as FranchiseDataType,
+            },
+          });
+          break;
+
+          case "delete":
+            navigate(`/franchise/delete/${record.franchiseId}`, {
+              state: {
+                branch: record as FranchiseDataType,
+              },
+            });
     }
   };
 
@@ -152,18 +209,40 @@ const ListFranchise: React.FC = () => {
     store.dispatch(getBranchBySchoolId());
   }, []);
 
+
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [current, setCurrent] = useState(1);
+
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const rowSelection = { selectedRowKeys, onChange: onSelectChange};
+
+
+
   return (
     <>
       {loading && <LoadingOverlay message="" />}
-      <ListBranchStyled>
+      <ListFranchiseStyled>
         <Table
           columns={columns}
-          dataSource={branchData?.data}
+          dataSource={DummyData as any}
           title={() => <RenderTableTitle />}
+          pagination={{
+            showTotal: (total, range) => (
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: `Page <span className='paginationVal'>${range[0]}</span> of ${range[1]}`,
+                }}
+              />
+            ),
+          }}
         />
-      </ListBranchStyled>
+      </ListFranchiseStyled>
 
-      <CardView />
+      {/* <CardView /> */}
     </>
   );
 };
@@ -175,22 +254,42 @@ const RenderTableTitle = () => {
 
   return (
     <div className="d-flex justify-content-between">
-      <h3 className="table-heading">Franchise Information</h3>
-      <CustomButton
-        bgcolor={tertiaryBlue2}
-        textTransform="Captilize"
-        color={pureDark}
-        padding="8px 10px"
-        fontFamily={`${fontFamilyMedium}`}
-        width="fit-content"
-        type="submit"
-        title=""
-        fontSize="17px"
-        icon={<img src={plusIcon} alt="edit icon" />}
-        clicked={() => {
-          navigate(`/franchise/create`);
-        }}
-      />
+      {/* <h3 className="table-heading">{getLabelByKey("title")}</h3> */}
+      <h3 className="table-heading">Franchise List</h3>
+      <CustomDiv>
+        <div className="instructorDateSection">
+          <div className="mainarrow">
+            <div className="arrowright">
+              <img src={LeftArrow} alt="Date" />
+            </div>
+            <div className="arrowleft">
+              <img src={RightArrow} alt="Date" />
+            </div>
+
+          </div>
+          <div className="dateRange">
+            <p>Mon, Sep 11, 2023 - Thu Sep 21, 2023</p>
+            <img src={DateCalander} alt="" />
+          </div>
+          <div className="dateToday">Today</div>
+        </div>
+        <CustomButton
+          bgcolor={tertiaryBlue2}
+          textTransform="Captilize"
+          color={pureDark}
+          padding="8px 10px"
+          fontFamily={`${fontFamilyMedium}`}
+          width="fit-content"
+          type="submit"
+          title=""
+          fontSize="17px"
+          icon={<img src={plusIcon} alt="edit icon" />}
+          clicked={() => {
+            navigate(`/franchise/create`);
+          }}
+        />
+      </CustomDiv>
+
     </div>
   );
 };

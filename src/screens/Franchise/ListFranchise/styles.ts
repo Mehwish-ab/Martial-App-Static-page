@@ -194,15 +194,15 @@ export const ListFranchiseStyled = styled.div`
   .ant-pagination-item a {
     border-radius: 8px;
     background: ${whiteColor};
-    padding: 7px 12px;
     line-height: normal;
+    padding: 7px 0px 8px 0px;
   }
   .ant-pagination-item-active a{
     border-radius: 8px;
     background: ${BallBlue};
     color: ${whiteColor};
-    padding: 7px 12px;
     line-height: normal;
+    padding: 7px 0px 8px 0px;
   }
   .ant-pagination-total-text{
     color: #333;

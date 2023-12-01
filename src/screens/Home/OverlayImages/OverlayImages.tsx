@@ -13,6 +13,9 @@ import { authorizationToken, base_url } from "../../../utils/api_urls";
 import editIcon from "../../../assets/icons/ic_cameraIcon.svg";
 import profile from "../../../assets/images/create_school_user_profile.svg";
 import banner from "../../../assets/images/create_school_banner.svg";
+
+import DefaultProfileImage from "../../../assets/images/defaultProfileImage.svg";
+import DefaultBannerImage from "../../../assets/images/defaultBannerImage.svg";
 interface OverlayImagesProps {
   backgroundImg: any;
   overlayImg: any;
@@ -156,7 +159,7 @@ const OverlayImages = ({
       <OverlayImagesStyled>
         <div className="bg-white image_section">
           <div className="bannerImg">
-            <img src={bannerImg ? ipForImages + bannerImg : banner} alt="" />
+            <img src={bannerImg ? ipForImages + bannerImg : DefaultBannerImage} alt="" />
             {isEditable && (
               <div className="changeBannerImgButton">
                 <Upload {...BannerImgUploadProps}>
@@ -170,7 +173,7 @@ const OverlayImages = ({
           <div className="profileImg">
             <div className="img">
               <img
-                src={profileImg ? ipForImages + profileImg : profile}
+                src={profileImg ? ipForImages + profileImg : DefaultProfileImage}
                 alt=""
               />
               {isEditable && (

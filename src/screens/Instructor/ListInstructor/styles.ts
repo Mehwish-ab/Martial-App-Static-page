@@ -169,15 +169,15 @@ export const ListInstructorStyled = styled.div`
   .ant-pagination-item a {
     border-radius: 8px;
     background: ${whiteColor};
-    padding: 7px 12px;
     line-height: normal;
+    padding: 7px 0px 8px 0px;
   }
   .ant-pagination-item-active a{
     border-radius: 8px;
     background: ${BallBlue};
     color: ${whiteColor};
-    padding: 7px 12px;
     line-height: normal;
+    padding: 7px 0px 8px 0px;
   }
   .ant-pagination-total-text{
     color: #333;
@@ -193,7 +193,7 @@ export const ListInstructorStyled = styled.div`
       border-radius: 8px;
       border: 1px solid #F1F1F1;
       display: inline-block;
-      margin: 0px 5px;
+      margin: 0px 10px;
     }
   }
 

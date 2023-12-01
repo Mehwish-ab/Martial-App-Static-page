@@ -29,6 +29,7 @@ import RightArrow from "../../../assets/images/rightArrow.svg";
 import LeftArrow from "../../../assets/images/leftArrow.svg";
 import DateCalander from "../../../assets/images/dateCalander.svg";
 import { CustomDiv } from "../ViewFranchise/styles";
+import FilterListTimeDate from "../../../components/FilterListTimeDate/FilterListTimeDate";
 
 const ListFranchise: React.FC = () => {
   const navigate = useNavigate();
@@ -257,22 +258,7 @@ const RenderTableTitle = () => {
       {/* <h3 className="table-heading">{getLabelByKey("title")}</h3> */}
       <h3 className="table-heading">Franchise List</h3>
       <CustomDiv>
-        <div className="instructorDateSection">
-          <div className="mainarrow">
-            <div className="arrowright">
-              <img src={LeftArrow} alt="Date" />
-            </div>
-            <div className="arrowleft">
-              <img src={RightArrow} alt="Date" />
-            </div>
-
-          </div>
-          <div className="dateRange">
-            <p>Mon, Sep 11, 2023 - Thu Sep 21, 2023</p>
-            <img src={DateCalander} alt="" />
-          </div>
-          <div className="dateToday">Today</div>
-        </div>
+        <FilterListTimeDate />
         <CustomButton
           bgcolor={tertiaryBlue2}
           textTransform="Captilize"

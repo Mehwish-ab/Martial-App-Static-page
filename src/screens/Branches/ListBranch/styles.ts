@@ -2,12 +2,9 @@ import styled from "styled-components";
 import {
   AntiFlashWhite,
   BallBlue,
-  darkBlue,
   darkGery,
-  fontFamilyBold,
   fontFamilyMedium,
   fontFamilyRegular,
-  mainColor,
   pureDark2,
   whiteColor,
 } from "../../../components/GlobalStyle";
@@ -51,6 +48,7 @@ export const ListBranchStyled = styled.div`
   .ant-table-thead > tr > th:first-child, 
   .ant-table-tbody > tr > td:first-child{
     width: 3%;
+    text-align: center;
   }
   .ant-table-thead > tr > th:nth-child(2), 
   .ant-table-tbody > tr > td:nth-child(2){

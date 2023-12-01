@@ -120,12 +120,12 @@ const EditSchool = () => {
 
   return (
     <CreateSchoolStyled>
-      {UpdateModal().modalComponent}
+      {/* {UpdateModal().modalComponent}
       <OverlayImages
         backgroundImg={schoolData.bannerPicture || ""}
         overlayImg={schoolData.profilePicture || ""}
         isEditable={true}
-      />
+      /> */}
       <Formik
         initialValues={initialValuesForEdit}
         validationSchema={validationSchema}
@@ -140,7 +140,7 @@ const EditSchool = () => {
               onFinish={formik.handleSubmit}
               autoComplete="off"
             >
-              <h3 className="mt-20 ps-3">School Information</h3>
+              <h3 className="ps-3">School Information</h3>
               <div className="bg-white form mt-10">
                 <Row>
                   <Col md="4" className="mt-20">
@@ -158,7 +158,7 @@ const EditSchool = () => {
                       placeholder={getLabelByKey("businessNamePlaceholder")}
                       className={
                         formik.errors.businessName &&
-                        formik.touched.businessName
+                          formik.touched.businessName
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -174,7 +174,7 @@ const EditSchool = () => {
                       placeholder={getLabelByKey("businessTypePlaceholder")}
                       className={
                         formik.errors.businessType &&
-                        formik.touched.businessType
+                          formik.touched.businessType
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -182,8 +182,8 @@ const EditSchool = () => {
                       defaultValue={
                         schoolId
                           ? createOptions(businessTypes).find(
-                              (item) => item.value === schoolData.businessType
-                            )?.label
+                            (item) => item.value === schoolData.businessType
+                          )?.label
                           : undefined
                       }
                     />
@@ -206,7 +206,7 @@ const EditSchool = () => {
                           className="error-message is-invalid"
                           style={{
                             color: "red",
-                            textAlign: "start",
+                            textAlign: "end",
                             marginLeft: "3px",
                             fontSize: "12px",
                             letterSpacing: "1px",
@@ -254,8 +254,8 @@ const EditSchool = () => {
                       defaultValue={
                         schoolId
                           ? BELTS_SELECT_OPTIONS.find(
-                              (item) => item.value === initialValuesForEdit.rank
-                            )?.label
+                            (item) => item.value === initialValuesForEdit.rank
+                          )?.label
                           : undefined
                       }
                     />
@@ -288,7 +288,7 @@ const EditSchool = () => {
                       placeholder={getLabelByKey("defaultLanguage")}
                       className={
                         formik.errors.defaultLanguage &&
-                        formik.touched.defaultLanguage
+                          formik.touched.defaultLanguage
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -296,9 +296,9 @@ const EditSchool = () => {
                       defaultValue={
                         schoolId
                           ? createOptions(language).find(
-                              (item) =>
-                                item.value === schoolData.defaultLanguageId
-                            )?.label
+                            (item) =>
+                              item.value === schoolData.defaultLanguageId
+                          )?.label
                           : undefined
                       }
                     />
@@ -314,7 +314,7 @@ const EditSchool = () => {
                       placeholder={getLabelByKey("defaultCurrency")}
                       className={
                         formik.errors.defaultCurrency &&
-                        formik.touched.defaultCurrency
+                          formik.touched.defaultCurrency
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -322,9 +322,9 @@ const EditSchool = () => {
                       defaultValue={
                         schoolId
                           ? createOptions(currency).find(
-                              (item) =>
-                                item.value === schoolData.defaultCurrencyId
-                            )?.value
+                            (item) =>
+                              item.value === schoolData.defaultCurrencyId
+                          )?.value
                           : undefined
                       }
                     />

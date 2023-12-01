@@ -174,8 +174,7 @@ const EditBranch = () => {
                       type="text"
                       name="branchName"
                       label={getLabelByKey("branchName")}
-                      padding="10px"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       fontSize="16px"
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       max={6}
@@ -193,10 +192,9 @@ const EditBranch = () => {
                       control="select"
                       type="text"
                       name="branchType"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("branchType")}
-                      padding="10px"
                       placeholder={getLabelByKey("branchType")}
                       className={
                         formik.errors.branchType && formik.touched.branchType
@@ -207,8 +205,8 @@ const EditBranch = () => {
                       defaultValue={
                         branchId
                           ? createOptions(businessTypes).find(
-                              (item) => item.value === initialValues.branchType
-                            )?.label
+                            (item) => item.value === initialValues.branchType
+                          )?.label
                           : undefined
                       }
                     />
@@ -265,14 +263,13 @@ const EditBranch = () => {
                       control="select"
                       type="text"
                       name="defaultLanguage"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("defaultLanguage")}
-                      padding="10px"
                       placeholder={getLabelByKey("defaultLanguage")}
                       className={
                         formik.errors.defaultLanguage &&
-                        formik.touched.defaultLanguage
+                          formik.touched.defaultLanguage
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -284,14 +281,13 @@ const EditBranch = () => {
                       control="select"
                       type="text"
                       name="defaultCurrency"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("defaultCurrency")}
-                      padding="10px"
                       placeholder={getLabelByKey("defaultCurrency")}
                       className={
                         formik.errors.defaultCurrency &&
-                        formik.touched.defaultCurrency
+                          formik.touched.defaultCurrency
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -303,10 +299,9 @@ const EditBranch = () => {
                       control="select"
                       type="text"
                       name="ranks"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("belts")}
-                      padding="10px"
                       placeholder={getLabelByKey("belts")}
                       className={
                         formik.errors.rank && formik.touched.rank
@@ -339,7 +334,7 @@ const EditBranch = () => {
                       control="textarea"
                       type="text"
                       name="description"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("description")}
                       padding="10px"
@@ -362,7 +357,7 @@ const EditBranch = () => {
                   bgcolor={lightBlue3}
                   textTransform="Captilize"
                   color={pureDark}
-                  padding="12px 100px"
+                  padding="11px 40.50px"
                   fontFamily={`${fontFamilyMedium}`}
                   width="fit-content"
                   type="submit"

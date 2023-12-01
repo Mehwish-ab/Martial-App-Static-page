@@ -124,7 +124,7 @@ function AppRoutes() {
           }
         />
         <Route
-          path="/school/add-payment-information/:schoolId"
+          path="/school/add-payment-information/"
           element={
             <AppLayout>
               <AddPaymentSchool />

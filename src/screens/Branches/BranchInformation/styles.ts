@@ -20,7 +20,7 @@ import {
 } from "../../../components/GlobalStyle";
 
 export const InformationBranchStyled = styled.div`
-margin-bottom: 20px;
+margin-bottom: 20px; 
 
 h3 {
   color: ${pureDark2};

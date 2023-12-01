@@ -23,6 +23,7 @@ import OverlayImages from "../../Home/OverlayImages/OverlayImages";
 import FormControl from "../../../components/FormControl";
 import {
   fontFamilyMedium,
+  fontFamilyRegular,
   lightBlue3,
   pureDark,
 } from "../../../components/GlobalStyle";
@@ -164,11 +165,11 @@ const EditFranchise = () => {
 
   return (
     <CreateSchoolStyled>
-      <OverlayImages
+      {/* <OverlayImages
         backgroundImg={branchToEdit?.bannerPicture || ""}
         overlayImg={branchToEdit?.profilePicture || ""}
         isEditable={true}
-      />
+      /> */}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -181,7 +182,7 @@ const EditFranchise = () => {
               onFinish={formik.handleSubmit}
               autoComplete="off"
             >
-              <div className="bg-white form mt-20">
+              <div className="bg-white form">
                 <h3>Franchise Information</h3>
 
                 <Row>
@@ -192,7 +193,7 @@ const EditFranchise = () => {
                       name="franchiseName"
                       label={getLabelByKey("franchiseName")}
                       padding="10px"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       fontSize="16px"
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       max={6}
@@ -211,10 +212,9 @@ const EditFranchise = () => {
                       control="select"
                       type="text"
                       name="franchiseType"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("franchiseType")}
-                      padding="10px"
                       placeholder={getLabelByKey("franchiseType")}
                       className={
                         formik.errors.franchiseType &&
@@ -273,10 +273,9 @@ const EditFranchise = () => {
                       control="select"
                       type="text"
                       name="belts"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("ranks")}
-                      padding="10px"
                       placeholder={getLabelByKey("ranks")}
                       className={
                         formik.errors.ranks && formik.touched.ranks
@@ -298,9 +297,8 @@ const EditFranchise = () => {
                       control="select"
                       type="text"
                       name="belts"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       label={getLabelByKey("defaultLanguage")}
-                      padding="10px"
                       placeholder={getLabelByKey("defaultLanguage")}
                       // className={
                       //   formik?.errors?.defaultLanguage &&
@@ -316,9 +314,8 @@ const EditFranchise = () => {
                       control="select"
                       type="text"
                       name="belts"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       label={getLabelByKey("defaultCurrency")}
-                      padding="10px"
                       placeholder={getLabelByKey("defaultCurrency")}
                       className={
                         formik.errors.defaultCurrency &&
@@ -352,7 +349,7 @@ const EditFranchise = () => {
                       control="textarea"
                       type="text"
                       name="description"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("description")}
                       padding="10px"
@@ -375,7 +372,7 @@ const EditFranchise = () => {
                   bgcolor={lightBlue3}
                   textTransform="Captilize"
                   color={pureDark}
-                  padding="12px 100px"
+                  padding="11px 40.50px"
                   fontFamily={`${fontFamilyMedium}`}
                   width="fit-content"
                   type="submit"

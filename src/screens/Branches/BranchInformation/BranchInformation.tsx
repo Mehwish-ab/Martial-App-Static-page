@@ -19,36 +19,36 @@ import { fontFamilyMedium, pureDark, tertiaryBlue2 } from "../../../components/G
 import plusIcon from "../../../assets/icons/ic_plus.svg";
 import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
 
-const BranchInformation: React.FC = () =>  {
+const BranchInformation: React.FC = () => {
   const navigate = useNavigate();
   const { getLabelByKey } = useScreenTranslation("branchCreate");
 
   const location = useLocation();
   const branch: BranchDataType = location.state?.branch;
-//   const { language, currency } = useSelector(
-//     (state: RootState) => state.appData.data.dropdowns
-//   );
+  //   const { language, currency } = useSelector(
+  //     (state: RootState) => state.appData.data.dropdowns
+  //   );
 
-const { branchData, loading } = useSelector(
+  const { branchData, loading } = useSelector(
     (state: RootState) => state.branchData
   );
 
-//   const { selectedLanguage } = useSelector(
-//     (state: RootState) => state.selectedLanguage
-//   );
-//   let defaultLanguage = language.find(
-//     (item: DataTypesWithIdAndMultipleLangLabel) =>
-//       +item.id == +branch.defaultLanguageId
-//   );
+  //   const { selectedLanguage } = useSelector(
+  //     (state: RootState) => state.selectedLanguage
+  //   );
+  //   let defaultLanguage = language.find(
+  //     (item: DataTypesWithIdAndMultipleLangLabel) =>
+  //       +item.id == +branch.defaultLanguageId
+  //   );
 
-//   let defaultCurrency = currency.find(
-//     (item: DataTypesWithIdAndMultipleLangLabel) =>
-//       +item.id == +branch.defaultCurrencyId
-//   );
+  //   let defaultCurrency = currency.find(
+  //     (item: DataTypesWithIdAndMultipleLangLabel) =>
+  //       +item.id == +branch.defaultCurrencyId
+  //   );
 
-//   console.log(defaultLanguage, defaultCurrency);
+  //   console.log(defaultLanguage, defaultCurrency);
 
-const navigation = (record: BranchDataType, redirectTo: string) => {
+  const navigation = (record: BranchDataType, redirectTo: string) => {
     switch (redirectTo) {
       case "edit":
         navigate(`/branch/edit/${record.branchId}`, {
@@ -68,7 +68,7 @@ const navigation = (record: BranchDataType, redirectTo: string) => {
   };
 
 
-const columns: ColumnsType<BranchDataType> = [
+  const columns: ColumnsType<BranchDataType> = [
     {
       title: "Payment Information",
       dataIndex: "paymentMethod",
@@ -113,7 +113,7 @@ const columns: ColumnsType<BranchDataType> = [
     {
       title: "Action",
       key: "action",
-      render: (value, record: BranchDataType,index) :any => {
+      render: (value, record: BranchDataType, index): any => {
         const items = [
           {
             key: "1",
@@ -162,165 +162,127 @@ const columns: ColumnsType<BranchDataType> = [
         backgroundImg={branch?.bannerPicture || ""}
         isEditable={true}
       />
-      {/* <OverlayImages backgroundImg={""} overlayImg={""} isEditable={false} /> */}
-
-
       <h3>Branch Information</h3>
       <Card>
         <Row>
           <Col md="4">
             <div className="list-item">
               <div className="list-item-title">
-              Branc hName
+                Branch Name
               </div>
               <div className="list-item-value">
-                {/* {branch.branchName || "--"} */}
-                branchName
-            </div>
-            </div>
-          </Col>
-          <Col md="4">
-            <div className="list-item">
-              <div className="list-item-title">
-                Type
-              </div>
-              <div className="list-item-value">
-                {/* {branch.branchType || "--"} */}
-                branchType
+                {branch.branchName || "--"}
               </div>
             </div>
           </Col>
           <Col md="4">
             <div className="list-item">
               <div className="list-item-title">
-                Phone Number
+                Branch Type
               </div>
               <div className="list-item-value">
-                {/* {branch.phoneNumber || "--"} */}
-                phoneNumber
-              </div>
-            </div>
-          </Col>
-          <Col md="4">
-            <div className="list-item">
-              <div className="list-item-title">Address</div>
-              <div className="list-item-value">
-                {/* {branch.address || "--"} */}
-                address
-              </div>
-            </div>
-          </Col>
-          <Col md="4">
-            <div className="list-item">
-              <div className="list-item-title">Belts</div>
-              <div className="list-item-value">
-                {/* {branch.belts ? "Yes" : "No"} */}
-                belts
+                {branch.branchType || "--"}
               </div>
             </div>
           </Col>
           <Col md="4">
             <div className="list-item">
               <div className="list-item-title">
-              Default Language
+                Branch Phone Number
               </div>
               <div className="list-item-value">
-                {/* {(defaultLanguage &&
-                  (defaultLanguage as any)[selectedLanguage]) ||
-                  "--"} */}
-                  selectedLanguage
+                {branch.phoneNumber || "--"}
               </div>
-            </div>
-          </Col>
-          <Col md="4">
-            <div className="list-item">
-              <div className="list-item-title">
-              Default Currency
-              </div>
-              <div className="list-item-value">
-                {/* {(defaultCurrency &&
-                  (defaultCurrency as any)[selectedLanguage]) ||
-                  "--"} */}
-                  defaultCurrency
-              </div>
-            </div>
-          </Col>
-          <Col md="4">
-            <div className="list-item">
-              <div className="list-item-title">Activity</div>
-              <div className="list-item-value">
-                {/* {branch.activities || "--"} */}
-                activities
-              </div>
-            </div>
-          </Col>
-          <Col md="4">
-            <div className="list-item">
-              <div className="list-item-title">
-              Facilities
-              </div>
-              <div className="list-item-value">
-                {/* {branch.facilities || "--"} */}
-                facilities
-                </div>
             </div>
           </Col>
           <Col md="12">
+            <Row>
+              <Col md="3">
+                <div className="list-item">
+                  <div className="list-item-title">Address</div>
+                  <div className="list-item-value">
+                    {branch.address || "--"}
+                  </div>
+                </div>
+              </Col>
+              <Col md="3">
+                <div className="list-item">
+                  <div className="list-item-title">Belts</div>
+                  <div className="list-item-value">
+                    {branch.belts ? "Yes" : "No"}
+                  </div>
+                </div>
+              </Col>
+              <Col md="3">
+                <div className="list-item">
+                  <div className="list-item-title">
+                    Default Language
+                  </div>
+                  <div className="list-item-value">
+                    {
+                      // (defaultLanguage &&
+                      //   (defaultLanguage as any)[selectedLanguage])
+                      //    ||
+                      "--"}
+                  </div>
+                </div>
+              </Col>
+              <Col md="3">
+                <div className="list-item">
+                  <div className="list-item-title">
+                    Default Currency
+                  </div>
+                  <div className="list-item-value">
+                    {
+                      // (defaultCurrency &&
+                      //   (defaultCurrency as any)[selectedLanguage]) ||
+                      "--"}
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          </Col>
+          <Col md="6">
             <div className="list-item">
+              <div className="list-item-title">Activity</div>
+              <div className="list-item-value">
+                {branch.activities || "--"}
+              </div>
+            </div>
+          </Col>
+          <Col md="6">
+            <div className="list-item">
+              <div className="list-item-title">
+                Facilities
+              </div>
+              <div className="list-item-value">
+                {branch.facilities || "--"}
+              </div>
+            </div>
+          </Col>
+          <Col md="12">
+            <div className="list-item mb-0">
               <div className="list-item-title">
                 Description
               </div>
               <div className="list-item-value">
-                {/* {branch.description || "--"} */}
-                description
+                {branch.description || "--"}
               </div>
             </div>
           </Col>
         </Row>
       </Card>
 
-
-
-                  
       {loading && <LoadingOverlay message="" />}
       <h3 className="table-heading">Branch Information</h3>
-        <Table
-          columns={columns}
-          dataSource={DummyData as any}
-          scroll={{ x: true }}
-          
-        />
+      <Table
+        columns={columns}
+        dataSource={DummyData as any}
+        scroll={{ x: true }}
 
-
-
-
+      />
     </InformationBranchStyled>
   );
 };
 
 export default BranchInformation;
-
-// const RenderTableTitle = () => {
-//     const navigate = useNavigate();
-  
-//     return (
-//       <div className="d-flex justify-content-between align-items-center">
-//         <h3 className="table-heading">Branch Information</h3>
-//         {/* <CustomButton
-//           bgcolor={tertiaryBlue2}
-//           textTransform="Captilize"
-//           color={pureDark}
-//           padding="8px 10px"
-//           fontFamily={`${fontFamilyMedium}`}
-//           width="fit-content"
-//           type="submit"
-//           title=""
-//           fontSize="17px"
-//           icon={<img src={plusIcon} alt="edit icon" />}
-//           clicked={() => {
-//             navigate(`/branch/create`);
-//           }}
-//         /> */}
-//       </div>
-//     );
-//   };

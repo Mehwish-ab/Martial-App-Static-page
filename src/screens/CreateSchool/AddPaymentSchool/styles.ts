@@ -27,7 +27,7 @@ export const AddPaymentMethod = styled.div`
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    margin: 13px 10px;
+    margin: 0 10px 13px;;
     font-family: ${fontFamilyMedium};
   }
  

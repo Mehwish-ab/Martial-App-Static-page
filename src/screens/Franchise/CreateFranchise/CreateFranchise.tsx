@@ -164,7 +164,6 @@ const CreateFranchise = () => {
             >
               <div className="bg-white form">
                 <h3>Franchise Information</h3>
-
                 <Row>
                   <Col md="4" className="mt-20">
                     <FormControl
@@ -357,7 +356,7 @@ const CreateFranchise = () => {
                   bgcolor={lightBlue3}
                   textTransform="Captilize"
                   color={maastrichtBlue}
-                  padding="14px 102.50px"
+                  padding="11px 40.50px"
                   fontFamily={`${fontFamilyMedium}`}
                   width="fit-content"
                   type="submit"

@@ -41,7 +41,7 @@ const ViewInstructor = () => {
       <OverlayImages
         overlayImg={branch?.profilePicture || ""}
         backgroundImg={branch?.bannerPicture || ""}
-        isEditable={false}
+        isEditable={true}
       />
 
       <h3 className="ms-4">Instructor Information</h3>

@@ -29,6 +29,7 @@ import StatusActiveError from "../../../assets/images/activeBtnError.svg"
 import RightArrow from "../../../assets/images/rightArrow.svg";
 import LeftArrow from "../../../assets/images/leftArrow.svg";
 import DateCalander from "../../../assets/images/dateCalander.svg";
+import FilterListTimeDate from "../../../components/FilterListTimeDate/FilterListTimeDate";
 
 
 
@@ -233,22 +234,9 @@ const RenderTableTitle = () => {
     <div className="d-flex justify-content-between align-center">
       {/* <h3 className="table-heading">{getLabelByKey("title")}</h3> */}
       <h3 className="table-heading">Branches</h3>
-      <CustomDiv>
-        <div className="instructorDateSection">
-          <div className="mainarrow">
-            <div className="arrowright">
-              <img src={LeftArrow} alt="Date" width={18} height={12} />
-            </div>
-            <div className="arrowleft">
-              <img src={RightArrow} alt="Date" width={18} height={12} />
-            </div>
-          </div>
-          <div className="dateRange">
-            <p><span>Mon,</span> Sep 11, 2023 - <span>Thu,</span> Sep 21, 2023</p>
-            <img src={DateCalander} alt="Calander" width={21} height={21} />
-          </div>
-          <div className="dateToday">Today</div>
-        </div>
+
+        <CustomDiv>
+        <FilterListTimeDate />
         <CustomButton
           bgcolor={tertiaryBlue2}
           textTransform="Captilize"

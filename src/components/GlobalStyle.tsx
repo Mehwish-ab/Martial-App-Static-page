@@ -140,6 +140,7 @@ export const GrayX11 = "#BDBDBD";
 export const AlizarinCrimson = "#E51D35";
 export const AntiFlashWhite = "#F1F1F1";
 export const BallBlue = "#2EABD8";
+export const Platinum = "#E8E8E8";
 
 export const FlexContainer = styled.div`
   display: flex;

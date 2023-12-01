@@ -30,7 +30,6 @@ import LeftArrow from "../../../assets/images/leftArrow.svg";
 import DateCalander from "../../../assets/images/dateCalander.svg";
 import { CustomDiv } from "./CustomDiv";
 
-
 const ListFranchise: React.FC = () => {
   const navigate = useNavigate();
   const { branchData, loading, error } = useSelector(

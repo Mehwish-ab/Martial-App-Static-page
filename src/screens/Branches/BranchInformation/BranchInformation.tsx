@@ -33,21 +33,6 @@ const BranchInformation: React.FC = () => {
     (state: RootState) => state.branchData
   );
 
-  //   const { selectedLanguage } = useSelector(
-  //     (state: RootState) => state.selectedLanguage
-  //   );
-  //   let defaultLanguage = language.find(
-  //     (item: DataTypesWithIdAndMultipleLangLabel) =>
-  //       +item.id == +branch.defaultLanguageId
-  //   );
-
-  //   let defaultCurrency = currency.find(
-  //     (item: DataTypesWithIdAndMultipleLangLabel) =>
-  //       +item.id == +branch.defaultCurrencyId
-  //   );
-
-  //   console.log(defaultLanguage, defaultCurrency);
-
   const navigation = (record: BranchDataType, redirectTo: string) => {
     switch (redirectTo) {
       case "edit":
@@ -75,7 +60,7 @@ const BranchInformation: React.FC = () => {
       key: "paymentMethod",
     },
     {
-      title: "Account Nmae",
+      title: "Account Name",
       dataIndex: "accountNumber",
       key: "accountNumber",
     },

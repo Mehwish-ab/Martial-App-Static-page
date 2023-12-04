@@ -84,7 +84,7 @@ const AddPaymentBranch: React.FC = () => {
       key: "paymentMethod",
     },
     {
-      title: "Account Nmae",
+      title: "Account Name",
       dataIndex: "accountNumber",
       key: "accountNumber",
     },

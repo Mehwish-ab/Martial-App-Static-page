@@ -1,4 +1,4 @@
-import { Card, List, Table } from "antd";
+import { Card, Dropdown, List, Space, Table } from "antd";
 import OverlayImages from "../../Home/OverlayImages/OverlayImages";
 import { ViewFranchiseStyled } from "./styles";
 import { AddPaymentMethod } from "./styles";
@@ -15,6 +15,8 @@ import { RootState } from "../../../redux/store";
 import type { ColumnsType } from "antd/es/table";
 import StatusActiveError from "../../../assets/images/activeBtnError.svg"
 import { DataTypesWithIdAndMultipleLangLabel } from "../../../redux/features/types";
+import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
+
 
 const ViewFranchise = () => {
   const navigate = useNavigate();
@@ -109,6 +111,18 @@ const ViewFranchise = () => {
             onClick: () => navigation(record, "delete"),
           },
         ];
+        return (
+          <Space size="middle">
+            <Dropdown menu={{ items }}>
+              <img
+                src={actionMenuTogglerIcon}
+                alt="action menu"
+                style={{ cursor: "pointer" }}
+              />
+            </Dropdown>
+          </Space>
+
+        );
       }
     }
   ]

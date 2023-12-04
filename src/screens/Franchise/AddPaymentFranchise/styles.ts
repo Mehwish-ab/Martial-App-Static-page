@@ -186,7 +186,7 @@ h3 {
   position: relative;
   text-align: center;
 }
-.ant-table-tbody > tr > td:nth-child(5) .De-Active button{
+.ant-table-tbody > tr > td:nth-child(5) .Inactive button{
   font-style: normal;
   font-weight: 400;
   line-height: normal;

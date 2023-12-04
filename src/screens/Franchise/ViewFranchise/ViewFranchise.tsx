@@ -1,17 +1,117 @@
-import { Card, List } from "antd";
+import { Card, List, Table } from "antd";
 import OverlayImages from "../../Home/OverlayImages/OverlayImages";
 import { ViewFranchiseStyled } from "./styles";
-import { useLocation } from "react-router-dom";
+import { AddPaymentMethod } from "./styles";
+import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
+import { useSelector } from "react-redux";
+
+import DummyData from "../AddPaymentFranchise/dummyData.json";
+import { useNavigate, useLocation } from "react-router-dom";
 import { BranchDataType } from "../../../redux/features/branch/branchSlice";
 import { Col, Row } from "react-bootstrap";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
-import { useSelector } from "react-redux";
+
 import { RootState } from "../../../redux/store";
+import type { ColumnsType } from "antd/es/table";
+import StatusActiveError from "../../../assets/images/activeBtnError.svg"
 import { DataTypesWithIdAndMultipleLangLabel } from "../../../redux/features/types";
 
 const ViewFranchise = () => {
-  const { getLabelByKey } = useScreenTranslation("franchiseCreate");
+  const navigate = useNavigate();
+  const { branchData, loading } = useSelector(
+    (state: RootState) => state.branchData
+  );
 
+  const { getLabelByKey } = useScreenTranslation("franchiseCreate");
+  const navigation = (record: BranchDataType, redirectTo: string) => {
+    switch (redirectTo) {
+      case "edit":
+        navigate(`/branch/edit/${record.branchId}`, {
+          state: {
+            branchToEdit: record as BranchDataType,
+          },
+        });
+        break;
+
+      case "view":
+        navigate(`/branch/view/${record.branchId}`, {
+          state: {
+            branch: record as BranchDataType,
+          },
+        });
+    }
+  };
+  const columns: ColumnsType<BranchDataType> = [
+    {
+      title: "Payment Information",
+      dataIndex: "paymentMethod",
+      key: "paymentMethod",
+    },
+    {
+      title: "Account Nmae",
+      dataIndex: "accountNumber",
+      key: "accountNumber",
+    },
+    {
+      title: "Country Name",
+      dataIndex: "countryName",
+      key: "countryName",
+    },
+    {
+      title: "Mode",
+      dataIndex: "mode",
+      key: "mode",
+      render: (DummyData) => {
+        return (
+          <div className={DummyData}>
+            <button>{DummyData}</button>
+            <img src={StatusActiveError} alt="image" />
+          </div>
+        );
+      },
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "Staus",
+      render: (DummyData) => {
+        return (
+          <div className={DummyData}>
+            <button>{DummyData}</button>
+            <img src={StatusActiveError} alt="image" />
+          </div>
+        );
+      },
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (value: any, record: BranchDataType, index: number): any => {
+        const items = [
+          {
+            key: "1",
+            label: "View",
+            onClick: () => navigation(record, "view"),
+          },
+          {
+            key: "2",
+            label: "Edit",
+            onClick: () => navigation(record, "edit"),
+          },
+          {
+            key: "3",
+            label: "Payment",
+            onClick: () => navigation(record, "payment"),
+          },
+          {
+            key: "4",
+            label: "Delete",
+            onClick: () => navigation(record, "delete"),
+          },
+        ];
+      }
+    }
+  ]
   const location = useLocation();
   const branch: BranchDataType = location.state?.branch;
   const { language, currency } = useSelector(
@@ -29,7 +129,6 @@ const ViewFranchise = () => {
     (item: DataTypesWithIdAndMultipleLangLabel) =>
       +item.id == +branch.defaultCurrencyId
   );
-
   console.log(defaultLanguage, defaultCurrency);
   return (
     <ViewFranchiseStyled>
@@ -115,45 +214,49 @@ const ViewFranchise = () => {
               <div className="list-item-value">{branch.address || "--"}</div>
             </div>
           </Col>
-          <Col md="4">
-            <div className="list-item">
-              <div className="list-item-title">{getLabelByKey("ranking")}</div>
-              <div className="list-item-value">
-                {branch.belts ? "Yes" : "No"}
-              </div>
-            </div>
+          <Col md="8">
+            <Row>
+              <Col md="4">
+                <div className="list-item">
+                  <div className="list-item-title">{getLabelByKey("ranking")}</div>
+                  <div className="list-item-value">
+                    {branch.belts ? "Yes" : "No"}
+                  </div>
+                </div>
+              </Col>
+              <Col md="4">
+                <div className="list-item">
+                  <div className="list-item-title">
+                    {getLabelByKey("defaultLanguage")}
+                  </div>
+                  <div className="list-item-value">
+                    {(defaultLanguage &&
+                      (defaultLanguage as any)[selectedLanguage]) ||
+                      "--"}
+                  </div>
+                </div>
+              </Col>
+              <Col md="4">
+                <div className="list-item">
+                  <div className="list-item-title">
+                    {getLabelByKey("defaultCurrency")}
+                  </div>
+                  <div className="list-item-value">
+                    {(defaultCurrency &&
+                      (defaultCurrency as any)[selectedLanguage]) ||
+                      "--"}
+                  </div>
+                </div>
+              </Col>
+            </Row>
           </Col>
-          <Col md="4">
-            <div className="list-item">
-              <div className="list-item-title">
-                {getLabelByKey("defaultLanguage")}
-              </div>
-              <div className="list-item-value">
-                {(defaultLanguage &&
-                  (defaultLanguage as any)[selectedLanguage]) ||
-                  "--"}
-              </div>
-            </div>
-          </Col>
-          <Col md="4">
-            <div className="list-item">
-              <div className="list-item-title">
-                {getLabelByKey("defaultCurrency")}
-              </div>
-              <div className="list-item-value">
-                {(defaultCurrency &&
-                  (defaultCurrency as any)[selectedLanguage]) ||
-                  "--"}
-              </div>
-            </div>
-          </Col>
-          <Col md="4">
+          <Col md="6">
             <div className="list-item">
               <div className="list-item-title">{getLabelByKey("activity")}</div>
               <div className="list-item-value">{branch.activities || "--"}</div>
             </div>
           </Col>
-          <Col md="4">
+          <Col md="6">
             <div className="list-item">
               <div className="list-item-title">
                 {getLabelByKey("facilities")}
@@ -228,7 +331,18 @@ const ViewFranchise = () => {
           </Col>
         </Row>
       </Card>
+      <AddPaymentMethod>
+
+        {loading && <LoadingOverlay message="" />}
+        <h3 className="table-heading">Payment Information</h3>
+        <Table
+          columns={columns}
+          dataSource={DummyData as any}
+          scroll={{ x: true }}
+        />
+      </AddPaymentMethod>
     </ViewFranchiseStyled>
+
   );
 };
 

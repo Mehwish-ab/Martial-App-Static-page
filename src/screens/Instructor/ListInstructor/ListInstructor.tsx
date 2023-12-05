@@ -242,7 +242,6 @@ const RenderTableTitle = () => {
           }}
         />
       </CustomDiv>
-
     </div>
   );
 };

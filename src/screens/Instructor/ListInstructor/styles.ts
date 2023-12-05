@@ -6,6 +6,8 @@ import {
   darkGery,
   fontFamilyBold,
   fontFamilyMedium,
+  fontFamilyRegular,
+  pureDark2,
   whiteColor,
   // mainColor,
 } from "../../../components/GlobalStyle";
@@ -13,20 +15,29 @@ import {
 export const ListInstructorStyled = styled.div`
   background-color: #fff;
   padding: 16px;
-  border-radius: 20px;
+  border-radius: 10px;
+  p{
+    margin-bottom: 0px;
+  }
 
   .table-heading {
-    font-size: 18px !important;
-    font-family: ${fontFamilyMedium} !important;
-    color: ${darkGery};
+    font-size: 18px;
+    font-family: ${fontFamilyMedium};
+    color: ${pureDark2};
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
   }
   .ant-table-thead > tr > th {
     background: transparent !important;
     border-bottom: none !important;
-    color: ${darkBlue};
+    color: ${pureDark2};
     font-family: ${fontFamilyMedium};
-    font-size: 16px !important;
-
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+    padding: 4px;
     &::before {
       display: none !important;
     }
@@ -34,18 +45,26 @@ export const ListInstructorStyled = styled.div`
 
   .ant-table-tbody > tr > .ant-table-cell,
   .ant-table-tbody > tr > .ant-table-cell a {
-    font-family: ${fontFamilyMedium};
-    font-size: 14px !important;
-    color: ${darkGery}!important;
+    font-family: ${fontFamilyRegular};
+    font-size: 14px;
+    color: ${darkGery};
+    font-style: normal;
+    font-weight: 400;
+    line-height: 23px; 
+    padding: 4px;
+    p {
+      margin-bottom: 0px;
+    }
   }
   .ant-table-thead > tr > th{
     color: ${darkGery};
   }
   .ant-table-thead > tr > th:first-child, .ant-table-tbody > tr > td:first-child{
-    width: 1%;
+    width: 4%;
+    text-align: center;
   }
   .ant-table-thead > tr > th:nth-child(2), .ant-table-tbody > tr > td:nth-child(2){
-    width: 4%;
+    width: 6%;
   }
   .ant-table-thead > tr > th:nth-child(3), .ant-table-thead > tr > td:nth-child(3){
     width: 15%;
@@ -53,16 +72,19 @@ export const ListInstructorStyled = styled.div`
   .ant-table-thead > tr > th:nth-child(6), .ant-table-tbody > tr > td:nth-child(6){
     width: 5%;
   }
-  .ant-table-thead > tr > th:nth-child(5), .ant-table-tbody > tr > td:nth-child(5),
+  .ant-table-thead > tr > th:nth-child(5), .ant-table-tbody > tr > td:nth-child(5){
+    width: 12%;
+  }
   .ant-table-thead > tr > th:nth-child(6), .ant-table-tbody > tr > td:nth-child(6){
     width: 12%;
+    padding-left: 30px;
   }
 
   .ant-table-thead > tr > th:nth-child(7), .ant-table-tbody > tr > td:nth-child(7){
     width: 13%;
   }
   .ant-table-thead > tr > th:nth-child(4), .ant-table-tbody > tr > td:nth-child(4){
-    width: 25%;
+    width: 23%;
   }
   .ant-table-thead > tr > th:nth-child(8), .ant-table-tbody > tr > td:nth-child(8){
     width: 10%;
@@ -71,16 +93,7 @@ export const ListInstructorStyled = styled.div`
   .ant-table-tbody > tr > td:nth-child(2), .ant-table-tbody > tr > th:nth-child(3), .ant-table-tbody > tr > td:nth-child(3){
     text-align: left;
   }
-  .ant-table-tbody > tr > td:nth-child(4){
-    color: #000 !important;
-    font-size: 14px !important;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    margin-bottom: 0 !important;
-    position: relative;
-    top: 5px;
-  }
+
   .ant-table-tbody > tr > td:nth-child(8) div{
     position: relative;
     width: 116px;
@@ -105,6 +118,10 @@ export const ListInstructorStyled = styled.div`
     right: 17px;
     top: -5px;
   }
+  .ant-table-thead > tr > th:nth-child(9), 
+.ant-table-tbody > tr > td:nth-child(9){
+  text-align: center;
+}
   .ant-table-tbody > tr:nth-child(odd) td{
     background-color: #FAFAFA;
   }

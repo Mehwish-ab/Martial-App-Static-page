@@ -16,7 +16,6 @@ export const CardViewStyled = styled.div`
   border-radius: 10px;
 
   .table-heading {
-    margin-bottom: 20px;
     font-size: 18px;
     font-weight: 500;
     font-family: ${fontFamilyMedium};

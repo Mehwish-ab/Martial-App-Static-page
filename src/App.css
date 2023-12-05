@@ -67,6 +67,9 @@ ul li {
 .mt-8 {
   margin-top: 8px;
 }
+.mb-20 {
+  margin-bottom: 20px;
+}
 .ant-modal-body {
   padding: 0px;
 }

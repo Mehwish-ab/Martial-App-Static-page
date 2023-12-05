@@ -394,6 +394,9 @@ button {
   gap: 16px;
   margin: 0 16px;
   flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+
 }
 
 @media screen and (max-width: 1000px) {

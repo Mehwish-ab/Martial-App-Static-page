@@ -45,12 +45,8 @@ import ListClass from "../screens/Class/ListClasses/ListClasses";
 import CreateClass from "../screens/Class/CreateClasses/CreateClass";
 import UpdateClass from "../screens/Class/UpdateClass/UpdateClass";
 import BranchInformation from "../screens/Branches/BranchInformation/BranchInformation";
-import { AddPaymentMethod } from "../screens/CreateSchool/AddPaymentSchool/styles";
 import AddPaymentSchool from "../screens/CreateSchool/AddPaymentSchool/AddPaymentSchool";
 import AddPaymentFranchise from "../screens/Franchise/AddPaymentFranchise/AddPaymentFranchise";
-import ViewInstructor from "../screens/Instructor/ViewInstructor/ViewInstructor";
-import EditInstructor from "../screens/Instructor/EditInstructor/EditInstructor";
-import AddPaymentInstructor from "../screens/Instructor/AddPaymentInstructor/AddPaymentInstructor";
 import SchoolFranchise from "../screens/Franchise/SchoolFranchise/SchoolFranchise";
 import AddPaymentBranch from "../screens/Branches/AddPaymentBranch/AddPaymentBranch";
 
@@ -273,36 +269,10 @@ function AppRoutes() {
         />
 
         <Route
-          path="/instructor/edit/:instructorId"
-          element={
-            <AppLayout>
-              <EditInstructor />
-            </AppLayout>
-          }
-        />
-        <Route
           path="/instructor/view/:instructorId"
           element={
             <AppLayout>
-              <ViewInstructor />
-            </AppLayout>
-          }
-        />
-
-        <Route
-          path="/instructor"
-          element={
-            <AppLayout>
               <InformationInstructor />
-            </AppLayout>
-          }
-        />
-
-        <Route
-          path="/instructor/add-payment-information"
-          element={
-            <AppLayout>
-              <AddPaymentInstructor />
             </AppLayout>
           }
         />

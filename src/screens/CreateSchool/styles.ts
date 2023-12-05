@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { mediaDeviceMax, pureDark2, maastrichtBlue, lightDark2, fontFamilyMedium } from "../../components/GlobalStyle";
+import { mediaDeviceMax, pureDark2, maastrichtBlue, lightDark2, fontFamilyMedium, fontFamilyRegular } from "../../components/GlobalStyle";
 
 export const CreateSchoolStyled = styled.div`
 margin-bottom: 20px;
@@ -21,6 +21,15 @@ h3 {
     }
   }
 }
+
+  .checkBoxPara {
+    margin-bottom: 0;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    font-family: ${fontFamilyRegular};
+  }
 
   .payment_card {
     border: 1px solid #d9d9d9;
@@ -47,5 +56,17 @@ h3 {
   .ant-btn{
     color: ${maastrichtBlue};
   }
+
+  .ant-input-affix-wrapper{
+    height: 50px;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-radius: 10px;
+    input{
+      height: 48px;
+      background-color: transparent;
+    }
+  }
+
 
 `;

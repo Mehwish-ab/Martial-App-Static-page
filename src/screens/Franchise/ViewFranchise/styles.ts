@@ -30,7 +30,6 @@ margin-bottom: 20px;
   }
 
   .ant-card.ant-card-bordered {
-    border-radius: 20px !important;
     border-radius: 10px;
     border: 1px solid #E0E0E0;
 

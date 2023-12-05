@@ -6,12 +6,12 @@ import { BranchDataType } from "../../../redux/features/branch/branchSlice";
 import { Link, useNavigate } from "react-router-dom";
 import FormControl from "../../../components/FormControl";
 import placeHolderImage from "../../../assets/images/custom_card_placeholder.png";
-import { fontFamilyMedium, lightBlue3, maastrichtBlue, pureDark, tertiaryBlue2 } from "../../../components/GlobalStyle";
+import { darkBlue, fontFamilyMedium, lightBlue3, maastrichtBlue, pureDark, tertiaryBlue2 } from "../../../components/GlobalStyle";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import RightArrow from "../../../assets/images/rightArrow.svg";
 import LeftArrow from "../../../assets/images/leftArrow.svg";
 import DateCalander from "../../../assets/images/dateCalander.svg";
-import plusIcon from "../../../assets/icons/ic_plus.svg";
+import FilterIcon from "../../../assets/icons/ic_filter.svg";
 import { CustomDiv } from "./CustomDiv";
 
 
@@ -86,7 +86,7 @@ const CardView = () => {
             <div className="dateToday">Today</div>
           </div>
           <CustomButton
-            bgcolor={tertiaryBlue2}
+            bgcolor={darkBlue}
             textTransform="Captilize"
             color={pureDark}
             padding="6.5px 0px"
@@ -95,7 +95,7 @@ const CardView = () => {
             type="submit"
             title=""
             fontSize="17px"
-            icon={<img src={plusIcon} alt="edit icon" width={17} height={17} />}
+            icon={<img src={FilterIcon} alt="edit icon" width={17} height={17} />}
             clicked={() => {
               navigate(`/franchise/create`);
             }}

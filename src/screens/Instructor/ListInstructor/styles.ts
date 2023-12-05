@@ -130,10 +130,6 @@ export const ListInstructorStyled = styled.div`
   }
 
 
-  .table-heading{
-    color: ${darkGery};
-  }
-
 
   // pagination
   .ant-pagination{

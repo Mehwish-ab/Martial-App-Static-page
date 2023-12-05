@@ -235,7 +235,7 @@ const RenderTableTitle = () => {
       {/* <h3 className="table-heading">{getLabelByKey("title")}</h3> */}
       <h3 className="table-heading">Branches</h3>
 
-        <CustomDiv>
+      <CustomDiv>
         <FilterListTimeDate />
         <CustomButton
           bgcolor={tertiaryBlue2}
@@ -247,7 +247,7 @@ const RenderTableTitle = () => {
           type="submit"
           title=""
           fontSize="17px"
-          icon={<img src={plusIcon} alt="edit icon" width={23} height={23} />}
+          icon={<img src={plusIcon} alt="edit icon" width={17} height={17} />}
           clicked={() => {
             navigate(`/branch/create`);
           }}

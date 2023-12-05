@@ -6,8 +6,14 @@ import { BranchDataType } from "../../../redux/features/branch/branchSlice";
 import { Link, useNavigate } from "react-router-dom";
 import FormControl from "../../../components/FormControl";
 import placeHolderImage from "../../../assets/images/custom_card_placeholder.png";
-import { fontFamilyMedium, lightBlue3, maastrichtBlue } from "../../../components/GlobalStyle";
+import { fontFamilyMedium, lightBlue3, maastrichtBlue, pureDark, tertiaryBlue2 } from "../../../components/GlobalStyle";
 import CustomButton from "../../../components/CustomButton/CustomButton";
+import RightArrow from "../../../assets/images/rightArrow.svg";
+import LeftArrow from "../../../assets/images/leftArrow.svg";
+import DateCalander from "../../../assets/images/dateCalander.svg";
+import plusIcon from "../../../assets/icons/ic_plus.svg";
+import { CustomDiv } from "./CustomDiv";
+
 
 const CardView = () => {
   const navigate = useNavigate();
@@ -61,7 +67,41 @@ const CardView = () => {
 
   return (
     <CardViewStyled>
-      <h3 className="table-heading">School</h3>
+      <div className="mb-20 d-flex justify-content-between align-items-center">
+        <h3 className="table-heading">School</h3>
+        <CustomDiv>
+          <div className="instructorDateSection">
+            <div className="mainarrow">
+              <div className="arrowright">
+                <img src={LeftArrow} alt="Date" width={18} height={12} />
+              </div>
+              <div className="arrowleft">
+                <img src={RightArrow} alt="Date" width={18} height={12} />
+              </div>
+            </div>
+            <div className="dateRange">
+              <p><span>Mon,</span> Sep 11, 2023 - <span>Thu,</span> Sep 21, 2023</p>
+              <img src={DateCalander} alt="Calander" width={21} height={21} />
+            </div>
+            <div className="dateToday">Today</div>
+          </div>
+          <CustomButton
+            bgcolor={tertiaryBlue2}
+            textTransform="Captilize"
+            color={pureDark}
+            padding="6.5px 0px"
+            fontFamily={`${fontFamilyMedium}`}
+            width="40px"
+            type="submit"
+            title=""
+            fontSize="17px"
+            icon={<img src={plusIcon} alt="edit icon" width={17} height={17} />}
+            clicked={() => {
+              navigate(`/franchise/create`);
+            }}
+          />
+        </CustomDiv>
+      </div>
       <div className="custom_card_list d-flex flex-wrap">
         {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => {
           return (

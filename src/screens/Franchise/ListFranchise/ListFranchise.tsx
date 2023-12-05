@@ -282,7 +282,7 @@ const RenderTableTitle = () => {
           type="submit"
           title=""
           fontSize="17px"
-          icon={<img src={plusIcon} alt="edit icon" width={23} height={23} />}
+          icon={<img src={plusIcon} alt="edit icon" width={17} height={17} />}
           clicked={() => {
             navigate(`/franchise/create`);
           }}

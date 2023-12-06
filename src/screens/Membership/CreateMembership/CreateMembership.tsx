@@ -18,13 +18,13 @@ import camera from "../../../assets/images/DSLR_Camera.png";
 import img from "../../../assets/images/Rectangleimg.png";
 import {
   fontFamilyMedium,
+  fontFamilyRegular,
   lightBlue3,
   pureDark,
-  pureDark2,
 } from "../../../components/GlobalStyle";
 import CustomPhoneInput from "../../../components/CustomPhoneInput/CustomPhoneInput";
 import CustomButton from "../../../components/CustomButton/CustomButton";
-import { CreateSchoolStyled } from "../../CreateSchool/styles";
+import { CreateClassStyled } from "../../Class/CreateClasses/styles";
 import { CreateMembershipInitialValues } from "../constant";
 import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelect";
 import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
@@ -111,10 +111,10 @@ const CreateMembership = () => {
         navigate("/membership/list");
       }, 3000);
       setIsLoading(false);
-    } catch (error: any) {}
+    } catch (error: any) { }
   };
   return (
-    <CreateSchoolStyled>
+    <CreateClassStyled>
       <CustomModal
         isModalVisible={isShowModal}
         setIsModalVisible={setIsShowModal}
@@ -143,144 +143,153 @@ const CreateMembership = () => {
               autoComplete="off"
             >
               <div className="bg-white form">
-                <h3 style={{ color: pureDark2 }}>Membership Information</h3>
+                <h3>Membership Information</h3>
                 <Row>
                   <Col md="6">
+                    <Row>
+                      <Col md="12" className="mt-20">
+                        <FormControl
+                          control="input"
+                          type="text"
+                          name="title"
+                          label="Title"
+                          padding="10px"
+                          fontFamily={fontFamilyRegular}
+                          fontSize="16px"
+                          max={6}
+                          placeholder="Title"
+                        />
+                      </Col>
+
+                      <Col md="12">
+                        <Row>
+                          <Col md="6" className="mt-20">
+                            <FormControl
+                              control="input"
+                              type="text"
+                              name="StartDate"
+                              fontFamily={fontFamilyRegular}
+                              label="Start Date"
+                              padding="10px"
+                              placeholder="Start Date"
+                              suffix={
+                                <img
+                                  src={DateCalander}
+                                  alt=""
+                                  width={25} height={25}
+                                //onClick={(type = "date")}
+                                />
+                              }
+                            />
+                          </Col>
+                          <Col md="6" className="mt-20">
+                            <FormControl
+                              control="input"
+                              type="text"
+                              name="endDate"
+                              fontFamily={fontFamilyRegular}
+                              label="End Date"
+                              padding="10px"
+                              placeholder="End Date"
+                              suffix={
+                                <img
+                                  src={DateCalander}
+                                  alt=""
+                                  width={25} height={25}
+                                //onClick={(type = "date")}
+                                />
+                              }
+                            />
+                          </Col>
+                        </Row>
+                      </Col>
+                      <Col md="12">
+                        <Row>
+                          <Col md="6" className="mt-20">
+                            <FormControl
+                              control="select"
+                              type="text"
+                              name="Visibility"
+                              label="Visibility"
+                              padding="7px"
+                              fontFamily={fontFamilyRegular}
+                              fontSize="16px"
+                              max={6}
+                              placeholder="Select Visibility"
+                            />
+                          </Col>
+                          <Col md="6" className="mt-20">
+                            <FormControl
+                              control="select"
+                              type="text"
+                              name="SubscriptionType "
+                              label="Subscription Type "
+                              padding="7px"
+                              fontFamily={fontFamilyRegular}
+                              fontSize="16px"
+                              max={6}
+                              placeholder="Select Subscription Type"
+                            />
+                          </Col>
+                        </Row>
+                      </Col>
+
+                      <Col md="12">
+                        <Row>
+                          <Col md="6" className="mt-20">
+                            <FormControl
+                              control="input"
+                              type="text"
+                              name="membershipfee"
+                              fontFamily={fontFamilyRegular}
+                              label="Membership Fees"
+                              padding="10px"
+                              placeholder="300:00"
+                              suffix={
+                                <img
+                                  src={doller}
+                                  alt=""
+                                  width={13} height={27}
+                                //onClick={(type = "date")}
+                                />
+                              }
+                            />
+                          </Col>
+                          <Col md="6" className="mt-20">
+                            <FormControl
+                              control="input"
+                              type="text"
+                              name="Activities"
+                              fontFamily={fontFamilyRegular}
+                              label="Minimum Student"
+                              padding="10px"
+                              placeholder="Enter Minimum Student Required for Class"
+                            />
+                          </Col>
+                        </Row>
+                      </Col>
+
+                    </Row>
+                  </Col>
+                  <Col md="6">
                     <Col md="12" className="mt-20">
-                      <FormControl
-                        control="input"
-                        type="text"
-                        name="title"
-                        label="Title"
-                        padding="10px"
-                        fontFamily={fontFamilyMedium}
-                        fontSize="16px"
-                        max={6}
-                        placeholder="7250 Keele St, Vaughan, ON L4K 1Z8, Canada"
+                      <p className="bannerTitle ">Select Banner Image</p>
+                      <OverlayImages
+                        backgroundImg={MembershipData?.MemberShipPicture || ""}
+                        overlayImg={false}
+                        isEditable={true}
                       />
                     </Col>
-
-                    <Col md="12" className="d-flex  gap-2">
-                      <Col md="6" className="mt-20">
-                        <FormControl
-                          control="input"
-                          type="text"
-                          name="StartDate"
-                          fontFamily={fontFamilyMedium}
-                          label="Start Dates"
-                          padding="10px"
-                          placeholder=" Monday, October 27, 2023"
-                          suffix={
-                            <img
-                              src={DateCalander}
-                              alt=""
-                              style={{ width: "18", height: "18px" }}
-                              //onClick={(type = "date")}
-                            />
-                          }
-                        />
-                      </Col>
-
-                      <Col md="6" className="mt-20">
-                        <FormControl
-                          control="input"
-                          type="text"
-                          name="endDate"
-                          fontFamily={fontFamilyMedium}
-                          label="End Dates"
-                          padding="10px"
-                          placeholder=" Monday, October 27, 2023"
-                          suffix={
-                            <img
-                              src={DateCalander}
-                              alt=""
-                              style={{ width: "18", height: "18px" }}
-                              //onClick={(type = "date")}
-                            />
-                          }
-                        />
-                      </Col>
-                    </Col>
-                    <Col md="12" className=" fill d-flex gap-2">
-                      <Col md="6" className=" my-4 ">
-                        <FormControl
-                          control="select"
-                          type="text"
-                          name="Visibility"
-                          label="Visibility"
-                          padding="7px"
-                          fontFamily={fontFamilyMedium}
-                          fontSize="16px"
-                          max={6}
-                          placeholder="Select Visibility"
-                        />
-                      </Col>
-
-                      <Col md="6" className=" my-4 ">
-                        <FormControl
-                          control="select"
-                          type="text"
-                          name="SubscriptionType "
-                          label="Subscription Type "
-                          padding="7px"
-                          fontFamily={fontFamilyMedium}
-                          fontSize="16px"
-                          max={6}
-                          placeholder="Select Subscription Type"
-                        />
-                      </Col>
-                    </Col>
-                    <Col md="12" className=" fill d-flex gap-2">
-                      <Col md="6">
-                        <FormControl
-                          control="input"
-                          type="text"
-                          name="membershipfee"
-                          fontFamily={fontFamilyMedium}
-                          label="Membership Fees"
-                          padding="10px"
-                          placeholder="300:00"
-                          suffix={
-                            <img
-                              src={doller}
-                              alt=""
-                              style={{ width: "18", height: "18px" }}
-                              //onClick={(type = "date")}
-                            />
-                          }
-                        />
-                      </Col>
-                      <Col md="6">
-                        <FormControl
-                          control="input"
-                          type="text"
-                          name="Activities"
-                          fontFamily={fontFamilyMedium}
-                          label="Minimum Student"
-                          padding="10px"
-                          placeholder="Enter Minimum Student Required for Class"
-                        />
-                      </Col>
-                    </Col>
                   </Col>
-
-                  <Col md="6" className="mt-20">
-                    <OverlayImages
-                      backgroundImg={MembershipData.MemberShipPicture || ""}
-                      overlayImg={null}
-                      isEditable={true}
-                    />
-                  </Col>
-                  <div className="container my-4">
-                    <h3 style={{ color: pureDark2 }}>Subscription Plan</h3>
-                  </div>
-
+                </Row>
+                <Row>
+                  <h3 className="mt-20">Subscription Plan</h3>
                   <Col md="3" className="mt-20">
                     <FormControl
                       control="input"
                       type="text"
                       name="DailySubscriptionFees"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       label="Daily Subscription Fees"
                       padding="10px"
                       placeholder="30:00"
@@ -288,8 +297,8 @@ const CreateMembership = () => {
                         <img
                           src={doller}
                           alt=""
-                          style={{ width: "18", height: "18px" }}
-                          //onClick={(type = "date")}
+                          width={13} height={27}
+                        //onClick={(type = "date")}
                         />
                       }
                     />
@@ -299,7 +308,7 @@ const CreateMembership = () => {
                       control="input"
                       type="text"
                       name="WeeklySubscriptionFees"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       label="Weekly Subscription Fees"
                       padding="10px"
                       placeholder="30:00"
@@ -307,8 +316,8 @@ const CreateMembership = () => {
                         <img
                           src={doller}
                           alt=""
-                          style={{ width: "18", height: "18px" }}
-                          //onClick={(type = "date")}
+                          width={13} height={27}
+                        //onClick={(type = "date")}
                         />
                       }
                     />
@@ -318,7 +327,7 @@ const CreateMembership = () => {
                       control="input"
                       type="text"
                       name="MonthlySubscriptionFees"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       label="Monthly Subscription Fees"
                       padding="10px"
                       placeholder="30:00"
@@ -326,8 +335,8 @@ const CreateMembership = () => {
                         <img
                           src={doller}
                           alt=""
-                          style={{ width: "18", height: "18px" }}
-                          //onClick={(type = "date")}
+                          width={13} height={27}
+                        //onClick={(type = "date")}
                         />
                       }
                     />
@@ -337,7 +346,7 @@ const CreateMembership = () => {
                       control="input"
                       type="text"
                       name="AnnuallySubscriptionFees"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       label="Annually Subscription Fees"
                       padding="10px"
                       placeholder="30:00"
@@ -345,21 +354,21 @@ const CreateMembership = () => {
                         <img
                           src={doller}
                           alt=""
-                          style={{ width: "18", height: "18px" }}
-                          //onClick={(type = "date")}
+                          width={13} height={27}
+                        //onClick={(type = "date")}
                         />
                       }
                     />
                   </Col>
 
-                  <Col md="3" className=" my-4 ">
+                  <Col md="3" className="mt-20">
                     <FormControl
                       control="select"
                       type="text"
                       name="AllowtoStudentCancel "
                       label="Allow to Student Cancel "
                       padding="7px"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       fontSize="16px"
                       max={6}
                       placeholder="Monday, October 27, 2023"
@@ -371,16 +380,16 @@ const CreateMembership = () => {
                       control="input"
                       type="text"
                       name="RefundFeesDate"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       label="Refund Fees Date"
                       padding="10px"
-                      placeholder=" Monday, October 27, 2023"
+                      placeholder="Monday, October 27, 2023"
                       suffix={
                         <img
                           src={DateCalander}
                           alt=""
-                          style={{ width: "18", height: "18px" }}
-                          //onClick={(type = "date")}
+                          width={25} height={25}
+                        //onClick={(type = "date")}
                         />
                       }
                     />
@@ -391,16 +400,16 @@ const CreateMembership = () => {
                       control="input"
                       type="text"
                       name="BookingCancellationStart "
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       label="Booking Cancellation Start "
                       padding="10px"
-                      placeholder=" Monday, October 27, 2023"
+                      placeholder="Monday, October 27, 2023"
                       suffix={
                         <img
                           src={DateCalander}
                           alt=""
-                          style={{ width: "18", height: "18px" }}
-                          //onClick={(type = "date")}
+                          width={25} height={25}
+                        //onClick={(type = "date")}
                         />
                       }
                     />
@@ -411,27 +420,27 @@ const CreateMembership = () => {
                       control="input"
                       type="text"
                       name="BookingCancellationEnd "
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       label="Booking Cancellation End "
                       padding="10px"
-                      placeholder=" Monday, October 27, 2023"
+                      placeholder="Monday, October 27, 2023"
                       suffix={
                         <img
                           src={DateCalander}
                           alt=""
-                          style={{ width: "18", height: "18px" }}
-                          //onClick={(type = "date")}
+                          width={25} height={25}
+                        //onClick={(type = "date")}
                         />
                       }
                     />
                   </Col>
 
-                  <Col md="3" className="">
+                  <Col md="3" className="mt-20">
                     <FormControl
                       control="input"
                       type="text"
                       name="Cancellation Charge"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       label="Cancellation Charge"
                       padding="10px"
                       placeholder="20:00"
@@ -439,103 +448,71 @@ const CreateMembership = () => {
                         <img
                           src={doller}
                           alt=""
-                          style={{ width: "18", height: "18px" }}
-                          //onClick={(type = "date")}
+                          width={13} height={27}
+                        //onClick={(type = "date")}
                         />
                       }
                     />
                   </Col>
 
-                  <Col md="3" className=" fill ">
+                  <Col md="3" className="mt-20">
                     <FormControl
                       control="select"
                       type="text"
                       name="Accommodate"
                       label="Accommodate "
-                      fontFamily={fontFamilyMedium}
-                      fontSize="15px"
+                      fontFamily={fontFamilyRegular}
+                      fontSize="16px"
                       max={6}
                       placeholder="Select Accommodation Options"
                     />
                   </Col>
 
+
                   <Col md="12" className="mt-20">
-                    <h5>Description & Features</h5>
-                    <div
-                      className="my-3 border border-light border border-4"
-                      title="Description & Features"
-                      id="description"
-                      //   rows="5"
-                      //   cols="50"
-                      //   control="textarea"
-                      //   fontFamily={fontFamilyMedium}
-                      //   padding="10px"
-                      //   placeholder="Description"
-                      //   text="hello"
-                    >
-                      <div>
-                        <p>
-                          Judo: a relatively modern Japanese martial art
-                          (created in 1882). The goal of judo is to either throw
-                          or takedown one’s opponent to the ground and
-                          immobilize or subdue them with a grappling maneuver,
-                          joint lock, strangle hold, or choke. Strikes and
-                          thrusts by hands and feet or weapons are only allowed
-                          in pre-arranged forms (kata), and are not allowed in
-                          competition or free practice.
-                        </p>
-                        <p>
-                          Jiu Jitsu (Jujitsu, Jujutsu): a Japanese martial art
-                          for defeating an armed and armored opponent in which
-                          one uses no weapon, or only a short weapon.
-                          Practitioners neutralize an enemy with pins, joint
-                          locks, and throws by using an attacker’s energy
-                          against him, rather than directly opposing it (as with
-                          other martial arts such as karate). There are five
-                          main areas or arts of training: blocking, fulcrum
-                          throw, non-fulcrum throw, escaping, and striking.
-                        </p>
-                      </div>
-                    </div>
+                    <FormControl
+                      control="textarea"
+                      type="text"
+                      name="description"
+                      fontFamily={fontFamilyRegular}
+                      label="Description & Features"
+                      padding="10px"
+                      placeholder="Description & Features"
+                      height="200px"
+                    />
                   </Col>
 
                   <label htmlFor="termCondition">
-                    <form className="mt-3 d-flex align-content-start justify-content-start">
-                      <Field
+                    <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
+                      <FormControl
                         control="checkbox"
                         type="checkbox"
-                        name="termCondition"
-                        id="termCondition"
+                        id="rememberMe"
+                        name="rememberMe"
                       />
-                      <p className="ms-3 mb-0" id="termCondition">
-                        Terms and conditions
-                      </p>
+                      <p className="checkBoxPara" id="termCondition">Terms and conditions</p>
                     </form>
                   </label>
                   <label htmlFor="agreement">
-                    <form className="mt-2 d-flex align-content-start justify-content-start">
-                      <Field
+                    <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
+                      <FormControl
                         control="checkbox"
                         type="checkbox"
-                        name="agreement"
-                        id="agreement"
+                        id="rememberMe"
+                        name="rememberMe"
                       />
-                      <p className="ms-3 mb-0" id="agreement">
-                        Agreement to follow the app's guidelines and policies
-                      </p>
+                      <p className="checkBoxPara" id="agreement">Agreement to follow the app's guidelines and policies</p>
                     </form>
                   </label>
                   <label htmlFor="liability">
-                    <form className="mt-2 d-flex align-content-start justify-content-start">
-                      <Field
+                    <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
+                      <FormControl
                         control="checkbox"
                         type="checkbox"
-                        name="liability"
-                        id="liability"
+                        id="rememberMe"
+                        name="rememberMe"
                       />
-                      <p className="ms-3 mb-0" id="liability">
-                        Liability waivers
-                      </p>
+                      <p className="checkBoxPara" id="liability">Liability waivers</p>
                     </form>
                   </label>
                 </Row>
@@ -546,7 +523,7 @@ const CreateMembership = () => {
                   bgcolor={lightBlue3}
                   textTransform="Captilize"
                   color={pureDark}
-                  padding="12px 100px"
+                  padding="11px 40.50px"
                   margin="30px 0px"
                   fontFamily={`${fontFamilyMedium}`}
                   width="fit-content"
@@ -560,7 +537,7 @@ const CreateMembership = () => {
           );
         }}
       </Formik>
-    </CreateSchoolStyled>
+    </CreateClassStyled>
   );
 };
 

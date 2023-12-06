@@ -12,22 +12,17 @@ import {
 import { useNavigate } from "react-router-dom";
 import plusIcon from "../../../assets/icons/ic_plus.svg";
 import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
-
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
-
 import { MembershipDataType } from "../../../redux/features/Membership/MembershipSlice";
-import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import DummyData from "./dummyData.json";
-import BeltImage from "../../../assets/images/BlueBelt.svg";
 import StatusActiveError from "../../../assets/images/activeBtnError.svg";
 import RightArrow from "../../../assets/images/rightArrow.svg";
 import LeftArrow from "../../../assets/images/leftArrow.svg";
 import DateCalander from "../../../assets/images/dateCalander.svg";
 
 const ListMembership: React.FC = () => {
-  const { getLabelByKey } = useScreenTranslation("listMembership");
 
   const navigate = useNavigate();
 
@@ -73,7 +68,7 @@ const ListMembership: React.FC = () => {
         return (
           <div>
             <button>{DummyData}</button>
-            <img src={StatusActiveError} alt="image" />
+            <img src={StatusActiveError} alt="images" />
           </div>
         );
       },
@@ -175,7 +170,6 @@ export default ListMembership;
 
 const RenderTableTitle = () => {
   const navigate = useNavigate();
-  const { getLabelByKey } = useScreenTranslation("listMembership");
 
   return (
     <>

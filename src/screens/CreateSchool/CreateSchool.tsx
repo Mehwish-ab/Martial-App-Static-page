@@ -21,7 +21,6 @@ import {
   fontFamilyRegular,
   lightBlue3,
   maastrichtBlue,
-  pureDark,
 } from "../../components/GlobalStyle";
 import CustomPhoneInput from "../../components/CustomPhoneInput/CustomPhoneInput";
 import CustomButton from "../../components/CustomButton/CustomButton";

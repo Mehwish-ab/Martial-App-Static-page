@@ -1,20 +1,8 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import useScreenTranslation from "../../../hooks/useScreenTranslation";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
 import { InformationTimeTableFormStyle } from "./styles";
 
 const InformationTimeTableForm: React.FC = () => {
-    const { getLabelByKey } = useScreenTranslation("listTimeTable");
-
-    const navigate = useNavigate();
-
-
-    const { loading } = useSelector(
-        (state: RootState) => state.timeTableData
-    );
     return (
         <>
             <InformationTimeTableFormStyle>

@@ -1,7 +1,6 @@
 import React from "react";
 import { Dropdown, Space } from "antd";
 import { useNavigate } from "react-router-dom";
-import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import StatusActiveError from "../../../assets/images/activeBtnError.svg";
 import Clock from "../../../assets/icons/ic_clock.svg";
@@ -15,24 +14,16 @@ import {
 } from "../../../components/GlobalStyle";
 import { CreateTimeTableStyled } from "./styles";
 import { Table } from "antd";
-import { CreateTimeTableInitialValues } from "../constant";
 import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
 import { TimeTableDataType } from "../../../redux/features/TimeTable/TimeTableSlice";
 import { RootState } from "../../../redux/store";
 import { ColumnsType } from "antd/lib/table";
 
 const TimeTableSheet: React.FC = () => {
-    const { getLabelByKey } = useScreenTranslation("listTimeTable");
-
     const navigate = useNavigate();
-
-
     const { loading } = useSelector(
         (state: RootState) => state.timeTableData
     );
-
-
-
 
     const columns: ColumnsType<TimeTableDataType> = [
         {
@@ -103,7 +94,7 @@ const TimeTableSheet: React.FC = () => {
                 return (
                     <div>
                         <button>{DummyData}</button>
-                        <img src={StatusActiveError} alt="image" />
+                        <img src={StatusActiveError} alt="images" />
                     </div>
                 );
             },
@@ -220,23 +211,6 @@ export default TimeTableSheet;
 
 
 const RenderTableTitle = () => {
-    const navigate = useNavigate();
-    const { getLabelByKey } = useScreenTranslation("createTimeTable");
-
-    const initialValues: CreateTimeTableInitialValues = {
-        instructorName: "",
-        emailAddress: "",
-        instructorPhoneNumber: "",
-        address: "",
-        yearsOfExperience: "",
-        ranking: "",
-        latestCertification: "",
-        description: "",
-        selectedActivities: [],
-        selectedFacilities: [],
-        termCondition: "",
-    };
-
     return (
         <>
             <h3 className="tableHeading">Session Timings by Day</h3>

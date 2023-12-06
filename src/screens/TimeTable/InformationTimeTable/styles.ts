@@ -3,15 +3,8 @@ import {
   fontFamilyMedium,
   pureDark2,
   lightDark2,
-  lightDark3,
   tertiaryGrey24,
-
   fontFamilyRegular,
-  mediaDeviceMax,
-  whiteColor,
-  BallBlue,
-  AntiFlashWhite,
-  // mainColor,
 } from "../../../components/GlobalStyle";
 
 export const InformationTimeTableStyle = styled.div`

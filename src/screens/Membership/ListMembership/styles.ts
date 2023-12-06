@@ -1,8 +1,5 @@
 import styled from "styled-components";
 import {
-  darkBlue,
-  darkGery,
-  fontFamilyBold,
   fontFamilyMedium,
   fontFamilyRegular,
   pureDark2,
@@ -10,7 +7,6 @@ import {
   whiteColor,
   BallBlue,
   AntiFlashWhite,
-  // mainColor,
 } from "../../../components/GlobalStyle";
 
 export const ListMembershipStyled = styled.div`

@@ -12,12 +12,10 @@ import {
 import { useNavigate } from "react-router-dom";
 import plusIcon from "../../../assets/icons/ic_plus.svg";
 import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
-
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
 import { ClassDataType } from "../../../redux/features/CLasses/ClassSlice";
-import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import DummyData from "./dummyData.json";
 import StatusActiveError from "../../../assets/images/activeBtnError.svg";
 import RightArrow from "../../../assets/images/rightArrow.svg";
@@ -25,10 +23,8 @@ import LeftArrow from "../../../assets/images/leftArrow.svg";
 import DateCalander from "../../../assets/images/dateCalander.svg";
 
 const ListClass: React.FC = () => {
-  const { getLabelByKey } = useScreenTranslation("listClass");
   const navigate = useNavigate();
-  const { loginData } = useSelector((state: RootState) => state);
-  const { loading, } = useSelector(
+  const { loading } = useSelector(
     (state: RootState) => state.branchData
   );
   const columns: ColumnsType<ClassDataType> = [
@@ -71,7 +67,7 @@ const ListClass: React.FC = () => {
         return (
           <div>
             <button>{DummyData}</button>
-            <img src={StatusActiveError} alt="image" />
+            <img src={StatusActiveError} alt="images" />
           </div>
         );
       },
@@ -168,8 +164,6 @@ export default ListClass;
 
 const RenderTableTitle = () => {
   const navigate = useNavigate();
-  const { getLabelByKey } = useScreenTranslation("listClass");
-
   return (
     <div className="d-flex justify-content-between align-items-center">
       <h3 className="table-heading">Classes</h3>
@@ -191,7 +185,7 @@ const RenderTableTitle = () => {
             </p>
             <img
               src={DateCalander}
-              alt=""
+              alt="calander"
               width={21} height={21}
             />
           </div>

@@ -1,44 +1,19 @@
-import React, { useState } from "react";
-import { Dropdown, Form, Space } from "antd";
-import { ErrorMessage, Field, Formik } from "formik";
+import React from "react";
+import { Dropdown, Space } from "antd";
 import { useNavigate } from "react-router-dom";
-import useScreenTranslation from "../../../hooks/useScreenTranslation";
-import CustomButton from "../../../components/CustomButton/CustomButton";
 import StatusActiveError from "../../../assets/images/activeBtnError.svg";
-import Clock from "../../../assets/icons/ic_clock.svg";
-import FormControl from "../../../components/FormControl";
 import { useSelector } from "react-redux";
 import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
 import DummyData from "./dummyData.json";
-import { Col, Row } from "react-bootstrap";
-
-import DateCalander from "../../../assets/images/dateCalander.svg";
-import {
-    darkBlue,
-    darkGery,
-    fontFamilyBold,
-    tertiaryBlue2,
-    fontFamilyMedium,
-    lightBlue3,
-    pureDark,
-    // mainColor,
-} from "../../../components/GlobalStyle";
-// import { CreateTimeTableStyled } from "./styles";
-// import { FilterTimeTableStyled } from "./styles";
 import { Table } from "antd";
-import { CreateTimeTableInitialValues } from "../constant";
 import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
 import { TimeTableDataType } from "../../../redux/features/TimeTable/TimeTableSlice";
 import { RootState } from "../../../redux/store";
 import { ColumnsType } from "antd/lib/table";
 import { InformationTimeTableStyle } from "./styles";
-// import { FormControl } from "react-bootstrap";
 
 
 const InformationTimeTableSheet: React.FC = () => {
-
-    const { getLabelByKey } = useScreenTranslation("listTimeTable");
-
     const navigate = useNavigate();
 
 
@@ -111,7 +86,7 @@ const InformationTimeTableSheet: React.FC = () => {
                 return (
                     <div>
                         <button>{DummyData}</button>
-                        <img src={StatusActiveError} alt="image" />
+                        <img src={StatusActiveError} alt="images" />
                     </div>
                 );
             },
@@ -180,16 +155,6 @@ const InformationTimeTableSheet: React.FC = () => {
     };
 
     console.log("DummyData", DummyData)
-    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-    const [current, setCurrent] = useState(1);
-
-    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-        console.log('selectedRowKeys changed: ', newSelectedRowKeys);
-        setSelectedRowKeys(newSelectedRowKeys);
-    };
-
-    const rowSelection = { selectedRowKeys, onChange: onSelectChange };
-
     return (
         <>
             {loading && <LoadingOverlay message="" />}
@@ -209,24 +174,6 @@ export default InformationTimeTableSheet;
 
 
 const RenderTableTitle = () => {
-    const navigate = useNavigate();
-    const { getLabelByKey } = useScreenTranslation("createTimeTable");
-
-    const initialValues: CreateTimeTableInitialValues = {
-        instructorName: "",
-        emailAddress: "",
-        instructorPhoneNumber: "",
-        address: "",
-        yearsOfExperience: "",
-        ranking: "",
-        latestCertification: "",
-        description: "",
-        selectedActivities: [],
-        selectedFacilities: [],
-        termCondition: "",
-    };
-
-
     return (
         <>
             <h3 className="timetable-heading">Session Timings by Day</h3 >

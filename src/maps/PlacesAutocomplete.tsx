@@ -1,12 +1,7 @@
-import Autocomplete, { usePlacesWidget } from "react-google-autocomplete";
+import Autocomplete from "react-google-autocomplete";
 import { MAP_API } from "../App";
-import { useAppSelector } from "../app/hooks";
 import { PlacesAutocompleteStyle } from "./style";
-import { useRef } from "react";
-import FormControl from "../components/FormControl";
-import { fontFamilyMedium } from "../components/GlobalStyle";
-import { ErrorMessage, Field } from "formik";
-import { Input } from "antd";
+import { ErrorMessage } from "formik";
 import Errormsg from "../components/ErrorMessage";
 import MagnifiedIcon from "../assets/icons/ic_search.svg"
 
@@ -51,9 +46,8 @@ const PlacesAutoCompleteInput: React.FC<placesAutoCompleteInputProps> = ({
           }}
           defaultValue={value}
           placeholder={placeholder}
-          className={`ant-input ${
-            formik.errors.address ? "is-invalid" : "customInput"
-          }`}
+          className={`ant-input ${formik.errors.address ? "is-invalid" : "customInput"
+            }`}
         />
         <span><img src={MagnifiedIcon} alt="as" /></span>
       </div>

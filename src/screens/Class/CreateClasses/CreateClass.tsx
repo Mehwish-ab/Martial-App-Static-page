@@ -1,13 +1,8 @@
 import { useState } from "react";
-
-import { Field, Formik } from "formik";
+import { Formik } from "formik";
 import { Form } from "antd";
-
 import { Col, Row } from "react-bootstrap";
-import * as Yup from "yup";
 import { useSelector } from "react-redux";
-import useScreenTranslation from "../../../hooks/useScreenTranslation";
-import { validationFinder } from "../../../utils/utilities";
 import FormControl from "../../../components/FormControl";
 import DateCalander from "../../../assets/images/dateCalander.svg";
 import {
@@ -15,7 +10,6 @@ import {
   fontFamilyRegular,
   lightBlue3,
   pureDark,
-  pureDark2,
 } from "../../../components/GlobalStyle";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import { CreateClassStyled } from "./styles";
@@ -25,8 +19,7 @@ import EnnvisionModal from "../../../components/CustomModals/EnnvisionModal";
 import CustomModal from "../../../components/Modal/CustomModal";
 import { useNavigate } from "react-router-dom";
 import OverlayImages from "../../Home/OverlayImages/OverlayImages";
-import { DataTypesWithIdAndMultipleLangLabel } from "../../../redux/features/types";
-import store, { RootState } from "../../../redux/store";
+import { RootState } from "../../../redux/store";
 
 const CreateClass = () => {
   const [isShowModal, setIsShowModal] = useState(false);
@@ -64,39 +57,6 @@ const CreateClass = () => {
     profilePicture: "",
   };
 
-  const franchiseName = validationFinder("BUSINESS_NAME")!;
-  const franchiseNameReg = new RegExp(franchiseName.pattern);
-  const address = validationFinder("ADDRESS")!;
-  const addressReg = new RegExp(address.pattern);
-  const emailAddress = validationFinder("EMAIL_ADDRESS")!;
-  const emailAddressReg = new RegExp(emailAddress.pattern);
-
-  const franchisePhoneNumber = validationFinder("PHONE_NUMBER")!;
-
-  const validationSchema = Yup.object({
-    franchiseName: Yup.string()
-      .required(franchiseName.notBlankMsgEn)
-      .matches(franchiseNameReg, franchiseName.patternMsgEn),
-    address: Yup.string()
-      .required(address.notBlankMsgEn)
-      .matches(addressReg, address.patternMsgEn),
-    emailAddress: Yup.string()
-      .required(emailAddress.notBlankMsgEn)
-      .matches(emailAddressReg, emailAddress.patternMsgEn),
-    franchisePhoneNumber: Yup.string().required(
-      franchisePhoneNumber.notBlankMsgEn
-    ),
-    belts: Yup.string().required("Please select belts"),
-    description: Yup.string().required("Please enter description"),
-    defaultLanguage: Yup.string().required("Please select default language"),
-    defaultCurrency: Yup.string().required("Please select default currency"),
-    selectedActivities: Yup.array()
-      .of(Yup.string().required("Select an activity"))
-      .min(1, "Select at least one activity"),
-    selectedFacilities: Yup.array()
-      .of(Yup.string().required("Select an activity"))
-      .min(1, "Select at least one facility"),
-  });
   const onSubmit = async () => {
     try {
       setIsShowModal(true);
@@ -126,7 +86,6 @@ const CreateClass = () => {
       </CustomModal>
       <Formik
         initialValues={initialValues}
-        // validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
         {(formik) => {

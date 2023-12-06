@@ -3,14 +3,11 @@ import axios from "axios";
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useGlobalContext } from "../context/context";
-import { useAppSelector } from "../app/hooks";
 import {
   generate_otp_url,
   useCaseForgetPassowrd,
-  useCaseRegisteration,
 } from "../utils/api_urls";
 import { forgetPasswordInitialTypes } from "../screens/ForgetPassword/ForgetPasword";
-import * as Yup from "yup";
 
 const useGenerateOtp = () => {
   const navigate = useNavigate();

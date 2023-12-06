@@ -1,50 +1,37 @@
 import { useState } from "react";
 
-import { ErrorMessage, Field, Formik } from "formik";
+import { Formik } from "formik";
 import { Form } from "antd";
 
 import { Col, Row } from "react-bootstrap";
-import * as Yup from "yup";
 import { useSelector } from "react-redux";
-import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { RootState } from "../../../redux/store";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import { validationFinder } from "../../../utils/utilities";
 import FormControl from "../../../components/FormControl";
 import DateCalander from "../../../assets/images/dateCalander.svg";
 import doller from "../../../assets/images/$.svg";
-import camera from "../../../assets/images/DSLR_Camera.png";
-import img from "../../../assets/images/Rectangleimg.png";
 import {
   fontFamilyMedium,
   fontFamilyRegular,
   lightBlue3,
   pureDark,
 } from "../../../components/GlobalStyle";
-import CustomPhoneInput from "../../../components/CustomPhoneInput/CustomPhoneInput";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import { CreateClassStyled } from "../../Class/CreateClasses/styles";
 import { CreateMembershipInitialValues } from "../constant";
-import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelect";
-import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
-import ic_calender from "../../../assets/icons/ic_calendar.svg";
 import EnnvisionModal from "../../../components/CustomModals/EnnvisionModal";
 import CustomModal from "../../../components/Modal/CustomModal";
 import OverlayImages from "../../Home/OverlayImages/OverlayImages";
 const CreateMembership = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { getLabelByKey } = useScreenTranslation("instructorCreate");
   const [isShowModal, setIsShowModal] = useState(false);
   const navigate = useNavigate();
   const { MembershipData } = useSelector(
     (state: RootState) => state.MembershipData
   );
 
-  const {
-    statusData: { activities, facilities },
-    dropdowns: { currency, language, businessTypes },
-  } = useSelector((state: RootState) => state.appData.data);
+
 
   const initialValues: CreateMembershipInitialValues = {
     MembershipTitle: "",
@@ -70,39 +57,6 @@ const CreateMembership = () => {
     Liabilitywaivers: "",
   };
 
-  const franchiseName = validationFinder("BUSINESS_NAME")!;
-  const franchiseNameReg = new RegExp(franchiseName.pattern);
-  const address = validationFinder("ADDRESS")!;
-  const addressReg = new RegExp(address.pattern);
-  const emailAddress = validationFinder("EMAIL_ADDRESS")!;
-  const emailAddressReg = new RegExp(emailAddress.pattern);
-
-  const franchisePhoneNumber = validationFinder("PHONE_NUMBER")!;
-
-  const validationSchema = Yup.object({
-    franchiseName: Yup.string()
-      .required(franchiseName.notBlankMsgEn)
-      .matches(franchiseNameReg, franchiseName.patternMsgEn),
-    address: Yup.string()
-      .required(address.notBlankMsgEn)
-      .matches(addressReg, address.patternMsgEn),
-    emailAddress: Yup.string()
-      .required(emailAddress.notBlankMsgEn)
-      .matches(emailAddressReg, emailAddress.patternMsgEn),
-    franchisePhoneNumber: Yup.string().required(
-      franchisePhoneNumber.notBlankMsgEn
-    ),
-    belts: Yup.string().required("Please select belts"),
-    description: Yup.string().required("Please enter description"),
-    defaultLanguage: Yup.string().required("Please select default language"),
-    defaultCurrency: Yup.string().required("Please select default currency"),
-    selectedActivities: Yup.array()
-      .of(Yup.string().required("Select an activity"))
-      .min(1, "Select at least one activity"),
-    selectedFacilities: Yup.array()
-      .of(Yup.string().required("Select an activity"))
-      .min(1, "Select at least one facility"),
-  });
   const onSubmit = async () => {
     try {
       setIsShowModal(true);
@@ -132,7 +86,6 @@ const CreateMembership = () => {
 
       <Formik
         initialValues={initialValues}
-        // validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
         {(formik) => {
@@ -250,7 +203,6 @@ const CreateMembership = () => {
                                   src={doller}
                                   alt=""
                                   width={13} height={27}
-                                //onClick={(type = "date")}
                                 />
                               }
                             />
@@ -298,7 +250,6 @@ const CreateMembership = () => {
                           src={doller}
                           alt=""
                           width={13} height={27}
-                        //onClick={(type = "date")}
                         />
                       }
                     />
@@ -317,7 +268,6 @@ const CreateMembership = () => {
                           src={doller}
                           alt=""
                           width={13} height={27}
-                        //onClick={(type = "date")}
                         />
                       }
                     />
@@ -336,7 +286,6 @@ const CreateMembership = () => {
                           src={doller}
                           alt=""
                           width={13} height={27}
-                        //onClick={(type = "date")}
                         />
                       }
                     />
@@ -355,7 +304,6 @@ const CreateMembership = () => {
                           src={doller}
                           alt=""
                           width={13} height={27}
-                        //onClick={(type = "date")}
                         />
                       }
                     />
@@ -389,7 +337,6 @@ const CreateMembership = () => {
                           src={DateCalander}
                           alt=""
                           width={25} height={25}
-                        //onClick={(type = "date")}
                         />
                       }
                     />
@@ -409,7 +356,6 @@ const CreateMembership = () => {
                           src={DateCalander}
                           alt=""
                           width={25} height={25}
-                        //onClick={(type = "date")}
                         />
                       }
                     />
@@ -429,7 +375,6 @@ const CreateMembership = () => {
                           src={DateCalander}
                           alt=""
                           width={25} height={25}
-                        //onClick={(type = "date")}
                         />
                       }
                     />
@@ -449,7 +394,6 @@ const CreateMembership = () => {
                           src={doller}
                           alt=""
                           width={13} height={27}
-                        //onClick={(type = "date")}
                         />
                       }
                     />

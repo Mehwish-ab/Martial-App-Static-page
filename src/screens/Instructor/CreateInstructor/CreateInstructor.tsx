@@ -223,7 +223,7 @@ const CreateInstructor = () => {
                       control="textarea"
                       type="text"
                       name="description"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       label="Description"
                       padding="10px"
                       placeholder="Description"

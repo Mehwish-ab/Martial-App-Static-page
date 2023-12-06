@@ -13,16 +13,21 @@ export interface ClassDataType {
   ClassEndDate: string;
   ClassFee: number;
   ClassStatus: number;
+  bannerPicture: string | null | undefined;
+  profilePicture: string | null | undefined;
 }
 
-export interface GetBranchBySchoolResTypes {
+export interface GetClassesBySchoolResTypes {
+  profilePicture: string;
+  bannerPicture: string;
   data: ClassDataType[];
   totalItems: number;
   totalPages: number;
   currentPage: number;
+
 }
 export interface ClassDataInitialState {
-  ClassData: GetBranchBySchoolResTypes;
+  ClassData: GetClassesBySchoolResTypes;
   loading: boolean;
   error: string | undefined;
 }
@@ -33,6 +38,8 @@ const initialState: ClassDataInitialState = {
     currentPage: 0,
     totalItems: 0,
     totalPages: 0,
+    profilePicture: "",
+    bannerPicture: ""
   },
   loading: false,
   error: "",

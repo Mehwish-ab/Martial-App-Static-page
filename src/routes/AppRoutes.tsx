@@ -110,7 +110,7 @@ function AppRoutes() {
           }
         />
         <Route
-          path="/school/add-payment-information/"
+          path="/school/add-payment-information"
           element={
             <AppLayout>
               <AddPaymentSchool />

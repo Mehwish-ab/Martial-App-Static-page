@@ -2,17 +2,17 @@ import styled from "styled-components";
 import { fontFamilyMedium, whiteColor } from "../GlobalStyle";
 
 const CustomModalStyle = styled.div`
-  .close-icon {
-    position: absolute;
-    top: 10px;
-    right: 0px;
-    z-index: 2000;
-    height: 46px;
+background-color: #fff;
+padding: 14px;
+border-radius: 10px;
+position: relative;
 
-    cursor: pointer;
-    border-radius: 50%;
-    &:hover {
-      background-color: rgba(10, 37, 64, 0.35);
+  .close-icon {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      cursor: pointer;
+      border-radius: 10px;
     }
   }
 `;

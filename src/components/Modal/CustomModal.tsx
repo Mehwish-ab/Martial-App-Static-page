@@ -1,6 +1,6 @@
 import { Modal } from "antd";
-import { Dispatch, ReactNode, SetStateAction, useEffect } from "react";
-import close from "../../assets/icons/ic_story_close.svg";
+import { Dispatch, ReactNode, SetStateAction } from "react";
+import close from "../../assets/icons/ic_close.svg";
 import CustomModalStyle from "./style";
 
 type CustomModalPropsTypes = {

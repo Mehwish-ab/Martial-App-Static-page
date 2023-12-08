@@ -3,7 +3,7 @@ import { loginDataTypes } from "../redux/features/types";
 // base urls
 const liveBaseUrl =
   "https://www.ennvisionapistore.com:8443/martialapp_apis/api/";
-const testBaseUrl = "https://www.ennvisionapistore.com:8443/martialapp_apis/";
+const testBaseUrl = "https://fistastore.com:444/martialapp_apis/";
 const liveMediaUrl = "https://ennvisionapistore.com:8443";
 const testMediaUrl = "https://ennvisionapistore.com:8443";
 const domianLiveUrl = "https://maritalschool.innovatelq.com/";
@@ -118,9 +118,8 @@ export const reset_password_url = "user/resetPassword";
 // user authorized token
 export const authorizationToken = (loginData: loginDataTypes | string) => {
   return {
-    Authorization: `Bearer ${
-      typeof loginData === "string" ? loginData : loginData?.jwtDetails?.token
-    }`,
+    Authorization: `Bearer ${typeof loginData === "string" ? loginData : loginData?.jwtDetails?.token
+      }`,
   };
 };
 

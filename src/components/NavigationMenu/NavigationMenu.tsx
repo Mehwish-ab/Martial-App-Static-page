@@ -89,7 +89,7 @@ const NavigationMenu = () => {
     {
       key: menuLinksKeys.listInstructor,
       label: getLabel(
-        "Instructor",
+        "Instructors",
         menuLinks.listInstructor,
         menuLinksKeys.listInstructor
       ),
@@ -109,7 +109,7 @@ const NavigationMenu = () => {
     {
       key: menuLinksKeys.membership,
       label: getLabel(
-        "Membership",
+        "Memberships",
         menuLinks.membership,
         menuLinksKeys.membership
       ),
@@ -121,7 +121,7 @@ const NavigationMenu = () => {
     {
       key: menuLinksKeys.notification,
       label: getLabel(
-        "Notification",
+        "Notifications",
         menuLinks.notification,
         menuLinksKeys.notification
       ),
@@ -129,7 +129,7 @@ const NavigationMenu = () => {
     {
       key: menuLinksKeys.transactionsHistory,
       label: getLabel(
-        "TransactionsHistory",
+        "Transactions History",
         menuLinks.transactionsHistory,
         menuLinksKeys.transactionsHistory
       ),
@@ -137,12 +137,12 @@ const NavigationMenu = () => {
     },
     {
       key: menuLinksKeys.setting,
-      label: getLabel("Setting", menuLinks.setting, menuLinksKeys.setting),
+      label: getLabel("Settings", menuLinks.setting, menuLinksKeys.setting),
       children: childListOfSetting,
     },
     {
       key: menuLinksKeys.language,
-      label: getLabel("language", menuLinks.language, menuLinksKeys.language),
+      label: getLabel("Language", menuLinks.language, menuLinksKeys.language),
     },
     {
       key: menuLinksKeys.helpAndSupport,

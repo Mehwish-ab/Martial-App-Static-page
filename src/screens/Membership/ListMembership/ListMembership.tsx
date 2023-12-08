@@ -128,7 +128,7 @@ const ListMembership: React.FC = () => {
         break;
 
       case "school":
-        navigate(`/membership/School-profile${record.MembershipId}`, {
+        navigate(`/membership/school-profile`, {
           state: {
             branch: record as MembershipDataType,
           },

@@ -15,6 +15,8 @@ const menuLinks: any = {
   listInstructor: "/instructor/list",
   membership: "/membership/list",
   payment: "/payment",
+  rules: "/rules/list",
+  transactionsHistory: "/transaction-history/list",
   classes: "/class/list",
   booking: "",
   qrCode: "/qr-code",

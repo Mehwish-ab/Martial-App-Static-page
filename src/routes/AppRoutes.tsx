@@ -37,6 +37,9 @@ import AddPaymentSchool from "../screens/CreateSchool/AddPaymentSchool/AddPaymen
 import AddPaymentFranchise from "../screens/Franchise/AddPaymentFranchise/AddPaymentFranchise";
 import SchoolFranchise from "../screens/Franchise/SchoolFranchise/SchoolFranchise";
 import AddPaymentBranch from "../screens/Branches/AddPaymentBranch/AddPaymentBranch";
+import ProfileMembership from "../screens/Membership/ProfileMembership/ProfileMembership";
+import ListTransactionHistort from "../screens/TransactionHistory/ListTransactionHistory/ListTransactionHistory";
+import ListRules from "../screens/Rules/ListRules/ListRules";
 // import { useDispatch, useSelector } from "react-redux";
 // import { RootState } from "../redux/store";
 
@@ -309,6 +312,14 @@ function AppRoutes() {
           }
         />
         <Route
+          path="/membership/school-profile"
+          element={
+            <AppLayout>
+              <ProfileMembership />
+            </AppLayout>
+          }
+        />
+        <Route
           path="/class/create"
           element={
             <AppLayout>
@@ -329,6 +340,22 @@ function AppRoutes() {
           element={
             <AppLayout>
               <ListClass />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/transaction-history/list"
+          element={
+            <AppLayout>
+              <ListTransactionHistort />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/rules/list"
+          element={
+            <AppLayout>
+              <ListRules />
             </AppLayout>
           }
         />

@@ -90,8 +90,8 @@ const ListMembership: React.FC = () => {
           },
           {
             key: "3",
-            label: "Subscribe",
-            onClick: () => navigation(record, "subscribe"),
+            label: "School",
+            onClick: () => navigation(record, "school"),
           },
         ];
         return (
@@ -127,8 +127,8 @@ const ListMembership: React.FC = () => {
         });
         break;
 
-      case "subscribe":
-        navigate(`/Membership/subscribe/${record.MembershipId}`, {
+      case "school":
+        navigate(`/membership/School-profile${record.MembershipId}`, {
           state: {
             branch: record as MembershipDataType,
           },

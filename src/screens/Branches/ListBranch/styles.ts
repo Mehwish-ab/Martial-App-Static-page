@@ -2,12 +2,9 @@ import styled from "styled-components";
 import {
   AntiFlashWhite,
   BallBlue,
-  darkBlue,
   darkGery,
-  fontFamilyBold,
   fontFamilyMedium,
   fontFamilyRegular,
-  mainColor,
   pureDark2,
   whiteColor,
 } from "../../../components/GlobalStyle";
@@ -51,6 +48,7 @@ export const ListBranchStyled = styled.div`
   .ant-table-thead > tr > th:first-child, 
   .ant-table-tbody > tr > td:first-child{
     width: 3%;
+    text-align: center;
   }
   .ant-table-thead > tr > th:nth-child(2), 
   .ant-table-tbody > tr > td:nth-child(2){
@@ -184,15 +182,15 @@ export const ListBranchStyled = styled.div`
   .ant-pagination-item a {
     border-radius: 8px;
     background: ${whiteColor};
-    padding: 7px 12px;
     line-height: normal;
+    padding: 7px 0px 8px 0px;
   }
   .ant-pagination-item-active a{
     border-radius: 8px;
     background: ${BallBlue};
     color: ${whiteColor};
-    padding: 7px 12px;
     line-height: normal;
+    padding: 7px 0px 8px 0px;
   }
   .ant-pagination-total-text{
     color: #333;
@@ -208,7 +206,7 @@ export const ListBranchStyled = styled.div`
       border-radius: 8px;
       border: 1px solid #F1F1F1;
       display: inline-block;
-      margin: 0px 5px;
+      margin: 0px 10px;
     }
   }
 `;

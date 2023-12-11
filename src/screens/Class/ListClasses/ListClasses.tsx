@@ -2,9 +2,8 @@ import React from "react";
 import { Dropdown, Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { ListClassStyled } from "./style";
-import CustomButton, {
-  CustomDiv,
-} from "../../../components/CustomButton/CustomButton";
+import CustomButton from "../../../components/CustomButton/CustomButton";
+import { CustomDiv } from "./CustomDiv";
 import {
   fontFamilyMedium,
   pureDark,
@@ -13,12 +12,10 @@ import {
 import { useNavigate } from "react-router-dom";
 import plusIcon from "../../../assets/icons/ic_plus.svg";
 import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
-
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
 import { ClassDataType } from "../../../redux/features/CLasses/ClassSlice";
-import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import DummyData from "./dummyData.json";
 import StatusActiveError from "../../../assets/images/activeBtnError.svg";
 import RightArrow from "../../../assets/images/rightArrow.svg";
@@ -26,10 +23,10 @@ import LeftArrow from "../../../assets/images/leftArrow.svg";
 import DateCalander from "../../../assets/images/dateCalander.svg";
 
 const ListClass: React.FC = () => {
-  const { getLabelByKey } = useScreenTranslation("listClass");
   const navigate = useNavigate();
-  const { loginData } = useSelector((state: RootState) => state);
-
+  const { loading } = useSelector(
+    (state: RootState) => state.branchData
+  );
   const columns: ColumnsType<ClassDataType> = [
     {
       title: "Id",
@@ -70,7 +67,7 @@ const ListClass: React.FC = () => {
         return (
           <div>
             <button>{DummyData}</button>
-            <img src={StatusActiveError} alt="image" />
+            <img src={StatusActiveError} alt="images" />
           </div>
         );
       },
@@ -87,8 +84,8 @@ const ListClass: React.FC = () => {
           },
           {
             key: "2",
-            label: "Edit",
-            onClick: () => navigation(record, "edit"),
+            label: "Update",
+            onClick: () => navigation(record, "update"),
           },
           {
             key: "3",
@@ -113,8 +110,8 @@ const ListClass: React.FC = () => {
 
   const navigation = (record: ClassDataType, redirectTo: string) => {
     switch (redirectTo) {
-      case "edit":
-        navigate(`/Class/edit/${record.ClassId}`, {
+      case "update":
+        navigate(`/class/update/${record.ClassId}`, {
           state: {
             branchToEdit: record as ClassDataType,
           },
@@ -138,11 +135,9 @@ const ListClass: React.FC = () => {
     }
   };
 
-  console.log("DummyData", DummyData);
-
   return (
     <>
-      {loginData && <LoadingOverlay message="" />}
+      {loading && <LoadingOverlay message="" />}
       <ListClassStyled>
         <Table
           columns={columns}
@@ -150,6 +145,15 @@ const ListClass: React.FC = () => {
             DummyData.map((item) => ({ ...item, key: item.ClassId })) as any
           }
           title={() => <RenderTableTitle />}
+          pagination={{
+            showTotal: (total, range) => (
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: `Page <span className='paginationVal'>${range[0]}</span> of ${range[1]}`,
+                }}
+              />
+            ),
+          }}
         />
       </ListClassStyled>
     </>
@@ -160,31 +164,29 @@ export default ListClass;
 
 const RenderTableTitle = () => {
   const navigate = useNavigate();
-  const { getLabelByKey } = useScreenTranslation("listClass");
-
   return (
-    <div className="d-flex justify-content-between">
-      <h3 className="table-heading">Class</h3>
+    <div className="d-flex justify-content-between align-items-center">
+      <h3 className="table-heading">Classes</h3>
       <CustomDiv>
         <div className="instructorDateSection">
           <div className="mainarrow">
-            <div className="arrowright d-flex align-items-center">
-              <img src={LeftArrow} alt="Date" />
+            <div className="arrowright">
+              <img src={LeftArrow} alt="Date" width={18} height={12} />
             </div>
-            <div className="arrowleft  d-flex align-items-center">
-              <img src={RightArrow} alt="Date" />
+            <div className="arrowleft">
+              <img src={RightArrow} alt="Date" width={18} height={12} />
             </div>
           </div>
           <div className="dateRange">
             <p>
               {" "}
-              <span className="fw-bold ">Mon,</span> Sep 11, 2023 -{" "}
-              <span className="fw-bold ">Thu,</span> Sep 21, 2023
+              <span>Mon,</span> Sep 11, 2023 -{" "}
+              <span>Thu,</span> Sep 21, 2023
             </p>
             <img
               src={DateCalander}
-              alt=""
-              style={{ width: "21px", height: "21px" }}
+              alt="calander"
+              width={21} height={21}
             />
           </div>
           <p className="dateToday">Today</p>
@@ -193,16 +195,16 @@ const RenderTableTitle = () => {
           bgcolor={tertiaryBlue2}
           textTransform="Captilize"
           color={pureDark}
-          padding="6px 10px"
+          padding="6.5px 0px"
           fontFamily={`${fontFamilyMedium}`}
           width="40px"
           type="submit"
           title=""
           fontSize="17px"
-          loading={false}
-          icon={<img src={plusIcon} alt="edit icon" width={23} height={23} />}
+          // loading={loading}
+          icon={<img src={plusIcon} alt="edit icon" width={17} height={17} />}
           clicked={() => {
-            navigate(`/Class/create`);
+            navigate(`/class/create`);
           }}
         />
       </CustomDiv>

@@ -5,21 +5,18 @@ import { Formik } from "formik";
 import { Form } from "antd";
 import FormControl from "../../../components/FormControl";
 import { useNavigate } from "react-router-dom";
-
 import {
   fontFamilyMedium,
-  lightBlue3,
   pureDark,
 } from "../../../components/GlobalStyle";
-import lock_icon from "../../../assets/icons/password.svg";
 import { validationFinder } from "../../../utils/utilities";
 import * as Yup from "yup";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import useCreateNewPassword from "../../../hooks/useCreateNewPassword";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { PASSWORD_SCREEN_LABEL_KEYS } from "../constants";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
+// import { useSelector } from "react-redux";
+// import { RootState } from "../../../redux/store";
 import CloseBtn from "../../../assets/icons/ic_back.svg"
 
 export interface createNewPasswordValuesType {
@@ -29,9 +26,9 @@ export interface createNewPasswordValuesType {
 const CreatePassword: React.FC = () => {
   const navigate = useNavigate();
   const { getLabelByKey } = useScreenTranslation("restPassword");
-  const { selectedLanguage } = useSelector(
-    (state: RootState) => state.selectedLanguage
-  );
+  // const { selectedLanguage } = useSelector(
+  //   (state: RootState) => state.selectedLanguage
+  // );
   const initialValues: createNewPasswordValuesType = {
     password: "",
     confirmPassword: "",

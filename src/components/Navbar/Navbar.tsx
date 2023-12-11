@@ -60,7 +60,7 @@ function Navbar() {
     {
       key: "3",
       label: (
-        <Link to={"#"} style={{ textDecoration: "none" }}>
+        <Link to={"/school/add-payment-information"} style={{ textDecoration: "none" }}>
           Payment
         </Link>
       ),

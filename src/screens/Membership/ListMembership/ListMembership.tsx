@@ -2,9 +2,8 @@ import React from "react";
 import { Dropdown, Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { ListMembershipStyled } from "./styles";
-import CustomButton, {
-  CustomDiv,
-} from "../../../components/CustomButton/CustomButton";
+import CustomButton from "../../../components/CustomButton/CustomButton";
+import { CustomDiv } from "./CustomDiv";
 import {
   fontFamilyMedium,
   pureDark,
@@ -13,22 +12,17 @@ import {
 import { useNavigate } from "react-router-dom";
 import plusIcon from "../../../assets/icons/ic_plus.svg";
 import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
-
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
-
 import { MembershipDataType } from "../../../redux/features/Membership/MembershipSlice";
-import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import DummyData from "./dummyData.json";
-import BeltImage from "../../../assets/images/BlueBelt.svg";
 import StatusActiveError from "../../../assets/images/activeBtnError.svg";
 import RightArrow from "../../../assets/images/rightArrow.svg";
 import LeftArrow from "../../../assets/images/leftArrow.svg";
 import DateCalander from "../../../assets/images/dateCalander.svg";
 
 const ListMembership: React.FC = () => {
-  const { getLabelByKey } = useScreenTranslation("listMembership");
 
   const navigate = useNavigate();
 
@@ -74,7 +68,7 @@ const ListMembership: React.FC = () => {
         return (
           <div>
             <button>{DummyData}</button>
-            <img src={StatusActiveError} alt="image" />
+            <img src={StatusActiveError} alt="images" />
           </div>
         );
       },
@@ -96,8 +90,8 @@ const ListMembership: React.FC = () => {
           },
           {
             key: "3",
-            label: "Subscribe",
-            onClick: () => navigation(record, "subscribe"),
+            label: "School",
+            onClick: () => navigation(record, "school"),
           },
         ];
         return (
@@ -133,8 +127,8 @@ const ListMembership: React.FC = () => {
         });
         break;
 
-      case "subscribe":
-        navigate(`/Membership/subscribe/${record.MembershipId}`, {
+      case "school":
+        navigate(`/membership/school-profile`, {
           state: {
             branch: record as MembershipDataType,
           },
@@ -157,6 +151,15 @@ const ListMembership: React.FC = () => {
             })) as any
           }
           title={() => <RenderTableTitle />}
+          pagination={{
+            showTotal: (total, range) => (
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: `Page <span className='paginationVal'>${range[0]}</span> of ${range[1]}`,
+                }}
+              />
+            ),
+          }}
         />
       </ListMembershipStyled>
     </>
@@ -167,51 +170,45 @@ export default ListMembership;
 
 const RenderTableTitle = () => {
   const navigate = useNavigate();
-  const { getLabelByKey } = useScreenTranslation("listMembership");
 
   return (
-    <div className="d-flex justify-content-between">
-      <h3 className="table-heading">Membership</h3>
-      <CustomDiv>
-        <div className="instructorDateSection">
-          <div className="mainarrow">
-            <div className="arrowright d-flex align-items-center">
-              <img src={LeftArrow} alt="Date" />
+    <>
+      <div className="d-flex justify-content-between">
+        <h3 className="table-heading">Membership</h3>
+        <CustomDiv>
+          <div className="instructorDateSection">
+            <div className="mainarrow">
+              <div className="arrowright">
+                <img src={LeftArrow} alt="Date" width={18} height={12} />
+              </div>
+              <div className="arrowleft">
+                <img src={RightArrow} alt="Date" width={18} height={12} />
+              </div>
             </div>
-            <div className="arrowleft  d-flex align-items-center">
-              <img src={RightArrow} alt="Date" />
+            <div className="dateRange">
+              <p><span>Mon,</span> Sep 11, 2023 - <span>Thu,</span> Sep 21, 2023</p>
+              <img src={DateCalander} alt="Calander" width={21} height={21} />
             </div>
+            <div className="dateToday">Today</div>
           </div>
-          <div className="dateRange">
-            <p>
-              {" "}
-              <span className="fw-bold ">Mon,</span> Sep 11, 2023 -{" "}
-              <span className="fw-bold ">Thu,</span> Sep 21, 2023
-            </p>
-            <img
-              src={DateCalander}
-              alt=""
-              style={{ width: "21px", height: "21px" }}
-            />
-          </div>
-          <p className="dateToday">Today</p>
-        </div>
-        <CustomButton
-          bgcolor={tertiaryBlue2}
-          textTransform="Captilize"
-          color={pureDark}
-          padding="6px 10px"
-          fontFamily={`${fontFamilyMedium}`}
-          width="40px"
-          type="submit"
-          title=""
-          fontSize="17px"
-          icon={<img src={plusIcon} alt="edit icon" width={23} height={23} />}
-          clicked={() => {
-            navigate(`/Membership/create`);
-          }}
-        />
-      </CustomDiv>
-    </div>
+          <CustomButton
+            bgcolor={tertiaryBlue2}
+            textTransform="Captilize"
+            color={pureDark}
+            padding="6.5px 0px"
+            fontFamily={`${fontFamilyMedium}`}
+            width="40px"
+            type="submit"
+            title=""
+            fontSize="17px"
+            icon={<img src={plusIcon} alt="edit icon" width={17} height={17} />}
+            clicked={() => {
+              navigate(`/membership/create`);
+            }}
+          />
+        </CustomDiv>
+      </div>
+    </>
+
   );
 };

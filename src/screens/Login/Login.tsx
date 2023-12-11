@@ -8,14 +8,11 @@ import {
   fontFamilyMedium,
   lightBlue3,
   pureDark2,
-  pureDark,
 } from "../../components/GlobalStyle";
 import LoginStyle from "./style";
 import { useState } from "react";
 import Head from "../../components/Head/Head";
 import TermsAndConditions from "../../components/TermsAndConditions/TermsAndConditions";
-import email_icon from "../../assets/icons/ic_email.svg";
-import password_icon from "../../assets/icons/password.svg";
 import show_password_icon from "../../assets/icons/ic_show_passcode.svg";
 import { auth_token_key, base_url, login_url } from "../../utils/api_urls";
 import axios from "axios";

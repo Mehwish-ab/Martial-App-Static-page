@@ -33,8 +33,6 @@ const BranchInformation: React.FC = () => {
   const location = useLocation();
   const branch: BranchDataType = location?.state?.branch;
 
-  console.log(">> branchID", branch);
-
   const branchToEdit: BranchDataType = location?.state?.branchToEdit;
   const { language, currency } = useSelector(
     (state: RootState) => state.appData.data.dropdowns
@@ -56,22 +54,19 @@ const BranchInformation: React.FC = () => {
       +item.id == +branch?.defaultCurrencyId
   );
 
-  console.log(defaultLanguage, defaultCurrency);
-
   const { branchData, loading } = useSelector(
     (state: RootState) => state.branchData
   );
   async function fetchinfo() {
     const data = await getbranchbyid(branch.branchId);
     setBranchDatas(data);
-    console.log(" b date:", data);
+    console.log(" getbranchbyid:", data);
   }
   async function fetchPayment() {
     const data = (await get_bank("BRANCH", branch?.branchId)) as any[];
     setPaymentData(data);
-    console.log(">> date:", data);
+    console.log(">> fetchPayment:", data);
   }
-  console.log("Nada", branch);
 
   useEffect(() => {
     fetchPayment();
@@ -191,16 +186,6 @@ const BranchInformation: React.FC = () => {
       },
     },
   ];
-  console.log(
-    "branch",
-    branch,
-    "hi",
-    paymentData,
-    "hi",
-    branchDatas,
-    "hi",
-    branchToEdit
-  );
 
   return (
     <InformationBranchStyled>

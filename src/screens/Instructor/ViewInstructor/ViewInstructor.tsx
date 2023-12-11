@@ -7,6 +7,7 @@ import { BranchDataType } from "../../../redux/features/branch/branchSlice";
 import { Col, Row } from "react-bootstrap";
 import { Field, Formik } from "formik";
 import { useState, useEffect } from "react";
+import FormControl from "../../../components/FormControl";
 
 
 
@@ -41,11 +42,10 @@ const ViewInstructor = () => {
       <OverlayImages
         overlayImg={branch?.profilePicture || ""}
         backgroundImg={branch?.bannerPicture || ""}
-        isEditable={false}
+        isEditable={true}
       />
 
       <h3 className="ms-4">Instructor Information</h3>
-
       <Card>
         <Row>
           <Col md="4">
@@ -82,34 +82,36 @@ const ViewInstructor = () => {
             </div>
           </Col>
           <Col md="8">
-            <Col md="4" className="d-inline-block ps-3">
-              <div className="list-item">
-                <div className="list-item-title">Years of experience</div>
-                <div className="list-item-value">
-                  Monday, 17th October 2023.
+            <Row>
+              <Col md="4">
+                <div className="list-item">
+                  <div className="list-item-title">Years of experience</div>
+                  <div className="list-item-value">
+                    Monday, 17th October 2023.
+                  </div>
                 </div>
-              </div>
-            </Col>
-            <Col md="4" className="d-inline-block ps-3">
-              <div className="list-item">
-                <div className="list-item-title">
-                  Ranking
+              </Col>
+              <Col md="4">
+                <div className="list-item">
+                  <div className="list-item-title">
+                    Ranking
+                  </div>
+                  <div className="list-item-value">
+                    Yes
+                  </div>
                 </div>
-                <div className="list-item-value">
-                  Yes
+              </Col>
+              <Col md="4">
+                <div className="list-item">
+                  <div className="list-item-title">
+                    Latest Certification (Optional)
+                  </div>
+                  <div className="list-item-value">
+                    certification.png
+                  </div>
                 </div>
-              </div>
-            </Col>
-            <Col md="4" className="d-inline-block ps-3">
-              <div className="list-item">
-                <div className="list-item-title">
-                  Latest Certification (Optional)
-                </div>
-                <div className="list-item-value">
-                  certification.png
-                </div>
-              </div>
-            </Col>
+              </Col>
+            </Row>
           </Col>
           <Col md="6">
             <div className="list-item">
@@ -126,7 +128,7 @@ const ViewInstructor = () => {
             </div>
           </Col>
           <Col md="12">
-            <div className="list-item">
+            <div className="list-item mb-0">
               <div className="list-item-title">
                 Description
               </div>
@@ -137,47 +139,47 @@ const ViewInstructor = () => {
             </div>
           </Col>
         </Row>
+        <Formik initialValues={initialValues} onSubmit={() => { console.log("") }}>
+          <div className="d-flex flex-column">
+            <label htmlFor="termCondition">
+              <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
+                <FormControl
+                  control="checkbox"
+                  type="checkbox"
+                  id="rememberMe"
+                  name="rememberMe"
+                  checked
+                />
+                <p className="checkBoxPara" id="termCondition">Terms and conditions</p>
+              </form>
+            </label>
+            <label htmlFor="agreement">
+              <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
+                <FormControl
+                  control="checkbox"
+                  type="checkbox"
+                  id="rememberMe"
+                  name="rememberMe"
+                  checked
+                />
+                <p className="checkBoxPara" id="agreement">Agreement to follow the app's guidelines and policies</p>
+              </form>
+            </label>
+            <label htmlFor="liability">
+              <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
+                <FormControl
+                  control="checkbox"
+                  type="checkbox"
+                  id="rememberMe"
+                  name="rememberMe"
+                  checked
+                />
+                <p className="checkBoxPara" id="liability">Liability waivers</p>
+              </form>
+            </label>
+          </div>
+        </Formik>
       </Card>
-      <Formik initialValues={initialValues} onSubmit={() => { console.log("") }}>
-        <div className="d-flex flex-column ms-4">
-          <label htmlFor="termCondition">
-            <div className="mt-3 d-flex align-content-start justify-content-start">
-              <Field
-                control="checkbox"
-                type="checkbox"
-                name="termCondition"
-                id="termCondition"
-                checked
-              />
-              <p className="ms-3 mb-0" id="termCondition">Terms and conditions</p>
-            </div>
-          </label>
-          <label htmlFor="agreement">
-            <div className="mt-2 d-flex align-content-start justify-content-start">
-              <Field
-                control="checkbox"
-                type="checkbox"
-                name="agreement"
-                id="agreement"
-                checked
-              />
-              <p className="ms-3 mb-0" id="agreement">Agreement to follow the app's guidelines and policies</p>
-            </div>
-          </label>
-          <label htmlFor="liability">
-            <div className="mt-2 d-flex align-content-start justify-content-start">
-              <Field
-                control="checkbox"
-                type="checkbox"
-                name="liability"
-                id="liability"
-                checked
-              />
-              <p className="ms-3 mb-0" id="liability">Liability waivers</p>
-            </div>
-          </label>
-        </div>
-      </Formik>
     </ViewInstructorStyled>
   );
 };

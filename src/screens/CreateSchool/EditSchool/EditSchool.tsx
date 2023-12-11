@@ -120,12 +120,12 @@ const EditSchool = () => {
 
   return (
     <CreateSchoolStyled>
-      {UpdateModal().modalComponent}
+      {/* {UpdateModal().modalComponent}
       <OverlayImages
         backgroundImg={schoolData.bannerPicture || ""}
         overlayImg={schoolData.profilePicture || ""}
         isEditable={true}
-      />
+      /> */}
       <Formik
         initialValues={initialValuesForEdit}
         validationSchema={validationSchema}
@@ -141,7 +141,7 @@ const EditSchool = () => {
               onFinish={formik.handleSubmit}
               autoComplete="off"
             >
-              <h3 className="mt-20 ps-3">School Information</h3>
+              <h3 className="ps-3">School Information</h3>
               <div className="bg-white form mt-10">
                 <Row>
                   <Col md="4" className="mt-20">
@@ -189,7 +189,6 @@ const EditSchool = () => {
                       }
                     />
                   </Col>
-
                   <Col md="4" className="mt-20">
                     <CustomPhoneInput
                       label={getLabelByKey("businessPhoneNumber")}
@@ -207,7 +206,7 @@ const EditSchool = () => {
                           className="error-message is-invalid"
                           style={{
                             color: "red",
-                            textAlign: "start",
+                            textAlign: "end",
                             marginLeft: "3px",
                             fontSize: "12px",
                             letterSpacing: "1px",
@@ -219,6 +218,7 @@ const EditSchool = () => {
                       )}
                     </ErrorMessage>
                   </Col>
+
                   <Col md="4" className="mt-20">
                     <PlacesAutoCompleteInput
                       label={getLabelByKey("address")}
@@ -330,43 +330,45 @@ const EditSchool = () => {
                       }
                     />
                   </Col>
-
-                  <Col md="4">
-                    <CheckboxesSelect
-                      list={activities}
-                      name="selectedActivities"
-                      label={getLabelByKey("activity")}
-                      showErrorMsgInList={false}
-                    />
-                  </Col>
-
-                  <Col md="4">
-                    <CheckboxesSelect
-                      name="selectedFacilities"
-                      label={getLabelByKey("facilities")}
-                      list={facilities}
-                      showErrorMsgInList={false}
-                    />
-                  </Col>
-                  <div className="mt-20">
-                    <FormControl
-                      control="textarea"
-                      type="text"
-                      name="description"
-                      fontFamily={fontFamilyRegular}
-                      // prefix={<img src={lock_icon} alt="lock_icon" />}
-                      label={getLabelByKey("description")}
-                      padding="10px"
-                      placeholder={getLabelByKey("enterDescription")}
-                      className={
-                        formik.errors.description && formik.touched.description
-                          ? "is-invalid"
-                          : "customInput"
-                      }
-                      height="200px"
-                    />
-                  </div>
                 </Row>
+                {/* </div> */}
+
+                <Col md="6">
+                  <CheckboxesSelect
+                    list={activities}
+                    name="selectedActivities"
+                    label={getLabelByKey("activity")}
+                    showErrorMsgInList={false}
+                  />
+                </Col>
+
+                <Col md="6">
+                  <CheckboxesSelect
+                    name="selectedFacilities"
+                    label={getLabelByKey("facilities")}
+                    list={facilities}
+                    showErrorMsgInList={false}
+                  />
+                </Col>
+                <div className="mt-20">
+                  <FormControl
+                    control="textarea"
+                    type="text"
+                    name="description"
+                    fontFamily={fontFamilyRegular}
+                    // prefix={<img src={lock_icon} alt="lock_icon" />}
+                    label={getLabelByKey("description")}
+                    padding="10px"
+                    placeholder={getLabelByKey("enterDescription")}
+                    className={
+                      formik.errors.description && formik.touched.description
+                        ? "is-invalid"
+                        : "customInput"
+                    }
+                    height="200px"
+                  />
+                </div>
+                {/* </Row> */}
                 {/* <PaymentInformation formik={formik} /> */}
               </div>
 

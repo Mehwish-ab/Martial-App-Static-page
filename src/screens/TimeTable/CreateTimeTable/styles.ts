@@ -2,25 +2,26 @@ import styled from "styled-components";
 import {
   darkBlue,
   darkGery,
-  fontFamilyBold,
   fontFamilyMedium,
   pureDark2,
-  lightDark2,
-  lightDark3,
   fontFamilyRegular,
-  // mainColor,
 } from "../../../components/GlobalStyle";
 
 export const CreateTimeTableStyled = styled.div`
-  background-color: #fff;
-  padding: 16px;
-  border-radius: 20px;
+margin-top: 20px;
+background-color: #fff;
+border-radius: 10px;
+padding-bottom: 20px;
 
-  .table-heading {
-    font-size: 18px !important;
-    font-family: ${fontFamilyMedium} !important;
+  .tableHeading {
+    font-size: 18px;
+    font-family: ${fontFamilyMedium};
     color: ${pureDark2};
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
   }
+
   .ant-table-thead > tr > th {
     background: transparent !important;
     border-bottom: none !important;
@@ -29,7 +30,7 @@ export const CreateTimeTableStyled = styled.div`
     font-size: 16px !important;
     line-height: normal;
     font-weight: 500;
-
+    padding: 6px;
     &::before {
       display: none !important;
     }
@@ -40,9 +41,14 @@ export const CreateTimeTableStyled = styled.div`
     font-family: ${fontFamilyMedium};
     font-size: 14px !important;
     color: ${darkGery}!important;
+    padding: 6px;
   }
   .ant-table-thead > tr > th{
     color: ${pureDark2};
+  }
+  .ant-table-thead > tr > th:first-child {
+    padding-left: 20px;
+    width: 10%;
   }
   .ant-table-tbody > tr > td:first-child {
     font-size: 16px;
@@ -51,6 +57,8 @@ export const CreateTimeTableStyled = styled.div`
     line-height: normal;
     color: ${pureDark2};
     font-family: ${fontFamilyMedium};
+    padding-left: 20px;
+    width: 10%;
   }
 
   .timeTableBox{
@@ -123,78 +131,35 @@ export const CreateTimeTableStyled = styled.div`
   .ant-table-tbody > tr:nth-child(even) td{
     background-color: #fff;
   }
+}
+`;
 
-  .timetable-heading {
-    font-size: 18px !important;
-    font-family: ${fontFamilyMedium} !important;
-    color: ${pureDark2};
-    margin-bottom: 16px; 
 
-  }
-  .titleField{
-    label{
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      color: ${pureDark2};
-      font-family: ${fontFamilyRegular};
-    }
-    input::placeholder{
-      color: ${lightDark2};
-    }
-  }
-
-  .repeatField{
-    label{
-      font-family: ${fontFamilyRegular};
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      color: ${pureDark2};
-    }
-    input::placeholder{
-      color: ${lightDark2};
-    }
-  }
-  .endDate{
-    label{
-      font-family: ${fontFamilyRegular};
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      color: ${pureDark2};
-      margin-bottom: 9px !important;
-    }
-    .endDate_input {
-        border-radius: 8px;
-        border: 1px solid #d9d9d9;
-        background: rgb(255, 255, 255);
-        color: rgb(51, 51, 51);
-        padding: 6px;
-        height: 48px;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        p{
-          color: ${lightDark2};
-          font-size: 16px;
-          font-style: normal;
-          font-weight: 400;
-          line-height: normal;
-          margin-bottom: 0;
-        }
-      }
-      
-    }
-    .timeTableBottom-header{
-        margin-top: 65px;
-    }
+export const FilterTimeTableStyled = styled.div`
+background-color: #fff;
+padding: 16px;
+border-radius: 10px;
     
-  
+    
+.timetable-heading {
+  font-family: ${fontFamilyMedium};
+  color: ${pureDark2};
+  margin-bottom: 16px; 
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.ant-input-affix-wrapper{
+  height: 50px;
+  padding-top: 0;
+  padding-bottom: 0;
+  border-radius: 10px;
+  input{
+    height: 48px;
+    background-color: transparent;
+  }
+}
 
 `;

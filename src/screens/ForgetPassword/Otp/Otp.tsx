@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from "react";
-import OtpStyled from "./style";
+import React, { useState } from "react";
 import Head from "../../../components/Head/Head";
 import ForgetPasswordStyle from "../style";
 import { Field, FieldProps, Formik } from "formik";
 import * as Yup from "yup";
-import { Button, Form, Input } from "antd";
-import FormControl from "../../../components/FormControl";
+import { Form, Input } from "antd";
 import {
   fontFamilyMedium,
-  lightBlue3,
-  lightDark3,
   pureDark,
 } from "../../../components/GlobalStyle";
 import CustomButton from "../../../components/CustomButton/CustomButton";
@@ -18,7 +14,6 @@ import useVerifyOtp from "../../../hooks/useVerifyOtp";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { OTP_SCREEN_LABEL_KEYS } from "../constants";
 import { useGlobalContext } from "../../../context/context";
-
 export interface OtpPropValues {
   input0: string;
   input1: string;
@@ -68,7 +63,6 @@ const Otp: React.FC = () => {
   //       setTimer({ minutes: timer.minutes, seconds: timer.seconds - 1 });
   //     }
   //   }, 1000);
-
   //   return () => clearInterval(interval);
   // }, [timer]);
 

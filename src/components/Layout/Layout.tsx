@@ -3,7 +3,7 @@ import Navbar from "../Navbar/Navbar";
 import Sidebar from "../Sidebar/Sidebar";
 
 import { Layout } from "antd";
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content } = Layout;
 
 const AppLayout = (props: any) => {
   // const {

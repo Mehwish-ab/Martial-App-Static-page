@@ -1,21 +1,15 @@
-import { useState } from "react";
-
-import { ErrorMessage, Field, Formik } from "formik";
+import { Formik } from "formik";
 import { Form } from "antd";
-
 import { Col, Row } from "react-bootstrap";
-import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { RootState } from "../../../redux/store";
-
-import { validationFinder } from "../../../utils/utilities";
 import FormControl from "../../../components/FormControl";
 import {
   fontFamilyMedium,
+  fontFamilyRegular,
   lightBlue3,
-  pureDark,
-  pureDark2,
+  maastrichtBlue,
 } from "../../../components/GlobalStyle";
 import CustomPhoneInput from "../../../components/CustomPhoneInput/CustomPhoneInput";
 import CustomButton from "../../../components/CustomButton/CustomButton";
@@ -24,6 +18,11 @@ import { CreateInstructorInitialValues } from "../constant";
 import useInstructor from "../../../hooks/useInstructor";
 import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelect";
 import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
+import DateCalander from "../../../assets/images/dateCalander.svg";
+import FileSubmit from "../../../assets/icons/ic_fileSubmit.svg";
+import { validationFinder } from "../../../utils/utilities";
+import useBranch from "../../Branches/hooks/useBranch";
+import * as Yup from "yup";
 
 const CreateInstructor = () => {
   const { getLabelByKey } = useScreenTranslation("instructorCreate");
@@ -31,7 +30,7 @@ const CreateInstructor = () => {
     statusData: { activities, facilities },
   } = useSelector((state: RootState) => state.appData.data);
 
-  const { loading, handleSubmit } = useInstructor();
+  const { loading } = useBranch();
 
   const initialValues: CreateInstructorInitialValues = {
     instructorName: "",
@@ -104,7 +103,7 @@ const CreateInstructor = () => {
               autoComplete="off"
             >
               <div className="bg-white form">
-                <h3 style={{ color: pureDark2 }}>Instructor Information</h3>
+                <h3>Instructor Information</h3>
                 <Row>
                   <Col md="4" className="mt-20">
                     <FormControl
@@ -113,7 +112,7 @@ const CreateInstructor = () => {
                       name="instructorName"
                       label="Instructor Name"
                       padding="10px"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       fontSize="16px"
                       max={6}
                       placeholder="Instructor Name"
@@ -124,15 +123,15 @@ const CreateInstructor = () => {
                       control="input"
                       type="email"
                       name="emailAddress"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       label="Email Address"
                       padding="10px"
-                      placeholder="Email address"
+                      placeholder="Email Address"
                     />
                   </Col>
                   <Col md="4" className="mt-20">
                     <CustomPhoneInput
-                      label="Instructor Phone Number"
+                      label="Instructor Mobile Number"
                       name="instructorPhoneNumber"
                       value={formik.values.instructorPhoneNumber}
                       placeholder={getLabelByKey("instructorPhoneNumber")}
@@ -146,7 +145,7 @@ const CreateInstructor = () => {
                   <Col md="4" className="mt-20">
                     <PlacesAutoCompleteInput
                       label={getLabelByKey("address")}
-                      placeholder={getLabelByKey("enterCompleteAddress")}
+                      placeholder="Address"
                       handleChange={(val: any) => {
                         formik.setFieldValue("address", val);
                       }}
@@ -161,41 +160,57 @@ const CreateInstructor = () => {
                     />
                   </Col>
                   <Col md="8">
-                    <Col md="4" className="mt-20 d-inline-block">
-                      <FormControl
-                        control="input"
-                        type="number"
-                        name="yearsOfExperience"
-                        fontFamily={fontFamilyMedium}
-                        label="Years Of Experience"
-                        padding="10px"
-                        placeholder="Years Of Experience"
-                      />
-                    </Col>
-                    <Col md="4" className="mt-20 d-inline-block ps-3">
-                      <FormControl
-                        control="select"
-                        type="text"
-                        name="ranks"
-                        fontFamily={fontFamilyMedium}
-                        label="Ranking"
-                        padding="10px"
-                        placeholder="English"
-                      />
-                    </Col>
-                    <Col md="4" className="mt-20 d-inline-block ps-3">
-                      <FormControl
-                        control="input"
-                        type="upload"
-                        name="latestCertification"
-                        fontFamily={fontFamilyMedium}
-                        label="Latest Certification"
-                        padding="10px"
-                        placeholder="Pound"
-                      />
-                    </Col>
+                    <Row>
+                      <Col md="4" className="mt-20">
+                        <FormControl
+                          control="input"
+                          type="text"
+                          name="yearsOfExperience"
+                          fontFamily={fontFamilyRegular}
+                          label="Years Of Experience"
+                          padding="10px"
+                          suffix={
+                            <img
+                              src={DateCalander}
+                              alt="Calander"
+                              width={21}
+                              height={21}
+                            />
+                          }
+                          placeholder="Years Of Experience"
+                        />
+                      </Col>
+                      <Col md="4" className="mt-20">
+                        <FormControl
+                          control="select"
+                          type="text"
+                          name="ranks"
+                          fontFamily={fontFamilyRegular}
+                          label="Ranking"
+                          placeholder="English"
+                        />
+                      </Col>
+                      <Col md="4" className="mt-20">
+                        <FormControl
+                          control="input"
+                          type="upload"
+                          name="latestCertification"
+                          fontFamily={fontFamilyRegular}
+                          label="Latest Certification"
+                          suffix={
+                            <img
+                              src={FileSubmit}
+                              alt="Calander"
+                              width={21}
+                              height={21}
+                            />
+                          }
+                          padding="10px"
+                          placeholder="Pound"
+                        />
+                      </Col>
+                    </Row>
                   </Col>
-
                   <Col md="6">
                     <CheckboxesSelect
                       name="selectedFacilities"
@@ -219,20 +234,20 @@ const CreateInstructor = () => {
                       control="textarea"
                       type="text"
                       name="description"
-                      fontFamily={fontFamilyMedium}
-                      label={getLabelByKey("description")}
+                      fontFamily={fontFamilyRegular}
+                      label="Description"
                       padding="10px"
-                      placeholder={getLabelByKey("description")}
+                      placeholder="Description"
                       height="200px"
                     />
                   </div>
                   <label htmlFor="termCondition">
-                    <form className="mt-3 d-flex align-content-start justify-content-start">
-                      <Field
+                    <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
+                      <FormControl
                         control="checkbox"
                         type="checkbox"
-                        name="termCondition"
-                        id="termCondition"
+                        id="rememberMe"
+                        name="rememberMe"
                       />
                       <p className="ms-3 mb-0" id="termCondition">
                         Terms and conditions
@@ -240,12 +255,12 @@ const CreateInstructor = () => {
                     </form>
                   </label>
                   <label htmlFor="agreement">
-                    <form className="mt-2 d-flex align-content-start justify-content-start">
-                      <Field
+                    <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
+                      <FormControl
                         control="checkbox"
                         type="checkbox"
-                        name="agreement"
-                        id="agreement"
+                        id="rememberMe"
+                        name="rememberMe"
                       />
                       <p className="ms-3 mb-0" id="agreement">
                         Agreement to follow the app's guidelines and policies
@@ -253,12 +268,12 @@ const CreateInstructor = () => {
                     </form>
                   </label>
                   <label htmlFor="liability">
-                    <form className="mt-2 d-flex align-content-start justify-content-start">
-                      <Field
+                    <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
+                      <FormControl
                         control="checkbox"
                         type="checkbox"
-                        name="liability"
-                        id="liability"
+                        id="rememberMe"
+                        name="rememberMe"
                       />
                       <p className="ms-3 mb-0" id="liability">
                         Liability waivers
@@ -272,8 +287,8 @@ const CreateInstructor = () => {
                 <CustomButton
                   bgcolor={lightBlue3}
                   textTransform="Captilize"
-                  color={pureDark}
-                  padding="12px 100px"
+                  color={maastrichtBlue}
+                  padding="11px 40.50px"
                   margin="30px 0px"
                   fontFamily={`${fontFamilyMedium}`}
                   width="fit-content"

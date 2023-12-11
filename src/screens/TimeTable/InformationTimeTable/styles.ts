@@ -1,59 +1,72 @@
 import styled from "styled-components";
 import {
-  darkBlue,
-  darkGery,
-  fontFamilyBold,
   fontFamilyMedium,
   pureDark2,
   lightDark2,
-  lightDark3,
   tertiaryGrey24,
-
   fontFamilyRegular,
-  mediaDeviceMax,
-  // mainColor,
 } from "../../../components/GlobalStyle";
 
 export const InformationTimeTableStyle = styled.div`
   background-color: #fff;
-  padding: 16px;
-  border-radius: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  padding-bottom: 40px;
 
-  .table-heading {
-    font-size: 18px !important;
-    font-family: ${fontFamilyMedium} !important;
-    color: ${pureDark2};
-  }
-  .ant-table-thead > tr > th {
-    background: transparent !important;
-    border-bottom: none !important;
-    color: ${darkBlue};
+  .timetable-heading{
+    font-size: 18px;
     font-family: ${fontFamilyMedium};
-    font-size: 16px !important;
-    line-height: normal;
+    color: ${pureDark2};
+    font-style: normal;
     font-weight: 500;
+    line-height: normal;
+  }
 
+  .list-item {
+    border-bottom: 1px solid ${tertiaryGrey24};
+    padding-bottom: 8px;
+    &-value {
+      font-family: ${fontFamilyRegular};
+      color: ${pureDark2};
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;    }
+  }
+
+  .ant-table-thead > tr > th {
+    background: transparent;
+    border-bottom: 1px solid ${tertiaryGrey24};
+    color: ${pureDark2};
+    font-family: ${fontFamilyMedium};
+    font-size: 16px;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 22px;
+    padding: 11px;
     &::before {
-      display: none !important;
+      display: none;
     }
+  }
+  .ant-table-thead > tr > th:first-child{
+    padding-left: 20px;
   }
 
   .ant-table-tbody > tr > .ant-table-cell,
   .ant-table-tbody > tr > .ant-table-cell a {
-    font-family: ${fontFamilyMedium};
-    font-size: 14px !important;
-    color: ${darkGery}!important;
-  }
-  .ant-table-thead > tr > th{
+    font-family: ${fontFamilyRegular};
     color: ${pureDark2};
-  }
-  .ant-table-tbody > tr > td:first-child {
     font-size: 16px;
     font-style: normal;
-    font-weight: 500;
+    font-weight: 400;
     line-height: normal;
-    color: ${pureDark2};
+    padding: 11px;
+  }
+
+  .ant-table-tbody > tr > td:first-child {
+    font-weight: 500;
     font-family: ${fontFamilyMedium};
+    padding-left: 20px;
   }
 
   .timeTableBox{
@@ -65,14 +78,6 @@ export const InformationTimeTableStyle = styled.div`
     color: ${pureDark2};    
   }
  
-  .ant-table-tbody > tr > td:nth-child(2){
-    div:nth-child(odd){
-      background-color: #FAFAFA;
-    }
-    div:nth-child(even){
-      background-color: #fff;
-    }
-  }
  
   .ant-table-tbody > tr > td:nth-child(6),
   .ant-table-tbody > tr > td:nth-child(6) div{
@@ -87,8 +92,8 @@ export const InformationTimeTableStyle = styled.div`
     background: #E43535;
     width: 90px;
     height: 30px;
-    color: rgb(255, 255, 255) !important;
-    font-size: 14px !important;
+    color: rgb(255, 255, 255);
+    font-size: 14px;
     display: block;
     position: relative;
     text-align: center;
@@ -108,8 +113,8 @@ export const InformationTimeTableStyle = styled.div`
     background:#BCE7F8;
     width: 90px;
     height: 30px;
-    color: ${pureDark2} !important;
-    font-size: 14px !important;
+    color: ${pureDark2};
+    font-size: 14px;
     display: block;
     position: relative;
     text-align: center;
@@ -121,107 +126,50 @@ export const InformationTimeTableStyle = styled.div`
   }
 
   .ant-table-tbody > tr:nth-child(odd) td{
-    background-color: #FAFAFA;
-  }
-  .ant-table-tbody > tr:nth-child(even) td{
     background-color: #fff;
   }
-
-  .timetable-heading {
-    font-size: 18px !important;
-    font-family: ${fontFamilyMedium} !important;
-    color: ${pureDark2};
-    margin-bottom: 16px; 
-
+  .ant-table-tbody > tr:nth-child(even) td{
+    background-color: #FAFAFA;
   }
-  .titleField{
-    label{
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      color: ${pureDark2};
-      font-family: ${fontFamilyRegular};
-    }
-    input::placeholder{
-      color: ${lightDark2};
-    }
-  }
-
-  .repeatField{
-    label{
-      font-family: ${fontFamilyRegular};
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      color: ${pureDark2};
-    }
-    input::placeholder{
-      color: ${lightDark2};
-    }
-  }
-  .endDate{
-    label{
-      font-family: ${fontFamilyRegular};
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      color: ${pureDark2};
-      margin-bottom: 9px !important;
-    }
-    .endDate_input {
-        border-radius: 8px;
-        border: 1px solid #d9d9d9;
-        background: rgb(255, 255, 255);
-        color: rgb(51, 51, 51);
-        padding: 6px;
-        height: 48px;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        p{
-          color: ${lightDark2};
-          font-size: 16px;
-          font-style: normal;
-          font-weight: 400;
-          line-height: normal;
-          margin-bottom: 0;
-        }
-      }
       
-    }
-    .timeTableBottom-header{
-        margin-top: 65px;
-    }
-    
-    .list-item {
-      border-bottom: 1px solid ${tertiaryGrey24};
-      padding-bottom: 8px;
-      margin-bottom: 20px;
+`;
 
-      &-title {
-        font-size: 12px;
-        color: ${lightDark2};
-        font-weight: 400;
-        font-family: ${fontFamilyRegular};
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-      }
 
-      &-value {
-        margin-top: 6px;
-        font-size: 14px;
-        color: ${pureDark2};
-        font-weight: 400;
-        font-style: normal;
-        line-height: normal;
-        font-family: ${fontFamilyRegular};
-      }
-  
+export const InformationTimeTableFormStyle = styled.div`
+background-color: #fff;
+padding: 16px;
+border-radius: 10px;
 
+.timetable-heading {
+  font-size: 18px;
+  font-family: ${fontFamilyMedium};
+  color: ${pureDark2};
+  margin-bottom: 16px; 
+}
+
+.list-item {
+  border-bottom: 1px solid ${tertiaryGrey24};
+  padding-bottom: 8px;
+  margin-bottom: 20px;
+
+  &-title {
+    font-size: 12px;
+    color: ${lightDark2};
+    font-weight: 400;
+    font-family: ${fontFamilyRegular};
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  &-value {
+    margin-top: 6px;
+    font-size: 14px;
+    color: ${pureDark2};
+    font-weight: 400;
+    font-style: normal;
+    line-height: normal;
+    font-family: ${fontFamilyRegular};
+  }
+}
 `;

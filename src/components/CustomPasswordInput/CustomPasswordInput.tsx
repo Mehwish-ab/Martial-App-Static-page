@@ -9,7 +9,7 @@ import hide_password_icon from "../../assets/icons/ic_hidePassword.svg";
 import {
   fontFamilyMedium,
   fontFamilyRegular,
-  tertiaryGrewish,
+  tertiaryGrey24,
 } from "../GlobalStyle";
 import useScreenTranslation from "../../hooks/useScreenTranslation";
 
@@ -36,16 +36,16 @@ const CustomPasswordInput = (props: CustomPasswordInputProps) => {
     className,
     placeholder,
     name,
-    labelFont = "15px",
+    labelFont = "16px",
     labelFamily = fontFamilyMedium,
     labelMarginBottom = "10px",
     fontFamily = fontFamilyRegular,
-    border = `1px solid ${tertiaryGrewish}`,
+    border = `1px solid ${tertiaryGrey24}`,
     showErrorMessage = true,
     padding = "10px",
     placeholderFamily = fontFamilyRegular,
-    placeholderFont = "15px",
-    fontSize = "15px",
+    placeholderFont = "16px",
+    fontSize = "16px",
     ...rest
   } = props;
   const { getLabelByKey } = useScreenTranslation("loginScreen");

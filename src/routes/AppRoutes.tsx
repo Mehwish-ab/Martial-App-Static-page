@@ -1,8 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import {
   Login,
-  VerifyOtp,
-  Dashboard,
   Home,
   CreateUser,
   ErrorPage404,
@@ -10,26 +8,16 @@ import {
 import ForgetPassword from "../screens/ForgetPassword/ForgetPasword";
 import Otp from "../screens/ForgetPassword/Otp/Otp";
 import CreatePassword from "../screens/ForgetPassword/CreatePassword/CreatePassword";
-import CustomSelects from "../components/CustomSelect/CustomSelects";
-import { Select } from "antd";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/store";
-import { setLanguage } from "../redux/features/selectedLanguageSlice";
+// import { setLanguage } from "../redux/features/selectedLanguageSlice";
 import CreateSchool from "../screens/CreateSchool/CreateSchool";
-import Layout from "antd/lib/layout/layout";
 import AppLayout from "../components/Layout/Layout";
-// import { loginData } from "../App";
-import { lazy, useEffect } from "react";
-import { local_storage_admin_key } from "../utils/axios.utils";
 import EditSchool from "../screens/CreateSchool/EditSchool/EditSchool";
-
 import CreateBranch from "../screens/Branches/CreateBranch/CreateBranch";
 import EditBranch from "../screens/Branches/EditBranch/EditBranch";
 import ListBranch from "../screens/Branches/ListBranch/ListBranch";
 import ListFranchise from "../screens/Franchise/ListFranchise/ListFranchise";
 import CreateFranchise from "../screens/Franchise/CreateFranchise/CreateFranchise";
 import EditFranchise from "../screens/Franchise/EditFranchise/EditFranchise";
-import ViewBranch from "../screens/Branches/ViewBranch/ViewBranch";
 import ViewFranchise from "../screens/Franchise/ViewFranchise/ViewFranchise";
 import SubscribeFranchise from "../screens/Franchise/SubscribeFranchise/SubscribeFranchise";
 import ListInstructor from "../screens/Instructor/ListInstructor/ListInstructor";
@@ -45,23 +33,24 @@ import ListClass from "../screens/Class/ListClasses/ListClasses";
 import CreateClass from "../screens/Class/CreateClasses/CreateClass";
 import UpdateClass from "../screens/Class/UpdateClass/UpdateClass";
 import BranchInformation from "../screens/Branches/BranchInformation/BranchInformation";
-import { AddPaymentMethod } from "../screens/CreateSchool/AddPaymentSchool/styles";
 import AddPaymentSchool from "../screens/CreateSchool/AddPaymentSchool/AddPaymentSchool";
 import AddPaymentFranchise from "../screens/Franchise/AddPaymentFranchise/AddPaymentFranchise";
-import ViewInstructor from "../screens/Instructor/ViewInstructor/ViewInstructor";
-import EditInstructor from "../screens/Instructor/EditInstructor/EditInstructor";
-import AddPaymentInstructor from "../screens/Instructor/AddPaymentInstructor/AddPaymentInstructor";
 import SchoolFranchise from "../screens/Franchise/SchoolFranchise/SchoolFranchise";
 import AddPaymentBranch from "../screens/Branches/AddPaymentBranch/AddPaymentBranch";
+import ProfileMembership from "../screens/Membership/ProfileMembership/ProfileMembership";
+import ListTransactionHistort from "../screens/TransactionHistory/ListTransactionHistory/ListTransactionHistory";
+import ListRules from "../screens/Rules/ListRules/ListRules";
+// import { useDispatch, useSelector } from "react-redux";
+// import { RootState } from "../redux/store";
 
 function AppRoutes() {
-  const dispatch = useDispatch();
-  const handleChange = (value: string) => {
-    dispatch(setLanguage(value));
-  };
-  const { selectedLanguage } = useSelector(
-    (state: RootState) => state.selectedLanguage
-  );
+  // const dispatch = useDispatch();
+  // const handleChange = (value: string) => {
+  //   dispatch(setLanguage(value));
+  // };
+  // const { selectedLanguage } = useSelector(
+  //   (state: RootState) => state.selectedLanguage
+  // );
 
   return (
     <>
@@ -124,7 +113,7 @@ function AppRoutes() {
           }
         />
         <Route
-          path="/school/add-payment-information/:schoolId"
+          path="/school/add-payment-information"
           element={
             <AppLayout>
               <AddPaymentSchool />
@@ -169,7 +158,6 @@ function AppRoutes() {
           path="/branch/view/:branchId"
           element={
             <AppLayout>
-              {/* <ViewBranch /> */}
               <BranchInformation />
             </AppLayout>
           }
@@ -273,36 +261,10 @@ function AppRoutes() {
         />
 
         <Route
-          path="/instructor/edit/:instructorId"
-          element={
-            <AppLayout>
-              <EditInstructor />
-            </AppLayout>
-          }
-        />
-        <Route
           path="/instructor/view/:instructorId"
           element={
             <AppLayout>
-              <ViewInstructor />
-            </AppLayout>
-          }
-        />
-
-        <Route
-          path="/instructor"
-          element={
-            <AppLayout>
               <InformationInstructor />
-            </AppLayout>
-          }
-        />
-
-        <Route
-          path="/instructor/add-payment-information"
-          element={
-            <AppLayout>
-              <AddPaymentInstructor />
             </AppLayout>
           }
         />
@@ -350,6 +312,14 @@ function AppRoutes() {
           }
         />
         <Route
+          path="/membership/school-profile"
+          element={
+            <AppLayout>
+              <ProfileMembership />
+            </AppLayout>
+          }
+        />
+        <Route
           path="/class/create"
           element={
             <AppLayout>
@@ -370,6 +340,22 @@ function AppRoutes() {
           element={
             <AppLayout>
               <ListClass />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/transaction-history/list"
+          element={
+            <AppLayout>
+              <ListTransactionHistort />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/rules/list"
+          element={
+            <AppLayout>
+              <ListRules />
             </AppLayout>
           }
         />

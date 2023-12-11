@@ -27,7 +27,7 @@ export const AddPaymentMethod = styled.div`
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    margin: 13px 10px;
+    margin: 0 10px 13px;;
     font-family: ${fontFamilyMedium};
   }
  
@@ -98,12 +98,13 @@ export const AddPaymentMethod = styled.div`
   .ant-table-thead > tr > th{
     color: ${darkGery};
     font-family: ${fontFamilyMedium};
-    font-size: 16px !important;
+    font-size: 16px;
     font-weight: 500;
   }
   .ant-table-thead > tr > td{
     color: ${darkGery};
-    font-family: ${fontFamilyRegular};    font-size: 14px !important;
+    font-family: ${fontFamilyRegular};    
+    font-size: 14px !important;
     line-height: 23px;
     font-weight: 400;
   }
@@ -111,10 +112,11 @@ export const AddPaymentMethod = styled.div`
   .ant-table-tbody > tr > td{
     width: 19%;
     font-size: 16px;
+    font-family: ${fontFamilyMedium};
     font-style: normal;
     font-weight: 400;
     line-height: 22px; 
-    padding: 16px 20px;
+    padding: 11px 20px;
   }
   .ant-table-thead > tr > th:last-child, 
   .ant-table-tbody > tr > td:last-child{
@@ -173,7 +175,7 @@ export const AddPaymentMethod = styled.div`
     position: relative;
     text-align: center;
   }
-  .ant-table-tbody > tr > td:nth-child(5) .De-Active button{
+  .ant-table-tbody > tr > td:nth-child(5) .Inactive button{
     font-style: normal;
     font-weight: 400;
     line-height: normal;

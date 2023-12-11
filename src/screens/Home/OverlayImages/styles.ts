@@ -50,13 +50,13 @@ export const OverlayImagesStyled = styled.div`
       height: 170px;
       display: block;
       z-index: 0;
+      border-radius: 15px;
+      border: 1px solid #FAFAFA;
 
       > img {
         width: 170px;
         height: 170px;
         object-fit: cover;
-        border-radius: 15px;
-        border: 1px solid white;
       }
       .ant-btn-icon-only{
         border-radius: 6px;

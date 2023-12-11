@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Dropdown, Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { ListInstructorStyled } from "./styles";
-import CustomButton, { CustomDiv } from "../../../components/CustomButton/CustomButton";
+import CustomButton from "../../../components/CustomButton/CustomButton";
+import { CustomDiv } from "./CustomDiv";
 import {
   fontFamilyMedium,
   pureDark,
@@ -30,21 +31,11 @@ const ListInstructor: React.FC = () => {
   const { getLabelByKey } = useScreenTranslation("instructorList");
 
   const navigate = useNavigate();
-  // const { branchData, loading, error } = useSelector(
-  //   (state: RootState) => state.branchData
-  // );
 
   const { loading } = useSelector(
     (state: RootState) => state.branchData
   );
 
-  // const { businessTypes, activities } = useSelector(
-  //   (state: RootState) => state.appData.data.statusData
-  // );
-
-  // const { selectedLanguage } = useSelector(
-  //   (state: RootState) => state.selectedLanguage
-  // );
 
 
   const columns: ColumnsType<InstructorDataType> = [
@@ -74,7 +65,7 @@ const ListInstructor: React.FC = () => {
       render: (DummyData) => {
         return <p className="sub-title">
           {DummyData?.length > 33
-            ? `${DummyData.slice(0, 50)}...`
+            ? `${DummyData.slice(0, 37)}...`
             : DummyData}
         </p>
       }
@@ -84,7 +75,7 @@ const ListInstructor: React.FC = () => {
       dataIndex: "instructorRanking",
       key: "instructorRanking",
       render: (DummyData) => {
-        return <div className="progress" style={{background: "#386BB4", borderRadius: "4px", border: "1px solid #231F20"}}><div className="progress-bar" role="progressbar" style={{width: "40%", background: "#231F20"}} aria-valuenow={40} aria-valuemin={10} aria-valuemax={100}></div></div>
+        return <div className="progress" style={{ background: "#386BB4", borderRadius: "4px", border: "1px solid #231F20" }}><div className="progress-bar" role="progressbar" style={{ width: "40%", background: "#231F20" }} aria-valuenow={40} aria-valuemin={10} aria-valuemax={100}></div></div>
       },
     },
     {
@@ -148,94 +139,6 @@ const ListInstructor: React.FC = () => {
   ];
 
 
-  // const columns: ColumnsType<BranchDataType> = [
-  //   {
-  //     title: getLabelByKey("Id"),
-  //     dataIndex: "branchId",
-  //     key: "branchId",
-  //   },
-  //   {
-  //     title: getLabelByKey("Image") ,
-  //     dataIndex: "Image",
-  //     key: "Image",
-  //   },
-  //   {
-  //     title: getLabelByKey("name") ,
-  //     dataIndex: "name",
-  //     key: "name",
-  //   },
-  //   {
-  //     title: getLabelByKey("Type"),
-  //     dataIndex: "branchType",
-  //     key: "branchType",
-  //     render: (_, { branchType }) => {
-  //       let item = businessTypes.find((b) => b.id === branchType);
-  //       return <p>{item?.en}</p>;
-  //     },
-  //   },
-
-  //   {
-  //     title:getLabelByKey("Activity"),
-  //     dataIndex: "activity",
-  //     key: "activity",
-  //     render: (_, { activities: commaSeparatedIds }) => {
-  //       const filteredObjects = activities.filter((obj) => {
-  //         const objId = obj.id;
-  //         return commaSeparatedIds.split(",").includes(objId.toString());
-  //       });
-  //       let names = filteredObjects
-  //         .map((obj) => (obj as any)[selectedLanguage])
-  //         .join(", ");
-  //       const maxLength = 20;
-
-  //       if (names.length > maxLength) {
-  //         names = names.slice(0, maxLength - 3) + "...";
-  //       }
-  //       return <p>{names}</p>;
-  //     },
-  //   },
-  //   {
-  //     title: getLabelByKey("Phone Number"),
-  //     dataIndex: "phoneNumber",
-  //     key: "phoneNumber",
-  //   },
-  //   {
-  //     title: "Action",
-  //     key: "action",
-  //     render: (_, record) => {
-  //       const items = [
-  //         {
-  //           key: "1",
-  //           label: "View",
-  //           onClick: () => navigation(record, "view"),
-  //         },
-  //         {
-  //           key: "2",
-  //           label: "Edit",
-  //           onClick: () => navigation(record, "edit"),
-  //         },
-  //         {
-  //           key: "3",
-  //           label: "Subscribe",
-  //           onClick: () => navigation(record, "subscribe"),
-  //         },
-  //       ];
-
-  //       return (
-  //         <Space size="middle">
-  //           <Dropdown menu={{ items }}>
-  //             <img
-  //               src={actionMenuTogglerIcon}
-  //               alt="action menu"
-  //               style={{ cursor: "pointer" }}
-  //             />
-  //           </Dropdown>
-  //         </Space>
-  //       );
-  //     },
-  //   },
-  // ];
-
   const navigation = (record: InstructorDataType, redirectTo: string) => {
     switch (redirectTo) {
       case "edit":
@@ -271,7 +174,7 @@ const ListInstructor: React.FC = () => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
-  const rowSelection = { selectedRowKeys, onChange: onSelectChange};
+  const rowSelection = { selectedRowKeys, onChange: onSelectChange };
 
 
   return (
@@ -311,16 +214,15 @@ const RenderTableTitle = () => {
         <div className="instructorDateSection">
           <div className="mainarrow">
             <div className="arrowright">
-              <img src={LeftArrow} alt="Date" />
+              <img src={LeftArrow} alt="Date" width={18} height={12} />
             </div>
             <div className="arrowleft">
-              <img src={RightArrow} alt="Date" />
+              <img src={RightArrow} alt="Date" width={18} height={12} />
             </div>
-
           </div>
           <div className="dateRange">
-            <p>Mon, Sep 11, 2023 - Thu Sep 21, 2023</p>
-            <img src={DateCalander} alt="" />
+            <p><span>Mon,</span> Sep 11, 2023 - <span>Thu,</span> Sep 21, 2023</p>
+            <img src={DateCalander} alt="Calander" width={21} height={21} />
           </div>
           <div className="dateToday">Today</div>
         </div>
@@ -328,19 +230,18 @@ const RenderTableTitle = () => {
           bgcolor={tertiaryBlue2}
           textTransform="Captilize"
           color={pureDark}
-          padding="8px 10px"
+          padding="6.5px 0px"
           fontFamily={`${fontFamilyMedium}`}
-          width="fit-content"
+          width="40px"
           type="submit"
           title=""
           fontSize="17px"
-          icon={<img src={plusIcon} alt="edit icon" />}
+          icon={<img src={plusIcon} alt="edit icon" width={17} height={17} />}
           clicked={() => {
             navigate(`/instructor/create`);
           }}
         />
       </CustomDiv>
-
     </div>
   );
 };

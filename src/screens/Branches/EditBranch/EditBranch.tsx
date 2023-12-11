@@ -192,8 +192,7 @@ const EditBranch = () => {
                       type="text"
                       name="branchName"
                       label={getLabelByKey("branchName")}
-                      padding="10px"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       fontSize="16px"
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       max={6}
@@ -211,10 +210,9 @@ const EditBranch = () => {
                       control="select"
                       type="text"
                       name="branchType"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("branchType")}
-                      padding="10px"
                       placeholder={getLabelByKey("branchType")}
                       className={
                         formik.errors.branchType && formik.touched.branchType
@@ -231,7 +229,6 @@ const EditBranch = () => {
                       }
                     />
                   </Col>
-
                   <Col md="4" className="mt-20">
                     <CustomPhoneInput
                       label={getLabelByKey("branchPhoneNumber")}
@@ -261,6 +258,7 @@ const EditBranch = () => {
                       )}
                     </ErrorMessage>
                   </Col>
+
                   <Col md="4" className="mt-20">
                     <PlacesAutoCompleteInput
                       label={getLabelByKey("address")}
@@ -278,24 +276,62 @@ const EditBranch = () => {
                       value={formik.values.address}
                     />
                   </Col>
-                  <Col md="4" className="mt-20">
-                    <FormControl
-                      control="select"
-                      type="text"
-                      name="defaultLanguage"
-                      fontFamily={fontFamilyMedium}
-                      // prefix={<img src={lock_icon} alt="lock_icon" />}
-                      label={getLabelByKey("defaultLanguage")}
-                      padding="10px"
-                      placeholder={getLabelByKey("defaultLanguage")}
-                      className={
-                        formik.errors.defaultLanguage &&
-                        formik.touched.defaultLanguage
-                          ? "is-invalid"
-                          : "customInput"
-                      }
-                      options={createOptions(language)}
-                    />
+                  <Col md="8">
+                    <Row>
+                      <Col md="4" className="mt-20">
+                        <FormControl
+                          control="select"
+                          type="text"
+                          name="ranks"
+                          fontFamily={fontFamilyRegular}
+                          // prefix={<img src={lock_icon} alt="lock_icon" />}
+                          label={getLabelByKey("belts")}
+                          placeholder={getLabelByKey("belts")}
+                          className={
+                            formik.errors.rank && formik.touched.rank
+                              ? "is-invalid"
+                              : "customInput"
+                          }
+                          options={BELTS_SELECT_OPTIONS}
+                        />
+                      </Col>
+                      <Col md="4" className="mt-20">
+                        <FormControl
+                          control="select"
+                          type="text"
+                          name="defaultLanguage"
+                          fontFamily={fontFamilyRegular}
+                          // prefix={<img src={lock_icon} alt="lock_icon" />}
+                          label={getLabelByKey("defaultLanguage")}
+                          placeholder={getLabelByKey("defaultLanguage")}
+                          className={
+                            formik.errors.defaultLanguage &&
+                            formik.touched.defaultLanguage
+                              ? "is-invalid"
+                              : "customInput"
+                          }
+                          options={createOptions(language)}
+                        />
+                      </Col>
+                      <Col md="4" className="mt-20">
+                        <FormControl
+                          control="select"
+                          type="text"
+                          name="defaultCurrency"
+                          fontFamily={fontFamilyRegular}
+                          // prefix={<img src={lock_icon} alt="lock_icon" />}
+                          label={getLabelByKey("defaultCurrency")}
+                          placeholder={getLabelByKey("defaultCurrency")}
+                          className={
+                            formik.errors.defaultCurrency &&
+                            formik.touched.defaultCurrency
+                              ? "is-invalid"
+                              : "customInput"
+                          }
+                          options={createOptions(currency)}
+                        />
+                      </Col>
+                    </Row>
                   </Col>
                   <Col md="4" className="mt-20">
                     <FormControl
@@ -351,7 +387,7 @@ const EditBranch = () => {
                     />
                   </Col>
 
-                  <Col md="4">
+                  <Col md="6">
                     <CheckboxesSelect
                       name="selectedFacilities"
                       label="Facility"
@@ -365,7 +401,7 @@ const EditBranch = () => {
                       control="textarea"
                       type="text"
                       name="description"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("description")}
                       padding="10px"
@@ -388,7 +424,7 @@ const EditBranch = () => {
                   bgcolor={lightBlue3}
                   textTransform="Captilize"
                   color={pureDark}
-                  padding="12px 100px"
+                  padding="11px 40.50px"
                   fontFamily={`${fontFamilyMedium}`}
                   width="fit-content"
                   type="submit"

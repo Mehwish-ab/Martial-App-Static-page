@@ -170,7 +170,6 @@ const CreateBranch = () => {
             >
               <div className="bg-white form">
                 <h3>Branch Information</h3>
-
                 <Row>
                   <Col md="4" className="mt-20">
                     <FormControl

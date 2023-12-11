@@ -11,20 +11,21 @@ import {
 import img from "../../../assets/icons/list-style-check.png";
 export const SubscribeFranchiseStyled = styled.div`
   background: #fff;
-  padding: 16px;
-  border-radius: 20px;
-
+  padding: 13px 15px 20px 21px;
+  border-radius: 10px;
+  height: 80vh;
   h3 {
     font-size: 18px;
-    font-weight: 600;
-    font-family: ${fontFamilyBold};
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    font-family: ${fontFamilyMedium};
     color: ${pureDark2};
   }
 
   .subscriptions {
-    margin-top: 40px;
     display: flex;
-    flex-wrap: wrap;
+    gap: 10px;
 
     .plan {
       &-button {
@@ -33,33 +34,29 @@ export const SubscribeFranchiseStyled = styled.div`
 
       &:hover {
         cursor: pointer;
-        // height: 560px;
         background: #98cde1;
       }
       &:hover .plan-button {
         display: block;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
       }
-
+      &:hover {
+        margin-top: 20px;
+        height: 564px;
+        border-radius: 10px;
+      }
+      margin-top: 74px;
       width: 410px;
-      height: 500px;
+      height: 510px;
       border: 1px solid ${tertiaryGrey24};
       border-radius: 10px;
       padding: 16px;
-      margin-bottom: 16px;
-      margin-right: 16px;
-      position: relative;
-      transition: all 0.3s ease;
-
+      transition: all 0.3s ease; 
       &-heading {
         font-size: 18px;
         font-weight: 400;
         font-family: ${fontFamilyRegular};
         color: ${pureDark2};
-        margin-bottom: 12px;
+        margin-bottom: 22px;
       }
 
       &-price {
@@ -67,18 +64,24 @@ export const SubscribeFranchiseStyled = styled.div`
         font-weight: 500;
         font-family: ${fontFamilyMedium};
         color: ${darkBlue};
-        margin-bottom: 12px;
+        margin-bottom: 22px;
+        span{
+          font-size: 14px;
+          font-weight: 500;
+          font-family: ${fontFamilyMedium};
+          color: ${darkBlue};
+        }
       }
 
       &-description {
-        margin-bottom: 12px;
+        margin-bottom: 20px;
 
         &-heading {
           font-size: 18px;
           font-weight: 500;
-          font-family: ${fontFamilyBold};
+          font-family: ${fontFamilyMedium};
           color: ${pureDark2};
-          margin-bottom: 5px;
+          margin-bottom: 10px;
         }
 
         &-para {
@@ -86,7 +89,7 @@ export const SubscribeFranchiseStyled = styled.div`
           font-weight: 400;
           font-family: ${fontFamilyRegular};
           color: ${lightDark2};
-          line-height: 1.5;
+          line-height: 21px;
           word-spacing: 2px;
         }
       }
@@ -97,9 +100,9 @@ export const SubscribeFranchiseStyled = styled.div`
         &-heading {
           font-size: 18px;
           font-weight: 500;
-          font-family: ${fontFamilyBold};
+          font-family: ${fontFamilyMedium};
           color: ${pureDark2};
-          margin-bottom: 5px;
+          margin-bottom: 8px;
         }
 
         &-list {
@@ -109,11 +112,18 @@ export const SubscribeFranchiseStyled = styled.div`
           &-item {
             font-size: 16px;
             font-family: ${fontFamilyRegular};
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
             color: ${lightDark2};
             margin-bottom: 10px;
           }
         }
       }
     }
+  }
+  .pay-btn{
+    position: fixed;
+    right: 4%;
   }
 `;

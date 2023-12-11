@@ -5,6 +5,7 @@ import CustomButton from "../../../components/CustomButton/CustomButton";
 import {
   fontFamilyMedium,
   lightBlue3,
+  maastrichtBlue,
   pureDark,
 } from "../../../components/GlobalStyle";
 
@@ -13,7 +14,7 @@ const SubscribeFranchise = () => {
     return (
       <div className="plan">
         <div className="plan-heading">Basic Martial Arts Plan</div>
-        <div className="plan-price">£30.00 PerMonth</div>
+        <div className="plan-price">£30.00<span> PerMonth</span></div>
         <div className="plan-description">
           <div className="plan-description-heading">Description:</div>
           <div className="plan-description-para">
@@ -51,13 +52,13 @@ const SubscribeFranchise = () => {
           <CustomButton
             bgcolor={lightBlue3}
             textTransform="Captilize"
-            color={pureDark}
+            color={maastrichtBlue}
             padding="12px 100px"
             fontFamily={`${fontFamilyMedium}`}
             width="100%"
             type="submit"
             title={"Subscribe"}
-            fontSize="17px"
+            fontSize="18px"
           />
         </div>
       </div>
@@ -72,6 +73,19 @@ const SubscribeFranchise = () => {
         <CarouselItem />
         <CarouselItem />
         <CarouselItem />
+      </div>
+      <div className="pay-btn mt-20">
+        <CustomButton
+          bgcolor={lightBlue3}
+          textTransform="Captilize"
+          color={maastrichtBlue}
+          padding="11px 40.50px"
+          fontFamily={`${fontFamilyMedium}`}
+          width="fit-content"
+          type="submit"
+          title={"Pay Now"}
+          fontSize="18px"
+        />
       </div>
     </SubscribeFranchiseStyled>
   );

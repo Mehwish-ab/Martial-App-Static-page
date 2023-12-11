@@ -1,15 +1,11 @@
 import { Col, Container, Row } from "react-bootstrap";
-import logo from "../../assets/icons/ic_logo.svg";
 import {
-  BlackDot,
   TertiraryHeading,
-  UnderlineRed,
-  lightGrey2,
   primaryColor,
 } from "../../components/GlobalStyle";
 import PaymentAndWalletStyle from "./style";
 import CustomButton from "../../components/CustomButton/CustomButton";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import placeholder from "../../assets/icons/ic_data_not found.svg";
 import { useEffect, useRef, useState } from "react";
 import visa from "../../assets/icons/visa_card_icon.svg";
@@ -226,9 +222,8 @@ const PaymentAndWallet = () => {
                                   makeCardDefaultPromise(id, isDefault)
                                 }
                                 src={isDefault ? selectIcon : unselectIcon}
-                                alt={`${
-                                  isDefault ? "select-icon" : "unselect-icon"
-                                }`}
+                                alt={`${isDefault ? "select-icon" : "unselect-icon"
+                                  }`}
                                 className="select me-3"
                               />
                               <img

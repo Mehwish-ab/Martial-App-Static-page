@@ -28,7 +28,7 @@ import StatusActiveError from "../../../assets/images/activeBtnError.svg"
 import RightArrow from "../../../assets/images/rightArrow.svg";
 import LeftArrow from "../../../assets/images/leftArrow.svg";
 import DateCalander from "../../../assets/images/dateCalander.svg";
-import { CustomDiv } from "../ViewFranchise/styles";
+import { CustomDiv } from "./CustomDiv";
 
 const ListFranchise: React.FC = () => {
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const ListFranchise: React.FC = () => {
 
   const {
     statusData: { activities },
-    dropdowns:  { businessTypes }
+    dropdowns: { businessTypes }
   } = useSelector((state: RootState) => state.appData.data);
 
 
@@ -91,10 +91,10 @@ const ListFranchise: React.FC = () => {
       render: (DummyData) => {
 
         return <p className="sub-title">
-        {DummyData?.length > 33
-          ? `${DummyData.slice(0, 38)}...`
-          : DummyData}
-      </p>;
+          {DummyData?.length > 33
+            ? `${DummyData.slice(0, 38)}...`
+            : DummyData}
+        </p>;
       },
     },
     {
@@ -118,7 +118,7 @@ const ListFranchise: React.FC = () => {
     {
       title: "Action",
       key: "action",
-      render: (value: any, record: FranchiseDataType,index:number) :any => {
+      render: (value: any, record: FranchiseDataType, index: number): any => {
         const items = [
           {
             key: "1",
@@ -188,20 +188,20 @@ const ListFranchise: React.FC = () => {
         });
         break;
 
-        case "subscribe":
-          navigate(`/franchise/subscribe/${record.franchiseId}`, {
-            state: {
-              branch: record as FranchiseDataType,
-            },
-          });
-          break;
+      case "subscribe":
+        navigate(`/franchise/subscribe/${record.franchiseId}`, {
+          state: {
+            branch: record as FranchiseDataType,
+          },
+        });
+        break;
 
-          case "delete":
-            navigate(`/franchise/delete/${record.franchiseId}`, {
-              state: {
-                branch: record as FranchiseDataType,
-              },
-            });
+      case "delete":
+        navigate(`/franchise/delete/${record.franchiseId}`, {
+          state: {
+            branch: record as FranchiseDataType,
+          },
+        });
     }
   };
 
@@ -218,7 +218,7 @@ const ListFranchise: React.FC = () => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
-  const rowSelection = { selectedRowKeys, onChange: onSelectChange};
+  const rowSelection = { selectedRowKeys, onChange: onSelectChange };
 
 
 
@@ -253,23 +253,22 @@ const RenderTableTitle = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="d-flex justify-content-between">
+    <div className="d-flex justify-content-between align-center">
       {/* <h3 className="table-heading">{getLabelByKey("title")}</h3> */}
-      <h3 className="table-heading">Franchise List</h3>
+      <h3 className="table-heading">Franchise</h3>
       <CustomDiv>
         <div className="instructorDateSection">
           <div className="mainarrow">
             <div className="arrowright">
-              <img src={LeftArrow} alt="Date" />
+              <img src={LeftArrow} alt="Date" width={18} height={12} />
             </div>
             <div className="arrowleft">
-              <img src={RightArrow} alt="Date" />
+              <img src={RightArrow} alt="Date" width={18} height={12} />
             </div>
-
           </div>
           <div className="dateRange">
-            <p>Mon, Sep 11, 2023 - Thu Sep 21, 2023</p>
-            <img src={DateCalander} alt="" />
+            <p><span>Mon,</span> Sep 11, 2023 - <span>Thu,</span> Sep 21, 2023</p>
+            <img src={DateCalander} alt="Calander" width={21} height={21} />
           </div>
           <div className="dateToday">Today</div>
         </div>
@@ -277,13 +276,13 @@ const RenderTableTitle = () => {
           bgcolor={tertiaryBlue2}
           textTransform="Captilize"
           color={pureDark}
-          padding="8px 10px"
+          padding="6.5px 0px"
           fontFamily={`${fontFamilyMedium}`}
-          width="fit-content"
+          width="40px"
           type="submit"
           title=""
           fontSize="17px"
-          icon={<img src={plusIcon} alt="edit icon" />}
+          icon={<img src={plusIcon} alt="edit icon" width={17} height={17} />}
           clicked={() => {
             navigate(`/franchise/create`);
           }}

@@ -22,6 +22,8 @@ export interface CreateClassInitialValues {
   Agreement: string;
   termCondition: string;
   Liabilitywaivers: string;
+  bannerPicture: string | null | undefined;
+  profilePicture: string | null | undefined;
   // stripePublishableKey: string;
   // stripeSecretKey: string;
   // cardAccessToken: string;

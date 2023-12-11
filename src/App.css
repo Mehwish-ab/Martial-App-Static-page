@@ -67,6 +67,9 @@ ul li {
 .mt-8 {
   margin-top: 8px;
 }
+.mb-20 {
+  margin-bottom: 20px;
+}
 .ant-modal-body {
   padding: 0px;
 }
@@ -394,7 +397,12 @@ button {
   gap: 16px;
   margin: 0 16px;
   flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+
 }
+
+
 
 @media screen and (max-width: 1000px) {
   .content-styles {

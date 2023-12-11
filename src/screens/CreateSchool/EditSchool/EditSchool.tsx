@@ -105,9 +105,9 @@ const EditSchool = () => {
     defaultLanguage: schoolData.defaultLanguageId,
     defaultCurrency: schoolData.defaultCurrencyId,
     description: schoolData.description,
-    rank: true,
-    defaultCurrencyId: 1,
-    defaultLanguageId: 1,
+    rank: schoolData.rank ? 1 : 2,
+    defaultCurrencyId: schoolData.defaultCurrencyId,
+    defaultLanguageId: schoolData.defaultLanguageId,
     // stripePublishableKey: schoolData.stripePublicKey,
     // stripeSecretKey: schoolData.stripeSecretKey,
     // cardAccessToken: schoolData.gclAccessToken,
@@ -132,7 +132,8 @@ const EditSchool = () => {
         onSubmit={handleEditSchool}
       >
         {(formik) => {
-          console.log("Form Values:", formik);
+          console.log("Form Values:", formik.values);
+          console.log("School Values:", schoolData);
 
           return (
             <Form
@@ -239,7 +240,7 @@ const EditSchool = () => {
                     <FormControl
                       control="select"
                       type="text"
-                      name="belts"
+                      name="rank"
                       fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("belts")}

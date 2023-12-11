@@ -5,7 +5,7 @@ import { Col, Row } from "react-bootstrap";
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
-import { RootState } from "../../../redux/store";
+import store, { RootState } from "../../../redux/store";
 import {
   BELTS_SELECT_OPTIONS,
   SelectOptionsDataTypes,
@@ -30,15 +30,20 @@ import { CreateBranchInitialValues } from "../constant";
 import useBranch from "../hooks/useBranch";
 import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
 import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelect";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const CreateBranch = () => {
   const { getLabelByKey } = useScreenTranslation("branchCreate");
+  const navigate = useNavigate();
+  const { schoolData } = useSelector((state: RootState) => state.dashboardData);
+
   const {
     statusData: { activities, facilities },
     dropdowns: { currency, language, businessTypes },
   } = useSelector((state: RootState) => state.appData.data);
 
-  const { loading, handleSubmit } = useBranch();
+  const { loading, handleSubmit, Createmodal } = useBranch();
   const initialValues: CreateBranchInitialValues = {
     branchName: "",
     branchType: "",
@@ -49,16 +54,17 @@ const CreateBranch = () => {
     // belts: "",
     rank: "",
     description: "",
-    stripePublishableKey: "",
-    stripeSecretKey: "",
-    cardAccessToken: "",
-    cardClientId: "",
-    cardWebHook: "",
-    cardClientSecret: "",
+
     selectedActivities: [],
     selectedFacilities: [],
     schoolStripeMethod: false,
     schoolGclMethod: false,
+    cardAccessToken: "",
+    cardClientId: "",
+    cardClientSecret: "",
+    cardWebHook: "",
+    stripePublishableKey: "",
+    stripeSecretKey: "",
   };
 
   const { selectedLanguage } = useSelector(
@@ -83,38 +89,38 @@ const CreateBranch = () => {
     defaultLanguage: Yup.string().required("Please select default language"),
     defaultCurrency: Yup.string().required("Please select default currency"),
     // belts: Yup.string().required("Please select belts"),
-    ranks: Yup.string().required("Please select ranks"),
+    rank: Yup.string().required("Please select ranks"),
     description: Yup.string().required("Please enter description"),
-    stripePublishableKey: Yup.string().when("schoolStripeMethod", {
-      is: false,
-      then: Yup.string().required("Please enter stripe publishable key"),
-      otherwise: Yup.string().notRequired(),
-    }),
-    stripeSecretKey: Yup.string().when("schoolStripeMethod", {
-      is: false,
-      then: Yup.string().required("Please enter stripe secret key"),
-      otherwise: Yup.string().notRequired(),
-    }),
-    cardAccessToken: Yup.string().when("schoolGclMethod", {
-      is: false,
-      then: Yup.string().required("Please enter card access token"),
-      otherwise: Yup.string().notRequired(),
-    }),
-    cardClientId: Yup.string().when("schoolGclMethod", {
-      is: false,
-      then: Yup.string().required("Please enter card client id"),
-      otherwise: Yup.string().notRequired(),
-    }),
-    cardWebHook: Yup.string().when("schoolGclMethod", {
-      is: false,
-      then: Yup.string().required("Please enter card web hook"),
-      otherwise: Yup.string().notRequired(),
-    }),
-    cardClientSecret: Yup.string().when("schoolGclMethod", {
-      is: false,
-      then: Yup.string().required("Please enter card client secret"),
-      otherwise: Yup.string().notRequired(),
-    }),
+    // stripePublishableKey: Yup.string().when("schoolStripeMethod", {
+    //   is: false,
+    //   then: Yup.string().required("Please enter stripe publishable key"),
+    //   otherwise: Yup.string().notRequired(),
+    // }),
+    // stripeSecretKey: Yup.string().when("schoolStripeMethod", {
+    //   is: false,
+    //   then: Yup.string().required("Please enter stripe secret key"),
+    //   otherwise: Yup.string().notRequired(),
+    // }),
+    // cardAccessToken: Yup.string().when("schoolGclMethod", {
+    //   is: false,
+    //   then: Yup.string().required("Please enter card access token"),
+    //   otherwise: Yup.string().notRequired(),
+    // }),
+    // cardClientId: Yup.string().when("schoolGclMethod", {
+    //   is: false,
+    //   then: Yup.string().required("Please enter card client id"),
+    //   otherwise: Yup.string().notRequired(),
+    // }),
+    // cardWebHook: Yup.string().when("schoolGclMethod", {
+    //   is: false,
+    //   then: Yup.string().required("Please enter card web hook"),
+    //   otherwise: Yup.string().notRequired(),
+    // }),
+    // cardClientSecret: Yup.string().when("schoolGclMethod", {
+    //   is: false,
+    //   then: Yup.string().required("Please enter card client secret"),
+    //   otherwise: Yup.string().notRequired(),
+    // }),
     selectedActivities: Yup.array()
       .of(Yup.string().required("Select an activity"))
       .min(1, "Select at least one activity"),
@@ -139,16 +145,23 @@ const CreateBranch = () => {
 
     return options;
   };
+  useEffect(() => {
+    if (schoolData.schoolId === 0) navigate("/school/create");
+  }, []);
 
   return (
     <CreateSchoolStyled>
       {/* <OverlayImages backgroundImg={""} overlayImg={""} isEditable={false} /> */}
+      {Createmodal().modalComponent}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         {(formik) => {
+          console.log("formik values: ", formik.values);
+          console.log("formik values: ", formik.values.defaultCurrency);
+
           return (
             <Form
               name="basic"
@@ -280,7 +293,7 @@ const CreateBranch = () => {
                       <FormControl
                         control="select"
                         type="text"
-                        name="ranks"
+                        name="rank"
                         fontFamily={fontFamilyRegular}
                         // prefix={<img src={lock_icon} alt="lock_icon" />}
                         label={getLabelByKey("belts")}
@@ -329,7 +342,10 @@ const CreateBranch = () => {
                       height="200px"
                     />
                   </div>
-                  {/* <PaymentInformation formik={formik} showPaymentMethods={true} /> */}
+                  {/* <PaymentInformation
+                    formik={formik}
+                    showPaymentMethods={true}
+                  /> */}
                 </Row>
               </div>
               <div className="mt-20 d-flex justify-content-end">

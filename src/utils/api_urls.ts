@@ -1,9 +1,8 @@
 import { loginDataTypes } from "../redux/features/types";
 
 // base urls
-const liveBaseUrl =
-  "https://www.ennvisionapistore.com:8443/martialapp_apis/api/";
-const testBaseUrl = "https://www.ennvisionapistore.com:8443/martialapp_apis/";
+const liveBaseUrl = "https://fistastore.com:444/martialapp_apis/api/";
+const testBaseUrl = "https://fistastore.com:444/martialapp_apis/";
 const liveMediaUrl = "https://ennvisionapistore.com:8443";
 const testMediaUrl = "https://ennvisionapistore.com:8443";
 const domianLiveUrl = "https://maritalschool.innovatelq.com/";
@@ -140,6 +139,7 @@ export const get_school_by_user_id_url = "school/getById";
 export const create_branch_url = "branch/create";
 export const edit_branch_url = "branch/edit";
 export const get_branch_by_school_id_url = "branch/getBySchoolId";
-
+export const get_branch_by_id_url = "branch/getDetailsById";
+export const get_payment = "paymentMethod/get";
 // key of token data in local storage of browser
 export const auth_token_key = "ennvision-admin:token";

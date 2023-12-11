@@ -43,7 +43,7 @@ const useCreateSchool = () => {
       businessType: values.businessType,
       address: values.address || "",
       phoneNumber: values?.businessPhoneNumber || "",
-      rank: values.rank ? true : false,
+      rank: values.rank === 1 ? true : false,
       defaultLanguageId: values.defaultLanguage,
       defaultCurrencyId: values.defaultCurrency,
       activities: values.selectedActivities.join(","),
@@ -123,7 +123,7 @@ const useCreateSchool = () => {
         businessType: values.businessType,
         address: values.address,
         phoneNumber: values?.businessPhoneNumber || "",
-        rank: values.rank ? true : false,
+        rank: values.rank === 1 ? true : false,
         defaultLanguageId: values.defaultLanguage,
         defaultCurrencyId: values.defaultCurrency,
         activities: values.selectedActivities.join(","),
@@ -210,7 +210,7 @@ const useCreateSchool = () => {
       setTimeout(() => {
         setLoading(false);
         setIsShowModal(false);
-        navigate("/school");
+        navigate("/school/create");
       }, 3000);
       setData("results: " + data.results);
       console.log("data", { data });

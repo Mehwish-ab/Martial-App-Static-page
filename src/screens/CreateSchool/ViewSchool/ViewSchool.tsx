@@ -50,6 +50,7 @@ const ViewSchool = () => {
   };
   useEffect(() => {
     store.dispatch(getSchoolByUserId());
+    if (schoolData.schoolId === 0) navigate("/school/create");
   }, []);
   console.log("SchoolData:", schoolData);
 
@@ -67,7 +68,7 @@ const ViewSchool = () => {
       <OverlayImages
         backgroundImg={schoolData.bannerPicture || ""}
         overlayImg={schoolData.profilePicture || ""}
-        isEditable={true}
+        isEditable={false}
       />
       <h3>School Information</h3>
 

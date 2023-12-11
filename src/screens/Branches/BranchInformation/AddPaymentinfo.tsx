@@ -1,6 +1,6 @@
 import { Card, Dropdown, List, Space, Table } from "antd";
 import OverlayImages from "../../Home/OverlayImages/OverlayImages";
-import { AddPaymentMethod } from "./styles";
+import { AddPaymentMethod } from "../AddPaymentBranch/styles";
 import { useLocation } from "react-router-dom";
 import { BranchDataType } from "../../../redux/features/branch/branchSlice";
 import { Col, Row } from "react-bootstrap";
@@ -23,11 +23,8 @@ import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.
 import getPayment from "../../../redux/features/branch/branchSlice";
 import useBranch from "../hooks/useBranch";
 import { useEffect, useState } from "react";
-interface AddPaymentBranchProps {
-  branch: BranchDataType; // Make sure to import BranchDataType
-}
 
-const AddPaymentBranch: React.FC = () => {
+const AddPaymentinfo: React.FC = () => {
   const navigate = useNavigate();
   const { getLabelByKey } = useScreenTranslation("schoolCreate");
   const {
@@ -39,68 +36,65 @@ const AddPaymentBranch: React.FC = () => {
     deletePayment,
     deletemodal,
   } = useBranch();
-
   const handleDelete = (paymentMethod: any, record: any) => {
+    console.log("hi", record, paymentMethod);
+
     deletePayment(paymentMethod, record);
   };
 
   const location = useLocation();
-  const branch: BranchDataType | undefined = location?.state?.branchToEdit;
+  //const branch: BranchDataType = location?.state?.branchToEdit;
+
+  const branch: BranchDataType = location.state?.branch;
   const [stripepayment, setStripepayment] = useState<any[]>([]);
   const [bankpayment, setBankpayment] = useState<any[]>([]);
   const [paypalpayment, setPaypalpayment] = useState<any[]>([]);
   const [Gocardlesspayment, setGocardlesspayment] = useState<any[]>([]);
   const [cashpayment, setCash] = useState<any[]>([]);
+
   const { branchData, loading } = useSelector(
     (state: RootState) => state?.branchData
   );
-
   useEffect(() => {
     fetchstripe();
     async function fetchstripe() {
-      if (branch) {
-        const data = (await get_stripe("BRANCH", branch.branchId)) as any[];
-        setStripepayment(data);
-      }
+      const data = (await get_stripe("BRANCH", branch?.branchId)) as any[];
+      setStripepayment(data);
+      console.log(">> date:", data);
     }
-
     fetchbank();
     async function fetchbank() {
-      // Check if branch is truthy before accessing its properties
-      if (branch) {
-        const data = (await get_bank("BRANCH", branch.branchId)) as any[];
-        setBankpayment(data);
-      }
+      const data = (await get_bank("BRANCH", branch?.branchId)) as any[];
+      setBankpayment(data);
+      console.log("fetchbank:", data);
     }
     fetchPaypal();
     async function fetchPaypal() {
-      if (branch) {
-        const data = (await get_paypal("BRANCH", branch.branchId)) as any[];
-        setPaypalpayment(data);
-      }
+      const data = (await get_paypal("BRANCH", branch?.branchId)) as any[];
+      setPaypalpayment(data);
+      console.log("fetchPaypal:", data);
     }
     fetchgocard();
     async function fetchgocard() {
-      if (branch) {
-        const data = (await get_gocard("BRANCH", branch.branchId)) as any[];
-        setGocardlesspayment(data);
-      }
+      const data = (await get_gocard("BRANCH", branch?.branchId)) as any[];
+      setGocardlesspayment(data);
+      console.log("fetchgocard:", data);
     }
     fetchCash();
     async function fetchCash() {
-      if (branch) {
-        const data = (await get_cash("BRANCH", branch.branchId)) as any[];
-        setCash(data);
-      }
+      const data = (await get_cash("BRANCH", branch?.branchId)) as any[];
+      setCash(data);
+      console.log("fetchCash:", data);
     }
-
     // if (branchToEdit && branchToEdit.branchId) {
     //   fetchPayment();
     // }
-  }, []);
+  }, []); // Add branchToEdit to the dependency array
   if (!loading && !branchData) {
     return <div>No data</div>;
   }
+  //console.log("id", branchToEdit.branchId);
+  //   const [dataSource, setDataSource] = useState<any[]>([]);
 
   const navigation = (record: BranchDataType, redirectTo: string) => {
     switch (redirectTo) {
@@ -147,7 +141,8 @@ const AddPaymentBranch: React.FC = () => {
       title: "Mode",
       dataIndex: "mode",
       key: "mode",
-      render: (DummyData) => {
+      render: (DummyData: any) => {
+        console.log("mode", DummyData as any);
         if (DummyData[0] === "Test") {
           return (
             <div className={"Test"}>
@@ -177,7 +172,9 @@ const AddPaymentBranch: React.FC = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (DummyData) => {
+      render: (DummyData: any) => {
+        console.log("statussss", DummyData[0]);
+
         if (DummyData === "Add") {
           return (
             <div className={"Add"}>
@@ -206,6 +203,8 @@ const AddPaymentBranch: React.FC = () => {
       title: "Action",
       key: "action",
       render: (value: any, record: any, index: number): any => {
+        console.log("g", record);
+
         const items = [
           {
             key: "1",
@@ -365,6 +364,8 @@ const AddPaymentBranch: React.FC = () => {
         bankpayment?.length === 0
           ? "Add"
           : bankpayment?.map((e) => {
+              console.log("bankaccount", e.isActive);
+
               return e.isActive;
             }),
       id:
@@ -424,4 +425,4 @@ const AddPaymentBranch: React.FC = () => {
   );
 };
 
-export default AddPaymentBranch;
+export default AddPaymentinfo;

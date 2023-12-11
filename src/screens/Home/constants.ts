@@ -11,7 +11,7 @@ export type CreateSchoolInitialValues = {
   defaultLanguage: string | number;
   defaultCurrency: string | number;
   description: string;
-  rank: boolean;
+  rank: number | string;
   defaultCurrencyId: number;
   defaultLanguageId: number;
   // stripePublishableKey: string;

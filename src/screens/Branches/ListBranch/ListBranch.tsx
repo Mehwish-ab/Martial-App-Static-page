@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 import store, { RootState } from "../../../redux/store";
 import {
   BranchDataType,
+  getBranchById,
   getBranchBySchoolId,
 } from "../../../redux/features/branch/branchSlice";
 
@@ -25,31 +26,29 @@ import plusIcon from "../../../assets/icons/ic_plus.svg";
 import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
 import { ipForImages } from "../../Home/OverlayImages/OverlayImages";
 import DummyData from "./dummyData.json";
-import StatusActiveError from "../../../assets/images/activeBtnError.svg"
+import StatusActiveError from "../../../assets/images/activeBtnError.svg";
 import RightArrow from "../../../assets/images/rightArrow.svg";
 import LeftArrow from "../../../assets/images/leftArrow.svg";
 import DateCalander from "../../../assets/images/dateCalander.svg";
-
-
-
+import defaltimg from "../../../assets/images/create_school_user_profile.svg";
+import useBranch from "../hooks/useBranch";
 const ListBranch: React.FC = () => {
   // const { getLabelByKey } = useScreenTranslation("BranchList");
   const navigate = useNavigate();
+  const { deletebranch, deletemodal } = useBranch();
+  const [branch, setbranch] = useState();
   const { branchData, loading } = useSelector(
     (state: RootState) => state.branchData
   );
 
-  const { activities } = useSelector(
-    (state: RootState) => state.appData.data.statusData
-  );
+  const location = useLocation();
 
-  const { businessTypes } = useSelector(
-    (state: RootState) => state.appData.data.dropdowns
-  );
+  const handleDelete = (record: any) => {
+    deletebranch(record);
+    store.dispatch(getBranchBySchoolId());
+  };
+  console.log("Branch Data:", branchData);
 
-  const { selectedLanguage } = useSelector(
-    (state: RootState) => state.selectedLanguage
-  );
   const columns: ColumnsType<BranchDataType> = [
     {
       title: "Id",
@@ -58,11 +57,11 @@ const ListBranch: React.FC = () => {
     },
     {
       title: "Image",
-      dataIndex: "profilePicture",
-      key: "profilePicture",
-      render: (DummyData) => {
-        return <img src={DummyData} width={44} height={44} alt="dummy images data" />;
-      }
+      //dataIndex: "profilePicture",
+      //key: "profilePicture",
+      render: () => {
+        return <img src={defaltimg} width={44} height={44} />;
+      },
     },
     {
       title: "Name",
@@ -80,13 +79,14 @@ const ListBranch: React.FC = () => {
       dataIndex: "activities",
       key: "activities",
       render: (DummyData) => {
-
-        return <p className="sub-title">
-          {DummyData?.length > 33
-            ? `${DummyData.slice(0, 38)}...`
-            : DummyData}
-        </p>;
-      }
+        return (
+          <p className="sub-title">
+            {DummyData?.length > 33
+              ? `${DummyData.slice(0, 38)}...`
+              : DummyData}
+          </p>
+        );
+      },
     },
     {
       title: "Phone Number",
@@ -96,11 +96,22 @@ const ListBranch: React.FC = () => {
     {
       title: "Status",
       dataIndex: "status",
-      key: "Staus",
-      render: (DummyData) => {
+      key: "Status",
+      render: (d) => {
         return (
           <div>
-            <button>{DummyData}</button>
+            <button>
+              {/* {branchData.data.map((d) => {
+                if (d.status === "active") {
+                  return "Active";
+                } else {
+                  console.log(d.status);
+
+                  return "Deactive";
+                }
+              })} */}
+              {"Active"}
+            </button>
             <img src={StatusActiveError} alt="image" />
           </div>
         );
@@ -129,7 +140,11 @@ const ListBranch: React.FC = () => {
           {
             key: "4",
             label: "Delete",
-            onClick: () => navigation(record, "delete"),
+            onClick: () =>
+              //navigation(record, "delete"),
+              {
+                handleDelete(record.branchId);
+              },
           },
         ];
 
@@ -190,23 +205,22 @@ const ListBranch: React.FC = () => {
   const [current, setCurrent] = useState(1);
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
   const rowSelection = { selectedRowKeys, onChange: onSelectChange };
 
-
-
-
-
   return (
     <>
+      {deletemodal().modalComponent}
+
       {loading && <LoadingOverlay message="" />}
       <ListBranchStyled>
         <Table
           columns={columns}
-          dataSource={DummyData as any}
+          dataSource={branchData.data.map((data) => {
+            return data;
+          })}
           title={() => <RenderTableTitle />}
           scroll={{ x: true }}
           pagination={{
@@ -244,7 +258,9 @@ const RenderTableTitle = () => {
             </div>
           </div>
           <div className="dateRange">
-            <p><span>Mon,</span> Sep 11, 2023 - <span>Thu,</span> Sep 21, 2023</p>
+            <p>
+              <span>Mon,</span> Sep 11, 2023 - <span>Thu,</span> Sep 21, 2023
+            </p>
             <img src={DateCalander} alt="Calander" width={21} height={21} />
           </div>
           <div className="dateToday">Today</div>
@@ -265,7 +281,6 @@ const RenderTableTitle = () => {
           }}
         />
       </CustomDiv>
-
     </div>
   );
 };

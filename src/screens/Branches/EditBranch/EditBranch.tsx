@@ -29,15 +29,18 @@ import { BranchDataType } from "../../../redux/features/branch/branchSlice";
 import useBranch from "../hooks/useBranch";
 import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
 import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelect";
+import { useEffect, useState } from "react";
 
 const EditBranch = () => {
   const { getLabelByKey } = useScreenTranslation("branchCreate");
+  const [branchDatas, setBranchDatas] = useState<any>({});
+
   const {
     statusData: { activities, facilities },
     dropdowns: { currency, language, businessTypes },
   } = useSelector((state: RootState) => state.appData.data);
 
-  const { loading, handleSubmit } = useBranch();
+  const { loading, editSchool, getbranchbyid, UpdateModal } = useBranch();
   const { branchId } = useParams();
   const location = useLocation();
   const branchToEdit: BranchDataType = location.state?.branchToEdit;
@@ -64,31 +67,42 @@ const EditBranch = () => {
 
     return options;
   };
+  async function fetchinfo() {
+    const data = await getbranchbyid(branchToEdit.branchId);
+    setBranchDatas(data);
+  }
+  useEffect(() => {
+    fetchinfo();
+  }, []);
+  console.log("branchDatas", branchDatas);
 
+  const handleEditSchool = async (value: any) => {
+    await editSchool(branchToEdit.branchId, value);
+  };
   const initialValues: CreateBranchInitialValues = {
-    branchName: branchToEdit.branchName,
+    branchName: branchDatas.branchName,
     branchType: branchToEdit.branchType,
-    address: branchToEdit.address,
-    branchPhoneNumber: branchToEdit.phoneNumber,
+    address: branchDatas.address,
+    branchPhoneNumber: branchDatas.phoneNumber,
     // belts: branchToEdit.belts ? 1 : 2,
-    defaultLanguage: branchToEdit.defaultLanguageId,
-    defaultCurrency: branchToEdit.defaultCurrencyId,
-    rank: branchToEdit.ranks ? 1 : 2,
-    description: branchToEdit.description,
-    stripePublishableKey: branchToEdit.stripePublicKey,
-    stripeSecretKey: branchToEdit.stripeSecretKey,
-    cardAccessToken: branchToEdit.gclAccessToken,
-    cardClientId: branchToEdit.gclClientId,
-    cardWebHook: branchToEdit.gclWebHook,
-    cardClientSecret: branchToEdit.gclClientSecret,
-    selectedActivities: branchToEdit
-      ? branchToEdit.activities?.split(",").map(String)
+    defaultLanguage: branchDatas.defaultLanguageId,
+    defaultCurrency: branchDatas.defaultCurrencyId,
+    rank: branchDatas.rank ? 1 : 2,
+    description: branchDatas.description,
+    stripePublishableKey: "branchDatas.stripePublicKey",
+    stripeSecretKey: "branchDatas.stripeSecretKey",
+    cardAccessToken: "ranchDatas.gclAccessToken",
+    cardClientId: "branchDatas.gclClientId",
+    cardWebHook: "branchDatas.gclWebHook",
+    cardClientSecret: "branchDatas.gclClientSecret",
+    selectedActivities: branchDatas
+      ? branchDatas.activities?.split(",").map(String)
       : [],
-    selectedFacilities: branchToEdit
-      ? branchToEdit.facilities?.split(",").map(String)
+    selectedFacilities: branchDatas
+      ? branchDatas.facilities?.split(",").map(String)
       : [],
-    schoolStripeMethod: branchToEdit.schoolStripeMethod || false,
-    schoolGclMethod: branchToEdit.schoolGclMethod || false,
+    schoolStripeMethod: branchDatas.schoolStripeMethod || false,
+    schoolGclMethod: branchDatas.schoolGclMethod || false,
   };
   const validationSchema = Yup.object({
     branchName: Yup.string()
@@ -102,44 +116,44 @@ const EditBranch = () => {
     defaultLanguage: Yup.string().required("Please select default language"),
     defaultCurrency: Yup.string().required("Please select default currency"),
     // belts: Yup.string().required("Please select belts"),
-    ranks: Yup.string().required("Please select ranks"),
+    rank: Yup.string().required("Please select ranks"),
     description: Yup.string().required("Please enter description"),
-    stripePublishableKey: Yup.string().when("schoolStripeMethod", {
-      is: false,
-      then: Yup.string().required("Please enter stripe publishable key"),
-      otherwise: Yup.string().notRequired(),
-    }),
-    stripeSecretKey: Yup.string().when("schoolStripeMethod", {
-      is: false,
-      then: Yup.string().required("Please enter stripe secret key"),
-      otherwise: Yup.string().notRequired(),
-    }),
-    cardAccessToken: Yup.string().when("schoolGclMethod", {
-      is: false,
-      then: Yup.string().required("Please enter card access token"),
-      otherwise: Yup.string().notRequired(),
-    }),
-    cardClientId: Yup.string().when("schoolGclMethod", {
-      is: false,
-      then: Yup.string().required("Please enter card client id"),
-      otherwise: Yup.string().notRequired(),
-    }),
-    cardWebHook: Yup.string().when("schoolGclMethod", {
-      is: false,
-      then: Yup.string().required("Please enter card web hook"),
-      otherwise: Yup.string().notRequired(),
-    }),
-    cardClientSecret: Yup.string().when("schoolGclMethod", {
-      is: false,
-      then: Yup.string().required("Please enter card client secret"),
-      otherwise: Yup.string().notRequired(),
-    }),
-    selectedActivities: Yup.array()
-      .of(Yup.string().required("Select an activity"))
-      .min(1, "Select at least one activity"),
-    selectedFacilities: Yup.array()
-      .of(Yup.string().required("Select an activity"))
-      .min(1, "Select at least one facility"),
+    // stripePublishableKey: Yup.string().when("schoolStripeMethod", {
+    //   is: false,
+    //   then: Yup.string().required("Please enter stripe publishable key"),
+    //   otherwise: Yup.string().notRequired(),
+    // }),
+    // stripeSecretKey: Yup.string().when("schoolStripeMethod", {
+    //   is: false,
+    //   then: Yup.string().required("Please enter stripe secret key"),
+    //   otherwise: Yup.string().notRequired(),
+    // }),
+    // cardAccessToken: Yup.string().when("schoolGclMethod", {
+    //   is: false,
+    //   then: Yup.string().required("Please enter card access token"),
+    //   otherwise: Yup.string().notRequired(),
+    // }),
+    // cardClientId: Yup.string().when("schoolGclMethod", {
+    //   is: false,
+    //   then: Yup.string().required("Please enter card client id"),
+    //   otherwise: Yup.string().notRequired(),
+    // }),
+    // cardWebHook: Yup.string().when("schoolGclMethod", {
+    //   is: false,
+    //   then: Yup.string().required("Please enter card web hook"),
+    //   otherwise: Yup.string().notRequired(),
+    // }),
+    // cardClientSecret: Yup.string().when("schoolGclMethod", {
+    //   is: false,
+    //   then: Yup.string().required("Please enter card client secret"),
+    //   otherwise: Yup.string().notRequired(),
+    // }),
+    // selectedActivities: Yup.array()
+    //   .of(Yup.string().required("Select an activity"))
+    //   .min(1, "Select at least one activity"),
+    // selectedFacilities: Yup.array()
+    //   .of(Yup.string().required("Select an activity"))
+    //   .min(1, "Select at least one facility"),
 
     schoolStripeMethod: Yup.boolean(),
     schoolGclMethod: Yup.boolean(),
@@ -147,6 +161,7 @@ const EditBranch = () => {
 
   return (
     <CreateSchoolStyled>
+      {UpdateModal().modalComponent}
       <OverlayImages
         backgroundImg={branchToEdit?.bannerPicture || ""}
         overlayImg={branchToEdit?.profilePicture || ""}
@@ -155,9 +170,12 @@ const EditBranch = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+        onSubmit={handleEditSchool}
+        enableReinitialize
       >
         {(formik) => {
+          console.log("m", formik.values.rank);
+
           return (
             <Form
               name="basic"
@@ -208,7 +226,7 @@ const EditBranch = () => {
                         branchId
                           ? createOptions(businessTypes).find(
                               (item) => item.value === initialValues.branchType
-                            )?.label
+                            )?.value
                           : undefined
                       }
                     />
@@ -302,10 +320,10 @@ const EditBranch = () => {
                     <FormControl
                       control="select"
                       type="text"
-                      name="ranks"
+                      name="rank"
                       fontFamily={fontFamilyMedium}
-                      // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("belts")}
+                      value={formik.values.rank === 1 ? "Yes" : "No"}
                       padding="10px"
                       placeholder={getLabelByKey("belts")}
                       className={
@@ -314,6 +332,14 @@ const EditBranch = () => {
                           : "customInput"
                       }
                       options={BELTS_SELECT_OPTIONS}
+                      // defaultValue={
+                      //   // formik.values.rank === 1 ? "Yes" : "No"
+                      //   formik.values
+                      //     ? BELTS_SELECT_OPTIONS.find(
+                      //         (item) => item.value === initialValues.rank
+                      //       )?.label
+                      //     : undefined
+                      // }
                     />
                   </Col>
                   <Col md="4">

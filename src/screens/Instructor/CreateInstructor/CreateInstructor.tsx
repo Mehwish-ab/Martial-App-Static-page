@@ -21,7 +21,7 @@ import CustomPhoneInput from "../../../components/CustomPhoneInput/CustomPhoneIn
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import { CreateSchoolStyled } from "../../CreateSchool/styles";
 import { CreateInstructorInitialValues } from "../constant";
-import useBranch from "../../../../src/screens/Franchise/hooks/useFranchise";
+import useInstructor from "../../../hooks/useInstructor";
 import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelect";
 import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
 
@@ -31,7 +31,7 @@ const CreateInstructor = () => {
     statusData: { activities, facilities },
   } = useSelector((state: RootState) => state.appData.data);
 
-  const { loading, handleSubmit } = useBranch();
+  const { loading, handleSubmit } = useInstructor();
 
   const initialValues: CreateInstructorInitialValues = {
     instructorName: "",
@@ -45,54 +45,56 @@ const CreateInstructor = () => {
     selectedActivities: [],
     selectedFacilities: [],
     termCondition: "",
-    ranks: ""
+    ranks: "",
   };
 
-  const franchiseName = validationFinder("BUSINESS_NAME")!;
-  const franchiseNameReg = new RegExp(franchiseName.pattern);
+  const instructorName = validationFinder("BUSINESS_NAME")!;
+  const franchiseNameReg = new RegExp(instructorName.pattern);
   const address = validationFinder("ADDRESS")!;
   const addressReg = new RegExp(address.pattern);
   const emailAddress = validationFinder("EMAIL_ADDRESS")!;
   const emailAddressReg = new RegExp(emailAddress.pattern);
-
-  const franchisePhoneNumber = validationFinder("PHONE_NUMBER")!;
-
-
+  const instructorPhoneNumber = validationFinder("PHONE_NUMBER")!;
 
   const validationSchema = Yup.object({
-    franchiseName: Yup.string()
-      .required(franchiseName.notBlankMsgEn)
-      .matches(franchiseNameReg, franchiseName.patternMsgEn),
+    in: Yup.string()
+      .required(instructorName.notBlankMsgEn)
+      .matches(franchiseNameReg, instructorName.patternMsgEn),
     address: Yup.string()
       .required(address.notBlankMsgEn)
       .matches(addressReg, address.patternMsgEn),
     emailAddress: Yup.string()
       .required(emailAddress.notBlankMsgEn)
       .matches(emailAddressReg, emailAddress.patternMsgEn),
-    franchisePhoneNumber: Yup.string().required(
-      franchisePhoneNumber.notBlankMsgEn
+    instructorPhoneNumber: Yup.string().required(
+      instructorPhoneNumber.notBlankMsgEn
     ),
-    belts: Yup.string().required("Please select belts"),
+    ranking: Yup.string().required("Please select belts"),
     description: Yup.string().required("Please enter description"),
-    defaultLanguage: Yup.string().required("Please select default language"),
+    yearsOfExperience: Yup.string().required(
+      "Please select years Of Experience"
+    ),
+    latestCertification: Yup.string().required(
+      "Please add your latest Certificates"
+    ),
+
     defaultCurrency: Yup.string().required("Please select default currency"),
     selectedActivities: Yup.array()
       .of(Yup.string().required("Select an activity"))
       .min(1, "Select at least one activity"),
     selectedFacilities: Yup.array()
-      .of(Yup.string().required("Select an activity"))
-      .min(1, "Select at least one facility"),
-
+      .of(Yup.string().required("Select an specilization"))
+      .min(1, "Select at least one specilization"),
   });
-
-
-
+  const handleonSubmit = () => {
+    console.log("submitted");
+  };
   return (
     <CreateSchoolStyled>
       <Formik
         initialValues={initialValues}
         // validationSchema={validationSchema}
-        onSubmit={() => { }}
+        onSubmit={handleonSubmit}
       >
         {(formik) => {
           return (
@@ -136,7 +138,7 @@ const CreateInstructor = () => {
                       placeholder={getLabelByKey("instructorPhoneNumber")}
                       limitMaxLength={true}
                       handleOnChange={(e: string) => {
-                        formik.setFieldValue("franchisePhoneNumber", e);
+                        formik.setFieldValue("instructorPhoneNumber", e);
                       }}
                     />
                   </Col>
@@ -232,7 +234,9 @@ const CreateInstructor = () => {
                         name="termCondition"
                         id="termCondition"
                       />
-                      <p className="ms-3 mb-0" id="termCondition">Terms and conditions</p>
+                      <p className="ms-3 mb-0" id="termCondition">
+                        Terms and conditions
+                      </p>
                     </form>
                   </label>
                   <label htmlFor="agreement">
@@ -243,7 +247,9 @@ const CreateInstructor = () => {
                         name="agreement"
                         id="agreement"
                       />
-                      <p className="ms-3 mb-0" id="agreement">Agreement to follow the app's guidelines and policies</p>
+                      <p className="ms-3 mb-0" id="agreement">
+                        Agreement to follow the app's guidelines and policies
+                      </p>
                     </form>
                   </label>
                   <label htmlFor="liability">
@@ -254,7 +260,9 @@ const CreateInstructor = () => {
                         name="liability"
                         id="liability"
                       />
-                      <p className="ms-3 mb-0" id="liability">Liability waivers</p>
+                      <p className="ms-3 mb-0" id="liability">
+                        Liability waivers
+                      </p>
                     </form>
                   </label>
                 </Row>
@@ -278,8 +286,8 @@ const CreateInstructor = () => {
             </Form>
           );
         }}
-      </Formik >
-    </CreateSchoolStyled >
+      </Formik>
+    </CreateSchoolStyled>
   );
 };
 

@@ -27,8 +27,13 @@ import CustomPhoneInput from "../../components/CustomPhoneInput/CustomPhoneInput
 import CustomButton from "../../components/CustomButton/CustomButton";
 import PlacesAutoCompleteInput from "../../maps/PlacesAutocomplete";
 import CheckboxesSelect from "../../components/CustomCheckbox/CheckboxesSelect";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CreateSchool = () => {
+  const { schoolData } = useSelector((state: RootState) => state.dashboardData);
+  const navigate = useNavigate();
+
   const { getLabelByKey } = useScreenTranslation("schoolCreate");
   const {
     statusData: { activities, facilities },
@@ -45,7 +50,7 @@ const CreateSchool = () => {
     defaultLanguage: "",
     defaultCurrency: "",
     description: "",
-    rank: true,
+    rank: "",
     defaultCurrencyId: 1,
     defaultLanguageId: 1,
     selectedActivities: [],
@@ -107,7 +112,11 @@ const CreateSchool = () => {
 
     return options;
   };
-
+  useEffect(() => {
+    console.log("ids", schoolData.schoolId);
+    if (schoolData.schoolId > 0) return navigate("/school/view");
+    console.log("id", schoolData.schoolId);
+  }, []);
   return (
     <CreateSchoolStyled>
       {Createmodal().modalComponent}

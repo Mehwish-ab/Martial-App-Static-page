@@ -190,7 +190,7 @@ export const TertiaryHeading = styled.h3`
   }
 `;
 export const InputErrorMessage = styled.div`
-  color: red;
+  color: #E43535;
   text-align: right;
   font-size: 12px;
   letter-spacing: 1px;

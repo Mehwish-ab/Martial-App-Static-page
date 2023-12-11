@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {
   darkBlue,
   fontFamilyMedium,
+  fontFamilyRegular,
   lightGrey9,
   primaryColor,
   tertiaryGrey7,
@@ -75,14 +76,12 @@ const Wrapper = styled.div`
     // width: 100%;
     font-size: 14px;
     span {
+      color: #000;
+      font-family: ${fontFamilyRegular};
       font-size: 14px;
-      &:first-child {
-        color: ${lightGrey9};
-      }
-      &:last-child {
-        color: ${tertiaryGrey7};
-        font-size: 14px;
-      }
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
     }
   }
   a {
@@ -91,5 +90,8 @@ const Wrapper = styled.div`
     color: ${darkBlue};
     margin: 0 2px;
     font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
   }
 `;

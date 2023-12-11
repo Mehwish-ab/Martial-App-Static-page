@@ -198,7 +198,7 @@ const Login = () => {
                                 id="rememberMe"
                                 name="rememberMe"
                               />
-                              <p className="mb-0 text-14 fw-normal">
+                              <p className="remeberText">
                                 {getLabelByKey(SCREEN_LABEL_KEYS.rememberMe)}
                               </p>
                             </div>
@@ -220,7 +220,7 @@ const Login = () => {
                               bgcolor={lightBlue3}
                               textTransform="Captilize"
                               color={pureDark2}
-                              padding="16px"
+                              padding="16.5px"
                               fontFamily={fontFamilyMedium}
                               width="100%"
                               type="submit"
@@ -240,7 +240,7 @@ const Login = () => {
 
               <div className="d-flex or-line fs-6 mt-20 align-items-center">
                 <div className="line" />
-                <p>{getLabelByKey(SCREEN_LABEL_KEYS.or)}</p>
+                <p className="orText">{getLabelByKey(SCREEN_LABEL_KEYS.or)}</p>
                 <div className="line" />
               </div>
               <OauthLogin usecase={OAUTH_USECASES.login} />
@@ -251,22 +251,21 @@ const Login = () => {
                 screen={"loginScreen"}
               />
               <div className="signup-text mt-20">
-                <p className="mb-0">
+                <p className="mb-0 text-center ">
                   {/* {getLabelByKey(SCREEN_LABEL_KEYS.register)} */}
                   If you have an account we'll log you in. If not
+                  <span
+                    className={`${selectedLanguage === "ar" || selectedLanguage === "ur"
+                      ? "me-1"
+                      : "ms-1"
+                      } mt-2`}
+                  >
+                    <Link to="/register" className="underline">
+                      {/* {getLabelByKey(SCREEN_LABEL_KEYS.registerAccount)} */}
+                      Register.
+                    </Link>
+                  </span>
                 </p>
-
-                <h6
-                  className={`${selectedLanguage === "ar" || selectedLanguage === "ur"
-                    ? "me-1"
-                    : "ms-1"
-                    } mt-2`}
-                >
-                  <Link to="/register" className="underline">
-                    {/* {getLabelByKey(SCREEN_LABEL_KEYS.registerAccount)} */}
-                    Register.
-                  </Link>
-                </h6>
               </div>
             </div>
           </div>

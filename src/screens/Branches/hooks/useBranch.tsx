@@ -186,7 +186,7 @@ const useBranch = () => {
         facilities: values.selectedFacilities.join(","),
         description: values.description,
         gclClientSecret: false,
-        schoolId: 1,
+        schoolId: 3,
         defaultCurrencyId: values.defaultCurrency,
         defaultLanguageId: values.defaultLanguage,
         schoolStripeMethod: false,

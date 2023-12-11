@@ -236,7 +236,7 @@ const EditSchool = () => {
                       value={formik.values.address}
                     />
                   </Col>
-                  <Col md="4" className="mt-20">
+                  <Col md="2" className="mt-20">
                     <FormControl
                       control="select"
                       type="text"
@@ -278,7 +278,7 @@ const EditSchool = () => {
                     //   options={BELTS_SELECT_OPTIONS}
                     // /> */}
                   </Col>
-                  <Col md="4" className="mt-20">
+                  <Col md="3" className="mt-20">
                     <FormControl
                       control="select"
                       type="text"
@@ -304,7 +304,7 @@ const EditSchool = () => {
                       }
                     />
                   </Col>
-                  <Col md="4" className="mt-20">
+                  <Col md="3" className="mt-20">
                     <FormControl
                       control="select"
                       type="text"
@@ -330,26 +330,27 @@ const EditSchool = () => {
                       }
                     />
                   </Col>
+
+                  <Col md="6">
+                    <CheckboxesSelect
+                      list={activities}
+                      name="selectedActivities"
+                      label={getLabelByKey("activity")}
+                      showErrorMsgInList={false}
+                    />
+                  </Col>
+
+                  <Col md="6">
+                    <CheckboxesSelect
+                      name="selectedFacilities"
+                      label={getLabelByKey("facilities")}
+                      list={facilities}
+                      showErrorMsgInList={false}
+                    />
+                  </Col>
                 </Row>
                 {/* </div> */}
 
-                <Col md="6">
-                  <CheckboxesSelect
-                    list={activities}
-                    name="selectedActivities"
-                    label={getLabelByKey("activity")}
-                    showErrorMsgInList={false}
-                  />
-                </Col>
-
-                <Col md="6">
-                  <CheckboxesSelect
-                    name="selectedFacilities"
-                    label={getLabelByKey("facilities")}
-                    list={facilities}
-                    showErrorMsgInList={false}
-                  />
-                </Col>
                 <div className="mt-20">
                   <FormControl
                     control="textarea"

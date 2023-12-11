@@ -20,10 +20,13 @@ import { CreateSchoolInitialValues } from "../../Home/constants";
 import * as Yup from "yup";
 import { Row } from "react-bootstrap";
 import { Col } from "react-bootstrap";
-import { fontFamilyMedium, fontFamilyRegular, lightBlue3, pureDark2 } from "../../../components/GlobalStyle";
+import {
+  fontFamilyMedium,
+  fontFamilyRegular,
+  lightBlue3,
+  pureDark2,
+} from "../../../components/GlobalStyle";
 import CustomButton from "../../../components/CustomButton/CustomButton";
-
-
 
 const AddPaymentSchool: React.FC = () => {
   const navigate = useNavigate();
@@ -34,9 +37,7 @@ const AddPaymentSchool: React.FC = () => {
 
   const [isModalVisible, setModelVisible] = useState(false);
 
-  const { loading } = useSelector(
-    (state: RootState) => state.branchData
-  );
+  const { loading } = useSelector((state: RootState) => state.branchData);
 
   //   const { selectedLanguage } = useSelector(
   //     (state: RootState) => state.selectedLanguage
@@ -174,14 +175,12 @@ const AddPaymentSchool: React.FC = () => {
     defaultLanguage: "",
     defaultCurrency: "",
     description: "",
-    rank: false,
+    rank: 0,
     defaultCurrencyId: 0,
     defaultLanguageId: 0,
     selectedActivities: [],
     selectedFacilities: [],
   };
-
-
 
   return (
     <AddPaymentMethod>

@@ -247,32 +247,32 @@ const AddPaymentinfo: React.FC = () => {
         Gocardlesspayment?.length === 0
           ? "--"
           : Gocardlesspayment?.map((e) => {
-              return e.accountName;
-            }),
+            return e.accountName;
+          }),
       countryName:
         Gocardlesspayment?.length === 0
           ? "--"
           : Gocardlesspayment?.map((e) => {
-              return e.countryName;
-            }),
+            return e.countryName;
+          }),
       mode:
         Gocardlesspayment?.length === 0
           ? "--"
           : Gocardlesspayment?.map((e) => {
-              return e.mode;
-            }),
+            return e.mode;
+          }),
       status:
         Gocardlesspayment?.length === 0
           ? "Add"
           : Gocardlesspayment?.map((e) => {
-              return e.isActive;
-            }),
+            return e.isActive;
+          }),
       id:
         Gocardlesspayment?.length === 0
           ? "Add"
           : Gocardlesspayment?.map((e) => {
-              return e.id;
-            }),
+            return e.id;
+          }),
     },
     {
       paymentMethod: "PayPal",
@@ -280,32 +280,32 @@ const AddPaymentinfo: React.FC = () => {
         paypalpayment?.length === 0
           ? "--"
           : paypalpayment?.map((e) => {
-              return e.accountName;
-            }),
+            return e.accountName;
+          }),
       countryName:
         paypalpayment?.length === 0
           ? "--"
           : paypalpayment?.map((e) => {
-              return e.countryName;
-            }),
+            return e.countryName;
+          }),
       mode:
         paypalpayment?.length === 0
           ? "--"
           : paypalpayment?.map((e) => {
-              return e.mode;
-            }),
+            return e.mode;
+          }),
       status:
         paypalpayment?.length === 0
           ? "Add"
           : paypalpayment?.map((e) => {
-              return e.isActive;
-            }),
+            return e.isActive;
+          }),
       id:
         paypalpayment?.length === 0
           ? "0"
           : paypalpayment?.map((e) => {
-              return e.id;
-            }),
+            return e.id;
+          }),
     },
     {
       paymentMethod: "Stripe",
@@ -313,32 +313,32 @@ const AddPaymentinfo: React.FC = () => {
         stripepayment?.length === 0
           ? "--"
           : stripepayment?.map((e) => {
-              return e.accountName;
-            }),
+            return e.accountName;
+          }),
       countryName:
         stripepayment?.length === 0
           ? "--"
           : stripepayment?.map((e) => {
-              return e.countryName;
-            }),
+            return e.countryName;
+          }),
       mode:
         stripepayment?.length === 0
           ? "--"
           : stripepayment?.map((e) => {
-              return e.mode;
-            }),
+            return e.mode;
+          }),
       status:
         stripepayment?.length === 0
           ? "Add"
           : stripepayment?.map((e) => {
-              return e.isActive;
-            }),
+            return e.isActive;
+          }),
       id:
         stripepayment?.length === 0
           ? "0"
           : stripepayment?.map((e) => {
-              return e.id;
-            }),
+            return e.id;
+          }),
     },
     {
       paymentMethod: "BankAccount",
@@ -346,34 +346,34 @@ const AddPaymentinfo: React.FC = () => {
         bankpayment?.length === 0
           ? "--"
           : bankpayment?.map((e) => {
-              return e.accountName;
-            }),
+            return e.accountName;
+          }),
       countryName:
         bankpayment?.length === 0
           ? "--"
           : bankpayment?.map((e) => {
-              return e.countryName;
-            }),
+            return e.countryName;
+          }),
       mode:
         bankpayment?.length === 0
           ? "--"
           : bankpayment?.map((e) => {
-              return e.mode;
-            }),
+            return e.mode;
+          }),
       status:
         bankpayment?.length === 0
           ? "Add"
           : bankpayment?.map((e) => {
-              console.log("bankaccount", e.isActive);
+            console.log("bankaccount", e.isActive);
 
-              return e.isActive;
-            }),
+            return e.isActive;
+          }),
       id:
         bankpayment?.length === 0
           ? "0"
           : bankpayment?.map((e) => {
-              return e.id;
-            }),
+            return e.id;
+          }),
     },
     {
       paymentMethod: "Cash",
@@ -381,32 +381,32 @@ const AddPaymentinfo: React.FC = () => {
         cashpayment?.length === 0
           ? "--"
           : cashpayment?.map((e) => {
-              return e.accountName;
-            }),
+            return e.accountName;
+          }),
       countryName:
         cashpayment?.length === 0
           ? "--"
           : cashpayment?.map((e) => {
-              return e.countryName;
-            }),
+            return e.countryName;
+          }),
       mode:
         cashpayment?.length === 0
           ? "--"
           : cashpayment?.map((e) => {
-              return e.mode;
-            }),
+            return e.mode;
+          }),
       status:
         cashpayment?.length === 0
           ? "Add"
           : cashpayment?.map((e) => {
-              return e.isActive;
-            }),
+            return e.isActive;
+          }),
       id:
         cashpayment?.length === 0
           ? "Add"
           : cashpayment?.map((e) => {
-              return e.id;
-            }),
+            return e.id;
+          }),
     },
   ];
 
@@ -417,7 +417,7 @@ const AddPaymentinfo: React.FC = () => {
       {loading && <LoadingOverlay message="" />}
       <h3 className="table-heading">Payment Information</h3>
       {rowsWithButtons.length > 0 ? (
-        <Table columns={columns} dataSource={rowsWithButtons} />
+        <Table columns={columns} dataSource={rowsWithButtons as any} />
       ) : (
         <div>No data available</div>
       )}

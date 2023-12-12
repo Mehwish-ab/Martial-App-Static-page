@@ -42,7 +42,7 @@ const TermsAndConditions: React.FC<termsAndConditionsProps> = ({
 
         <label
           htmlFor="terms"
-          className="terms d-flex flex-column justify-content-center cursor-pointer"
+          className="terms d-flex flex-column justify-content-center cursor-pointer mb-0"
         >
           <span>
             {/* {getLabelByKey("legalNote")} */}

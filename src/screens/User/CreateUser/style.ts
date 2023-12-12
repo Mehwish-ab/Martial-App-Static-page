@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {
   darkBlue,
   fontFamilyMedium,
+  fontFamilyRegular,
   lightDark2,
   lightDark3,
   pureDark2,
@@ -12,14 +13,10 @@ import {
 } from "../../../components/GlobalStyle";
 
 const RegisterStyle = styled.div`
-  // display: flex;
-  // flex-direction: column;
-  // align-items: center;
-  // justify-content: center;
   background: ${tertiaryGrey8};
   margin: 0 auto;
   overflow-y: auto;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 
  
  
@@ -28,9 +25,14 @@ const RegisterStyle = styled.div`
     justify-content:center;
     align-items:center;
 
-    p,a,h6 {
-        font-size: 14px;
+    p,a,span {
         margin-bottom: 0
+        font-family: ${fontFamilyRegular};
+        color: ${pureDark2};
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
       }
       a{
         font-family: ${fontFamilyMedium};
@@ -38,11 +40,12 @@ const RegisterStyle = styled.div`
         color: ${darkBlue};
         margin: 0 2px;
       }
-      h6{
+      span{
+        font-family: ${fontFamilyMedium};
         color: ${darkBlue};
-      }
-      a:hover{
-        text-decoration: none;
+        a:hover{
+          text-decoration: none;
+        }
       }
     }
 
@@ -52,13 +55,21 @@ const RegisterStyle = styled.div`
       line-height: normal;
       font-size: 16px;
       color: ${pureDark2};
-      font-family: ${fontFamilyMedium} !important;
+      font-family: ${fontFamilyMedium};
       margin-bottom: 8px;
     }
     .ant-checkbox-wrapper{
       margin-bottom: 0px;
     }
-    }
+  }
+  .remeberText{
+    color: ${pureDark2};
+    font-family: ${fontFamilyRegular};
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
 
 
   .role-section {
@@ -82,6 +93,7 @@ const RegisterStyle = styled.div`
         color: ${pureDark2};
       }
       .message {
+        font-family: ${fontFamilyRegular};
         color: ${lightDark3};
         font-size: 16px;
         font-style: normal;
@@ -102,9 +114,20 @@ const RegisterStyle = styled.div`
       }
     }
   } 
+  .PhoneInput {
+    width: 100%;
+    height: 52px;
+  input{
+    height: 52px;
+  }
+  .PhoneInputCountry{
+    height: 52px;
+   }
+   }
 
   .is-invalid {
-    border: 1px solid red;
+    height: 52px;
+    border: 1px solid #E43535;
     background: white;
     padding: 15.5px;
     width: 100%;
@@ -114,24 +137,30 @@ const RegisterStyle = styled.div`
     margin-bottom: 2px;
     font-size: 16px;
     input{
+      color: ${lightDark2};
       font-size: 16px;
       font-style: normal;
       font-weight: 400;
       line-height: normal;
+      font-family: ${fontFamilyRegular};
+
     }
   }
   .customInput{
+    height: 52px;
     font-size: 16px;
     background: white;
-    padding: 15.5px;
+    padding: 16.5px;
     width: 100%;
     width: -moz-available;
     outline: none;
     line-height: normal;
     border-radius: 8px;
+    font-family: ${fontFamilyRegular};
     border: 1px solid ${tertiaryGrey24};
     ::placeholder{
       font-style: normal;
+      font-family: ${fontFamilyRegular};
       color: ${lightDark2};
       font-weight: 400;
       line-height: normal;
@@ -141,6 +170,7 @@ const RegisterStyle = styled.div`
 
   
   .customPasswordInput {
+    height: 52px;
     font-size: 16px;
     background: white;
     padding: 15.5px;
@@ -149,11 +179,18 @@ const RegisterStyle = styled.div`
     outline: none;
     line-height: normal;
     border-radius: 8px;
+    font-family: ${fontFamilyRegular};
     border: 1px solid ${tertiaryGrey24};
     input{
+      font-style: normal;
+      font-family: ${fontFamilyRegular};
+      color: ${lightDark2};
+      font-weight: 400;
       line-height: normal;
+      font-size: 16px;
       &::placeholder{
         font-style: normal;
+        font-family: ${fontFamilyRegular};
         color: ${lightDark2};
         font-weight: 400;
         line-height: normal;

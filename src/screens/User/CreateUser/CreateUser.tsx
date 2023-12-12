@@ -8,6 +8,7 @@ import {
   fontFamilyMedium,
   lightBlue3,
   pureDark,
+  pureDark2,
 } from "../../../components/GlobalStyle";
 import Head from "../../../components/Head/Head";
 import { useEffect, useRef, useState } from "react";
@@ -188,7 +189,7 @@ const RegisterUser = () => {
 
   return (
     <>
-      <Head title="register" />
+      <Head title="Register" />
       <CustomModal
         isModalVisible={isShowModal}
         setIsModalVisible={setIsShowModal}
@@ -210,7 +211,7 @@ const RegisterUser = () => {
               <h6 className="title mb-0 text-center">
                 {getLabelByKey(SCREEN_LABEL_KEYS.title)}
               </h6>
-              <p className="text-center message mt-10">
+              <p className="text-center message mt-10 mb-0">
                 {getLabelByKey(SCREEN_LABEL_KEYS.subtitle)}
               </p>
               <div className="inner-container-card-form">
@@ -246,7 +247,7 @@ const RegisterUser = () => {
                               labelFamily={fontFamilyMedium}
                               className={
                                 formik.errors.firstName &&
-                                formik.touched.firstName
+                                  formik.touched.firstName
                                   ? "is-invalid"
                                   : "customInput"
                               }
@@ -271,7 +272,7 @@ const RegisterUser = () => {
                               )}
                               className={
                                 formik.errors.lastName &&
-                                formik.touched.lastName
+                                  formik.touched.lastName
                                   ? "is-invalid"
                                   : "customInput"
                               }
@@ -294,7 +295,7 @@ const RegisterUser = () => {
                               )}
                               className={
                                 formik.errors.emailAddress &&
-                                formik.touched.emailAddress
+                                  formik.touched.emailAddress
                                   ? "is-invalid"
                                   : "customInput"
                               }
@@ -310,7 +311,7 @@ const RegisterUser = () => {
                               )}
                             </label>
                             <Input
-                              defaultCountry="US"
+                              defaultCountry="GB"
                               international
                               placeholder={getLabelByKey(
                                 SCREEN_LABEL_KEYS.mobileFieldPlaceholder
@@ -367,7 +368,7 @@ const RegisterUser = () => {
                                 placeholder="Enter 6 Digit Password"
                                 className={
                                   formik.errors.password &&
-                                  formik.touched.password
+                                    formik.touched.password
                                     ? "is-invalid"
                                     : "customPasswordInput"
                                 }
@@ -389,7 +390,7 @@ const RegisterUser = () => {
                                 placeholder="Enter Confirm 6 Digit Passcode"
                                 className={
                                   formik.errors.confirmPassword &&
-                                  formik.touched.confirmPassword
+                                    formik.touched.confirmPassword
                                     ? "is-invalid"
                                     : "customPasswordInput"
                                 }
@@ -403,22 +404,23 @@ const RegisterUser = () => {
                               id="rememberMe"
                               name="rememberMe"
                             />
-                            <p className="mb-0 text-14 lh-base mt-1">
+                            <p className="remeberText mb-0 text-14 mt-1">
                               {getLabelByKey(SCREEN_LABEL_KEYS.rememberMe)}
                             </p>
                           </div>
-                          <TermsAndConditions
+                          {/* <TermsAndConditions
                             terms={terms}
                             setTerms={setTerms}
                             showTermsError={showTermsError}
                             screen="registerScreen"
-                          />
+                          /> */}
                           <div className="mt-20">
                             <CustomButton
                               bgcolor={lightBlue3}
+                              fontFamily={`${fontFamilyMedium}`}
                               textTransform="Captilize"
-                              color={pureDark}
-                              padding="12.7px 8px"
+                              color={pureDark2}
+                              padding="12.5px 8px"
                               width="100%"
                               type="submit"
                               title={getLabelByKey(
@@ -443,12 +445,13 @@ const RegisterUser = () => {
                 </Formik>
               </div>
               <div className="signup-text mt-3">
-                <p>{getLabelByKey(SCREEN_LABEL_KEYS.login)}</p>
-                <h6 className="me-1 ms-1 mb-0">
-                  <Link to="/login">
-                    {getLabelByKey(SCREEN_LABEL_KEYS.loginAccount)}
-                  </Link>
-                </h6>
+                <p>{getLabelByKey(SCREEN_LABEL_KEYS.login)}
+                  <span className="me-1 ms-1 mb-0">
+                    <Link to="/login">
+                      {getLabelByKey(SCREEN_LABEL_KEYS.loginAccount)}
+                    </Link>
+                  </span>
+                </p>
               </div>
             </div>
           </div>

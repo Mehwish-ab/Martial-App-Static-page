@@ -127,7 +127,7 @@ const ForgetPassword = () => {
                             Phone
                           </label>
                           <Input
-                            defaultCountry="US"
+                            defaultCountry="GB"
                             international
                             placeholder={getLabelByKey(
                               FORGOT_SCREEN_LABEL_KEYS.mobileFieldPlaceholder

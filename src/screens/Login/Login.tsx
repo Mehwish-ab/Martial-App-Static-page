@@ -18,7 +18,6 @@ import { auth_token_key, base_url, login_url } from "../../utils/api_urls";
 import axios from "axios";
 import { validationFinder } from "../../utils/utilities";
 import { toast } from "react-toastify";
-
 import useScreenTranslation from "../../hooks/useScreenTranslation";
 import { SCREEN_LABEL_KEYS } from "./constants";
 import OauthLogin from "../../components/Common/OauthLogin/OauthLogin";
@@ -118,7 +117,7 @@ const Login = () => {
 
   return (
     <>
-      <Head title="login" />
+      <Head title="Login" />
       <LoginStyle>
         <div className="login-container overflow-auto">
           <div className="login-container-card">

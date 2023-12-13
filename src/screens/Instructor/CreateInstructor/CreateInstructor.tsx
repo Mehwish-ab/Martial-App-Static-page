@@ -23,6 +23,8 @@ import FileSubmit from "../../../assets/icons/ic_fileSubmit.svg";
 import { validationFinder } from "../../../utils/utilities";
 import useBranch from "../../Branches/hooks/useBranch";
 import * as Yup from "yup";
+import { useRef, useState } from "react";
+
 
 const CreateInstructor = () => {
   const { getLabelByKey } = useScreenTranslation("instructorCreate");
@@ -30,7 +32,17 @@ const CreateInstructor = () => {
     statusData: { activities, facilities },
   } = useSelector((state: RootState) => state.appData.data);
 
-  const { loading } = useBranch();
+  // const { loading } = useBranch();
+  const { loading, handleSubmit } = useInstructor();
+  const [file, setFile] = useState<File[]>([]);
+  const inputFile = useRef<HTMLInputElement | null>(null);
+  const handleChange = (e: any) => {
+    const selectedFile = e.target.files && e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      console.log("File state updated:", file);
+    }
+  };
 
   const initialValues: CreateInstructorInitialValues = {
     instructorName: "",
@@ -193,16 +205,23 @@ const CreateInstructor = () => {
                       <Col md="4" className="mt-20">
                         <FormControl
                           control="input"
-                          type="upload"
-                          name="latestCertification"
+                          type="file"
+                          ref={inputFile} style={{ display: 'none' }}
+                          name="file"
                           fontFamily={fontFamilyRegular}
                           label="Latest Certification"
+                          src={FileSubmit}
+                          onChange={handleChange}
                           suffix={
                             <img
                               src={FileSubmit}
                               alt="Calander"
                               width={21}
                               height={21}
+                              className="uploadICon"
+                              onClick={() => {
+                                inputFile.current?.click()
+                              }}
                             />
                           }
                           padding="10px"

@@ -10,6 +10,8 @@ import {
   pureDark2,
   lightDark3,
   tertiaryGrey24,
+  fontFamilyRegular,
+  lightDark2,
 } from "../../components/GlobalStyle";
 
 export const ForgetPasswordStyle = styled.div`
@@ -19,8 +21,6 @@ export const ForgetPasswordStyle = styled.div`
   height: 100vh;
   background: ${tertiaryGrey8};
   margin: 0 auto;
-  
-
 
   p {
     margin-bottom: 0px;
@@ -44,29 +44,24 @@ export const ForgetPasswordStyle = styled.div`
         color: #000;
         font-size: 18px;
         font-family: ${fontFamilyMedium};
-        margin-bottom: 0;
         font-style: normal;
         font-weight: 500;
         line-height: normal;
         margin-top: 14px;
+        margin-bottom: 0;
       }
       .forget-password-text {
         color: ${lightGrey9};
+        font-family: ${fontFamilyRegular};
         font-size: 16px;
         font-style: normal;
         font-weight: 400;
         line-height: normal;
         padding: 0px 26px;
-        margin-bottom: 17px;
+        margin-bottom: 0;
       }
 
-      .forget-password-OTPtext{
-        color: ${pureDark2};
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-      }
+     
 
       .forget-password-phoneNumber{
         font-size: 18px;
@@ -78,9 +73,6 @@ export const ForgetPasswordStyle = styled.div`
         margin: 8px 0px 20px 0px;
 
       }
-
-      
-
 
       .forget-password-container-card-form{
         label{
@@ -158,6 +150,15 @@ export const ForgetPasswordStyle = styled.div`
       align-items: center;
     }
   }
+  .forget-password-OTPtext{
+    color: ${pureDark2};
+    font-family: ${fontFamilyRegular};
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 13px;
+  }
   .signup-text {
     display: flex;
     align-items: center;
@@ -178,7 +179,8 @@ export const ForgetPasswordStyle = styled.div`
     }
   }
   .is-invalid {
-    border: 1px solid red;
+    height: 52px;
+    border: 1px solid #E43535;
     border-radius: 5px;
     background: white;
     border-radius: 10px;
@@ -187,9 +189,26 @@ export const ForgetPasswordStyle = styled.div`
     width: -moz-available;
     outline: none;
     margin-bottom: 2px;
+    input{
+      font-style: normal;
+      font-family: ${fontFamilyRegular};
+      color: ${lightDark2};
+      font-weight: 400;
+      line-height: normal;
+      font-size: 16px;
+      ::placeholder{
+        font-style: normal;
+        font-family: ${fontFamilyRegular};
+        color: ${lightDark2};
+        font-weight: 400;
+        line-height: normal;
+        font-size: 16px;
+      }
+    }
   }
   .customInput,
   .customPasswordInput {
+    height: 52px;
     background: white;
     border: 1px solid ${tertiaryGrey24};
     border-radius: 10px;
@@ -197,7 +216,24 @@ export const ForgetPasswordStyle = styled.div`
     width: 100%;
     width: -moz-available;
     outline: none;
+    input{
+      font-style: normal;
+      font-family: ${fontFamilyRegular};
+      color: ${lightDark2};
+      font-weight: 400;
+      line-height: normal;
+      font-size: 16px;
+      ::placeholder{
+        font-style: normal;
+        font-family: ${fontFamilyRegular};
+        color: ${lightDark2};
+        font-weight: 400;
+        line-height: normal;
+        font-size: 16px;
+      }
+    }
   }
+  
   .forget_password {
     color: ${primaryColor};
     font-size: 16px;

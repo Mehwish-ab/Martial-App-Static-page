@@ -5,7 +5,6 @@ import CustomButton from "../../components/CustomButton/CustomButton";
 import {
   fontFamilyMedium,
   lightBlue3,
-  pureDark,
   pureDark2,
 } from "../../components/GlobalStyle";
 import ForgetPasswordStyle from "./style";

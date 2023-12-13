@@ -21,7 +21,6 @@ h3 {
     }
   }
 }
-
   .checkBoxPara {
     margin-bottom: 0;
     font-size: 16px;
@@ -67,6 +66,21 @@ h3 {
       background-color: transparent;
     }
   }
+  .ant-input-affix-wrapper{
+    .uploadICon{
+      position: absolute;
+      right: 14px;
+      
+    }
+    input[type="file"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+  }
+
 
 
 `;

@@ -7,13 +7,12 @@ import CreateUserStyle from "./style";
 import {
   fontFamilyMedium,
   lightBlue3,
-  pureDark,
   pureDark2,
 } from "../../../components/GlobalStyle";
 import Head from "../../../components/Head/Head";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import TermsAndConditions from "../../../components/TermsAndConditions/TermsAndConditions";
+// import TermsAndConditions from "../../../components/TermsAndConditions/TermsAndConditions";
 import EnnvisionModal from "../../../components/CustomModals/EnnvisionModal";
 import CustomModal from "../../../components/Modal/CustomModal";
 import { useAppSelector } from "../../../app/hooks";

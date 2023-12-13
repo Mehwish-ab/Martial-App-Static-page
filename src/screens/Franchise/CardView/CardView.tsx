@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { CardViewStyled } from "./styles";
 import { Avatar, Dropdown, List, Rate } from "antd";
 import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
-import { BranchDataType } from "../../../redux/features/branch/branchSlice";
 import { Link, useNavigate } from "react-router-dom";
 import FormControl from "../../../components/FormControl";
 import placeHolderImage from "../../../assets/images/custom_card_placeholder.png";
-import { darkBlue, fontFamilyMedium, lightBlue3, maastrichtBlue, pureDark, tertiaryBlue2 } from "../../../components/GlobalStyle";
+import { darkBlue, fontFamilyMedium, lightBlue3, maastrichtBlue, pureDark } from "../../../components/GlobalStyle";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import RightArrow from "../../../assets/images/rightArrow.svg";
 import LeftArrow from "../../../assets/images/leftArrow.svg";
@@ -37,33 +36,6 @@ const CardView = () => {
       // onClick: () => navig[ation(record, "subscribe"),
     },
   ];
-
-  const navigation = (record: BranchDataType, redirectTo: string) => {
-    switch (redirectTo) {
-      case "edit":
-        navigate(`/franchise/edit/${record.branchId}`, {
-          state: {
-            branchToEdit: record as BranchDataType,
-          },
-        });
-        break;
-
-      case "view":
-        navigate(`/franchise/view/${record.branchId}`, {
-          state: {
-            branch: record as BranchDataType,
-          },
-        });
-        break;
-
-      case "subscribe":
-        navigate(`/franchise/subscribe/${record.branchId}`, {
-          state: {
-            branch: record as BranchDataType,
-          },
-        });
-    }
-  };
 
   return (
     <CardViewStyled>

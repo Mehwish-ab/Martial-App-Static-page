@@ -21,7 +21,7 @@ const menuLinks: any = {
   classes: "/class/list",
   booking: "",
   qrCode: "/qr-code",
-  setting: "",
+  setting: "/settings",
 };
 
 const menuLinksKeys: any = {

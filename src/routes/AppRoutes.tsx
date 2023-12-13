@@ -40,6 +40,8 @@ import AddPaymentBranch from "../screens/Branches/AddPaymentBranch/AddPaymentBra
 import ProfileMembership from "../screens/Membership/ProfileMembership/ProfileMembership";
 import ListTransactionHistort from "../screens/TransactionHistory/ListTransactionHistory/ListTransactionHistory";
 import ListRules from "../screens/Rules/ListRules/ListRules";
+import MainSettingPage from "../screens/SettingsPage/MainSettingPage/MainSettingPage";
+import TabsSetting from "../screens/SettingsPage/SettingTabs/TabsSetting";
 // import { useDispatch, useSelector } from "react-redux";
 // import { RootState } from "../redux/store";
 
@@ -356,6 +358,23 @@ function AppRoutes() {
           element={
             <AppLayout>
               <ListRules />
+            </AppLayout>
+          }
+        />
+
+        <Route
+          path="/settings"
+          element={
+            <AppLayout>
+              <MainSettingPage />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/settings/tabs"
+          element={
+            <AppLayout>
+              <TabsSetting />
             </AppLayout>
           }
         />

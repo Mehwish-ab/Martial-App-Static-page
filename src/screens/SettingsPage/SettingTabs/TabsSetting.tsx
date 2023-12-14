@@ -3,7 +3,10 @@ import Tabs from "./Tabs/Tabs";
 // Tabs Components
 import PersonalDetails from "./Tabs/PersonalDetails";
 import Preferences from "./Tabs/Preferences";
-import TabThree from "./Tabs/TabsThree";
+import Security from "./Tabs/Security";
+import PaymentDetails from "./Tabs/PaymentDetails"
+import Privacy from "./Tabs/Privacy"
+import EmailNotification from "./Tabs/EmailNotification"
 import { TabsStyling } from "./styles";
 
 type TabsType = {
@@ -27,22 +30,22 @@ const tabs: TabsType = [
     {
         label: "Security",
         index: 3,
-        Component: TabThree
+        Component: Security
     },
     {
         label: "Payment Details",
         index: 4,
-        Component: TabThree
+        Component: PaymentDetails
     },
     {
         label: "Privacy",
         index: 5,
-        Component: TabThree
+        Component: Privacy
     },
     {
         label: "Email Notifications",
         index: 6,
-        Component: TabThree
+        Component: EmailNotification
     }
 ];
 

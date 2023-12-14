@@ -16,7 +16,7 @@ const Preferences: FC<{}> = () => {
     const [isLanguageModalVisible, setIsLanguageModelVisible] = useState(false);
     const [isCurrencyModalVisible, setIsCurrencyModelVisible] = useState(false);
     const [isAccesssibilityModalVisible, setIsAccesssibilityModelVisible] = useState(false);
-    const { handleCreateSubmit, Createmodal } = useCreateSchool();
+    const { handleCreateSubmit } = useCreateSchool();
 
     const initialValues: CreateSchoolInitialValues = {
         businessName: "",
@@ -49,7 +49,7 @@ const Preferences: FC<{}> = () => {
                     <Col md="8">
                         <p className="m-0 panel-body-text">£ (British Pound Sterling)</p>
                     </Col>
-                    <Col md="2" className="text-center">
+                    <Col md="2" className="text-end">
                         <span onClick={() => setIsCurrencyModelVisible(true)} className="panel-body-link">
                             Edit
                         </span>
@@ -62,7 +62,7 @@ const Preferences: FC<{}> = () => {
                     <Col md="8">
                         <p className="m-0 panel-body-text">English</p>
                     </Col>
-                    <Col md="2" className="text-center">
+                    <Col md="2" className="text-end">
                         <span onClick={() => setIsLanguageModelVisible(true)} className="panel-body-link">
                             Edit
                         </span>
@@ -75,7 +75,7 @@ const Preferences: FC<{}> = () => {
                     <Col md="8">
                         <p className="m-0 panel-body-text">Filter out properties that don’t meet your needs</p>
                     </Col>
-                    <Col md="2" className="text-center">
+                    <Col md="2" className="text-end">
                         <span onClick={() => setIsAccesssibilityModelVisible(true)} className="panel-body-link">
                             Edit
                         </span>

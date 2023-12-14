@@ -1,11 +1,11 @@
 import React, { FC, Fragment } from "react";
 import { Col, Row } from "react-bootstrap";
 
-const PersonalDetails: FC<{}> = () => {
+const EmailNotification: FC<{}> = () => {
     return (
         <Fragment>
             <div className="panel-heading">
-                <h3>Personal Details</h3>
+                <h3>Email Notification</h3>
                 <p>
                     Coming Soon
                 </p>
@@ -28,4 +28,4 @@ const PersonalDetails: FC<{}> = () => {
         </Fragment>
     );
 };
-export default PersonalDetails;
+export default EmailNotification;

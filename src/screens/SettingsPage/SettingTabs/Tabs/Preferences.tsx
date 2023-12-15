@@ -5,31 +5,32 @@ import { EditPopUpStying } from "./EditPopUpStying";
 import FormControl from "../../../../components/FormControl";
 import CustomButton from "../../../../components/CustomButton/CustomButton";
 import { fontFamilyMedium, lightBlue3, pureDark2 } from "../../../../components/GlobalStyle";
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikHelpers } from "formik";
 import { CreateSchoolInitialValues } from "../../../Home/constants";
 import useCreateSchool from "../../../../hooks/useCreateSchool";
 
 
+type initialTypesSettings = {
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    password: string;
+    confirmPassword: string;
+};
 
 const Preferences: FC<{}> = () => {
     const [isLanguageModalVisible, setIsLanguageModelVisible] = useState(false);
     const [isCurrencyModalVisible, setIsCurrencyModelVisible] = useState(false);
     const [isAccesssibilityModalVisible, setIsAccesssibilityModelVisible] = useState(false);
-    const { handleCreateSubmit } = useCreateSchool();
-
-    const initialValues: CreateSchoolInitialValues = {
-        businessName: "",
-        businessType: "",
-        address: "",
-        businessPhoneNumber: "",
-        defaultLanguage: "",
-        defaultCurrency: "",
-        description: "",
-        rank: 0,
-        defaultCurrencyId: 0,
-        defaultLanguageId: 0,
-        selectedActivities: [],
-        selectedFacilities: [],
+    const handleSubmit = (values: initialTypesSettings, { setSubmitting }: FormikHelpers<initialTypesSettings>) => {
+        setSubmitting(false);
+    };
+    const initialValues: initialTypesSettings = {
+        firstName: "",
+        lastName: "",
+        phoneNumber: "0",
+        password: "",
+        confirmPassword: "",
     };
 
     return (
@@ -91,7 +92,7 @@ const Preferences: FC<{}> = () => {
                             <p>Update your information and find out how it's used.</p>
                             <Formik
                                 initialValues={initialValues}
-                                onSubmit={handleCreateSubmit}
+                                onSubmit={handleSubmit}
                             >
                                 {(formik) => {
                                     return (
@@ -145,7 +146,7 @@ const Preferences: FC<{}> = () => {
                             <p>Update your information and find out how it's used.</p>
                             <Formik
                                 initialValues={initialValues}
-                                onSubmit={handleCreateSubmit}
+                                onSubmit={handleSubmit}
                             >
                                 {(formik) => {
                                     return (
@@ -199,7 +200,7 @@ const Preferences: FC<{}> = () => {
                             <p>Update your information and find out how it's used.</p>
                             <Formik
                                 initialValues={initialValues}
-                                onSubmit={handleCreateSubmit}
+                                onSubmit={handleSubmit}
                             >
                                 {(formik) => {
                                     return (

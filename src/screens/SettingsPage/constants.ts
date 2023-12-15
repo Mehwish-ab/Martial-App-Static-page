@@ -10,7 +10,8 @@ export type initialTypesSettings = {
   phoneNumber: string;
   password: string;
   confirmPassword: string;
-
+  username: string;
+  emailAddress: string;
 };
 
 // export interface SelectOptionsDataTypes {

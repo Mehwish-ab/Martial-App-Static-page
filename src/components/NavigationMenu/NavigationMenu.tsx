@@ -19,6 +19,7 @@ const menuLinks: any = {
   rules: "/rules/list",
   transactionsHistory: "/transaction-history/list",
   classes: "/class/list",
+  helpAndSupport: "/help-support",
   booking: "",
   qrCode: "/qr-code",
   setting: "/settings",

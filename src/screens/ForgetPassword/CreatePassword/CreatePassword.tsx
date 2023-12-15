@@ -56,12 +56,10 @@ const CreatePassword: React.FC = () => {
             <div className="forget-password-container-card-inner position-relative ">
               <img src={CloseBtn} alt="" className="closeButtonIcon" onClick={() => navigate("/login")} />
               <h6 className="create-title text-center mt-20">
-                {/* {getLabelByKey(PASSWORD_SCREEN_LABEL_KEYS.title)} */}
-                Create New Password
+                {getLabelByKey(PASSWORD_SCREEN_LABEL_KEYS.title)}
               </h6>
               <p className="text-center create-password-text mt-10">
-                {/* {getLabelByKey(PASSWORD_SCREEN_LABEL_KEYS.subtitle)} */}
-                Your new password must be different from previous used passwords.
+                {getLabelByKey(PASSWORD_SCREEN_LABEL_KEYS.subtitle)}
               </p>
               <div className="forget-password-container-card-form w-100">
                 <Formik
@@ -81,10 +79,9 @@ const CreatePassword: React.FC = () => {
                             control="password"
                             type="text"
                             name="password"
-                            // label={getLabelByKey(
-                            //   PASSWORD_SCREEN_LABEL_KEYS.passcodeFieldTitle
-                            // )}
-                            label="New Password"
+                            label={getLabelByKey(
+                              PASSWORD_SCREEN_LABEL_KEYS.passcodeFieldTitle
+                            )}
                             fontFamily={fontFamilyMedium}
                             max={6}
                             placeholder={getLabelByKey(

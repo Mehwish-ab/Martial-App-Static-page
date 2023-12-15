@@ -259,7 +259,7 @@ const Login = () => {
                       : "ms-1"
                       } mt-2`}
                   >
-                    <Link to="/register" className="underline">
+                    <Link to="/register" className="">
                       {/* {getLabelByKey(SCREEN_LABEL_KEYS.registerAccount)} */}
                       Register.
                     </Link>

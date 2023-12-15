@@ -218,6 +218,16 @@ const RegisterStyle = styled.div`
     text-align: right !important;
   }
 
+  .orText{
+    font-family: ${fontFamilyMedium};
+    color: ${pureDark2};
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-bottom: 0px;
+  }
+
   @media screen and (max-width: 425px) {
     .inner-container {
       &-card {

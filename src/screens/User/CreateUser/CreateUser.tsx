@@ -28,6 +28,9 @@ import Input from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
+import OauthLogin from "../../../components/Common/OauthLogin/OauthLogin";
+import { OAUTH_USECASES } from "../../../components/Common/OauthLogin/constants";
+import TermsAndConditions from "../../../components/TermsAndConditions/TermsAndConditions";
 
 // create user initial values types
 type initialValuesType = {
@@ -407,12 +410,7 @@ const RegisterUser = () => {
                               {getLabelByKey(SCREEN_LABEL_KEYS.rememberMe)}
                             </p>
                           </div>
-                          {/* <TermsAndConditions
-                            terms={terms}
-                            setTerms={setTerms}
-                            showTermsError={showTermsError}
-                            screen="registerScreen"
-                          /> */}
+
                           <div className="mt-20">
                             <CustomButton
                               bgcolor={lightBlue3}
@@ -431,12 +429,18 @@ const RegisterUser = () => {
                             />
                           </div>
                           {/* to show login using google, facebook, apple, microsoft and discord. */}
-                          {/* <div className="d-flex or-line mt-4 align-items-center">
+                          <div className="d-flex or-line fs-6 mt-20 align-items-center">
                             <div className="line" />
-                            <p>{getLabelByKey(SCREEN_LABEL_KEYS.or)}</p>
+                            <p className="orText">{getLabelByKey(SCREEN_LABEL_KEYS.or)}</p>
                             <div className="line" />
-                          </div> */}
-                          {/* <OauthLogin usecase={OAUTH_USECASES.register} /> */}
+                          </div>
+                          <OauthLogin usecase={OAUTH_USECASES.register} />
+                          <TermsAndConditions
+                            terms={terms}
+                            setTerms={setTerms}
+                            showTermsError={showTermsError}
+                            screen="registerScreen"
+                          />
                         </div>
                       </Form>
                     );

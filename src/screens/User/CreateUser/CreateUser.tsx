@@ -358,16 +358,14 @@ const RegisterUser = () => {
                                 control="password"
                                 type="text"
                                 name="password"
-                                // label={getLabelByKey(
-                                //   SCREEN_LABEL_KEYS.passcodeFieldTitle
-                                // )}
-                                label="Passcode"
+                                label={getLabelByKey(
+                                  SCREEN_LABEL_KEYS.passcodeFieldTitle
+                                )}
                                 fontFamily={fontFamilyMedium}
                                 max={6}
-                                // placeholder={getLabelByKey(
-                                //   SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
-                                // )}
-                                placeholder="Enter 6 Digit Password"
+                                placeholder={getLabelByKey(
+                                  SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
+                                )}
                                 className={
                                   formik.errors.password &&
                                     formik.touched.password
@@ -386,10 +384,9 @@ const RegisterUser = () => {
                                 label={getLabelByKey(
                                   SCREEN_LABEL_KEYS.confrimPasscodeFieldTitle
                                 )}
-                                // placeholder={getLabelByKey(
-                                //   SCREEN_LABEL_KEYS.confrimPasscodeFieldPlaceholder
-                                // )}
-                                placeholder="Enter Confirm 6 Digit Passcode"
+                                placeholder={getLabelByKey(
+                                  SCREEN_LABEL_KEYS.confrimPasscodeFieldPlaceholder
+                                )}
                                 className={
                                   formik.errors.confirmPassword &&
                                     formik.touched.confirmPassword

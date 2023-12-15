@@ -1,6 +1,5 @@
 import { FC, Fragment, useState } from "react";
 import { Col, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import CustomModal from "../../../../components/Modal/CustomModal";
 import { EditPopUpStying } from "./EditPopUpStying";
 import FormControl from "../../../../components/FormControl";

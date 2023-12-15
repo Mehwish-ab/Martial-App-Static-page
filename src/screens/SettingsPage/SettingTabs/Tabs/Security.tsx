@@ -8,14 +8,11 @@ import { fontFamilyMedium, lightBlue3, lightColor1, pureDark2 } from "../../../.
 import { Form, Formik, FormikHelpers } from "formik";
 
 
-import * as Yup from "yup";
 import Input from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
-import { validationFinder } from "../../../../utils/utilities";
-
 
 
 type initialTypesSettings = {
@@ -31,11 +28,6 @@ const Security: FC<{}> = () => {
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     );
-
-
-    const phoneNumber = validationFinder("PHONE_NUMBER")!;
-    const phoneNumberReg = new RegExp(phoneNumber.pattern);
-
 
     useEffect(() => {
         const countrySelect = document.querySelector(

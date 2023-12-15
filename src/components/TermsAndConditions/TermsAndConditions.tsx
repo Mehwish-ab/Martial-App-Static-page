@@ -47,13 +47,13 @@ const TermsAndConditions: React.FC<termsAndConditionsProps> = ({
           <span>
             {/* {getLabelByKey("legalNote")} */}
             Agree to Martial App's
-            <Link to="#" className="ms-1 me-1">
+            <Link to="/terms" className="underline ms-1 me-1">
               {getLabelByKey("legalNoteTerm")}
             </Link>
 
             {getLabelByKey("legalNoteAnd")}
 
-            <Link className="ms-1 me-1" to="#">
+            <Link className="underline ms-1 me-1" to="/privay">
               {getLabelByKey("legalNotePolicy")}
             </Link>
           </span>
@@ -93,5 +93,9 @@ const Wrapper = styled.div`
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+  }
+  a:hover{
+    text-decoration: none;
+
   }
 `;

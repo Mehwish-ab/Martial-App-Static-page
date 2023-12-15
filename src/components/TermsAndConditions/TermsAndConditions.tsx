@@ -5,9 +5,6 @@ import {
   darkBlue,
   fontFamilyMedium,
   fontFamilyRegular,
-  lightGrey9,
-  primaryColor,
-  tertiaryGrey7,
 } from "../GlobalStyle";
 import FormControl from "../FormControl";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
@@ -45,8 +42,7 @@ const TermsAndConditions: React.FC<termsAndConditionsProps> = ({
           className="terms d-flex flex-column justify-content-center cursor-pointer mb-0"
         >
           <span>
-            {/* {getLabelByKey("legalNote")} */}
-            Agree to Martial App's
+            {getLabelByKey("legalNote")}
             <Link to="/terms" className="underline ms-1 me-1">
               {getLabelByKey("legalNoteTerm")}
             </Link>

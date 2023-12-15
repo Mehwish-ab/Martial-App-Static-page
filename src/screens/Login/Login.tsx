@@ -169,15 +169,13 @@ const Login = () => {
                               type="text"
                               name="password"
                               color={pureDark2}
-                              // label={getLabelByKey(
-                              //   SCREEN_LABEL_KEYS.passcodeFieldTitle
-                              // )}
-                              label="Passcode"
+                              label={getLabelByKey(
+                                SCREEN_LABEL_KEYS.passcodeFieldTitle
+                              )}
                               padding="10px"
-                              // placeholder={getLabelByKey(
-                              //   SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
-                              // )}
-                              placeholder="Enter Passcode"
+                              placeholder={getLabelByKey(
+                                SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
+                              )}
                               suffix={show_password_icon}
                               className={
                                 formik.errors.password &&
@@ -251,8 +249,7 @@ const Login = () => {
               />
               <div className="signup-text mt-20">
                 <p className="mb-0 text-center ">
-                  {/* {getLabelByKey(SCREEN_LABEL_KEYS.register)} */}
-                  If you have an account we'll log you in. If not
+                  {getLabelByKey(SCREEN_LABEL_KEYS.register)}
                   <span
                     className={`${selectedLanguage === "ar" || selectedLanguage === "ur"
                       ? "me-1"
@@ -260,8 +257,7 @@ const Login = () => {
                       } mt-2`}
                   >
                     <Link to="/register" className="">
-                      {/* {getLabelByKey(SCREEN_LABEL_KEYS.registerAccount)} */}
-                      Register.
+                      {getLabelByKey(SCREEN_LABEL_KEYS.registerAccount)}
                     </Link>
                   </span>
                 </p>

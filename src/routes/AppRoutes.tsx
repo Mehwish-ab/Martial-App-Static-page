@@ -46,6 +46,7 @@ import Terms from "../screens/Terms/terms";
 import Privacy from "../screens/Privacy/privacy";
 import HelpSupport from "../screens/HelpSupport/helpSupport";
 import Language from "../screens/LanguagePage/Language";
+import Currency from "../screens/CurrencyPage/Currency";
 // import { useDispatch, useSelector } from "react-redux";
 // import { RootState } from "../redux/store";
 
@@ -398,6 +399,14 @@ function AppRoutes() {
           element={
             <AppLayout>
               <Language />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/currency"
+          element={
+            <AppLayout>
+              <Currency />
             </AppLayout>
           }
         />

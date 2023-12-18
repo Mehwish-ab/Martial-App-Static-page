@@ -21,6 +21,7 @@ const menuLinks: any = {
   classes: "/class/list",
   helpAndSupport: "/help-support",
   booking: "",
+  language: "/language",
   qrCode: "/qr-code",
   setting: "/settings",
 };

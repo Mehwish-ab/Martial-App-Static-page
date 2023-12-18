@@ -45,6 +45,7 @@ import TabsSetting from "../screens/SettingsPage/SettingTabs/TabsSetting";
 import Terms from "../screens/Terms/terms";
 import Privacy from "../screens/Privacy/privacy";
 import HelpSupport from "../screens/HelpSupport/helpSupport";
+import Language from "../screens/LanguagePage/Language";
 // import { useDispatch, useSelector } from "react-redux";
 // import { RootState } from "../redux/store";
 
@@ -389,6 +390,14 @@ function AppRoutes() {
           element={
             <AppLayout>
               <HelpSupport />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/language"
+          element={
+            <AppLayout>
+              <Language />
             </AppLayout>
           }
         />

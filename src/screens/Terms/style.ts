@@ -3,7 +3,7 @@ import { fontFamilyMedium, fontFamilyRegular, pureDark2, tertiaryGrey24 } from "
 
 export const TermsStyling = styled.div`
     border: 1px solid ${tertiaryGrey24};
-    backgrond-color: #fff;
+    background-color: #fff;
     border-radius: 20px;
     width: 90%;
     margin: 20px auto;

@@ -10,7 +10,7 @@ import Input from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
-import PlacesAutoCompleteInput from "../../../../maps/PlacesAutocomplete";
+import dateIcon from "../../../../assets/images/dateCalander.svg";
 
 
 
@@ -450,7 +450,7 @@ const PersonalDetails: FC<{}> = () => {
                 } isModalVisible={isLanguageModalVisible} setIsModalVisible={setIsLanguageModelVisible} /> */}
 
 
-            {/* Update Nationality */}
+            {/* Update Gender */}
 
             {/* <CustomModal
                 width="485px"
@@ -506,9 +506,9 @@ const PersonalDetails: FC<{}> = () => {
                     </>
                 } isModalVisible={isLanguageModalVisible} setIsModalVisible={setIsLanguageModelVisible} /> */}
 
-            {/* Update Nationality */}
+            {/* Update Address */}
 
-            <CustomModal
+            {/* <CustomModal
                 width="485px"
                 showCloseBtn={false}
                 children={
@@ -542,6 +542,63 @@ const PersonalDetails: FC<{}> = () => {
                                                         formik={formik}
                                                         name="address"
                                                         value={formik.values.address}
+                                                    />
+                                                </Col>
+                                                <Col md="12" className="mt-20">
+                                                    <CustomButton
+                                                        bgcolor={lightBlue3}
+                                                        textTransform="Captilize"
+                                                        color={pureDark2}
+                                                        padding="12.5px"
+                                                        fontFamily={fontFamilyMedium}
+                                                        width="100%"
+                                                        type="submit"
+                                                        title="Save"
+                                                        fontSize="16px"
+                                                        loading={false}
+                                                    />
+                                                </Col>
+                                            </Row>
+                                        </Form>
+                                    );
+                                }}
+                            </Formik>
+                        </EditPopUpStying>
+                    </>
+                } isModalVisible={isLanguageModalVisible} setIsModalVisible={setIsLanguageModelVisible} /> */}
+
+            {/* Update Date Of Birth */}
+
+            <CustomModal
+                width="485px"
+                showCloseBtn={false}
+                children={
+                    <>
+                        <EditPopUpStying>
+                            <h3>Update Date of Birth</h3>
+                            <p>Update your information and find out how it's used.</p>
+                            <Formik
+                                initialValues={initialValues}
+                                onSubmit={handleSubmit}
+                            >
+                                {(formik) => {
+                                    return (
+                                        <Form
+                                            name="basic"
+                                            autoComplete="off"
+                                        >
+                                            <Row>
+                                                <Col md="12" className="mt-10">
+                                                    <FormControl
+                                                        control="date"
+                                                        type="date"
+                                                        name="countryName"
+                                                        labelFamily={`${fontFamilyMedium}`}
+                                                        label="Date of birth"
+                                                        fontSize="16px"
+                                                        suffixIcon={<img src={dateIcon} alt="calender-icon" />}
+                                                        max={6}
+                                                        placeholder="12-05-1989"
                                                     />
                                                 </Col>
                                                 <Col md="12" className="mt-20">

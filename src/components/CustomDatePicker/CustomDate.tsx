@@ -2,7 +2,7 @@ import { DatePicker } from "antd";
 import { ErrorMessage } from "formik";
 import CustomDatePickerStyle from "./style";
 import ErrorMsg from "../ErrorMessage";
-import dateIcon from "../../assets/icons/ic_blog_calender.svg";
+import dateIcon from "../../assets/images/dateCalander.svg";
 import moment from "moment";
 
 const CustomDate = (props: any) => {
@@ -13,24 +13,20 @@ const CustomDate = (props: any) => {
     options,
     bgColor = "white",
     border = "1px solid #c6c6c8;",
-    padding = "8px",
+    padding = "10px",
     title,
     fontFamily = "EnnVisions",
     labelFamily = "EnnVisions",
-    marginBottom = "10px",
     onChange,
     showErroMessage = true,
     value,
     ...rest
   } = props;
 
-  const formattedDateString = moment(value, "MMMM DD, YYYY").format(
-    "DD-MM-YYYY"
-  );
+  // const formattedDateString = moment(value, "MMMM DD, YYYY").format(
+  //   "DD-MM-YYYY"
+  // );
 
-  console.log({ formattedDateString }, "value in dates date");
-
-  console.log({ marginBottom, showErroMessage, onChange });
 
   return (
     <CustomDatePickerStyle

@@ -1,6 +1,5 @@
 import { Col, Row } from "react-bootstrap";
 import { CurrencyStyling } from "./style";
-import UK_Flag from "../../assets/icons/ic_uk_flag.svg"
 import Check from "../../assets/icons/list-style-check.png"
 
 

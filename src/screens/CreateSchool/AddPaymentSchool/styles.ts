@@ -6,7 +6,6 @@ import {
   pureDark2,
   tertiaryGrey24,
   darkGery,
-  darkBlue,
   lightDark3,
   Diamond,
   whiteColor,
@@ -63,6 +62,11 @@ export const AddPaymentMethod = styled.div`
         }
       }
     }
+  }
+
+  .ant-table-content table{
+    width: 100% !important;
+    min-width: 1220px !important;
   }
 
   .ant-table-thead > tr > th {

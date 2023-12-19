@@ -244,7 +244,7 @@ const RenderTableTitle = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="d-flex flex-column flex-lg-row justify-content-between align-center">
+    <div className="d-flex flex-row flex-wrap justify-content-between align-items-center">
       {/* <h3 className="table-heading">{getLabelByKey("title")}</h3> */}
       <h3 className="table-heading">Branches</h3>
       <CustomDiv>

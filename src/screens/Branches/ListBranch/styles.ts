@@ -33,6 +33,11 @@ export const ListBranchStyled = styled.div`
     }
   }
 
+  .ant-table-content table{
+    width: 100% !important;
+    min-width: 1220px !important;
+  }
+
   .ant-table-tbody > tr > .ant-table-cell,
   .ant-table-tbody > tr > .ant-table-cell a {
     font-family: ${fontFamilyRegular};

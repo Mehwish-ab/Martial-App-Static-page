@@ -12,9 +12,8 @@ import {
 import Head from "../../../components/Head/Head";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import TermsAndConditions from "../../../components/TermsAndConditions/TermsAndConditions";
-import EnnvisionModal from "../../../components/CustomModals/EnnvisionModal";
-import CustomModal from "../../../components/Modal/CustomModal";
+// import EnnvisionModal from "../../../components/CustomModals/EnnvisionModal";
+// import CustomModal from "../../../components/Modal/CustomModal";
 import { useAppSelector } from "../../../app/hooks";
 import { validationFinder } from "../../../utils/utilities";
 import { toast } from "react-toastify";
@@ -31,6 +30,7 @@ import { RootState } from "../../../redux/store";
 import OauthLogin from "../../../components/Common/OauthLogin/OauthLogin";
 import { OAUTH_USECASES } from "../../../components/Common/OauthLogin/constants";
 import TermsAndConditions from "../../../components/TermsAndConditions/TermsAndConditions";
+import MessageModal from "../../../components/Common/MessageModal/MessageModal";
 
 // create user initial values types
 type initialValuesType = {
@@ -43,7 +43,7 @@ type initialValuesType = {
 };
 
 const RegisterUser = () => {
-  const [isShowModal, setIsShowModal] = useState(false);
+  // const [isShowModal, setIsShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [terms, setTerms] = useState(false);
   const [showTermsError, setShowTermsError] = useState(false);
@@ -173,26 +173,35 @@ const RegisterUser = () => {
     };
     try {
       setIsLoading(true);
-      await axios.post(signup_url, userData);
-      setIsShowModal(true);
-      setTimeout(() => {
-        setIsShowModal(false);
-        navigate("/login");
-      }, 2000);
+      const response = await axios.post(signup_url, userData);
+      // const successMessage = response.data.responseMessage;
+      toast(
+        <MessageModal
+          message="Account Created Successfully!"
+          description="Thank You For Joining Us And We're Excited To Have You On Board"
+          type="success"
+        />,
+        {
+          autoClose: 1000,
+        }
+      );
+      navigate("/login");
       setIsLoading(false);
     } catch (error: any) {
       setIsLoading(false);
-      toast(error.response.data.responseMessage, {
+      const errorMessage = error.response?.data?.responseMessage;
+      toast(errorMessage, {
         type: "error",
         autoClose: 1000,
       });
     }
+
   };
 
   return (
     <>
       <Head title="Register" />
-      <CustomModal
+      {/* <CustomModal
         isModalVisible={isShowModal}
         setIsModalVisible={setIsShowModal}
         showCloseBtn={false}
@@ -205,7 +214,7 @@ const RegisterUser = () => {
           title="Account Created Successfully!"
           description="Thank You For Joining Us And We're Excited To Have You On Board"
         />
-      </CustomModal>
+      </CustomModal> */}
       <CreateUserStyle>
         <div className="inner-container">
           <div className="inner-container-card">

@@ -141,10 +141,10 @@ const ListBranch: React.FC = () => {
             key: "4",
             label: "Delete",
             onClick: () =>
-              //navigation(record, "delete"),
-              {
-                handleDelete(record.branchId);
-              },
+            //navigation(record, "delete"),
+            {
+              handleDelete(record.branchId);
+            },
           },
         ];
 
@@ -244,7 +244,7 @@ const RenderTableTitle = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="d-flex justify-content-between align-center">
+    <div className="d-flex flex-column flex-lg-row justify-content-between align-center">
       {/* <h3 className="table-heading">{getLabelByKey("title")}</h3> */}
       <h3 className="table-heading">Branches</h3>
       <CustomDiv>

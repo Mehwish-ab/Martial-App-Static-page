@@ -285,7 +285,7 @@ const EditBranch = () => {
                           name="rank"
                           fontFamily={fontFamilyMedium}
                           label={getLabelByKey("belts")}
-                          value={formik.values.rank === 1 ? "Yes" : "No"}
+                          // value={formik.values.rank === 1 ? "Yes" : "No"}
                           padding="10px"
                           placeholder={getLabelByKey("belts")}
                           className={
@@ -294,14 +294,14 @@ const EditBranch = () => {
                               : "customInput"
                           }
                           options={BELTS_SELECT_OPTIONS}
-                          // defaultValue={
-                          //   // formik.values.rank === 1 ? "Yes" : "No"
-                          //   formik.values
-                          //     ? BELTS_SELECT_OPTIONS.find(
-                          //         (item) => item.value === initialValues.rank
-                          //       )?.label
-                          //     : undefined
-                          // }
+                          defaultValue={
+                            // formik.values.rank === 1 ? "Yes" : "No"
+                            formik.values
+                              ? BELTS_SELECT_OPTIONS.find(
+                                  (item) => item.value === formik.values.rank
+                                )?.label
+                              : undefined
+                          }
                         />
                       </Col>
                       <Col md="4" className="mt-20">

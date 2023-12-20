@@ -186,7 +186,8 @@ const useBranch = () => {
         facilities: values.selectedFacilities.join(","),
         description: values.description,
         gclClientSecret: false,
-        schoolId: 3,
+        schoolId: schoolData.schoolId,
+        // schoolId: 3,
         defaultCurrencyId: values.defaultCurrency,
         defaultLanguageId: values.defaultLanguage,
         schoolStripeMethod: false,
@@ -303,7 +304,7 @@ const useBranch = () => {
       setError("");
       setLoading(true);
       const { data } = await axios.post(
-        get_payment,
+        "/paymentMethod/get",
         { businessUC, id },
         {
           headers: {

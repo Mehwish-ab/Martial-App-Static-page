@@ -1,7 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import store from "../../store";
-import { base_url, get_branch_by_school_id_url } from "../../../utils/api_urls";
+import {
+  base_url,
+  get_franchise_by_school_id_url,
+} from "../../../utils/api_urls";
 import { loginDataTypes } from "../types";
 import { authorizationToken } from "../../../utils/api_urls";
 
@@ -14,47 +17,54 @@ export interface FranchiseDataType {
   phoneNumber: string;
   defaultLanguageId: number;
   defaultCurrencyId: number;
-  belts: boolean;
   ranks: boolean;
-  schoolStripeMethod: boolean;
-  schoolGclMethod: boolean;
   activities: string;
   facilities: string;
   description: string;
-  stripePublicKey: string;
-  stripeSecretKey: string;
-  gclAccessToken: string;
-  gclClientId: string;
-  gclWebHook: string;
-  gclClientSecret: string;
   franchisePicture: string | null | undefined;
   profilePicture: string | null | undefined;
-  status: string;
+  franchiseStatusId: number;
   paymentMethod: string;
   accountNumber: string;
   countryName: string;
   mode: string;
-
-
-
-
-
-
 }
-export interface GetBranchBySchoolResTypes {
+export interface GetFranchiseBySchoolResTypes {
   data: FranchiseDataType[];
   totalItems: number;
   totalPages: number;
   currentPage: number;
 }
 export interface franchiseDataInitialState {
-  franchiseData: GetBranchBySchoolResTypes;
+  franchiseData: GetFranchiseBySchoolResTypes;
   loading: boolean;
   error: string | undefined;
 }
 const initialState: franchiseDataInitialState = {
   franchiseData: {
-    data: [],
+    data: [
+      {
+        franchiseId: 0,
+        schoolId: 0,
+        franchiseName: "",
+        franchiseType: "",
+        address: "",
+        phoneNumber: "",
+        defaultLanguageId: 0,
+        defaultCurrencyId: 0,
+        ranks: false,
+        activities: "",
+        facilities: "",
+        description: "",
+        franchisePicture: "",
+        profilePicture: "",
+        franchiseStatusId: 0,
+        paymentMethod: "",
+        accountNumber: "",
+        countryName: "",
+        mode: "",
+      },
+    ],
     currentPage: 0,
     totalItems: 0,
     totalPages: 0,
@@ -67,26 +77,26 @@ const franchiseSlice = createSlice({
   initialState,
   reducers: {
     updateFranchise: (state, action) => {
-      const updatedBranch: FranchiseDataType = action.payload;
+      const updatedfranchise: FranchiseDataType = action.payload;
       const index = state.franchiseData.data.findIndex(
-        (b) => b.franchiseId === updatedBranch.franchiseId
+        (b) => b.franchiseId === updatedfranchise.franchiseId
       );
-      state.franchiseData.data[index] = updatedBranch;
+      state.franchiseData.data[index] = updatedfranchise;
     },
   },
   extraReducers(builder) {
     builder
-      .addCase(getBranchBySchoolId.pending, (state, action) => {
+      .addCase(getfranchiseBySchoolId.pending, (state, action) => {
         state.franchiseData = initialState.franchiseData;
         state.loading = true;
         state.error = "";
       })
-      .addCase(getBranchBySchoolId.fulfilled, (state, action) => {
+      .addCase(getfranchiseBySchoolId.fulfilled, (state, action) => {
         state.franchiseData = action.payload;
         state.loading = false;
         state.error = "";
       })
-      .addCase(getBranchBySchoolId.rejected, (state, action) => {
+      .addCase(getfranchiseBySchoolId.rejected, (state, action) => {
         console.log("action.error", action);
         state.franchiseData = initialState.franchiseData;
         state.error = action.error.message;
@@ -95,18 +105,16 @@ const franchiseSlice = createSlice({
   },
 });
 
-export const getBranchBySchoolId = createAsyncThunk(
-  "franchiseData/getBranchBySchoolId",
+export const getfranchiseBySchoolId = createAsyncThunk(
+  "franchiseData/getfranchiseBySchoolId",
   async () => {
     const state = store.getState();
     console.log("state", state);
     try {
       const { data } = await axios.post(
-        `${base_url}${get_branch_by_school_id_url}`,
+        `${base_url}${get_franchise_by_school_id_url}`,
         {
-          schoolId:
-            state.loginData.data?.schoolId ||
-            state.dashboardData.schoolData.schoolId,
+          schoolId: state.dashboardData.schoolData.schoolId,
         },
         {
           headers: {
@@ -114,6 +122,8 @@ export const getBranchBySchoolId = createAsyncThunk(
           },
         }
       );
+      console.log(data.results, "data");
+
       return data.results;
     } catch (error: any) {
       if (error.response && error.response.data) {

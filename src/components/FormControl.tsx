@@ -36,6 +36,7 @@ type formControlProps = {
     | "inputNumber"
     | "radio"
     | "date"
+    | "file"
     | "dateTime";
 } & React.ComponentProps<any>;
 const FormControl: React.FC<formControlProps> = (props) => {

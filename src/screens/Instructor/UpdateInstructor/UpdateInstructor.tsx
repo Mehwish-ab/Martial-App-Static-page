@@ -36,13 +36,13 @@ const CreateInstructor = () => {
     instructorPhoneNumber: "",
     address: "",
     yearsOfExperience: "",
-    ranking: "",
+    rankId: "",
     latestCertification: "",
     description: "",
     selectedActivities: [],
     selectedFacilities: [],
     termCondition: "",
-    ranks: ''
+    // ranks: ''
   };
 
   const franchiseName = validationFinder("BUSINESS_NAME")!;
@@ -69,7 +69,7 @@ const CreateInstructor = () => {
     franchisePhoneNumber: Yup.string().required(
       franchisePhoneNumber.notBlankMsgEn
     ),
-    belts: Yup.string().required("Please select belts"),
+    rankId: Yup.string().required("Please select belts"),
     description: Yup.string().required("Please enter description"),
     defaultLanguage: Yup.string().required("Please select default language"),
     defaultCurrency: Yup.string().required("Please select default currency"),

@@ -7,43 +7,57 @@ import { useSelector } from "react-redux";
 
 import DummyData from "../AddPaymentFranchise/dummyData.json";
 import { useNavigate, useLocation } from "react-router-dom";
-import { BranchDataType } from "../../../redux/features/branch/branchSlice";
 import { Col, Row } from "react-bootstrap";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
-
+import useFranchise from "../hooks/useFranchise";
 import { RootState } from "../../../redux/store";
 import type { ColumnsType } from "antd/es/table";
-import StatusActiveError from "../../../assets/images/activeBtnError.svg"
+import StatusActiveError from "../../../assets/images/activeBtnError.svg";
 import { DataTypesWithIdAndMultipleLangLabel } from "../../../redux/features/types";
 import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
-
-
+import { FranchiseDataType } from "../../../redux/features/franchise/franchiseSlice";
+import { useEffect, useState } from "react";
+import AddPaymentFranchise from "../AddPaymentFranchise/AddPaymentFranchise";
 const ViewFranchise = () => {
   const navigate = useNavigate();
-  const { branchData, loading } = useSelector(
-    (state: RootState) => state.branchData
+  const { schoolData, loading } = useSelector(
+    (state: RootState) => state.dashboardData
   );
 
+  const { getFranchisebyid } = useFranchise();
+  const [franchisedata, setFranchise] = useState<FranchiseDataType | undefined>(
+    undefined
+  );
+  useEffect(() => {
+    fetchstripe();
+    async function fetchstripe() {
+      const data = await getFranchisebyid(14);
+      setFranchise(data);
+    }
+  }, []);
+  console.log("School data", schoolData);
+  const location = useLocation();
+  // console.log("franchise", franchise);
   const { getLabelByKey } = useScreenTranslation("franchiseCreate");
-  const navigation = (record: BranchDataType, redirectTo: string) => {
+  const navigation = (record: FranchiseDataType, redirectTo: string) => {
     switch (redirectTo) {
       case "edit":
-        navigate(`/branch/edit/${record.branchId}`, {
+        navigate(`/franchise/edit/${record.franchiseId}`, {
           state: {
-            branchToEdit: record as BranchDataType,
+            franchiseToEdit: record as FranchiseDataType,
           },
         });
         break;
 
       case "view":
-        navigate(`/branch/view/${record.branchId}`, {
+        navigate(`/franchise/view/${record.franchiseId}`, {
           state: {
-            branch: record as BranchDataType,
+            franchise: record as FranchiseDataType,
           },
         });
     }
   };
-  const columns: ColumnsType<BranchDataType> = [
+  const columns: ColumnsType<FranchiseDataType> = [
     {
       title: "Payment Information",
       dataIndex: "paymentMethod",
@@ -88,7 +102,7 @@ const ViewFranchise = () => {
     {
       title: "Action",
       key: "action",
-      render: (value: any, record: BranchDataType, index: number): any => {
+      render: (value: any, record: FranchiseDataType, index: number): any => {
         const items = [
           {
             key: "1",
@@ -121,13 +135,15 @@ const ViewFranchise = () => {
               />
             </Dropdown>
           </Space>
-
         );
-      }
-    }
-  ]
-  const location = useLocation();
-  const branch: BranchDataType = location.state?.branch;
+      },
+    },
+  ];
+
+  const Franchise: FranchiseDataType = location.state?.branch;
+
+  console.log("location", Franchise);
+
   const { language, currency } = useSelector(
     (state: RootState) => state.appData.data.dropdowns
   );
@@ -136,23 +152,23 @@ const ViewFranchise = () => {
   );
   let defaultLanguage = language.find(
     (item: DataTypesWithIdAndMultipleLangLabel) =>
-      +item.id == +branch.defaultLanguageId
+      +item.id == +Franchise?.defaultCurrencyId
   );
 
   let defaultCurrency = currency.find(
     (item: DataTypesWithIdAndMultipleLangLabel) =>
-      +item.id == +branch.defaultCurrencyId
+      console.log(+item.id == +Franchise?.defaultCurrencyId)
   );
-  console.log(defaultLanguage, defaultCurrency);
+  console.log("lang", defaultLanguage, currency);
   return (
     <ViewFranchiseStyled>
-      <OverlayImages
-        overlayImg={branch.profilePicture || ""}
-        backgroundImg={branch.bannerPicture || ""}
+      {/* <OverlayImages
+        overlayImg={franchise.profilePicture || ""}
+        backgroundImg={franchise.profilePicture || ""}
         isEditable={true}
-      />
+      /> */}
 
-      <h3>Affiliated Schoool  Information</h3>
+      <h3>Affiliated Schoool Information</h3>
       <Card>
         <Row>
           <Col md="4">
@@ -162,9 +178,8 @@ const ViewFranchise = () => {
                 School Name
               </div>
               <div className="list-item-value">
-                {"IMAS - Innovative Martial Arts Systems"
-                  // branch.branchName 
-                  || "--"}</div>
+                {schoolData.businessName || "--"}
+              </div>
             </div>
           </Col>
           <Col md="4">
@@ -174,9 +189,8 @@ const ViewFranchise = () => {
                 School Address
               </div>
               <div className="list-item-value">
-                {"Hutton, United Kingdom"
-                  // branch.branchName 
-                  || "--"}</div>
+                {schoolData.address || "--"}
+              </div>
             </div>
           </Col>
           <Col md="4">
@@ -186,9 +200,8 @@ const ViewFranchise = () => {
                 School Type
               </div>
               <div className="list-item-value">
-                {"School"
-                  // branch.branchName 
-                  || "--"}</div>
+                {schoolData.businessType || "--"}
+              </div>
             </div>
           </Col>
         </Row>
@@ -201,7 +214,9 @@ const ViewFranchise = () => {
               <div className="list-item-title">
                 {getLabelByKey("franchiseName")}
               </div>
-              <div className="list-item-value">{branch.branchName || "--"}</div>
+              <div className="list-item-value">
+                {franchisedata?.franchiseName}
+              </div>
             </div>
           </Col>
           <Col md="4">
@@ -209,7 +224,9 @@ const ViewFranchise = () => {
               <div className="list-item-title">
                 {getLabelByKey("franchiseType")}
               </div>
-              <div className="list-item-value">{branch.branchType || "--"}</div>
+              <div className="list-item-value">
+                {franchisedata?.franchiseType || "--"}
+              </div>
             </div>
           </Col>
           <Col md="4">
@@ -218,23 +235,27 @@ const ViewFranchise = () => {
                 {getLabelByKey("franchisePhoneNumber")}
               </div>
               <div className="list-item-value">
-                {branch.phoneNumber || "--"}
+                {franchisedata?.phoneNumber || "--"}
               </div>
             </div>
           </Col>
           <Col md="4">
             <div className="list-item">
               <div className="list-item-title">{getLabelByKey("address")}</div>
-              <div className="list-item-value">{branch.address || "--"}</div>
+              <div className="list-item-value">
+                {franchisedata?.address || "--"}
+              </div>
             </div>
           </Col>
           <Col md="8">
             <Row>
               <Col md="4">
                 <div className="list-item">
-                  <div className="list-item-title">{getLabelByKey("ranking")}</div>
+                  <div className="list-item-title">
+                    {getLabelByKey("ranking")}
+                  </div>
                   <div className="list-item-value">
-                    {branch.belts ? "Yes" : "No"}
+                    {franchisedata?.ranks ? "Yes" : "No"}
                   </div>
                 </div>
               </Col>
@@ -244,9 +265,7 @@ const ViewFranchise = () => {
                     {getLabelByKey("defaultLanguage")}
                   </div>
                   <div className="list-item-value">
-                    {(defaultLanguage &&
-                      (defaultLanguage as any)[selectedLanguage]) ||
-                      "--"}
+                    {franchisedata?.defaultLanguageId}
                   </div>
                 </div>
               </Col>
@@ -256,9 +275,10 @@ const ViewFranchise = () => {
                     {getLabelByKey("defaultCurrency")}
                   </div>
                   <div className="list-item-value">
-                    {(defaultCurrency &&
+                    {/* {(defaultCurrency &&
                       (defaultCurrency as any)[selectedLanguage]) ||
-                      "--"}
+                      "--"} */}
+                    {franchisedata?.defaultCurrencyId}
                   </div>
                 </div>
               </Col>
@@ -267,7 +287,9 @@ const ViewFranchise = () => {
           <Col md="6">
             <div className="list-item">
               <div className="list-item-title">{getLabelByKey("activity")}</div>
-              <div className="list-item-value">{branch.activities || "--"}</div>
+              <div className="list-item-value">
+                {franchisedata?.activities || "--"}
+              </div>
             </div>
           </Col>
           <Col md="6">
@@ -275,7 +297,9 @@ const ViewFranchise = () => {
               <div className="list-item-title">
                 {getLabelByKey("facilities")}
               </div>
-              <div className="list-item-value">{branch.facilities || "--"}</div>
+              <div className="list-item-value">
+                {franchisedata?.facilities || "--"}
+              </div>
             </div>
           </Col>
           <Col md="12">
@@ -284,13 +308,12 @@ const ViewFranchise = () => {
                 {getLabelByKey("description")}
               </div>
               <div className="list-item-value">
-                {branch.description || "--"}
+                {franchisedata?.description || "--"}
               </div>
             </div>
           </Col>
         </Row>
       </Card>
-
 
       <h3>Franchise Plans Subscribed</h3>
       <Card>
@@ -302,9 +325,10 @@ const ViewFranchise = () => {
                 Plan Name
               </div>
               <div className="list-item-value">
-                {"IMAS - Innovative Martial Arts Systems"
-                  // branch.branchName 
-                  || "--"}</div>
+                {"IMAS - Innovative Martial Arts Systems" ||
+                  // branch.branchName
+                  "--"}
+              </div>
             </div>
           </Col>
           <Col md="3">
@@ -314,9 +338,10 @@ const ViewFranchise = () => {
                 Price
               </div>
               <div className="list-item-value">
-                {"Hutton, United Kingdom"
-                  // branch.branchName 
-                  || "--"}</div>
+                {"Hutton, United Kingdom" ||
+                  // branch.branchName
+                  "--"}
+              </div>
             </div>
           </Col>
           <Col md="3">
@@ -326,9 +351,10 @@ const ViewFranchise = () => {
                 Payment Schedule
               </div>
               <div className="list-item-value">
-                {"Monday, 17th October 2023"
-                  // branch.branchName 
-                  || "--"}</div>
+                {"Monday, 17th October 2023" ||
+                  // branch.branchName
+                  "--"}
+              </div>
             </div>
           </Col>
           <Col md="3">
@@ -338,15 +364,16 @@ const ViewFranchise = () => {
                 Payment Type
               </div>
               <div className="list-item-value">
-                {"Auto Renew"
-                  // branch.branchName 
-                  || "--"}</div>
+                {"Auto Renew" ||
+                  // branch.branchName
+                  "--"}
+              </div>
             </div>
           </Col>
         </Row>
       </Card>
-      <AddPaymentMethod>
-
+      <AddPaymentFranchise />
+      {/* <AddPaymentMethod>
         {loading && <LoadingOverlay message="" />}
         <h3 className="table-heading">Payment Information</h3>
         <Table
@@ -354,12 +381,9 @@ const ViewFranchise = () => {
           dataSource={DummyData as any}
           scroll={{ x: true }}
         />
-      </AddPaymentMethod>
+      </AddPaymentMethod> */}
     </ViewFranchiseStyled>
-
   );
 };
 
 export default ViewFranchise;
-
-

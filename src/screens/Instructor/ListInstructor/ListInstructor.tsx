@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dropdown, Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { ListInstructorStyled } from "./styles";
@@ -12,12 +12,12 @@ import {
 import { useNavigate } from "react-router-dom";
 import plusIcon from "../../../assets/icons/ic_plus.svg";
 import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
-
+import defaltimg from "../../../assets/images/create_school_user_profile.svg";
 import { useSelector } from "react-redux";
 // import store, { RootState } from "../../../redux/store";
-import { RootState } from "../../../redux/store";
+import store, { RootState } from "../../../redux/store";
 import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
-
+import {getInstructorByUserId} from  "../../../redux/features/instructor/instructorSlice"
 import { InstructorDataType } from "../../../redux/features/instructor/instructorSlice";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import DummyData from "./dummyData.json";
@@ -26,18 +26,26 @@ import StatusActiveError from "../../../assets/images/activeBtnError.svg"
 import RightArrow from "../../../assets/images/rightArrow.svg";
 import LeftArrow from "../../../assets/images/leftArrow.svg";
 import DateCalander from "../../../assets/images/dateCalander.svg";
-
+import useInstructor from "../../../hooks/useInstructor";
 const ListInstructor: React.FC = () => {
   const { getLabelByKey } = useScreenTranslation("instructorList");
 
   const navigate = useNavigate();
-
-  const { loading } = useSelector(
-    (state: RootState) => state.branchData
+const{deleteInstructor,deletemodal}=useInstructor()
+  const { instructorData,loading } = useSelector(
+    (state: RootState) => state.instructorData
   );
 
 
+console.log("<<instructordata",instructorData);
+useEffect(() => {
+  store.dispatch(getInstructorByUserId());
+}, []);
 
+const handleDelete = (record: any) => {
+  deleteInstructor(record);
+  store.dispatch(getInstructorByUserId());
+};
   const columns: ColumnsType<InstructorDataType> = [
     {
       title: getLabelByKey("Id"),
@@ -50,7 +58,7 @@ const ListInstructor: React.FC = () => {
       key: "instructorImage",
       render: (DummyData) => {
 
-        return <img src={DummyData} width={44} alt="dummy images data" />;
+        return <img src={defaltimg} width={44} height={44} />;
       }
     },
     {
@@ -60,20 +68,20 @@ const ListInstructor: React.FC = () => {
     },
     {
       title: getLabelByKey("specializations"),
-      dataIndex: "instructorSpecilization",
-      key: "instructorSpecilization",
+      dataIndex: "specializations",
+      key: "specializations",
       render: (DummyData) => {
-        return <p className="sub-title">
-          {DummyData?.length > 33
-            ? `${DummyData.slice(0, 37)}...`
-            : DummyData}
-        </p>
+        return(<p className="sub-title">
+        {DummyData?.length > 33
+          ? `${DummyData.slice(0, 38)}...`
+          : DummyData}
+      </p>)
       }
     },
     {
       title: getLabelByKey("ranking"),
-      dataIndex: "instructorRanking",
-      key: "instructorRanking",
+      dataIndex: "rankId",
+      key: "rankId",
       render: (DummyData) => {
         return <div className="progress" style={{ background: "#386BB4", borderRadius: "4px", border: "1px solid #231F20" }}><div className="progress-bar" role="progressbar" style={{ width: "40%", background: "#231F20" }} aria-valuenow={40} aria-valuemin={10} aria-valuemax={100}></div></div>
       },
@@ -81,13 +89,13 @@ const ListInstructor: React.FC = () => {
     {
       // title: getLabelByKey("experiences"),
       title: "Experience",
-      dataIndex: "instructorExperience",
-      key: "instructorExperience",
+      dataIndex: "experience",
+      key: "experience",
     },
     {
       title: getLabelByKey("phoneNumber"),
-      dataIndex: "instructorPhoneNumber",
-      key: "instructorPhoneNumber",
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
     },
     {
       title: getLabelByKey("status"),
@@ -96,7 +104,7 @@ const ListInstructor: React.FC = () => {
       render: (DummyData) => {
         return (
           <div>
-            <button>{DummyData}</button>
+            <button>Active</button>
             <img src={StatusActiveError} alt="image" />
           </div>
         );
@@ -116,6 +124,15 @@ const ListInstructor: React.FC = () => {
             key: "2",
             label: "Edit",
             onClick: () => navigation(record, "edit"),
+          },
+          {
+            key: "4",
+            label: "Delete",
+            onClick: () =>
+              //navigation(record, "delete"),
+              {
+                handleDelete(record.instructorId);
+              },
           },
           // {
           //   key: "3",
@@ -179,11 +196,15 @@ const ListInstructor: React.FC = () => {
 
   return (
     <>
+          {deletemodal().modalComponent}
+
       {loading && <LoadingOverlay message="" />}
       <ListInstructorStyled>
         <Table
           columns={columns}
-          dataSource={DummyData as unknown as InstructorDataType[]}
+          dataSource={instructorData.data.map((data) => {
+            return data;
+          })}
           title={() => <RenderTableTitle />}
           pagination={{
             showTotal: (total, range) => (

@@ -34,8 +34,8 @@ import PaymentInformation from "../../../components/Common/PaymentInformation/Pa
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import { CreateFranchiseInitialValues } from "../constant";
 import { useEffect, useState } from "react";
-import { BranchDataType } from "../../../redux/features/branch/branchSlice";
-import useBranch from "../hooks/useFranchise";
+import { FranchiseDataType } from "../../../redux/features/franchise/franchiseSlice";
+import useFranchise from "../hooks/useFranchise";
 import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
 import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelect";
 
@@ -43,27 +43,37 @@ const EditFranchise = () => {
   const { getLabelByKey } = useScreenTranslation("franchiseUpdate");
   const {
     statusData: { activities, facilities },
-    dropdowns: { businessTypes }
+    dropdowns: { currency, language, businessTypes },
   } = useSelector((state: RootState) => state.appData.data);
 
-  const { data: branchData } = useSelector(
-    (state: RootState) => state.branchData.branchData
-  );
-  const { loading, handleSubmit } = useBranch();
-  const { branchId } = useParams();
+  // const { data: franchiseData } = useSelector(
+  //   (state: RootState) => state.franchiseData.franchiseData
+  // );
+  const { loading, editFranchise, getFranchisebyid } = useFranchise();
+  const { franchiseId } = useParams();
   const location = useLocation();
-  const branchToEdit: BranchDataType = location.state.branchToEdit;
-  // const [branchToEdit, setBranchToEdit] = useState({});
+  const franchiseToEdit: FranchiseDataType = location.state.franchiseToEdit;
+  // const [franchiseToEdit, setfranchiseToEdit] = useState({});
   // const handleSubmit = () => {};
   const { selectedLanguage } = useSelector(
     (state: RootState) => state.selectedLanguage
   );
+  const [franchiseDatas, setfranchiseDatas] = useState<any>({});
+
+  // console.log("franchisetoedit", language, currency);
+  console.log("setfranchiseDatas", franchiseId);
 
   const franchiseName = validationFinder("BUSINESS_NAME")!;
   const franchiseNameReg = new RegExp(franchiseName.pattern);
   const address = validationFinder("ADDRESS")!;
   const addressReg = new RegExp(address.pattern);
   const franchisePhoneNumber = validationFinder("PHONE_NUMBER")!;
+
+  const handleEditSchool = async (value: any) => {
+    console.log("zamisha", value);
+
+    await editFranchise(franchiseId, value);
+  };
 
   const createOptions = (list: DataTypesWithIdAndMultipleLangLabel[]) => {
     let options: SelectOptionsDataTypes[] = [];
@@ -78,33 +88,39 @@ const EditFranchise = () => {
 
     return options;
   };
-
+  async function fetchinfo() {
+    const data = await getFranchisebyid(franchiseId);
+    setfranchiseDatas(data);
+  }
+  useEffect(() => {
+    fetchinfo();
+  }, []);
   const initialValues: CreateFranchiseInitialValues = {
-    franchiseName: "",
-    franchiseType: "",
-    address: branchToEdit ? branchToEdit?.address : "",
-    franchisePhoneNumber: branchToEdit ? branchToEdit?.phoneNumber : "",
-    ranks: branchToEdit ? (branchToEdit?.ranks ? 1 : 2) : "",
-    description: branchToEdit ? branchToEdit?.description : "",
-    selectedActivities: branchToEdit
-      ? branchToEdit?.activities?.split(",").map(String)
+    franchiseName: franchiseDatas.franchiseName,
+    franchiseType: franchiseDatas.franchiseType,
+    address: franchiseDatas ? franchiseDatas?.address : "--",
+    franchisePhoneNumber: franchiseDatas ? franchiseDatas?.phoneNumber : "--",
+    rank: franchiseDatas?.rank ? 1 : 2,
+    description: franchiseDatas ? franchiseDatas?.description : "--",
+    selectedActivities: franchiseDatas
+      ? franchiseDatas?.activities?.split(",").map(String)
       : [],
-    selectedFacilities: branchToEdit
-      ? branchToEdit?.facilities?.split(",").map(String)
+    selectedFacilities: franchiseDatas
+      ? franchiseDatas?.facilities?.split(",").map(String)
       : [],
-    defaultLanguage: branchToEdit?.defaultLanguageId,
-    defaultCurrency: branchToEdit?.defaultCurrencyId,
-    // stripePublishableKey: branchToEdit ? branchToEdit.stripePublicKey : "",
-    // stripeSecretKey: branchToEdit ? branchToEdit.stripeSecretKey : "",
-    // cardAccessToken: branchToEdit ? branchToEdit.gclAccessToken : "",
-    // cardClientId: branchToEdit ? branchToEdit.gclClientId : "",
-    // cardWebHook: branchToEdit ? branchToEdit.gclWebHook : "",
-    // cardClientSecret: branchToEdit ? branchToEdit.gclClientSecret : "",
-    // schoolStripeMethod: branchToEdit
-    //   ? branchToEdit.schoolStripeMethod || false
+    defaultLanguage: franchiseDatas.defaultLanguageId,
+    defaultCurrency: franchiseDatas.defaultCurrencyId,
+    // stripePublishableKey: franchiseToEdit ? franchiseToEdit.stripePublicKey : "",
+    // stripeSecretKey: franchiseToEdit ? franchiseToEdit.stripeSecretKey : "",
+    // cardAccessToken: franchiseToEdit ? franchiseToEdit.gclAccessToken : "",
+    // cardClientId: franchiseToEdit ? franchiseToEdit.gclClientId : "",
+    // cardWebHook: franchiseToEdit ? franchiseToEdit.gclWebHook : "",
+    // cardClientSecret: franchiseToEdit ? franchiseToEdit.gclClientSecret : "",
+    // schoolStripeMethod: franchiseToEdit
+    //   ? franchiseToEdit.schoolStripeMethod || false
     //   : false,
-    // schoolGclMethod: branchToEdit
-    //   ? branchToEdit.schoolGclMethod || false
+    // schoolGclMethod: franchiseToEdit
+    //   ? franchiseToEdit.schoolGclMethod || false
     //   : false,
   };
   const validationSchema = Yup.object({
@@ -166,16 +182,20 @@ const EditFranchise = () => {
   return (
     <CreateSchoolStyled>
       {/* <OverlayImages
-        backgroundImg={branchToEdit?.bannerPicture || ""}
-        overlayImg={branchToEdit?.profilePicture || ""}
+        backgroundImg={franchiseToEdit?.bannerPicture || ""}
+        overlayImg={handleSubmit?.profilePicture || ""}
         isEditable={true}
       /> */}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+        onSubmit={handleEditSchool}
+        enableReinitialize
       >
         {(formik) => {
+          console.log(formik.values, "<< Formik");
+          console.log(initialValues, "<< initianl Formik");
+
           return (
             <Form
               name="basic"
@@ -192,7 +212,7 @@ const EditFranchise = () => {
                       type="text"
                       name="franchiseName"
                       label={getLabelByKey("franchiseName")}
-                      padding="10px"
+                      // padding="10px"
                       fontFamily={fontFamilyRegular}
                       fontSize="16px"
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
@@ -201,7 +221,7 @@ const EditFranchise = () => {
                       placeholder={getLabelByKey("franchiseName")}
                       className={
                         formik.errors.franchiseName &&
-                          formik.touched.franchiseName
+                        formik.touched.franchiseName
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -218,17 +238,17 @@ const EditFranchise = () => {
                       placeholder={getLabelByKey("franchiseType")}
                       className={
                         formik.errors.franchiseType &&
-                          formik.touched.franchiseType
+                        formik.touched.franchiseType
                           ? "is-invalid"
                           : "customInput"
                       }
                       options={createOptions(businessTypes)}
                       defaultValue={
-                        branchId
+                        franchiseId
                           ? createOptions(businessTypes).find(
-                            (item) =>
-                              item.value === initialValues.franchiseType
-                          )?.label
+                              (item) =>
+                                item.value === initialValues.franchiseType
+                            )?.label
                           : undefined
                       }
                     />
@@ -277,18 +297,19 @@ const EditFranchise = () => {
                           fontFamily={fontFamilyRegular}
                           // prefix={<img src={lock_icon} alt="lock_icon" />}
                           label={getLabelByKey("ranks")}
+                          // value={formik.values.rank === 1 ? "Yes" : "No"}
                           placeholder={getLabelByKey("ranks")}
                           className={
-                            formik.errors.ranks && formik.touched.ranks
+                            formik.errors.rank && formik.touched.rank
                               ? "is-invalid"
                               : "customInput"
                           }
                           options={BELTS_SELECT_OPTIONS}
                           defaultValue={
-                            branchId
+                            franchiseId
                               ? BELTS_SELECT_OPTIONS.find(
-                                (item) => item.value === initialValues.ranks
-                              )?.label
+                                  (item) => item.value === initialValues.rank
+                                )?.label
                               : undefined
                           }
                         />
@@ -297,34 +318,34 @@ const EditFranchise = () => {
                         <FormControl
                           control="select"
                           type="text"
-                          name="belts"
+                          name="defaultLanguage"
                           fontFamily={fontFamilyRegular}
                           label={getLabelByKey("defaultLanguage")}
                           placeholder={getLabelByKey("defaultLanguage")}
-                          // className={
-                          //   formik?.errors?.defaultLanguage &&
-                          //   formik?.touched?.defaultLanguage
-                          //     ? "is-invalid"
-                          //     : "customInput"
-                          // }
-                          options={BELTS_SELECT_OPTIONS}
+                          className={
+                            formik?.errors?.defaultLanguage &&
+                            formik?.touched?.defaultLanguage
+                              ? "is-invalid"
+                              : "customInput"
+                          }
+                          options={createOptions(language)}
                         />
                       </Col>
                       <Col md="4" className="mt-20">
                         <FormControl
                           control="select"
                           type="text"
-                          name="belts"
+                          name="defaultCurrency"
                           fontFamily={fontFamilyRegular}
                           label={getLabelByKey("defaultCurrency")}
                           placeholder={getLabelByKey("defaultCurrency")}
                           className={
                             formik.errors.defaultCurrency &&
-                              formik.touched.defaultCurrency
+                            formik.touched.defaultCurrency
                               ? "is-invalid"
                               : "customInput"
                           }
-                          options={BELTS_SELECT_OPTIONS}
+                          options={createOptions(currency)}
                         />
                       </Col>
                     </Row>
@@ -381,6 +402,7 @@ const EditFranchise = () => {
                   type="submit"
                   title={getLabelByKey("primaryButton")}
                   fontSize="17px"
+                  // clicked={handleEditSchool}
                   disabled={!formik.isValid}
                   loading={loading}
                 />

@@ -8,12 +8,14 @@ import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { DataTypesWithIdAndMultipleLangLabel } from "../../../redux/features/types";
-
+import viewBranch from "../hooks/useBranch"
 const ViewBranch = () => {
   const { getLabelByKey } = useScreenTranslation("branchCreate");
 
   const location = useLocation();
   const branch: BranchDataType = location.state?.branch;
+console.log("?Nadda",branch);
+
   const { language, currency } = useSelector(
     (state: RootState) => state.appData.data.dropdowns
   );

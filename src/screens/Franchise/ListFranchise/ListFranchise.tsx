@@ -20,31 +20,40 @@ import {
   BranchDataType,
   getBranchBySchoolId,
 } from "../../../redux/features/branch/branchSlice";
-
+import defaltimg from "../../../assets/images/create_school_user_profile.svg";
 import CardView from "../CardView/CardView";
 import { FranchiseDataType } from "../../../redux/features/franchise/franchiseSlice";
 import DummyData from "./dummyData.json";
-import StatusActiveError from "../../../assets/images/activeBtnError.svg"
+import StatusActiveError from "../../../assets/images/activeBtnError.svg";
 import RightArrow from "../../../assets/images/rightArrow.svg";
 import LeftArrow from "../../../assets/images/leftArrow.svg";
 import DateCalander from "../../../assets/images/dateCalander.svg";
 import { CustomDiv } from "./CustomDiv";
-
+import { getfranchiseBySchoolId } from "../../../redux/features/franchise/franchiseSlice";
+import useFranchise from "../hooks/useFranchise";
 const ListFranchise: React.FC = () => {
+  const { deleteFranchise } = useFranchise();
   const navigate = useNavigate();
-  const { branchData, loading, error } = useSelector(
-    (state: RootState) => state.branchData
+  const { franchiseData, loading, error } = useSelector(
+    (state: RootState) => state.franchiseData
   );
+  useEffect(() => {
+    store.dispatch(getfranchiseBySchoolId());
+  }, []);
 
   const {
     statusData: { activities },
-    dropdowns: { businessTypes }
+    dropdowns: { businessTypes },
   } = useSelector((state: RootState) => state.appData.data);
-
+  console.log("franchiseData", franchiseData.data);
 
   const { selectedLanguage } = useSelector(
     (state: RootState) => state.selectedLanguage
   );
+  const handleDelete = (record: any) => {
+    deleteFranchise(record);
+    store.dispatch(getBranchBySchoolId());
+  };
   const columns: ColumnsType<FranchiseDataType> = [
     {
       title: "Id",
@@ -65,9 +74,8 @@ const ListFranchise: React.FC = () => {
       //   </div>
       // ),
       render: (DummyData) => {
-
-        return <img src={DummyData} width={44} height={44} alt="dummy images data" />;
-      }
+        return <img src={defaltimg} width={44} height={44} />;
+      },
     },
     {
       title: "Name",
@@ -78,10 +86,10 @@ const ListFranchise: React.FC = () => {
       title: "Type",
       dataIndex: "franchiseType",
       key: "franchiseType",
-      // render: (_, { franchiseType }) => {
-      //   let item = businessTypes.find((b) => b.id === franchiseType);
-      //   return <p>{item?.en}</p>;
-      // },
+      render: (_, { franchiseType }) => {
+        let item = businessTypes.find((b) => b.id === franchiseType);
+        return <p>{item?.en}</p>;
+      },
     },
 
     {
@@ -89,12 +97,15 @@ const ListFranchise: React.FC = () => {
       dataIndex: "activities",
       key: "activities",
       render: (DummyData) => {
+        console.log(DummyData);
 
-        return <p className="sub-title">
-          {DummyData?.length > 33
-            ? `${DummyData.slice(0, 38)}...`
-            : DummyData}
-        </p>;
+        return (
+          <p className="sub-title">
+            {DummyData?.length > 33
+              ? `${DummyData.slice(0, 38)}...`
+              : DummyData}
+          </p>
+        );
       },
     },
     {
@@ -104,9 +115,11 @@ const ListFranchise: React.FC = () => {
     },
     {
       title: "Status",
-      dataIndex: "status",
-      key: "Staus",
+      dataIndex: "franchiseStatusId",
+      key: "franchiseStatusId",
       render: (DummyData) => {
+        console.log("d", DummyData);
+
         return (
           <div>
             <button>{DummyData}</button>
@@ -119,6 +132,7 @@ const ListFranchise: React.FC = () => {
       title: "Action",
       key: "action",
       render: (value: any, record: FranchiseDataType, index: number): any => {
+        console.log(record, "keyyyyss");
         const items = [
           {
             key: "1",
@@ -143,7 +157,11 @@ const ListFranchise: React.FC = () => {
           {
             key: "5",
             label: "Delete",
-            onClick: () => navigation(record, "delete"),
+            onClick: () =>
+              //navigation(record, "delete"),
+              {
+                handleDelete(record.franchiseId);
+              },
           },
         ];
 
@@ -197,7 +215,7 @@ const ListFranchise: React.FC = () => {
         break;
 
       case "delete":
-        navigate(`/franchise/delete/${record.franchiseId}`, {
+        navigate(`/franchise/delete/${9}`, {
           state: {
             branch: record as FranchiseDataType,
           },
@@ -209,18 +227,15 @@ const ListFranchise: React.FC = () => {
     store.dispatch(getBranchBySchoolId());
   }, []);
 
-
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [current, setCurrent] = useState(1);
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
   const rowSelection = { selectedRowKeys, onChange: onSelectChange };
-
-
 
   return (
     <>
@@ -228,7 +243,9 @@ const ListFranchise: React.FC = () => {
       <ListFranchiseStyled>
         <Table
           columns={columns}
-          dataSource={DummyData as any}
+          dataSource={franchiseData.data.map((data) => {
+            return data;
+          })}
           title={() => <RenderTableTitle />}
           pagination={{
             showTotal: (total, range) => (
@@ -267,7 +284,9 @@ const RenderTableTitle = () => {
             </div>
           </div>
           <div className="dateRange">
-            <p><span>Mon,</span> Sep 11, 2023 - <span>Thu,</span> Sep 21, 2023</p>
+            <p>
+              <span>Mon,</span> Sep 11, 2023 - <span>Thu,</span> Sep 21, 2023
+            </p>
             <img src={DateCalander} alt="Calander" width={21} height={21} />
           </div>
           <div className="dateToday">Today</div>
@@ -288,7 +307,6 @@ const RenderTableTitle = () => {
           }}
         />
       </CustomDiv>
-
     </div>
   );
 };

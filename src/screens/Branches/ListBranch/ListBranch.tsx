@@ -40,7 +40,10 @@ const ListBranch: React.FC = () => {
   const { branchData, loading } = useSelector(
     (state: RootState) => state.branchData
   );
-
+  const {
+    statusData: { activities },
+    dropdowns: { businessTypes }
+  } = useSelector((state: RootState) => state.appData.data);
   const location = useLocation();
 
   const handleDelete = (record: any) => {
@@ -73,6 +76,11 @@ const ListBranch: React.FC = () => {
       title: "Type",
       dataIndex: "branchType",
       key: "branchType",
+      render: (_, { branchType }) => {
+        
+        let item = businessTypes.find((b) => b.id === branchType);
+        return <p>{item?.en}</p>;
+      },
     },
     {
       title: "Activity",
@@ -121,6 +129,7 @@ const ListBranch: React.FC = () => {
       title: "Action",
       key: "action",
       render: (_, record) => {
+        console.log(record,"bibi")
         const items = [
           {
             key: "1",

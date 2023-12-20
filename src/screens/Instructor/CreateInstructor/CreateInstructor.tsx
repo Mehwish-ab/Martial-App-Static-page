@@ -11,6 +11,7 @@ import {
   lightBlue3,
   maastrichtBlue,
 } from "../../../components/GlobalStyle";
+import ImagesUpload from "../../../components/ImagesUpload/ImagesUpload";
 import CustomPhoneInput from "../../../components/CustomPhoneInput/CustomPhoneInput";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import { CreateSchoolStyled } from "../../CreateSchool/styles";
@@ -21,16 +22,20 @@ import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
 import DateCalander from "../../../assets/images/dateCalander.svg";
 import FileSubmit from "../../../assets/icons/ic_fileSubmit.svg";
 import { validationFinder } from "../../../utils/utilities";
-import useBranch from "../../Branches/hooks/useBranch";
 import * as Yup from "yup";
-
+import { useEffect, useRef, useState } from "react";
 const CreateInstructor = () => {
   const { getLabelByKey } = useScreenTranslation("instructorCreate");
   const {
     statusData: { activities, facilities },
   } = useSelector((state: RootState) => state.appData.data);
+  const [selectedFiles, setSelectedFiless] = useState<FileList | null>(null);
 
-  const { loading } = useBranch();
+  const handleImagesUpload = (selectedFiless: any) => {
+    setSelectedFiless(selectedFiless);
+    console.log("Selected Files:", selectedFiless.name);
+  };
+  const { loading, handleSubmit } = useInstructor();
 
   const initialValues: CreateInstructorInitialValues = {
     instructorName: "",
@@ -38,13 +43,12 @@ const CreateInstructor = () => {
     instructorPhoneNumber: "",
     address: "",
     yearsOfExperience: "",
-    ranking: "",
+    rankId: "",
     latestCertification: "",
     description: "",
     selectedActivities: [],
     selectedFacilities: [],
     termCondition: "",
-    ranks: "",
   };
 
   const instructorName = validationFinder("BUSINESS_NAME")!;
@@ -68,7 +72,7 @@ const CreateInstructor = () => {
     instructorPhoneNumber: Yup.string().required(
       instructorPhoneNumber.notBlankMsgEn
     ),
-    ranking: Yup.string().required("Please select belts"),
+    rankId: Yup.string().required("Please select belts"),
     description: Yup.string().required("Please enter description"),
     yearsOfExperience: Yup.string().required(
       "Please select years Of Experience"
@@ -85,8 +89,9 @@ const CreateInstructor = () => {
       .of(Yup.string().required("Select an specilization"))
       .min(1, "Select at least one specilization"),
   });
-  const handleonSubmit = () => {
-    console.log("submitted");
+  const handleonSubmit = (values: any) => {
+    handleSubmit(values, selectedFiles);
+    console.log("submitted button pressed");
   };
   return (
     <CreateSchoolStyled>
@@ -193,17 +198,19 @@ const CreateInstructor = () => {
                       <Col md="4" className="mt-20">
                         <FormControl
                           control="input"
-                          type="upload"
+                          type="ImagesUpload"
                           name="latestCertification"
                           fontFamily={fontFamilyRegular}
                           label="Latest Certification"
                           suffix={
-                            <img
-                              src={FileSubmit}
-                              alt="Calander"
-                              width={21}
-                              height={21}
-                            />
+                            <ImagesUpload onImagesSelect={handleImagesUpload} />
+                            // <img
+                            //   src={FileSubmit}
+                            //   alt="Calander"
+                            //   width={21}
+                            //   height={21}
+
+                            //  />
                           }
                           padding="10px"
                           placeholder="Pound"

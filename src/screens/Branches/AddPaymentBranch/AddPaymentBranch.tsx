@@ -23,6 +23,8 @@ import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.
 import getPayment from "../../../redux/features/branch/branchSlice";
 import useBranch from "../hooks/useBranch";
 import { useEffect, useState } from "react";
+import dummydata from "./dummyData.json";
+import usePayment from "../../../hooks/usePayment";
 interface AddPaymentBranchProps {
   branch: BranchDataType; // Make sure to import BranchDataType
 }
@@ -38,7 +40,7 @@ const AddPaymentBranch: React.FC = () => {
     get_cash,
     deletePayment,
     deletemodal,
-  } = useBranch();
+  } = usePayment();
 
   const handleDelete = (paymentMethod: any, record: any) => {
     deletePayment(paymentMethod, record);
@@ -416,7 +418,7 @@ const AddPaymentBranch: React.FC = () => {
       {loading && <LoadingOverlay message="" />}
       <h3 className="table-heading">Payment Information</h3>
       {rowsWithButtons.length > 0 ? (
-        <Table columns={columns} dataSource={rowsWithButtons} />
+        <Table columns={columns} dataSource={rowsWithButtons as any} />
       ) : (
         <div>No data available</div>
       )}

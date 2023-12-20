@@ -29,13 +29,14 @@ import ukIcon from "../../assets/icons/ic_uk_flag.svg";
 // import { fontFamilyMedium, pureDark2 } from "../GlobalStyle";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-
+import useCreateSchool from "../../hooks/useCreateSchool";
 function Navbar() {
   const { searchText, setSearchText } = useGlobalContext();
   const searchRef = useRef<InputRef>(null);
   const { schoolId } = useSelector(
     (state: RootState) => state.dashboardData.schoolData
   );
+  const { deleteSchool } = useCreateSchool();
   const [drawerVisible, setDrawerVisible] = useState(false);
   const items: MenuProps["items"] = [
     {
@@ -60,11 +61,18 @@ function Navbar() {
     {
       key: "3",
       label: (
-        <Link to={"/school/add-payment-information"} style={{ textDecoration: "none" }}>
+        <Link
+          to={`/school/add-payment-information/${schoolId}`}
+          style={{ textDecoration: "none" }}
+        >
           Payment
         </Link>
       ),
     },
+    // {
+    //   key: "4",
+    //   label:(deleteSchool(schoolId))
+    // },
   ];
   return (
     <>
@@ -92,7 +100,14 @@ function Navbar() {
               value={searchText}
               placeholder="Search..."
               onChange={(e) => setSearchText(e.target.value)}
-              suffix={<img src={searchIcon} alt="search-icon" width={21} height={21} />}
+              suffix={
+                <img
+                  src={searchIcon}
+                  alt="search-icon"
+                  width={21}
+                  height={21}
+                />
+              }
               className="custom-input"
             />
           </div>
@@ -100,7 +115,14 @@ function Navbar() {
             <div className="notification-area">
               <CustomButton
                 title=""
-                icon={<img src={notificationIcon} alt="notification" width={17} height={19} />}
+                icon={
+                  <img
+                    src={notificationIcon}
+                    alt="notification"
+                    width={17}
+                    height={19}
+                  />
+                }
                 type="button"
                 bgcolor={"white"}
                 width="40px"
@@ -110,22 +132,46 @@ function Navbar() {
               <span className="notification-count">4</span>
             </div>
             <div className="profile-area">
-              <Badge dot color="green" style={{ width: "12px", height: "12px", top: "10px" }}>
-                <Avatar src={profileIcon} shape="square" style={{ width: "45px", height: "45px" }} />
+              <Badge
+                dot
+                color="green"
+                style={{ width: "12px", height: "12px", top: "10px" }}
+              >
+                <Avatar
+                  src={profileIcon}
+                  shape="square"
+                  style={{ width: "45px", height: "45px" }}
+                />
               </Badge>
               <h3 className="profileName">Adnan Qureshi</h3>
             </div>
             <div className="d-flex align-items-start  ">
               <div className="language-area">
                 <Badge>
-                  <Avatar src={ukIcon} shape="square" style={{ width: "26px", height: "16px", borderRadius: '3px', }} />
+                  <Avatar
+                    src={ukIcon}
+                    shape="square"
+                    style={{
+                      width: "26px",
+                      height: "16px",
+                      borderRadius: "3px",
+                    }}
+                  />
                 </Badge>
               </div>
               <DropDownStyling>
                 <Dropdown menu={{ items }} placement="bottomLeft" arrow>
                   <Button
-                    icon={<img src={dropDownArrow} alt="dropdown" width={10} height={7} style={{ marginBottom: '4px', }} />}
-                    style={{ border: "none", }}
+                    icon={
+                      <img
+                        src={dropDownArrow}
+                        alt="dropdown"
+                        width={10}
+                        height={7}
+                        style={{ marginBottom: "4px" }}
+                      />
+                    }
+                    style={{ border: "none" }}
                   />
                 </Dropdown>
               </DropDownStyling>
@@ -146,7 +192,7 @@ function Navbar() {
             </div>
           </div>
         </NavbarRow2Styled>
-      </NavbarStyle >
+      </NavbarStyle>
     </>
   );
 }

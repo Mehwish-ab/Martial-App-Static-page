@@ -31,7 +31,7 @@ import CustomPhoneInput from "../../../components/CustomPhoneInput/CustomPhoneIn
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import { CreateSchoolStyled } from "../../CreateSchool/styles";
 import { CreateFranchiseInitialValues } from "../constant";
-import useBranch from "../hooks/useFranchise";
+import useFranchise from "../hooks/useFranchise";
 import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelect";
 import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
 
@@ -40,17 +40,16 @@ const CreateFranchise = () => {
 
   const {
     statusData: { activities, facilities },
-    dropdowns: { currency, language, businessTypes }
+    dropdowns: { currency, language, businessTypes },
   } = useSelector((state: RootState) => state.appData.data);
 
-
-  const { loading, handleSubmit } = useBranch();
+  const { loading, handleSubmit } = useFranchise();
   const initialValues: CreateFranchiseInitialValues = {
     franchiseName: "",
     franchiseType: "",
     address: "",
     franchisePhoneNumber: "",
-    ranks: "",
+    rank: "",
     description: "",
     defaultLanguage: "",
     defaultCurrency: "",
@@ -156,6 +155,8 @@ const CreateFranchise = () => {
         onSubmit={handleSubmit}
       >
         {(formik) => {
+          console.log("hi", formik.values);
+
           return (
             <Form
               name="basic"
@@ -178,7 +179,7 @@ const CreateFranchise = () => {
                       placeholder={getLabelByKey("franchiseName")}
                       className={
                         formik.errors.franchiseName &&
-                          formik.touched.franchiseName
+                        formik.touched.franchiseName
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -195,7 +196,7 @@ const CreateFranchise = () => {
                       placeholder={getLabelByKey("franchiseType")}
                       className={
                         formik.errors.franchiseType &&
-                          formik.touched.franchiseType
+                        formik.touched.franchiseType
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -260,7 +261,7 @@ const CreateFranchise = () => {
                           label={getLabelByKey("ranking")}
                           placeholder={getLabelByKey("ranking")}
                           className={
-                            formik.errors.ranks && formik.touched.ranks
+                            formik.errors.rank && formik.touched.rank
                               ? "is-invalid"
                               : "customInput"
                           }
@@ -278,7 +279,7 @@ const CreateFranchise = () => {
                           placeholder={getLabelByKey("defaultLanguage")}
                           className={
                             formik?.errors?.defaultLanguage &&
-                              formik?.touched?.defaultLanguage
+                            formik?.touched?.defaultLanguage
                               ? "is-invalid"
                               : "customInput"
                           }
@@ -296,7 +297,7 @@ const CreateFranchise = () => {
                           placeholder={getLabelByKey("defaultCurrency")}
                           className={
                             formik.errors.defaultCurrency &&
-                              formik.touched.defaultCurrency
+                            formik.touched.defaultCurrency
                               ? "is-invalid"
                               : "customInput"
                           }
@@ -371,7 +372,7 @@ const CreateFranchise = () => {
           );
         }}
       </Formik>
-    </CreateSchoolStyled >
+    </CreateSchoolStyled>
   );
 };
 

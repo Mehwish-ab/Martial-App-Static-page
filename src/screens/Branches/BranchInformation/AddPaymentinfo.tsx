@@ -13,6 +13,7 @@ import type { ColumnsType } from "antd/es/table";
 import StatusActiveError from "../../../assets/images/activeBtnError.svg";
 import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
 import CustomButton from "../../../components/CustomButton/CustomButton";
+import DummyData from "./dummyData.json"
 import {
   fontFamilyMedium,
   pureDark,
@@ -94,7 +95,7 @@ const AddPaymentinfo: React.FC = () => {
     return <div>No data</div>;
   }
   //console.log("id", branchToEdit.branchId);
-  //   const [dataSource, setDataSource] = useState<any[]>([]);
+    // const [dataSource, setDataSource] = useState<any[]>([]);
 
   const navigation = (record: BranchDataType, redirectTo: string) => {
     switch (redirectTo) {
@@ -417,7 +418,7 @@ const AddPaymentinfo: React.FC = () => {
       {loading && <LoadingOverlay message="" />}
       <h3 className="table-heading">Payment Information</h3>
       {rowsWithButtons.length > 0 ? (
-        <Table columns={columns} dataSource={rowsWithButtons} />
+        <Table columns={columns} dataSource={rowsWithButtons as any} />
       ) : (
         <div>No data available</div>
       )}

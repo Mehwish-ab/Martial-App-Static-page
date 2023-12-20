@@ -1,10 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import {
-  Login,
-  Home,
-  CreateUser,
-  ErrorPage404,
-} from "../screens/pages";
+import { Login, Home, CreateUser, ErrorPage404 } from "../screens/pages";
 import ForgetPassword from "../screens/ForgetPassword/ForgetPasword";
 import Otp from "../screens/ForgetPassword/Otp/Otp";
 import CreatePassword from "../screens/ForgetPassword/CreatePassword/CreatePassword";
@@ -113,7 +108,16 @@ function AppRoutes() {
           }
         />
         <Route
-          path="/school/add-payment-information"
+          path="/school/add-payment-information/:schoolId"
+          element={
+            <AppLayout>
+              <AddPaymentSchool />
+            </AppLayout>
+          }
+        />
+
+        <Route
+          path="/school/add-payment-information/:schoolId"
           element={
             <AppLayout>
               <AddPaymentSchool />

@@ -141,5 +141,7 @@ export const edit_branch_url = "branch/edit";
 export const get_branch_by_school_id_url = "branch/getBySchoolId";
 export const get_branch_by_id_url = "branch/getDetailsById";
 export const get_payment = "paymentMethod/get";
+export const get_instructor_by_user_id_url = "instructor/getByUserId";
+export const get_franchise_by_school_id_url = "franchise/getBySchoolId";
 // key of token data in local storage of browser
 export const auth_token_key = "ennvision-admin:token";

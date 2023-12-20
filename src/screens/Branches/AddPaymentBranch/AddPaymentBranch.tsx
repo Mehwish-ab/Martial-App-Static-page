@@ -250,32 +250,32 @@ const AddPaymentBranch: React.FC = () => {
         Gocardlesspayment?.length === 0
           ? "--"
           : Gocardlesspayment?.map((e) => {
-              return e.accountName;
-            }),
+            return e.accountName;
+          }),
       countryName:
         Gocardlesspayment?.length === 0
           ? "--"
           : Gocardlesspayment?.map((e) => {
-              return e.countryName;
-            }),
+            return e.countryName;
+          }),
       mode:
         Gocardlesspayment?.length === 0
           ? "--"
           : Gocardlesspayment?.map((e) => {
-              return e.mode;
-            }),
+            return e.mode;
+          }),
       status:
         Gocardlesspayment?.length === 0
           ? "Add"
           : Gocardlesspayment?.map((e) => {
-              return e.isActive;
-            }),
+            return e.isActive;
+          }),
       id:
         Gocardlesspayment?.length === 0
           ? "Add"
           : Gocardlesspayment?.map((e) => {
-              return e.id;
-            }),
+            return e.id;
+          }),
     },
     {
       paymentMethod: "PayPal",
@@ -283,32 +283,32 @@ const AddPaymentBranch: React.FC = () => {
         paypalpayment?.length === 0
           ? "--"
           : paypalpayment?.map((e) => {
-              return e.accountName;
-            }),
+            return e.accountName;
+          }),
       countryName:
         paypalpayment?.length === 0
           ? "--"
           : paypalpayment?.map((e) => {
-              return e.countryName;
-            }),
+            return e.countryName;
+          }),
       mode:
         paypalpayment?.length === 0
           ? "--"
           : paypalpayment?.map((e) => {
-              return e.mode;
-            }),
+            return e.mode;
+          }),
       status:
         paypalpayment?.length === 0
           ? "Add"
           : paypalpayment?.map((e) => {
-              return e.isActive;
-            }),
+            return e.isActive;
+          }),
       id:
         paypalpayment?.length === 0
           ? "0"
           : paypalpayment?.map((e) => {
-              return e.id;
-            }),
+            return e.id;
+          }),
     },
     {
       paymentMethod: "Stripe",
@@ -316,32 +316,32 @@ const AddPaymentBranch: React.FC = () => {
         stripepayment?.length === 0
           ? "--"
           : stripepayment?.map((e) => {
-              return e.accountName;
-            }),
+            return e.accountName;
+          }),
       countryName:
         stripepayment?.length === 0
           ? "--"
           : stripepayment?.map((e) => {
-              return e.countryName;
-            }),
+            return e.countryName;
+          }),
       mode:
         stripepayment?.length === 0
           ? "--"
           : stripepayment?.map((e) => {
-              return e.mode;
-            }),
+            return e.mode;
+          }),
       status:
         stripepayment?.length === 0
           ? "Add"
           : stripepayment?.map((e) => {
-              return e.isActive;
-            }),
+            return e.isActive;
+          }),
       id:
         stripepayment?.length === 0
           ? "0"
           : stripepayment?.map((e) => {
-              return e.id;
-            }),
+            return e.id;
+          }),
     },
     {
       paymentMethod: "BankAccount",
@@ -349,32 +349,32 @@ const AddPaymentBranch: React.FC = () => {
         bankpayment?.length === 0
           ? "--"
           : bankpayment?.map((e) => {
-              return e.accountName;
-            }),
+            return e.accountName;
+          }),
       countryName:
         bankpayment?.length === 0
           ? "--"
           : bankpayment?.map((e) => {
-              return e.countryName;
-            }),
+            return e.countryName;
+          }),
       mode:
         bankpayment?.length === 0
           ? "--"
           : bankpayment?.map((e) => {
-              return e.mode;
-            }),
+            return e.mode;
+          }),
       status:
         bankpayment?.length === 0
           ? "Add"
           : bankpayment?.map((e) => {
-              return e.isActive;
-            }),
+            return e.isActive;
+          }),
       id:
         bankpayment?.length === 0
           ? "0"
           : bankpayment?.map((e) => {
-              return e.id;
-            }),
+            return e.id;
+          }),
     },
     {
       paymentMethod: "Cash",
@@ -382,32 +382,32 @@ const AddPaymentBranch: React.FC = () => {
         cashpayment?.length === 0
           ? "--"
           : cashpayment?.map((e) => {
-              return e.accountName;
-            }),
+            return e.accountName;
+          }),
       countryName:
         cashpayment?.length === 0
           ? "--"
           : cashpayment?.map((e) => {
-              return e.countryName;
-            }),
+            return e.countryName;
+          }),
       mode:
         cashpayment?.length === 0
           ? "--"
           : cashpayment?.map((e) => {
-              return e.mode;
-            }),
+            return e.mode;
+          }),
       status:
         cashpayment?.length === 0
           ? "Add"
           : cashpayment?.map((e) => {
-              return e.isActive;
-            }),
+            return e.isActive;
+          }),
       id:
         cashpayment?.length === 0
           ? "Add"
           : cashpayment?.map((e) => {
-              return e.id;
-            }),
+            return e.id;
+          }),
     },
   ];
 

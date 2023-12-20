@@ -8,7 +8,6 @@ type CustomDateProps = {
   labelFamily: string;
 };
 export const CustomDatePickerStyle = styled.div<CustomDateProps>`
-  margin-bottom: 10px;
   width: 100%;
   .ant-picker {
     border: ${(props) => props.border};
@@ -23,15 +22,16 @@ export const CustomDatePickerStyle = styled.div<CustomDateProps>`
     text-transform: capitalize;
     font-family: ${(props) => props.labelFamily};
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
   .ant-picker.customdatepicker {
+    height: 50px;
     width: 100% !important;
     padding: ${(props) => props.padding};
-    border-radius: 5px !important;
     background-color: ${(props) => props.bgColor};
     border: ${(props) => props.border};
+    border-radius: 10px;
     font-family: ${(props) => props.fontFamily};
   }
   .ant-picker {

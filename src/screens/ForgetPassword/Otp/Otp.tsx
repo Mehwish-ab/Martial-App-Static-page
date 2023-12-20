@@ -97,7 +97,7 @@ const Otp: React.FC = () => {
                 {getLabelByKey(OTP_SCREEN_LABEL_KEYS.subtitle)}
               </p>
               <h6 className="forget-password-phoneNumber text-center">{userPhoneNumber}</h6>
-              <div className="forget-password-container-card-form w-100">
+              <div className="forget-password-container-card-form w-100 mt-20">
                 <Formik
                   initialValues={initialValues}
                   validationSchema={validationSchema}
@@ -153,7 +153,6 @@ const Otp: React.FC = () => {
                             OTP_SCREEN_LABEL_KEYS.sumbitButton
                           )}
                           fontSize="16px"
-                          margin="0px 0px 16px 0px"
                           loading={loading}
                         />
                       </div>
@@ -165,7 +164,7 @@ const Otp: React.FC = () => {
             </div>
 
           </div>
-          <p className="text-center forget-password-OTPtext mt-3">
+          <p className="text-center forget-password-OTPtext">
             {formatTimer()}
           </p>
         </div>

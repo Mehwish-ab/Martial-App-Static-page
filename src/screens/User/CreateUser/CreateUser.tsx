@@ -7,14 +7,13 @@ import CreateUserStyle from "./style";
 import {
   fontFamilyMedium,
   lightBlue3,
-  pureDark,
+  pureDark2,
 } from "../../../components/GlobalStyle";
 import Head from "../../../components/Head/Head";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import TermsAndConditions from "../../../components/TermsAndConditions/TermsAndConditions";
-import EnnvisionModal from "../../../components/CustomModals/EnnvisionModal";
-import CustomModal from "../../../components/Modal/CustomModal";
+// import EnnvisionModal from "../../../components/CustomModals/EnnvisionModal";
+// import CustomModal from "../../../components/Modal/CustomModal";
 import { useAppSelector } from "../../../app/hooks";
 import { validationFinder } from "../../../utils/utilities";
 import { toast } from "react-toastify";
@@ -28,6 +27,10 @@ import Input from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
+import OauthLogin from "../../../components/Common/OauthLogin/OauthLogin";
+import { OAUTH_USECASES } from "../../../components/Common/OauthLogin/constants";
+import TermsAndConditions from "../../../components/TermsAndConditions/TermsAndConditions";
+import MessageModal from "../../../components/Common/MessageModal/MessageModal";
 
 // create user initial values types
 type initialValuesType = {
@@ -40,7 +43,7 @@ type initialValuesType = {
 };
 
 const RegisterUser = () => {
-  const [isShowModal, setIsShowModal] = useState(false);
+  // const [isShowModal, setIsShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [terms, setTerms] = useState(false);
   const [showTermsError, setShowTermsError] = useState(false);
@@ -170,26 +173,35 @@ const RegisterUser = () => {
     };
     try {
       setIsLoading(true);
-      await axios.post(signup_url, userData);
-      setIsShowModal(true);
-      setTimeout(() => {
-        setIsShowModal(false);
-        navigate("/login");
-      }, 2000);
+      const response = await axios.post(signup_url, userData);
+      // const successMessage = response.data.responseMessage;
+      toast(
+        <MessageModal
+          message="Account Created Successfully!"
+          description="Thank You For Joining Us And We're Excited To Have You On Board"
+          type="success"
+        />,
+        {
+          autoClose: 1000,
+        }
+      );
+      navigate("/login");
       setIsLoading(false);
     } catch (error: any) {
       setIsLoading(false);
-      toast(error.response.data.responseMessage, {
+      const errorMessage = error.response?.data?.responseMessage;
+      toast(errorMessage, {
         type: "error",
         autoClose: 1000,
       });
     }
+
   };
 
   return (
     <>
-      <Head title="register" />
-      <CustomModal
+      <Head title="Register" />
+      {/* <CustomModal
         isModalVisible={isShowModal}
         setIsModalVisible={setIsShowModal}
         showCloseBtn={false}
@@ -202,7 +214,7 @@ const RegisterUser = () => {
           title="Account Created Successfully!"
           description="Thank You For Joining Us And We're Excited To Have You On Board"
         />
-      </CustomModal>
+      </CustomModal> */}
       <CreateUserStyle>
         <div className="inner-container">
           <div className="inner-container-card">
@@ -210,7 +222,7 @@ const RegisterUser = () => {
               <h6 className="title mb-0 text-center">
                 {getLabelByKey(SCREEN_LABEL_KEYS.title)}
               </h6>
-              <p className="text-center message mt-10">
+              <p className="text-center message mt-10 mb-0">
                 {getLabelByKey(SCREEN_LABEL_KEYS.subtitle)}
               </p>
               <div className="inner-container-card-form">
@@ -246,7 +258,7 @@ const RegisterUser = () => {
                               labelFamily={fontFamilyMedium}
                               className={
                                 formik.errors.firstName &&
-                                formik.touched.firstName
+                                  formik.touched.firstName
                                   ? "is-invalid"
                                   : "customInput"
                               }
@@ -271,7 +283,7 @@ const RegisterUser = () => {
                               )}
                               className={
                                 formik.errors.lastName &&
-                                formik.touched.lastName
+                                  formik.touched.lastName
                                   ? "is-invalid"
                                   : "customInput"
                               }
@@ -294,7 +306,7 @@ const RegisterUser = () => {
                               )}
                               className={
                                 formik.errors.emailAddress &&
-                                formik.touched.emailAddress
+                                  formik.touched.emailAddress
                                   ? "is-invalid"
                                   : "customInput"
                               }
@@ -310,7 +322,7 @@ const RegisterUser = () => {
                               )}
                             </label>
                             <Input
-                              defaultCountry="US"
+                              defaultCountry="GB"
                               international
                               placeholder={getLabelByKey(
                                 SCREEN_LABEL_KEYS.mobileFieldPlaceholder
@@ -355,19 +367,17 @@ const RegisterUser = () => {
                                 control="password"
                                 type="text"
                                 name="password"
-                                // label={getLabelByKey(
-                                //   SCREEN_LABEL_KEYS.passcodeFieldTitle
-                                // )}
-                                label="Passcode"
+                                label={getLabelByKey(
+                                  SCREEN_LABEL_KEYS.passcodeFieldTitle
+                                )}
                                 fontFamily={fontFamilyMedium}
                                 max={6}
-                                // placeholder={getLabelByKey(
-                                //   SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
-                                // )}
-                                placeholder="Enter 6 Digit Password"
+                                placeholder={getLabelByKey(
+                                  SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
+                                )}
                                 className={
                                   formik.errors.password &&
-                                  formik.touched.password
+                                    formik.touched.password
                                     ? "is-invalid"
                                     : "customPasswordInput"
                                 }
@@ -383,13 +393,12 @@ const RegisterUser = () => {
                                 label={getLabelByKey(
                                   SCREEN_LABEL_KEYS.confrimPasscodeFieldTitle
                                 )}
-                                // placeholder={getLabelByKey(
-                                //   SCREEN_LABEL_KEYS.confrimPasscodeFieldPlaceholder
-                                // )}
-                                placeholder="Enter Confirm 6 Digit Passcode"
+                                placeholder={getLabelByKey(
+                                  SCREEN_LABEL_KEYS.confrimPasscodeFieldPlaceholder
+                                )}
                                 className={
                                   formik.errors.confirmPassword &&
-                                  formik.touched.confirmPassword
+                                    formik.touched.confirmPassword
                                     ? "is-invalid"
                                     : "customPasswordInput"
                                 }
@@ -403,22 +412,18 @@ const RegisterUser = () => {
                               id="rememberMe"
                               name="rememberMe"
                             />
-                            <p className="mb-0 text-14 lh-base mt-1">
+                            <p className="remeberText mb-0 text-14 mt-1">
                               {getLabelByKey(SCREEN_LABEL_KEYS.rememberMe)}
                             </p>
                           </div>
-                          <TermsAndConditions
-                            terms={terms}
-                            setTerms={setTerms}
-                            showTermsError={showTermsError}
-                            screen="registerScreen"
-                          />
+
                           <div className="mt-20">
                             <CustomButton
                               bgcolor={lightBlue3}
+                              fontFamily={`${fontFamilyMedium}`}
                               textTransform="Captilize"
-                              color={pureDark}
-                              padding="12.7px 8px"
+                              color={pureDark2}
+                              padding="12.5px 8px"
                               width="100%"
                               type="submit"
                               title={getLabelByKey(
@@ -430,12 +435,18 @@ const RegisterUser = () => {
                             />
                           </div>
                           {/* to show login using google, facebook, apple, microsoft and discord. */}
-                          {/* <div className="d-flex or-line mt-4 align-items-center">
+                          <div className="d-flex or-line fs-6 mt-20 align-items-center">
                             <div className="line" />
-                            <p>{getLabelByKey(SCREEN_LABEL_KEYS.or)}</p>
+                            <p className="orText">{getLabelByKey(SCREEN_LABEL_KEYS.or)}</p>
                             <div className="line" />
-                          </div> */}
-                          {/* <OauthLogin usecase={OAUTH_USECASES.register} /> */}
+                          </div>
+                          <OauthLogin usecase={OAUTH_USECASES.register} />
+                          <TermsAndConditions
+                            terms={terms}
+                            setTerms={setTerms}
+                            showTermsError={showTermsError}
+                            screen="registerScreen"
+                          />
                         </div>
                       </Form>
                     );
@@ -443,12 +454,13 @@ const RegisterUser = () => {
                 </Formik>
               </div>
               <div className="signup-text mt-3">
-                <p>{getLabelByKey(SCREEN_LABEL_KEYS.login)}</p>
-                <h6 className="me-1 ms-1 mb-0">
-                  <Link to="/login">
-                    {getLabelByKey(SCREEN_LABEL_KEYS.loginAccount)}
-                  </Link>
-                </h6>
+                <p>{getLabelByKey(SCREEN_LABEL_KEYS.login)}
+                  <span className="me-1 ms-1 mb-0">
+                    <Link to="/login">
+                      {getLabelByKey(SCREEN_LABEL_KEYS.loginAccount)}
+                    </Link>
+                  </span>
+                </p>
               </div>
             </div>
           </div>

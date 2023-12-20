@@ -2,7 +2,6 @@ import styled from "styled-components";
 import {
   fontFamilyMedium,
   lightDark3,
-  pureDark,
   pureDark2,
   tertiaryGrey12,
   tertiaryGrey8,

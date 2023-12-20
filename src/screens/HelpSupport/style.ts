@@ -10,16 +10,12 @@ import {
   tertiaryGrey12,
   tertiaryGrey24,
   tertiaryGrey8,
-} from "../../../components/GlobalStyle";
+} from "../../components/GlobalStyle";
 
-const RegisterStyle = styled.div`
+const HelpSupportStyling = styled.div`
   background: ${tertiaryGrey8};
-  margin: 0 auto;
   overflow-y: auto;
-  margin-bottom: 20px;
-
- 
- 
+  
   .signup-text {
     display: flex;
     justify-content:center;
@@ -106,7 +102,6 @@ const RegisterStyle = styled.div`
       align-items: center;
       background-color: white;
       border-radius: 20px;
-      width: 100%;
       margin: auto;
       padding: 28px 23px 24px;
       &-form {
@@ -169,37 +164,6 @@ const RegisterStyle = styled.div`
   }
 
   
-  .customPasswordInput {
-    height: 52px;
-    font-size: 16px;
-    background: white;
-    padding: 15.5px;
-    width: 100%;
-    width: -moz-available;
-    outline: none;
-    line-height: normal;
-    border-radius: 8px;
-    font-family: ${fontFamilyRegular};
-    border: 1px solid ${tertiaryGrey24};
-    input{
-      font-style: normal;
-      font-family: ${fontFamilyRegular};
-      color: ${lightDark2};
-      font-weight: 400;
-      line-height: normal;
-      font-size: 16px;
-      &::placeholder{
-        font-style: normal;
-        font-family: ${fontFamilyRegular};
-        color: ${lightDark2};
-        font-weight: 400;
-        line-height: normal;
-        font-size: 16px;
-      }
-    }
-  }
-
-  
 
   input[type="email"]:hover {
     border-color: #40a9ff;
@@ -216,16 +180,6 @@ const RegisterStyle = styled.div`
   input[type="email"] + div, 
   .ant-input-affix-wrapper + div{
     text-align: right !important;
-  }
-
-  .orText{
-    font-family: ${fontFamilyMedium};
-    color: ${pureDark2};
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    margin-bottom: 0px;
   }
 
   @media screen and (max-width: 425px) {
@@ -247,19 +201,18 @@ const RegisterStyle = styled.div`
 
 `;
 
-export default RegisterStyle;
+export default HelpSupportStyling;
 
 export const CreatedUserModalStyle = styled.div`
   text-align: center;
   margin: 0 auto;
-  height: 93vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
   .inner-container {
-    max-width: 420px;
+    max-width: 485px;
     background: #ffffff;
     box-shadow: 0px 0px 16px #00000017;
     border-radius: 7px;

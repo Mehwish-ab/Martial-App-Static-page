@@ -1,13 +1,17 @@
 import { loginDataTypes } from "../redux/features/types";
 
 // base urls
-const liveBaseUrl = "https://fistastore.com:444/martialapp_apis/api/";
+const liveBaseUrl = "https://fistastore.com:444/martialapp_apis/";
 const testBaseUrl = "https://fistastore.com:444/martialapp_apis/";
-const liveMediaUrl = "https://ennvisionapistore.com:8443";
-const testMediaUrl = "https://ennvisionapistore.com:8443";
+const liveMediaUrl = "https://fistastore.com:444";
+const testMediaUrl = "https://fistastore.com:444";
 const domianLiveUrl = "https://maritalschool.innovatelq.com/";
 const domianTestUrl = "https://maritalschool.innovatelq.com/";
 
+// const liveMediaUrl = "https://ennvisionapistore.com:8443";
+// const testMediaUrl = "https://ennvisionapistore.com:8443";
+// const domianLiveUrl = "https://maritalschool.innovatelq.com/";
+// const domianTestUrl = "https://maritalschool.innovatelq.com/";
 const isLive = false;
 
 // base urls
@@ -117,9 +121,8 @@ export const reset_password_url = "user/resetPassword";
 // user authorized token
 export const authorizationToken = (loginData: loginDataTypes | string) => {
   return {
-    Authorization: `Bearer ${
-      typeof loginData === "string" ? loginData : loginData?.jwtDetails?.token
-    }`,
+    Authorization: `Bearer ${typeof loginData === "string" ? loginData : loginData?.jwtDetails?.token
+      }`,
   };
 };
 

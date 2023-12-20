@@ -35,6 +35,13 @@ import AddPaymentBranch from "../screens/Branches/AddPaymentBranch/AddPaymentBra
 import ProfileMembership from "../screens/Membership/ProfileMembership/ProfileMembership";
 import ListTransactionHistort from "../screens/TransactionHistory/ListTransactionHistory/ListTransactionHistory";
 import ListRules from "../screens/Rules/ListRules/ListRules";
+import MainSettingPage from "../screens/SettingsPage/MainSettingPage/MainSettingPage";
+import TabsSetting from "../screens/SettingsPage/SettingTabs/TabsSetting";
+import Terms from "../screens/Terms/terms";
+import Privacy from "../screens/Privacy/privacy";
+import HelpSupport from "../screens/HelpSupport/helpSupport";
+import Language from "../screens/LanguagePage/Language";
+import Currency from "../screens/CurrencyPage/Currency";
 // import { useDispatch, useSelector } from "react-redux";
 // import { RootState } from "../redux/store";
 
@@ -70,10 +77,13 @@ function AppRoutes() {
         <Route path="/register" element={<CreateUser />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/register/verify-otp" element={<Otp />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privay" element={<Privacy />} />
         <Route
           path="/register/create-new-password"
           element={<CreatePassword />}
         />
+
 
         <Route
           path={"/"}
@@ -363,6 +373,48 @@ function AppRoutes() {
             </AppLayout>
           }
         />
+
+        <Route
+          path="/settings"
+          element={
+            <AppLayout>
+              <MainSettingPage />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/settings/tabs"
+          element={
+            <AppLayout>
+              <TabsSetting />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/help-support"
+          element={
+            <AppLayout>
+              <HelpSupport />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/language"
+          element={
+            <AppLayout>
+              <Language />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/currency"
+          element={
+            <AppLayout>
+              <Currency />
+            </AppLayout>
+          }
+        />
+
 
         {/* error page */}
         <Route path="*" element={<ErrorPage404 />} />

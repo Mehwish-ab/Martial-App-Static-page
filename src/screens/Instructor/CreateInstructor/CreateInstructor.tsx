@@ -202,6 +202,8 @@ const CreateInstructor = () => {
                           name="latestCertification"
                           fontFamily={fontFamilyRegular}
                           label="Latest Certification"
+                          src={FileSubmit}
+                          onChange={handleChange}
                           suffix={
                             <ImagesUpload onImagesSelect={handleImagesUpload} />
                             // <img

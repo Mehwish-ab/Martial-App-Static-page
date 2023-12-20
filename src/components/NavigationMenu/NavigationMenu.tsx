@@ -19,9 +19,11 @@ const menuLinks: any = {
   rules: "/rules/list",
   transactionsHistory: "/transaction-history/list",
   classes: "/class/list",
+  helpAndSupport: "/help-support",
   booking: "",
+  language: "/language",
   qrCode: "/qr-code",
-  setting: "",
+  setting: "/settings",
 };
 
 const menuLinksKeys: any = {

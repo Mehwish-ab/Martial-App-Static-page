@@ -1,22 +1,8 @@
 import styled from "styled-components";
 import {
-  fontFamilyBold,
-  fontFamilyMedium,
-  lightDark2,
-  mediaDeviceMax,
-  pureDark2,
-  tertiaryGrey24,
-  darkGery,
-  darkBlue,
-  lightDark3,
-  Diamond,
-  whiteColor,
-  tertiaryGrey10,
-  Apple,
   pureDark,
   fontFamilyRegular,
-  GrayX11,
-  AlizarinCrimson
+
 } from "../../../components/GlobalStyle";
 
 export const MessageModalStyled = styled.div`

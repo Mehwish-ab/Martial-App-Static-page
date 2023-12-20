@@ -18,7 +18,6 @@ import { auth_token_key, base_url, login_url } from "../../utils/api_urls";
 import axios from "axios";
 import { validationFinder } from "../../utils/utilities";
 import { toast } from "react-toastify";
-
 import useScreenTranslation from "../../hooks/useScreenTranslation";
 import { SCREEN_LABEL_KEYS } from "./constants";
 import OauthLogin from "../../components/Common/OauthLogin/OauthLogin";
@@ -118,7 +117,7 @@ const Login = () => {
 
   return (
     <>
-      <Head title="login" />
+      <Head title="Login" />
       <LoginStyle>
         <div className="login-container overflow-auto">
           <div className="login-container-card">
@@ -170,15 +169,13 @@ const Login = () => {
                               type="text"
                               name="password"
                               color={pureDark2}
-                              // label={getLabelByKey(
-                              //   SCREEN_LABEL_KEYS.passcodeFieldTitle
-                              // )}
-                              label="Passcode"
+                              label={getLabelByKey(
+                                SCREEN_LABEL_KEYS.passcodeFieldTitle
+                              )}
                               padding="10px"
-                              // placeholder={getLabelByKey(
-                              //   SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
-                              // )}
-                              placeholder="Enter Passcode"
+                              placeholder={getLabelByKey(
+                                SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
+                              )}
                               suffix={show_password_icon}
                               className={
                                 formik.errors.password &&
@@ -252,17 +249,15 @@ const Login = () => {
               />
               <div className="signup-text mt-20">
                 <p className="mb-0 text-center ">
-                  {/* {getLabelByKey(SCREEN_LABEL_KEYS.register)} */}
-                  If you have an account we'll log you in. If not
+                  {getLabelByKey(SCREEN_LABEL_KEYS.register)}
                   <span
                     className={`${selectedLanguage === "ar" || selectedLanguage === "ur"
                       ? "me-1"
                       : "ms-1"
                       } mt-2`}
                   >
-                    <Link to="/register" className="underline">
-                      {/* {getLabelByKey(SCREEN_LABEL_KEYS.registerAccount)} */}
-                      Register.
+                    <Link to="/register" className="">
+                      {getLabelByKey(SCREEN_LABEL_KEYS.registerAccount)}
                     </Link>
                   </span>
                 </p>

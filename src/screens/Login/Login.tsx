@@ -158,7 +158,6 @@ const Login = () => {
                                   formik.touched.emailAddress
                                   ? "is-invalid is-invalidEmail"
                                   : "customInput"
-
                               }
                               textalign="end"
                             />
@@ -182,7 +181,6 @@ const Login = () => {
                                   formik.touched.password
                                   ? "is-invalid loginInvalidPassword"
                                   : "customPasswordInput loginPassword"
-
                               }
                               textalign="end"
                             />

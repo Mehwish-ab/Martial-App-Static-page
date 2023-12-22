@@ -54,9 +54,9 @@ const EditSchool = () => {
     businessName: Yup.string()
       .required(businessName.notBlankMsgEn)
       .matches(businessNameReg, businessName.patternMsgEn),
-    address: Yup.string()
-      .required(address.notBlankMsgEn)
-      .matches(addressReg, address.patternMsgEn),
+    // address: Yup.string()
+    //   .required(address.notBlankMsgEn)
+    //   .matches(addressReg, address.patternMsgEn),
     businessType: Yup.string().required("Please select business type"),
     businessPhoneNumber: Yup.string().required(
       businessPhoneNumber.notBlankMsgEn
@@ -159,7 +159,7 @@ const EditSchool = () => {
                       placeholder={getLabelByKey("businessNamePlaceholder")}
                       className={
                         formik.errors.businessName &&
-                        formik.touched.businessName
+                          formik.touched.businessName
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -175,7 +175,7 @@ const EditSchool = () => {
                       placeholder={getLabelByKey("businessTypePlaceholder")}
                       className={
                         formik.errors.businessType &&
-                        formik.touched.businessType
+                          formik.touched.businessType
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -183,8 +183,8 @@ const EditSchool = () => {
                       defaultValue={
                         schoolId
                           ? createOptions(businessTypes).find(
-                              (item) => item.value === schoolData.businessType
-                            )?.label
+                            (item) => item.value === schoolData.businessType
+                          )?.label
                           : undefined
                       }
                     />
@@ -255,8 +255,8 @@ const EditSchool = () => {
                       defaultValue={
                         schoolId
                           ? BELTS_SELECT_OPTIONS.find(
-                              (item) => item.value === initialValuesForEdit.rank
-                            )?.label
+                            (item) => item.value === initialValuesForEdit.rank
+                          )?.label
                           : undefined
                       }
                     />
@@ -289,7 +289,7 @@ const EditSchool = () => {
                       placeholder={getLabelByKey("defaultLanguage")}
                       className={
                         formik.errors.defaultLanguage &&
-                        formik.touched.defaultLanguage
+                          formik.touched.defaultLanguage
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -297,9 +297,9 @@ const EditSchool = () => {
                       defaultValue={
                         schoolId
                           ? createOptions(language).find(
-                              (item) =>
-                                item.value === schoolData.defaultLanguageId
-                            )?.label
+                            (item) =>
+                              item.value === schoolData.defaultLanguageId
+                          )?.label
                           : undefined
                       }
                     />
@@ -315,7 +315,7 @@ const EditSchool = () => {
                       placeholder={getLabelByKey("defaultCurrency")}
                       className={
                         formik.errors.defaultCurrency &&
-                        formik.touched.defaultCurrency
+                          formik.touched.defaultCurrency
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -323,9 +323,9 @@ const EditSchool = () => {
                       defaultValue={
                         schoolId
                           ? createOptions(currency).find(
-                              (item) =>
-                                item.value === schoolData.defaultCurrencyId
-                            )?.value
+                            (item) =>
+                              item.value === schoolData.defaultCurrencyId
+                          )?.value
                           : undefined
                       }
                     />

@@ -127,9 +127,9 @@ const EditFranchise = () => {
     branchName: Yup.string()
       .required(franchiseName?.notBlankMsgEn)
       .matches(franchiseNameReg, franchiseName?.patternMsgEn),
-    address: Yup.string()
-      .required(address.notBlankMsgEn)
-      .matches(addressReg, address?.patternMsgEn),
+    // address: Yup.string()
+    //   .required(address.notBlankMsgEn)
+    //   .matches(addressReg, address?.patternMsgEn),
     branchType: Yup.string().required("Please select franchise type"),
     branchPhoneNumber: Yup.string().required(
       franchisePhoneNumber?.notBlankMsgEn
@@ -221,7 +221,7 @@ const EditFranchise = () => {
                       placeholder={getLabelByKey("franchiseName")}
                       className={
                         formik.errors.franchiseName &&
-                        formik.touched.franchiseName
+                          formik.touched.franchiseName
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -238,7 +238,7 @@ const EditFranchise = () => {
                       placeholder={getLabelByKey("franchiseType")}
                       className={
                         formik.errors.franchiseType &&
-                        formik.touched.franchiseType
+                          formik.touched.franchiseType
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -246,9 +246,9 @@ const EditFranchise = () => {
                       defaultValue={
                         franchiseId
                           ? createOptions(businessTypes).find(
-                              (item) =>
-                                item.value === initialValues.franchiseType
-                            )?.label
+                            (item) =>
+                              item.value === initialValues.franchiseType
+                          )?.label
                           : undefined
                       }
                     />
@@ -308,8 +308,8 @@ const EditFranchise = () => {
                           defaultValue={
                             franchiseId
                               ? BELTS_SELECT_OPTIONS.find(
-                                  (item) => item.value === initialValues.rank
-                                )?.label
+                                (item) => item.value === initialValues.rank
+                              )?.label
                               : undefined
                           }
                         />
@@ -324,7 +324,7 @@ const EditFranchise = () => {
                           placeholder={getLabelByKey("defaultLanguage")}
                           className={
                             formik?.errors?.defaultLanguage &&
-                            formik?.touched?.defaultLanguage
+                              formik?.touched?.defaultLanguage
                               ? "is-invalid"
                               : "customInput"
                           }
@@ -341,7 +341,7 @@ const EditFranchise = () => {
                           placeholder={getLabelByKey("defaultCurrency")}
                           className={
                             formik.errors.defaultCurrency &&
-                            formik.touched.defaultCurrency
+                              formik.touched.defaultCurrency
                               ? "is-invalid"
                               : "customInput"
                           }

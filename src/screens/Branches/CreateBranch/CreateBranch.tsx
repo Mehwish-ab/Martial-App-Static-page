@@ -77,9 +77,9 @@ const CreateBranch = () => {
     branchName: Yup.string()
       .required(branchName.notBlankMsgEn)
       .matches(branchNameReg, branchName.patternMsgEn),
-    address: Yup.string()
-      .required(address.notBlankMsgEn)
-      .matches(addressReg, address.patternMsgEn),
+    // address: Yup.string()
+    //   .required(address.notBlankMsgEn)
+    //   .matches(addressReg, address.patternMsgEn),
     branchType: Yup.string().required("Please select branch type"),
     branchPhoneNumber: Yup.string().required(branchPhoneNumber.notBlankMsgEn),
     defaultLanguage: Yup.string().required("Please select default language"),

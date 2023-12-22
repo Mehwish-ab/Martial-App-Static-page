@@ -1,4 +1,5 @@
 export interface CreateInstructorInitialValues {
+  // instructorTitle: string;
   instructorName: string;
   emailAddress: string;
   instructorPhoneNumber: string;
@@ -10,7 +11,7 @@ export interface CreateInstructorInitialValues {
   selectedActivities: string[];
   selectedFacilities: string[];
   termCondition: string;
-  rankId:string| number
+  rankId: string | number
   // ranks: string;
   // stripePublishableKey: string;
   // stripeSecretKey: string;

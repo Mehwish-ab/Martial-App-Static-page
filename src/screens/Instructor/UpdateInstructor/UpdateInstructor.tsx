@@ -25,7 +25,7 @@ import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelec
 import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
 
 const CreateInstructor = () => {
-  const { getLabelByKey } = useScreenTranslation("instructorCreate");
+  const { getLabelByKey } = useScreenTranslation("instructorUpdate");
   const {
     statusData: { activities, facilities },
   } = useSelector((state: RootState) => state.appData.data);
@@ -60,9 +60,9 @@ const CreateInstructor = () => {
     franchiseName: Yup.string()
       .required(franchiseName.notBlankMsgEn)
       .matches(franchiseNameReg, franchiseName.patternMsgEn),
-    address: Yup.string()
-      .required(address.notBlankMsgEn)
-      .matches(addressReg, address.patternMsgEn),
+    // address: Yup.string()
+    //   .required(address.notBlankMsgEn)
+    //   .matches(addressReg, address.patternMsgEn),
     emailAddress: Yup.string()
       .required(emailAddress.notBlankMsgEn)
       .matches(emailAddressReg, emailAddress.patternMsgEn),
@@ -99,7 +99,7 @@ const CreateInstructor = () => {
               autoComplete="off"
             >
               <div className="bg-white form">
-                <h3 style={{ color: pureDark2 }}>Instructor Information</h3>
+                <h3 style={{ color: pureDark2 }}>{getLabelByKey("title")}</h3>
                 <Row>
                   <Col md="4" className="mt-20">
                     <FormControl

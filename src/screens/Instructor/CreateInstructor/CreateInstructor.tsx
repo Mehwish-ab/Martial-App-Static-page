@@ -63,9 +63,9 @@ const CreateInstructor = () => {
     in: Yup.string()
       .required(instructorName.notBlankMsgEn)
       .matches(franchiseNameReg, instructorName.patternMsgEn),
-    address: Yup.string()
-      .required(address.notBlankMsgEn)
-      .matches(addressReg, address.patternMsgEn),
+    // address: Yup.string()
+    //   .required(address.notBlankMsgEn)
+    //   .matches(addressReg, address.patternMsgEn),
     emailAddress: Yup.string()
       .required(emailAddress.notBlankMsgEn)
       .matches(emailAddressReg, emailAddress.patternMsgEn),
@@ -97,7 +97,7 @@ const CreateInstructor = () => {
     <CreateSchoolStyled>
       <Formik
         initialValues={initialValues}
-        // validationSchema={validationSchema}
+        validationSchema={validationSchema}
         onSubmit={handleonSubmit}
       >
         {(formik) => {
@@ -108,7 +108,7 @@ const CreateInstructor = () => {
               autoComplete="off"
             >
               <div className="bg-white form">
-                <h3>Instructor Information</h3>
+                <h3>{getLabelByKey("title")}</h3>
                 <Row>
                   <Col md="4" className="mt-20">
                     <FormControl
@@ -203,7 +203,7 @@ const CreateInstructor = () => {
                           fontFamily={fontFamilyRegular}
                           label="Latest Certification"
                           src={FileSubmit}
-                          onChange={handleChange}
+                          // onChange={handleChange}
                           suffix={
                             <ImagesUpload onImagesSelect={handleImagesUpload} />
                             // <img

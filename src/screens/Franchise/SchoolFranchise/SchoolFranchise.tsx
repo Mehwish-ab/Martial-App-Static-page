@@ -33,20 +33,20 @@ const SchoolFranchise = () => {
 
   const { loading, handleSubmit } = useBranch();
 
-//   const initialValues: CreateInstructorInitialValues = {
-//     instructorName: "",
-//     emailAddress: "",
-//     instructorPhoneNumber: "",
-//     address: "",
-//     yearsOfExperience: "",
-//     ranking: "",
-//     latestCertification: "",
-//     description: "",
-//     selectedActivities: [],
-//     selectedFacilities: [],
-//     termCondition: "",
-//     ranks: ""
-//   };
+  //   const initialValues: CreateInstructorInitialValues = {
+  //     instructorName: "",
+  //     emailAddress: "",
+  //     instructorPhoneNumber: "",
+  //     address: "",
+  //     yearsOfExperience: "",
+  //     ranking: "",
+  //     latestCertification: "",
+  //     description: "",
+  //     selectedActivities: [],
+  //     selectedFacilities: [],
+  //     termCondition: "",
+  //     ranks: ""
+  //   };
 
   const franchiseName = validationFinder("BUSINESS_NAME")!;
   const franchiseNameReg = new RegExp(franchiseName.pattern);
@@ -63,9 +63,9 @@ const SchoolFranchise = () => {
     franchiseName: Yup.string()
       .required(franchiseName.notBlankMsgEn)
       .matches(franchiseNameReg, franchiseName.patternMsgEn),
-    address: Yup.string()
-      .required(address.notBlankMsgEn)
-      .matches(addressReg, address.patternMsgEn),
+    // address: Yup.string()
+    //   .required(address.notBlankMsgEn)
+    //   .matches(addressReg, address.patternMsgEn),
     emailAddress: Yup.string()
       .required(emailAddress.notBlankMsgEn)
       .matches(emailAddressReg, emailAddress.patternMsgEn),
@@ -89,8 +89,8 @@ const SchoolFranchise = () => {
 
   return (
     <>
-    <CardView />
-  </>
+      <CardView />
+    </>
   );
 };
 

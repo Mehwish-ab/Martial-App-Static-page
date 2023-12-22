@@ -108,9 +108,9 @@ const EditBranch = () => {
     branchName: Yup.string()
       .required(branchName.notBlankMsgEn)
       .matches(branchNameReg, branchName.patternMsgEn),
-    address: Yup.string()
-      .required(address.notBlankMsgEn)
-      .matches(addressReg, address.patternMsgEn),
+    // address: Yup.string()
+    //   .required(address.notBlankMsgEn)
+    //   .matches(addressReg, address.patternMsgEn),
     branchType: Yup.string().required("Please select branch type"),
     branchPhoneNumber: Yup.string().required(branchPhoneNumber.notBlankMsgEn),
     defaultLanguage: Yup.string().required("Please select default language"),
@@ -223,8 +223,8 @@ const EditBranch = () => {
                       defaultValue={
                         branchId
                           ? createOptions(businessTypes).find(
-                              (item) => item.value === initialValues.branchType
-                            )?.value
+                            (item) => item.value === initialValues.branchType
+                          )?.value
                           : undefined
                       }
                     />
@@ -298,8 +298,8 @@ const EditBranch = () => {
                             // formik.values.rank === 1 ? "Yes" : "No"
                             formik.values
                               ? BELTS_SELECT_OPTIONS.find(
-                                  (item) => item.value === formik.values.rank
-                                )?.label
+                                (item) => item.value === formik.values.rank
+                              )?.label
                               : undefined
                           }
                         />
@@ -315,7 +315,7 @@ const EditBranch = () => {
                           placeholder={getLabelByKey("defaultLanguage")}
                           className={
                             formik.errors.defaultLanguage &&
-                            formik.touched.defaultLanguage
+                              formik.touched.defaultLanguage
                               ? "is-invalid"
                               : "customInput"
                           }
@@ -333,7 +333,7 @@ const EditBranch = () => {
                           placeholder={getLabelByKey("defaultCurrency")}
                           className={
                             formik.errors.defaultCurrency &&
-                            formik.touched.defaultCurrency
+                              formik.touched.defaultCurrency
                               ? "is-invalid"
                               : "customInput"
                           }

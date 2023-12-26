@@ -5,7 +5,7 @@ import CustomButton from "../../components/CustomButton/CustomButton";
 import {
   fontFamilyMedium,
   lightBlue3,
-  pureDark,
+  pureDark2,
 } from "../../components/GlobalStyle";
 import ForgetPasswordStyle from "./style";
 import Head from "../../components/Head/Head";
@@ -19,18 +19,24 @@ import { FORGOT_SCREEN_LABEL_KEYS } from "./constants";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import CloseBtn from "../../assets/icons/ic_back.svg"
+import { useNavigate } from "react-router-dom";
 
 // initial values types
 export type forgetPasswordInitialTypes = {
   phoneNumber: string;
 };
 
+
 const ForgetPassword = () => {
   const { loading, handleSubmit, error } = useGenerateOtp();
   const { getLabelByKey } = useScreenTranslation("forgotPassword");
+  const navigate = useNavigate();
+
   const { selectedLanguage } = useSelector(
     (state: RootState) => state.selectedLanguage
   );
+
   // initialValues
   const initialValues: forgetPasswordInitialTypes = {
     phoneNumber: "",
@@ -87,11 +93,13 @@ const ForgetPassword = () => {
       <ForgetPasswordStyle>
         <div className="forget-password-container overflow-auto">
           <div className="forget-password-container-card">
-            <div className="forget-password-container-card-inner">
+            <div className="forget-password-container-card-inner position-relative ">
+              <img src={CloseBtn} alt="" className="closeButtonIcon" onClick={() => navigate("/login")} />
+
               <h6 className="title text-center">
                 {getLabelByKey(FORGOT_SCREEN_LABEL_KEYS.title)}
               </h6>
-              <p className="text-center forget-password-text mt-20">
+              <p className="text-center forget-password-text mt-10">
                 {getLabelByKey(FORGOT_SCREEN_LABEL_KEYS.subtitle)}
               </p>
               <div className="forget-password-container-card-form w-100">
@@ -107,9 +115,8 @@ const ForgetPassword = () => {
                         onFinish={formik.handleSubmit}
                         autoComplete="off"
                       >
-                        <div className="input-fields w-100 mt-20">
+                        <div className="phone-input-fields mt-10 w-100">
                           <label
-                            className="custom-phone-input-label"
                             htmlFor="phoneNumber"
                           >
                             {getLabelByKey(
@@ -117,11 +124,17 @@ const ForgetPassword = () => {
                             )}
                           </label>
                           <Input
-                            defaultCountry="US"
+                            defaultCountry="GB"
                             international
                             placeholder={getLabelByKey(
                               FORGOT_SCREEN_LABEL_KEYS.mobileFieldPlaceholder
                             )}
+                            className={
+                              formik.errors.phoneNumber &&
+                                formik.touched.phoneNumber
+                                ? "is-invalid_phone"
+                                : "custom-phone-input-label"
+                            }
                             name="phoneNumber"
                             value={formik.values.phoneNumber}
                             onChange={(e: any) => {
@@ -130,24 +143,7 @@ const ForgetPassword = () => {
                             withCountryCallingCode
                             countryCallingCodeEditable
                           />
-                          {/* <CustomPhoneInput
-                            countryNumber={countryCode}
-                            placeholder={getLabelByKey(
-                              FORGOT_SCREEN_LABEL_KEYS.mobileFieldPlaceholder
-                            )}
-                            phoneLength={phoneNumberLength}
-                            countryFlag={countryFlagURL}
-                            phoneValueHandler={(value: number | string) =>
-                              formik.setFieldValue("phoneNumber", value)
-                            }
-                            label={getLabelByKey(
-                              FORGOT_SCREEN_LABEL_KEYS.mobileFieldTitle
-                            )}
-                            value={formik.values.phoneNumber}
-                            name="phoneNumber"
-                            countryName={name}
-                          /> */}
-                          <div className="mt-3">
+                          <div className="mt-1">
                             <ErrorMessage
                               name="phoneNumber"
                               component={Errormsg}
@@ -158,8 +154,8 @@ const ForgetPassword = () => {
                             <CustomButton
                               bgcolor={lightBlue3}
                               textTransform="Captilize"
-                              color={pureDark}
-                              padding="8px"
+                              color={pureDark2}
+                              padding="14px"
                               fontFamily={`${fontFamilyMedium}`}
                               width="100%"
                               type="submit"

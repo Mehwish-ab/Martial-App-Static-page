@@ -13,7 +13,7 @@ const CustomSelects = (props: any) => {
     label,
     options,
     bgColor,
-    border = "1px solid #d9d9d9",
+    border = "1px solid #E0E0E0",
     fontFamily = "EnnVisions",
     labelFamily = "EnnVisionsMedium",
     labelMarginBottom = "10px",

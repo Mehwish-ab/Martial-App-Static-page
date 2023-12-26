@@ -1,21 +1,22 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 
-const ImagesUpload: React.FC = () => {
+const ImagesUpload: React.FC<{
+  onImagesSelect: (files: FileList | null) => void;
+}> = ({ onImagesSelect }) => {
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
-  const [imagePreviews, setImagePreviews] = useState<Array<string>>([]);
+  const [fileNames, setFileNames] = useState<string[]>([]);
 
   const selectImages = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let images: Array<string> = [];
-    let files = event.target.files;
+    const files = event.target.files;
 
     if (files) {
-      for (let i = 0; i < files.length; i++) {
-        images.push(URL.createObjectURL(files[i]));
-      }
+      const filenames = Array.from(files).map((file) => file.name);
+
       setSelectedFiles(files);
-      setImagePreviews(images);
+      setFileNames(filenames);
+      onImagesSelect(files); // Call the callback here
     }
   };
 
@@ -23,13 +24,12 @@ const ImagesUpload: React.FC = () => {
     0: { items: 1 },
   };
 
-  const items = imagePreviews
-    ? imagePreviews.map((img, i) => {
-        return <img className="preview" src={img} alt={"image-" + i} key={i} />;
-      })
-    : [];
+  const items = fileNames.map((fileName, i) => (
+    <div className="file-name" key={i}>
+      {fileName}
+    </div>
+  ));
 
-  console.log({ selectedFiles });
   return (
     <>
       <input
@@ -43,6 +43,7 @@ const ImagesUpload: React.FC = () => {
         items={items}
         responsive={responsive}
         disableDotsControls
+        disableButtonsControls // Remove arrow controls
         controlsStrategy="alternate"
       />
     </>

@@ -1,29 +1,43 @@
 import styled from "styled-components";
 import {
+  AntiFlashWhite,
+  BallBlue,
   darkBlue,
   darkGery,
   fontFamilyBold,
   fontFamilyMedium,
+  fontFamilyRegular,
+  pureDark2,
+  whiteColor,
   // mainColor,
 } from "../../../components/GlobalStyle";
 
 export const ListInstructorStyled = styled.div`
   background-color: #fff;
   padding: 16px;
-  border-radius: 20px;
+  border-radius: 10px;
+  p{
+    margin-bottom: 0px;
+  }
 
   .table-heading {
-    font-size: 23px !important;
-    font-family: ${fontFamilyBold} !important;
-    color: ${darkBlue};
+    font-size: 18px;
+    font-family: ${fontFamilyMedium};
+    color: ${pureDark2};
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
   }
   .ant-table-thead > tr > th {
     background: transparent !important;
     border-bottom: none !important;
-    color: ${darkBlue};
+    color: ${pureDark2};
     font-family: ${fontFamilyMedium};
-    font-size: 16px !important;
-
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+    padding: 4px;
     &::before {
       display: none !important;
     }
@@ -31,29 +45,46 @@ export const ListInstructorStyled = styled.div`
 
   .ant-table-tbody > tr > .ant-table-cell,
   .ant-table-tbody > tr > .ant-table-cell a {
-    font-family: ${fontFamilyMedium};
-    font-size: 14px !important;
-    color: ${darkGery}!important;
+    font-family: ${fontFamilyRegular};
+    font-size: 14px;
+    color: ${darkGery};
+    font-style: normal;
+    font-weight: 400;
+    line-height: 23px; 
+    padding: 4px;
+    p {
+      margin-bottom: 0px;
+    }
   }
   .ant-table-thead > tr > th{
     color: ${darkGery};
   }
-  .ant-table-thead > tr > th:first-child, .ant-table-tbody > tr > td:first-child, 
-  .ant-table-thead > tr > th:nth-child(2), .ant-table-tbody > tr > td:nth-child(2),
-  .ant-table-thead > tr > th:nth-child(5), .ant-table-tbody > tr > td:nth-child(5),
+  .ant-table-thead > tr > th:first-child, .ant-table-tbody > tr > td:first-child{
+    width: 4%;
+    text-align: center;
+  }
+  .ant-table-thead > tr > th:nth-child(2), .ant-table-tbody > tr > td:nth-child(2){
+    width: 6%;
+  }
+  .ant-table-thead > tr > th:nth-child(3), .ant-table-thead > tr > td:nth-child(3){
+    width: 15%;
+  }
   .ant-table-thead > tr > th:nth-child(6), .ant-table-tbody > tr > td:nth-child(6){
     width: 5%;
   }
-  .ant-table-thead > tr > th:nth-child(5), .ant-table-tbody > tr > td:nth-child(5),
-  .ant-table-thead > tr > th:nth-child(6), .ant-table-tbody > tr > td:nth-child(6){
+  .ant-table-thead > tr > th:nth-child(5), .ant-table-tbody > tr > td:nth-child(5){
     width: 12%;
   }
-  .ant-table-thead > tr > th:nth-child(3), .ant-table-thead > tr > td:nth-child(3),
+  .ant-table-thead > tr > th:nth-child(6), .ant-table-tbody > tr > td:nth-child(6){
+    width: 12%;
+    padding-left: 30px;
+  }
+
   .ant-table-thead > tr > th:nth-child(7), .ant-table-tbody > tr > td:nth-child(7){
     width: 13%;
   }
   .ant-table-thead > tr > th:nth-child(4), .ant-table-tbody > tr > td:nth-child(4){
-    width: 25%;
+    width: 23%;
   }
   .ant-table-thead > tr > th:nth-child(8), .ant-table-tbody > tr > td:nth-child(8){
     width: 10%;
@@ -62,19 +93,10 @@ export const ListInstructorStyled = styled.div`
   .ant-table-tbody > tr > td:nth-child(2), .ant-table-tbody > tr > th:nth-child(3), .ant-table-tbody > tr > td:nth-child(3){
     text-align: left;
   }
-  .ant-table-tbody > tr > td:nth-child(4){
-    color: #000 !important;
-    font-size: 14px !important;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    margin-bottom: 0 !important;
-    position: relative;
-    top: 5px;
-  }
-  .ant-table-tbody > tr > td:nth-child(8),
+
   .ant-table-tbody > tr > td:nth-child(8) div{
     position: relative;
+    width: 116px;
   }
   .ant-table-tbody > tr > td:nth-child(8) button{
     font-style: normal;
@@ -96,6 +118,10 @@ export const ListInstructorStyled = styled.div`
     right: 17px;
     top: -5px;
   }
+  .ant-table-thead > tr > th:nth-child(9), 
+.ant-table-tbody > tr > td:nth-child(9){
+  text-align: center;
+}
   .ant-table-tbody > tr:nth-child(odd) td{
     background-color: #FAFAFA;
   }
@@ -104,7 +130,84 @@ export const ListInstructorStyled = styled.div`
   }
 
 
-  .table-heading{
-    color: ${darkGery};
+
+  // pagination
+  .ant-pagination{
+    margin-top: 45px;
   }
+  .ant-pagination li:first-child{
+    position: absolute;
+    left: 0;
+  }
+  .ant-pagination .ant-pagination-options{
+    display: none !important;
+    opacity: 0;
+    visibility: hidden;
+    visibility: hidden;
+    z-index: -1;
+  }
+  .ant-pagination-prev .ant-pagination-item-link span, .ant-pagination-next .ant-pagination-item-link span{
+    position: relative;
+  }
+  .ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link  {
+    border: none
+  }
+  .ant-pagination-prev .ant-pagination-item-link span:before{
+    content: 'prev';
+    font-family: ${fontFamilyMedium};
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    display: block;
+  }
+  .ant-pagination-next .ant-pagination-item-link span:before{
+    content: 'next';
+    font-family: ${fontFamilyMedium};
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    display: block;
+  }
+  .ant-pagination-prev  .ant-pagination-item-link span svg, .ant-pagination-next  .ant-pagination-item-link span svg{ 
+    display: none;
+  }
+  .ant-pagination-item {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px;
+    border: 1px solid ${AntiFlashWhite};
+  }
+  .ant-pagination-item a {
+    border-radius: 8px;
+    background: ${whiteColor};
+    line-height: normal;
+    padding: 7px 0px 8px 0px;
+  }
+  .ant-pagination-item-active a{
+    border-radius: 8px;
+    background: ${BallBlue};
+    color: ${whiteColor};
+    line-height: normal;
+    padding: 7px 0px 8px 0px;
+  }
+  .ant-pagination-total-text{
+    color: #333;
+    font-family: ${fontFamilyMedium};
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    display: inline-block;
+    > span > span{
+      width: 47px;
+      padding: 7px 31px 8px 9px;
+      border-radius: 8px;
+      border: 1px solid #F1F1F1;
+      display: inline-block;
+      margin: 0px 10px;
+    }
+  }
+
 `;

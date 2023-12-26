@@ -1,24 +1,33 @@
 import styled from "styled-components";
-import { darkBlue, mediaDeviceMax } from "../../components/GlobalStyle";
+import { mediaDeviceMax, pureDark2, maastrichtBlue, lightDark2, fontFamilyMedium, fontFamilyRegular } from "../../components/GlobalStyle";
 
 export const CreateSchoolStyled = styled.div`
-  h3 {
-    color: ${darkBlue};
-    font-size: 18px;
+margin-bottom: 20px;
+h3 {
+  font-weight: 500;
+  font-size: 18px;
+  font-family: ${fontFamilyMedium};
+  color: ${pureDark2};
+  margin-bottom: 2px;
+}
+.form {
+  padding: 20px;
+  border-radius: 20px;
   }
-
-  .mt-20 {
-    .row {
-      @media screen and ${mediaDeviceMax.tablet} {
-        gap: 20px;
-      }
+.mt-20 {
+  .row {
+    @media screen and ${mediaDeviceMax.tablet} {
+      gap: 20px;
     }
   }
-  .form {
-    padding: 16px;
-    // border-bottom-left-radius: 20px;
-    // border-bottom-right-radius: 20px;
-    border-radius: 20px;
+}
+  .checkBoxPara {
+    margin-bottom: 0;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    font-family: ${fontFamilyRegular};
   }
 
   .payment_card {
@@ -28,23 +37,50 @@ export const CreateSchoolStyled = styled.div`
   }
 
   .ant-form label {
-    font-size: 16px !important;
-    font-family: EnnVisionsMedium, sans-serif;
-
     @media screen and (${mediaDeviceMax.laptop}) {
       font-size: 14px !important;
     }
   }
 
   .ant-input {
-    padding: 14px !important;
+    input::placeholder{
+      color: ${lightDark2} !important;
+    }
 
     @media screen and (${mediaDeviceMax.laptop}) {
       padding: 10px !important;
     }
   }
-  .PhoneInput,
-  .PhoneInputInput {
-    height: 53px !important;
+  
+  .ant-btn{
+    color: ${maastrichtBlue};
   }
+
+  .ant-input-affix-wrapper{
+    height: 50px;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-radius: 10px;
+    input{
+      height: 48px;
+      background-color: transparent;
+    }
+  }
+  .ant-input-affix-wrapper{
+    .uploadICon{
+      position: absolute;
+      right: 14px;
+      
+    }
+    input[type="file"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+  }
+
+
+
 `;

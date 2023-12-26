@@ -1,14 +1,17 @@
 import { loginDataTypes } from "../redux/features/types";
 
 // base urls
-const liveBaseUrl =
-  "https://www.ennvisionapistore.com:8443/martialapp_apis/api/";
-const testBaseUrl = "https://www.ennvisionapistore.com:8443/martialapp_apis/";
-const liveMediaUrl = "https://ennvisionapistore.com:8443";
-const testMediaUrl = "https://ennvisionapistore.com:8443";
+const liveBaseUrl = "https://fistastore.com:444/martialapp_apis/";
+const testBaseUrl = "https://fistastore.com:444/martialapp_apis/";
+const liveMediaUrl = "https://fistastore.com:444";
+const testMediaUrl = "https://fistastore.com:444";
 const domianLiveUrl = "https://maritalschool.innovatelq.com/";
 const domianTestUrl = "https://maritalschool.innovatelq.com/";
 
+// const liveMediaUrl = "https://ennvisionapistore.com:8443";
+// const testMediaUrl = "https://ennvisionapistore.com:8443";
+// const domianLiveUrl = "https://maritalschool.innovatelq.com/";
+// const domianTestUrl = "https://maritalschool.innovatelq.com/";
 const isLive = false;
 
 // base urls
@@ -118,9 +121,8 @@ export const reset_password_url = "user/resetPassword";
 // user authorized token
 export const authorizationToken = (loginData: loginDataTypes | string) => {
   return {
-    Authorization: `Bearer ${
-      typeof loginData === "string" ? loginData : loginData?.jwtDetails?.token
-    }`,
+    Authorization: `Bearer ${typeof loginData === "string" ? loginData : loginData?.jwtDetails?.token
+      }`,
   };
 };
 
@@ -140,6 +142,9 @@ export const get_school_by_user_id_url = "school/getById";
 export const create_branch_url = "branch/create";
 export const edit_branch_url = "branch/edit";
 export const get_branch_by_school_id_url = "branch/getBySchoolId";
-
+export const get_branch_by_id_url = "branch/getDetailsById";
+export const get_payment = "paymentMethod/get";
+export const get_instructor_by_user_id_url = "instructor/getByUserId";
+export const get_franchise_by_school_id_url = "franchise/getBySchoolId";
 // key of token data in local storage of browser
 export const auth_token_key = "ennvision-admin:token";

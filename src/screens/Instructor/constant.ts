@@ -4,13 +4,12 @@ export interface CreateInstructorInitialValues {
   instructorPhoneNumber: string;
   address: string;
   yearsOfExperience: string | number;
-  ranking: string | number;
   latestCertification: string | number;
   description: string;
-  selectedActivities: string[];
-  selectedFacilities: string[];
+  activities: string[];
+  specializations: string[];
   termCondition: string;
-  ranks: string;
+  rankId: number;
   // stripePublishableKey: string;
   // stripeSecretKey: string;
   // cardAccessToken: string;

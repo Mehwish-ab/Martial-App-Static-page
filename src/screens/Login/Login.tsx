@@ -8,20 +8,16 @@ import {
   fontFamilyMedium,
   lightBlue3,
   pureDark2,
-  pureDark,
 } from "../../components/GlobalStyle";
 import LoginStyle from "./style";
 import { useState } from "react";
 import Head from "../../components/Head/Head";
 import TermsAndConditions from "../../components/TermsAndConditions/TermsAndConditions";
-import email_icon from "../../assets/icons/ic_email.svg";
-import password_icon from "../../assets/icons/password.svg";
 import show_password_icon from "../../assets/icons/ic_show_passcode.svg";
 import { auth_token_key, base_url, login_url } from "../../utils/api_urls";
 import axios from "axios";
 import { validationFinder } from "../../utils/utilities";
 import { toast } from "react-toastify";
-
 import useScreenTranslation from "../../hooks/useScreenTranslation";
 import { SCREEN_LABEL_KEYS } from "./constants";
 import OauthLogin from "../../components/Common/OauthLogin/OauthLogin";
@@ -75,7 +71,7 @@ const Login = () => {
 
   const dispatch = useDispatch();
 
-  // login handle submit
+  // login handle submit 
   console.log(initialValues);
   const handleSubmit = async (values: loginValuesType) => {
     try {
@@ -87,7 +83,7 @@ const Login = () => {
       dispatch(setLoginData(results));
       toast(
         <MessageModal
-          message="Login Successfully"
+          message="Successful"
           description="You are successfully logged in to your account."
           type="success"
         />,
@@ -97,7 +93,7 @@ const Login = () => {
       );
       setloading(false);
       if (results.schoolId) store.dispatch(getSchoolByUserId());
-      navigate("/school/create");
+      navigate("/");
     } catch (error: any) {
       setloading(false);
       if (error.code) {
@@ -117,9 +113,11 @@ const Login = () => {
     }
   };
 
+
+
   return (
     <>
-      <Head title="login" />
+      <Head title="Login" />
       <LoginStyle>
         <div className="login-container overflow-auto">
           <div className="login-container-card">
@@ -154,13 +152,12 @@ const Login = () => {
                               placeholder={getLabelByKey(
                                 SCREEN_LABEL_KEYS.emailFieldPlaceholder
                               )}
-                              prefix={<img src={email_icon} alt="email_icon" />}
+                              // prefix={<img src={email_icon} alt="email_icon" />}
                               className={
                                 formik.errors.emailAddress &&
-                                formik.touched.emailAddress
-                                  ? "is-invalid"
+                                  formik.touched.emailAddress
+                                  ? "is-invalid is-invalidEmail"
                                   : "customInput"
-
                               }
                               textalign="end"
                             />
@@ -173,34 +170,30 @@ const Login = () => {
                               color={pureDark2}
                               label={getLabelByKey(
                                 SCREEN_LABEL_KEYS.passcodeFieldTitle
-                                )}
-                                padding="10px"
+                              )}
+                              padding="10px"
                               placeholder={getLabelByKey(
                                 SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
                               )}
                               suffix={show_password_icon}
-                              prefix={
-                                <img src={password_icon} alt="password_icon" />
-                              }
                               className={
                                 formik.errors.password &&
-                                formik.touched.password
+                                  formik.touched.password
                                   ? "is-invalid loginInvalidPassword"
                                   : "customPasswordInput loginPassword"
-                                  
                               }
                               textalign="end"
                             />
                           </div>
                           <div className="d-flex justify-content-between align-items-center mt-20">
-                            <div className="d-flex align-items-center gap-2">
+                            <div className="d-flex align-items-center gap-2 checkBoxstyling">
                               <FormControl
                                 control="checkbox"
                                 type="checkbox"
                                 id="rememberMe"
                                 name="rememberMe"
                               />
-                              <p className="mb-0 text-14 fw-normal">
+                              <p className="remeberText">
                                 {getLabelByKey(SCREEN_LABEL_KEYS.rememberMe)}
                               </p>
                             </div>
@@ -222,7 +215,7 @@ const Login = () => {
                               bgcolor={lightBlue3}
                               textTransform="Captilize"
                               color={pureDark2}
-                              padding="10px"
+                              padding="16.5px"
                               fontFamily={fontFamilyMedium}
                               width="100%"
                               type="submit"
@@ -242,11 +235,10 @@ const Login = () => {
 
               <div className="d-flex or-line fs-6 mt-20 align-items-center">
                 <div className="line" />
-                <p>{getLabelByKey(SCREEN_LABEL_KEYS.or)}</p>
+                <p className="orText">{getLabelByKey(SCREEN_LABEL_KEYS.or)}</p>
                 <div className="line" />
               </div>
               <OauthLogin usecase={OAUTH_USECASES.login} />
-
               <TermsAndConditions
                 setTerms={setTerms}
                 showTermsError={showTermsError}
@@ -254,21 +246,19 @@ const Login = () => {
                 screen={"loginScreen"}
               />
               <div className="signup-text mt-20">
-                <p className="mb-0">
+                <p className="mb-0 text-center ">
                   {getLabelByKey(SCREEN_LABEL_KEYS.register)}
-                </p>
-
-                <h6
-                  className={`${
-                    selectedLanguage === "ar" || selectedLanguage === "ur"
+                  <span
+                    className={`${selectedLanguage === "ar" || selectedLanguage === "ur"
                       ? "me-1"
                       : "ms-1"
-                  } mt-2`}
-                >
-                  <Link to="/register" className="underline">
-                    {getLabelByKey(SCREEN_LABEL_KEYS.registerAccount)}
-                  </Link>
-                </h6>
+                      } mt-2`}
+                  >
+                    <Link to="/register" className="">
+                      {getLabelByKey(SCREEN_LABEL_KEYS.registerAccount)}
+                    </Link>
+                  </span>
+                </p>
               </div>
             </div>
           </div>

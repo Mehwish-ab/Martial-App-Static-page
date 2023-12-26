@@ -1,15 +1,8 @@
 import { Menu, MenuProps } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
-// import membership from "../../assets/icons/ic_dashboard_..svg";
 import logo from "../../assets/icons/ic_logo.svg";
-// import dashboard from "../../assets/icons/ic_membership.svg";
-// import payment from "../../assets/icons/ic_membership.svg";
-// import classes from "../../assets/icons/ic_classes.svg";
-// import booking from "../../assets/icons/ic_booking.svg";
-// import qrCode from "../../assets/icons/ic_qr_code.svg";
-// import setting from "../../assets/icons/ic_setting.svg";
 import { childListOfBooking, childListOfSetting } from "../Sidebar/constants";
-import { SidebarStyle } from "../Sidebar/style";
+// import { SidebarStyle } from "../Sidebar/style";
 import { NavigationMenuStyled } from "./styles";
 import { useEffect, useState } from "react";
 type MenuItem = Required<MenuProps>["items"][number];
@@ -20,12 +13,17 @@ const menuLinks: any = {
   listBranch: "/branch/list",
   listFranchise: "/franchise/list",
   listInstructor: "/instructor/list",
-  membership: "/membership",
+  membership: "/membership/list",
   payment: "/payment",
-  classes: "/classes",
+  timeTable: "/timetable/list",
+  rules: "/rules/list",
+  transactionsHistory: "/transaction-history/list",
+  classes: "/class/list",
+  helpAndSupport: "/help-support",
   booking: "",
+  language: "/language",
   qrCode: "/qr-code",
-  setting: "",
+  setting: "/settings",
 };
 
 const menuLinksKeys: any = {
@@ -55,7 +53,7 @@ const NavigationMenu = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const getMenuIcon = (file: any) => <img src={file} alt="" />;
+  // const getMenuIcon = (file: any) => <img src={file} alt="" />;
 
   const navigation = (link: string, key: string) => {
     navigate(link);
@@ -96,7 +94,7 @@ const NavigationMenu = () => {
     {
       key: menuLinksKeys.listInstructor,
       label: getLabel(
-        "Instructor",
+        "Instructors",
         menuLinks.listInstructor,
         menuLinksKeys.listInstructor
       ),
@@ -116,7 +114,7 @@ const NavigationMenu = () => {
     {
       key: menuLinksKeys.membership,
       label: getLabel(
-        "Membership",
+        "Memberships",
         menuLinks.membership,
         menuLinksKeys.membership
       ),
@@ -128,7 +126,7 @@ const NavigationMenu = () => {
     {
       key: menuLinksKeys.notification,
       label: getLabel(
-        "Notification",
+        "Notifications",
         menuLinks.notification,
         menuLinksKeys.notification
       ),
@@ -136,7 +134,7 @@ const NavigationMenu = () => {
     {
       key: menuLinksKeys.transactionsHistory,
       label: getLabel(
-        "TransactionsHistory",
+        "Transactions History",
         menuLinks.transactionsHistory,
         menuLinksKeys.transactionsHistory
       ),
@@ -144,12 +142,12 @@ const NavigationMenu = () => {
     },
     {
       key: menuLinksKeys.setting,
-      label: getLabel("Setting", menuLinks.setting, menuLinksKeys.setting),
+      label: getLabel("Settings", menuLinks.setting, menuLinksKeys.setting),
       children: childListOfSetting,
     },
     {
       key: menuLinksKeys.language,
-      label: getLabel("language", menuLinks.language, menuLinksKeys.language),
+      label: getLabel("Language", menuLinks.language, menuLinksKeys.language),
     },
     {
       key: menuLinksKeys.helpAndSupport,

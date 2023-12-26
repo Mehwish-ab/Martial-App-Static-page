@@ -1,10 +1,7 @@
 import styled from "styled-components";
 import {
-  basicColor,
   fontFamilyMedium,
   lightDark3,
-  primaryColor,
-  pureDark,
   pureDark2,
   tertiaryGrey12,
   tertiaryGrey8,
@@ -13,8 +10,9 @@ import {
   tertiaryGrey24,
   lightDark2,
   mainColor,
+  darkBlue,
+  fontFamilyRegular,
 } from "../../components/GlobalStyle";
-
 export const LoginStyle = styled.div`
   display: flex;
   flex-direction: column;
@@ -28,7 +26,6 @@ export const LoginStyle = styled.div`
   }
 
   .login-container {
-    
     &-card {
       max-width: 485px;
       display: flex;
@@ -40,35 +37,76 @@ export const LoginStyle = styled.div`
       margin: auto;
       padding: 20px 12px;
       background-color: ${whiteColor};
+      .title{
+        color: ${pureDark2};
+        font-size: 22px;
+        font-family: ${fontFamilyMedium};
+        line-height: 26px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        margin-bottom: 10px;
+      }
+      .subtitle {
+        width: 75%;
+        color: ${darkGery};
+        font-family: ${fontFamilyRegular};
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+      }
       &-inner{
           width: 96%;
         }
       &-form {
         width: 100%;
-        
         .login-input-fields {
-          &-field {
-            margin-top: 20px;
+           > div:first-child label{
+            line-height: 19px;
+            margin-bottom: 10px;
+            font-family: ${fontFamilyMedium};
+            font-size: 16px;
+            color: ${pureDark2};
           }
-          img {
-            color: black;
+          > div:nth-child(2) label{
+            line-height: 19px;
+            margin-bottom: 10px;
+            font-family: ${fontFamilyMedium};
+            font-size: 16px;
+            color: ${pureDark2};
           }
-         
-        }
+          > div input,
+          .ant-input{
+            color: ${lightDark2};
+            font-family: ${fontFamilyRegular};
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+          }
+
+          input[type="text"]:hover,
+          .ant-input-affix-wrapper:hover {
+            border-color: #40a9ff;
+            border-right-width: 1px;
+            z-index: 1;
+          }
+          .ant-input-affix-wrapper{
+            height: 52px;
+          }
+
+          > div input::placeholder,
+          .ant-input::placeholder{
+            color: ${lightDark2};
+            font-family: ${fontFamilyRegular};
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+          }
       }
-      .title {
-        color: ${pureDark2};
-        font-size: 22px;
-        font-weight: 500;
-        font-family: ${fontFamilyMedium};
-      }
-      .subtitle {
-        width: 75%;
-        color: ${darkGery}
-        margin: 10px auto 0;
-        font-weight: 400;
-        font-size: 16px;
-      }
+
+  
       .login-text {
         font-size: 16px;
         color: ${lightDark3};
@@ -101,19 +139,27 @@ export const LoginStyle = styled.div`
     align-items: center;
     justify-content: center;
     a {
-      color: ${primaryColor};
+      color: ${darkBlue};
       font-size: 14px;
-
+      font-style: normal;
+      line-height: normal;
+      font-family: ${fontFamilyMedium};
     }
     p {
+      font-family: ${fontFamilyRegular};
       font-size: 14px;
-      font-weight: normal;
-      color: ${pureDark};
+      color: #000;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
     }
     h6 {
+      font-family: ${fontFamilyMedium};
+      color: ${darkBlue};
       font-size: 14px;
-      font-weight: normal;
-      color: ${basicColor};
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
     }
   }
 
@@ -123,17 +169,22 @@ export const LoginStyle = styled.div`
     font-weight: 500;
     line-height: normal;
   }
+
+  .is-invalidEmail{
+    padding: 13px 19.5px !important;
+  }
   
   .is-invalid {
-    border: 1px solid red;
+    height: 52px;
+    border: 1px solid #E43535;
     background: white;
     border-radius: 8px;
     width: 100%;
     width: -moz-available;
     outline: none;
-    margin-bottom: 8px;
+    margin-bottom: 2px;
   }
-  .customInput,
+
   .customPasswordInput {
     background: white;
     border: 1px solid ${tertiaryGrey24};
@@ -141,10 +192,8 @@ export const LoginStyle = styled.div`
     width: 100%;
     padding: 4px 11px !important;
     width: -moz-available;
-    outline: none;
-    margin-bottom: 8px;
-    
-    input[placeholder] {
+    outline: none;    
+    input::placeholder {
       font-size: 16px;
       font-style: normal;
       font-weight: 400;
@@ -152,13 +201,68 @@ export const LoginStyle = styled.div`
       color: ${lightDark2};
     }
   }
+
+  .customInput{
+    height: 52px;
+    background: white;
+    border: 1px solid ${tertiaryGrey24};
+    border-radius: 8px !important;
+    width: 100%;
+    padding: 13px 19.5px !important;
+    width: -moz-available;
+    font-family: ${fontFamilyRegular};
+    outline: none;    
+  }
+  .customInput::placeholder {
+    font-size: 16px;
+    font-style: normal;
+    line-height: normal;
+    font-family: ${fontFamilyRegular};
+    color: ${lightDark2};
+  }
+
+  input[type="text"] + div, 
+  .ant-input-affix-wrapper + div{
+    text-align: right !important;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: normal;
+  }
+
+  p{
+    line-height: normal;
+  }
+
+
+
   .loginInvalidPassword > input{
-    padding: 10px !important;
+    padding: 8.5px !important;
     }
 
   .loginPassword > input{
-    padding: 10px !important;
+    padding: 8.5px !important;
   }
+
+  .remeberText{
+    font-family: ${fontFamilyRegular};
+    color: ${pureDark2};
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  .orText{
+    font-family: ${fontFamilyMedium};
+    color: ${pureDark2};
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+
   .forget_password {
     color: ${mainColor};
     font-size: 16px;
@@ -166,14 +270,18 @@ export const LoginStyle = styled.div`
     text-decoration: none;
     font-family: "EnnVisionsMedium" !important;
   }
+
+  }
+  .ant-checkbox-input{
+    height: 20px;
+    width: 20px;
+  }
   .remember-password {
     &-text {
       color: ${tertiaryGrey12};
     }
   }
-  .ant-input-suffix {
-    // margin-left: 30px;
-  }
+
   .logo {
     height: 60px;
     width: 155px;
@@ -191,17 +299,6 @@ export const LoginStyle = styled.div`
         }
       }
     }
-    .signup-text {
-      
-      p,a {
-        font-size: 14px;
-      }
-      h6 {
-        font-size: 14px;
-        margin-left: 3px;
-      }
-    }
-    
   }
 `;
 

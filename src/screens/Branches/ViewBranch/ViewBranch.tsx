@@ -8,34 +8,37 @@ import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { DataTypesWithIdAndMultipleLangLabel } from "../../../redux/features/types";
-
+import viewBranch from "../hooks/useBranch"
 const ViewBranch = () => {
   const { getLabelByKey } = useScreenTranslation("branchCreate");
 
   const location = useLocation();
   const branch: BranchDataType = location.state?.branch;
+console.log("?Nadda",branch);
+
   const { language, currency } = useSelector(
-    (state: RootState) => state.appData.data.statusData
+    (state: RootState) => state.appData.data.dropdowns
   );
+
   const { selectedLanguage } = useSelector(
-    (state: RootState) => state.selectedLanguage
+    (state: RootState) => state?.selectedLanguage
   );
   let defaultLanguage = language.find(
     (item: DataTypesWithIdAndMultipleLangLabel) =>
-      +item.id == +branch.defaultLanguageId
+      +item.id == +branch?.defaultLanguageId
   );
 
   let defaultCurrency = currency.find(
     (item: DataTypesWithIdAndMultipleLangLabel) =>
-      +item.id == +branch.defaultCurrencyId
+      +item.id == +branch?.defaultCurrencyId
   );
 
-  console.log(defaultLanguage, defaultCurrency);
+  // console.log(defaultLanguage, defaultCurrency);
   return (
     <ViewBranchStyled>
       <OverlayImages
-        overlayImg={branch.profilePicture || ""}
-        backgroundImg={branch.bannerPicture || ""}
+        overlayImg={branch?.profilePicture || ""}
+        backgroundImg={branch?.bannerPicture || ""}
         isEditable={false}
       />
 
@@ -46,47 +49,63 @@ const ViewBranch = () => {
           <Col md="4">
             <div className="list-item">
               <div className="list-item-title">
-                {getLabelByKey("branchName")}
-              </div>
-              <div className="list-item-value">{branch.branchName || "--"}</div>
-            </div>
-          </Col>
-          <Col md="4">
-            <div className="list-item">
-              <div className="list-item-title">
-                {getLabelByKey("branchType")}
-              </div>
-              <div className="list-item-value">{branch.branchType || "--"}</div>
-            </div>
-          </Col>
-          <Col md="4">
-            <div className="list-item">
-              <div className="list-item-title">
-                {getLabelByKey("branchPhoneNumber")}
+                {/* {getLabelByKey("branchName")} */}
+                Branch Name
               </div>
               <div className="list-item-value">
-                {branch.phoneNumber || "--"}
-              </div>
-            </div>
-          </Col>
-          <Col md="4">
-            <div className="list-item">
-              <div className="list-item-title">{getLabelByKey("address")}</div>
-              <div className="list-item-value">{branch.address || "--"}</div>
-            </div>
-          </Col>
-          <Col md="4">
-            <div className="list-item">
-              <div className="list-item-title">{getLabelByKey("belts")}</div>
-              <div className="list-item-value">
-                {branch.belts ? "Yes" : "No"}
+                {branch?.branchName || "--"}
               </div>
             </div>
           </Col>
           <Col md="4">
             <div className="list-item">
               <div className="list-item-title">
-                {getLabelByKey("defaultLanguage")}
+                Branch Type
+                {/* {getLabelByKey("branchType")} */}
+              </div>
+              <div className="list-item-value">
+                {branch?.branchType || "--"}
+              </div>
+            </div>
+          </Col>
+          <Col md="4">
+            <div className="list-item">
+              <div className="list-item-title">
+                Branch Phone Number
+                {/* {getLabelByKey("branchPhoneNumber")} */}
+              </div>
+              <div className="list-item-value">
+                {branch?.phoneNumber || "--"}
+              </div>
+            </div>
+          </Col>
+          <Col md="4">
+            <div className="list-item">
+              <div className="list-item-title">
+                Address
+                {/* {getLabelByKey("address")} */}
+              </div>
+              <div className="list-item-value">
+                {branch?.address || "--"}
+              </div>
+            </div>
+          </Col>
+          <Col md="4">
+            <div className="list-item">
+              <div className="list-item-title">
+                {/* {getLabelByKey("belts")} */}
+                Belts
+              </div>
+              <div className="list-item-value">
+                {branch?.belts ? "Yes" : "No"}
+              </div>
+            </div>
+          </Col>
+          <Col md="4">
+            <div className="list-item">
+              <div className="list-item-title">
+                {/* {getLabelByKey("defaultLanguage")} */}
+                Default Language
               </div>
               <div className="list-item-value">
                 {(defaultLanguage &&
@@ -98,7 +117,8 @@ const ViewBranch = () => {
           <Col md="4">
             <div className="list-item">
               <div className="list-item-title">
-                {getLabelByKey("defaultCurrency")}
+                {/* {getLabelByKey("defaultCurrency")} */}
+                Default Currency
               </div>
               <div className="list-item-value">
                 {(defaultCurrency &&
@@ -109,25 +129,32 @@ const ViewBranch = () => {
           </Col>
           <Col md="4">
             <div className="list-item">
-              <div className="list-item-title">{getLabelByKey("activity")}</div>
-              <div className="list-item-value">{branch.activities || "--"}</div>
+              <div className="list-item-title">
+                {/* {getLabelByKey("activity")} */}
+                Activity
+              </div>
+              <div className="list-item-value">
+                {branch?.activities || "--"}
+              </div>
             </div>
           </Col>
           <Col md="4">
             <div className="list-item">
               <div className="list-item-title">
-                {getLabelByKey("facilities")}
+                {/* {getLabelByKey("facilities")} */}
+                Facilities
               </div>
-              <div className="list-item-value">{branch.facilities || "--"}</div>
+              <div className="list-item-value">{branch?.facilities || "--"}</div>
             </div>
           </Col>
           <Col md="12">
-            <div className="list-item">
+            <div className="list-item mb-0">
               <div className="list-item-title">
-                {getLabelByKey("description")}
+                {/* {getLabelByKey("description")} */}
+                Description
               </div>
               <div className="list-item-value">
-                {branch.description || "--"}
+                {branch?.description || "--"}
               </div>
             </div>
           </Col>

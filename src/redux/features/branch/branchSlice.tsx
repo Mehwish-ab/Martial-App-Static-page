@@ -1,7 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import store from "../../store";
-import { base_url, get_branch_by_school_id_url } from "../../../utils/api_urls";
+import {
+  base_url,
+  get_branch_by_school_id_url,
+  get_branch_by_id_url,
+  get_payment,
+} from "../../../utils/api_urls";
 import { loginDataTypes } from "../types";
 import { authorizationToken } from "../../../utils/api_urls";
 
@@ -29,6 +34,11 @@ export interface BranchDataType {
   gclClientSecret: string;
   bannerPicture: string | null | undefined;
   profilePicture: string | null | undefined;
+  status: string;
+  paymentMethod: string;
+  accountNumber: string;
+  countryName: string;
+  mode: string;
 }
 export interface GetBranchBySchoolResTypes {
   data: BranchDataType[];
@@ -43,7 +53,38 @@ export interface BranchDataInitialState {
 }
 const initialState: BranchDataInitialState = {
   branchData: {
-    data: [],
+    data: [
+      {
+        branchId: 0,
+        schoolId: 0,
+        branchName: "",
+        branchType: 0,
+        address: "",
+        phoneNumber: "",
+        defaultLanguageId: 0,
+        defaultCurrencyId: 0,
+        belts: false,
+        ranks: false,
+        schoolStripeMethod: false,
+        schoolGclMethod: false,
+        activities: "",
+        facilities: "",
+        description: "",
+        stripePublicKey: "",
+        stripeSecretKey: "",
+        gclAccessToken: "",
+        gclClientId: "",
+        gclWebHook: "",
+        gclClientSecret: "",
+        bannerPicture: "",
+        profilePicture: "",
+        status: "",
+        paymentMethod: "",
+        accountNumber: "",
+        countryName: "",
+        mode: "",
+      },
+    ],
     currentPage: 0,
     totalItems: 0,
     totalPages: 0,
@@ -117,6 +158,70 @@ export const getBranchBySchoolId = createAsyncThunk(
     }
   }
 );
+export const getBranchById = createAsyncThunk(
+  "branchData/getBranchById",
+  async (branchId) => {
+    const state = store.getState();
+    try {
+      const { data } = await axios.post(
+        `${base_url}${get_branch_by_id_url}`,
+        {
+          branchId: state.branchData.branchData.data.map((b) => {
+            return b.branchId;
+          }),
+        },
+        {
+          headers: {
+            ...authorizationToken(state.loginData.data as loginDataTypes),
+          },
+        }
+      );
+      return data.result[0];
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        let obj = {
+          name: "AxiosError",
+          message: error.response.data?.responseMessage,
+          code: "ERR_BAD_RESPONSE",
+        };
+        throw obj;
+      }
+      throw error;
+    }
+  }
+);
+
+// export const getPyment = createAsyncThunk(
+//   "branchData/paymentMethod",
+//   async (branchId) => {
+//     const state = store.getState();
+//     try {
+//       const { data } = await axios.post(
+//         `${base_url}/paymentMethod/get`,
+//         {
+//           businessUC: "BRANCH",
+//           branchId: branchId,
+//         },
+//         {
+//           headers: {
+//             ...authorizationToken(state.loginData.data as loginDataTypes),
+//           },
+//         }
+//       );
+//       return data.result[0];
+//     } catch (error: any) {
+//       if (error.response && error.response.data) {
+//         let obj = {
+//           name: "AxiosError",
+//           message: error.response.data?.responseMessage,
+//           code: "ERR_BAD_RESPONSE",
+//         };
+//         throw obj;
+//       }
+//       throw error;
+//     }
+//   }
+// );
 
 export const { updateBranch } = branchSlice.actions;
 

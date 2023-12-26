@@ -2,7 +2,9 @@ import styled from "styled-components";
 import {
   fontFamilyBold,
   fontFamilyRegular,
+  lightDark2,
   mediaDeviceMin,
+  pureDark2,
 } from "../GlobalStyle";
 
 export const CustomCheckboxListStyled = styled.div`
@@ -13,6 +15,10 @@ export const CustomCheckboxListStyled = styled.div`
   }
   .checkbox_col {
     label {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 22px;
+      font-family: ${fontFamilyRegular};
       white-space: nowrap;
       input[type="checkbox"] {
         width: 24px;
@@ -57,7 +63,7 @@ export const CustomCheckboxListStyled = styled.div`
 
   .invalid-activity {
     color: red;
-    text-align: start;
+    text-align: end;
     margin-left: 3px;
     font-size: 12px;
     letter-spacing: 1px;
@@ -65,23 +71,40 @@ export const CustomCheckboxListStyled = styled.div`
 `;
 
 export const CheckboxesSelectStyled = styled.div`
-  margin-top: 20px;
-  width: 100%;
-  overflow: hidden;
+overflow: hidden;
+width: 100%;
+margin-top: 20px;
+.title{
+  font-family: ${fontFamilyRegular};
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 7px;
+    color: ${pureDark2};
+    display: block;
+}
+  
 `;
 
 export const CheckboxSelectTriggerStyled = styled.div`
   width: 100%;
-  border: 1px solid #d9d9d9;
-  padding: 14px;
-  border-radius: 8px;
+  height: 50px;
+  border: 1px solid #E0E0E0;
+  padding: 10px;
+  border-radius: 10px;
   cursor: pointer;
+  font-size: 16px;
+  font-weight: 400;
+  color: ${lightDark2};
+  font-family: ${fontFamilyRegular};
   display: flex;
   justify-content: space-between;
   align-items: center;
 
+
   label {
-    font-family: ${fontFamilyBold};
+    font-family: ${fontFamilyRegular};
     font-size: 16px;
+    font-weight: 400;
+    color: ${lightDark2};
   }
 `;

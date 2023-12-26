@@ -1,22 +1,27 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import store from "../../store";
-import { base_url, get_branch_by_school_id_url } from "../../../utils/api_urls";
+import { base_url,get_instructor_by_user_id_url } from "../../../utils/api_urls";
 import { loginDataTypes } from "../types";
 import { authorizationToken } from "../../../utils/api_urls";
 
 export interface InstructorDataType {
-  instructorId: number;
-  instructorImage: number;
-  instructorName: string;
-  instructorSpecilization: number | string;
-  instructorRanking: string;
-  instructorExperience: string;
-  instructorPhoneNumber: number;
-  instructorStatus: number;
+  instructorId: number,
+  instructorImage: number,
+  instructorName: string,
+  instructorEmailAddress:string,
+  phoneNumber: number,
+  address:string,
+  experience: string,
+  rankId: string,
+  certificationURL:string,
+  specializations: number | string,
+  activities: number | string,
+  description: number | string,
+  instructorStatusId: number,
 }
 
-export interface GetBranchBySchoolResTypes {
+export interface GetInstructorBySchoolResTypes {
   data: InstructorDataType[];
   totalItems: number;
   totalPages: number;
@@ -24,14 +29,27 @@ export interface GetBranchBySchoolResTypes {
 }
 
 export interface InstructorDataInitialState {
-  instructorData: GetBranchBySchoolResTypes;
+  instructorData: GetInstructorBySchoolResTypes;
   loading: boolean;
   error: string | undefined;
 }
 
 const initialState: InstructorDataInitialState = {
   instructorData: {
-    data: [],
+    data: [{  instructorId: 0,
+      instructorImage: 0,
+      instructorName: "",
+      instructorEmailAddress:"",
+      phoneNumber: 0,
+      address:"",
+      experience: "",
+      rankId: "",
+      certificationURL:"",
+      specializations: 0,
+      activities:0,
+      description:0,
+      instructorStatusId: 0,
+    }],
     currentPage: 0,
     totalItems: 0,
     totalPages: 0,
@@ -53,17 +71,17 @@ const instructorSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(getBranchBySchoolId.pending, (state, action) => {
+      .addCase(getInstructorByUserId.pending, (state, action) => {
         state.instructorData = initialState.instructorData;
         state.loading = true;
         state.error = "";
       })
-      .addCase(getBranchBySchoolId.fulfilled, (state, action) => {
+      .addCase(getInstructorByUserId.fulfilled, (state, action) => {
         state.instructorData = action.payload;
         state.loading = false;
         state.error = "";
       })
-      .addCase(getBranchBySchoolId.rejected, (state, action) => {
+      .addCase(getInstructorByUserId.rejected, (state, action) => {
         console.log("action.error", action);
         state.instructorData = initialState.instructorData;
         state.error = action.error.message;
@@ -72,18 +90,17 @@ const instructorSlice = createSlice({
   },
 });
 
-export const getBranchBySchoolId = createAsyncThunk(
-  "instructorData/getBranchBySchoolId",
+export const getInstructorByUserId = createAsyncThunk(
+  "instructor/getByUserId",
   async () => {
     const state = store.getState();
     console.log("state", state);
     try {
       const { data } = await axios.post(
-        `${base_url}${get_branch_by_school_id_url}`,
+        `${base_url}${get_instructor_by_user_id_url}`,
         {
-          schoolId:
-            state.loginData.data?.schoolId ||
-            state.dashboardData.schoolData.schoolId,
+          userId:
+            state.loginData.data?.userDetails.id 
         },
         {
           headers: {

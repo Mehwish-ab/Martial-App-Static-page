@@ -2,26 +2,42 @@ import styled from "styled-components";
 import {
   fontFamilyMedium,
   fontFamilyRegular,
+  lightDark2,
   lightGrey2,
+  pureDark2,
 } from "../components/GlobalStyle";
 
 export const PlacesAutocompleteStyle = styled.div`
   label {
-    font-family: ${fontFamilyMedium};
-    margin-bottom: 10px;
+    font-family: ${fontFamilyRegular};
+    font-size: 16px;
+    color: ${pureDark2};
+    font-weight: 400;
+    margin-bottom: 7px;
   }
   input {
-    // border: 1px solid ${lightGrey2};
-    padding: 7px;
     width: 100%;
+    height: 50px;
     border-radius: 10px;
-    padding: 14px !important;
-
+    color: ${lightDark2};
+    font-family: ${fontFamilyRegular};
+    font-size: 16px;
+    font-weight: 400;
+    padding: 12px 35px 12px 10px;
     &::placeholder {
-      font-family: ${fontFamilyRegular};
-      color: rgb(198, 198, 200);
       font-size: 16px;
+      font-weight: 400;
+      font-family: ${fontFamilyRegular};
+      color: ${lightDark2};
     }
+  } 
+  .PlacesAutocomplete{
+    position: relative;
+  }
+  .PlacesAutocomplete span{
+    position: absolute;
+    top: 12px;
+    right: 15px;
   }
 `;
 
@@ -32,7 +48,7 @@ export const AutoCompleteSuggestionsStyle = styled.div`
     font-size: 14px;
   }
   input {
-    padding: 8px;
+    padding: 13px !important;
     border: 1px solid #efeff4;
     width: 100%;
     font-size: 14px;

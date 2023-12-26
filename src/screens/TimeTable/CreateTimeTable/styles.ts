@@ -2,29 +2,35 @@ import styled from "styled-components";
 import {
   darkBlue,
   darkGery,
-  fontFamilyBold,
   fontFamilyMedium,
   pureDark2,
-  // mainColor,
+  fontFamilyRegular,
 } from "../../../components/GlobalStyle";
 
 export const CreateTimeTableStyled = styled.div`
-  background-color: #fff;
-  padding: 16px;
-  border-radius: 20px;
+margin-top: 20px;
+background-color: #fff;
+border-radius: 10px;
+padding-bottom: 20px;
 
-  .table-heading {
-    font-size: 18px !important;
-    font-family: ${fontFamilyMedium} !important;
+  .tableHeading {
+    font-size: 18px;
+    font-family: ${fontFamilyMedium};
     color: ${pureDark2};
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
   }
+
   .ant-table-thead > tr > th {
     background: transparent !important;
     border-bottom: none !important;
     color: ${darkBlue};
     font-family: ${fontFamilyMedium};
     font-size: 16px !important;
-
+    line-height: normal;
+    font-weight: 500;
+    padding: 6px;
     &::before {
       display: none !important;
     }
@@ -35,55 +41,55 @@ export const CreateTimeTableStyled = styled.div`
     font-family: ${fontFamilyMedium};
     font-size: 14px !important;
     color: ${darkGery}!important;
+    padding: 6px;
   }
   .ant-table-thead > tr > th{
-    color: ${darkGery};
+    color: ${pureDark2};
   }
-  .ant-table-thead > tr > th:first-child, .ant-table-tbody > tr > td:first-child, 
-  .ant-table-thead > tr > th:nth-child(2), .ant-table-tbody > tr > td:nth-child(2),
-  .ant-table-thead > tr > th:nth-child(5), .ant-table-tbody > tr > td:nth-child(5),
-  .ant-table-thead > tr > th:nth-child(6), .ant-table-tbody > tr > td:nth-child(6){
-    width: 5%;
+  .ant-table-thead > tr > th:first-child {
+    padding-left: 20px;
+    width: 10%;
   }
-  .ant-table-thead > tr > th:nth-child(5), .ant-table-tbody > tr > td:nth-child(5),
-  .ant-table-thead > tr > th:nth-child(6), .ant-table-tbody > tr > td:nth-child(6){
-    width: 12%;
-  }
-  .ant-table-thead > tr > th:nth-child(3), .ant-table-thead > tr > td:nth-child(3),
-  .ant-table-thead > tr > th:nth-child(7), .ant-table-tbody > tr > td:nth-child(7){
-    width: 13%;
-  }
-  .ant-table-thead > tr > th:nth-child(4), .ant-table-tbody > tr > td:nth-child(4){
-    width: 25%;
-  }
-  .ant-table-thead > tr > th:nth-child(8), .ant-table-tbody > tr > td:nth-child(8){
+  .ant-table-tbody > tr > td:first-child {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    color: ${pureDark2};
+    font-family: ${fontFamilyMedium};
+    padding-left: 20px;
     width: 10%;
   }
 
-  .ant-table-tbody > tr > td:nth-child(2), .ant-table-tbody > tr > th:nth-child(3), .ant-table-tbody > tr > td:nth-child(3){
-    text-align: left;
-  }
-  .ant-table-tbody > tr > td:nth-child(4){
-    color: #000 !important;
-    font-size: 14px !important;
+  .timeTableBox{
+    font-family: ${fontFamilyRegular};
+    font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    margin-bottom: 0 !important;
-    position: relative;
-    top: 5px;
+    color: ${pureDark2};    
   }
-  .ant-table-tbody > tr > td:nth-child(8),
-  .ant-table-tbody > tr > td:nth-child(8) div{
+ 
+  .ant-table-tbody > tr > td:nth-child(2){
+    div:nth-child(odd){
+      background-color: #FAFAFA;
+    }
+    div:nth-child(even){
+      background-color: #fff;
+    }
+  }
+ 
+  .ant-table-tbody > tr > td:nth-child(6),
+  .ant-table-tbody > tr > td:nth-child(6) div{
     position: relative;
   }
-  .ant-table-tbody > tr > td:nth-child(8) button{
+  .ant-table-tbody > tr > td:nth-child(6) button{
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     padding: 7px 10px;
     border-radius: 4px;
-    background: rgb(76, 175, 80);
+    background: #E43535;
     width: 90px;
     height: 30px;
     color: rgb(255, 255, 255) !important;
@@ -92,20 +98,68 @@ export const CreateTimeTableStyled = styled.div`
     position: relative;
     text-align: center;
   }
-  .ant-table-tbody > tr > td:nth-child(8) img{
+  .ant-table-tbody > tr > td:nth-child(6) img{
     position: absolute;
-    right: 17px;
+    left: 80px;
     top: -5px;
   }
+  
+  .ant-table-tbody > tr > td:nth-child(7) button{
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 7px 10px;
+    border-radius: 4px;
+    background:#BCE7F8;
+    width: 90px;
+    height: 30px;
+    color: ${pureDark2} !important;
+    font-size: 14px !important;
+    display: block;
+    position: relative;
+    text-align: center;
+  }
+
+  .ant-table-tbody > tr > td:nth-child(8),
+  .ant-table-thead > tr > th:nth-child(8){
+    text-align: center;
+  }
+
   .ant-table-tbody > tr:nth-child(odd) td{
     background-color: #FAFAFA;
   }
   .ant-table-tbody > tr:nth-child(even) td{
     background-color: #fff;
   }
+}
+`;
 
 
-  .table-heading{
-    color: ${darkGery};
+export const FilterTimeTableStyled = styled.div`
+background-color: #fff;
+padding: 16px;
+border-radius: 10px;
+    
+    
+.timetable-heading {
+  font-family: ${fontFamilyMedium};
+  color: ${pureDark2};
+  margin-bottom: 16px; 
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.ant-input-affix-wrapper{
+  height: 50px;
+  padding-top: 0;
+  padding-bottom: 0;
+  border-radius: 10px;
+  input{
+    height: 48px;
+    background-color: transparent;
   }
+}
+
 `;

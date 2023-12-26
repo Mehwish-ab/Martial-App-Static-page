@@ -6,37 +6,32 @@ import CustomButton from "../../../components/CustomButton/CustomButton";
 import CreateUserStyle from "./style";
 import {
   fontFamilyMedium,
-  fontFamilyRegular,
   lightBlue3,
-  lightDark2,
-  pureDark,
-  whiteColor,
+  pureDark2,
 } from "../../../components/GlobalStyle";
 import Head from "../../../components/Head/Head";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import TermsAndConditions from "../../../components/TermsAndConditions/TermsAndConditions";
-import OauthLogin from "../../../components/Common/OauthLogin/OauthLogin";
-import EnnvisionModal from "../../../components/CustomModals/EnnvisionModal";
-import CustomModal from "../../../components/Modal/CustomModal";
-import profile_icon from "../../../assets/icons/ic_profile.svg";
-import lock_icon from "../../../assets/icons/password.svg";
-import email_icon from "../../../assets/icons/ic_email.svg";
-import ic_building from "../../../assets/icons/ic_building.svg";
+// import EnnvisionModal from "../../../components/CustomModals/EnnvisionModal";
+// import CustomModal from "../../../components/Modal/CustomModal";
 import { useAppSelector } from "../../../app/hooks";
 import { validationFinder } from "../../../utils/utilities";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { signup_url } from "../../../utils/api_urls";
-import CustomPhoneInput from "../../../components/CustomInputNumber/CustomPhoneInput";
 import Errormsg from "../../../components/ErrorMessage";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { SCREEN_LABEL_KEYS } from "./constant";
-import { OAUTH_USECASES } from "../../../components/Common/OauthLogin/constants";
-import Input, { getCountryCallingCode } from "react-phone-number-input";
+import Input from "react-phone-number-input";
+
 import "react-phone-number-input/style.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
+import OauthLogin from "../../../components/Common/OauthLogin/OauthLogin";
+import { OAUTH_USECASES } from "../../../components/Common/OauthLogin/constants";
+import TermsAndConditions from "../../../components/TermsAndConditions/TermsAndConditions";
+import MessageModal from "../../../components/Common/MessageModal/MessageModal";
+
 // create user initial values types
 type initialValuesType = {
   firstName: string;
@@ -48,7 +43,7 @@ type initialValuesType = {
 };
 
 const RegisterUser = () => {
-  const [isShowModal, setIsShowModal] = useState(false);
+  // const [isShowModal, setIsShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [terms, setTerms] = useState(false);
   const [showTermsError, setShowTermsError] = useState(false);
@@ -178,26 +173,35 @@ const RegisterUser = () => {
     };
     try {
       setIsLoading(true);
-      await axios.post(signup_url, userData);
-      setIsShowModal(true);
-      setTimeout(() => {
-        setIsShowModal(false);
-        navigate("/login");
-      }, 2000);
+      const response = await axios.post(signup_url, userData);
+      // const successMessage = response.data.responseMessage;
+      toast(
+        <MessageModal
+          message="Account Created Successfully!"
+          description="Thank You For Joining Us And We're Excited To Have You On Board"
+          type="success"
+        />,
+        {
+          autoClose: 1000,
+        }
+      );
+      navigate("/login");
       setIsLoading(false);
     } catch (error: any) {
       setIsLoading(false);
-      toast(error.response.data.responseMessage, {
+      const errorMessage = error.response?.data?.responseMessage;
+      toast(errorMessage, {
         type: "error",
         autoClose: 1000,
       });
     }
+
   };
 
   return (
     <>
-      <Head title="register" />
-      <CustomModal
+      <Head title="Register" />
+      {/* <CustomModal
         isModalVisible={isShowModal}
         setIsModalVisible={setIsShowModal}
         showCloseBtn={false}
@@ -210,7 +214,7 @@ const RegisterUser = () => {
           title="Account Created Successfully!"
           description="Thank You For Joining Us And We're Excited To Have You On Board"
         />
-      </CustomModal>
+      </CustomModal> */}
       <CreateUserStyle>
         <div className="inner-container">
           <div className="inner-container-card">
@@ -218,9 +222,9 @@ const RegisterUser = () => {
               <h6 className="title mb-0 text-center">
                 {getLabelByKey(SCREEN_LABEL_KEYS.title)}
               </h6>
-              {/* <p className="text-center message mt-20">
-              {getLabelByKey(SCREEN_LABEL_KEYS.subtitle)}
-            </p> */}
+              <p className="text-center message mt-10 mb-0">
+                {getLabelByKey(SCREEN_LABEL_KEYS.subtitle)}
+              </p>
               <div className="inner-container-card-form">
                 <Formik
                   initialValues={initialValues}
@@ -234,49 +238,6 @@ const RegisterUser = () => {
                         onFinish={formik.handleSubmit}
                         autoComplete="off"
                       >
-                        {/* <div className="role-section mt-20">
-                        <h6 className="mb-0">Select Your Role</h6>
-                        <div className="d-flex gap-2 roles mt-20">
-                          <CustomButton
-                            bgcolor={whiteColor}
-                            textTransform="Captilize"
-                            color={lightDark2}
-                            padding="8px"
-                            width="100%"
-                            icon={
-                              <img
-                                className="me-1 mb-1"
-                                src={ic_building}
-                                alt="buiding_icon"
-                              />
-                            }
-                            type="submit"
-                            title=" School"
-                            fontSize="16px"
-                            loading={isLoading}
-                            fontFamily={fontFamilyRegular}
-                          />
-                          <CustomButton
-                            bgcolor={whiteColor}
-                            textTransform="Captilize"
-                            color={lightDark2}
-                            icon={
-                              <img
-                                className="me-1 mb-1"
-                                src={profile_icon}
-                                alt="profile_icon"
-                              />
-                            }
-                            padding="8px"
-                            width="100%"
-                            type="submit"
-                            title="Student"
-                            fontSize="16px"
-                            loading={isLoading}
-                            fontFamily={fontFamilyRegular}
-                          />
-                        </div>
-                      </div> */}
                         <div className="register-input-fields">
                           <div className="mt-20">
                             <FormControl
@@ -286,19 +247,18 @@ const RegisterUser = () => {
                               label={getLabelByKey(
                                 SCREEN_LABEL_KEYS.firstNameFieldTitle
                               )}
-                              fontSize="14px"
+                              fontSize="16px"
                               border="none"
                               placeholder={getLabelByKey(
                                 SCREEN_LABEL_KEYS.firstNameFieldPlaceholder
                               )}
-                              padding="10px"
                               // prefix={
                               //   <img src={profile_icon} alt="profile_icon" />
                               // }
                               labelFamily={fontFamilyMedium}
                               className={
                                 formik.errors.firstName &&
-                                formik.touched.firstName
+                                  formik.touched.firstName
                                   ? "is-invalid"
                                   : "customInput"
                               }
@@ -309,13 +269,12 @@ const RegisterUser = () => {
                               control="input"
                               type="text"
                               name="lastName"
-                              fontSize="14px"
+                              fontSize="16px"
                               label={getLabelByKey(
                                 SCREEN_LABEL_KEYS.surNameFieldTitle
                               )}
                               border="none"
                               labelFamily={fontFamilyMedium}
-                              padding="10px"
                               // prefix={
                               //   <img src={profile_icon} alt="profile_icon" />
                               // }
@@ -324,7 +283,7 @@ const RegisterUser = () => {
                               )}
                               className={
                                 formik.errors.lastName &&
-                                formik.touched.lastName
+                                  formik.touched.lastName
                                   ? "is-invalid"
                                   : "customInput"
                               }
@@ -334,10 +293,9 @@ const RegisterUser = () => {
                             <FormControl
                               control="input"
                               type="email"
-                              fontSize="14px"
+                              fontSize="16px"
                               name="emailAddress"
                               border="none"
-                              padding="10px"
                               label={getLabelByKey(
                                 SCREEN_LABEL_KEYS.emailFieldTitle
                               )}
@@ -348,7 +306,7 @@ const RegisterUser = () => {
                               )}
                               className={
                                 formik.errors.emailAddress &&
-                                formik.touched.emailAddress
+                                  formik.touched.emailAddress
                                   ? "is-invalid"
                                   : "customInput"
                               }
@@ -357,18 +315,23 @@ const RegisterUser = () => {
                           <div className="mt-20">
                             <label
                               htmlFor="phoneNumber"
-                              className="custom-phone-input-label"
                             >
                               {getLabelByKey(
                                 SCREEN_LABEL_KEYS.mobileFieldTitle
                               )}
                             </label>
                             <Input
-                              defaultCountry="US"
+                              defaultCountry="GB"
                               international
                               placeholder={getLabelByKey(
                                 SCREEN_LABEL_KEYS.mobileFieldPlaceholder
                               )}
+                              className={
+                                formik.errors.phoneNumber &&
+                                  formik.touched.phoneNumber
+                                  ? "is-invalid_phone"
+                                  : "custom-phone-input-label"
+                              }
                               value={formik.values.phoneNumber}
                               onChange={(e: string) => {
                                 formik.setValues({
@@ -379,76 +342,57 @@ const RegisterUser = () => {
                               withCountryCallingCode
                               countryCallingCodeEditable
                             />
-                            {/* <CustomPhoneInput
-                            countryNumber={countryCode}
-                            placeholder={getLabelByKey(
-                              SCREEN_LABEL_KEYS.mobileFieldPlaceholder
-                            )}
-                            phoneLength={phoneNumberLength}
-                            countryFlag={countryFlagURL}
-                            phoneValueHandler={(value: number | string) =>
-                              formik.setFieldValue("phoneNumber", value)
-                            }
-                            label={getLabelByKey(
-                              SCREEN_LABEL_KEYS.mobileFieldTitle
-                            )}
-                            value={formik.values.phoneNumber}
-                            name="phoneNumber"
-                            countryName={name}
-                          /> */}
-                            <div className="mt-3">
+
+                            <div className="mt-1">
                               <ErrorMessage
                                 name="phoneNumber"
                                 component={Errormsg}
                               />
                             </div>
                           </div>
-                          <div className="mt-20">
-                            <FormControl
-                              control="password"
-                              type="text"
-                              name="password"
-                              label={getLabelByKey(
-                                SCREEN_LABEL_KEYS.passcodeFieldTitle
-                              )}
-                              padding="10px"
-                              fontFamily={fontFamilyMedium}
-                              // prefix={<img src={lock_icon} alt="lock_icon" />}
-                              max={6}
-                              border="none"
-                              placeholder={getLabelByKey(
-                                SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
-                              )}
-                              className={
-                                formik.errors.password &&
-                                formik.touched.password
-                                  ? "is-invalid"
-                                  : "customPasswordInput"
-                              }
-                            />
-                          </div>
-                          <div className="mt-20">
-                            <FormControl
-                              control="password"
-                              type="text"
-                              name="confirmPassword"
-                              fontFamily={fontFamilyMedium}
-                              // prefix={<img src={lock_icon} alt="lock_icon" />}
-                              border="none"
-                              label={getLabelByKey(
-                                SCREEN_LABEL_KEYS.confrimPasscodeFieldTitle
-                              )}
-                              padding="10px"
-                              placeholder={getLabelByKey(
-                                SCREEN_LABEL_KEYS.confrimPasscodeFieldPlaceholder
-                              )}
-                              className={
-                                formik.errors.confirmPassword &&
-                                formik.touched.confirmPassword
-                                  ? "is-invalid"
-                                  : "customPasswordInput"
-                              }
-                            />
+                          <div className="createUserPassword">
+                            <div className="mt-20">
+                              <FormControl
+                                control="password"
+                                type="text"
+                                name="password"
+                                label={getLabelByKey(
+                                  SCREEN_LABEL_KEYS.passcodeFieldTitle
+                                )}
+                                fontFamily={fontFamilyMedium}
+                                max={6}
+                                placeholder={getLabelByKey(
+                                  SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
+                                )}
+                                className={
+                                  formik.errors.password &&
+                                    formik.touched.password
+                                    ? "is-invalid"
+                                    : "customPasswordInput"
+                                }
+                              />
+                            </div>
+                            <div className="mt-20">
+                              <FormControl
+                                control="password"
+                                type="text"
+                                name="confirmPassword"
+                                fontFamily={fontFamilyMedium}
+                                border="none"
+                                label={getLabelByKey(
+                                  SCREEN_LABEL_KEYS.confrimPasscodeFieldTitle
+                                )}
+                                placeholder={getLabelByKey(
+                                  SCREEN_LABEL_KEYS.confrimPasscodeFieldPlaceholder
+                                )}
+                                className={
+                                  formik.errors.confirmPassword &&
+                                    formik.touched.confirmPassword
+                                    ? "is-invalid"
+                                    : "customPasswordInput"
+                                }
+                              />
+                            </div>
                           </div>
                           <div className="mt-20 d-flex align-items-center gap-2">
                             <FormControl
@@ -457,7 +401,7 @@ const RegisterUser = () => {
                               id="rememberMe"
                               name="rememberMe"
                             />
-                            <p className="mb-0 text-14">
+                            <p className="remeberText mb-0 text-14 mt-1">
                               {getLabelByKey(SCREEN_LABEL_KEYS.rememberMe)}
                             </p>
                           </div>
@@ -465,9 +409,10 @@ const RegisterUser = () => {
                           <div className="mt-20">
                             <CustomButton
                               bgcolor={lightBlue3}
+                              fontFamily={`${fontFamilyMedium}`}
                               textTransform="Captilize"
-                              color={pureDark}
-                              padding="11px 8px"
+                              color={pureDark2}
+                              padding="12.5px 8px"
                               width="100%"
                               type="submit"
                               title={getLabelByKey(
@@ -478,31 +423,33 @@ const RegisterUser = () => {
                               loading={isLoading}
                             />
                           </div>
-                          {/* <div className="d-flex or-line mt-4 align-items-center">
-                          <div className="line" />
-                          <p>{getLabelByKey(SCREEN_LABEL_KEYS.or)}</p>
-                          <div className="line" />
-                        </div> */}
+                          {/* to show login using google, facebook, apple, microsoft and discord. */}
+                          <div className="d-flex or-line fs-6 mt-20 align-items-center">
+                            <div className="line" />
+                            <p className="orText">{getLabelByKey(SCREEN_LABEL_KEYS.or)}</p>
+                            <div className="line" />
+                          </div>
                           <OauthLogin usecase={OAUTH_USECASES.register} />
+                          <TermsAndConditions
+                            terms={terms}
+                            setTerms={setTerms}
+                            showTermsError={showTermsError}
+                            screen="registerScreen"
+                          />
                         </div>
                       </Form>
                     );
                   }}
                 </Formik>
               </div>
-              <TermsAndConditions
-                terms={terms}
-                setTerms={setTerms}
-                showTermsError={showTermsError}
-                screen="registerScreen"
-              />
               <div className="signup-text mt-3">
-                <p>{getLabelByKey(SCREEN_LABEL_KEYS.login)}</p>
-                <h6 className="me-1 ms-1 mb-0">
-                  <Link to="/login">
-                    {getLabelByKey(SCREEN_LABEL_KEYS.loginAccount)}
-                  </Link>
-                </h6>
+                <p>{getLabelByKey(SCREEN_LABEL_KEYS.login)}
+                  <span className="me-1 ms-1 mb-0">
+                    <Link to="/login">
+                      {getLabelByKey(SCREEN_LABEL_KEYS.loginAccount)}
+                    </Link>
+                  </span>
+                </p>
               </div>
             </div>
           </div>

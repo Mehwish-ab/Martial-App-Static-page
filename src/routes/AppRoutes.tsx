@@ -1,26 +1,11 @@
 import { Routes, Route } from "react-router-dom";
-import {
-  Login,
-  VerifyOtp,
-  Dashboard,
-  Home,
-  CreateUser,
-  ErrorPage404,
-} from "../screens/pages";
+import { Login, Home, CreateUser, ErrorPage404 } from "../screens/pages";
 import ForgetPassword from "../screens/ForgetPassword/ForgetPasword";
 import Otp from "../screens/ForgetPassword/Otp/Otp";
 import CreatePassword from "../screens/ForgetPassword/CreatePassword/CreatePassword";
-import CustomSelects from "../components/CustomSelect/CustomSelects";
-import { Select } from "antd";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/store";
-import { setLanguage } from "../redux/features/selectedLanguageSlice";
+// import { setLanguage } from "../redux/features/selectedLanguageSlice";
 import CreateSchool from "../screens/CreateSchool/CreateSchool";
-import Layout from "antd/lib/layout/layout";
 import AppLayout from "../components/Layout/Layout";
-// import { loginData } from "../App";
-import { lazy, useEffect } from "react";
-import { local_storage_admin_key } from "../utils/axios.utils";
 import EditSchool from "../screens/CreateSchool/EditSchool/EditSchool";
 import CreateBranch from "../screens/Branches/CreateBranch/CreateBranch";
 import EditBranch from "../screens/Branches/EditBranch/EditBranch";
@@ -28,7 +13,6 @@ import ListBranch from "../screens/Branches/ListBranch/ListBranch";
 import ListFranchise from "../screens/Franchise/ListFranchise/ListFranchise";
 import CreateFranchise from "../screens/Franchise/CreateFranchise/CreateFranchise";
 import EditFranchise from "../screens/Franchise/EditFranchise/EditFranchise";
-import ViewBranch from "../screens/Branches/ViewBranch/ViewBranch";
 import ViewFranchise from "../screens/Franchise/ViewFranchise/ViewFranchise";
 import SubscribeFranchise from "../screens/Franchise/SubscribeFranchise/SubscribeFranchise";
 import ListInstructor from "../screens/Instructor/ListInstructor/ListInstructor";
@@ -36,15 +20,40 @@ import CreateInstructor from "../screens/Instructor/CreateInstructor/CreateInstr
 import InformationInstructor from "../screens/Instructor/InformationInstructor/InformationInstructor";
 import ListTimeTable from "../screens/TimeTable/ListTimeTable/ListTimeTable";
 import CreateTimeTable from "../screens/TimeTable/CreateTimeTable/createTimeTable";
+import InformationTimeTable from "../screens/TimeTable/InformationTimeTable/InformationTimeTable";
+import ViewSchool from "../screens/CreateSchool/ViewSchool/ViewSchool";
+import CreateMembership from "../screens/Membership/CreateMembership/CreateMembership";
+import ListMembership from "../screens/Membership/ListMembership/ListMembership";
+import ListClass from "../screens/Class/ListClasses/ListClasses";
+import CreateClass from "../screens/Class/CreateClasses/CreateClass";
+import UpdateClass from "../screens/Class/UpdateClass/UpdateClass";
+import BranchInformation from "../screens/Branches/BranchInformation/BranchInformation";
+import AddPaymentSchool from "../screens/CreateSchool/AddPaymentSchool/AddPaymentSchool";
+import AddPaymentFranchise from "../screens/Franchise/AddPaymentFranchise/AddPaymentFranchise";
+import SchoolFranchise from "../screens/Franchise/SchoolFranchise/SchoolFranchise";
+import AddPaymentBranch from "../screens/Branches/AddPaymentBranch/AddPaymentBranch";
+import ProfileMembership from "../screens/Membership/ProfileMembership/ProfileMembership";
+import ListTransactionHistort from "../screens/TransactionHistory/ListTransactionHistory/ListTransactionHistory";
+import ListRules from "../screens/Rules/ListRules/ListRules";
+import MainSettingPage from "../screens/SettingsPage/MainSettingPage/MainSettingPage";
+import TabsSetting from "../screens/SettingsPage/SettingTabs/TabsSetting";
+import Terms from "../screens/Terms/terms";
+import Privacy from "../screens/Privacy/privacy";
+import HelpSupport from "../screens/HelpSupport/helpSupport";
+import Language from "../screens/LanguagePage/Language";
+import Currency from "../screens/CurrencyPage/Currency";
+import UpdateInstructor from "../screens/Instructor/UpdateInstructor/UpdateInstructor";
+// import { useDispatch, useSelector } from "react-redux";
+// import { RootState } from "../redux/store";
 
 function AppRoutes() {
-  const dispatch = useDispatch();
-  const handleChange = (value: string) => {
-    dispatch(setLanguage(value));
-  };
-  const { selectedLanguage } = useSelector(
-    (state: RootState) => state.selectedLanguage
-  );
+  // const dispatch = useDispatch();
+  // const handleChange = (value: string) => {
+  //   dispatch(setLanguage(value));
+  // };
+  // const { selectedLanguage } = useSelector(
+  //   (state: RootState) => state.selectedLanguage
+  // );
 
   return (
     <>
@@ -69,11 +78,12 @@ function AppRoutes() {
         <Route path="/register" element={<CreateUser />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/register/verify-otp" element={<Otp />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privay" element={<Privacy />} />
         <Route
           path="/register/create-new-password"
           element={<CreatePassword />}
         />
-
         <Route
           path={"/"}
           element={
@@ -91,10 +101,34 @@ function AppRoutes() {
           }
         />
         <Route
+          path="/school/view"
+          element={
+            <AppLayout>
+              <ViewSchool />
+            </AppLayout>
+          }
+        />
+        <Route
           path="/school/edit/:schoolId"
           element={
             <AppLayout>
               <EditSchool />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/school/add-payment-information/:schoolId"
+          element={
+            <AppLayout>
+              <AddPaymentSchool />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/school/add-payment-information/:schoolId"
+          element={
+            <AppLayout>
+              <AddPaymentSchool />
             </AppLayout>
           }
         />
@@ -107,6 +141,14 @@ function AppRoutes() {
           }
         />
         <Route
+          path="/branch/information"
+          element={
+            <AppLayout>
+              <BranchInformation />
+            </AppLayout>
+          }
+        />
+        <Route
           path="/branch/create"
           element={
             <AppLayout>
@@ -114,7 +156,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/branch/edit/:branchId"
           element={
@@ -127,7 +168,15 @@ function AppRoutes() {
           path="/branch/view/:branchId"
           element={
             <AppLayout>
-              <ViewBranch />
+              <BranchInformation />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/branch/add-payment-information/:branchId"
+          element={
+            <AppLayout>
+              <AddPaymentBranch />
             </AppLayout>
           }
         />
@@ -139,7 +188,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/franchise/create"
           element={
@@ -148,7 +196,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/franchise/edit/:franchiseId"
           element={
@@ -157,7 +204,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/franchise/view/:franchiseId"
           element={
@@ -174,7 +220,22 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
+        <Route
+          path="/franchise/add-payment-information/:franchiseId"
+          element={
+            <AppLayout>
+              <AddPaymentFranchise />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/franchise/school-franchise"
+          element={
+            <AppLayout>
+              <SchoolFranchise />
+            </AppLayout>
+          }
+        />
         <Route
           path="/instructor/list"
           element={
@@ -183,7 +244,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/instructor/create"
           element={
@@ -192,25 +252,22 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
-          path="/instructor/update"
-          element={
-            <AppLayout>
-              <CreateInstructor />
-            </AppLayout>
-          }
-        />
-
-        <Route
-          path="/instructor"
+          path="/instructor/view/:instructorId"
           element={
             <AppLayout>
               <InformationInstructor />
             </AppLayout>
           }
         />
-
+        <Route
+          path="/instructor/edit/:instructorId"
+          element={
+            <AppLayout>
+              <UpdateInstructor />
+            </AppLayout>
+          }
+        />
         <Route
           path="/timetable/list"
           element={
@@ -219,7 +276,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/timetable/create"
           element={
@@ -228,7 +284,118 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
+        <Route
+          path="/timetable/information"
+          element={
+            <AppLayout>
+              <InformationTimeTable />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/membership/create"
+          element={
+            <AppLayout>
+              <CreateMembership />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/membership/list"
+          element={
+            <AppLayout>
+              <ListMembership />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/membership/school-profile"
+          element={
+            <AppLayout>
+              <ProfileMembership />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/class/create"
+          element={
+            <AppLayout>
+              <CreateClass />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/class/update/:id"
+          element={
+            <AppLayout>
+              <UpdateClass />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/class/list"
+          element={
+            <AppLayout>
+              <ListClass />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/transaction-history/list"
+          element={
+            <AppLayout>
+              <ListTransactionHistort />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/rules/list"
+          element={
+            <AppLayout>
+              <ListRules />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <AppLayout>
+              <MainSettingPage />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/settings/tabs"
+          element={
+            <AppLayout>
+              <TabsSetting />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/help-support"
+          element={
+            <AppLayout>
+              <HelpSupport />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/language"
+          element={
+            <AppLayout>
+              <Language />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/currency"
+          element={
+            <AppLayout>
+              <Currency />
+            </AppLayout>
+          }
+        />
         {/* error page */}
         <Route path="*" element={<ErrorPage404 />} />
       </Routes>

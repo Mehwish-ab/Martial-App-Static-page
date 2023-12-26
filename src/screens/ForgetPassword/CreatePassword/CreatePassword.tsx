@@ -4,29 +4,31 @@ import Head from "../../../components/Head/Head";
 import { Formik } from "formik";
 import { Form } from "antd";
 import FormControl from "../../../components/FormControl";
+import { useNavigate } from "react-router-dom";
 import {
   fontFamilyMedium,
-  lightBlue3,
   pureDark,
 } from "../../../components/GlobalStyle";
-import lock_icon from "../../../assets/icons/password.svg";
 import { validationFinder } from "../../../utils/utilities";
 import * as Yup from "yup";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import useCreateNewPassword from "../../../hooks/useCreateNewPassword";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { PASSWORD_SCREEN_LABEL_KEYS } from "../constants";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
+// import { useSelector } from "react-redux";
+// import { RootState } from "../../../redux/store";
+import CloseBtn from "../../../assets/icons/ic_back.svg"
+
 export interface createNewPasswordValuesType {
   password: string;
   confirmPassword?: string;
 }
 const CreatePassword: React.FC = () => {
+  const navigate = useNavigate();
   const { getLabelByKey } = useScreenTranslation("restPassword");
-  const { selectedLanguage } = useSelector(
-    (state: RootState) => state.selectedLanguage
-  );
+  // const { selectedLanguage } = useSelector(
+  //   (state: RootState) => state.selectedLanguage
+  // );
   const initialValues: createNewPasswordValuesType = {
     password: "",
     confirmPassword: "",
@@ -51,11 +53,12 @@ const CreatePassword: React.FC = () => {
       <ForgetPasswordStyle>
         <div className="forget-password-container overflow-auto">
           <div className="forget-password-container-card">
-            <div className="forget-password-container-card-inner">
-              <h6 className="title text-center">
+            <div className="forget-password-container-card-inner position-relative ">
+              <img src={CloseBtn} alt="" className="closeButtonIcon" onClick={() => navigate("/login")} />
+              <h6 className="create-title text-center mt-20">
                 {getLabelByKey(PASSWORD_SCREEN_LABEL_KEYS.title)}
               </h6>
-              <p className="text-center forget-password-text mt-20">
+              <p className="text-center create-password-text mt-10">
                 {getLabelByKey(PASSWORD_SCREEN_LABEL_KEYS.subtitle)}
               </p>
               <div className="forget-password-container-card-form w-100">
@@ -79,11 +82,8 @@ const CreatePassword: React.FC = () => {
                             label={getLabelByKey(
                               PASSWORD_SCREEN_LABEL_KEYS.passcodeFieldTitle
                             )}
-                            padding="10px"
                             fontFamily={fontFamilyMedium}
-                            // prefix={<img src={lock_icon} alt="lock_icon" />}
                             max={6}
-                            border="none"
                             placeholder={getLabelByKey(
                               PASSWORD_SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
                             )}
@@ -100,18 +100,15 @@ const CreatePassword: React.FC = () => {
                             type="text"
                             name="confirmPassword"
                             fontFamily={fontFamilyMedium}
-                            // prefix={<img src={lock_icon} alt="lock_icon" />}
-                            border="none"
                             label={getLabelByKey(
                               PASSWORD_SCREEN_LABEL_KEYS.confrimPasscodeFieldTitle
                             )}
-                            padding="10px"
                             placeholder={getLabelByKey(
                               PASSWORD_SCREEN_LABEL_KEYS.confrimPasscodeFieldPlaceholder
                             )}
                             className={
                               formik.errors.confirmPassword &&
-                              formik.touched.confirmPassword
+                                formik.touched.confirmPassword
                                 ? "is-invalid"
                                 : "customPasswordInput"
                             }
@@ -119,17 +116,17 @@ const CreatePassword: React.FC = () => {
                         </div>
                         <div className="mt-20">
                           <CustomButton
-                            bgcolor={lightBlue3}
+                            bgcolor="#C0E9F9"
                             textTransform="Captilize"
                             color={pureDark}
-                            padding="8px"
+                            padding="13.5px"
                             fontFamily={`${fontFamilyMedium}`}
                             width="100%"
                             type="submit"
                             title={getLabelByKey(
                               PASSWORD_SCREEN_LABEL_KEYS.sumbitButton
                             )}
-                            fontSize="14px"
+                            fontSize="16px"
                             loading={loading}
                           />
                         </div>

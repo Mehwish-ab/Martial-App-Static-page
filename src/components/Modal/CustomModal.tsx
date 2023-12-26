@@ -1,6 +1,6 @@
 import { Modal } from "antd";
-import { Dispatch, ReactNode, SetStateAction, useEffect } from "react";
-import close from "../../assets/icons/ic_story_close.svg";
+import { Dispatch, ReactNode, SetStateAction } from "react";
+import close from "../../assets/icons/ic_close.svg";
 import CustomModalStyle from "./style";
 
 type CustomModalPropsTypes = {
@@ -22,13 +22,16 @@ const CustomModal: React.FC<CustomModalPropsTypes> = ({
 }) => {
   const handleCancel = () => {
     setIsModalVisible(false);
+    if (onCancel) {
+      onCancel();
+    }
   };
 
   return (
     <Modal
       open={isModalVisible}
       footer={null}
-      onCancel={onCancel ? onCancel : handleCancel}
+      onCancel={handleCancel}
       centered={true}
       closable={false}
       width={width}
@@ -38,9 +41,7 @@ const CustomModal: React.FC<CustomModalPropsTypes> = ({
         {showCloseBtn && (
           <img
             className="close-icon"
-            onClick={() => {
-              setIsModalVisible(false);
-            }}
+            onClick={handleCancel}
             src={close}
             alt="close"
           />

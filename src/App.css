@@ -52,8 +52,8 @@ html,
 body,
 p,
 a,
-span,
-label,
+/* span, */
+/* label, */
 ul li {
   font-family: "EnnVisions";
 }
@@ -66,6 +66,9 @@ ul li {
 }
 .mt-8 {
   margin-top: 8px;
+}
+.mb-20 {
+  margin-bottom: 20px;
 }
 .ant-modal-body {
   padding: 0px;
@@ -90,6 +93,11 @@ ul li {
 }
 
 @font-face {
+  font-family: "EnnVisionsLight";
+  src: local("SFUIText-Light"),
+    url("./assets/fonts/EnnVisionsLight.otf") format("truetype");
+}
+@font-face {
   font-family: "EnnVisions";
   src: local("SFUIText-Regular"),
     url("./assets/fonts/EnnVisions.otf") format("truetype");
@@ -107,7 +115,7 @@ ul li {
 
 img {
   max-width: 100%;
-  height: auto;
+  /* height: auto; */
 }
 
 .mobile-nav-title {
@@ -222,6 +230,7 @@ button {
   border-color: #3d86af !important;
 }
 
+
 .or-line {
   margin-top: 20px;
   width: 100%;
@@ -247,43 +256,82 @@ button {
   top: 10px;
 }
 
-.PhoneInput {
-  /* border: 1px solid black; */
-  width: 100%;
-  height: 48px;
-  /* border: 1px solid rgb(198, 198, 200); */
-  border-radius: 8px;
+.ant-select-item-option-content{
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  font-family: EnnVisions;
+  white-space: nowrap;
 }
+
+.PhoneInput {
+  width: 100%;
+  height: 52px;
+}
+
+.PhoneInputCountrySelect option{
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  font-family: EnnVisions;
+}
+
+.PhoneInputCountrySelectArrow{
+  font-size: 24px;
+  color: #000 !important;
+  opacity: 1 !important;
+  margin-bottom: 2px;
+}
+.PhoneInputCountryIcon {
+  width: 26px !important;
+  height: 16px !important;
+  object-fit: cover;
+  border-radius: 3px;
+}
+.PhoneInputCountryIconImg{
+  border-radius: 3px;
+}
+
+.PhoneInputCountryIcon--border{
+  box-shadow: none !important;
+  background-color: none !important;
+}
+
 .PhoneInput .PhoneInputCountry {
   width: 80px;
+  height: 52px;
   position: relative;
   padding: 0 11px;
   font-weight: normal;
   font-size: 14px;
   text-align: center;
-  background-color: #fafafa;
+  background-color: transparent;
   transition: all 0.3s;
   justify-content: center;
-  border: 1px solid rgb(198, 198, 200);
+  border: 1px solid #E0E0E0;
+  border-right: none;
   margin-right: 0;
 }
 .country-left-to-right-border-radius {
-  border-radius: 8px 0 0 8px;
+  border-radius: 10px 0 0 10px;
 }
 .country-right-to-left-border-radius {
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 10px 10px 0;
 }
 .PhoneInput input {
   width: 100%;
-  height: 48px;
-  padding: 0 11px;
+  height: 52px;
+  padding: 0 11px 0 0;
   background-color: transparent;
-  border: 1px solid rgb(198, 198, 200);
+  border: 1px solid #E0E0E0;
+  border-left: none;
   outline: 0;
   transition: all 0.3s linear;
   appearance: textfield !important;
-  font-family: EnnVisionsMedium;
-  font-size: 14px;
+  font-family: EnnVisions;
+  font-size: 16px;
+  font-weight: 400;
+  color: #061229;
 }
 .phone-number-right-to-left-border-radius {
   border-radius: 8px 0 0 8px;
@@ -292,17 +340,67 @@ button {
   border-radius: 0 8px 8px 0;
 }
 .PhoneInput input::placeholder {
-  font-family: EnnVisionsMedium;
-  color: rgb(198, 198, 200);
+  font-family: EnnVisions;
+  color: #4F4F4F;
+  font-weight: 400;
+  font-size: 16px;
 }
 .custom-phone-input-label {
   display: block;
-  color: rgb(27, 40, 63);
+  color: #061229;
+  font-weight: 400;
   text-transform: capitalize;
   font-size: 16px !important;
-  font-family: EnnVisionsMedium, sans-serif;
-  margin-bottom: 10px;
+  font-family: EnnVisions;
+  margin-bottom: 7px;
 }
+.PhoneInput:hover input, .PhoneInput:hover .PhoneInputCountry  {
+  border-color: rgb(64, 169, 255);
+  border-right-width: 1px;
+  z-index: 1;
+}
+
+.is-invalid_phone {
+  height: 52px;
+  border: 1px solid #E43535;
+  background: white;
+  width: 100%;
+  width: -moz-available;
+  outline: none;
+  border-radius: 10px;
+  line-height: normal;
+  font-size: 16px;
+  transition: none;
+  .PhoneInputCountry{
+    border: none;
+  }
+  input{
+    color: #4F4F4F;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    font-family: EnnVisions;
+    border: 1px solid rgb(228, 53, 53);
+    border-right: none;
+    border-left: none;
+    transition: none;
+  }
+}
+.is-invalid_phone.PhoneInput:hover .PhoneInputCountry{
+  border: none;
+  transition: none;
+}
+.is-invalid_phone:hover {
+  border-color: rgb(64, 169, 255);
+  z-index: 1;
+  position: relative;
+
+  input{
+    border-color: rgb(64, 169, 255);
+  }
+}
+
 .text-14 {
   font-size: 14px;
 }
@@ -322,8 +420,13 @@ button {
   border-radius: 4px !important;
 }
 .ant-dropdown-menu-title-content {
-  font-family: EnnVisionsMedium, sans-serif;
-  color: #333333 !important;
+  font-family: EnnVisions;
+  color: #1A1C1E;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  text-transform: capitalize;
+  line-height: 150%
 }
 .ant-dropdown-menu-item,
 .ant-dropdown-menu-submenu-title {
@@ -335,7 +438,12 @@ button {
   gap: 16px;
   margin: 0 16px;
   flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+
 }
+
+
 
 @media screen and (max-width: 1000px) {
   .content-styles {

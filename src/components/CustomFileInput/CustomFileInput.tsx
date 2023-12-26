@@ -29,7 +29,9 @@ const CustomFileInput: React.FC<customFileInputProps> = ({
               type="file"
               id={name}
               onChange={(event: any) => {
-                form.setFieldValue(name, event.target.files[0]);
+                const selectedFile = event.target.files[0];
+                form.setFieldValue(name, selectedFile);
+                console.log(`Selected File for ${name}:`, selectedFile);
               }}
             />
           );

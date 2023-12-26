@@ -1,28 +1,15 @@
-import { Route, Routes } from "react-router-dom";
-import { ContentContainer, GlobalContainer } from "../../screens/Home/style";
+import { GlobalContainer } from "../../screens/Home/style";
 import Navbar from "../Navbar/Navbar";
-import Rightbar from "../Rightbar/Rightbar";
 import Sidebar from "../Sidebar/Sidebar";
-import { Home } from "../../screens/pages";
-import CreateSchool from "../../screens/CreateSchool/CreateSchool";
 
-import React, { ReactNode, useState } from "react";
-import {
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
-import { Layout, Menu, theme } from "antd";
-import NavbarSmallScreen from "../Navbar/NavbarSmallScreen";
-const { Header, Content, Footer, Sider } = Layout;
+import { Layout } from "antd";
+const { Header, Content } = Layout;
 
 const AppLayout = (props: any) => {
   // const {
   //   token: { colorBgContainer },
   // } = theme?.useToken();
-  const [collapsed, setCollapsed] = useState(false);
 
-  console.log(props.children);
   return (
     <GlobalContainer>
       <Layout>

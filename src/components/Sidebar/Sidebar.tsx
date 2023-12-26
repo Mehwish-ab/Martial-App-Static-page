@@ -39,6 +39,7 @@ const Sidebar = () => {
         left: 0,
         top: 0,
         bottom: 0,
+        zIndex: 10,
       }}
     >
       <SidebarStyle>
@@ -47,7 +48,7 @@ const Sidebar = () => {
             background: "white",
             borderRadius: 20,
             paddingBottom: 16,
-            paddingTop: 32,
+            paddingTop: 9,
           }}
         >
           <NavigationMenu />

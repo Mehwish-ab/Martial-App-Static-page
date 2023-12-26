@@ -64,7 +64,7 @@ const CustomPhoneInput = ({
         {label}
       </label>
       <Input
-        defaultCountry="US"
+        defaultCountry="GB"
         international
         placeholder={placeholder}
         name={name}

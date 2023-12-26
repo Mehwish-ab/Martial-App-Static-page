@@ -1,10 +1,11 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 import store, { RootState } from "../../../redux/store";
 import {
   BranchDataType,
+  getBranchById,
   getBranchBySchoolId,
 } from "../../../redux/features/branch/branchSlice";
 
@@ -14,6 +15,7 @@ import CustomButton from "../../../components/CustomButton/CustomButton";
 import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
 
 import { ListBranchStyled } from "./styles";
+import { CustomDiv } from "./CustomDiv";
 import {
   fontFamilyMedium,
   pureDark,
@@ -23,20 +25,33 @@ import {
 import plusIcon from "../../../assets/icons/ic_plus.svg";
 import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
 import { ipForImages } from "../../Home/OverlayImages/OverlayImages";
-
+import DummyData from "./dummyData.json";
+import StatusActiveError from "../../../assets/images/activeBtnError.svg";
+import RightArrow from "../../../assets/images/rightArrow.svg";
+import LeftArrow from "../../../assets/images/leftArrow.svg";
+import DateCalander from "../../../assets/images/dateCalander.svg";
+import defaltimg from "../../../assets/images/create_school_user_profile.svg";
+import useBranch from "../hooks/useBranch";
 const ListBranch: React.FC = () => {
+  // const { getLabelByKey } = useScreenTranslation("BranchList");
   const navigate = useNavigate();
+  const { deletebranch, deletemodal } = useBranch();
+  const [branch, setbranch] = useState();
   const { branchData, loading } = useSelector(
     (state: RootState) => state.branchData
   );
+  const {
+    statusData: { activities },
+    dropdowns: { businessTypes }
+  } = useSelector((state: RootState) => state.appData.data);
+  const location = useLocation();
 
-  const { businessTypes, activities } = useSelector(
-    (state: RootState) => state.appData.data.statusData
-  );
+  const handleDelete = (record: any) => {
+    deletebranch(record);
+    store.dispatch(getBranchBySchoolId());
+  };
+  console.log("Branch Data:", branchData);
 
-  const { selectedLanguage } = useSelector(
-    (state: RootState) => state.selectedLanguage
-  );
   const columns: ColumnsType<BranchDataType> = [
     {
       title: "Id",
@@ -45,17 +60,11 @@ const ListBranch: React.FC = () => {
     },
     {
       title: "Image",
-      dataIndex: "profilePicture",
-      key: "profilePicture",
-      render: (text) => (
-        <div style={{ width: 50, height: 50 }}>
-          <img
-            src={ipForImages + text}
-            alt="branch img"
-            style={{ objectFit: "contain", width: "100%" }}
-          />
-        </div>
-      ),
+      //dataIndex: "profilePicture",
+      //key: "profilePicture",
+      render: () => {
+        return <img src={defaltimg} width={44} height={44} />;
+      },
     },
     {
       title: "Name",
@@ -68,51 +77,59 @@ const ListBranch: React.FC = () => {
       dataIndex: "branchType",
       key: "branchType",
       render: (_, { branchType }) => {
+        
         let item = businessTypes.find((b) => b.id === branchType);
         return <p>{item?.en}</p>;
       },
     },
     {
       title: "Activity",
-      dataIndex: "activity",
-      key: "activity",
-      render: (_, { activities: commaSeparatedIds }) => {
-        const filteredObjects = activities.filter((obj) => {
-          const objId = obj.id;
-          return commaSeparatedIds.split(",").includes(objId.toString());
-        });
-        let names = filteredObjects
-          .map((obj) => (obj as any)[selectedLanguage])
-          .join(", ");
-        const maxLength = 20;
-
-        if (names.length > maxLength) {
-          names = names.slice(0, maxLength - 3) + "...";
-        }
-        return <p>{names}</p>;
+      dataIndex: "activities",
+      key: "activities",
+      render: (DummyData) => {
+        return (
+          <p className="sub-title">
+            {DummyData?.length > 33
+              ? `${DummyData.slice(0, 38)}...`
+              : DummyData}
+          </p>
+        );
       },
     },
-
     {
       title: "Phone Number",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
     },
-    // {
-    //   title: "Belts",
-    //   key: "tags",
-    //   dataIndex: "tags",
-    //   render: (_, { belts }) => {
-    //     return (
-    //       <Tag color={belts ? "green" : "red"}>{belts ? "Yes" : "No"}</Tag>
-    //     );
-    //   },
-    // },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "Status",
+      render: (d) => {
+        return (
+          <div>
+            <button>
+              {/* {branchData.data.map((d) => {
+                if (d.status === "active") {
+                  return "Active";
+                } else {
+                  console.log(d.status);
 
+                  return "Deactive";
+                }
+              })} */}
+              {"Active"}
+            </button>
+            <img src={StatusActiveError} alt="image" />
+          </div>
+        );
+      },
+    },
     {
       title: "Action",
       key: "action",
       render: (_, record) => {
+        console.log(record,"bibi")
         const items = [
           {
             key: "1",
@@ -123,6 +140,20 @@ const ListBranch: React.FC = () => {
             key: "2",
             label: "Edit",
             onClick: () => navigation(record, "edit"),
+          },
+          {
+            key: "3",
+            label: "Payment",
+            onClick: () => navigation(record, "payment"),
+          },
+          {
+            key: "4",
+            label: "Delete",
+            onClick: () =>
+            //navigation(record, "delete"),
+            {
+              handleDelete(record.branchId);
+            },
           },
         ];
 
@@ -136,12 +167,6 @@ const ListBranch: React.FC = () => {
               />
             </Dropdown>
           </Space>
-
-
-
-
-
-
         );
       },
     },
@@ -163,6 +188,21 @@ const ListBranch: React.FC = () => {
             branch: record as BranchDataType,
           },
         });
+        break;
+      case "payment":
+        navigate(`/branch/add-payment-information/${record.branchId}`, {
+          state: {
+            branchToEdit: record as BranchDataType,
+          },
+        });
+        break;
+
+      case "delete":
+        navigate(`/branch/delete/${record.branchId}`, {
+          state: {
+            branch: record as BranchDataType,
+          },
+        });
     }
   };
 
@@ -170,15 +210,37 @@ const ListBranch: React.FC = () => {
     store.dispatch(getBranchBySchoolId());
   }, []);
 
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [current, setCurrent] = useState(1);
+
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const rowSelection = { selectedRowKeys, onChange: onSelectChange };
+
   return (
     <>
+      {deletemodal().modalComponent}
+
       {loading && <LoadingOverlay message="" />}
       <ListBranchStyled>
         <Table
           columns={columns}
-          dataSource={branchData?.data}
+          dataSource={branchData.data.map((data) => {
+            return data;
+          })}
           title={() => <RenderTableTitle />}
           scroll={{ x: true }}
+          pagination={{
+            showTotal: (total, range) => (
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: `Page <span className='paginationVal'>${range[0]}</span> of ${range[1]}`,
+                }}
+              />
+            ),
+          }}
         />
       </ListBranchStyled>
     </>
@@ -191,23 +253,43 @@ const RenderTableTitle = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="d-flex justify-content-between align-items-center">
-      <h3 className="table-heading">Branch Information</h3>
-      <CustomButton
-        bgcolor={tertiaryBlue2}
-        textTransform="Captilize"
-        color={pureDark}
-        padding="8px 10px"
-        fontFamily={`${fontFamilyMedium}`}
-        width="fit-content"
-        type="submit"
-        title=""
-        fontSize="17px"
-        icon={<img src={plusIcon} alt="edit icon" />}
-        clicked={() => {
-          navigate(`/branch/create`);
-        }}
-      />
+    <div className="d-flex flex-row flex-wrap justify-content-between align-items-center">
+      {/* <h3 className="table-heading">{getLabelByKey("title")}</h3> */}
+      <h3 className="table-heading">Branches</h3>
+      <CustomDiv>
+        <div className="instructorDateSection">
+          <div className="mainarrow">
+            <div className="arrowright">
+              <img src={LeftArrow} alt="Date" width={18} height={12} />
+            </div>
+            <div className="arrowleft">
+              <img src={RightArrow} alt="Date" width={18} height={12} />
+            </div>
+          </div>
+          <div className="dateRange">
+            <p>
+              <span>Mon,</span> Sep 11, 2023 - <span>Thu,</span> Sep 21, 2023
+            </p>
+            <img src={DateCalander} alt="Calander" width={21} height={21} />
+          </div>
+          <div className="dateToday">Today</div>
+        </div>
+        <CustomButton
+          bgcolor={tertiaryBlue2}
+          textTransform="Captilize"
+          color={pureDark}
+          padding="6.5px 0px"
+          fontFamily={`${fontFamilyMedium}`}
+          width="40px"
+          type="submit"
+          title=""
+          fontSize="17px"
+          icon={<img src={plusIcon} alt="edit icon" width={23} height={23} />}
+          clicked={() => {
+            navigate(`/branch/create`);
+          }}
+        />
+      </CustomDiv>
     </div>
   );
 };

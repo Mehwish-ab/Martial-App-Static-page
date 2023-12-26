@@ -1,6 +1,6 @@
 import { CreateSchoolStyled } from "./styles";
 import { ErrorMessage, Formik } from "formik";
-import { Dropdown, Form, Tag } from "antd";
+import { Form } from "antd";
 
 import { Col, Row } from "react-bootstrap";
 import * as Yup from "yup";
@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 import useScreenTranslation from "../../hooks/useScreenTranslation";
 import { RootState } from "../../redux/store";
 import useCreateSchool from "../../hooks/useCreateSchool";
-import { useParams } from "react-router-dom";
 import {
   BELTS_SELECT_OPTIONS,
   CreateSchoolInitialValues,
@@ -21,38 +20,38 @@ import {
   fontFamilyMedium,
   fontFamilyRegular,
   lightBlue3,
-  pureDark,
+  maastrichtBlue,
 } from "../../components/GlobalStyle";
 import CustomPhoneInput from "../../components/CustomPhoneInput/CustomPhoneInput";
-import CheckboxesList from "../../components/CustomCheckbox/CheckboxesList";
-import PaymentInformation from "../../components/Common/PaymentInformation/PaymentInformation";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import PlacesAutoCompleteInput from "../../maps/PlacesAutocomplete";
-import PaymentInfoTable from "../../components/Common/PaymentInformation/PaymentInfoTable";
 import CheckboxesSelect from "../../components/CustomCheckbox/CheckboxesSelect";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CreateSchool = () => {
+  const { schoolData } = useSelector((state: RootState) => state.dashboardData);
+  const navigate = useNavigate();
+
   const { getLabelByKey } = useScreenTranslation("schoolCreate");
   const {
-    statusData: { activities, facilities, currency, language, businessTypes },
+    statusData: { activities, facilities },
+    dropdowns: { currency, language, businessTypes },
   } = useSelector((state: RootState) => state.appData.data);
-  const { handleSubmit, loading } = useCreateSchool();
+  const { handleCreateSubmit, loading, Createmodal } = useCreateSchool();
 
   const initialValues: CreateSchoolInitialValues = {
     businessName: "",
     businessType: "",
     address: "",
     businessPhoneNumber: "",
-    belts: "",
+
     defaultLanguage: "",
     defaultCurrency: "",
     description: "",
-    // stripePublishableKey: "",
-    // stripeSecretKey: "",
-    // cardAccessToken: "",
-    // cardClientId: "",
-    // cardWebHook: "",
-    // cardClientSecret: "",
+    rank: "",
+    defaultCurrencyId: 1,
+    defaultLanguageId: 1,
     selectedActivities: [],
     selectedFacilities: [],
   };
@@ -71,14 +70,15 @@ const CreateSchool = () => {
     businessName: Yup.string()
       .required(businessName.notBlankMsgEn)
       .matches(businessNameReg, businessName.patternMsgEn),
-    address: Yup.string()
-      .required(address.notBlankMsgEn)
-      .matches(addressReg, address.patternMsgEn),
+    // address: Yup.string()
+    //   .required(address.notBlankMsgEn)
+    //   .matches(addressReg, address.patternMsgEn),
+
     businessType: Yup.string().required("Please select business type"),
     businessPhoneNumber: Yup.string().required(
       businessPhoneNumber.notBlankMsgEn
     ),
-    belts: Yup.string().required("Please select belts"),
+    rank: Yup.string().required("Please select rank"),
     defaultLanguage: Yup.string().required("Please select default language"),
     defaultCurrency: Yup.string().required("Please select default currency"),
     description: Yup.string().required("Please enter description"),
@@ -100,7 +100,7 @@ const CreateSchool = () => {
 
   const createOptions = (list: DataTypesWithIdAndMultipleLangLabel[]) => {
     let options: SelectOptionsDataTypes[] = [];
-    list.forEach((item) => {
+    list?.forEach((item) => {
       let obj = {
         label: (item as any)[selectedLanguage],
         value: item.id,
@@ -111,18 +111,18 @@ const CreateSchool = () => {
 
     return options;
   };
-
+  useEffect(() => {
+    console.log("ids", schoolData.schoolId);
+    if (schoolData.schoolId > 0) return navigate("/school/view");
+    console.log("id", schoolData.schoolId);
+  }, []);
   return (
     <CreateSchoolStyled>
-      {/* <OverlayImages
-        backgroundImg={schoolId ? schoolData.bannerPicture : ""}
-        overlayImg={schoolId ? schoolData.profilePicture : ""}
-        isEditable={true}
-      /> */}
+      {Createmodal().modalComponent}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+        onSubmit={handleCreateSubmit}
       >
         {(formik) => {
           return (
@@ -141,16 +141,12 @@ const CreateSchool = () => {
                       type="text"
                       name="businessName"
                       label={getLabelByKey("businessName")}
-                      padding="10px"
-                      fontFamily={fontFamilyMedium}
                       fontSize="16px"
-                      // prefix={<img src={lock_icon} alt="lock_icon" />}
                       max={6}
-                      // border="none"
                       placeholder={getLabelByKey("businessNamePlaceholder")}
                       className={
                         formik.errors.businessName &&
-                        formik.touched.businessName
+                          formik.touched.businessName
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -161,14 +157,12 @@ const CreateSchool = () => {
                       control="select"
                       type="text"
                       name="businessType"
-                      fontFamily={fontFamilyMedium}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("businessType")}
-                      padding="10px"
                       placeholder={getLabelByKey("businessTypePlaceholder")}
                       className={
                         formik.errors.businessType &&
-                        formik.touched.businessType
+                          formik.touched.businessType
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -192,7 +186,7 @@ const CreateSchool = () => {
                           className="error-message is-invalid"
                           style={{
                             color: "red",
-                            textAlign: "start",
+                            textAlign: "right",
                             marginLeft: "3px",
                             fontSize: "12px",
                             letterSpacing: "1px",
@@ -222,65 +216,62 @@ const CreateSchool = () => {
                     />
                   </Col>
                   <Col md="8">
-                  <Col md="4" className="mt-20 d-inline-block">
-                    <FormControl
-                      control="select"
-                      type="text"
-                      name="belts"
-                      fontFamily={fontFamilyMedium}
-                      // prefix={<img src={lock_icon} alt="lock_icon" />}
-                      label={getLabelByKey("belts")}
-                      padding="10px"
-                      placeholder={getLabelByKey("beltsPlaceholder")}
-                      className={
-                        formik.errors.belts && formik.touched.belts
-                          ? "is-invalid"
-                          : "customInput"
-                      }
-                      options={BELTS_SELECT_OPTIONS}
-                    />
+                    <Row>
+                      <Col md="4" className="mt-20">
+                        <FormControl
+                          control="select"
+                          type="text"
+                          name="rank"
+                          fontFamily={fontFamilyRegular}
+                          // prefix={<img src={lock_icon} alt="lock_icon" />}
+                          label={getLabelByKey("belts")}
+                          placeholder={getLabelByKey("beltsPlaceholder")}
+                          className={
+                            formik.errors.rank && formik.touched.rank
+                              ? "is-invalid"
+                              : "customInput"
+                          }
+                          options={BELTS_SELECT_OPTIONS}
+                        />
+                      </Col>
+                      <Col md="4" className="mt-20">
+                        <FormControl
+                          control="select"
+                          type="text"
+                          name="defaultLanguage"
+                          fontFamily={fontFamilyRegular}
+                          // prefix={<img src={lock_icon} alt="lock_icon" />}
+                          label={getLabelByKey("defaultLanguage")}
+                          placeholder={getLabelByKey("defaultLanguage")}
+                          className={
+                            formik.errors.defaultLanguage &&
+                              formik.touched.defaultLanguage
+                              ? "is-invalid"
+                              : "customInput"
+                          }
+                          options={createOptions(language)}
+                        />
+                      </Col>
+                      <Col md="4" className="mt-20">
+                        <FormControl
+                          control="select"
+                          type="text"
+                          name="defaultCurrency"
+                          fontFamily={fontFamilyRegular}
+                          // prefix={<img src={lock_icon} alt="lock_icon" />}
+                          label={getLabelByKey("defaultCurrency")}
+                          placeholder={getLabelByKey("defaultCurrency")}
+                          className={
+                            formik.errors.defaultCurrency &&
+                              formik.touched.defaultCurrency
+                              ? "is-invalid"
+                              : "customInput"
+                          }
+                          options={createOptions(currency)}
+                        />
+                      </Col>
+                    </Row>
                   </Col>
-                  <Col md="4" className="mt-20 d-inline-block px-3">
-                    <FormControl
-                      control="select"
-                      type="text"
-                      name="defaultLanguage"
-                      fontFamily={fontFamilyMedium}
-                      // prefix={<img src={lock_icon} alt="lock_icon" />}
-                      label={getLabelByKey("defaultLanguage")}
-                      padding="10px"
-                      placeholder={getLabelByKey("defaultLanguage")}
-                      className={
-                        formik.errors.defaultLanguage &&
-                        formik.touched.defaultLanguage
-                          ? "is-invalid"
-                          : "customInput"
-                      }
-                      options={createOptions(language)}
-                    />
-                  </Col>
-                  <Col md="4" className="mt-20 d-inline-block">
-                    <FormControl
-                      control="select"
-                      type="text"
-                      name="defaultCurrency"
-                      fontFamily={fontFamilyMedium}
-                      // prefix={<img src={lock_icon} alt="lock_icon" />}
-                      label={getLabelByKey("defaultCurrency")}
-                      padding="10px"
-                      placeholder={getLabelByKey("defaultCurrency")}
-                      className={
-                        formik.errors.defaultCurrency &&
-                        formik.touched.defaultCurrency
-                          ? "is-invalid"
-                          : "customInput"
-                      }
-                      options={createOptions(currency)}
-                    />
-                  </Col>
-                  </Col>
-
-
                   <Col md="6" className="">
                     <CheckboxesSelect
                       list={activities}
@@ -304,7 +295,7 @@ const CreateSchool = () => {
                       control="textarea"
                       type="text"
                       name="description"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("description")}
                       padding="10px"
@@ -326,8 +317,8 @@ const CreateSchool = () => {
                 <CustomButton
                   bgcolor={lightBlue3}
                   textTransform="Captilize"
-                  color={pureDark}
-                  padding="15px 102px"
+                  color={maastrichtBlue}
+                  padding="11px 40.50px"
                   fontFamily={`${fontFamilyMedium}`}
                   width="fit-content"
                   type="submit"

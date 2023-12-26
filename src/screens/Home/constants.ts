@@ -8,10 +8,12 @@ export type CreateSchoolInitialValues = {
   businessType: string;
   address: string;
   businessPhoneNumber: string;
-  belts: string | number;
   defaultLanguage: string | number;
   defaultCurrency: string | number;
   description: string;
+  rank: number | string;
+  defaultCurrencyId: number;
+  defaultLanguageId: number;
   // stripePublishableKey: string;
   // stripeSecretKey: string;
   // cardAccessToken: string;

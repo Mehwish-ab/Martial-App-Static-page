@@ -6,6 +6,12 @@ import {
   tertiaryGrey12,
   tertiaryGrey8,
   whiteColor,
+  lightGrey9,
+  pureDark2,
+  lightDark3,
+  tertiaryGrey24,
+  fontFamilyRegular,
+  lightDark2,
 } from "../../components/GlobalStyle";
 
 export const ForgetPasswordStyle = styled.div`
@@ -21,29 +27,98 @@ export const ForgetPasswordStyle = styled.div`
   }
   .forget-password-container {
     &-card {
-      max-width: 485px;
+      max-width: 498px;
       display: flex;
       flex-direction: column;
       align-items: center;
       background-color: white;
-      border-radius: 6px;
+      border-radius: 20px;
       width: 100%;
       margin: auto;
-      padding: 20px 12px;
+      padding: 0px 23px 19px;
       background-color: ${whiteColor};
       &-inner {
-        width: 95%;
+        width: 100%;
       }
       .title {
-        color: #061229;
-        font-size: 22px;
+        color: #000;
+        font-size: 18px;
         font-family: ${fontFamilyMedium};
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        margin-top: 14px;
         margin-bottom: 0;
       }
       .forget-password-text {
-        font-size: 14px;
+        color: ${lightGrey9};
+        font-family: ${fontFamilyRegular};
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        padding: 0px 26px;
+        margin-bottom: 0;
       }
 
+     
+
+      .forget-password-phoneNumber{
+        font-size: 18px;
+        font-family: ${fontFamilyMedium};
+        color: ${lightGrey9};
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        margin: 8px 0px 20px 0px;
+
+      }
+
+      .forget-password-container-card-form{
+        label{
+          color: ${pureDark2};
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
+          font-size: 16px;
+          margin-bottom: 8px;
+        }
+        input{
+          padding: 10px;
+        }
+      }
+
+      .ant-input-affix-wrapper + div{
+        text-align: right !important;
+      }
+
+      .create-title{
+        color: ${pureDark2};
+        font-family: ${fontFamilyMedium};
+        margin-bottom: 0;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        margin-top: 26px;
+        font-size: 22px;
+      }
+
+      .create-password-text{
+        color: ${lightDark3};
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+
+  
+      .closeButtonIcon{
+        position: absolute;
+        right: 0px;
+        top: 10px;
+        cursor: pointer;
+      }
+      
       &-logo {
         text-align: center;
 
@@ -66,6 +141,15 @@ export const ForgetPasswordStyle = styled.div`
       align-items: center;
     }
   }
+  .forget-password-OTPtext{
+    color: ${pureDark2};
+    font-family: ${fontFamilyRegular};
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 13px;
+  }
   .signup-text {
     display: flex;
     align-items: center;
@@ -86,32 +170,66 @@ export const ForgetPasswordStyle = styled.div`
     }
   }
   .is-invalid {
-    border: 1px solid red;
+    height: 52px;
+    border: 1px solid #E43535;
     border-radius: 5px;
     background: white;
-    border-radius: 2px;
-    padding: 10px;
+    border-radius: 10px;
+    padding: 3.4px 11px;
     width: 100%;
     width: -moz-available;
     outline: none;
-    margin-bottom: 8px;
+    margin-bottom: 2px;
+    input{
+      font-style: normal;
+      font-family: ${fontFamilyRegular};
+      color: ${lightDark2};
+      font-weight: 400;
+      line-height: normal;
+      font-size: 16px;
+      ::placeholder{
+        font-style: normal;
+        font-family: ${fontFamilyRegular};
+        color: ${lightDark2};
+        font-weight: 400;
+        line-height: normal;
+        font-size: 16px;
+      }
+    }
   }
   .customInput,
   .customPasswordInput {
+    height: 52px;
     background: white;
-    border: 1px solid #c6c6c8;
-    border-radius: 2px;
-    padding: 10px;
+    border: 1px solid ${tertiaryGrey24};
+    border-radius: 10px;
+    padding: 3.4px 11px;
     width: 100%;
     width: -moz-available;
     outline: none;
-    margin-bottom: 8px;
+    input{
+      font-style: normal;
+      font-family: ${fontFamilyRegular};
+      color: ${lightDark2};
+      font-weight: 400;
+      line-height: normal;
+      font-size: 16px;
+      ::placeholder{
+        font-style: normal;
+        font-family: ${fontFamilyRegular};
+        color: ${lightDark2};
+        font-weight: 400;
+        line-height: normal;
+        font-size: 16px;
+      }
+    }
   }
+  
   .forget_password {
     color: ${primaryColor};
     font-size: 16px;
     text-decoration: none;
-    font-family: "EnnVisionsMedium" !important;
+    font-family: ${fontFamilyMedium};
   }
   .remember-password {
     &-text {
@@ -129,6 +247,7 @@ export const ForgetPasswordStyle = styled.div`
   .line {
     display: none;
   }
+  
   
   @media screen and (max-width: 425px) {
     .forget-password-container {

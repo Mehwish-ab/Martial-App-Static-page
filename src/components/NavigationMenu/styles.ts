@@ -1,15 +1,19 @@
 import styled from "styled-components";
-import { lightBlue3, pureDark2 } from "../GlobalStyle";
+import { fontFamilyBold, fontFamilyMedium, lightBlue3, pureDark2 } from "../GlobalStyle";
 
 export const NavigationMenuStyled = styled.div`
   .ant-menu {
-    padding-top: 50px;
     padding-top: 20px;
+    border: none;
 
-    border-radius: 20px;
-
+    
     &-item {
       height: 47px !important;
+      padding-left: 0 !important;
+      display: block !important;
+      &:hover{
+        padding-left: 0;
+      }
     }
     &-item,
     &-submenu {
@@ -18,6 +22,26 @@ export const NavigationMenuStyled = styled.div`
       margin-right: auto;
       justify-content: flex-start !important;
       transition: all 0.3s !important;
+      .ant-menu-item:active, .ant-menu-submenu-title:active {
+        background: transparent !important;
+        font-family: ${fontFamilyMedium};
+      }
+      > .ant-menu-submenu-title{
+        width: 100%;
+        padding-left: 0 !important;
+        transition: all 0.3s !important;
+        &:active{
+          font-family: ${fontFamilyMedium};
+          font-size: 16px;
+        }
+        &:active{
+          font-family: ${fontFamilyMedium};
+        }
+        + ul{
+          padding-top: 00px !important;
+          transition: all 0.3s !important;
+        }
+      }
       &::after {
         border-right: 0 !important;
       }
@@ -27,22 +51,27 @@ export const NavigationMenuStyled = styled.div`
         color: ${pureDark2} !important;
       }
     }
+    &-item{
 
+    }
     &-sub {
       background: white !important;
     }
 
     &-item-active,
     &-item-selected {
-      background: ${lightBlue3}!important;
-      border-radius: 10px;
-      justify-content: center !important;
-      padding-left: 16px !important;
-      font-weight: 500;
+      width: 100%;
+      background: transparent !important;
+      padding-left: 0px !important;
+      font-family: ${fontFamilyMedium};
+      font-size: 16px;
       span {
         flex: none !important;
-        font-weight: 700;
+        font-size: 16px;
+        font-family: ${fontFamilyMedium}
       }
     }
   }
+
+
 `;

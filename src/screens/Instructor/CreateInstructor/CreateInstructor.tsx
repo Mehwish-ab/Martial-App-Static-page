@@ -1,37 +1,44 @@
-import { useState } from "react";
-
-import { ErrorMessage, Field, Formik } from "formik";
+import { Formik } from "formik";
 import { Form } from "antd";
-
 import { Col, Row } from "react-bootstrap";
-import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { RootState } from "../../../redux/store";
-
-import { validationFinder } from "../../../utils/utilities";
 import FormControl from "../../../components/FormControl";
 import {
   fontFamilyMedium,
+  fontFamilyRegular,
   lightBlue3,
-  pureDark,
-  pureDark2,
+  maastrichtBlue,
 } from "../../../components/GlobalStyle";
+import ImagesUpload from "../../../components/ImagesUpload/ImagesUpload";
 import CustomPhoneInput from "../../../components/CustomPhoneInput/CustomPhoneInput";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import { CreateSchoolStyled } from "../../CreateSchool/styles";
 import { CreateInstructorInitialValues } from "../constant";
-import useBranch from "../../../../src/screens/Franchise/hooks/useFranchise";
+import useInstructor from "../../../hooks/useInstructor";
 import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelect";
 import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
-
+import DateCalander from "../../../assets/images/dateCalander.svg";
+import FileSubmit from "../../../assets/icons/ic_fileSubmit.svg";
+import { validationFinder } from "../../../utils/utilities";
+import * as Yup from "yup";
+import { useEffect, useRef, useState } from "react";
+import { BELTS_SELECT_OPTIONS } from "../../Home/constants";
 const CreateInstructor = () => {
   const { getLabelByKey } = useScreenTranslation("instructorCreate");
   const {
-    statusData: { activities, facilities, businessTypes },
+    statusData: { activities, facilities },
   } = useSelector((state: RootState) => state.appData.data);
-
-  const { loading, handleSubmit } = useBranch();
+  const [selectedFiles, setSelectedFiless] = useState<FileList | null>(null);
+  useEffect(() => {
+    console.log("this is create instructor");
+  }, []);
+  const handleImagesUpload = (selectedFiless: any) => {
+    setSelectedFiless(selectedFiless);
+    console.log("Selected Files:", selectedFiless.name);
+  };
+  const { loading, handleSubmit } = useInstructor();
 
   const initialValues: CreateInstructorInitialValues = {
     instructorName: "",
@@ -39,62 +46,66 @@ const CreateInstructor = () => {
     instructorPhoneNumber: "",
     address: "",
     yearsOfExperience: "",
-    ranking: "",
+    rankId: 0,
     latestCertification: "",
     description: "",
-    selectedActivities: [],
-    selectedFacilities: [],
+    activities: [],
+    specializations: [],
     termCondition: "",
-    ranks: ""
   };
 
-  const franchiseName = validationFinder("BUSINESS_NAME")!;
-  const franchiseNameReg = new RegExp(franchiseName.pattern);
+  const instructorName = validationFinder("BUSINESS_NAME")!;
+  const franchiseNameReg = new RegExp(instructorName.pattern);
   const address = validationFinder("ADDRESS")!;
   const addressReg = new RegExp(address.pattern);
   const emailAddress = validationFinder("EMAIL_ADDRESS")!;
   const emailAddressReg = new RegExp(emailAddress.pattern);
-
-  const franchisePhoneNumber = validationFinder("PHONE_NUMBER")!;
-
-
+  const instructorPhoneNumber = validationFinder("PHONE_NUMBER")!;
 
   const validationSchema = Yup.object({
-    franchiseName: Yup.string()
-      .required(franchiseName.notBlankMsgEn)
-      .matches(franchiseNameReg, franchiseName.patternMsgEn),
-    address: Yup.string()
-      .required(address.notBlankMsgEn)
-      .matches(addressReg, address.patternMsgEn),
+    in: Yup.string()
+      .required(instructorName.notBlankMsgEn)
+      .matches(franchiseNameReg, instructorName.patternMsgEn),
+    // address: Yup.string()
+    //   .required(address.notBlankMsgEn)
+    //   .matches(addressReg, address.patternMsgEn),
     emailAddress: Yup.string()
       .required(emailAddress.notBlankMsgEn)
       .matches(emailAddressReg, emailAddress.patternMsgEn),
-    franchisePhoneNumber: Yup.string().required(
-      franchisePhoneNumber.notBlankMsgEn
+    instructorPhoneNumber: Yup.string().required(
+      instructorPhoneNumber.notBlankMsgEn
     ),
-    belts: Yup.string().required("Please select belts"),
+    rankId: Yup.string().required("Please select belts"),
     description: Yup.string().required("Please enter description"),
-    defaultLanguage: Yup.string().required("Please select default language"),
+    yearsOfExperience: Yup.string().required(
+      "Please select years Of Experience"
+    ),
+    latestCertification: Yup.string().required(
+      "Please add your latest Certificates"
+    ),
+
     defaultCurrency: Yup.string().required("Please select default currency"),
-    selectedActivities: Yup.array()
+    activities: Yup.array()
       .of(Yup.string().required("Select an activity"))
       .min(1, "Select at least one activity"),
-    selectedFacilities: Yup.array()
-      .of(Yup.string().required("Select an activity"))
-      .min(1, "Select at least one facility"),
-
+    specializations: Yup.array()
+      .of(Yup.string().required("Select an specilization"))
+      .min(1, "Select at least one specilization"),
   });
-
-
-
+  const handleonSubmit = (values: any) => {
+    handleSubmit(values, selectedFiles);
+    console.log("submitted button pressed");
+  };
   return (
     <CreateSchoolStyled>
       <Formik
         initialValues={initialValues}
-        // validationSchema={validationSchema}
-        onSubmit={() => { }}
+        validationSchema={validationSchema}
+        onSubmit={handleonSubmit}
       >
         {(formik) => {
+          console.log(formik.values);
+
           return (
             <Form
               name="basic"
@@ -102,19 +113,19 @@ const CreateInstructor = () => {
               autoComplete="off"
             >
               <div className="bg-white form">
-                <h3 style={{ color: pureDark2 }}>Instructor Information</h3>
+                <h3>{getLabelByKey("title")}</h3>
                 <Row>
                   <Col md="4" className="mt-20">
                     <FormControl
                       control="input"
                       type="text"
                       name="instructorName"
-                      label="Instructor Name"
+                      label={getLabelByKey("instructorName")}
                       padding="10px"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       fontSize="16px"
                       max={6}
-                      placeholder="Instructor Name"
+                      placeholder={getLabelByKey("placeholderInstructorName")}
                     />
                   </Col>
                   <Col md="4" className="mt-20">
@@ -122,21 +133,21 @@ const CreateInstructor = () => {
                       control="input"
                       type="email"
                       name="emailAddress"
-                      fontFamily={fontFamilyMedium}
-                      label="Email Address"
+                      fontFamily={fontFamilyRegular}
+                      label={getLabelByKey("emailAddress")}
                       padding="10px"
-                      placeholder="Email address"
+                      placeholder={getLabelByKey("PlaceholderEmailAddress")}
                     />
                   </Col>
                   <Col md="4" className="mt-20">
                     <CustomPhoneInput
-                      label="Instructor Phone Number"
+                      label={getLabelByKey("placeholderInstructorName")}
                       name="instructorPhoneNumber"
                       value={formik.values.instructorPhoneNumber}
                       placeholder={getLabelByKey("instructorPhoneNumber")}
                       limitMaxLength={true}
                       handleOnChange={(e: string) => {
-                        formik.setFieldValue("franchisePhoneNumber", e);
+                        formik.setFieldValue("instructorPhoneNumber", e);
                       }}
                     />
                   </Col>
@@ -144,7 +155,7 @@ const CreateInstructor = () => {
                   <Col md="4" className="mt-20">
                     <PlacesAutoCompleteInput
                       label={getLabelByKey("address")}
-                      placeholder={getLabelByKey("enterCompleteAddress")}
+                      placeholder={getLabelByKey("placeholderAddress")}
                       handleChange={(val: any) => {
                         formik.setFieldValue("address", val);
                       }}
@@ -159,45 +170,63 @@ const CreateInstructor = () => {
                     />
                   </Col>
                   <Col md="8">
-                    <Col md="4" className="mt-20 d-inline-block">
-                      <FormControl
-                        control="input"
-                        type="number"
-                        name="yearsOfExperience"
-                        fontFamily={fontFamilyMedium}
-                        label="Years Of Experience"
-                        padding="10px"
-                        placeholder="Years Of Experience"
-                      />
-                    </Col>
-                    <Col md="4" className="mt-20 d-inline-block ps-3">
-                      <FormControl
-                        control="select"
-                        type="text"
-                        name="ranks"
-                        fontFamily={fontFamilyMedium}
-                        label="Ranking"
-                        padding="10px"
-                        placeholder="English"
-                      />
-                    </Col>
-                    <Col md="4" className="mt-20 d-inline-block ps-3">
-                      <FormControl
-                        control="input"
-                        type="upload"
-                        name="latestCertification"
-                        fontFamily={fontFamilyMedium}
-                        label="Latest Certification"
-                        padding="10px"
-                        placeholder="Pound"
-                      />
-                    </Col>
+                    <Row>
+                      <Col md="4" className="mt-20">
+                        <FormControl
+                          control="input"
+                          type="text"
+                          name="yearsOfExperience"
+                          fontFamily={fontFamilyRegular}
+                          label={getLabelByKey("yearsOfExperience")}
+                          padding="10px"
+                          suffix={
+                            <img
+                              src={DateCalander}
+                              alt="Calander"
+                              width={21}
+                              height={21}
+                            />
+                          }
+                          placeholder={getLabelByKey(
+                            "placeholderYearsOfExperience"
+                          )}
+                        />
+                      </Col>
+                      <Col md="4" className="mt-20">
+                        <FormControl
+                          control="select"
+                          type="text"
+                          name="rankId"
+                          fontFamily={fontFamilyRegular}
+                          label={getLabelByKey("ranking")}
+                          placeholder={getLabelByKey("PlaceholderRanking")}
+                          options={BELTS_SELECT_OPTIONS}
+                        />
+                      </Col>
+                      <Col md="4" className="mt-20">
+                        <FormControl
+                          control="input"
+                          type="ImagesUpload"
+                          name="latestCertification"
+                          fontFamily={fontFamilyRegular}
+                          label={getLabelByKey("latestCertification")}
+                          src={FileSubmit}
+                          // onChange={handleChange}
+                          suffix={
+                            <ImagesUpload onImagesSelect={handleImagesUpload} />
+                          }
+                          padding="10px"
+                          placeholder={getLabelByKey(
+                            "PlaceholderLatestCertification"
+                          )}
+                        />
+                      </Col>
+                    </Row>
                   </Col>
-
                   <Col md="6">
                     <CheckboxesSelect
-                      name="selectedFacilities"
-                      label="Specializations"
+                      name="specializations"
+                      label={getLabelByKey("specializations")}
                       list={facilities}
                       showErrorMsgInList={false}
                     />
@@ -205,8 +234,8 @@ const CreateInstructor = () => {
 
                   <Col md="6">
                     <CheckboxesSelect
-                      name="selectedActivities"
-                      label="Activities"
+                      name="activities"
+                      label={getLabelByKey("activities")}
                       list={activities}
                       showErrorMsgInList={false}
                     />
@@ -217,44 +246,52 @@ const CreateInstructor = () => {
                       control="textarea"
                       type="text"
                       name="description"
-                      fontFamily={fontFamilyMedium}
-                      label={getLabelByKey("description")}
+                      fontFamily={fontFamilyRegular}
+                      label={getLabelByKey("biographyOrIntroduction")}
                       padding="10px"
-                      placeholder={getLabelByKey("description")}
+                      placeholder={getLabelByKey(
+                        "placeholderBiographyOrIntroduction"
+                      )}
                       height="200px"
                     />
                   </div>
                   <label htmlFor="termCondition">
-                    <form className="mt-3 d-flex align-content-start justify-content-start">
-                      <Field
+                    <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
+                      <FormControl
                         control="checkbox"
                         type="checkbox"
-                        name="termCondition"
-                        id="termCondition"
+                        id="rememberMe"
+                        name="rememberMe"
                       />
-                      <p className="ms-3 mb-0" id="termCondition">Terms and conditions</p>
+                      <p className="ms-3 mb-0" id="termCondition">
+                        Terms and conditions
+                      </p>
                     </form>
                   </label>
                   <label htmlFor="agreement">
-                    <form className="mt-2 d-flex align-content-start justify-content-start">
-                      <Field
+                    <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
+                      <FormControl
                         control="checkbox"
                         type="checkbox"
-                        name="agreement"
-                        id="agreement"
+                        id="rememberMe"
+                        name="rememberMe"
                       />
-                      <p className="ms-3 mb-0" id="agreement">Agreement to follow the app's guidelines and policies</p>
+                      <p className="ms-3 mb-0" id="agreement">
+                        Agreement to follow the app's guidelines and policies
+                      </p>
                     </form>
                   </label>
                   <label htmlFor="liability">
-                    <form className="mt-2 d-flex align-content-start justify-content-start">
-                      <Field
+                    <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
+                      <FormControl
                         control="checkbox"
                         type="checkbox"
-                        name="liability"
-                        id="liability"
+                        id="rememberMe"
+                        name="rememberMe"
                       />
-                      <p className="ms-3 mb-0" id="liability">Liability waivers</p>
+                      <p className="ms-3 mb-0" id="liability">
+                        Liability waivers
+                      </p>
                     </form>
                   </label>
                 </Row>
@@ -264,8 +301,8 @@ const CreateInstructor = () => {
                 <CustomButton
                   bgcolor={lightBlue3}
                   textTransform="Captilize"
-                  color={pureDark}
-                  padding="12px 100px"
+                  color={maastrichtBlue}
+                  padding="11px 40.50px"
                   margin="30px 0px"
                   fontFamily={`${fontFamilyMedium}`}
                   width="fit-content"
@@ -273,13 +310,14 @@ const CreateInstructor = () => {
                   title={getLabelByKey("primaryButton")}
                   fontSize="18px"
                   loading={loading}
+                  clicked={() => handleSubmit(formik.values, selectedFiles)}
                 />
               </div>
             </Form>
           );
         }}
-      </Formik >
-    </CreateSchoolStyled >
+      </Formik>
+    </CreateSchoolStyled>
   );
 };
 

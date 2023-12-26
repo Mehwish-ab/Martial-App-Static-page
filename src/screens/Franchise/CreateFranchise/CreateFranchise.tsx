@@ -1,51 +1,55 @@
-import profileImg from "../../../../assets/images/create_school_user_profile.svg";
-import banner from "../../../../assets/images/create_school_banner.svg";
+// import profileImg from "../../../../assets/images/create_school_user_profile.svg";
+// import banner from "../../../../assets/images/create_school_banner.svg";
 import { ErrorMessage, Formik } from "formik";
 import { Form } from "antd";
 
 import { Col, Row } from "react-bootstrap";
-import searchIcon from "../../../assets/icons/ic_search.svg";
+// import searchIcon from "../../../assets/icons/ic_search.svg";
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { RootState } from "../../../redux/store";
-import useCreateSchool from "../../../hooks/useCreateSchool";
+// import useCreateSchool from "../../../hooks/useCreateSchool";
 import {
   BELTS_SELECT_OPTIONS,
   SelectOptionsDataTypes,
 } from "../../Home/constants";
 import { validationFinder } from "../../../utils/utilities";
 import { DataTypesWithIdAndMultipleLangLabel } from "../../../redux/features/types";
-import OverlayImages from "../../Home/OverlayImages/OverlayImages";
+// import OverlayImages from "../../Home/OverlayImages/OverlayImages";
 import FormControl from "../../../components/FormControl";
 import {
   fontFamilyMedium,
+  fontFamilyRegular,
   lightBlue3,
-  pureDark,
+  maastrichtBlue,
 } from "../../../components/GlobalStyle";
-import SearchGoogleLocation from "../../../components/Common/SearchGoogleLocation/SearchGoogleLocation";
+// import SearchGoogleLocation from "../../../components/Common/SearchGoogleLocation/SearchGoogleLocation";
 import CustomPhoneInput from "../../../components/CustomPhoneInput/CustomPhoneInput";
-import CheckboxesList from "../../../components/CustomCheckbox/CheckboxesList";
-import PaymentInformation from "../../../components/Common/PaymentInformation/PaymentInformation";
+// import CheckboxesList from "../../../components/CustomCheckbox/CheckboxesList";
+// import PaymentInformation from "../../../components/Common/PaymentInformation/PaymentInformation";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import { CreateSchoolStyled } from "../../CreateSchool/styles";
 import { CreateFranchiseInitialValues } from "../constant";
-import useBranch from "../hooks/useFranchise";
+import useFranchise from "../hooks/useFranchise";
 import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelect";
 import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
 
 const CreateFranchise = () => {
   const { getLabelByKey } = useScreenTranslation("franchiseCreate");
+
   const {
-    statusData: { activities, facilities, businessTypes },
+    statusData: { activities, facilities },
+    dropdowns: { currency, language, businessTypes },
   } = useSelector((state: RootState) => state.appData.data);
-  const { loading, handleSubmit } = useBranch();
+
+  const { loading, handleSubmit } = useFranchise();
   const initialValues: CreateFranchiseInitialValues = {
     franchiseName: "",
     franchiseType: "",
     address: "",
     franchisePhoneNumber: "",
-    ranks: "",
+    rank: "",
     description: "",
     defaultLanguage: "",
     defaultCurrency: "",
@@ -70,19 +74,21 @@ const CreateFranchise = () => {
   const address = validationFinder("ADDRESS")!;
   const addressReg = new RegExp(address.pattern);
   const franchisePhoneNumber = validationFinder("PHONE_NUMBER")!;
+  const ranks = validationFinder("Ranks");
 
   const validationSchema = Yup.object({
     franchiseName: Yup.string()
       .required(franchiseName.notBlankMsgEn)
       .matches(franchiseNameReg, franchiseName.patternMsgEn),
-    address: Yup.string()
-      .required(address.notBlankMsgEn)
-      .matches(addressReg, address.patternMsgEn),
+    // address: Yup.string()
+    //   .required(address.notBlankMsgEn)
+    //   .matches(addressReg, address.patternMsgEn),
     franchiseType: Yup.string().required("Please select franchise type"),
     franchisePhoneNumber: Yup.string().required(
       franchisePhoneNumber.notBlankMsgEn
     ),
-    belts: Yup.string().required("Please select belts"),
+    // belts: Yup.string().required("Please select belts"),
+    ranks: Yup.string().required("Please select ranks"),
     description: Yup.string().required("Please enter description"),
     defaultLanguage: Yup.string().required("Please select default language"),
     defaultCurrency: Yup.string().required("Please select default currency"),
@@ -149,6 +155,8 @@ const CreateFranchise = () => {
         onSubmit={handleSubmit}
       >
         {(formik) => {
+          console.log("hi", formik.values);
+
           return (
             <Form
               name="basic"
@@ -156,8 +164,7 @@ const CreateFranchise = () => {
               autoComplete="off"
             >
               <div className="bg-white form">
-                <h3>Branch Information</h3>
-
+                <h3>Franchise Information</h3>
                 <Row>
                   <Col md="4" className="mt-20">
                     <FormControl
@@ -166,13 +173,13 @@ const CreateFranchise = () => {
                       name="franchiseName"
                       label={getLabelByKey("franchiseName")}
                       padding="10px"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       fontSize="16px"
                       max={6}
                       placeholder={getLabelByKey("franchiseName")}
                       className={
                         formik.errors.franchiseName &&
-                        formik.touched.franchiseName
+                          formik.touched.franchiseName
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -183,14 +190,13 @@ const CreateFranchise = () => {
                       control="select"
                       type="text"
                       name="franchiseType"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("franchiseType")}
-                      padding="10px"
                       placeholder={getLabelByKey("franchiseType")}
                       className={
                         formik.errors.franchiseType &&
-                        formik.touched.franchiseType
+                          formik.touched.franchiseType
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -210,10 +216,22 @@ const CreateFranchise = () => {
                     />
                     <ErrorMessage name={"franchisePhoneNumber"}>
                       {(msg) => (
-                        <div className="error-message is-invalid">{msg}</div>
+                        <div
+                          className="error-message is-invalid"
+                          style={{
+                            color: "red",
+                            textAlign: "end",
+                            marginLeft: "3px",
+                            fontSize: "12px",
+                            letterSpacing: "1px",
+                          }}
+                        >
+                          {msg}
+                        </div>
                       )}
                     </ErrorMessage>
                   </Col>
+
                   <Col md="4" className="mt-20">
                     <PlacesAutoCompleteInput
                       label={getLabelByKey("address")}
@@ -231,61 +249,65 @@ const CreateFranchise = () => {
                       value={formik.values.address}
                     />
                   </Col>
+                  <Col md="8">
+                    <Row>
+                      <Col md="4" className="mt-20">
+                        <FormControl
+                          control="select"
+                          type="text"
+                          name="ranks"
+                          fontFamily={fontFamilyRegular}
+                          // prefix={<img src={lock_icon} alt="lock_icon" />}
+                          label={getLabelByKey("ranking")}
+                          placeholder={getLabelByKey("ranking")}
+                          className={
+                            formik.errors.rank && formik.touched.rank
+                              ? "is-invalid"
+                              : "customInput"
+                          }
+                          options={BELTS_SELECT_OPTIONS}
+                        />
+                      </Col>
+                      <Col md="4" className="mt-20">
+                        <FormControl
+                          control="select"
+                          type="text"
+                          name="defaultLanguage"
+                          fontFamily={fontFamilyRegular}
+                          // prefix={<img src={lock_icon} alt="lock_icon" />}
+                          label={getLabelByKey("defaultLanguage")}
+                          placeholder={getLabelByKey("defaultLanguage")}
+                          className={
+                            formik?.errors?.defaultLanguage &&
+                              formik?.touched?.defaultLanguage
+                              ? "is-invalid"
+                              : "customInput"
+                          }
+                          options={createOptions(language)}
+                        />
+                      </Col>
+                      <Col md="4" className="mt-20">
+                        <FormControl
+                          control="select"
+                          type="text"
+                          name="defaultCurrency"
+                          fontFamily={fontFamilyRegular}
+                          // prefix={<img src={lock_icon} alt="lock_icon" />}
+                          label={getLabelByKey("defaultCurrency")}
+                          placeholder={getLabelByKey("defaultCurrency")}
+                          className={
+                            formik.errors.defaultCurrency &&
+                              formik.touched.defaultCurrency
+                              ? "is-invalid"
+                              : "customInput"
+                          }
+                          options={createOptions(currency)}
+                        />
+                      </Col>
+                    </Row>
+                  </Col>
 
-                  <Col md="4" className="mt-20">
-                    <FormControl
-                      control="select"
-                      type="text"
-                      name="belts"
-                      fontFamily={fontFamilyMedium}
-                      label={getLabelByKey("ranking")}
-                      padding="10px"
-                      placeholder={getLabelByKey("ranking")}
-                      className={
-                        formik.errors.ranks && formik.touched.ranks
-                          ? "is-invalid"
-                          : "customInput"
-                      }
-                      options={BELTS_SELECT_OPTIONS}
-                    />
-                  </Col>
-                  <Col md="4" className="mt-20">
-                    <FormControl
-                      control="select"
-                      type="text"
-                      name="belts"
-                      fontFamily={fontFamilyMedium}
-                      label={getLabelByKey("defaultLanguage")}
-                      padding="10px"
-                      placeholder={getLabelByKey("defaultLanguage")}
-                      className={
-                        formik.errors.defaultLanguage &&
-                        formik.touched.defaultLanguage
-                          ? "is-invalid"
-                          : "customInput"
-                      }
-                      options={BELTS_SELECT_OPTIONS}
-                    />
-                  </Col>
-                  <Col md="4" className="mt-20">
-                    <FormControl
-                      control="select"
-                      type="text"
-                      name="belts"
-                      fontFamily={fontFamilyMedium}
-                      label={getLabelByKey("defaultCurrency")}
-                      padding="10px"
-                      placeholder={getLabelByKey("defaultCurrency")}
-                      className={
-                        formik.errors.defaultCurrency &&
-                        formik.touched.defaultCurrency
-                          ? "is-invalid"
-                          : "customInput"
-                      }
-                      options={BELTS_SELECT_OPTIONS}
-                    />
-                  </Col>
-                  <Col md="4">
+                  <Col md="6">
                     <CheckboxesSelect
                       name="selectedActivities"
                       label="Activity"
@@ -294,7 +316,7 @@ const CreateFranchise = () => {
                     />
                   </Col>
 
-                  <Col md="4">
+                  <Col md="6">
                     <CheckboxesSelect
                       name="selectedFacilities"
                       label="Facility"
@@ -308,7 +330,7 @@ const CreateFranchise = () => {
                       control="textarea"
                       type="text"
                       name="description"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("description")}
                       padding="10px"
@@ -336,13 +358,13 @@ const CreateFranchise = () => {
                 <CustomButton
                   bgcolor={lightBlue3}
                   textTransform="Captilize"
-                  color={pureDark}
-                  padding="12px 100px"
+                  color={maastrichtBlue}
+                  padding="11px 40.50px"
                   fontFamily={`${fontFamilyMedium}`}
                   width="fit-content"
                   type="submit"
                   title={getLabelByKey("primaryButton")}
-                  fontSize="17px"
+                  fontSize="18px"
                   loading={loading}
                 />
               </div>

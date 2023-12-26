@@ -3,14 +3,11 @@ import axios from "axios";
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useGlobalContext } from "../context/context";
-import { useAppSelector } from "../app/hooks";
 import {
   generate_otp_url,
   useCaseForgetPassowrd,
-  useCaseRegisteration,
 } from "../utils/api_urls";
 import { forgetPasswordInitialTypes } from "../screens/ForgetPassword/ForgetPasword";
-import * as Yup from "yup";
 
 const useGenerateOtp = () => {
   const navigate = useNavigate();
@@ -54,14 +51,14 @@ const useGenerateOtp = () => {
       setError("");
       setLoading(true);
       const { data } = await axios.post(generate_otp_url, phoneData);
-      if (data.responseCode === "500") {
-        toast(data.responseMessage, {
-          type: "error",
-          autoClose: 1000,
-        });
-        setLoading(false);
-        return;
-      }
+      // if (data.responseCode === "500") {
+      //   toast(data.responseMessage, {
+      //     type: "error",
+      //     autoClose: 1000,
+      //   });
+      //   setLoading(false);
+      //   return;
+      // }
       toastId.current = toast(data.responseMessage, {
         type: "success",
         autoClose: 1000,

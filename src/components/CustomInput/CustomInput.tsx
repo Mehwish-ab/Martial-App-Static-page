@@ -3,9 +3,8 @@ import ErrorMsg from "../ErrorMessage";
 import { Input } from "antd";
 import CustomInputStyle from "./style";
 import {
-  fontFamilyMedium,
   fontFamilyRegular,
-  tertiaryGrey21,
+  tertiaryGrey24,
 } from "../GlobalStyle";
 
 type CustomInputTypes = {
@@ -51,18 +50,18 @@ const CustomInput: React.FC<CustomInputTypes> = ({
   fontSize = "16px",
   fontFamily = fontFamilyRegular,
   bgColor = "white",
-  border = `1px solid ${tertiaryGrey21}`,
-  padding = "8px 8px",
+  border = `1px solid ${tertiaryGrey24}`,
+  padding = "11.5px",
   showErrorMessage = true,
   suffix = null,
   readyOnly = false,
   label,
-  labelMarginBottom = "10px",
-  labelFamily = fontFamilyMedium,
+  labelMarginBottom = "7px",
+  labelFamily = fontFamilyRegular,
   labelFont = "16px",
   type = "text",
-  marginBottom = "0px",
-  borderRadius = "8px",
+  marginBottom = "10px",
+  borderRadius = "10px",
   onKeyUp,
 }: CustomInputTypes) => {
   return (

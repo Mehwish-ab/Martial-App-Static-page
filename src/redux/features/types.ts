@@ -368,15 +368,21 @@ export interface appDataTypes {
   countryName: CountryName;
   validations: Validation[];
   statusData: StatusDataTypes;
+  dropdowns: DropdownDataTypes;
+}
+
+export interface DropdownDataTypes {
+  language: DataTypesWithIdAndMultipleLangLabel[];
+  currency: DataTypesWithIdAndMultipleLangLabel[];
+  businessTypes: DataTypesWithIdAndMultipleLangLabel[];
+  countryName: DataTypesWithIdAndMultipleLangLabel[];
 }
 
 export interface StatusDataTypes {
   activities: DataTypesWithIdAndMultipleLangLabel[];
   facilities: DataTypesWithIdAndMultipleLangLabel[];
-  language: DataTypesWithIdAndMultipleLangLabel[];
-  currency: DataTypesWithIdAndMultipleLangLabel[];
-  businessTypes: DataTypesWithIdAndMultipleLangLabel[];
 }
+
 export interface DataTypesWithIdAndMultipleLangLabel {
   id: string;
   en: string;

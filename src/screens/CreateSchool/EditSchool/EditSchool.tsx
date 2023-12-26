@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { RootState } from "../../../redux/store";
-import useCreateSchool from "../../../hooks/useCreateSchool";
+import useSchool from "../../../hooks/useCreateSchool";
 import { useParams } from "react-router-dom";
 import {
   BELTS_SELECT_OPTIONS,
@@ -25,19 +25,19 @@ import {
   pureDark,
 } from "../../../components/GlobalStyle";
 import CustomPhoneInput from "../../../components/CustomPhoneInput/CustomPhoneInput";
-import CheckboxesList from "../../../components/CustomCheckbox/CheckboxesList";
-import PaymentInformation from "../../../components/Common/PaymentInformation/PaymentInformation";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
 import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelect";
 
 const EditSchool = () => {
+  const { editSchool, loading, UpdateModal } = useSchool();
   const { getLabelByKey } = useScreenTranslation("schoolCreate");
   const {
-    statusData: { activities, facilities, currency, language, businessTypes },
+    statusData: { activities, facilities },
+    dropdowns: { currency, language, businessTypes },
   } = useSelector((state: RootState) => state.appData.data);
+
   const { schoolData } = useSelector((state: RootState) => state.dashboardData);
-  const { handleSubmit, loading } = useCreateSchool();
   const { schoolId } = useParams();
 
   const { selectedLanguage } = useSelector(
@@ -54,9 +54,9 @@ const EditSchool = () => {
     businessName: Yup.string()
       .required(businessName.notBlankMsgEn)
       .matches(businessNameReg, businessName.patternMsgEn),
-    address: Yup.string()
-      .required(address.notBlankMsgEn)
-      .matches(addressReg, address.patternMsgEn),
+    // address: Yup.string()
+    //   .required(address.notBlankMsgEn)
+    //   .matches(addressReg, address.patternMsgEn),
     businessType: Yup.string().required("Please select business type"),
     businessPhoneNumber: Yup.string().required(
       businessPhoneNumber.notBlankMsgEn
@@ -80,7 +80,9 @@ const EditSchool = () => {
       .of(Yup.string().required("Select at least one facility"))
       .min(1, "Select at least one facility"),
   });
-
+  const handleEditSchool = async (value: any) => {
+    await editSchool(schoolData.schoolId, value);
+  };
   const createOptions = (list: DataTypesWithIdAndMultipleLangLabel[]) => {
     let options: SelectOptionsDataTypes[] = [];
     list.forEach((item) => {
@@ -100,10 +102,12 @@ const EditSchool = () => {
     businessType: schoolData.businessType.toString(),
     address: schoolData.address,
     businessPhoneNumber: schoolData.phoneNumber,
-    belts: schoolData.belts ? 1 : 2, // 1 for yes, 2 for no
     defaultLanguage: schoolData.defaultLanguageId,
     defaultCurrency: schoolData.defaultCurrencyId,
     description: schoolData.description,
+    rank: schoolData.rank ? 1 : 2,
+    defaultCurrencyId: schoolData.defaultCurrencyId,
+    defaultLanguageId: schoolData.defaultLanguageId,
     // stripePublishableKey: schoolData.stripePublicKey,
     // stripeSecretKey: schoolData.stripeSecretKey,
     // cardAccessToken: schoolData.gclAccessToken,
@@ -116,26 +120,29 @@ const EditSchool = () => {
 
   return (
     <CreateSchoolStyled>
+      {/* {UpdateModal().modalComponent}
       <OverlayImages
         backgroundImg={schoolData.bannerPicture || ""}
         overlayImg={schoolData.profilePicture || ""}
         isEditable={true}
-      />
+      /> */}
       <Formik
         initialValues={initialValuesForEdit}
         validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+        onSubmit={handleEditSchool}
       >
         {(formik) => {
+          console.log("Form Values:", formik.values);
+          console.log("School Values:", schoolData);
+
           return (
             <Form
               name="basic"
               onFinish={formik.handleSubmit}
               autoComplete="off"
             >
-              <div className="bg-white form">
-                <h3>School Information</h3>
-
+              <h3 className="ps-3">School Information</h3>
+              <div className="bg-white form mt-10">
                 <Row>
                   <Col md="4" className="mt-20">
                     <FormControl
@@ -144,7 +151,7 @@ const EditSchool = () => {
                       name="businessName"
                       label={getLabelByKey("businessName")}
                       padding="10px"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       fontSize="16px"
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       max={6}
@@ -152,7 +159,7 @@ const EditSchool = () => {
                       placeholder={getLabelByKey("businessNamePlaceholder")}
                       className={
                         formik.errors.businessName &&
-                        formik.touched.businessName
+                          formik.touched.businessName
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -163,14 +170,12 @@ const EditSchool = () => {
                       control="select"
                       type="text"
                       name="businessType"
-                      fontFamily={fontFamilyMedium}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("businessType")}
-                      padding="10px"
                       placeholder={getLabelByKey("businessTypePlaceholder")}
                       className={
                         formik.errors.businessType &&
-                        formik.touched.businessType
+                          formik.touched.businessType
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -178,13 +183,12 @@ const EditSchool = () => {
                       defaultValue={
                         schoolId
                           ? createOptions(businessTypes).find(
-                              (item) => item.value === schoolData.businessType
-                            )?.label
+                            (item) => item.value === schoolData.businessType
+                          )?.label
                           : undefined
                       }
                     />
                   </Col>
-
                   <Col md="4" className="mt-20">
                     <CustomPhoneInput
                       label={getLabelByKey("businessPhoneNumber")}
@@ -202,7 +206,7 @@ const EditSchool = () => {
                           className="error-message is-invalid"
                           style={{
                             color: "red",
-                            textAlign: "start",
+                            textAlign: "end",
                             marginLeft: "3px",
                             fontSize: "12px",
                             letterSpacing: "1px",
@@ -214,6 +218,7 @@ const EditSchool = () => {
                       )}
                     </ErrorMessage>
                   </Col>
+
                   <Col md="4" className="mt-20">
                     <PlacesAutoCompleteInput
                       label={getLabelByKey("address")}
@@ -231,18 +236,18 @@ const EditSchool = () => {
                       value={formik.values.address}
                     />
                   </Col>
-                  <Col md="4" className="mt-20">
+                  <Col md="2" className="mt-20">
                     <FormControl
                       control="select"
                       type="text"
-                      name="belts"
-                      fontFamily={fontFamilyMedium}
+                      name="rank"
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("belts")}
-                      padding="10px"
+                      // defaultValue={schoolData.rank === true ? "Yes" : "No"}
                       placeholder={getLabelByKey("beltsPlaceholder")}
                       className={
-                        formik.errors.belts && formik.touched.belts
+                        formik.errors.rank && formik.touched.rank
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -250,26 +255,41 @@ const EditSchool = () => {
                       defaultValue={
                         schoolId
                           ? BELTS_SELECT_OPTIONS.find(
-                              (item) =>
-                                item.value === initialValuesForEdit.belts
-                            )?.label
+                            (item) => item.value === initialValuesForEdit.rank
+                          )?.label
                           : undefined
                       }
                     />
+
+                    {/* //   control="select"
+                    //   type="text"
+                    //   name="belts"
+                    //   fontFamily={fontFamilyMedium}
+                    //   // prefix={<img src={lock_icon} alt="lock_icon" />}
+                    //   label={getLabelByKey("belts")}
+                    //   padding="10px"
+                    //   value={schoolData.belts === false ? "Yes" : "No"}
+                    //   placeholder={getLabelByKey("beltsPlaceholder")}
+                    //   className={
+                    //     formik.errors.rank && formik.touched.rank
+                    //       ? "is-invalid"
+                    //       : "customInput"
+                    //   }
+                    //   options={BELTS_SELECT_OPTIONS}
+                    // /> */}
                   </Col>
-                  <Col md="4" className="mt-20">
+                  <Col md="3" className="mt-20">
                     <FormControl
                       control="select"
                       type="text"
                       name="defaultLanguage"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("defaultLanguage")}
-                      padding="10px"
                       placeholder={getLabelByKey("defaultLanguage")}
                       className={
                         formik.errors.defaultLanguage &&
-                        formik.touched.defaultLanguage
+                          formik.touched.defaultLanguage
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -277,26 +297,25 @@ const EditSchool = () => {
                       defaultValue={
                         schoolId
                           ? createOptions(language).find(
-                              (item) =>
-                                item.value === schoolData.defaultLanguageId
-                            )?.label
+                            (item) =>
+                              item.value === schoolData.defaultLanguageId
+                          )?.label
                           : undefined
                       }
                     />
                   </Col>
-                  <Col md="4" className="mt-20">
+                  <Col md="3" className="mt-20">
                     <FormControl
                       control="select"
                       type="text"
                       name="defaultCurrency"
-                      fontFamily={fontFamilyMedium}
+                      fontFamily={fontFamilyRegular}
                       // prefix={<img src={lock_icon} alt="lock_icon" />}
                       label={getLabelByKey("defaultCurrency")}
-                      padding="10px"
                       placeholder={getLabelByKey("defaultCurrency")}
                       className={
                         formik.errors.defaultCurrency &&
-                        formik.touched.defaultCurrency
+                          formik.touched.defaultCurrency
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -304,15 +323,15 @@ const EditSchool = () => {
                       defaultValue={
                         schoolId
                           ? createOptions(currency).find(
-                              (item) =>
-                                item.value === schoolData.defaultCurrencyId
-                            )?.value
+                            (item) =>
+                              item.value === schoolData.defaultCurrencyId
+                          )?.value
                           : undefined
                       }
                     />
                   </Col>
 
-                  <Col md="4">
+                  <Col md="6">
                     <CheckboxesSelect
                       list={activities}
                       name="selectedActivities"
@@ -321,7 +340,7 @@ const EditSchool = () => {
                     />
                   </Col>
 
-                  <Col md="4">
+                  <Col md="6">
                     <CheckboxesSelect
                       name="selectedFacilities"
                       label={getLabelByKey("facilities")}
@@ -329,25 +348,28 @@ const EditSchool = () => {
                       showErrorMsgInList={false}
                     />
                   </Col>
-                  <div className="mt-20">
-                    <FormControl
-                      control="textarea"
-                      type="text"
-                      name="description"
-                      fontFamily={fontFamilyMedium}
-                      // prefix={<img src={lock_icon} alt="lock_icon" />}
-                      label={getLabelByKey("description")}
-                      padding="10px"
-                      placeholder={getLabelByKey("enterDescription")}
-                      className={
-                        formik.errors.description && formik.touched.description
-                          ? "is-invalid"
-                          : "customInput"
-                      }
-                      height="200px"
-                    />
-                  </div>
                 </Row>
+                {/* </div> */}
+
+                <div className="mt-20">
+                  <FormControl
+                    control="textarea"
+                    type="text"
+                    name="description"
+                    fontFamily={fontFamilyRegular}
+                    // prefix={<img src={lock_icon} alt="lock_icon" />}
+                    label={getLabelByKey("description")}
+                    padding="10px"
+                    placeholder={getLabelByKey("enterDescription")}
+                    className={
+                      formik.errors.description && formik.touched.description
+                        ? "is-invalid"
+                        : "customInput"
+                    }
+                    height="200px"
+                  />
+                </div>
+                {/* </Row> */}
                 {/* <PaymentInformation formik={formik} /> */}
               </div>
 
@@ -356,12 +378,13 @@ const EditSchool = () => {
                   bgcolor={lightBlue3}
                   textTransform="Captilize"
                   color={pureDark}
-                  padding="12px 100px"
+                  padding="11px 40.50px"
                   fontFamily={`${fontFamilyMedium}`}
                   width="fit-content"
                   type="submit"
-                  title={getLabelByKey("primaryButton")}
+                  title="Update"
                   fontSize="17px"
+                  clicked={() => handleEditSchool(formik.values)}
                   loading={loading}
                 />
               </div>

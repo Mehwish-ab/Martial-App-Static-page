@@ -67,9 +67,9 @@ const CreateInstructor = () => {
     in: Yup.string()
       .required(instructorName.notBlankMsgEn)
       .matches(franchiseNameReg, instructorName.patternMsgEn),
-    address: Yup.string()
-      .required(address.notBlankMsgEn)
-      .matches(addressReg, address.patternMsgEn),
+    // address: Yup.string()
+    //   .required(address.notBlankMsgEn)
+    //   .matches(addressReg, address.patternMsgEn),
     emailAddress: Yup.string()
       .required(emailAddress.notBlankMsgEn)
       .matches(emailAddressReg, emailAddress.patternMsgEn),
@@ -101,7 +101,7 @@ const CreateInstructor = () => {
     <CreateSchoolStyled>
       <Formik
         initialValues={initialValues}
-        // validationSchema={validationSchema}
+        validationSchema={validationSchema}
         onSubmit={handleonSubmit}
       >
         {(formik) => {
@@ -112,19 +112,19 @@ const CreateInstructor = () => {
               autoComplete="off"
             >
               <div className="bg-white form">
-                <h3>Instructor Information</h3>
+                <h3>{getLabelByKey("title")}</h3>
                 <Row>
                   <Col md="4" className="mt-20">
                     <FormControl
                       control="input"
                       type="text"
                       name="instructorName"
-                      label="Instructor Name"
+                      label={getLabelByKey("instructorName")}
                       padding="10px"
                       fontFamily={fontFamilyRegular}
                       fontSize="16px"
                       max={6}
-                      placeholder="Instructor Name"
+                      placeholder={getLabelByKey("placeholderInstructorName")}
                     />
                   </Col>
                   <Col md="4" className="mt-20">
@@ -133,14 +133,14 @@ const CreateInstructor = () => {
                       type="email"
                       name="emailAddress"
                       fontFamily={fontFamilyRegular}
-                      label="Email Address"
+                      label={getLabelByKey("emailAddress")}
                       padding="10px"
-                      placeholder="Email Address"
+                      placeholder={getLabelByKey("PlaceholderEmailAddress")}
                     />
                   </Col>
                   <Col md="4" className="mt-20">
                     <CustomPhoneInput
-                      label="Instructor Mobile Number"
+                      label={getLabelByKey("placeholderInstructorName")}
                       name="instructorPhoneNumber"
                       value={formik.values.instructorPhoneNumber}
                       placeholder={getLabelByKey("instructorPhoneNumber")}
@@ -154,7 +154,7 @@ const CreateInstructor = () => {
                   <Col md="4" className="mt-20">
                     <PlacesAutoCompleteInput
                       label={getLabelByKey("address")}
-                      placeholder="Address"
+                      placeholder={getLabelByKey("placeholderAddress")}
                       handleChange={(val: any) => {
                         formik.setFieldValue("address", val);
                       }}
@@ -176,7 +176,7 @@ const CreateInstructor = () => {
                           type="text"
                           name="yearsOfExperience"
                           fontFamily={fontFamilyRegular}
-                          label="Years Of Experience"
+                          label={getLabelByKey("yearsOfExperience")}
                           padding="10px"
                           suffix={
                             <img
@@ -186,7 +186,9 @@ const CreateInstructor = () => {
                               height={21}
                             />
                           }
-                          placeholder="Years Of Experience"
+                          placeholder={getLabelByKey(
+                            "placeholderYearsOfExperience"
+                          )}
                         />
                       </Col>
                       <Col md="4" className="mt-20">
@@ -195,8 +197,8 @@ const CreateInstructor = () => {
                           type="text"
                           name="rankId"
                           fontFamily={fontFamilyRegular}
-                          label="RankId"
-                          placeholder={getLabelByKey("belts")}
+                          label={getLabelByKey("ranking")}
+                          placeholder={getLabelByKey("PlaceholderRanking")}
                           options={BELTS_SELECT_OPTIONS}
                         />
                       </Col>
@@ -206,29 +208,24 @@ const CreateInstructor = () => {
                           type="ImagesUpload"
                           name="latestCertification"
                           fontFamily={fontFamilyRegular}
-                          label="Latest Certification"
+                          label={getLabelByKey("latestCertification")}
                           src={FileSubmit}
                           // onChange={handleChange}
                           suffix={
                             <ImagesUpload onImagesSelect={handleImagesUpload} />
-                            // <img
-                            //   src={FileSubmit}
-                            //   alt="Calander"
-                            //   width={21}
-                            //   height={21}
-
-                            //  />
                           }
                           padding="10px"
-                          placeholder="Pound"
+                          placeholder={getLabelByKey(
+                            "PlaceholderLatestCertification"
+                          )}
                         />
                       </Col>
                     </Row>
                   </Col>
                   <Col md="6">
                     <CheckboxesSelect
-                      name="selectedFacilities"
-                      label="Specializations"
+                      name="specializations"
+                      label={getLabelByKey("specializations")}
                       list={facilities}
                       showErrorMsgInList={false}
                     />
@@ -236,8 +233,8 @@ const CreateInstructor = () => {
 
                   <Col md="6">
                     <CheckboxesSelect
-                      name="selectedActivities"
-                      label="Activities"
+                      name="activities"
+                      label={getLabelByKey("activities")}
                       list={activities}
                       showErrorMsgInList={false}
                     />
@@ -249,9 +246,11 @@ const CreateInstructor = () => {
                       type="text"
                       name="description"
                       fontFamily={fontFamilyRegular}
-                      label="Description"
+                      label={getLabelByKey("biographyOrIntroduction")}
                       padding="10px"
-                      placeholder="Description"
+                      placeholder={getLabelByKey(
+                        "placeholderBiographyOrIntroduction"
+                      )}
                       height="200px"
                     />
                   </div>

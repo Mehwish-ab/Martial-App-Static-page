@@ -42,8 +42,7 @@ import Privacy from "../screens/Privacy/privacy";
 import HelpSupport from "../screens/HelpSupport/helpSupport";
 import Language from "../screens/LanguagePage/Language";
 import Currency from "../screens/CurrencyPage/Currency";
-import EditInstructor from "../screens/Instructor/EditInstructor/EditInstructor";
-import UpdateeInstructor from "../screens/Instructor/UpdateInstructor/UpdateInstructor";
+import UpdateInstructor from "../screens/Instructor/UpdateInstructor/UpdateInstructor";
 // import { useDispatch, useSelector } from "react-redux";
 // import { RootState } from "../redux/store";
 
@@ -257,7 +256,7 @@ function AppRoutes() {
           path="/instructor/update"
           element={
             <AppLayout>
-              <CreateInstructor />
+              <UpdateInstructor />
             </AppLayout>
           }
         />

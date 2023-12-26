@@ -93,9 +93,9 @@ const EditInstructor = () => {
     franchiseName: Yup.string()
       .required(franchiseName.notBlankMsgEn)
       .matches(franchiseNameReg, franchiseName.patternMsgEn),
-    address: Yup.string()
-      .required(address.notBlankMsgEn)
-      .matches(addressReg, address.patternMsgEn),
+    // address: Yup.string()
+    //   .required(address.notBlankMsgEn)
+    //   .matches(addressReg, address.patternMsgEn),
     emailAddress: Yup.string()
       .required(emailAddress.notBlankMsgEn)
       .matches(emailAddressReg, emailAddress.patternMsgEn),
@@ -134,14 +134,14 @@ const EditInstructor = () => {
                 autoComplete="off"
               >
                 <div className="bg-white form">
-                  <h3 style={{ color: pureDark2 }}>Instructor Information</h3>
+                  <h3>Instructor Information</h3>
                   <Row>
                     <Col md="4" className="mt-20">
                       <FormControl
                         control="input"
                         type="text"
                         name="instructorName"
-                        label="Instructor Name"
+                        label={getLabelByKey("instructorName")}
                         padding="10px"
                         fontFamily={fontFamilyMedium}
                         fontSize="16px"

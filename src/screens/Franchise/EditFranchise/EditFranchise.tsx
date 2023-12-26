@@ -126,9 +126,9 @@ const EditFranchise = () => {
     branchName: Yup.string()
       .required(franchiseName?.notBlankMsgEn)
       .matches(franchiseNameReg, franchiseName?.patternMsgEn),
-    address: Yup.string()
-      .required(address.notBlankMsgEn)
-      .matches(addressReg, address?.patternMsgEn),
+    // address: Yup.string()
+    //   .required(address.notBlankMsgEn)
+    //   .matches(addressReg, address?.patternMsgEn),
     branchType: Yup.string().required("Please select franchise type"),
     branchPhoneNumber: Yup.string().required(
       franchisePhoneNumber?.notBlankMsgEn

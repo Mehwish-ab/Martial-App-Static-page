@@ -87,9 +87,9 @@ const UpdateeInstructor = () => {
     franchiseName: Yup.string()
       .required(franchiseName.notBlankMsgEn)
       .matches(franchiseNameReg, franchiseName.patternMsgEn),
-    address: Yup.string()
-      .required(address.notBlankMsgEn)
-      .matches(addressReg, address.patternMsgEn),
+    // address: Yup.string()
+    //   .required(address.notBlankMsgEn)
+    //   .matches(addressReg, address.patternMsgEn),
     emailAddress: Yup.string()
       .required(emailAddress.notBlankMsgEn)
       .matches(emailAddressReg, emailAddress.patternMsgEn),

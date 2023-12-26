@@ -62,6 +62,10 @@ export const AddPaymentMethod = styled.div`
     }
   }
 
+  .ant-table {
+    overflow-x: auto;
+  }
+
   .ant-table-content table {
     width: 100% !important;
     min-width: 1220px !important;

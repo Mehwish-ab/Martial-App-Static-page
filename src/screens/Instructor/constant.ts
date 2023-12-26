@@ -1,5 +1,4 @@
 export interface CreateInstructorInitialValues {
-  ranks: number;
   instructorName: string;
   emailAddress: string;
   instructorPhoneNumber: string;

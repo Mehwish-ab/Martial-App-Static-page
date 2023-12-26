@@ -80,9 +80,9 @@ const CreateFranchise = () => {
     franchiseName: Yup.string()
       .required(franchiseName.notBlankMsgEn)
       .matches(franchiseNameReg, franchiseName.patternMsgEn),
-    address: Yup.string()
-      .required(address.notBlankMsgEn)
-      .matches(addressReg, address.patternMsgEn),
+    // address: Yup.string()
+    //   .required(address.notBlankMsgEn)
+    //   .matches(addressReg, address.patternMsgEn),
     franchiseType: Yup.string().required("Please select franchise type"),
     franchisePhoneNumber: Yup.string().required(
       franchisePhoneNumber.notBlankMsgEn
@@ -179,7 +179,7 @@ const CreateFranchise = () => {
                       placeholder={getLabelByKey("franchiseName")}
                       className={
                         formik.errors.franchiseName &&
-                        formik.touched.franchiseName
+                          formik.touched.franchiseName
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -196,7 +196,7 @@ const CreateFranchise = () => {
                       placeholder={getLabelByKey("franchiseType")}
                       className={
                         formik.errors.franchiseType &&
-                        formik.touched.franchiseType
+                          formik.touched.franchiseType
                           ? "is-invalid"
                           : "customInput"
                       }
@@ -279,7 +279,7 @@ const CreateFranchise = () => {
                           placeholder={getLabelByKey("defaultLanguage")}
                           className={
                             formik?.errors?.defaultLanguage &&
-                            formik?.touched?.defaultLanguage
+                              formik?.touched?.defaultLanguage
                               ? "is-invalid"
                               : "customInput"
                           }
@@ -297,7 +297,7 @@ const CreateFranchise = () => {
                           placeholder={getLabelByKey("defaultCurrency")}
                           className={
                             formik.errors.defaultCurrency &&
-                            formik.touched.defaultCurrency
+                              formik.touched.defaultCurrency
                               ? "is-invalid"
                               : "customInput"
                           }

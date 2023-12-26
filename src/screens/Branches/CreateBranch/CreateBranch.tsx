@@ -5,25 +5,21 @@ import { Col, Row } from "react-bootstrap";
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
-import store, { RootState } from "../../../redux/store";
+import { RootState } from "../../../redux/store";
 import {
   BELTS_SELECT_OPTIONS,
   SelectOptionsDataTypes,
 } from "../../Home/constants";
 import { validationFinder } from "../../../utils/utilities";
 import { DataTypesWithIdAndMultipleLangLabel } from "../../../redux/features/types";
-import OverlayImages from "../../Home/OverlayImages/OverlayImages";
 import FormControl from "../../../components/FormControl";
 import {
   fontFamilyMedium,
   fontFamilyRegular,
   lightBlue3,
   maastrichtBlue,
-  pureDark,
 } from "../../../components/GlobalStyle";
 import CustomPhoneInput from "../../../components/CustomPhoneInput/CustomPhoneInput";
-import CheckboxesList from "../../../components/CustomCheckbox/CheckboxesList";
-import PaymentInformation from "../../../components/Common/PaymentInformation/PaymentInformation";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import { CreateSchoolStyled } from "../../CreateSchool/styles";
 import { CreateBranchInitialValues } from "../constant";
@@ -81,9 +77,9 @@ const CreateBranch = () => {
     branchName: Yup.string()
       .required(branchName.notBlankMsgEn)
       .matches(branchNameReg, branchName.patternMsgEn),
-    address: Yup.string()
-      .required(address.notBlankMsgEn)
-      .matches(addressReg, address.patternMsgEn),
+    // address: Yup.string()
+    //   .required(address.notBlankMsgEn)
+    //   .matches(addressReg, address.patternMsgEn),
     branchType: Yup.string().required("Please select branch type"),
     branchPhoneNumber: Yup.string().required(branchPhoneNumber.notBlankMsgEn),
     defaultLanguage: Yup.string().required("Please select default language"),
@@ -252,59 +248,58 @@ const CreateBranch = () => {
                     />
                   </Col>
                   <Col md="8">
-                    <Col md="4" className="mt-20 d-inline-block">
-                      <FormControl
-                        control="select"
-                        type="text"
-                        name="defaultLanguage"
-                        fontFamily={fontFamilyRegular}
-                        // prefix={<img src={lock_icon} alt="lock_icon" />}
-                        label={getLabelByKey("defaultLanguage")}
-                        placeholder={getLabelByKey("defaultLanguage")}
-                        className={
-                          formik.errors.defaultLanguage &&
-                          formik.touched.defaultLanguage
-                            ? "is-invalid"
-                            : "customInput"
-                        }
-                        options={createOptions(language)}
-                      />
-                    </Col>
-                    <Col md="4" className="mt-20 d-inline-block px-3">
-                      <FormControl
-                        control="select"
-                        type="text"
-                        name="defaultCurrency"
-                        fontFamily={fontFamilyRegular}
-                        // prefix={<img src={lock_icon} alt="lock_icon" />}
-                        label={getLabelByKey("defaultCurrency")}
-                        placeholder={getLabelByKey("defaultCurrency")}
-                        className={
-                          formik.errors.defaultCurrency &&
-                          formik.touched.defaultCurrency
-                            ? "is-invalid"
-                            : "customInput"
-                        }
-                        options={createOptions(currency)}
-                      />
-                    </Col>
-                    <Col md="4" className="mt-20 d-inline-block">
-                      <FormControl
-                        control="select"
-                        type="text"
-                        name="rank"
-                        fontFamily={fontFamilyRegular}
-                        // prefix={<img src={lock_icon} alt="lock_icon" />}
-                        label={getLabelByKey("belts")}
-                        placeholder={getLabelByKey("belts")}
-                        className={
-                          formik.errors.rank && formik.touched.rank
-                            ? "is-invalid"
-                            : "customInput"
-                        }
-                        options={BELTS_SELECT_OPTIONS}
-                      />
-                    </Col>
+                    <Row>
+                      <Col md="4" className="mt-20">
+                        <FormControl
+                          control="select"
+                          type="text"
+                          name="defaultLanguage"
+                          fontFamily={fontFamilyRegular}
+                          label={getLabelByKey("defaultLanguage")}
+                          placeholder={getLabelByKey("defaultLanguage")}
+                          className={
+                            formik.errors.defaultLanguage &&
+                              formik.touched.defaultLanguage
+                              ? "is-invalid"
+                              : "customInput"
+                          }
+                          options={createOptions(language)}
+                        />
+                      </Col>
+                      <Col md="4" className="mt-20">
+                        <FormControl
+                          control="select"
+                          type="text"
+                          name="defaultCurrency"
+                          fontFamily={fontFamilyRegular}
+                          label={getLabelByKey("defaultCurrency")}
+                          placeholder={getLabelByKey("defaultCurrency")}
+                          className={
+                            formik.errors.defaultCurrency &&
+                              formik.touched.defaultCurrency
+                              ? "is-invalid"
+                              : "customInput"
+                          }
+                          options={createOptions(currency)}
+                        />
+                      </Col>
+                      <Col md="4" className="mt-20">
+                        <FormControl
+                          control="select"
+                          type="text"
+                          name="rank"
+                          fontFamily={fontFamilyRegular}
+                          label={getLabelByKey("belts")}
+                          placeholder={getLabelByKey("belts")}
+                          className={
+                            formik.errors.rank && formik.touched.rank
+                              ? "is-invalid"
+                              : "customInput"
+                          }
+                          options={BELTS_SELECT_OPTIONS}
+                        />
+                      </Col>
+                    </Row>
                   </Col>
 
                   <Col md="6">

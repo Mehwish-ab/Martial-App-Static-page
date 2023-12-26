@@ -70,9 +70,9 @@ const CreateSchool = () => {
     businessName: Yup.string()
       .required(businessName.notBlankMsgEn)
       .matches(businessNameReg, businessName.patternMsgEn),
-    address: Yup.string()
-      .required(address.notBlankMsgEn)
-      .matches(addressReg, address.patternMsgEn),
+    // address: Yup.string()
+    //   .required(address.notBlankMsgEn)
+    //   .matches(addressReg, address.patternMsgEn),
 
     businessType: Yup.string().required("Please select business type"),
     businessPhoneNumber: Yup.string().required(

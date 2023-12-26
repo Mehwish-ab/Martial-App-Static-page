@@ -34,6 +34,9 @@ export const NavbarStyle = styled.div`
     margin-left: 10px;
     font-family: ${fontFamilyRegular};
     color: ${pureDark2};
+    @media screen and ${mediaDeviceMax.mobileM} {
+      margin-left: 6px;
+    }
   }
   
   .top-side {

@@ -20,6 +20,7 @@ interface StripeKeysModalProps {
   open: boolean;
   onClose: (value: string) => void;
   id: any;
+  paymentMethod: any;
 }
 const StripechoolSKeysModal: React.FC<StripeKeysModalProps> = (props) => {
   const initialValues: createPaymentInitialValues = {
@@ -43,11 +44,16 @@ const StripechoolSKeysModal: React.FC<StripeKeysModalProps> = (props) => {
     bic: "",
   };
   const [iSModalVisible, setModelVisible] = useState(false);
-  const { create_Stripe, loading, Createmodal } = usePayment();
+  const { loading, Createmodal, create_Payment } = usePayment();
   const handleCreateSubmit = async (values: any) => {
     console.log(values);
 
-    const data = await create_Stripe("SCHOOL", values, props.id);
+    const data = await create_Payment(
+      "SCHOOL",
+      values,
+      props.id,
+      props.paymentMethod
+    );
 
     if (data) {
       props.onClose("");
@@ -172,7 +178,12 @@ const StripechoolSKeysModal: React.FC<StripeKeysModalProps> = (props) => {
                             fontSize="16px"
                             loading={loading}
                             clicked={() =>
-                              create_Stripe("SCHOOL", formik.values, props.id)
+                              create_Payment(
+                                "SCHOOL",
+                                formik.values,
+                                props.id,
+                                props.paymentMethod
+                              )
                             }
                           />
                         </Col>

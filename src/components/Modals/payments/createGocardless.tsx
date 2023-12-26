@@ -74,7 +74,7 @@ const GocardlessKeysModal: React.FC<StripeKeysModalProps> = (props) => {
     return options;
   };
   const [iSModalVisible, setModelVisible] = useState(false);
-  const { create_gocardless, loading } = usePayment();
+  const { create_Payment, loading } = usePayment();
   const {
     statusData: { activities, facilities },
     dropdowns: { currency, language, businessTypes, countryName },
@@ -82,7 +82,7 @@ const GocardlessKeysModal: React.FC<StripeKeysModalProps> = (props) => {
   const handleCreateSubmit = async (values: any) => {
     console.log("initial", values);
 
-    await create_gocardless("SCHOOL", values, props.id);
+    // await create_Payment("SCHOOL", values, props.id,props.);
   };
 
   return (

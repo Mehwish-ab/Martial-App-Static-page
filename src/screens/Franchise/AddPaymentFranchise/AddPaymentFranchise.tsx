@@ -64,7 +64,7 @@ const AddPaymentFranchise: React.FC = () => {
   const [isBankAccountModalVisible, setisBankAccountModalVisible] =
     useState(false);
   const [isCashModalVisible, setisCashModalVisible] = useState(false);
-
+  const [paymentMethod, setpaymentMethod] = useState("");
   const openModal = (paymentType: string, paymentData: any) => {
     console.log("openModal called", paymentData, paymentType);
 
@@ -73,9 +73,11 @@ const AddPaymentFranchise: React.FC = () => {
         console.log("clicked");
 
         setIsStripeKeysModalVisible(true);
+        setpaymentMethod(paymentType);
         break;
       case "Gocardless":
         setIsGocardlessKeysModalVisible(true);
+
         break;
       case "PayPal":
         setIsGocardlessKeysModalVisible(true);
@@ -507,6 +509,7 @@ const AddPaymentFranchise: React.FC = () => {
           open={isBankAccountModalVisible}
           onClose={() => setisBankAccountModalVisible(false)}
           id={franchiseId}
+          paymentMethod={paymentMethod}
         />
       )}
       {isGocardlessKeysModalVisible && (

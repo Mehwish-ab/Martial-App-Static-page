@@ -44,11 +44,11 @@ const StripeKeysModal: React.FC<StripeKeysModalProps> = (props) => {
     bic: "",
   };
   const [iSModalVisible, setModelVisible] = useState(false);
-  const { create_Stripe, loading, Createmodal } = usePayment();
+  const { create_Payment, loading, Createmodal } = usePayment();
 
   const handleCreateSubmit = async (values: any) => {
     console.log(values);
-    await create_Stripe("FRANCHISE", values, props.id);
+    // await create_Stripe("FRANCHISE", values, props.id);
   };
 
   return (
@@ -168,9 +168,9 @@ const StripeKeysModal: React.FC<StripeKeysModalProps> = (props) => {
                             title="Submit"
                             fontSize="16px"
                             loading={loading}
-                            clicked={() =>
-                              create_Stripe("SCHOOL", formik.values, props.id)
-                            }
+                            // clicked={() =>
+                            //   // create_Stripe("SCHOOL", formik.values, props.id)
+                            // }
                           />
                         </Col>
                       </Row>

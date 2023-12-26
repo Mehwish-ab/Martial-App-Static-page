@@ -1,9 +1,8 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { authorizationToken, get_payment } from "../utils/api_urls";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { useNavigate } from "react-router-dom";
 import { loginDataTypes } from "../redux/features/types";
 import CustomModal from "../components/Modal/CustomModal";
 import EnnvisionModal from "../components/CustomModals/EnnvisionModal";
@@ -15,74 +14,8 @@ const usePayment = () => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [data, setData] = useState<unknown>({});
   const [error, setError] = useState("");
-  const navigate = useNavigate();
   const { loginData } = useSelector((state: RootState) => state);
 
-  const create_Stripe = async (businessuc: any, values: any, Id: any) => {
-    console.log(values, "???");
-
-    const payload = {
-      businessUC: businessuc,
-      id: Number(Id),
-      publishableKey: values.publishableKey,
-      secretKey: values?.secretKey,
-      accountName: values.accountName,
-      paymentMethod: values.paymentMethod,
-      isActive: false,
-      countryName: values.countryName,
-      // accessToken: values.description,
-      // clientId: values.clientId,
-      // webhook: values.webhook,
-      // clientSecret: values.clientSecret,
-      // bankName: values.bankName,
-      // accountHolder: values.accountHolder,
-      // ibanNumber: values.ibanNumber,
-      // accountNumber: values.accountNumber,
-      // sortCode: values.sortCode,
-      // bic: values.bic,
-      // schoolPaypalMethod:false,
-      // schoolCashMethod:false,
-      // schoolBankAccountMethod:false,
-      // schoolStripeMethod:false,
-      // schoolGclMethod:false,
-      // stripePublicKey: values.stripePublishableKey,
-      // stripeSecretKey: values.stripeSecretKey,
-      // gclAccessToken: values.cardAccessToken,
-      // gclClientId: values.cardClientId,
-      // gclWebHook: values.cardWebHook,
-      // gclClientSecret: values.cardClientSecret,
-      // schoolStripeMethod: values.schoolStripeMethod,
-      // schoolGclMethod: values.schoolGclMethod,
-    };
-    try {
-      setError("");
-      setLoading(true);
-      const { data } = await axios.post("/paymentMethod/create", payload, {
-        headers: {
-          ...authorizationToken(loginData.data as loginDataTypes),
-        },
-      });
-
-      if (data.responseCode === "500") {
-        setLoading(false);
-        return;
-      }
-      setIsShowModal(true);
-      setTimeout(() => {
-        setLoading(false);
-        setIsShowModal(false);
-        // navigate("/branch/list");
-      }, 3000);
-      const values = data;
-      console.log("payment info", values);
-
-      return values;
-    } catch (error: any) {
-      console.log("error", error);
-      setLoading(false);
-      setError(error);
-    }
-  };
   const editPayment = async (businessuc: any, values: any, Id: any) => {
     const url = "paymentMethod/update";
 
@@ -99,7 +32,7 @@ const usePayment = () => {
         paymentMethod: values.paymentMethod,
         isActive: values.isActive,
         countryName: values.countryName,
-        accessToken: values.accessToken ? values.accessToken : "",
+        accessToken: values.accessToken,
         clientId: values.clientId,
         webhook: values.webhook,
         clientSecret: values.clientSecret,
@@ -160,28 +93,36 @@ const usePayment = () => {
     }
   };
 
-  const create_gocardless = async (businessuc: any, values: any, Id: any) => {
+  const create_Payment = async (
+    businessuc: any,
+    values: any,
+    Id: any,
+    PaymentMethod: createPaymentInitialValues
+  ) => {
     console.log(values, "???");
+    const token = values.accessToken;
+    console.log("token", token);
 
     const payload = {
       businessUC: businessuc,
       id: Number(Id),
-      //  publishableKey: values.publishableKey,
-      //  secretKey: values?.secretKey,
-      accountName: values.accontTitle,
-      paymentMethod: "Gocardless",
-      isActive: true,
+      secretKey: values.secretKey,
+      publishableKey: values.publishableKey,
+      paymentMethod: PaymentMethod,
+      accountName: values.accountName,
       countryName: values.countryName,
       accessToken: values.accessToken,
       clientId: values.clientId,
       webhook: values.webhook,
       clientSecret: values.clientSecret,
-      // bankName: values.bankName,
-      // accountHolder: values.accountHolder,
-      // ibanNumber: values.ibanNumber,
-      // accountNumber: values.accountNumber,
-      // sortCode: values.sortCode,
-      // bic: values.bic,
+      isActive: true,
+      bankName: values.bankName,
+      accountHolder: values.accountHolder,
+      ibanNumber: values.ibanNumber,
+      accountNumber: values.ccountNumber,
+      sortCode: values.sortCode,
+      bic: values.bic,
+
       // schoolPaypalMethod:false,
       // schoolCashMethod:false,
       // schoolBankAccountMethod:false,
@@ -227,71 +168,7 @@ const usePayment = () => {
       setError(error);
     }
   };
-  const create_bankaccount = async (businessuc: any, values: any, Id: any) => {
-    console.log(values, "???");
 
-    const payload = {
-      businessUC: businessuc,
-      id: Number(Id),
-      //  publishableKey: values.publishableKey,
-      //  secretKey: values?.secretKey,
-      accountName: values.accontTitle,
-      paymentMethod: "Bank Account",
-      isActive: true,
-      countryName: values.countryName,
-      // accessToken: values.accessToken,
-      // clientId: values.clientId,
-      // webhook: values.webhook,
-      // clientSecret: values.clientSecret,
-      bankName: values.bankName,
-      accountHolder: values.accountHolder,
-      ibanNumber: values.ibanNumber,
-      accountNumber: values.accountNumber,
-      sortCode: values.sortCode,
-      bic: values.bic,
-      // schoolPaypalMethod:false,
-      // schoolCashMethod:false,
-      // schoolBankAccountMethod:false,
-      // schoolStripeMethod:false,
-      // schoolGclMethod:false,
-      // stripePublicKey: values.stripePublishableKey,
-      // stripeSecretKey: values.stripeSecretKey,
-      // gclAccessToken: values.cardAccessToken,
-      // gclClientId: values.cardClientId,
-      // gclWebHook: values.cardWebHook,
-      // gclClientSecret: values.cardClientSecret,
-      // schoolStripeMethod: values.schoolStripeMethod,
-      // schoolGclMethod: values.schoolGclMethod,
-    };
-    try {
-      setError("");
-      setLoading(true);
-      const { data } = await axios.post("/paymentMethod/create", payload, {
-        headers: {
-          ...authorizationToken(loginData.data as loginDataTypes),
-        },
-      });
-
-      if (data.responseCode === "500") {
-        setLoading(false);
-        return;
-      }
-      setIsShowModal(true);
-      setTimeout(() => {
-        setLoading(false);
-        setIsShowModal(false);
-        // navigate("/branch/list");
-      }, 3000);
-      const values = data;
-      console.log("payment info", values);
-
-      return values;
-    } catch (error: any) {
-      console.log("error", error);
-      setLoading(false);
-      setError(error);
-    }
-  };
   const get_bank = async (businessUC: any, id: number) => {
     try {
       setError("");
@@ -320,6 +197,7 @@ const usePayment = () => {
       setError(error);
     }
   };
+
   const get_gocard = async (businessUC: any, id: number) => {
     try {
       setError("");
@@ -348,6 +226,7 @@ const usePayment = () => {
       setError(error);
     }
   };
+
   const get_stripe = async (businessUC: any, id: number) => {
     try {
       setError("");
@@ -376,6 +255,7 @@ const usePayment = () => {
       setError(error);
     }
   };
+
   const get_paypal = async (businessUC: any, id: number) => {
     try {
       setError("");
@@ -404,6 +284,7 @@ const usePayment = () => {
       setError(error);
     }
   };
+
   const get_cash = async (businessUC: any, id: number) => {
     try {
       setError("");
@@ -432,6 +313,7 @@ const usePayment = () => {
       setError(error);
     }
   };
+
   const deletePayment = async (paymentMethod: string, id: number) => {
     const url = "/paymentMethod/delete";
     console.log("nada", paymentMethod, id);
@@ -554,9 +436,7 @@ const usePayment = () => {
     Createmodal,
     UpdateModal,
     deletemodal,
-    create_Stripe,
-    create_gocardless,
-    create_bankaccount,
+    create_Payment,
     editPayment,
   };
 };

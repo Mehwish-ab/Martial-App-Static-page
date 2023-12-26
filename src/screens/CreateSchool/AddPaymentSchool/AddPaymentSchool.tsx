@@ -74,6 +74,7 @@ const AddPaymentSchool: React.FC = () => {
     useState(false);
   const [isECashModalVisible, setisECashModalVisible] = useState(false);
   const [businessUC, setbusinessUC] = useState("");
+  const [paymentMethod, setpaymentMethod] = useState("");
 
   // Function to handle opening modals
   const openDisplayModal = (paymentType: string, paymentData: any) => {
@@ -84,18 +85,27 @@ const AddPaymentSchool: React.FC = () => {
         console.log("clicked");
 
         setIsStripeKeysModalVisible(true);
+        setpaymentMethod(paymentType);
+
         break;
       case "Gocardless":
         setIsGocardlessKeysModalVisible(true);
+        setpaymentMethod(paymentType);
         break;
       case "PayPal":
         setisBankAccountModalVisible(true);
+        setpaymentMethod(paymentType);
+
         break;
       case "Bank Account":
         setisBankAccountModalVisible(true);
+        setpaymentMethod(paymentType);
+
         break;
       case "Cash":
         setIsGocardlessKeysModalVisible(true);
+        setpaymentMethod(paymentType);
+
         break;
       default:
         break;
@@ -400,7 +410,7 @@ const AddPaymentSchool: React.FC = () => {
             label: "Delete",
             onClick: () => {
               handleDelete(record?.paymentMethod, record?.id[0]);
-              window.location.reload();
+              // window.location.reload();
             },
           },
         ];
@@ -604,6 +614,7 @@ const AddPaymentSchool: React.FC = () => {
           open={isStripeKeysModalVisible}
           onClose={() => setIsStripeKeysModalVisible(false)}
           id={schoolId}
+          paymentMethod={paymentMethod}
         />
       )}
       {isdStripeKeysModalVisible && (
@@ -637,6 +648,8 @@ const AddPaymentSchool: React.FC = () => {
           open={isBankAccountModalVisible}
           onClose={() => setisBankAccountModalVisible(false)}
           id={schoolId}
+          paymentMethod={paymentMethod}
+
           // paymentdetails={bankpayment} {/* Pass paymentdetails as a prop */}
         />
       )}
@@ -663,6 +676,7 @@ const AddPaymentSchool: React.FC = () => {
           open={isGocardlessKeysModalVisible}
           onClose={() => setIsGocardlessKeysModalVisible(false)}
           id={schoolId}
+          paymentMethod={paymentMethod}
           // paymentdetails={Gocardlesspayment} {/* Pass paymentdetails as a prop */}
         />
       )}

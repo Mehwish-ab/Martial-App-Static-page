@@ -81,14 +81,14 @@ const DisplaygocardlessschoolKeysModal: React.FC<StripeKeysModalProps> = (
   };
 
   const [iSModalVisible, setModelVisible] = useState(false);
-  const { create_bankaccount, loading } = usePayment();
+  const { create_Payment, loading } = usePayment();
   const {
     statusData: { activities, facilities },
     dropdowns: { currency, language, businessTypes, countryName },
   } = useSelector((state: RootState) => state.appData.data);
   const handleCreateSubmit = async (values: any) => {
-    const data = await create_bankaccount("SCHOOL", values, props.id);
-    if (data) props.onClose("");
+    // const data = await create_bankaccount("SCHOOL", values, props.id);
+    // if (data) props.onClose("");
   };
   const handleCancel = () => {
     setModelVisible(false);

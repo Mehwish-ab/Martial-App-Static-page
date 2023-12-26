@@ -27,6 +27,7 @@ interface StripeKeysModalProps {
   open: boolean;
   onClose: (value: string) => void;
   id: any;
+  paymentMethod: any;
 }
 
 // const [value, setValue] = useState('')
@@ -74,22 +75,22 @@ const SchoolGocardlessKeysModal: React.FC<StripeKeysModalProps> = (props) => {
     return options;
   };
   const [iSModalVisible, setModelVisible] = useState(false);
-  const { create_gocardless, loading } = usePayment();
+  const { create_Payment, loading } = usePayment();
   const {
     statusData: { activities, facilities },
     dropdowns: { currency, language, businessTypes, countryName },
   } = useSelector((state: RootState) => state.appData.data);
+
   const handleCreateSubmit = async (values: any) => {
     console.log("initial", values);
 
-    // Ensure that values.publishableKey is not null before submitting
-    if (values.publishableKey !== null) {
-      const data = await create_gocardless("SCHOOL", values, props.id);
-      if (data) props.onClose("");
-    } else {
-      // Handle the case where publishableKey is null
-      console.error("Publishable key is null");
-    }
+    const data = await create_Payment(
+      "SCHOOL",
+      values,
+      props.id,
+      props.paymentMethod
+    );
+    if (data) props.onClose("");
   };
   return (
     <AddPaymentMethod>
@@ -114,7 +115,7 @@ const SchoolGocardlessKeysModal: React.FC<StripeKeysModalProps> = (props) => {
                               <FormControl
                                 control="input"
                                 type="text"
-                                name="accontTitle"
+                                name="accountName"
                                 label="Account Title"
                                 fontSize="16px"
                                 max={6}

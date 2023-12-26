@@ -84,8 +84,7 @@ const EditBankaccountSchoolKeysModal: React.FC<StripeKeysModalProps> = (
   };
 
   const [iSModalVisible, setModelVisible] = useState(false);
-  const { create_bankaccount, loading, editPayment, UpdateModal } =
-    usePayment();
+  const { loading, editPayment, UpdateModal } = usePayment();
 
   const {
     statusData: { activities, facilities },

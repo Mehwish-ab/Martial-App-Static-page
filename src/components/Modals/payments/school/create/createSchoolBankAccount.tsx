@@ -27,6 +27,7 @@ interface StripeKeysModalProps {
   open: boolean;
   onClose: (value: string) => void;
   id: any;
+  paymentMethod: any;
 }
 
 // const [value, setValue] = useState('')
@@ -75,15 +76,19 @@ const BankaccountSchoolKeysModal: React.FC<StripeKeysModalProps> = (props) => {
   };
 
   const [iSModalVisible, setModelVisible] = useState(false);
-  const { create_bankaccount, loading } = usePayment();
+  const { Createmodal, loading, create_Payment } = usePayment();
   const {
     statusData: { activities, facilities },
     dropdowns: { currency, language, businessTypes, countryName },
   } = useSelector((state: RootState) => state.appData.data);
   const handleCreateSubmit = async (values: any) => {
-    const data = await create_bankaccount("SCHOOL", values, props.id);
+    const data = await create_Payment(
+      "SCHOOL",
+      values,
+      props.id,
+      props.paymentMethod
+    );
     if (data) {
-      window.location.reload();
       props.onClose("");
     }
   };
@@ -93,6 +98,8 @@ const BankaccountSchoolKeysModal: React.FC<StripeKeysModalProps> = (props) => {
 
   return (
     <AddPaymentMethod>
+      {Createmodal().modalComponent}
+
       <CustomModal
         width="953px"
         onCancel={() => props.onClose("")}

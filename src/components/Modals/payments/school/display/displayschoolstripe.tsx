@@ -49,11 +49,11 @@ const DislayStripechoolSKeysModal: React.FC<StripeKeysModalProps> = (props) => {
     bic: "",
   };
   const [iSModalVisible, setModelVisible] = useState(false);
-  const { create_Stripe, loading, Createmodal } = usePayment();
+  const { create_Payment, loading, Createmodal } = usePayment();
   const handleCreateSubmit = async (values: any) => {
     console.log(values);
 
-    await create_Stripe("SCHOOL", values, props.id);
+    // await create_Stripe("SCHOOL", values, props.id);
   };
   return (
     <AddPaymentMethod>

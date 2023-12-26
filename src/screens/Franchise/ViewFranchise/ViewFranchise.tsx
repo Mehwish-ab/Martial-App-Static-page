@@ -6,7 +6,7 @@ import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
 import { useSelector } from "react-redux";
 
 import DummyData from "../AddPaymentFranchise/dummyData.json";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { Col, Row } from "react-bootstrap";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import useFranchise from "../hooks/useFranchise";
@@ -23,21 +23,23 @@ const ViewFranchise = () => {
   const { schoolData, loading } = useSelector(
     (state: RootState) => state.dashboardData
   );
+  const { franchiseId } = useParams();
 
   const { getFranchisebyid } = useFranchise();
   const [franchisedata, setFranchise] = useState<FranchiseDataType | undefined>(
     undefined
   );
+  console.log(franchiseId, "ids");
+
   useEffect(() => {
     fetchstripe();
     async function fetchstripe() {
-      const data = await getFranchisebyid(14);
+      const data = await getFranchisebyid(franchiseId);
       setFranchise(data);
     }
   }, []);
   console.log("School data", schoolData);
   const location = useLocation();
-  // console.log("franchise", franchise);
   const { getLabelByKey } = useScreenTranslation("franchiseCreate");
   const navigation = (record: FranchiseDataType, redirectTo: string) => {
     switch (redirectTo) {
@@ -142,8 +144,6 @@ const ViewFranchise = () => {
 
   const Franchise: FranchiseDataType = location.state?.branch;
 
-  console.log("location", Franchise);
-
   const { language, currency } = useSelector(
     (state: RootState) => state.appData.data.dropdowns
   );
@@ -159,7 +159,6 @@ const ViewFranchise = () => {
     (item: DataTypesWithIdAndMultipleLangLabel) =>
       console.log(+item.id == +Franchise?.defaultCurrencyId)
   );
-  console.log("lang", defaultLanguage, currency);
   return (
     <ViewFranchiseStyled>
       {/* <OverlayImages
@@ -255,7 +254,7 @@ const ViewFranchise = () => {
                     {getLabelByKey("ranking")}
                   </div>
                   <div className="list-item-value">
-                    {franchisedata?.ranks ? "Yes" : "No"}
+                    {franchisedata?.rank ? "Yes" : "No"}
                   </div>
                 </div>
               </Col>

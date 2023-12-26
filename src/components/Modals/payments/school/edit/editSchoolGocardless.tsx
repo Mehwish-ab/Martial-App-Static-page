@@ -1,32 +1,34 @@
 import React, { useMemo, useState } from "react";
 import { Formik, Form } from "formik";
 import { Row, Col } from "react-bootstrap"; // Replace with your layout library
-import CustomModal from "../../Modal/CustomModal";
-import FormControl from "../../FormControl";
-import { PaymentPop } from "../../../screens/CreateSchool/AddPaymentSchool/PaymentPop";
+import CustomModal from "../../../../Modal/CustomModal";
+import FormControl from "../../../../FormControl";
+import { PaymentPop } from "../../../../../screens/CreateSchool/AddPaymentSchool/PaymentPop";
 import {
   fontFamilyMedium,
   fontFamilyRegular,
   lightBlue3,
   pureDark2,
-} from "../../GlobalStyle";
+} from "../../../../GlobalStyle";
 // import countryList from "react-select-country-list";
 
-import CustomButton from "../../CustomButton/CustomButton";
+import CustomButton from "../../../../CustomButton/CustomButton";
 import show_password_icon from "../../../assets/icons/ic_show_passcode.svg";
-import { createPaymentInitialValues } from "./constant";
-import usePayment from "../../../hooks/usePayment";
-import { AddPaymentMethod } from "../../../screens/Franchise/ViewFranchise/styles";
+import { createPaymentInitialValues } from "../../constant";
+import usePayment from "../../../../../hooks/usePayment";
+import { AddPaymentMethod } from "../../../../../screens/Franchise/ViewFranchise/styles";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import { DataTypesWithIdAndMultipleLangLabel } from "../../../redux/features/types";
-import { SelectOptionsDataTypes } from "../../../screens/Home/constants";
-import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
+import { RootState } from "../../../../../redux/store";
+import { DataTypesWithIdAndMultipleLangLabel } from "../../../../../redux/features/types";
+import { SelectOptionsDataTypes } from "../../../../../screens/Home/constants";
+import PlacesAutoCompleteInput from "../../../../../maps/PlacesAutocomplete";
 interface StripeKeysModalProps {
   open: boolean;
   onClose: (value: string) => void;
   id: any;
+  paymentdetails: any;
+  businessUC: any;
 }
 
 // const [value, setValue] = useState('')
@@ -36,26 +38,35 @@ interface StripeKeysModalProps {
 //   setValue(value)
 
 // }
-const GocardlessKeysModal: React.FC<StripeKeysModalProps> = (props) => {
+const EditSchoolGocardlessKeysModal: React.FC<StripeKeysModalProps> = (
+  props
+) => {
+  console.log("initial value", props.paymentdetails[0]);
+
+  const firstPaymentDetail = props.paymentdetails[0];
   const initialValues: createPaymentInitialValues = {
-    businessUC: "",
-    id: 0,
-    publishableKey: "",
-    secretKey: "",
-    accountName: "",
-    paymentMethod: "",
-    isActive: false,
-    countryName: "",
-    accessToken: "",
-    clientId: "",
-    webhook: "",
-    clientSecret: "",
-    bankName: "",
-    accountHolder: "",
-    ibanNumber: "",
-    accountNumber: "",
-    sortCode: "",
-    bic: "",
+    businessUC: firstPaymentDetail ? props.businessUC : "",
+    id: firstPaymentDetail ? firstPaymentDetail.id : 0,
+    publishableKey: firstPaymentDetail.publishableKey
+      ? firstPaymentDetail.publishableKey
+      : "",
+    secretKey: firstPaymentDetail.secretKey ? firstPaymentDetail.secretKey : "",
+    accountName: firstPaymentDetail ? firstPaymentDetail.accountName : "",
+    paymentMethod: firstPaymentDetail ? props.businessUC : "",
+    isActive: firstPaymentDetail ? firstPaymentDetail.isActive : true,
+    countryName: firstPaymentDetail ? firstPaymentDetail.countryName : "null",
+    accessToken: firstPaymentDetail.accessToken
+      ? firstPaymentDetail.accessToken
+      : "",
+    clientId: firstPaymentDetail ? firstPaymentDetail.clientId : "",
+    webhook: firstPaymentDetail ? firstPaymentDetail.webhook : "",
+    clientSecret: firstPaymentDetail ? firstPaymentDetail.clientSecret : "",
+    bankName: firstPaymentDetail ? firstPaymentDetail.bankName : "",
+    accountHolder: firstPaymentDetail ? firstPaymentDetail.accountHolder : "",
+    ibanNumber: firstPaymentDetail ? firstPaymentDetail.ibanNumber : "",
+    accountNumber: firstPaymentDetail ? firstPaymentDetail.accountNumber : "",
+    sortCode: firstPaymentDetail ? firstPaymentDetail.sortCode : "",
+    bic: firstPaymentDetail ? firstPaymentDetail.bic : "",
   };
   const { selectedLanguage } = useSelector(
     (state: RootState) => state.selectedLanguage
@@ -74,7 +85,7 @@ const GocardlessKeysModal: React.FC<StripeKeysModalProps> = (props) => {
     return options;
   };
   const [iSModalVisible, setModelVisible] = useState(false);
-  const { create_gocardless, loading } = usePayment();
+  const { loading, editPayment, UpdateModal } = usePayment();
   const {
     statusData: { activities, facilities },
     dropdowns: { currency, language, businessTypes, countryName },
@@ -82,11 +93,16 @@ const GocardlessKeysModal: React.FC<StripeKeysModalProps> = (props) => {
   const handleCreateSubmit = async (values: any) => {
     console.log("initial", values);
 
-    await create_gocardless("SCHOOL", values, props.id);
+    // Ensure that values.publishableKey is not null before submitting
+    const data = await editPayment("SCHOOL", values, props.id);
+    if (data) {
+      props.onClose("");
+    }
   };
 
   return (
     <AddPaymentMethod>
+      {UpdateModal().modalComponent}
       <CustomModal
         width="953px"
         onCancel={() => props.onClose("")}
@@ -99,9 +115,62 @@ const GocardlessKeysModal: React.FC<StripeKeysModalProps> = (props) => {
                 onSubmit={handleCreateSubmit}
               >
                 {(formik) => {
+                  console.log("initial values", firstPaymentDetail);
+
                   return (
                     <Form name="basic" autoComplete="off">
                       <Row>
+                        <Col md="12">
+                          <Row>
+                            <Col md="6" className="mt-20">
+                              <FormControl
+                                control="input"
+                                type="text"
+                                name="accountName"
+                                label="Account Title"
+                                fontSize="16px"
+                                max={6}
+                                placeholder="Enter Account Title"
+                              />
+                            </Col>
+                            <Col md="6" className="mt-20">
+                              <PlacesAutoCompleteInput
+                                label="Country Name"
+                                placeholder="Select Country Name"
+                                handleChange={(val: any) => {
+                                  formik.setFieldValue("countryName", val);
+                                }}
+                                className={
+                                  formik.errors.countryName &&
+                                  formik.touched.countryName
+                                    ? "is-invalid"
+                                    : "customInput"
+                                }
+                                formik={formik}
+                                name="countryName"
+                                value={formik.values.countryName}
+                              />
+                              {/* <FormControl
+                                control="select"
+                                type="text"
+                                name="countryName"
+                                label="Country Name"
+                                fontSize="16px"
+                                max={6}
+                                placeholder="Select Country Name"
+                                className={
+                                  formik.errors.countryName &&
+                                  formik.touched.countryName
+                                    ? "is-invalid"
+                                    : "customInput"
+                                }
+                                // options={options}
+                                // value={value}
+                                // onChange={changeHandler}
+                              /> */}
+                            </Col>
+                          </Row>
+                        </Col>
                         <Col md="12">
                           <Row>
                             <Col md="6" className="mt-20">
@@ -188,4 +257,4 @@ const GocardlessKeysModal: React.FC<StripeKeysModalProps> = (props) => {
   );
 };
 
-export default GocardlessKeysModal;
+export default EditSchoolGocardlessKeysModal;

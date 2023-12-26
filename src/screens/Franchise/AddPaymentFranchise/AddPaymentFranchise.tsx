@@ -27,6 +27,9 @@ import useFranchise from "../hooks/useFranchise";
 import useBranch from "../../Branches/hooks/useBranch";
 import { number } from "yup";
 import usePayment from "../../../hooks/usePayment";
+import StripeKeysModal from "../../../components/Modals/payments/createStripeKeys";
+import BankaccountKeysModal from "../../../components/Modals/payments/school/create/createSchoolBankAccount";
+import GocardlessKeysModal from "../../../components/Modals/payments/createGocardless";
 interface AddPaymentFranchiseProps {
   branch: FranchiseDataType; // Make sure to import BranchDataType
 }
@@ -53,7 +56,40 @@ const AddPaymentFranchise: React.FC = () => {
   const [paypalpayment, setPaypalpayment] = useState<any[]>([]);
   const [Gocardlesspayment, setGocardlesspayment] = useState<any[]>([]);
   const [cashpayment, setCash] = useState<any[]>([]);
+  const [isStripeKeysModalVisible, setIsStripeKeysModalVisible] =
+    useState(false);
+  const [isGocardlessKeysModalVisible, setIsGocardlessKeysModalVisible] =
+    useState(false);
+  const [isPayPalModalVisible, setIsPayPalKeysModalVisible] = useState(false);
+  const [isBankAccountModalVisible, setisBankAccountModalVisible] =
+    useState(false);
+  const [isCashModalVisible, setisCashModalVisible] = useState(false);
 
+  const openModal = (paymentType: string, paymentData: any) => {
+    console.log("openModal called", paymentData, paymentType);
+
+    switch (paymentType) {
+      case "Stripe":
+        console.log("clicked");
+
+        setIsStripeKeysModalVisible(true);
+        break;
+      case "Gocardless":
+        setIsGocardlessKeysModalVisible(true);
+        break;
+      case "PayPal":
+        setIsGocardlessKeysModalVisible(true);
+        break;
+      case "BankAccount":
+        setisBankAccountModalVisible(true);
+        break;
+      case "Cash":
+        setIsGocardlessKeysModalVisible(true);
+        break;
+      default:
+        break;
+    }
+  };
   useEffect(() => {
     console.log("hi use effect");
 
@@ -207,14 +243,22 @@ const AddPaymentFranchise: React.FC = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (DummyData) => {
+      render: (DummyData, record) => {
         if (DummyData === "Add") {
           return (
             <div className={"Add"}>
-              <button>Add</button>
+              <button onClick={() => openModal(record.paymentMethod, record)}>
+                Add
+              </button>
               <img src={StatusActiveError} alt="image" />
             </div>
           );
+          // return (
+          //   <div className={"Add"}>
+          //     <button>Add</button>
+          //     <img src={StatusActiveError} alt="image" />
+          //   </div>
+          // );
         } else if (DummyData[0] == false) {
           return (
             <div className={"De-Active"}>
@@ -449,6 +493,28 @@ const AddPaymentFranchise: React.FC = () => {
         <Table columns={columns} dataSource={rowsWithButtons as any} />
       ) : (
         <div>No data available</div>
+      )}
+      {/* Render modals based on conditions */}
+      {isStripeKeysModalVisible && (
+        <StripeKeysModal
+          open={isStripeKeysModalVisible}
+          onClose={() => setIsStripeKeysModalVisible(false)}
+          id={franchiseId}
+        />
+      )}
+      {isBankAccountModalVisible && (
+        <BankaccountKeysModal
+          open={isBankAccountModalVisible}
+          onClose={() => setisBankAccountModalVisible(false)}
+          id={franchiseId}
+        />
+      )}
+      {isGocardlessKeysModalVisible && (
+        <GocardlessKeysModal
+          open={isGocardlessKeysModalVisible}
+          onClose={() => setIsGocardlessKeysModalVisible(false)}
+          id={franchiseId}
+        />
       )}
     </AddPaymentMethod>
   );

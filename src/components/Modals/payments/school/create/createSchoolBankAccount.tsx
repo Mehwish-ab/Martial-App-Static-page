@@ -1,28 +1,28 @@
 import React, { useMemo, useState } from "react";
 import { Formik, Form } from "formik";
 import { Row, Col } from "react-bootstrap"; // Replace with your layout library
-import CustomModal from "../../Modal/CustomModal";
-import FormControl from "../../FormControl";
-import { PaymentPop } from "../../../screens/CreateSchool/AddPaymentSchool/PaymentPop";
+import CustomModal from "../../../../Modal/CustomModal";
+import FormControl from "../../../../FormControl";
+import { PaymentPop } from "../../../../../screens/CreateSchool/AddPaymentSchool/PaymentPop";
 import {
   fontFamilyMedium,
   fontFamilyRegular,
   lightBlue3,
   pureDark2,
-} from "../../GlobalStyle";
+} from "../../../../GlobalStyle";
 // import countryList from "react-select-country-list";
 
-import CustomButton from "../../CustomButton/CustomButton";
+import CustomButton from "../../../../CustomButton/CustomButton";
 import show_password_icon from "../../../assets/icons/ic_show_passcode.svg";
-import { createPaymentInitialValues } from "./constant";
-import usePayment from "../../../hooks/usePayment";
-import { AddPaymentMethod } from "../../../screens/Franchise/ViewFranchise/styles";
+import { createPaymentInitialValues } from "../../constant";
+import usePayment from "../../../../../hooks/usePayment";
+import { AddPaymentMethod } from "../../../../../screens/Franchise/ViewFranchise/styles";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import { DataTypesWithIdAndMultipleLangLabel } from "../../../redux/features/types";
-import { SelectOptionsDataTypes } from "../../../screens/Home/constants";
-import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
+import { RootState } from "../../../../../redux/store";
+import { DataTypesWithIdAndMultipleLangLabel } from "../../../../../redux/features/types";
+import { SelectOptionsDataTypes } from "../../../../../screens/Home/constants";
+import PlacesAutoCompleteInput from "../../../../../maps/PlacesAutocomplete";
 interface StripeKeysModalProps {
   open: boolean;
   onClose: (value: string) => void;
@@ -36,7 +36,7 @@ interface StripeKeysModalProps {
 //   setValue(value)
 
 // }
-const GocardlessKeysModal: React.FC<StripeKeysModalProps> = (props) => {
+const BankaccountSchoolKeysModal: React.FC<StripeKeysModalProps> = (props) => {
   const initialValues: createPaymentInitialValues = {
     businessUC: "",
     id: 0,
@@ -73,16 +73,22 @@ const GocardlessKeysModal: React.FC<StripeKeysModalProps> = (props) => {
 
     return options;
   };
+
   const [iSModalVisible, setModelVisible] = useState(false);
-  const { create_gocardless, loading } = usePayment();
+  const { create_bankaccount, loading } = usePayment();
   const {
     statusData: { activities, facilities },
     dropdowns: { currency, language, businessTypes, countryName },
   } = useSelector((state: RootState) => state.appData.data);
   const handleCreateSubmit = async (values: any) => {
-    console.log("initial", values);
-
-    await create_gocardless("SCHOOL", values, props.id);
+    const data = await create_bankaccount("SCHOOL", values, props.id);
+    if (data) {
+      window.location.reload();
+      props.onClose("");
+    }
+  };
+  const handleCancel = () => {
+    setModelVisible(false);
   };
 
   return (
@@ -92,7 +98,7 @@ const GocardlessKeysModal: React.FC<StripeKeysModalProps> = (props) => {
         onCancel={() => props.onClose("")}
         children={
           <PaymentPop>
-            <h3>GoCardLess</h3>
+            <h3>Bank Account</h3>
             <div>
               <Formik
                 initialValues={initialValues}
@@ -108,22 +114,22 @@ const GocardlessKeysModal: React.FC<StripeKeysModalProps> = (props) => {
                               <FormControl
                                 control="input"
                                 type="text"
-                                name="accessToken"
-                                label="Access Token"
+                                name="accontTitle"
+                                label="Account Title"
                                 fontSize="16px"
                                 max={6}
-                                placeholder="Enter Access Token"
+                                placeholder="Enter Account Title"
                               />
                             </Col>
                             <Col md="6" className="mt-20">
                               <FormControl
-                                control="input"
-                                type="text"
-                                name="clientId"
-                                label="Client Id"
+                                control="select"
+                                type="select"
+                                name="countryName"
+                                label="Country Name"
                                 fontSize="16px"
                                 max={6}
-                                placeholder="Enter Client Id"
+                                placeholder="Select Country Name"
                               />
                             </Col>
                           </Row>
@@ -134,22 +140,74 @@ const GocardlessKeysModal: React.FC<StripeKeysModalProps> = (props) => {
                               <FormControl
                                 control="input"
                                 type="text"
-                                name="webhook"
-                                label="Webhook"
+                                name="bankName"
+                                label="Bank Name"
                                 fontSize="16px"
                                 max={6}
-                                placeholder="Enter Webhook"
+                                placeholder="Enter Bank Name"
                               />
                             </Col>
                             <Col md="6" className="mt-20">
                               <FormControl
                                 control="input"
                                 type="text"
-                                name="clientSecret"
-                                label="Client Secret"
+                                name="accountHolder"
+                                label="Bank Account Holder"
                                 fontSize="16px"
                                 max={6}
-                                placeholder="Enter Client Secret"
+                                placeholder="Enter Bank Account Holder"
+                              />
+                            </Col>
+                          </Row>
+                        </Col>
+                        <Col md="12">
+                          <Row>
+                            <Col md="6" className="mt-20">
+                              <FormControl
+                                control="input"
+                                type="text"
+                                name="ibanNumber"
+                                label="IBAN Number"
+                                fontSize="16px"
+                                max={6}
+                                placeholder="Enter IBAN Number"
+                              />
+                            </Col>
+                            <Col md="6" className="mt-20">
+                              <FormControl
+                                control="input"
+                                type="text"
+                                name="accountNumber"
+                                label="Bank Account Number"
+                                fontSize="16px"
+                                max={6}
+                                placeholder="Enter Bank Account Number"
+                              />
+                            </Col>
+                          </Row>
+                        </Col>
+                        <Col md="12">
+                          <Row>
+                            <Col md="6" className="mt-20">
+                              <FormControl
+                                control="input"
+                                type="text"
+                                name="sortCode"
+                                label="Sort Code"
+                                fontSize="16px"
+                                max={6}
+                                placeholder="Enter Sort Code"
+                              />
+                            </Col>
+                            <Col md="6" className="mt-20">
+                              <FormControl
+                                control="input"
+                                type="text"
+                                name="bic"
+                                label="BIC"
+                                fontSize="16px"
+                                max={6}
+                                placeholder="Enter BIC"
                               />
                             </Col>
                           </Row>
@@ -157,7 +215,11 @@ const GocardlessKeysModal: React.FC<StripeKeysModalProps> = (props) => {
                         <Col md="12">
                           <Row>
                             <Col md="6" className="mt-20"></Col>
-                            <Col md="6" className="mt-20">
+                            <Col
+                              md="6"
+                              className="mt-20"
+                              // onClick={() => props.onClose("")}
+                            >
                               <CustomButton
                                 bgcolor={lightBlue3}
                                 textTransform="Captilize"
@@ -188,4 +250,4 @@ const GocardlessKeysModal: React.FC<StripeKeysModalProps> = (props) => {
   );
 };
 
-export default GocardlessKeysModal;
+export default BankaccountSchoolKeysModal;

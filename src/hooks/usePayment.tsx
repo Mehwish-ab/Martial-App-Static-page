@@ -8,6 +8,7 @@ import { loginDataTypes } from "../redux/features/types";
 import CustomModal from "../components/Modal/CustomModal";
 import EnnvisionModal from "../components/CustomModals/EnnvisionModal";
 import { toast } from "react-toastify";
+import { createPaymentInitialValues } from "../components/Modals/payments/constant";
 
 const usePayment = () => {
   const [loading, setLoading] = useState(false);
@@ -22,17 +23,226 @@ const usePayment = () => {
 
     const payload = {
       businessUC: businessuc,
-      id: Id,
+      id: Number(Id),
       publishableKey: values.publishableKey,
       secretKey: values?.secretKey,
       accountName: values.accountName,
-      paymentMethod: "Stripe",
+      paymentMethod: values.paymentMethod,
+      isActive: false,
+      countryName: values.countryName,
+      // accessToken: values.description,
+      // clientId: values.clientId,
+      // webhook: values.webhook,
+      // clientSecret: values.clientSecret,
+      // bankName: values.bankName,
+      // accountHolder: values.accountHolder,
+      // ibanNumber: values.ibanNumber,
+      // accountNumber: values.accountNumber,
+      // sortCode: values.sortCode,
+      // bic: values.bic,
+      // schoolPaypalMethod:false,
+      // schoolCashMethod:false,
+      // schoolBankAccountMethod:false,
+      // schoolStripeMethod:false,
+      // schoolGclMethod:false,
+      // stripePublicKey: values.stripePublishableKey,
+      // stripeSecretKey: values.stripeSecretKey,
+      // gclAccessToken: values.cardAccessToken,
+      // gclClientId: values.cardClientId,
+      // gclWebHook: values.cardWebHook,
+      // gclClientSecret: values.cardClientSecret,
+      // schoolStripeMethod: values.schoolStripeMethod,
+      // schoolGclMethod: values.schoolGclMethod,
+    };
+    try {
+      setError("");
+      setLoading(true);
+      const { data } = await axios.post("/paymentMethod/create", payload, {
+        headers: {
+          ...authorizationToken(loginData.data as loginDataTypes),
+        },
+      });
+
+      if (data.responseCode === "500") {
+        setLoading(false);
+        return;
+      }
+      setIsShowModal(true);
+      setTimeout(() => {
+        setLoading(false);
+        setIsShowModal(false);
+        // navigate("/branch/list");
+      }, 3000);
+      const values = data;
+      console.log("payment info", values);
+
+      return values;
+    } catch (error: any) {
+      console.log("error", error);
+      setLoading(false);
+      setError(error);
+    }
+  };
+  const editPayment = async (businessuc: any, values: any, Id: any) => {
+    const url = "paymentMethod/update";
+
+    try {
+      setError("");
+      setLoading(true);
+
+      const payload = {
+        businessUC: businessuc,
+        id: values.id,
+        publishableKey: values.publishableKey,
+        secretKey: values.secretKey,
+        accountName: values.accountName,
+        paymentMethod: values.paymentMethod,
+        isActive: values.isActive,
+        countryName: values.countryName,
+        accessToken: values.accessToken ? values.accessToken : "",
+        clientId: values.clientId,
+        webhook: values.webhook,
+        clientSecret: values.clientSecret,
+        bankName: values.bankName,
+        accountHolder: values.accountHolder,
+        ibanNumber: values.ibanNumber,
+        accountNumber: values.accountNumber,
+        sortCode: values.sortCode,
+        bic: values.bic,
+        // schoolPaypalMethod:false,
+        // schoolCashMethod:false,
+        // schoolBankAccountMethod:false,
+        // schoolStripeMethod:false,
+        // schoolGclMethod:false,
+        // stripePublicKey: values.stripePublishableKey,
+        // stripeSecretKey: values.stripeSecretKey,
+        // gclAccessToken: values.cardAccessToken,
+        // gclClientId: values.cardClientId,
+        // gclWebHook: values.cardWebHook,
+        // gclClientSecret: values.cardClientSecret,
+        // schoolStripeMethod: values.schoolStripeMethod,
+        // schoolGclMethod: values.schoolGclMethod,
+      };
+      console.log("Payload", payload.accessToken);
+
+      const { data } = await axios.post("paymentMethod/update", payload, {
+        headers: {
+          ...authorizationToken(loginData.data as loginDataTypes),
+        },
+      });
+      if (data.responseCode === "500") {
+        setLoading(false);
+        return;
+      }
+
+      setIsShowModal(true);
+      setTimeout(() => {
+        setLoading(false);
+        setIsShowModal(false);
+        // navigate(`school/add-payment-information/${Id}`);
+      }, 3000);
+
+      // navigate("/school/view");
+      console.log({ data });
+      return data;
+      //setIsUploadImgVisible(true);
+      // navigate("/school/view");
+    } catch (error: any) {
+      console.log("error is", error.response.data.responseMessage);
+      setLoading(false);
+      setError(error.response.data.responseMessage);
+      let id = setTimeout(() => {
+        setError("");
+      }, 3000);
+      if (!setIsShowModal) {
+        clearTimeout(id);
+      }
+    }
+  };
+
+  const create_gocardless = async (businessuc: any, values: any, Id: any) => {
+    console.log(values, "???");
+
+    const payload = {
+      businessUC: businessuc,
+      id: Number(Id),
+      //  publishableKey: values.publishableKey,
+      //  secretKey: values?.secretKey,
+      accountName: values.accontTitle,
+      paymentMethod: "Gocardless",
       isActive: true,
       countryName: values.countryName,
-      accessToken: values.description,
+      accessToken: values.accessToken,
       clientId: values.clientId,
       webhook: values.webhook,
       clientSecret: values.clientSecret,
+      // bankName: values.bankName,
+      // accountHolder: values.accountHolder,
+      // ibanNumber: values.ibanNumber,
+      // accountNumber: values.accountNumber,
+      // sortCode: values.sortCode,
+      // bic: values.bic,
+      // schoolPaypalMethod:false,
+      // schoolCashMethod:false,
+      // schoolBankAccountMethod:false,
+      // schoolStripeMethod:false,
+      // schoolGclMethod:false,
+      // stripePublicKey: values.stripePublishableKey,
+      // stripeSecretKey: values.stripeSecretKey,
+      // gclAccessToken: values.cardAccessToken,
+      // gclClientId: values.cardClientId,
+      // gclWebHook: values.cardWebHook,
+      // gclClientSecret: values.cardClientSecret,
+      // schoolStripeMethod: values.schoolStripeMethod,
+      // schoolGclMethod: values.schoolGclMethod,
+    };
+    console.log(payload);
+
+    try {
+      setError("");
+      setLoading(true);
+      const { data } = await axios.post("/paymentMethod/create", payload, {
+        headers: {
+          ...authorizationToken(loginData.data as loginDataTypes),
+        },
+      });
+
+      if (data.responseCode === "500") {
+        setLoading(false);
+        return;
+      }
+      setIsShowModal(true);
+      setTimeout(() => {
+        setLoading(false);
+        setIsShowModal(false);
+        // navigate("/branch/list");
+      }, 3000);
+      const values = data;
+      console.log("payment info", values);
+
+      return values;
+    } catch (error: any) {
+      console.log("error", error);
+      setLoading(false);
+      setError(error);
+    }
+  };
+  const create_bankaccount = async (businessuc: any, values: any, Id: any) => {
+    console.log(values, "???");
+
+    const payload = {
+      businessUC: businessuc,
+      id: Number(Id),
+      //  publishableKey: values.publishableKey,
+      //  secretKey: values?.secretKey,
+      accountName: values.accontTitle,
+      paymentMethod: "Bank Account",
+      isActive: true,
+      countryName: values.countryName,
+      // accessToken: values.accessToken,
+      // clientId: values.clientId,
+      // webhook: values.webhook,
+      // clientSecret: values.clientSecret,
       bankName: values.bankName,
       accountHolder: values.accountHolder,
       ibanNumber: values.ibanNumber,
@@ -56,22 +266,23 @@ const usePayment = () => {
     try {
       setError("");
       setLoading(true);
-      const url = "/paymentMethod/create";
-      const { data } = await axios.post(
-        url,
-        { payload },
-        {
-          headers: {
-            ...authorizationToken(loginData.data as loginDataTypes),
-          },
-        }
-      );
+      const { data } = await axios.post("/paymentMethod/create", payload, {
+        headers: {
+          ...authorizationToken(loginData.data as loginDataTypes),
+        },
+      });
 
       if (data.responseCode === "500") {
         setLoading(false);
         return;
       }
-      const values = data.results.bankAccount;
+      setIsShowModal(true);
+      setTimeout(() => {
+        setLoading(false);
+        setIsShowModal(false);
+        // navigate("/branch/list");
+      }, 3000);
+      const values = data;
       console.log("payment info", values);
 
       return values;
@@ -277,11 +488,11 @@ const usePayment = () => {
           {" "}
           <EnnvisionModal
             doTask={() => {
-              navigate("/branch/list");
+              // navigate("/branch/list");
               setIsShowModal(false);
             }}
-            title="Complete Profile Successfully!"
-            description="Congratulations! Your profile has been successfully completed, ensuring a seamless experience within the Marital"
+            title="Added Successfully"
+            description="Your payment method has been successfully added. Enjoy a hassle-free experience with our app!"
           />
         </CustomModal>
       ),
@@ -344,6 +555,9 @@ const usePayment = () => {
     UpdateModal,
     deletemodal,
     create_Stripe,
+    create_gocardless,
+    create_bankaccount,
+    editPayment,
   };
 };
 

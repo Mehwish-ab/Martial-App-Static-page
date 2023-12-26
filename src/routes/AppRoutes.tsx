@@ -42,6 +42,8 @@ import Privacy from "../screens/Privacy/privacy";
 import HelpSupport from "../screens/HelpSupport/helpSupport";
 import Language from "../screens/LanguagePage/Language";
 import Currency from "../screens/CurrencyPage/Currency";
+import EditInstructor from "../screens/Instructor/EditInstructor/EditInstructor";
+import UpdateeInstructor from "../screens/Instructor/UpdateInstructor/UpdateInstructor";
 // import { useDispatch, useSelector } from "react-redux";
 // import { RootState } from "../redux/store";
 
@@ -83,8 +85,6 @@ function AppRoutes() {
           path="/register/create-new-password"
           element={<CreatePassword />}
         />
-
-
         <Route
           path={"/"}
           element={
@@ -125,7 +125,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/school/add-payment-information/:schoolId"
           element={
@@ -134,7 +133,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/branch/list"
           element={
@@ -159,7 +157,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/branch/edit/:branchId"
           element={
@@ -176,7 +173,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/branch/add-payment-information/:branchId"
           element={
@@ -185,7 +181,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/franchise/list"
           element={
@@ -194,7 +189,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/franchise/create"
           element={
@@ -203,7 +197,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/franchise/edit/:franchiseId"
           element={
@@ -212,7 +205,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/franchise/view/:franchiseId"
           element={
@@ -229,7 +221,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/franchise/add-payment-information/:franchiseId"
           element={
@@ -246,7 +237,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/instructor/list"
           element={
@@ -255,7 +245,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/instructor/create"
           element={
@@ -264,7 +253,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/instructor/update"
           element={
@@ -273,7 +261,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/instructor/view/:instructorId"
           element={
@@ -282,7 +269,14 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
+        <Route
+          path="/instructor/edit/:instructorId"
+          element={
+            <AppLayout>
+              <UpdateeInstructor />
+            </AppLayout>
+          }
+        />
         <Route
           path="/timetable/list"
           element={
@@ -291,7 +285,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/timetable/create"
           element={
@@ -300,7 +293,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/timetable/information"
           element={
@@ -373,7 +365,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
         <Route
           path="/settings"
           element={
@@ -414,8 +405,6 @@ function AppRoutes() {
             </AppLayout>
           }
         />
-
-
         {/* error page */}
         <Route path="*" element={<ErrorPage404 />} />
       </Routes>

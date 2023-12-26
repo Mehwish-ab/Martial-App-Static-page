@@ -3,7 +3,6 @@ export interface CreateFranchiseInitialValues {
   franchiseType: string | number;
   address: string;
   franchisePhoneNumber: string;
-  // belts: string | number;
   rank: string | number;
   description: string;
   defaultLanguage: string | number;

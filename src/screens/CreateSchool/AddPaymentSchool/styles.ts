@@ -62,7 +62,7 @@ export const AddPaymentMethod = styled.div`
     }
   }
 
-  .ant-table-content table{
+  .ant-table-content table {
     width: 100% !important;
     min-width: 1220px !important;
   }
@@ -195,7 +195,7 @@ export const AddPaymentMethod = styled.div`
     position: relative;
     text-align: center;
   }
-  .ant-table-tbody > tr > td:nth-child(5) .Inactive button {
+  .ant-table-tbody > tr > td:nth-child(5) .De-Active button {
     font-style: normal;
     font-weight: 400;
     line-height: normal;

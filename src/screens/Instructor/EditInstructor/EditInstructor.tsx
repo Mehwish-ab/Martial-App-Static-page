@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ErrorMessage, Field, Formik } from "formik";
 import { Form } from "antd";
@@ -7,12 +7,13 @@ import { Col, Row } from "react-bootstrap";
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import useScreenTranslation from "../../../hooks/useScreenTranslation";
-import { RootState } from "../../../redux/store";
+import store, { RootState } from "../../../redux/store";
 
 import { validationFinder } from "../../../utils/utilities";
 import FormControl from "../../../components/FormControl";
 import {
   fontFamilyMedium,
+  fontFamilyRegular,
   lightBlue3,
   pureDark,
   pureDark2,
@@ -24,28 +25,59 @@ import { CreateInstructorInitialValues } from "../constant";
 import useBranch from "../../Franchise/hooks/useFranchise";
 import CheckboxesSelect from "../../../components/CustomCheckbox/CheckboxesSelect";
 import PlacesAutoCompleteInput from "../../../maps/PlacesAutocomplete";
-
+import { useParams } from "react-router-dom";
+import useInstructor from "../../../hooks/useInstructor";
+import { getInstructorByUserId } from "../../../redux/features/instructor/instructorSlice";
+import { InstructorDataType } from "../../../redux/features/instructor/instructorSlice";
+import { BELTS_SELECT_OPTIONS } from "../../Home/constants";
 const EditInstructor = () => {
+  const { instructorId } = useParams();
   const { getLabelByKey } = useScreenTranslation("instructorCreate");
   const {
     statusData: { activities, facilities },
   } = useSelector((state: RootState) => state.appData.data);
+  // const { instructorData } = useSelector(
+  //   (state: RootState) => state.instructorData
+  // );
 
-  const { loading, handleSubmit } = useBranch();
+  const { loading, getInstructorbyid, updateInstructor } = useInstructor();
+  const [instructorData, setinstructorData] = useState<
+    InstructorDataType | undefined
+  >();
+  console.log("instructorData", instructorData);
+
+  const handleupdate = async () => {
+    await updateInstructor();
+  };
+  useEffect(() => {
+    console.log("this is edit instructor");
+
+    fetchstripe();
+    async function fetchstripe() {
+      const data = await getInstructorbyid(Number(instructorId));
+      setinstructorData(data);
+    }
+  }, []);
 
   const initialValues: CreateInstructorInitialValues = {
-    instructorName: "",
-    emailAddress: "",
-    instructorPhoneNumber: "",
-    address: "",
-    yearsOfExperience: "",
-    rankId: "",
-    latestCertification: "",
-    description: "",
-    selectedActivities: [],
-    selectedFacilities: [],
+    instructorName: instructorData?.instructorName || "--",
+    emailAddress: "--",
+    instructorPhoneNumber: instructorData
+      ? instructorData?.phoneNumber
+      : ("--" as any),
+    address: instructorData ? instructorData.address : "--",
+    yearsOfExperience: instructorData?.experience || "--",
+    ranks: Number(instructorData?.rankId),
+    rankId: Number(instructorData?.rankId) || 0, // or a default value
+    latestCertification: instructorData?.certificationURL || "--",
+    description: instructorData ? instructorData?.description : ("--" as any),
+    selectedActivities: instructorData
+      ? String(instructorData?.activities).split("").map(String)
+      : [],
+    selectedFacilities: instructorData
+      ? String(instructorData?.specializations).split("").map(String)
+      : [],
     termCondition: "",
-    // ranks: ""
   };
 
   const franchiseName = validationFinder("BUSINESS_NAME")!;
@@ -56,8 +88,6 @@ const EditInstructor = () => {
   const emailAddressReg = new RegExp(emailAddress.pattern);
 
   const franchisePhoneNumber = validationFinder("PHONE_NUMBER")!;
-
-
 
   const validationSchema = Yup.object({
     franchiseName: Yup.string()
@@ -82,10 +112,7 @@ const EditInstructor = () => {
     selectedFacilities: Yup.array()
       .of(Yup.string().required("Select an activity"))
       .min(1, "Select at least one facility"),
-
   });
-
-
 
   return (
     <>
@@ -93,9 +120,13 @@ const EditInstructor = () => {
         <Formik
           initialValues={initialValues}
           // validationSchema={validationSchema}
-          onSubmit={() => { }}
+          onSubmit={handleupdate}
+          enableReinitialize
         >
           {(formik) => {
+            console.log("initial val", initialValues);
+            console.log("formmik val", formik.values);
+
             return (
               <Form
                 name="basic"
@@ -115,6 +146,12 @@ const EditInstructor = () => {
                         fontFamily={fontFamilyMedium}
                         fontSize="16px"
                         max={6}
+                        className={
+                          formik.errors.instructorName &&
+                          formik.touched.instructorName
+                            ? "is-invalid"
+                            : "customInput"
+                        }
                         placeholder="Instructor Name"
                       />
                     </Col>
@@ -175,11 +212,26 @@ const EditInstructor = () => {
                         <FormControl
                           control="select"
                           type="text"
-                          name="ranks"
+                          name="rankId"
                           fontFamily={fontFamilyMedium}
-                          label="Ranking"
+                          label={"Ranking"}
+                          value={formik.values.rankId === 1 ? "Yes" : "No"}
                           padding="10px"
-                          placeholder="English"
+                          placeholder={"Rankings"}
+                          className={
+                            formik.errors.rankId && formik.touched.rankId
+                              ? "is-invalid"
+                              : "customInput"
+                          }
+                          options={BELTS_SELECT_OPTIONS}
+                          // defaultValue={
+                          //   // formik.values.rank === 1 ? "Yes" : "No"
+                          //   formik.values
+                          //     ? BELTS_SELECT_OPTIONS.find(
+                          //         (item) => item.value === formik.values.rankId
+                          //       )?.label
+                          //     : undefined
+                          // }
                         />
                       </Col>
                       <Col md="4" className="mt-20 d-inline-block ps-3">
@@ -233,7 +285,9 @@ const EditInstructor = () => {
                           name="termCondition"
                           id="termCondition"
                         />
-                        <p className="ms-3 mb-0" id="termCondition">Terms and conditions</p>
+                        <p className="ms-3 mb-0" id="termCondition">
+                          Terms and conditions
+                        </p>
                       </form>
                     </label>
                     <label htmlFor="agreement">
@@ -244,7 +298,9 @@ const EditInstructor = () => {
                           name="agreement"
                           id="agreement"
                         />
-                        <p className="ms-3 mb-0" id="agreement">Agreement to follow the app's guidelines and policies</p>
+                        <p className="ms-3 mb-0" id="agreement">
+                          Agreement to follow the app's guidelines and policies
+                        </p>
                       </form>
                     </label>
                     <label htmlFor="liability">
@@ -255,7 +311,9 @@ const EditInstructor = () => {
                           name="liability"
                           id="liability"
                         />
-                        <p className="ms-3 mb-0" id="liability">Liability waivers</p>
+                        <p className="ms-3 mb-0" id="liability">
+                          Liability waivers
+                        </p>
                       </form>
                     </label>
                   </Row>
@@ -279,8 +337,8 @@ const EditInstructor = () => {
               </Form>
             );
           }}
-        </Formik >
-      </CreateSchoolStyled >
+        </Formik>
+      </CreateSchoolStyled>
     </>
   );
 };

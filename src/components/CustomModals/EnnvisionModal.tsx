@@ -1,3 +1,4 @@
+import React from "react";
 import { primaryColor } from "../../components/GlobalStyle";
 import { EnnvisionModalStyle } from "./style";
 import ic_success from "../../assets/images/ic_success.svg";
@@ -10,6 +11,7 @@ type ennvisionsModalProps = {
   bgBtn?: string;
   color?: string;
 };
+
 const EnnvisionModal: React.FC<ennvisionsModalProps> = ({
   title,
   description,
@@ -21,6 +23,9 @@ const EnnvisionModal: React.FC<ennvisionsModalProps> = ({
   return (
     <EnnvisionModalStyle>
       <div className="inner-container">
+        <button className="close-icon" onClick={doTask}>
+          &times;
+        </button>
         <img src={ic_success} alt="Success Icon" />
         {title && <h6 className="title my-2">{title}</h6>}
         {description && <p className="description">{description}</p>}

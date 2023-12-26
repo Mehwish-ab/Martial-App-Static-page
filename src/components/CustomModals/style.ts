@@ -82,6 +82,14 @@ export const EnnvisionModalStyle = styled.div`
       font-size: 19px;
       margin-top: 12px;
     }
+    .close-icon {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+  }
     .description {
       margin-top: 14px;
       font-size: 16px;

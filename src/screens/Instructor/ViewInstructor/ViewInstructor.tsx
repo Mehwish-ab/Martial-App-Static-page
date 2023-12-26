@@ -98,7 +98,8 @@ const ViewInstructor = () => {
                 <div className="list-item">
                   <div className="list-item-title">Ranking</div>
                   <div className="list-item-value">
-                    {values ? values.rankId : "--"}
+                    {/* {values ? values.rankId : "--"} */}
+                    {Number(values?.rankId) === 1 ? "Yes" : "No"}
                   </div>
                 </div>
               </Col>

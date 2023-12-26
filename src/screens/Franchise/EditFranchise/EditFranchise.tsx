@@ -61,7 +61,6 @@ const EditFranchise = () => {
   const [franchiseDatas, setfranchiseDatas] = useState<any>({});
 
   // console.log("franchisetoedit", language, currency);
-  console.log("setfranchiseDatas", franchiseId);
 
   const franchiseName = validationFinder("BUSINESS_NAME")!;
   const franchiseNameReg = new RegExp(franchiseName.pattern);
@@ -134,7 +133,7 @@ const EditFranchise = () => {
     branchPhoneNumber: Yup.string().required(
       franchisePhoneNumber?.notBlankMsgEn
     ),
-    ranks: Yup.string().required("Please select ranks"),
+    rank: Yup.string().required("Please select ranks"),
     description: Yup.string().required("Please enter description"),
     selectedActivities: Yup.array()
       .of(Yup.string().required("Select an activity"))
@@ -193,8 +192,8 @@ const EditFranchise = () => {
         enableReinitialize
       >
         {(formik) => {
-          console.log(formik.values, "<< Formik");
-          console.log(initialValues, "<< initianl Formik");
+          // console.log(formik.values, "<< Formik");
+          // console.log(initialValues, "<< initianl Formik");
 
           return (
             <Form
@@ -243,11 +242,11 @@ const EditFranchise = () => {
                           : "customInput"
                       }
                       options={createOptions(businessTypes)}
-                      defaultValue={
+                      value={
                         franchiseId
                           ? createOptions(businessTypes).find(
                               (item) =>
-                                item.value === initialValues.franchiseType
+                                item.value === formik.values.franchiseType
                             )?.label
                           : undefined
                       }
@@ -293,11 +292,11 @@ const EditFranchise = () => {
                         <FormControl
                           control="select"
                           type="text"
-                          name="belts"
+                          name="rank"
                           fontFamily={fontFamilyRegular}
                           // prefix={<img src={lock_icon} alt="lock_icon" />}
                           label={getLabelByKey("ranks")}
-                          // value={formik.values.rank === 1 ? "Yes" : "No"}
+                          // defaultValue={formik.values.rank === 1 ? "Yes" : "No"}
                           placeholder={getLabelByKey("ranks")}
                           className={
                             formik.errors.rank && formik.touched.rank
@@ -329,6 +328,14 @@ const EditFranchise = () => {
                               : "customInput"
                           }
                           options={createOptions(language)}
+                          value={
+                            franchiseId
+                              ? createOptions(language).find(
+                                  (item) =>
+                                    item.value === formik.values.defaultLanguage
+                                )?.label
+                              : undefined
+                          }
                         />
                       </Col>
                       <Col md="4" className="mt-20">
@@ -346,6 +353,14 @@ const EditFranchise = () => {
                               : "customInput"
                           }
                           options={createOptions(currency)}
+                          value={
+                            franchiseId
+                              ? createOptions(currency).find(
+                                  (item) =>
+                                    item.value === formik.values.defaultCurrency
+                                )?.label
+                              : undefined
+                          }
                         />
                       </Col>
                     </Row>
@@ -402,8 +417,8 @@ const EditFranchise = () => {
                   type="submit"
                   title={getLabelByKey("primaryButton")}
                   fontSize="17px"
-                  // clicked={handleEditSchool}
-                  disabled={!formik.isValid}
+                  clicked={() => handleEditSchool(formik.values)}
+                  // disabled={!formik.isValid}
                   loading={loading}
                 />
               </div>

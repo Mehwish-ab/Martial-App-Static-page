@@ -17,7 +17,7 @@ export interface FranchiseDataType {
   phoneNumber: string;
   defaultLanguageId: number;
   defaultCurrencyId: number;
-  ranks: boolean;
+  rank: boolean;
   activities: string;
   facilities: string;
   description: string;
@@ -52,7 +52,7 @@ const initialState: franchiseDataInitialState = {
         phoneNumber: "",
         defaultLanguageId: 0,
         defaultCurrencyId: 0,
-        ranks: false,
+        rank: false,
         activities: "",
         facilities: "",
         description: "",

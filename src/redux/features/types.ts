@@ -375,6 +375,7 @@ export interface DropdownDataTypes {
   language: DataTypesWithIdAndMultipleLangLabel[];
   currency: DataTypesWithIdAndMultipleLangLabel[];
   businessTypes: DataTypesWithIdAndMultipleLangLabel[];
+  countryName: DataTypesWithIdAndMultipleLangLabel[];
 }
 
 export interface StatusDataTypes {

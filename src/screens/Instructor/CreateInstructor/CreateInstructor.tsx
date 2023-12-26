@@ -24,13 +24,16 @@ import FileSubmit from "../../../assets/icons/ic_fileSubmit.svg";
 import { validationFinder } from "../../../utils/utilities";
 import * as Yup from "yup";
 import { useEffect, useRef, useState } from "react";
+import { BELTS_SELECT_OPTIONS } from "../../Home/constants";
 const CreateInstructor = () => {
   const { getLabelByKey } = useScreenTranslation("instructorCreate");
   const {
     statusData: { activities, facilities },
   } = useSelector((state: RootState) => state.appData.data);
   const [selectedFiles, setSelectedFiless] = useState<FileList | null>(null);
-
+  useEffect(() => {
+    console.log("this is create instructor");
+  }, []);
   const handleImagesUpload = (selectedFiless: any) => {
     setSelectedFiless(selectedFiless);
     console.log("Selected Files:", selectedFiless.name);
@@ -43,7 +46,8 @@ const CreateInstructor = () => {
     instructorPhoneNumber: "",
     address: "",
     yearsOfExperience: "",
-    rankId: "",
+    ranks: 0,
+    rankId: 0,
     latestCertification: "",
     description: "",
     selectedActivities: [],
@@ -189,10 +193,11 @@ const CreateInstructor = () => {
                         <FormControl
                           control="select"
                           type="text"
-                          name="ranks"
+                          name="rankId"
                           fontFamily={fontFamilyRegular}
-                          label="Ranking"
-                          placeholder="English"
+                          label="RankId"
+                          placeholder={getLabelByKey("belts")}
+                          options={BELTS_SELECT_OPTIONS}
                         />
                       </Col>
                       <Col md="4" className="mt-20">
@@ -203,7 +208,7 @@ const CreateInstructor = () => {
                           fontFamily={fontFamilyRegular}
                           label="Latest Certification"
                           src={FileSubmit}
-                          onChange={handleChange}
+                          // onChange={handleChange}
                           suffix={
                             <ImagesUpload onImagesSelect={handleImagesUpload} />
                             // <img

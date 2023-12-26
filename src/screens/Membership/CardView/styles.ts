@@ -1,13 +1,13 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 import {
-  AntiFlashWhite,
-  BallBlue,
-  fontFamilyMedium,
-  fontFamilyRegular,
-  lightDark2,
-  pureDark2,
-  whiteColor,
-} from "../../../components/GlobalStyle";
+    AntiFlashWhite,
+    BallBlue,
+    fontFamilyMedium,
+    fontFamilyRegular,
+    lightDark2,
+    pureDark2,
+    whiteColor,
+} from '../../../components/GlobalStyle'
 
 export const CardViewStyled = styled.div`
   background: #fff;
@@ -241,4 +241,4 @@ export const CardViewStyled = styled.div`
     }
   }
 
-`;
+`

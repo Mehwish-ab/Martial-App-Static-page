@@ -1,10 +1,10 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 const LoaderStyle = styled.div`
-  display: flex;
-  align-items: center;
-  height: 10vh;
-  justify-content: center;
-`;
+    display: flex;
+    align-items: center;
+    height: 10vh;
+    justify-content: center;
+`
 
-export default LoaderStyle;
+export default LoaderStyle

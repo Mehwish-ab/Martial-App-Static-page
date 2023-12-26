@@ -1,3 +1,3 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
-export const SideMenuStyle = styled.div``;
+export const SideMenuStyle = styled.div``

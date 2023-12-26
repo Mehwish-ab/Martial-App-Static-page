@@ -1,0 +1,4 @@
+*.css
+*.svg
+./public
+./node_modules

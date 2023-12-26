@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react'
 
 const ProfileBox = () => {
-  return <div>ProfileBox</div>;
-};
+    return <div>ProfileBox</div>
+}
 
-export default ProfileBox;
+export default ProfileBox

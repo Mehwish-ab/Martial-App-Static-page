@@ -1,33 +1,29 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import useScreenTranslation from "../../../hooks/useScreenTranslation";
-import FormControl from "../../../components/FormControl";
-import { useSelector } from "react-redux";
-import { Col, Row } from "react-bootstrap";
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import useScreenTranslation from '../../../hooks/useScreenTranslation'
+import FormControl from '../../../components/FormControl'
+import { useSelector } from 'react-redux'
+import { Col, Row } from 'react-bootstrap'
 
-import DateCalander from "../../../assets/images/dateCalander.svg";
-import {
-    fontFamilyMedium,
-} from "../../../components/GlobalStyle";
-import { FilterTimeTableStyled } from "./styles";
-import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
-import { RootState } from "../../../redux/store";
+import DateCalander from '../../../assets/images/dateCalander.svg'
+import { fontFamilyMedium } from '../../../components/GlobalStyle'
+import { FilterTimeTableStyled } from './styles'
+import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
+import { RootState } from '../../../redux/store'
 // import { FormControl } from "react-bootstrap";
 
 const TimeTableForm: React.FC = () => {
-    const { getLabelByKey } = useScreenTranslation("listTimeTable");
+    const { getLabelByKey } = useScreenTranslation('listTimeTable')
 
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
-    const { loading } = useSelector(
-        (state: RootState) => state.timeTableData
-    );
+    const { loading } = useSelector((state: RootState) => state.timeTableData)
 
     return (
         <>
             {loading && <LoadingOverlay message="" />}
             <FilterTimeTableStyled>
-                <h3 className="timetable-heading">Time Table</h3 >
+                <h3 className="timetable-heading">Time Table</h3>
                 <Row>
                     <Col md="4">
                         <FormControl
@@ -66,7 +62,16 @@ const TimeTableForm: React.FC = () => {
                                     padding="7px"
                                     fontFamily={fontFamilyMedium}
                                     fontSize="16px"
-                                    suffix={<img src={DateCalander} alt="" style={{ width: "23px", height: "23px" }} />}
+                                    suffix={
+                                        <img
+                                            src={DateCalander}
+                                            alt=""
+                                            style={{
+                                                width: '23px',
+                                                height: '23px',
+                                            }}
+                                        />
+                                    }
                                     placeholder="Monday, October 27, 2023"
                                 />
                             </Col>
@@ -79,7 +84,16 @@ const TimeTableForm: React.FC = () => {
                                     padding="7px"
                                     fontFamily={fontFamilyMedium}
                                     fontSize="16px"
-                                    suffix={<img src={DateCalander} alt="" style={{ width: "23px", height: "23px" }} />}
+                                    suffix={
+                                        <img
+                                            src={DateCalander}
+                                            alt=""
+                                            style={{
+                                                width: '23px',
+                                                height: '23px',
+                                            }}
+                                        />
+                                    }
                                     placeholder="Monday, October 27, 2023"
                                 />
                             </Col>
@@ -87,10 +101,8 @@ const TimeTableForm: React.FC = () => {
                     </Col>
                 </Row>
             </FilterTimeTableStyled>
-
         </>
-    );
-};
+    )
+}
 
-export default TimeTableForm;
-
+export default TimeTableForm

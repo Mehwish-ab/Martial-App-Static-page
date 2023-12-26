@@ -1,15 +1,15 @@
-import { FiChevronLeft } from "react-icons/fi";
-import { PrevBtnStyle } from "./style";
+import { FiChevronLeft } from 'react-icons/fi'
+import { PrevBtnStyle } from './style'
 
 type prevBtnProps = {
-  clicked: () => void;
-};
+    clicked: () => void
+}
 const PrevBtn: React.FC<prevBtnProps> = ({ clicked }) => {
-  return (
-    <PrevBtnStyle type="button" onClick={clicked}>
-      <FiChevronLeft />
-    </PrevBtnStyle>
-  );
-};
+    return (
+        <PrevBtnStyle type="button" onClick={clicked}>
+            <FiChevronLeft />
+        </PrevBtnStyle>
+    )
+}
 
-export default PrevBtn;
+export default PrevBtn

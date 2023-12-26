@@ -1,11 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 import {
-  darkBlue,
-  darkGery,
-  fontFamilyMedium,
-  pureDark2,
-  fontFamilyRegular,
-} from "../../../components/GlobalStyle";
+    darkBlue,
+    darkGery,
+    fontFamilyMedium,
+    pureDark2,
+    fontFamilyRegular,
+} from '../../../components/GlobalStyle'
 
 export const CreateTimeTableStyled = styled.div`
 margin-top: 20px;
@@ -132,34 +132,31 @@ padding-bottom: 20px;
     background-color: #fff;
   }
 }
-`;
-
+`
 
 export const FilterTimeTableStyled = styled.div`
-background-color: #fff;
-padding: 16px;
-border-radius: 10px;
-    
-    
-.timetable-heading {
-  font-family: ${fontFamilyMedium};
-  color: ${pureDark2};
-  margin-bottom: 16px; 
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-}
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 10px;
 
-.ant-input-affix-wrapper{
-  height: 50px;
-  padding-top: 0;
-  padding-bottom: 0;
-  border-radius: 10px;
-  input{
-    height: 48px;
-    background-color: transparent;
-  }
-}
+    .timetable-heading {
+        font-family: ${fontFamilyMedium};
+        color: ${pureDark2};
+        margin-bottom: 16px;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
 
-`;
+    .ant-input-affix-wrapper {
+        height: 50px;
+        padding-top: 0;
+        padding-bottom: 0;
+        border-radius: 10px;
+        input {
+            height: 48px;
+            background-color: transparent;
+        }
+    }
+`

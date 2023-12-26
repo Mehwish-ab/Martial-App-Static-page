@@ -1,5 +1,12 @@
-import styled from "styled-components";
-import { fontFamilyMedium, fontFamilyRegular, lightDark2, mediaDeviceMax, pureDark2, tertiaryGrey24 } from "../../../components/GlobalStyle";
+import styled from 'styled-components'
+import {
+    fontFamilyMedium,
+    fontFamilyRegular,
+    lightDark2,
+    mediaDeviceMax,
+    pureDark2,
+    tertiaryGrey24,
+} from '../../../components/GlobalStyle'
 
 export const PaymentPop = styled.div`
 h3{
@@ -75,4 +82,4 @@ h3{
   }
 }
 
-`;
+`

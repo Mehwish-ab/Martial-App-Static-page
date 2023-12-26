@@ -1,17 +1,17 @@
-import { CustomizedFileInputStyle } from "./style";
+import { CustomizedFileInputStyle } from './style'
 
 type customizedFileInputProps = {
-  children: React.ReactNode;
-};
+    children: React.ReactNode
+}
 
 const CustomizedFileInput: React.FC<customizedFileInputProps> = ({
-  children,
+    children,
 }) => {
-  return (
-    <CustomizedFileInputStyle>
-      <div className="upload-wrapper">{children}</div>
-    </CustomizedFileInputStyle>
-  );
-};
+    return (
+        <CustomizedFileInputStyle>
+            <div className="upload-wrapper">{children}</div>
+        </CustomizedFileInputStyle>
+    )
+}
 
-export default CustomizedFileInput;
+export default CustomizedFileInput

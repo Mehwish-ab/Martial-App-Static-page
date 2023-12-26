@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { fontFamilyMedium, whiteColor } from "../GlobalStyle";
+import styled from 'styled-components'
+import { fontFamilyMedium, whiteColor } from '../GlobalStyle'
 
 const CustomModalStyle = styled.div`
 background-color: #fff;
@@ -15,16 +15,16 @@ position: relative;
       border-radius: 10px;
     }
   }
-`;
+`
 
-export default CustomModalStyle;
+export default CustomModalStyle
 
 export const LoadingOverlayStyle = styled.div`
-  .message {
-    color: ${whiteColor};
-    font-family: ${fontFamilyMedium};
-    text-align: center;
-    font-size: 22px;
-    margin-bottom: 0;
-  }
-`;
+    .message {
+        color: ${whiteColor};
+        font-family: ${fontFamilyMedium};
+        text-align: center;
+        font-size: 22px;
+        margin-bottom: 0;
+    }
+`

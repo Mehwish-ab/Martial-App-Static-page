@@ -1,91 +1,104 @@
-import { FC, Fragment, useState } from "react";
-import { Col, Row } from "react-bootstrap";
-import CustomModal from "../../../../components/Modal/CustomModal";
-import { EditPopUpStying } from "./EditPopUpStying";
-import FormControl from "../../../../components/FormControl";
-import CustomButton from "../../../../components/CustomButton/CustomButton";
-import { fontFamilyMedium, lightBlue3, lightColor1, pureDark2 } from "../../../../components/GlobalStyle";
-import { Form, Formik, FormikHelpers } from "formik";
+import { FC, Fragment, useState } from 'react'
+import { Col, Row } from 'react-bootstrap'
+import CustomModal from '../../../../components/Modal/CustomModal'
+import { EditPopUpStying } from './EditPopUpStying'
+import FormControl from '../../../../components/FormControl'
+import CustomButton from '../../../../components/CustomButton/CustomButton'
+import {
+    fontFamilyMedium,
+    lightBlue3,
+    lightColor1,
+    pureDark2,
+} from '../../../../components/GlobalStyle'
+import { Form, Formik, FormikHelpers } from 'formik'
 
-
-import Input from "react-phone-number-input";
-import "react-phone-number-input/style.css";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../redux/store";
-
+import Input from 'react-phone-number-input'
+import 'react-phone-number-input/style.css'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../../redux/store'
 
 type initialTypesSettings = {
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-    password: string;
-    confirmPassword: string;
-};
+    firstName: string
+    lastName: string
+    phoneNumber: string
+    password: string
+    confirmPassword: string
+}
 
 const Security: FC<{}> = () => {
-
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
-    );
+    )
 
     useEffect(() => {
         const countrySelect = document.querySelector(
-            ".PhoneInput .PhoneInputCountry"
-        );
-        const phoneNumberInput = document.querySelector(".PhoneInput input");
+            '.PhoneInput .PhoneInputCountry'
+        )
+        const phoneNumberInput = document.querySelector('.PhoneInput input')
 
         if (countrySelect) {
-            if (selectedLanguage === "ur" || selectedLanguage === "ar") {
-                countrySelect.classList.remove("country-left-to-right-border-radius");
-                countrySelect.classList.add("country-right-to-left-border-radius");
+            if (selectedLanguage === 'ur' || selectedLanguage === 'ar') {
+                countrySelect.classList.remove(
+                    'country-left-to-right-border-radius'
+                )
+                countrySelect.classList.add(
+                    'country-right-to-left-border-radius'
+                )
             } else {
-                countrySelect.classList.add("country-left-to-right-border-radius");
-                countrySelect.classList.remove("country-right-to-left-border-radius");
+                countrySelect.classList.add(
+                    'country-left-to-right-border-radius'
+                )
+                countrySelect.classList.remove(
+                    'country-right-to-left-border-radius'
+                )
             }
         }
         if (phoneNumberInput) {
-            if (selectedLanguage === "ur" || selectedLanguage === "ar") {
+            if (selectedLanguage === 'ur' || selectedLanguage === 'ar') {
                 phoneNumberInput.classList.add(
-                    "phone-number-right-to-left-border-radius"
-                );
+                    'phone-number-right-to-left-border-radius'
+                )
                 phoneNumberInput.classList.remove(
-                    "phone-number-left-to-right-border-radius"
-                );
+                    'phone-number-left-to-right-border-radius'
+                )
             } else {
                 phoneNumberInput.classList.add(
-                    "phone-number-left-to-right-border-radius"
-                );
+                    'phone-number-left-to-right-border-radius'
+                )
                 phoneNumberInput.classList.remove(
-                    "phone-number-right-to-left-border-radius"
-                );
+                    'phone-number-right-to-left-border-radius'
+                )
             }
         }
-    }, [selectedLanguage]);
+    }, [selectedLanguage])
 
     const initialValues: initialTypesSettings = {
-        firstName: "",
-        lastName: "",
-        phoneNumber: "0",
-        password: "",
-        confirmPassword: "",
-    };
-    const [isResetModalVisible, setIsResetModelVisible] = useState(false);
-    const [isAuthenticationModalVisible, setAuthenticationModelVisible] = useState(false);
-    const [isDeleteModalVisible, setIsDeleteModelVisible] = useState(false);
+        firstName: '',
+        lastName: '',
+        phoneNumber: '0',
+        password: '',
+        confirmPassword: '',
+    }
+    const [isResetModalVisible, setIsResetModelVisible] = useState(false)
+    const [isAuthenticationModalVisible, setAuthenticationModelVisible] =
+        useState(false)
+    const [isDeleteModalVisible, setIsDeleteModelVisible] = useState(false)
 
-
-    const handleSubmit = (values: initialTypesSettings, { setSubmitting }: FormikHelpers<initialTypesSettings>) => {
-        setSubmitting(false);
-    };
-
+    const handleSubmit = (
+        values: initialTypesSettings,
+        { setSubmitting }: FormikHelpers<initialTypesSettings>
+    ) => {
+        setSubmitting(false)
+    }
 
     return (
         <Fragment>
             <div className="panel-heading">
                 <h3>Security</h3>
                 <p>
-                    Adjust your security settings and set up two-factor authentication.
+                    Adjust your security settings and set up two-factor
+                    authentication.
                 </p>
             </div>
             <div>
@@ -94,50 +107,74 @@ const Security: FC<{}> = () => {
                         <h4 className="m-0 panel-body-heading">Password</h4>
                     </Col>
                     <Col md="8">
-                        <p className="m-0 panel-body-text">Reset your password regularly to keep your account secure</p>
+                        <p className="m-0 panel-body-text">
+                            Reset your password regularly to keep your account
+                            secure
+                        </p>
                     </Col>
                     <Col md="2" className="text-end">
-                        <span onClick={() => setIsResetModelVisible(true)} className="panel-body-link">
+                        <span
+                            onClick={() => setIsResetModelVisible(true)}
+                            className="panel-body-link"
+                        >
                             Reset
                         </span>
                     </Col>
                 </Row>
                 <Row className="panel-body">
                     <Col md="2">
-                        <h4 className="m-0 panel-body-heading">Two-factor
-                            authentication</h4>
+                        <h4 className="m-0 panel-body-heading">
+                            Two-factor authentication
+                        </h4>
                     </Col>
                     <Col md="8">
-                        <p className="m-0 panel-body-text">Add a phone number to set up two-factor authentication</p>
+                        <p className="m-0 panel-body-text">
+                            Add a phone number to set up two-factor
+                            authentication
+                        </p>
                     </Col>
                     <Col md="2" className="text-end">
-                        <span onClick={() => setAuthenticationModelVisible(true)} className="panel-body-link">
+                        <span
+                            onClick={() => setAuthenticationModelVisible(true)}
+                            className="panel-body-link"
+                        >
                             Set Up
                         </span>
                     </Col>
                 </Row>
                 <Row className="panel-body">
                     <Col md="2">
-                        <h4 className="m-0 panel-body-heading">Active sessions</h4>
+                        <h4 className="m-0 panel-body-heading">
+                            Active sessions
+                        </h4>
                     </Col>
                     <Col md="8">
-                        <p className="m-0 panel-body-text">Selecting ‘Sign out’ will sign you out from all devices except this one. The process can take up to 10 minutes.</p>
+                        <p className="m-0 panel-body-text">
+                            Selecting ‘Sign out’ will sign you out from all
+                            devices except this one. The process can take up to
+                            10 minutes.
+                        </p>
                     </Col>
                     <Col md="2" className="text-end">
-                        <span className="panel-body-link">
-                            Sign out
-                        </span>
+                        <span className="panel-body-link">Sign out</span>
                     </Col>
                 </Row>
                 <Row className="panel-body">
                     <Col md="2">
-                        <h4 className="m-0 panel-body-heading">Delete account</h4>
+                        <h4 className="m-0 panel-body-heading">
+                            Delete account
+                        </h4>
                     </Col>
                     <Col md="8">
-                        <p className="m-0 panel-body-text">Permanently delete your Booking.com account</p>
+                        <p className="m-0 panel-body-text">
+                            Permanently delete your Booking.com account
+                        </p>
                     </Col>
                     <Col md="2" className="text-end">
-                        <span onClick={() => setIsDeleteModelVisible(true)} className="panel-body-link text-danger ">
+                        <span
+                            onClick={() => setIsDeleteModelVisible(true)}
+                            className="panel-body-link text-danger "
+                        >
                             Delete Account
                         </span>
                     </Col>
@@ -151,31 +188,33 @@ const Security: FC<{}> = () => {
                     <>
                         <EditPopUpStying>
                             <h3>Reset Password</h3>
-                            <p>Your new password must be different from previous used passwords.</p>
+                            <p>
+                                Your new password must be different from
+                                previous used passwords.
+                            </p>
                             <Formik
                                 initialValues={initialValues}
                                 onSubmit={handleSubmit}
                             >
                                 {(formik) => {
                                     return (
-                                        <Form
-                                            name="basic"
-                                            autoComplete="off"
-                                        >
+                                        <Form name="basic" autoComplete="off">
                                             <div className="mt-20">
                                                 <FormControl
                                                     control="password"
                                                     type="text"
                                                     name="currentPassword"
                                                     label="Current Password"
-                                                    fontFamily={fontFamilyMedium}
+                                                    fontFamily={
+                                                        fontFamilyMedium
+                                                    }
                                                     max={6}
                                                     placeholder="Enter Password"
                                                     className={
                                                         formik.errors &&
-                                                            formik.touched
-                                                            ? "customPasswordInput"
-                                                            : "is-invalid"
+                                                        formik.touched
+                                                            ? 'customPasswordInput'
+                                                            : 'is-invalid'
                                                     }
                                                 />
                                             </div>
@@ -186,14 +225,16 @@ const Security: FC<{}> = () => {
                                                         type="text"
                                                         name="newpassword"
                                                         label="New Password"
-                                                        fontFamily={fontFamilyMedium}
+                                                        fontFamily={
+                                                            fontFamilyMedium
+                                                        }
                                                         max={6}
                                                         placeholder="Enter New Password"
                                                         className={
                                                             formik.errors &&
-                                                                formik.touched
-                                                                ? "customPasswordInput"
-                                                                : "is-invalid"
+                                                            formik.touched
+                                                                ? 'customPasswordInput'
+                                                                : 'is-invalid'
                                                         }
                                                     />
                                                 </div>
@@ -202,7 +243,9 @@ const Security: FC<{}> = () => {
                                                         control="password"
                                                         type="text"
                                                         name="confirmPassword"
-                                                        fontFamily={fontFamilyMedium}
+                                                        fontFamily={
+                                                            fontFamilyMedium
+                                                        }
                                                         border="none"
                                                         label="Confirm Password"
                                                         // placeholder={getLabelByKey(
@@ -211,9 +254,9 @@ const Security: FC<{}> = () => {
                                                         placeholder="Enter Confirm Password"
                                                         className={
                                                             formik.errors &&
-                                                                formik.touched
-                                                                ? "customPasswordInput"
-                                                                : "is-invalid"
+                                                            formik.touched
+                                                                ? 'customPasswordInput'
+                                                                : 'is-invalid'
                                                         }
                                                     />
                                                 </div>
@@ -224,7 +267,9 @@ const Security: FC<{}> = () => {
                                                     textTransform="Captilize"
                                                     color={pureDark2}
                                                     padding="12.5px"
-                                                    fontFamily={fontFamilyMedium}
+                                                    fontFamily={
+                                                        fontFamilyMedium
+                                                    }
                                                     width="100%"
                                                     type="submit"
                                                     title="Reset"
@@ -233,12 +278,15 @@ const Security: FC<{}> = () => {
                                                 />
                                             </div>
                                         </Form>
-                                    );
+                                    )
                                 }}
                             </Formik>
                         </EditPopUpStying>
                     </>
-                } isModalVisible={isResetModalVisible} setIsModalVisible={setIsResetModelVisible} />
+                }
+                isModalVisible={isResetModalVisible}
+                setIsModalVisible={setIsResetModelVisible}
+            />
 
             {/* Authentication Password Model */}
             <CustomModal
@@ -248,17 +296,17 @@ const Security: FC<{}> = () => {
                     <>
                         <EditPopUpStying>
                             <h3>Two-factor authentication</h3>
-                            <p>Update your information and find out how it's used.</p>
+                            <p>
+                                Update your information and find out how it's
+                                used.
+                            </p>
                             <Formik
                                 initialValues={initialValues}
                                 onSubmit={handleSubmit}
                             >
                                 {(formik) => {
                                     return (
-                                        <Form
-                                            name="basic"
-                                            autoComplete="off"
-                                        >
+                                        <Form name="basic" autoComplete="off">
                                             <div className="mt-10">
                                                 <label
                                                     htmlFor="phoneNumber"
@@ -270,12 +318,15 @@ const Security: FC<{}> = () => {
                                                     defaultCountry="GB"
                                                     international
                                                     placeholder="44"
-                                                    value={formik.values.phoneNumber}
+                                                    value={
+                                                        formik.values
+                                                            .phoneNumber
+                                                    }
                                                     onChange={(e: string) => {
                                                         formik.setValues({
                                                             ...formik.values,
                                                             phoneNumber: e,
-                                                        });
+                                                        })
                                                     }}
                                                     withCountryCallingCode
                                                     countryCallingCodeEditable
@@ -289,7 +340,13 @@ const Security: FC<{}> = () => {
                                                 </div> */}
                                             </div>
 
-                                            <p className="text-start mt-10">To set up two-factor authentication, we’ll send a 6-digit code to this number. You’ll be asked to enter it at the next step.</p>
+                                            <p className="text-start mt-10">
+                                                To set up two-factor
+                                                authentication, we’ll send a
+                                                6-digit code to this number.
+                                                You’ll be asked to enter it at
+                                                the next step.
+                                            </p>
                                             <CustomButton
                                                 bgcolor={lightBlue3}
                                                 textTransform="Captilize"
@@ -303,12 +360,15 @@ const Security: FC<{}> = () => {
                                                 loading={false}
                                             />
                                         </Form>
-                                    );
+                                    )
                                 }}
                             </Formik>
                         </EditPopUpStying>
                     </>
-                } isModalVisible={isAuthenticationModalVisible} setIsModalVisible={setAuthenticationModelVisible} />
+                }
+                isModalVisible={isAuthenticationModalVisible}
+                setIsModalVisible={setAuthenticationModelVisible}
+            />
 
             {/* Authentication Password Model */}
             <CustomModal
@@ -318,7 +378,14 @@ const Security: FC<{}> = () => {
                     <>
                         <EditPopUpStying>
                             <h3>Want to Delete Account</h3>
-                            <p>Before proceeding with the removal of a student account, please be aware that once the removal is confirmed, all access will be permanently revoked. If the user still holds an active membership, the account cannot be removed until the membership is completed or canceled.</p>
+                            <p>
+                                Before proceeding with the removal of a student
+                                account, please be aware that once the removal
+                                is confirmed, all access will be permanently
+                                revoked. If the user still holds an active
+                                membership, the account cannot be removed until
+                                the membership is completed or canceled.
+                            </p>
                             <Row>
                                 <Col md="6">
                                     <CustomButton
@@ -351,9 +418,11 @@ const Security: FC<{}> = () => {
                             </Row>
                         </EditPopUpStying>
                     </>
-                } isModalVisible={isDeleteModalVisible} setIsModalVisible={setIsDeleteModelVisible} />
-
-        </Fragment >
-    );
-};
-export default Security;
+                }
+                isModalVisible={isDeleteModalVisible}
+                setIsModalVisible={setIsDeleteModelVisible}
+            />
+        </Fragment>
+    )
+}
+export default Security

@@ -253,14 +253,6 @@ function AppRoutes() {
           }
         />
         <Route
-          path="/instructor/update"
-          element={
-            <AppLayout>
-              <UpdateInstructor />
-            </AppLayout>
-          }
-        />
-        <Route
           path="/instructor/view/:instructorId"
           element={
             <AppLayout>
@@ -272,7 +264,7 @@ function AppRoutes() {
           path="/instructor/edit/:instructorId"
           element={
             <AppLayout>
-              <UpdateeInstructor />
+              <UpdateInstructor />
             </AppLayout>
           }
         />

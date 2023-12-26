@@ -114,16 +114,53 @@ const RegisterStyle = styled.div`
       }
     }
   } 
-  .PhoneInput {
-    width: 100%;
-    height: 52px;
-  input{
-    height: 52px;
-  }
-  .PhoneInputCountry{
-    height: 52px;
-   }
-   }
+
+
+  //  .is-invalid_phone {
+  //   height: 52px;
+  //   border: 1px solid #E43535;
+  //   background: white;
+  //   width: 100%;
+  //   width: -moz-available;
+  //   outline: none;
+  //   border-radius: 10px;
+  //   line-height: normal;
+  //   font-size: 16px;
+  //   input{
+  //     color: ${lightDark2};
+  //     font-size: 16px;
+  //     font-style: normal;
+  //     font-weight: 400;
+  //     line-height: normal;
+  //     font-family: ${fontFamilyRegular};
+  //     border: 1px solid rgb(228, 53, 53);
+  //     border-right: none;
+  //     border-left: none;
+  //   }
+  // }
+
+  // .is-invalid_phone:hover {
+  //   height: 52px;
+  //   border: 1px solid #E0E0E0;
+  //   background: white;
+  //   width: 100%;
+  //   width: -moz-available;
+  //   outline: none;
+  //   border-radius: 10px;
+  //   line-height: normal;
+  //   font-size: 16px;
+  //   input{
+  //     color: ${lightDark2};
+  //     font-size: 16px;
+  //     font-style: normal;
+  //     font-weight: 400;
+  //     line-height: normal;
+  //     font-family: ${fontFamilyRegular};
+  //     border: 1px solid #E0E0E0;
+  //     border-right: none;
+  //     border-left: none;
+  //   }
+  // }
 
   .is-invalid {
     height: 52px;
@@ -143,7 +180,6 @@ const RegisterStyle = styled.div`
       font-weight: 400;
       line-height: normal;
       font-family: ${fontFamilyRegular};
-
     }
   }
   .customInput{

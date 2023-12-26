@@ -61,7 +61,6 @@ const UpdateeInstructor = () => {
       : ("--" as any),
     address: instructorData ? instructorData.address : "--",
     yearsOfExperience: instructorData?.experience || "--",
-    ranks: Number(instructorData?.rankId),
     rankId: Number(instructorData?.rankId) || 0, // or a default value
     latestCertification: instructorData?.certificationURL || "--",
     description: instructorData ? instructorData?.description : ("--" as any),

@@ -46,7 +46,6 @@ const CreateInstructor = () => {
     instructorPhoneNumber: "",
     address: "",
     yearsOfExperience: "",
-    ranks: 0,
     rankId: 0,
     latestCertification: "",
     description: "",

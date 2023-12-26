@@ -159,13 +159,15 @@ const ViewFranchise = () => {
     (item: DataTypesWithIdAndMultipleLangLabel) =>
       console.log(+item.id == +Franchise?.defaultCurrencyId)
   );
+  console.log("data", franchisedata);
+
   return (
     <ViewFranchiseStyled>
-      {/* <OverlayImages
-        overlayImg={franchise.profilePicture || ""}
-        backgroundImg={franchise.profilePicture || ""}
+      <OverlayImages
+        overlayImg={franchisedata ? franchisedata.bannerPicture : ""}
+        backgroundImg={franchisedata ? franchisedata.profilePicture : ""}
         isEditable={true}
-      /> */}
+      />
 
       <h3>Affiliated Schoool Information</h3>
       <Card>

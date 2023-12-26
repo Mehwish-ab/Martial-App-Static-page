@@ -6,8 +6,8 @@ export interface CreateInstructorInitialValues {
   yearsOfExperience: string | number;
   latestCertification: string | number;
   description: string;
-  selectedActivities: string[];
-  selectedFacilities: string[];
+  activities: string[];
+  specializations: string[];
   termCondition: string;
   rankId: number;
   // stripePublishableKey: string;

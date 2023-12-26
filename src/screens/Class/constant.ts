@@ -5,7 +5,7 @@ export interface CreateClassInitialValues {
   emailAddress: string;
   Classinstructor: string[];
   ClassFee: string | number;
-  ClassActivities: string;
+  ClassActivities: string[];
   Classcapicity: string;
   MinimumStudents: string | number;
   startbooking: string;

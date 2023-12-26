@@ -23,7 +23,7 @@ interface OverlayImagesProps {
   overlayImg: any;
   isEditable: boolean;
 }
-export const ipForImages = "https://www.ennvisionapistore.com:8443";
+export const ipForImages = "https://fistastore.com:444/";
 
 const OverlayImages = ({
   backgroundImg,
@@ -36,11 +36,15 @@ const OverlayImages = ({
   const jwtDetails = useSelector(
     (state: RootState) => state.loginData.data?.jwtDetails
   );
+
   const [profileImg, setProfileImg] = useState(overlayImg);
   const [bannerImg, setBannerImg] = useState(backgroundImg);
   const [loading, setLoading] = useState(false);
   const { schoolData } = useSelector((state: RootState) => state.dashboardData);
   const { loginData } = useSelector((state: RootState) => state);
+  console.log("schoolid", schoolId, "br", branchId, schoolData);
+
+  const [profileImage, setProfileImage] = useState();
 
   useEffect(() => {
     setProfileImg(overlayImg);
@@ -67,7 +71,7 @@ const OverlayImages = ({
       formData.append("multiPart", info.file);
 
       const requestData = {
-        id: schoolData.schoolId || schoolData.userId || "",
+        id: schoolData.schoolId || branchId || "",
         useCase: useCase,
         // Add any additional parameters needed
       };
@@ -89,11 +93,14 @@ const OverlayImages = ({
           useCase === "SCHOOL_BANNER_IMAGE"
         ) {
           setBannerImg(data.results.url);
+          console.log("image", data.results.url);
         } else if (
           useCase === "BRANCH_PROFILE_IMAGE" ||
           useCase === "SCHOOL_PROFILE_PICTURE"
         ) {
           setProfileImg(data.results.url);
+          console.log("image", data.results.url);
+          setProfileImage(data.results.url);
         }
         message.success(`${data.responseMessage}`);
       } else {
@@ -127,7 +134,16 @@ const OverlayImages = ({
       <OverlayImagesStyled>
         <div className="bg-white image_section">
           <div className="bannerImg">
-            <img src={bannerImg ? ipForImages + bannerImg : DefaultBannerImage} alt="" />
+            <img
+              src={bannerImg ? ipForImages + bannerImg : DefaultBannerImage}
+              // src={bannerImg ? ipForImages + profileImage : DefaultBannerImage}
+              // src={
+              //   bannerImg
+              //     ? "https://fistastore.com:444/" + profileImage
+              //     : DefaultBannerImage
+              // }
+              alt=""
+            />
             {isEditable && (
               <div className="changeBannerImgButton">
                 <Upload {...BannerImgUploadProps}>
@@ -141,7 +157,9 @@ const OverlayImages = ({
           <div className="profileImg">
             <div className="img">
               <img
-                src={profileImg ? ipForImages + profileImg : DefaultProfileImage}
+                src={
+                  profileImg ? ipForImages + profileImg : DefaultProfileImage
+                }
                 alt=""
               />
               {isEditable && (

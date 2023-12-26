@@ -64,10 +64,10 @@ const UpdateeInstructor = () => {
     rankId: Number(instructorData?.rankId) || 0, // or a default value
     latestCertification: instructorData?.certificationURL || "--",
     description: instructorData ? instructorData?.description : ("--" as any),
-    selectedActivities: instructorData
+    activities: instructorData
       ? String(instructorData?.activities).split("").map(String)
       : [],
-    selectedFacilities: instructorData
+    specializations: instructorData
       ? String(instructorData?.specializations).split("").map(String)
       : [],
     termCondition: "",
@@ -99,10 +99,10 @@ const UpdateeInstructor = () => {
     description: Yup.string().required("Please enter description"),
     defaultLanguage: Yup.string().required("Please select default language"),
     defaultCurrency: Yup.string().required("Please select default currency"),
-    selectedActivities: Yup.array()
+    activities: Yup.array()
       .of(Yup.string().required("Select an activity"))
       .min(1, "Select at least one activity"),
-    selectedFacilities: Yup.array()
+    specializations: Yup.array()
       .of(Yup.string().required("Select an activity"))
       .min(1, "Select at least one facility"),
   });
@@ -242,7 +242,7 @@ const UpdateeInstructor = () => {
 
                     <Col md="6">
                       <CheckboxesSelect
-                        name="selectedFacilities"
+                        name="specializations"
                         label="Specializations"
                         list={facilities}
                         showErrorMsgInList={false}
@@ -251,7 +251,7 @@ const UpdateeInstructor = () => {
 
                     <Col md="6">
                       <CheckboxesSelect
-                        name="selectedActivities"
+                        name="activities"
                         label="Activities"
                         list={activities}
                         showErrorMsgInList={false}

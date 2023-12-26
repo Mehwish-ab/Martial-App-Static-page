@@ -28,7 +28,6 @@ const CreateClass = () => {
 
   const { ClassData } = useSelector((state: RootState) => state.ClassData);
 
-
   const initialValues: CreateClassInitialValues = {
     ClassTitle: "",
     ClassStartDate: "",
@@ -36,7 +35,7 @@ const CreateClass = () => {
     emailAddress: "",
     Classinstructor: [],
     ClassFee: "",
-    ClassActivities: "",
+    ClassActivities: [],
     Classcapicity: "",
     MinimumStudents: "",
     startbooking: "",
@@ -65,11 +64,10 @@ const CreateClass = () => {
         navigate("/membership/list");
       }, 3000);
       setIsLoading(false);
-    } catch (error: any) { }
+    } catch (error: any) {}
   };
   return (
     <CreateClassStyled>
-
       <CustomModal
         isModalVisible={isShowModal}
         setIsModalVisible={setIsShowModal}
@@ -84,10 +82,7 @@ const CreateClass = () => {
           description="Congratulations! Your Membership has been successfully Created, ensuring a seamless experience within the Marital "
         />
       </CustomModal>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-      >
+      <Formik initialValues={initialValues} onSubmit={onSubmit}>
         {(formik) => {
           return (
             <Form
@@ -129,8 +124,9 @@ const CreateClass = () => {
                                 <img
                                   src={DateCalander}
                                   alt=""
-                                  width={25} height={25}
-                                //onClick={(type = "date")}
+                                  width={25}
+                                  height={25}
+                                  //onClick={(type = "date")}
                                 />
                               }
                             />
@@ -148,8 +144,9 @@ const CreateClass = () => {
                                 <img
                                   src={DateCalander}
                                   alt=""
-                                  width={25} height={25}
-                                //onClick={(type = "date")}
+                                  width={25}
+                                  height={25}
+                                  //onClick={(type = "date")}
                                 />
                               }
                             />
@@ -184,8 +181,9 @@ const CreateClass = () => {
                                 <img
                                   src={dollar}
                                   alt=""
-                                  width={13} height={27}
-                                //onClick={(type = "date")}
+                                  width={13}
+                                  height={27}
+                                  //onClick={(type = "date")}
                                 />
                               }
                             />
@@ -212,7 +210,8 @@ const CreateClass = () => {
                         <OverlayImages
                           backgroundImg={ClassData.bannerPicture || ""}
                           overlayImg={ClassData.profilePicture || ""}
-                          isEditable={true} />
+                          isEditable={true}
+                        />
                       </Col>
                     </Col>
                   </Row>
@@ -253,8 +252,9 @@ const CreateClass = () => {
                         <img
                           src={DateCalander}
                           alt=""
-                          width={25} height={25}
-                        //onClick={(type = "date")}
+                          width={25}
+                          height={25}
+                          //onClick={(type = "date")}
                         />
                       }
                     />
@@ -272,8 +272,9 @@ const CreateClass = () => {
                         <img
                           src={DateCalander}
                           alt=""
-                          width={25} height={25}
-                        //onClick={(type = "date")}
+                          width={25}
+                          height={25}
+                          //onClick={(type = "date")}
                         />
                       }
                     />
@@ -291,8 +292,9 @@ const CreateClass = () => {
                         <img
                           src={DateCalander}
                           alt=""
-                          width={25} height={25}
-                        //onClick={(type = "date")}
+                          width={25}
+                          height={25}
+                          //onClick={(type = "date")}
                         />
                       }
                     />
@@ -310,8 +312,9 @@ const CreateClass = () => {
                         <img
                           src={DateCalander}
                           alt=""
-                          width={25} height={25}
-                        //onClick={(type = "date")}
+                          width={25}
+                          height={25}
+                          //onClick={(type = "date")}
                         />
                       }
                     />
@@ -344,8 +347,9 @@ const CreateClass = () => {
                         <img
                           src={DateCalander}
                           alt=""
-                          width={25} height={25}
-                        //onClick={(type = "date")}
+                          width={25}
+                          height={25}
+                          //onClick={(type = "date")}
                         />
                       }
                     />
@@ -364,8 +368,9 @@ const CreateClass = () => {
                         <img
                           src={DateCalander}
                           alt=""
-                          width={25} height={25}
-                        //onClick={(type = "date")}
+                          width={25}
+                          height={25}
+                          //onClick={(type = "date")}
                         />
                       }
                     />
@@ -384,8 +389,9 @@ const CreateClass = () => {
                         <img
                           src={DateCalander}
                           alt=""
-                          width={25} height={25}
-                        //onClick={(type = "date")}
+                          width={25}
+                          height={25}
+                          //onClick={(type = "date")}
                         />
                       }
                     />
@@ -404,8 +410,9 @@ const CreateClass = () => {
                         <img
                           src={dollar}
                           alt=""
-                          width={13} height={27}
-                        //onClick={(type = "date")}
+                          width={13}
+                          height={27}
+                          //onClick={(type = "date")}
                         />
                       }
                     />
@@ -445,7 +452,9 @@ const CreateClass = () => {
                         id="rememberMe"
                         name="rememberMe"
                       />
-                      <p className="checkBoxPara" id="termCondition">Terms and conditions</p>
+                      <p className="checkBoxPara" id="termCondition">
+                        Terms and conditions
+                      </p>
                     </form>
                   </label>
                   <label htmlFor="agreement">
@@ -456,7 +465,9 @@ const CreateClass = () => {
                         id="rememberMe"
                         name="rememberMe"
                       />
-                      <p className="checkBoxPara" id="agreement">Agreement to follow the app's guidelines and policies</p>
+                      <p className="checkBoxPara" id="agreement">
+                        Agreement to follow the app's guidelines and policies
+                      </p>
                     </form>
                   </label>
                   <label htmlFor="liability">
@@ -467,7 +478,9 @@ const CreateClass = () => {
                         id="rememberMe"
                         name="rememberMe"
                       />
-                      <p className="checkBoxPara" id="liability">Liability waivers</p>
+                      <p className="checkBoxPara" id="liability">
+                        Liability waivers
+                      </p>
                     </form>
                   </label>
                 </Row>

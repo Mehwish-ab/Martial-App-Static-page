@@ -21,13 +21,13 @@ export interface FranchiseDataType {
   activities: string;
   facilities: string;
   description: string;
-  franchisePicture: string | null | undefined;
   profilePicture: string | null | undefined;
   franchiseStatusId: number;
   paymentMethod: string;
   accountNumber: string;
   countryName: string;
   mode: string;
+  bannerPicture: string | null | undefined;
 }
 export interface GetFranchiseBySchoolResTypes {
   data: FranchiseDataType[];
@@ -56,7 +56,7 @@ const initialState: franchiseDataInitialState = {
         activities: "",
         facilities: "",
         description: "",
-        franchisePicture: "",
+        bannerPicture: "",
         profilePicture: "",
         franchiseStatusId: 0,
         paymentMethod: "",

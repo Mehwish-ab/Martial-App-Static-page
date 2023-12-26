@@ -49,8 +49,8 @@ const CreateInstructor = () => {
     rankId: 0,
     latestCertification: "",
     description: "",
-    selectedActivities: [],
-    selectedFacilities: [],
+    activities: [],
+    specializations: [],
     termCondition: "",
   };
 
@@ -85,10 +85,10 @@ const CreateInstructor = () => {
     ),
 
     defaultCurrency: Yup.string().required("Please select default currency"),
-    selectedActivities: Yup.array()
+    activities: Yup.array()
       .of(Yup.string().required("Select an activity"))
       .min(1, "Select at least one activity"),
-    selectedFacilities: Yup.array()
+    specializations: Yup.array()
       .of(Yup.string().required("Select an specilization"))
       .min(1, "Select at least one specilization"),
   });
@@ -104,6 +104,8 @@ const CreateInstructor = () => {
         onSubmit={handleonSubmit}
       >
         {(formik) => {
+          console.log(formik.values);
+
           return (
             <Form
               name="basic"
@@ -308,6 +310,7 @@ const CreateInstructor = () => {
                   title={getLabelByKey("primaryButton")}
                   fontSize="18px"
                   loading={loading}
+                  clicked={() => handleSubmit(formik.values, selectedFiles)}
                 />
               </div>
             </Form>

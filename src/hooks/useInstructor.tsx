@@ -37,8 +37,8 @@ const useInstructor = () => {
       address: values?.address || "",
       experience: values.yearsOfExperience,
       rankId: values.rankId,
-      specializations: values.selectedFacilities.join(","),
-      activities: values.selectedActivities.join(","),
+      specializations: values.specializations.join(","),
+      activities: values.activities.join(","),
       description: values.description,
     };
     const datas = JSON.stringify(Payload);

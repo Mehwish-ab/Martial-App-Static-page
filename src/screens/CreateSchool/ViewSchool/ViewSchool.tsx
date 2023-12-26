@@ -68,7 +68,7 @@ const ViewSchool = () => {
       <OverlayImages
         backgroundImg={schoolData.bannerPicture || ""}
         overlayImg={schoolData.profilePicture || ""}
-        isEditable={false}
+        isEditable={true}
       />
       <h3>School Information</h3>
 
@@ -116,13 +116,15 @@ const ViewSchool = () => {
             <Row>
               <Col md="4">
                 <div className="list-item">
-                  <div className="list-item-title">{getLabelByKey("belts")}</div>
+                  <div className="list-item-title">
+                    {getLabelByKey("belts")}
+                  </div>
                   <div className="list-item-value">
                     {schoolData.rank
                       ? "Yes"
                       : schoolData.rank === false
-                        ? "No"
-                        : "--"}
+                      ? "No"
+                      : "--"}
                   </div>
                 </div>
               </Col>

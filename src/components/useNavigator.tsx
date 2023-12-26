@@ -1,8 +1,8 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
 
 const useNavigator = ({ path }: any) => {
-  const navigate = useNavigate();
+    const navigate = useNavigate()
 
-  return navigate(path);
-};
-export default useNavigator;
+    return navigate(path)
+}
+export default useNavigator

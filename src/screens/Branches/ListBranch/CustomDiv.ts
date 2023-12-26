@@ -1,10 +1,8 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 import {
-  fontFamilyMedium,
-  fontFamilyRegular
-} from "../../../components/GlobalStyle";
-
-
+    fontFamilyMedium,
+    fontFamilyRegular,
+} from '../../../components/GlobalStyle'
 
 export const CustomDiv = styled.div`
     position: relative;
@@ -51,4 +49,4 @@ export const CustomDiv = styled.div`
         font-family: ${fontFamilyMedium};
       }
     }
-`;
+`

@@ -1,14 +1,12 @@
-import React, { FC, Fragment } from "react";
-import { Col, Row } from "react-bootstrap";
+import React, { FC, Fragment } from 'react'
+import { Col, Row } from 'react-bootstrap'
 
 const EmailNotification: FC<{}> = () => {
     return (
         <Fragment>
             <div className="panel-heading">
                 <h3>Email Notification</h3>
-                <p>
-                    Coming Soon
-                </p>
+                <p>Coming Soon</p>
             </div>
             <div>
                 <Row className="panel-body">
@@ -19,13 +17,11 @@ const EmailNotification: FC<{}> = () => {
                         <p className="m-0 panel-body-text"></p>
                     </Col>
                     <Col md="2" className="text-end">
-                        <span className="panel-body-link">
-
-                        </span>
+                        <span className="panel-body-link"></span>
                     </Col>
                 </Row>
             </div>
         </Fragment>
-    );
-};
-export default EmailNotification;
+    )
+}
+export default EmailNotification

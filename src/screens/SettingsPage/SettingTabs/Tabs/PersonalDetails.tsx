@@ -1,99 +1,105 @@
-import { FC, Fragment, useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
-import FormControl from "../../../../components/FormControl";
-import { EditPopUpStying } from "./EditPopUpStying";
-import { fontFamilyMedium, lightBlue3, pureDark2 } from "../../../../components/GlobalStyle";
-import CustomButton from "../../../../components/CustomButton/CustomButton";
-import CustomModal from "../../../../components/Modal/CustomModal";
-import { Form, Formik, FormikHelpers } from "formik";
-import Input from "react-phone-number-input";
-import "react-phone-number-input/style.css";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../redux/store";
-import dateIcon from "../../../../assets/images/dateCalander.svg";
-
-
+import { FC, Fragment, useEffect, useState } from 'react'
+import { Col, Row } from 'react-bootstrap'
+import FormControl from '../../../../components/FormControl'
+import { EditPopUpStying } from './EditPopUpStying'
+import {
+    fontFamilyMedium,
+    lightBlue3,
+    pureDark2,
+} from '../../../../components/GlobalStyle'
+import CustomButton from '../../../../components/CustomButton/CustomButton'
+import CustomModal from '../../../../components/Modal/CustomModal'
+import { Form, Formik, FormikHelpers } from 'formik'
+import Input from 'react-phone-number-input'
+import 'react-phone-number-input/style.css'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../../redux/store'
+import dateIcon from '../../../../assets/images/dateCalander.svg'
 
 type initialTypesSettings = {
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-    password: string;
-    confirmPassword: string;
-    username: string;
-    emailAddress: string;
-    address: string;
-};
-
+    firstName: string
+    lastName: string
+    phoneNumber: string
+    password: string
+    confirmPassword: string
+    username: string
+    emailAddress: string
+    address: string
+}
 
 const PersonalDetails: FC<{}> = () => {
-
     const initialValues: initialTypesSettings = {
-        firstName: "",
-        lastName: "",
-        phoneNumber: "0",
-        password: "",
-        confirmPassword: "",
-        username: "",
-        emailAddress: "",
-        address: "",
-    };
+        firstName: '',
+        lastName: '',
+        phoneNumber: '0',
+        password: '',
+        confirmPassword: '',
+        username: '',
+        emailAddress: '',
+        address: '',
+    }
 
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
-    );
+    )
 
     useEffect(() => {
         const countrySelect = document.querySelector(
-            ".PhoneInput .PhoneInputCountry"
-        );
-        const phoneNumberInput = document.querySelector(".PhoneInput input");
+            '.PhoneInput .PhoneInputCountry'
+        )
+        const phoneNumberInput = document.querySelector('.PhoneInput input')
 
         if (countrySelect) {
-            if (selectedLanguage === "ur" || selectedLanguage === "ar") {
-                countrySelect.classList.remove("country-left-to-right-border-radius");
-                countrySelect.classList.add("country-right-to-left-border-radius");
+            if (selectedLanguage === 'ur' || selectedLanguage === 'ar') {
+                countrySelect.classList.remove(
+                    'country-left-to-right-border-radius'
+                )
+                countrySelect.classList.add(
+                    'country-right-to-left-border-radius'
+                )
             } else {
-                countrySelect.classList.add("country-left-to-right-border-radius");
-                countrySelect.classList.remove("country-right-to-left-border-radius");
+                countrySelect.classList.add(
+                    'country-left-to-right-border-radius'
+                )
+                countrySelect.classList.remove(
+                    'country-right-to-left-border-radius'
+                )
             }
         }
         if (phoneNumberInput) {
-            if (selectedLanguage === "ur" || selectedLanguage === "ar") {
+            if (selectedLanguage === 'ur' || selectedLanguage === 'ar') {
                 phoneNumberInput.classList.add(
-                    "phone-number-right-to-left-border-radius"
-                );
+                    'phone-number-right-to-left-border-radius'
+                )
                 phoneNumberInput.classList.remove(
-                    "phone-number-left-to-right-border-radius"
-                );
+                    'phone-number-left-to-right-border-radius'
+                )
             } else {
                 phoneNumberInput.classList.add(
-                    "phone-number-left-to-right-border-radius"
-                );
+                    'phone-number-left-to-right-border-radius'
+                )
                 phoneNumberInput.classList.remove(
-                    "phone-number-right-to-left-border-radius"
-                );
+                    'phone-number-right-to-left-border-radius'
+                )
             }
         }
-    }, [selectedLanguage]);
+    }, [selectedLanguage])
 
-
-
-    const [isLanguageModalVisible, setIsLanguageModelVisible] = useState(true);
-    const [isPhoneNumberModalVisible, setIsPhoneNumberModelVisible] = useState(false);
-    const handleSubmit = (values: initialTypesSettings, { setSubmitting }: FormikHelpers<initialTypesSettings>) => {
-        setSubmitting(false);
-    };
+    const [isLanguageModalVisible, setIsLanguageModelVisible] = useState(true)
+    const [isPhoneNumberModalVisible, setIsPhoneNumberModelVisible] =
+        useState(false)
+    const handleSubmit = (
+        values: initialTypesSettings,
+        { setSubmitting }: FormikHelpers<initialTypesSettings>
+    ) => {
+        setSubmitting(false)
+    }
 
     return (
-
-
         <Fragment>
             <div className="panel-heading">
                 <h3>Personal Details</h3>
-                <p>
-                    Coming Soon
-                </p>
+                <p>Coming Soon</p>
             </div>
             <div>
                 <Row className="panel-body">
@@ -104,7 +110,10 @@ const PersonalDetails: FC<{}> = () => {
                         <p className="m-0 panel-body-text">Coming Soon</p>
                     </Col>
                     <Col md="2" className="text-end">
-                        <span onClick={() => setIsLanguageModelVisible(true)} className="panel-body-link">
+                        <span
+                            onClick={() => setIsLanguageModelVisible(true)}
+                            className="panel-body-link"
+                        >
                             Coming Soon
                         </span>
                     </Col>
@@ -331,17 +340,17 @@ const PersonalDetails: FC<{}> = () => {
                     <>
                         <EditPopUpStying>
                             <h3>Update Phone</h3>
-                            <p>Update your information and find out how it's used.</p>
+                            <p>
+                                Update your information and find out how it's
+                                used.
+                            </p>
                             <Formik
                                 initialValues={initialValues}
                                 onSubmit={handleSubmit}
                             >
                                 {(formik) => {
                                     return (
-                                        <Form
-                                            name="basic"
-                                            autoComplete="off"
-                                        >
+                                        <Form name="basic" autoComplete="off">
                                             <div className="mt-10">
                                                 <label
                                                     htmlFor="phoneNumber"
@@ -353,12 +362,15 @@ const PersonalDetails: FC<{}> = () => {
                                                     defaultCountry="GB"
                                                     international
                                                     placeholder="+44"
-                                                    value={formik.values.phoneNumber}
+                                                    value={
+                                                        formik.values
+                                                            .phoneNumber
+                                                    }
                                                     onChange={(e: string) => {
                                                         formik.setValues({
                                                             ...formik.values,
                                                             phoneNumber: e,
-                                                        });
+                                                        })
                                                     }}
                                                     withCountryCallingCode
                                                     countryCallingCodeEditable
@@ -377,7 +389,9 @@ const PersonalDetails: FC<{}> = () => {
                                                     textTransform="Captilize"
                                                     color={pureDark2}
                                                     padding="12.5px"
-                                                    fontFamily={fontFamilyMedium}
+                                                    fontFamily={
+                                                        fontFamilyMedium
+                                                    }
                                                     width="100%"
                                                     type="submit"
                                                     title="Save"
@@ -386,12 +400,15 @@ const PersonalDetails: FC<{}> = () => {
                                                 />
                                             </div>
                                         </Form>
-                                    );
+                                    )
                                 }}
                             </Formik>
                         </EditPopUpStying>
                     </>
-                } isModalVisible={isPhoneNumberModalVisible} setIsModalVisible={setIsPhoneNumberModelVisible} />
+                }
+                isModalVisible={isPhoneNumberModalVisible}
+                setIsModalVisible={setIsPhoneNumberModelVisible}
+            />
 
             {/* Update Nationality */}
 
@@ -448,7 +465,6 @@ const PersonalDetails: FC<{}> = () => {
                         </EditPopUpStying>
                     </>
                 } isModalVisible={isLanguageModalVisible} setIsModalVisible={setIsLanguageModelVisible} /> */}
-
 
             {/* Update Gender */}
 
@@ -576,17 +592,17 @@ const PersonalDetails: FC<{}> = () => {
                     <>
                         <EditPopUpStying>
                             <h3>Update Date of Birth</h3>
-                            <p>Update your information and find out how it's used.</p>
+                            <p>
+                                Update your information and find out how it's
+                                used.
+                            </p>
                             <Formik
                                 initialValues={initialValues}
                                 onSubmit={handleSubmit}
                             >
                                 {(formik) => {
                                     return (
-                                        <Form
-                                            name="basic"
-                                            autoComplete="off"
-                                        >
+                                        <Form name="basic" autoComplete="off">
                                             <Row>
                                                 <Col md="12" className="mt-10">
                                                     <FormControl
@@ -596,7 +612,12 @@ const PersonalDetails: FC<{}> = () => {
                                                         labelFamily={`${fontFamilyMedium}`}
                                                         label="Date of birth"
                                                         fontSize="16px"
-                                                        suffixIcon={<img src={dateIcon} alt="calender-icon" />}
+                                                        suffixIcon={
+                                                            <img
+                                                                src={dateIcon}
+                                                                alt="calender-icon"
+                                                            />
+                                                        }
                                                         max={6}
                                                         placeholder="12-05-1989"
                                                     />
@@ -607,7 +628,9 @@ const PersonalDetails: FC<{}> = () => {
                                                         textTransform="Captilize"
                                                         color={pureDark2}
                                                         padding="12.5px"
-                                                        fontFamily={fontFamilyMedium}
+                                                        fontFamily={
+                                                            fontFamilyMedium
+                                                        }
                                                         width="100%"
                                                         type="submit"
                                                         title="Save"
@@ -617,14 +640,16 @@ const PersonalDetails: FC<{}> = () => {
                                                 </Col>
                                             </Row>
                                         </Form>
-                                    );
+                                    )
                                 }}
                             </Formik>
                         </EditPopUpStying>
                     </>
-                } isModalVisible={isLanguageModalVisible} setIsModalVisible={setIsLanguageModelVisible} />
-
+                }
+                isModalVisible={isLanguageModalVisible}
+                setIsModalVisible={setIsLanguageModelVisible}
+            />
         </Fragment>
-    );
-};
-export default PersonalDetails;
+    )
+}
+export default PersonalDetails

@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react'
 
 const PlacesDebounce = () => {
-  return <div>PlacesDebounce</div>;
-};
+    return <div>PlacesDebounce</div>
+}
 
-export default PlacesDebounce;
+export default PlacesDebounce

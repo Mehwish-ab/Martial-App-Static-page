@@ -1,40 +1,34 @@
-import React from "react";
-import { Form } from "antd";
-import { Formik } from "formik";
-import { useSelector } from "react-redux";
-import { CreateTimeTableInitialValues } from "../constant";
-import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
-import { RootState } from "../../../redux/store";
-import TimeTableForm from "./TimeTableForm";
-import TimeTableSheet from "./TimeTableSheet";
+import React from 'react'
+import { Form } from 'antd'
+import { Formik } from 'formik'
+import { useSelector } from 'react-redux'
+import { CreateTimeTableInitialValues } from '../constant'
+import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
+import { RootState } from '../../../redux/store'
+import TimeTableForm from './TimeTableForm'
+import TimeTableSheet from './TimeTableSheet'
 
 const CreateTimeTable: React.FC = () => {
-
-    const { loading } = useSelector(
-        (state: RootState) => state.timeTableData
-    );
+    const { loading } = useSelector((state: RootState) => state.timeTableData)
 
     const initialValues: CreateTimeTableInitialValues = {
-        instructorName: "",
-        emailAddress: "",
-        instructorPhoneNumber: "",
-        address: "",
-        yearsOfExperience: "",
-        ranking: "",
-        latestCertification: "",
-        description: "",
+        instructorName: '',
+        emailAddress: '',
+        instructorPhoneNumber: '',
+        address: '',
+        yearsOfExperience: '',
+        ranking: '',
+        latestCertification: '',
+        description: '',
         selectedActivities: [],
         selectedFacilities: [],
-        termCondition: "",
-    };
+        termCondition: '',
+    }
     return (
         <>
             {loading && <LoadingOverlay message="" />}
 
-            <Formik
-                initialValues={initialValues as any}
-                onSubmit={() => { }}
-            >
+            <Formik initialValues={initialValues as any} onSubmit={() => {}}>
                 {(formik) => {
                     return (
                         <Form
@@ -44,12 +38,12 @@ const CreateTimeTable: React.FC = () => {
                         >
                             <TimeTableForm />
                             <TimeTableSheet />
-                        </Form >
-                    );
+                        </Form>
+                    )
                 }}
-            </Formik >
+            </Formik>
         </>
-    );
-};
+    )
+}
 
-export default CreateTimeTable;
+export default CreateTimeTable

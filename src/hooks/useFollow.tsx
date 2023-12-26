@@ -1,41 +1,41 @@
-import axios from "axios";
-import { authorizationToken, follow_url } from "../utils/api_urls";
-import { useState } from "react";
-import { useAppSelector } from "../app/hooks";
-import { toast } from "react-toastify";
+import axios from 'axios'
+import { authorizationToken, follow_url } from '../utils/api_urls'
+import { useState } from 'react'
+import { useAppSelector } from '../app/hooks'
+import { toast } from 'react-toastify'
 
 const useFollow = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const loginData = useAppSelector((state) => state.loginData.data);
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
+    const loginData = useAppSelector((state) => state.loginData.data)
 
-  // follow api promsie handler
-  const followPromiseHandler = async (userId: number) => {
-    setLoading(true);
-    try {
-      const { data } = await axios.post(
-        follow_url,
-        {
-          followToUserId: userId,
-        },
-        {
-          headers: {
-            ...authorizationToken(loginData!),
-          },
+    // follow api promsie handler
+    const followPromiseHandler = async (userId: number) => {
+        setLoading(true)
+        try {
+            const { data } = await axios.post(
+                follow_url,
+                {
+                    followToUserId: userId,
+                },
+                {
+                    headers: {
+                        ...authorizationToken(loginData!),
+                    },
+                }
+            )
+            toast(data.responseMessage)
+            setLoading(false)
+        } catch (error: any) {
+            setError(error.response.data.responseMessage)
+            setLoading(false)
         }
-      );
-      toast(data.responseMessage);
-      setLoading(false);
-    } catch (error: any) {
-      setError(error.response.data.responseMessage);
-      setLoading(false);
     }
-  };
-  return {
-    loading,
-    error,
-    followPromiseHandler,
-  };
-};
+    return {
+        loading,
+        error,
+        followPromiseHandler,
+    }
+}
 
-export default useFollow;
+export default useFollow

@@ -1,12 +1,12 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 type HeadingViewMore = {
-  textTransform?: string;
-};
+    textTransform?: string
+}
 const HeadingViewMoreStyle = styled.div<HeadingViewMore>`
-  h6 {
-    text-transform: ${(props) => props.textTransform || "unset"};
-  }
-`;
+    h6 {
+        text-transform: ${(props) => props.textTransform || 'unset'};
+    }
+`
 
-export default HeadingViewMoreStyle;
+export default HeadingViewMoreStyle

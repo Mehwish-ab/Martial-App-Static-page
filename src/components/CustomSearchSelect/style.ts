@@ -1,11 +1,10 @@
-import styled from "styled-components";
-
+import styled from 'styled-components'
 
 export const CustomSelectContainer = styled.div`
- margin-bottom: 10px;
- width: 100%;
+    margin-bottom: 10px;
+    width: 100%;
 
-/* 
+    /* 
   .custom-select-inner{
     position: relative;
 
@@ -20,28 +19,27 @@ export const CustomSelectContainer = styled.div`
   position: absolute;
 } */
 
-
-  label {
-    font-size: 13px;
-    text-transform: capitalize;
-    display: block;
-    margin-bottom: 10px;
-  }
-  .ant-select-arrow{
-  color: #000000;
-  }
-
-  .ant-select{
-        background: white;
-       border: 0.5px solid #D6D6E0;
-       border-radius: 3px;
-       /* height: 48px; */
-       width: 100%;
+    label {
+        font-size: 13px;
+        text-transform: capitalize;
+        display: block;
+        margin-bottom: 10px;
     }
-    .ant-select-selector{
+    .ant-select-arrow {
+        color: #000000;
+    }
+
+    .ant-select {
+        background: white;
+        border: 0.5px solid #d6d6e0;
+        border-radius: 3px;
+        /* height: 48px; */
+        width: 100%;
+    }
+    .ant-select-selector {
         /* border: none !important;   
         padding: 8px !important;
         height: 47px !important;
        margin-bottom: 15px;  */
-    } 
-`;
+    }
+`

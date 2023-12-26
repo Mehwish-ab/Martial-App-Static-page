@@ -1,5 +1,5 @@
 const ShareModal = () => {
-  return <div>ShareModal</div>;
-};
+    return <div>ShareModal</div>
+}
 
-export default ShareModal;
+export default ShareModal

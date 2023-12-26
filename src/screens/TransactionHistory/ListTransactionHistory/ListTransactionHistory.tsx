@@ -1,152 +1,152 @@
-import React from "react";
-import { Dropdown, Space, Table } from "antd";
-import type { ColumnsType } from "antd/es/table";
-import { ListTransactionStyled, TransactionAccountStyle } from "./styles";
-import CustomButton from "../../../components/CustomButton/CustomButton";
-import { CustomDiv } from "./CustomDiv";
+import React from 'react'
+import { Dropdown, Space, Table } from 'antd'
+import type { ColumnsType } from 'antd/es/table'
+import { ListTransactionStyled, TransactionAccountStyle } from './styles'
+import CustomButton from '../../../components/CustomButton/CustomButton'
+import { CustomDiv } from './CustomDiv'
 import {
     fontFamilyMedium,
     pureDark,
     tertiaryBlue2,
-} from "../../../components/GlobalStyle";
-import { useNavigate } from "react-router-dom";
-import plusIcon from "../../../assets/icons/ic_plus.svg";
-import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
-import { TransactionDataType } from "../../../redux/features/Transaction/TransactionSlice";
-import DummyData from "./dummyData.json";
-import StatusActiveError from "../../../assets/images/activeBtnError.svg";
-import Download from "../../../assets/icons/ic_download.svg";
-import RightArrow from "../../../assets/images/rightArrow.svg";
-import LeftArrow from "../../../assets/images/leftArrow.svg";
-import DateCalander from "../../../assets/images/dateCalander.svg";
-import { Col, Row } from "react-bootstrap";
+} from '../../../components/GlobalStyle'
+import { useNavigate } from 'react-router-dom'
+import plusIcon from '../../../assets/icons/ic_plus.svg'
+import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../redux/store'
+import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
+import { TransactionDataType } from '../../../redux/features/Transaction/TransactionSlice'
+import DummyData from './dummyData.json'
+import StatusActiveError from '../../../assets/images/activeBtnError.svg'
+import Download from '../../../assets/icons/ic_download.svg'
+import RightArrow from '../../../assets/images/rightArrow.svg'
+import LeftArrow from '../../../assets/images/leftArrow.svg'
+import DateCalander from '../../../assets/images/dateCalander.svg'
+import { Col, Row } from 'react-bootstrap'
 
 const ListTransactionHistory: React.FC = () => {
+    const navigate = useNavigate()
 
-    const navigate = useNavigate();
-
-    const loading = false;
+    const loading = false
 
     const columns: ColumnsType<TransactionDataType> = [
         {
-            title: "Id",
-            dataIndex: "TransactionID",
-            key: "TransactionID",
+            title: 'Id',
+            dataIndex: 'TransactionID',
+            key: 'TransactionID',
         },
         {
-            title: "Invoice",
-            dataIndex: "TransactionInvoice",
-            key: "TransactionInvoice",
+            title: 'Invoice',
+            dataIndex: 'TransactionInvoice',
+            key: 'TransactionInvoice',
         },
         {
-            title: "Amount",
-            dataIndex: "TransactionAmount",
-            key: "TransactionAmount",
+            title: 'Amount',
+            dataIndex: 'TransactionAmount',
+            key: 'TransactionAmount',
         },
         {
-            title: "Billing Date",
-            dataIndex: "TransactionBillingDate",
-            key: "TransactionBillingDate",
+            title: 'Billing Date',
+            dataIndex: 'TransactionBillingDate',
+            key: 'TransactionBillingDate',
         },
         {
-            title: "Member",
-            dataIndex: "TransactionMember",
-            key: "TransactionMember",
+            title: 'Member',
+            dataIndex: 'TransactionMember',
+            key: 'TransactionMember',
         },
         {
-            title: "Status",
-            dataIndex: "TransactionStatus",
-            key: "TransactionStatus",
+            title: 'Status',
+            dataIndex: 'TransactionStatus',
+            key: 'TransactionStatus',
             render: (DummyData) => {
                 return (
                     <div>
                         <button>{DummyData}</button>
                         <img src={StatusActiveError} alt="images" />
                     </div>
-                );
+                )
             },
         },
         {
-            title: "Download",
-            dataIndex: "TransactionDownload",
-            key: "TransactionDownload",
+            title: 'Download',
+            dataIndex: 'TransactionDownload',
+            key: 'TransactionDownload',
             render: (DummyData) => {
                 return (
                     <div>
                         <button>
                             <img src={Download} alt="images" />
-                            {DummyData}</button>
+                            {DummyData}
+                        </button>
                     </div>
-                );
+                )
             },
         },
         {
-            title: "Actions",
-            key: "TransactionAction",
+            title: 'Actions',
+            key: 'TransactionAction',
             render: (_, record) => {
                 const items = [
                     {
-                        key: "1",
-                        label: "View",
-                        onClick: () => navigation(record, "view"),
+                        key: '1',
+                        label: 'View',
+                        onClick: () => navigation(record, 'view'),
                     },
                     {
-                        key: "2",
-                        label: "Edit",
-                        onClick: () => navigation(record, "edit"),
+                        key: '2',
+                        label: 'Edit',
+                        onClick: () => navigation(record, 'edit'),
                     },
                     {
-                        key: "3",
-                        label: "School",
-                        onClick: () => navigation(record, "school"),
+                        key: '3',
+                        label: 'School',
+                        onClick: () => navigation(record, 'school'),
                     },
-                ];
+                ]
                 return (
                     <Space size="middle">
                         <Dropdown menu={{ items }}>
                             <img
                                 src={actionMenuTogglerIcon}
                                 alt="action menu"
-                                style={{ cursor: "pointer" }}
+                                style={{ cursor: 'pointer' }}
                             />
                         </Dropdown>
                     </Space>
-                );
+                )
             },
         },
-    ];
+    ]
 
     const navigation = (record: TransactionDataType, redirectTo: string) => {
         switch (redirectTo) {
-            case "edit":
+            case 'edit':
                 navigate(`/Transaction/edit/${record.TransactionID}`, {
                     state: {
                         branchToEdit: record as TransactionDataType,
                     },
-                });
-                break;
+                })
+                break
 
-            case "view":
+            case 'view':
                 navigate(`/Transaction/view/${record.TransactionID}`, {
                     state: {
                         branch: record as TransactionDataType,
                     },
-                });
-                break;
+                })
+                break
 
-            case "school":
+            case 'school':
                 navigate(`/Transaction/School-profile${record.TransactionID}`, {
                     state: {
                         branch: record as TransactionDataType,
                     },
-                });
+                })
         }
-    };
+    }
 
-    console.log("DummyData", DummyData);
+    console.log('DummyData', DummyData)
 
     return (
         <>
@@ -173,13 +173,13 @@ const ListTransactionHistory: React.FC = () => {
                 />
             </ListTransactionStyled>
         </>
-    );
-};
+    )
+}
 
-export default ListTransactionHistory;
+export default ListTransactionHistory
 
 const RenderTableTitle = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     return (
         <>
@@ -189,15 +189,33 @@ const RenderTableTitle = () => {
                     <div className="instructorDateSection">
                         <div className="mainarrow">
                             <div className="arrowright">
-                                <img src={LeftArrow} alt="Date" width={18} height={12} />
+                                <img
+                                    src={LeftArrow}
+                                    alt="Date"
+                                    width={18}
+                                    height={12}
+                                />
                             </div>
                             <div className="arrowleft">
-                                <img src={RightArrow} alt="Date" width={18} height={12} />
+                                <img
+                                    src={RightArrow}
+                                    alt="Date"
+                                    width={18}
+                                    height={12}
+                                />
                             </div>
                         </div>
                         <div className="dateRange">
-                            <p><span>Mon,</span> Sep 11, 2023 - <span>Thu,</span> Sep 21, 2023</p>
-                            <img src={DateCalander} alt="Calander" width={21} height={21} />
+                            <p>
+                                <span>Mon,</span> Sep 11, 2023 -{' '}
+                                <span>Thu,</span> Sep 21, 2023
+                            </p>
+                            <img
+                                src={DateCalander}
+                                alt="Calander"
+                                width={21}
+                                height={21}
+                            />
                         </div>
                         <div className="dateToday">Today</div>
                     </div>
@@ -211,9 +229,16 @@ const RenderTableTitle = () => {
                         type="submit"
                         title=""
                         fontSize="17px"
-                        icon={<img src={plusIcon} alt="edit icon" width={17} height={17} />}
+                        icon={
+                            <img
+                                src={plusIcon}
+                                alt="edit icon"
+                                width={17}
+                                height={17}
+                            />
+                        }
                         clicked={() => {
-                            navigate(`/Transaction/create`);
+                            navigate(`/Transaction/create`)
                         }}
                     />
                 </CustomDiv>
@@ -224,8 +249,12 @@ const RenderTableTitle = () => {
                         <div className="stripeContainer">
                             <h3>Stripe Account</h3>
                             <div>
-                                <p>Pending Balance{' '}<span>$23:00</span></p>
-                                <p>Available Balance{' '}<span>$23:00</span></p>
+                                <p>
+                                    Pending Balance <span>$23:00</span>
+                                </p>
+                                <p>
+                                    Available Balance <span>$23:00</span>
+                                </p>
                             </div>
                         </div>
                     </Col>
@@ -233,8 +262,12 @@ const RenderTableTitle = () => {
                         <div className="goCardLessContainer">
                             <h3>GoCardLess Account</h3>
                             <div>
-                                <p>Pending Balance{' '}<span>$23:00</span></p>
-                                <p>Available Balance{' '}<span>$23:00</span></p>
+                                <p>
+                                    Pending Balance <span>$23:00</span>
+                                </p>
+                                <p>
+                                    Available Balance <span>$23:00</span>
+                                </p>
                             </div>
                         </div>
                     </Col>
@@ -242,14 +275,17 @@ const RenderTableTitle = () => {
                         <div className="CashContainer">
                             <h3>Cash Account</h3>
                             <div>
-                                <p>Pending Balance{' '}<span>$23:00</span></p>
-                                <p>Available Balance{' '}<span>$23:00</span></p>
+                                <p>
+                                    Pending Balance <span>$23:00</span>
+                                </p>
+                                <p>
+                                    Available Balance <span>$23:00</span>
+                                </p>
                             </div>
                         </div>
                     </Col>
                 </Row>
             </TransactionAccountStyle>
         </>
-
-    );
-};
+    )
+}

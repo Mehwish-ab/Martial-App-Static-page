@@ -1,41 +1,46 @@
 *,
 *::after,
 *::before {
-  margin: 0;
-  padding: 0;
-  box-sizing: inherit;
-  outline: none;
-  border: none;
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+    outline: none;
+    border: none;
 }
 
 /* Transparent Scrollbar */
 /* Hide the default scrollbar */
 ::-webkit-scrollbar {
-  width: 12px; /* Adjust as needed */
+    width: 12px; /* Adjust as needed */
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent; /* Make the track transparent */
+    background: transparent; /* Make the track transparent */
 }
 
 ::-webkit-scrollbar-thumb {
-  background: transparent; /* Make the thumb (the draggable part) transparent */
-  border: none; /* Remove the border */
+    background: transparent; /* Make the thumb (the draggable part) transparent */
+    border: none; /* Remove the border */
 }
 
 /* Firefox scrollbar */
 * {
-  scrollbar-width: thin; /* Enable Firefox scrollbar styling */
-  scrollbar-color: transparent transparent; /* Make the thumb and track transparent */
+    scrollbar-width: thin; /* Enable Firefox scrollbar styling */
+    scrollbar-color: transparent transparent; /* Make the thumb and track transparent */
 }
 
 /* Optionally, you can style the thumb when it's hovered or being actively used */
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.2); /* Add some transparency on hover */
+    background: rgba(0, 0, 0, 0.2); /* Add some transparency on hover */
 }
 
 *::-webkit-scrollbar-thumb:active {
-  background: rgba(0, 0, 0, 0.4); /* Add more transparency when actively used */
+    background: rgba(
+        0,
+        0,
+        0,
+        0.4
+    ); /* Add more transparency when actively used */
 }
 
 p,
@@ -45,7 +50,7 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 0;
+    margin: 0;
 }
 
 html,
@@ -55,23 +60,23 @@ a,
 /* span, */
 /* label, */
 ul li {
-  font-family: "EnnVisions";
+    font-family: 'EnnVisions';
 }
 
 .mt-20 {
-  margin-top: 20px !important;
+    margin-top: 20px !important;
 }
 .mt-10 {
-  margin-top: 10px;
+    margin-top: 10px;
 }
 .mt-8 {
-  margin-top: 8px;
+    margin-top: 8px;
 }
 .mb-20 {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 .ant-modal-body {
-  padding: 0px;
+    padding: 0px;
 }
 
 /* @media (min-width: 576px) {
@@ -84,377 +89,378 @@ ul li {
 /* bootstrap container end */
 
 .arrow-box {
-  position: fixed;
-  bottom: 5%;
-  right: 5%;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 30;
+    position: fixed;
+    bottom: 5%;
+    right: 5%;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 30;
 }
 
 @font-face {
-  font-family: "EnnVisionsLight";
-  src: local("SFUIText-Light"),
-    url("./assets/fonts/EnnVisionsLight.otf") format("truetype");
+    font-family: 'EnnVisionsLight';
+    src:
+        local('SFUIText-Light'),
+        url('./assets/fonts/EnnVisionsLight.otf') format('truetype');
 }
 @font-face {
-  font-family: "EnnVisions";
-  src: local("SFUIText-Regular"),
-    url("./assets/fonts/EnnVisions.otf") format("truetype");
+    font-family: 'EnnVisions';
+    src:
+        local('SFUIText-Regular'),
+        url('./assets/fonts/EnnVisions.otf') format('truetype');
 }
 @font-face {
-  font-family: "EnnVisionsMedium";
-  src: local("SFUIText-Regular"),
-    url("./assets/fonts/EnnVisionsMedium.otf") format("truetype");
+    font-family: 'EnnVisionsMedium';
+    src:
+        local('SFUIText-Regular'),
+        url('./assets/fonts/EnnVisionsMedium.otf') format('truetype');
 }
 @font-face {
-  font-family: "EnnVisionsBold";
-  src: local("SFUIText-Regular"),
-    url("./assets/fonts/EnnVisionsBold.otf") format("truetype");
+    font-family: 'EnnVisionsBold';
+    src:
+        local('SFUIText-Regular'),
+        url('./assets/fonts/EnnVisionsBold.otf') format('truetype');
 }
 
 img {
-  max-width: 100%;
-  /* height: auto; */
+    max-width: 100%;
+    /* height: auto; */
 }
 
 .mobile-nav-title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .mobile-nav-title p {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #aab2ba;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #aab2ba;
 }
 
 .cursor-pointer {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .text-14 {
-  font-size: 14px;
+    font-size: 14px;
 }
 .text-16 {
-  font-size: 16px;
+    font-size: 16px;
 }
 
 .ant-drawer-close {
-  visibility: hidden;
+    visibility: hidden;
 }
 
 button {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 1100px) {
-  .web-view {
-    display: none;
-  }
+    .web-view {
+        display: none;
+    }
 }
 
 @media screen and (min-width: 1100px) {
-  .mobile-view {
-    display: none;
-  }
+    .mobile-view {
+        display: none;
+    }
 }
 
 .page-indicator-section img {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .page-indicator-section .indicators .indicator {
-  height: 4px;
-  width: 35px;
-  border-radius: 10px;
+    height: 4px;
+    width: 35px;
+    border-radius: 10px;
 }
 
 .page-indicator-section .indicators .indicator-fill {
-  background-color: #c7112b;
+    background-color: #c7112b;
 }
 
 .page-indicator-section .indicators .indicator-null {
-  background-color: #8d99b247;
+    background-color: #8d99b247;
 }
 .ant-drawer-left > .ant-drawer-content-wrapper {
-  box-shadow: none !important;
+    box-shadow: none !important;
 }
 .ant-drawer-body {
-  padding: 0 !important;
+    padding: 0 !important;
 }
 
 .ant-drawer-mask {
-  background: none !important;
+    background: none !important;
 }
 
 .ant-drawer-header {
-  padding: 0 !important;
+    padding: 0 !important;
 }
 
 .ant-drawer-close {
-  margin-right: 0 !important;
+    margin-right: 0 !important;
 }
 
 .mobile-nav-title {
-  margin-right: 25px;
-  margin-top: 15px;
+    margin-right: 25px;
+    margin-top: 15px;
 }
 
 .ant-modal-content {
-  background: transparent !important;
-  box-shadow: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
 }
 
 .ant-drawer-header {
-  border-bottom: none !important;
+    border-bottom: none !important;
 }
 
 .ant-checkbox-inner {
-  width: 18px !important;
-  height: 18px !important;
-  border-radius: 5px !important;
+    width: 18px !important;
+    height: 18px !important;
+    border-radius: 5px !important;
 }
 
 .ant-checkbox-checked .ant-checkbox-inner {
-  border-color: #3d86af !important;
-  background-color: #3d86af !important;
+    border-color: #3d86af !important;
+    background-color: #3d86af !important;
 }
 
 .ant-checkbox-wrapper:hover .ant-checkbox-inner,
 .ant-checkbox:hover .ant-checkbox-inner,
 .ant-checkbox-input:focus + .ant-checkbox-inner,
 .ant-checkbox-checked::after {
-  border-color: #3d86af !important;
+    border-color: #3d86af !important;
 }
-
 
 .or-line {
-  margin-top: 20px;
-  width: 100%;
-  gap: 10px;
+    margin-top: 20px;
+    width: 100%;
+    gap: 10px;
 }
 .or-line .line {
-  height: 1px;
-  flex-grow: 1;
-  background: #bdbdbd;
+    height: 1px;
+    flex-grow: 1;
+    background: #bdbdbd;
 }
 @media screen and (max-width: 425px) {
-  .login-container .or-line {
-    width: 96%;
-  }
+    .login-container .or-line {
+        width: 96%;
+    }
 }
 
 .language-select {
-  position: relative;
+    position: relative;
 }
 .language-select-inner {
-  position: absolute;
-  right: 30px;
-  top: 10px;
+    position: absolute;
+    right: 30px;
+    top: 10px;
 }
 
-.ant-select-item-option-content{
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 22px;
-  font-family: EnnVisions;
-  white-space: nowrap;
+.ant-select-item-option-content {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    font-family: EnnVisions;
+    white-space: nowrap;
 }
 
 .PhoneInput {
-  width: 100%;
-  height: 52px;
+    width: 100%;
+    height: 52px;
 }
 
-.PhoneInputCountrySelect option{
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 22px;
-  font-family: EnnVisions;
+.PhoneInputCountrySelect option {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    font-family: EnnVisions;
 }
 
-.PhoneInputCountrySelectArrow{
-  font-size: 24px;
-  color: #000 !important;
-  opacity: 1 !important;
-  margin-bottom: 2px;
+.PhoneInputCountrySelectArrow {
+    font-size: 24px;
+    color: #000 !important;
+    opacity: 1 !important;
+    margin-bottom: 2px;
 }
 .PhoneInputCountryIcon {
-  width: 26px !important;
-  height: 16px !important;
-  object-fit: cover;
-  border-radius: 3px;
+    width: 26px !important;
+    height: 16px !important;
+    object-fit: cover;
+    border-radius: 3px;
 }
-.PhoneInputCountryIconImg{
-  border-radius: 3px;
+.PhoneInputCountryIconImg {
+    border-radius: 3px;
 }
 
-.PhoneInputCountryIcon--border{
-  box-shadow: none !important;
-  background-color: none !important;
+.PhoneInputCountryIcon--border {
+    box-shadow: none !important;
+    background-color: none !important;
 }
 
 .PhoneInput .PhoneInputCountry {
-  width: 80px;
-  height: 52px;
-  position: relative;
-  padding: 0 11px;
-  font-weight: normal;
-  font-size: 14px;
-  text-align: center;
-  background-color: transparent;
-  transition: all 0.3s;
-  justify-content: center;
-  border: 1px solid #E0E0E0;
-  border-right: none;
-  margin-right: 0;
+    width: 80px;
+    height: 52px;
+    position: relative;
+    padding: 0 11px;
+    font-weight: normal;
+    font-size: 14px;
+    text-align: center;
+    background-color: transparent;
+    transition: all 0.3s;
+    justify-content: center;
+    border: 1px solid #e0e0e0;
+    border-right: none;
+    margin-right: 0;
 }
 .country-left-to-right-border-radius {
-  border-radius: 10px 0 0 10px;
+    border-radius: 10px 0 0 10px;
 }
 .country-right-to-left-border-radius {
-  border-radius: 0 10px 10px 0;
+    border-radius: 0 10px 10px 0;
 }
 .PhoneInput input {
-  width: 100%;
-  height: 52px;
-  padding: 0 11px 0 0;
-  background-color: transparent;
-  border: 1px solid #E0E0E0;
-  border-left: none;
-  outline: 0;
-  transition: all 0.3s linear;
-  appearance: textfield !important;
-  font-family: EnnVisions;
-  font-size: 16px;
-  font-weight: 400;
-  color: #061229;
+    width: 100%;
+    height: 52px;
+    padding: 0 11px 0 0;
+    background-color: transparent;
+    border: 1px solid #e0e0e0;
+    border-left: none;
+    outline: 0;
+    transition: all 0.3s linear;
+    appearance: textfield !important;
+    font-family: EnnVisions;
+    font-size: 16px;
+    font-weight: 400;
+    color: #061229;
 }
 .phone-number-right-to-left-border-radius {
-  border-radius: 8px 0 0 8px;
+    border-radius: 8px 0 0 8px;
 }
 .phone-number-left-to-right-border-radius {
-  border-radius: 0 8px 8px 0;
+    border-radius: 0 8px 8px 0;
 }
 .PhoneInput input::placeholder {
-  font-family: EnnVisions;
-  color: #4F4F4F;
-  font-weight: 400;
-  font-size: 16px;
+    font-family: EnnVisions;
+    color: #4f4f4f;
+    font-weight: 400;
+    font-size: 16px;
 }
 .custom-phone-input-label {
-  display: block;
-  color: #061229;
-  font-weight: 400;
-  text-transform: capitalize;
-  font-size: 16px !important;
-  font-family: EnnVisions;
-  margin-bottom: 7px;
+    display: block;
+    color: #061229;
+    font-weight: 400;
+    text-transform: capitalize;
+    font-size: 16px !important;
+    font-family: EnnVisions;
+    margin-bottom: 7px;
 }
-.PhoneInput:hover input, .PhoneInput:hover .PhoneInputCountry  {
-  border-color: rgb(64, 169, 255);
-  border-right-width: 1px;
-  z-index: 1;
+.PhoneInput:hover input,
+.PhoneInput:hover .PhoneInputCountry {
+    border-color: rgb(64, 169, 255);
+    border-right-width: 1px;
+    z-index: 1;
 }
 
 .is-invalid_phone {
-  height: 52px;
-  border: 1px solid #E43535;
-  background: white;
-  width: 100%;
-  width: -moz-available;
-  outline: none;
-  border-radius: 10px;
-  line-height: normal;
-  font-size: 16px;
-  transition: none;
-  .PhoneInputCountry{
-    border: none;
-  }
-  input{
-    color: #4F4F4F;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
+    height: 52px;
+    border: 1px solid #e43535;
+    background: white;
+    width: 100%;
+    width: -moz-available;
+    outline: none;
+    border-radius: 10px;
     line-height: normal;
-    font-family: EnnVisions;
-    border: 1px solid rgb(228, 53, 53);
-    border-right: none;
-    border-left: none;
+    font-size: 16px;
     transition: none;
-  }
+    .PhoneInputCountry {
+        border: none;
+    }
+    input {
+        color: #4f4f4f;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        font-family: EnnVisions;
+        border: 1px solid rgb(228, 53, 53);
+        border-right: none;
+        border-left: none;
+        transition: none;
+    }
 }
-.is-invalid_phone.PhoneInput:hover .PhoneInputCountry{
-  border: none;
-  transition: none;
+.is-invalid_phone.PhoneInput:hover .PhoneInputCountry {
+    border: none;
+    transition: none;
 }
 .is-invalid_phone:hover {
-  border-color: rgb(64, 169, 255);
-  z-index: 1;
-  position: relative;
-
-  input{
     border-color: rgb(64, 169, 255);
-  }
+    z-index: 1;
+    position: relative;
+
+    input {
+        border-color: rgb(64, 169, 255);
+    }
 }
 
 .text-14 {
-  font-size: 14px;
+    font-size: 14px;
 }
 .letter-spacing-1 {
-  letter-spacing: 1px;
+    letter-spacing: 1px;
 }
 
 .Toastify__toast-container {
-  width: 500px !important;
-  border-radius: 20px !important;
+    width: 500px !important;
+    border-radius: 20px !important;
 }
 .ant-layout,
 .ant-layout-sider-light {
-  background: transparent !important;
+    background: transparent !important;
 }
 .ant-dropdown-menu {
-  border-radius: 4px !important;
+    border-radius: 4px !important;
 }
 .ant-dropdown-menu-title-content {
-  font-family: EnnVisions;
-  color: #1A1C1E;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  text-transform: capitalize;
-  line-height: 150%
+    font-family: EnnVisions;
+    color: #1a1c1e;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    text-transform: capitalize;
+    line-height: 150%;
 }
 .ant-dropdown-menu-item,
 .ant-dropdown-menu-submenu-title {
-  padding-right: 50px !important;
+    padding-right: 50px !important;
 }
 .content-styles {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  margin: 0 16px;
-  flex-direction: row;
-  overflow-x: auto;
-  overflow-y: hidden;
-
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 16px;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
-
-
 
 @media screen and (max-width: 1000px) {
-  .content-styles {
-    flex-direction: column;
-  }
+    .content-styles {
+        flex-direction: column;
+    }
 }
 .navbar-styles {
-  height: 90px !important;
+    height: 90px !important;
 }
 @media screen and (max-width: 768px) {
-  .navbar-styles {
-    height: 150px !important;
-  }
+    .navbar-styles {
+        height: 150px !important;
+    }
 }

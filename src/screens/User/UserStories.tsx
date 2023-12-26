@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react'
 
 const UserStories = () => {
-  return <div>UserStories</div>;
-};
+    return <div>UserStories</div>
+}
 
-export default UserStories;
+export default UserStories

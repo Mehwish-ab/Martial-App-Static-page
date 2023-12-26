@@ -1,93 +1,94 @@
-import { Field, ErrorMessage } from "formik";
-import ErrorMsg from "../ErrorMessage";
-import { Input } from "antd";
-import CustomPasswordInputStyle from "./style";
-import show_password_icon from "../../assets/icons/ic_show_passcode.svg";
-import hide_password_icon from "../../assets/icons/ic_hidePassword.svg";
-
+import { Field, ErrorMessage } from 'formik'
+import ErrorMsg from '../ErrorMessage'
+import { Input } from 'antd'
+import CustomPasswordInputStyle from './style'
+import show_password_icon from '../../assets/icons/ic_show_passcode.svg'
+import hide_password_icon from '../../assets/icons/ic_hidePassword.svg'
 
 import {
-  fontFamilyMedium,
-  fontFamilyRegular,
-  tertiaryGrey24,
-} from "../GlobalStyle";
-import useScreenTranslation from "../../hooks/useScreenTranslation";
+    fontFamilyMedium,
+    fontFamilyRegular,
+    tertiaryGrey24,
+} from '../GlobalStyle'
+import useScreenTranslation from '../../hooks/useScreenTranslation'
 
 type CustomPasswordInputProps = {
-  label: string;
-  className: string;
-  placeholder: string;
-  name: string;
-  fontFamily?: string;
-  border?: string;
-  showErrorMessage?: boolean;
-  padding?: string;
-  placeholderFamily?: "EnnVisions" | "EnnVisionsMedium" | "EnnVisionsBold";
-  placeholderFont?: string;
-  fontSize?: string;
-  labelFont?: string;
-  labelFamily?: string;
-  labelMarginBottom?: string;
-};
+    label: string
+    className: string
+    placeholder: string
+    name: string
+    fontFamily?: string
+    border?: string
+    showErrorMessage?: boolean
+    padding?: string
+    placeholderFamily?: 'EnnVisions' | 'EnnVisionsMedium' | 'EnnVisionsBold'
+    placeholderFont?: string
+    fontSize?: string
+    labelFont?: string
+    labelFamily?: string
+    labelMarginBottom?: string
+}
 
 const CustomPasswordInput = (props: CustomPasswordInputProps) => {
-  const {
-    label,
-    className,
-    placeholder,
-    name,
-    labelFont = "16px",
-    labelFamily = fontFamilyMedium,
-    labelMarginBottom = "10px",
-    fontFamily = fontFamilyRegular,
-    border = `1px solid ${tertiaryGrey24}`,
-    showErrorMessage = true,
-    padding = "10px",
-    placeholderFamily = fontFamilyRegular,
-    placeholderFont = "16px",
-    fontSize = "16px",
-    ...rest
-  } = props;
-  const { getLabelByKey } = useScreenTranslation("loginScreen");
-  return (
-    <CustomPasswordInputStyle
-      fontFamily={fontFamily}
-      border={border}
-      padding={padding}
-      placeholderFamily={placeholderFamily}
-      placeholderFont={placeholderFont}
-      fontSize={fontSize}
-      labelFamily={labelFamily}
-      labelFont={labelFont}
-      labelMarginBottom={labelMarginBottom}
-    >
-      <label htmlFor={name}>{label}</label>
-      <Field name={name} id={name}>
-        {({ field, form, meta }: any) => (
-          <Input.Password
-            className={className}
-            {...rest}
-            placeholder={placeholder}
-            {...field}
-            iconRender={(visible) =>
-              visible ? (
-                <span className="paswordIconLabel">
-                  {/* {getLabelByKey("hide")} */}
-                  <img src={hide_password_icon} alt="" />
-                </span>
-              ) : (
-                <span className="paswordIconLabel">
-                  {/* {getLabelByKey("show")} */}
-                  <img src={show_password_icon} alt="" />
-                </span>
-              )
-            }
-          />
-        )}
-      </Field>
-      {showErrorMessage && <ErrorMessage name={name} component={ErrorMsg} />}
-    </CustomPasswordInputStyle>
-  );
-};
+    const {
+        label,
+        className,
+        placeholder,
+        name,
+        labelFont = '16px',
+        labelFamily = fontFamilyMedium,
+        labelMarginBottom = '10px',
+        fontFamily = fontFamilyRegular,
+        border = `1px solid ${tertiaryGrey24}`,
+        showErrorMessage = true,
+        padding = '10px',
+        placeholderFamily = fontFamilyRegular,
+        placeholderFont = '16px',
+        fontSize = '16px',
+        ...rest
+    } = props
+    const { getLabelByKey } = useScreenTranslation('loginScreen')
+    return (
+        <CustomPasswordInputStyle
+            fontFamily={fontFamily}
+            border={border}
+            padding={padding}
+            placeholderFamily={placeholderFamily}
+            placeholderFont={placeholderFont}
+            fontSize={fontSize}
+            labelFamily={labelFamily}
+            labelFont={labelFont}
+            labelMarginBottom={labelMarginBottom}
+        >
+            <label htmlFor={name}>{label}</label>
+            <Field name={name} id={name}>
+                {({ field, form, meta }: any) => (
+                    <Input.Password
+                        className={className}
+                        {...rest}
+                        placeholder={placeholder}
+                        {...field}
+                        iconRender={(visible) =>
+                            visible ? (
+                                <span className="paswordIconLabel">
+                                    {/* {getLabelByKey("hide")} */}
+                                    <img src={hide_password_icon} alt="" />
+                                </span>
+                            ) : (
+                                <span className="paswordIconLabel">
+                                    {/* {getLabelByKey("show")} */}
+                                    <img src={show_password_icon} alt="" />
+                                </span>
+                            )
+                        }
+                    />
+                )}
+            </Field>
+            {showErrorMessage && (
+                <ErrorMessage name={name} component={ErrorMsg} />
+            )}
+        </CustomPasswordInputStyle>
+    )
+}
 
-export default CustomPasswordInput;
+export default CustomPasswordInput

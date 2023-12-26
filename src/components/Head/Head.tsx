@@ -1,14 +1,14 @@
-import { Helmet } from "react-helmet";
+import { Helmet } from 'react-helmet'
 
 type HeadProps = {
-  title: string;
-};
+    title: string
+}
 const Head = ({ title }: HeadProps) => {
-  return (
-    <Helmet>
-      <title>{title}</title>
-    </Helmet>
-  );
-};
+    return (
+        <Helmet>
+            <title>{title}</title>
+        </Helmet>
+    )
+}
 
-export default Head;
+export default Head

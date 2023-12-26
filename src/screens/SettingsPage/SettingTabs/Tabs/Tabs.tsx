@@ -1,17 +1,17 @@
-import React, { FC } from "react";
-import { TabsStyling } from "../styles";
+import React, { FC } from 'react'
+import { TabsStyling } from '../styles'
 
 type TabsProps = {
     tabs: {
-        label: string;
-        index: number;
-        Component: FC<{ index: number }>;
-    }[];
-    selectedTab: number;
-    onClick: (index: number) => void;
-    orientation?: "horizontal" | "vertical";
-    className?: string;
-};
+        label: string
+        index: number
+        Component: FC<{ index: number }>
+    }[]
+    selectedTab: number
+    onClick: (index: number) => void
+    orientation?: 'horizontal' | 'vertical'
+    className?: string
+}
 
 /**
  * Avalible Props
@@ -22,25 +22,29 @@ type TabsProps = {
  * @param orientation Tab orientation Vertical | Horizontal
  */
 const Tabs: FC<TabsProps> = ({
-    className = "tabs-component",
+    className = 'tabs-component',
     tabs = [],
     selectedTab = 0,
     onClick,
-    orientation = "horizontal"
+    orientation = 'horizontal',
 }) => {
-    const Panel = tabs && tabs.find((tab) => tab.index === selectedTab);
+    const Panel = tabs && tabs.find((tab) => tab.index === selectedTab)
 
     return (
         <TabsStyling>
             <div
                 className={
-                    orientation === "vertical" ? className + " vertical" : className
+                    orientation === 'vertical'
+                        ? className + ' vertical'
+                        : className
                 }
             >
                 <div role="tablist" aria-orientation={orientation}>
                     {tabs.map((tab) => (
                         <button
-                            className={selectedTab === tab.index ? "active" : ""}
+                            className={
+                                selectedTab === tab.index ? 'active' : ''
+                            }
                             onClick={() => onClick(tab.index)}
                             key={tab.index}
                             type="button"
@@ -63,6 +67,6 @@ const Tabs: FC<TabsProps> = ({
                 </div>
             </div>
         </TabsStyling>
-    );
-};
-export default Tabs;
+    )
+}
+export default Tabs

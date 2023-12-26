@@ -1,44 +1,52 @@
-import { FC, Fragment, useState } from "react";
-import { Col, Row } from "react-bootstrap";
-import CustomModal from "../../../../components/Modal/CustomModal";
-import { EditPopUpStying } from "./EditPopUpStying";
-import FormControl from "../../../../components/FormControl";
-import CustomButton from "../../../../components/CustomButton/CustomButton";
-import { fontFamilyMedium, lightBlue3, pureDark2 } from "../../../../components/GlobalStyle";
-import { Form, Formik, FormikHelpers } from "formik";
-import { CreateSchoolInitialValues } from "../../../Home/constants";
-import useCreateSchool from "../../../../hooks/useCreateSchool";
-
+import { FC, Fragment, useState } from 'react'
+import { Col, Row } from 'react-bootstrap'
+import CustomModal from '../../../../components/Modal/CustomModal'
+import { EditPopUpStying } from './EditPopUpStying'
+import FormControl from '../../../../components/FormControl'
+import CustomButton from '../../../../components/CustomButton/CustomButton'
+import {
+    fontFamilyMedium,
+    lightBlue3,
+    pureDark2,
+} from '../../../../components/GlobalStyle'
+import { Form, Formik, FormikHelpers } from 'formik'
+import { CreateSchoolInitialValues } from '../../../Home/constants'
+import useCreateSchool from '../../../../hooks/useCreateSchool'
 
 type initialTypesSettings = {
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-    password: string;
-    confirmPassword: string;
-};
+    firstName: string
+    lastName: string
+    phoneNumber: string
+    password: string
+    confirmPassword: string
+}
 
 const Preferences: FC<{}> = () => {
-    const [isLanguageModalVisible, setIsLanguageModelVisible] = useState(false);
-    const [isCurrencyModalVisible, setIsCurrencyModelVisible] = useState(false);
-    const [isAccesssibilityModalVisible, setIsAccesssibilityModelVisible] = useState(false);
-    const handleSubmit = (values: initialTypesSettings, { setSubmitting }: FormikHelpers<initialTypesSettings>) => {
-        setSubmitting(false);
-    };
+    const [isLanguageModalVisible, setIsLanguageModelVisible] = useState(false)
+    const [isCurrencyModalVisible, setIsCurrencyModelVisible] = useState(false)
+    const [isAccesssibilityModalVisible, setIsAccesssibilityModelVisible] =
+        useState(false)
+    const handleSubmit = (
+        values: initialTypesSettings,
+        { setSubmitting }: FormikHelpers<initialTypesSettings>
+    ) => {
+        setSubmitting(false)
+    }
     const initialValues: initialTypesSettings = {
-        firstName: "",
-        lastName: "",
-        phoneNumber: "0",
-        password: "",
-        confirmPassword: "",
-    };
+        firstName: '',
+        lastName: '',
+        phoneNumber: '0',
+        password: '',
+        confirmPassword: '',
+    }
 
     return (
         <Fragment>
             <div className="panel-heading">
                 <h3>Preferences</h3>
                 <p>
-                    Change your language, currency and accessibility requirements.
+                    Change your language, currency and accessibility
+                    requirements.
                 </p>
             </div>
             <div>
@@ -47,10 +55,15 @@ const Preferences: FC<{}> = () => {
                         <h4 className="m-0 panel-body-heading">Currency</h4>
                     </Col>
                     <Col md="8">
-                        <p className="m-0 panel-body-text">£ (British Pound Sterling)</p>
+                        <p className="m-0 panel-body-text">
+                            £ (British Pound Sterling)
+                        </p>
                     </Col>
                     <Col md="2" className="text-end">
-                        <span onClick={() => setIsCurrencyModelVisible(true)} className="panel-body-link">
+                        <span
+                            onClick={() => setIsCurrencyModelVisible(true)}
+                            className="panel-body-link"
+                        >
                             Edit
                         </span>
                     </Col>
@@ -63,20 +76,32 @@ const Preferences: FC<{}> = () => {
                         <p className="m-0 panel-body-text">English</p>
                     </Col>
                     <Col md="2" className="text-end">
-                        <span onClick={() => setIsLanguageModelVisible(true)} className="panel-body-link">
+                        <span
+                            onClick={() => setIsLanguageModelVisible(true)}
+                            className="panel-body-link"
+                        >
                             Edit
                         </span>
                     </Col>
                 </Row>
                 <Row className="panel-body">
                     <Col md="2">
-                        <h4 className="m-0 panel-body-heading">Accessibility requirements</h4>
+                        <h4 className="m-0 panel-body-heading">
+                            Accessibility requirements
+                        </h4>
                     </Col>
                     <Col md="8">
-                        <p className="m-0 panel-body-text">Filter out properties that don’t meet your needs</p>
+                        <p className="m-0 panel-body-text">
+                            Filter out properties that don’t meet your needs
+                        </p>
                     </Col>
                     <Col md="2" className="text-end">
-                        <span onClick={() => setIsAccesssibilityModelVisible(true)} className="panel-body-link">
+                        <span
+                            onClick={() =>
+                                setIsAccesssibilityModelVisible(true)
+                            }
+                            className="panel-body-link"
+                        >
                             Edit
                         </span>
                     </Col>
@@ -89,17 +114,17 @@ const Preferences: FC<{}> = () => {
                     <>
                         <EditPopUpStying>
                             <h3>Update Language</h3>
-                            <p>Update your information and find out how it's used.</p>
+                            <p>
+                                Update your information and find out how it's
+                                used.
+                            </p>
                             <Formik
                                 initialValues={initialValues}
                                 onSubmit={handleSubmit}
                             >
                                 {(formik) => {
                                     return (
-                                        <Form
-                                            name="basic"
-                                            autoComplete="off"
-                                        >
+                                        <Form name="basic" autoComplete="off">
                                             <Row>
                                                 <Col md="12" className="mt-10">
                                                     <FormControl
@@ -119,7 +144,9 @@ const Preferences: FC<{}> = () => {
                                                         textTransform="Captilize"
                                                         color={pureDark2}
                                                         padding="12.5px"
-                                                        fontFamily={fontFamilyMedium}
+                                                        fontFamily={
+                                                            fontFamilyMedium
+                                                        }
                                                         width="100%"
                                                         type="submit"
                                                         title="Save"
@@ -129,12 +156,15 @@ const Preferences: FC<{}> = () => {
                                                 </Col>
                                             </Row>
                                         </Form>
-                                    );
+                                    )
                                 }}
                             </Formik>
                         </EditPopUpStying>
                     </>
-                } isModalVisible={isLanguageModalVisible} setIsModalVisible={setIsLanguageModelVisible} />
+                }
+                isModalVisible={isLanguageModalVisible}
+                setIsModalVisible={setIsLanguageModelVisible}
+            />
 
             <CustomModal
                 width="485px"
@@ -143,17 +173,17 @@ const Preferences: FC<{}> = () => {
                     <>
                         <EditPopUpStying>
                             <h3>Update Currency</h3>
-                            <p>Update your information and find out how it's used.</p>
+                            <p>
+                                Update your information and find out how it's
+                                used.
+                            </p>
                             <Formik
                                 initialValues={initialValues}
                                 onSubmit={handleSubmit}
                             >
                                 {(formik) => {
                                     return (
-                                        <Form
-                                            name="basic"
-                                            autoComplete="off"
-                                        >
+                                        <Form name="basic" autoComplete="off">
                                             <Row>
                                                 <Col md="12" className="mt-10">
                                                     <FormControl
@@ -173,7 +203,9 @@ const Preferences: FC<{}> = () => {
                                                         textTransform="Captilize"
                                                         color={pureDark2}
                                                         padding="12.5px"
-                                                        fontFamily={fontFamilyMedium}
+                                                        fontFamily={
+                                                            fontFamilyMedium
+                                                        }
                                                         width="100%"
                                                         type="submit"
                                                         title="Save"
@@ -183,12 +215,15 @@ const Preferences: FC<{}> = () => {
                                                 </Col>
                                             </Row>
                                         </Form>
-                                    );
+                                    )
                                 }}
                             </Formik>
                         </EditPopUpStying>
                     </>
-                } isModalVisible={isCurrencyModalVisible} setIsModalVisible={setIsCurrencyModelVisible} />
+                }
+                isModalVisible={isCurrencyModalVisible}
+                setIsModalVisible={setIsCurrencyModelVisible}
+            />
 
             <CustomModal
                 width="485px"
@@ -197,17 +232,17 @@ const Preferences: FC<{}> = () => {
                     <>
                         <EditPopUpStying>
                             <h3>Update Accessible</h3>
-                            <p>Update your information and find out how it's used.</p>
+                            <p>
+                                Update your information and find out how it's
+                                used.
+                            </p>
                             <Formik
                                 initialValues={initialValues}
                                 onSubmit={handleSubmit}
                             >
                                 {(formik) => {
                                     return (
-                                        <Form
-                                            name="basic"
-                                            autoComplete="off"
-                                        >
+                                        <Form name="basic" autoComplete="off">
                                             <Row>
                                                 <Col md="12" className="mt-10">
                                                     <FormControl
@@ -227,7 +262,9 @@ const Preferences: FC<{}> = () => {
                                                         textTransform="Captilize"
                                                         color={pureDark2}
                                                         padding="12.5px"
-                                                        fontFamily={fontFamilyMedium}
+                                                        fontFamily={
+                                                            fontFamilyMedium
+                                                        }
                                                         width="100%"
                                                         type="submit"
                                                         title="Save"
@@ -237,13 +274,16 @@ const Preferences: FC<{}> = () => {
                                                 </Col>
                                             </Row>
                                         </Form>
-                                    );
+                                    )
                                 }}
                             </Formik>
                         </EditPopUpStying>
                     </>
-                } isModalVisible={isAccesssibilityModalVisible} setIsModalVisible={setIsAccesssibilityModelVisible} />
-        </Fragment >
-    );
-};
-export default Preferences;
+                }
+                isModalVisible={isAccesssibilityModalVisible}
+                setIsModalVisible={setIsAccesssibilityModelVisible}
+            />
+        </Fragment>
+    )
+}
+export default Preferences

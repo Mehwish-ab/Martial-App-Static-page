@@ -1,16 +1,16 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 import {
-  darkBlue,
-  fontFamilyMedium,
-  fontFamilyRegular,
-  lightDark2,
-  lightDark3,
-  pureDark2,
-  secondaryDark3,
-  tertiaryGrey12,
-  tertiaryGrey24,
-  tertiaryGrey8,
-} from "../../components/GlobalStyle";
+    darkBlue,
+    fontFamilyMedium,
+    fontFamilyRegular,
+    lightDark2,
+    lightDark3,
+    pureDark2,
+    secondaryDark3,
+    tertiaryGrey12,
+    tertiaryGrey24,
+    tertiaryGrey8,
+} from '../../components/GlobalStyle'
 
 const HelpSupportStyling = styled.div`
   background: ${tertiaryGrey8};
@@ -199,43 +199,41 @@ const HelpSupportStyling = styled.div`
   }
  
 
-`;
+`
 
-export default HelpSupportStyling;
+export default HelpSupportStyling
 
 export const CreatedUserModalStyle = styled.div`
-  text-align: center;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    text-align: center;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-  .inner-container {
-    max-width: 485px;
-    background: #ffffff;
-    box-shadow: 0px 0px 16px #00000017;
-    border-radius: 7px;
-    padding: 18px;
-    img {
-      height: 60px;
-      margin-bottom: 12px;
-      width: 190px;
+    .inner-container {
+        max-width: 485px;
+        background: #ffffff;
+        box-shadow: 0px 0px 16px #00000017;
+        border-radius: 7px;
+        padding: 18px;
+        img {
+            height: 60px;
+            margin-bottom: 12px;
+            width: 190px;
+        }
+        .account-created {
+            font-family: 'EnnVisionsMedium';
+            font-size: 19px;
+        }
+        .message {
+            margin-top: 14px;
+            font-size: 16px;
+            width: 90%;
+            margin: 0 auto;
+            color: ${secondaryDark3};
+            padding-bottom: 10px;
+            border-bottom: 1px solid ${tertiaryGrey12};
+        }
     }
-    .account-created {
-      font-family: "EnnVisionsMedium";
-      font-size: 19px;
-    }
-    .message {
-      margin-top: 14px;
-      font-size: 16px;
-      width: 90%;
-      margin: 0 auto;
-      color: ${secondaryDark3};
-      padding-bottom: 10px;
-      border-bottom: 1px solid ${tertiaryGrey12};
-    }
-  }
-
-  
-`;
+`

@@ -46,4 +46,4 @@
 // const Story = lazyLoad("./Screens/Story/Index");
 // import lazyLoad from "./LazyLoad";
 
-export const LazyLoadRoutes = {};
+export const LazyLoadRoutes = {}

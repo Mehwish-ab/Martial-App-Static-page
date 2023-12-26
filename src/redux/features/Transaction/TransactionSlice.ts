@@ -1,33 +1,33 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import store from "../../store";
-import { base_url, get_branch_by_school_id_url } from "../../../utils/api_urls";
-import { loginDataTypes } from "../types";
-import { authorizationToken } from "../../../utils/api_urls";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import axios from 'axios'
+import store from '../../store'
+import { base_url, get_branch_by_school_id_url } from '../../../utils/api_urls'
+import { loginDataTypes } from '../types'
+import { authorizationToken } from '../../../utils/api_urls'
 
 export interface TransactionDataType {
-    TransactionID: number;
-    TransactionInvoice: number;
-    TransactionAmount: string;
-    TransactionBillingDate: string;
-    TransactionMember: string;
-    TransactionStatus: string;
-    TransactionDownload: string;
-    TransactionAction: string | null | undefined;
+    TransactionID: number
+    TransactionInvoice: number
+    TransactionAmount: string
+    TransactionBillingDate: string
+    TransactionMember: string
+    TransactionStatus: string
+    TransactionDownload: string
+    TransactionAction: string | null | undefined
 }
 
 export interface GetBranchBySchoolResTypes {
-    data: TransactionDataType[];
-    totalItems: number;
-    totalPages: number;
-    currentPage: number;
-    TransactionPicture: string;
+    data: TransactionDataType[]
+    totalItems: number
+    totalPages: number
+    currentPage: number
+    TransactionPicture: string
 }
 
 export interface TransactionDataInitialState {
-    TransactionData: GetBranchBySchoolResTypes;
-    loading: boolean;
-    error: string | undefined;
+    TransactionData: GetBranchBySchoolResTypes
+    loading: boolean
+    error: string | undefined
 }
 
 const initialState: TransactionDataInitialState = {
@@ -36,49 +36,49 @@ const initialState: TransactionDataInitialState = {
         currentPage: 0,
         totalItems: 0,
         totalPages: 0,
-        TransactionPicture: "",
+        TransactionPicture: '',
     },
     loading: false,
-    error: "",
-};
+    error: '',
+}
 const TransactionSlice = createSlice({
-    name: "instructorData",
+    name: 'instructorData',
     initialState,
     reducers: {
         updateInstructor: (state, action) => {
-            const updateInstructor: TransactionDataType = action.payload;
+            const updateInstructor: TransactionDataType = action.payload
             const index = state.TransactionData.data.findIndex(
                 (b) => b.TransactionID === updateInstructor.TransactionID
-            );
-            state.TransactionData.data[index] = updateInstructor;
+            )
+            state.TransactionData.data[index] = updateInstructor
         },
     },
     extraReducers(builder) {
         builder
             .addCase(getBranchBySchoolId.pending, (state, action) => {
-                state.TransactionData = initialState.TransactionData;
-                state.loading = true;
-                state.error = "";
+                state.TransactionData = initialState.TransactionData
+                state.loading = true
+                state.error = ''
             })
             .addCase(getBranchBySchoolId.fulfilled, (state, action) => {
-                state.TransactionData = action.payload;
-                state.loading = false;
-                state.error = "";
+                state.TransactionData = action.payload
+                state.loading = false
+                state.error = ''
             })
             .addCase(getBranchBySchoolId.rejected, (state, action) => {
-                console.log("action.error", action);
-                state.TransactionData = initialState.TransactionData;
-                state.error = action.error.message;
-                state.loading = false;
-            });
+                console.log('action.error', action)
+                state.TransactionData = initialState.TransactionData
+                state.error = action.error.message
+                state.loading = false
+            })
     },
-});
+})
 
 export const getBranchBySchoolId = createAsyncThunk(
-    "instructorData/getBranchBySchoolId",
+    'instructorData/getBranchBySchoolId',
     async () => {
-        const state = store.getState();
-        console.log("state", state);
+        const state = store.getState()
+        console.log('state', state)
         try {
             const { data } = await axios.post(
                 `${base_url}${get_branch_by_school_id_url}`,
@@ -89,25 +89,27 @@ export const getBranchBySchoolId = createAsyncThunk(
                 },
                 {
                     headers: {
-                        ...authorizationToken(state.loginData.data as loginDataTypes),
+                        ...authorizationToken(
+                            state.loginData.data as loginDataTypes
+                        ),
                     },
                 }
-            );
-            return data.results;
+            )
+            return data.results
         } catch (error: any) {
             if (error.response && error.response.data) {
                 let obj = {
-                    name: "AxiosError",
+                    name: 'AxiosError',
                     message: error.response.data?.responseMessage,
-                    code: "ERR_BAD_RESPONSE",
-                };
-                throw obj;
+                    code: 'ERR_BAD_RESPONSE',
+                }
+                throw obj
             }
-            throw error;
+            throw error
         }
     }
-);
+)
 
-export const { updateInstructor } = TransactionSlice.actions;
+export const { updateInstructor } = TransactionSlice.actions
 
-export default TransactionSlice.reducer;
+export default TransactionSlice.reducer

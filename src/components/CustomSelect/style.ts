@@ -1,16 +1,23 @@
-import styled from "styled-components";
-import { fontFamilyMedium, fontFamilyRegular, lightDark2, mediaDeviceMax, pureDark2, tertiaryGrey7 } from "../GlobalStyle";
+import styled from 'styled-components'
+import {
+    fontFamilyMedium,
+    fontFamilyRegular,
+    lightDark2,
+    mediaDeviceMax,
+    pureDark2,
+    tertiaryGrey7,
+} from '../GlobalStyle'
 
 type CustomSelectProps = {
-  padding: string;
-  border: string;
-  bgColor: string;
-  fontFamily: string;
-  labelFamily: string;
-  labelFont: string;
-  labelMarginBottom: string;
-  fontSize: string;
-};
+    padding: string
+    border: string
+    bgColor: string
+    fontFamily: string
+    labelFamily: string
+    labelFont: string
+    labelMarginBottom: string
+    fontSize: string
+}
 
 export const CustomSelectStyle = styled.div<CustomSelectProps>`
   width: 100%;
@@ -80,5 +87,5 @@ export const CustomSelectStyle = styled.div<CustomSelectProps>`
   .custom-select-inner .ant-select-selector{
     padding: 0 !important;
   }
-`;
-export default CustomSelectStyle;
+`
+export default CustomSelectStyle

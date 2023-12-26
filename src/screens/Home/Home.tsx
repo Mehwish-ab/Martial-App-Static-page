@@ -1,7 +1,7 @@
-import ViewSchool from "../CreateSchool/ViewSchool/ViewSchool";
-import Profile from "./Profile/Profile";
+import ViewSchool from '../CreateSchool/ViewSchool/ViewSchool'
+import Profile from './Profile/Profile'
 const Home = () => {
-  return <ViewSchool />;
-};
+    return <ViewSchool />
+}
 
-export default Home;
+export default Home

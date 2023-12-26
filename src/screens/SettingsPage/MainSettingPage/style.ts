@@ -1,6 +1,10 @@
-import styled from "styled-components";
-import { fontFamilyMedium, fontFamilyRegular, lightDark2, pureDark2 } from "../../../components/GlobalStyle";
-
+import styled from 'styled-components'
+import {
+    fontFamilyMedium,
+    fontFamilyRegular,
+    lightDark2,
+    pureDark2,
+} from '../../../components/GlobalStyle'
 
 export const MainSettingPageStyle = styled.div`
 .MainContainer {
@@ -59,4 +63,4 @@ export const MainSettingPageStyle = styled.div`
     }
     }
 
-`;
+`

@@ -1,200 +1,204 @@
-import { Card, Dropdown, Space, Table } from "antd";
-import { AddPaymentMethod } from "./styles";
-import { PaymentPop } from "./PaymentPop";
-import { BranchDataType } from "../../../redux/features/branch/branchSlice";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import { useNavigate } from "react-router-dom";
-import type { ColumnsType } from "antd/es/table";
-import DummyData from "./dummyData.json";
-import StatusActiveError from "../../../assets/images/activeBtnError.svg";
-import LoadingOverlay from "../../../components/Modal/LoadingOverlay";
-import actionMenuTogglerIcon from "../../../assets/icons/ic_action_menu_toggler.svg";
-import show_password_icon from "../../../assets/icons/ic_show_passcode.svg";
-import { useState } from "react";
-import CustomModal from "../../../components/Modal/CustomModal";
-import FormControl from "../../../components/FormControl";
-import { Form, Formik } from "formik";
-import useCreateSchool from "../../../hooks/useCreateSchool";
-import { CreateSchoolInitialValues } from "../../Home/constants";
-import * as Yup from "yup";
-import { Row } from "react-bootstrap";
-import { Col } from "react-bootstrap";
+import { Card, Dropdown, Space, Table } from 'antd'
+import { AddPaymentMethod } from './styles'
+import { PaymentPop } from './PaymentPop'
+import { BranchDataType } from '../../../redux/features/branch/branchSlice'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../redux/store'
+import { useNavigate } from 'react-router-dom'
+import type { ColumnsType } from 'antd/es/table'
+import DummyData from './dummyData.json'
+import StatusActiveError from '../../../assets/images/activeBtnError.svg'
+import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
+import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
+import show_password_icon from '../../../assets/icons/ic_show_passcode.svg'
+import { useState } from 'react'
+import CustomModal from '../../../components/Modal/CustomModal'
+import FormControl from '../../../components/FormControl'
+import { Form, Formik } from 'formik'
+import useCreateSchool from '../../../hooks/useCreateSchool'
+import { CreateSchoolInitialValues } from '../../Home/constants'
+import * as Yup from 'yup'
+import { Row } from 'react-bootstrap'
+import { Col } from 'react-bootstrap'
 import {
-  fontFamilyMedium,
-  fontFamilyRegular,
-  lightBlue3,
-  pureDark2,
-} from "../../../components/GlobalStyle";
-import CustomButton from "../../../components/CustomButton/CustomButton";
+    fontFamilyMedium,
+    fontFamilyRegular,
+    lightBlue3,
+    pureDark2,
+} from '../../../components/GlobalStyle'
+import CustomButton from '../../../components/CustomButton/CustomButton'
 
 const AddPaymentSchool: React.FC = () => {
-  const navigate = useNavigate();
+    const navigate = useNavigate()
 
-  //   const { language, currency } = useSelector(
-  //     (state: RootState) => state.appData.data.dropdowns
-  //   );
+    //   const { language, currency } = useSelector(
+    //     (state: RootState) => state.appData.data.dropdowns
+    //   );
 
-  const [isModalVisible, setModelVisible] = useState(false);
+    const [isModalVisible, setModelVisible] = useState(false)
 
-  const { loading } = useSelector((state: RootState) => state.branchData);
+    const { loading } = useSelector((state: RootState) => state.branchData)
 
-  //   const { selectedLanguage } = useSelector(
-  //     (state: RootState) => state.selectedLanguage
-  //   );
-  //   let defaultLanguage = language.find(
-  //     (item: DataTypesWithIdAndMultipleLangLabel) =>
-  //       +item.id == +branch.defaultLanguageId
-  //   );
+    //   const { selectedLanguage } = useSelector(
+    //     (state: RootState) => state.selectedLanguage
+    //   );
+    //   let defaultLanguage = language.find(
+    //     (item: DataTypesWithIdAndMultipleLangLabel) =>
+    //       +item.id == +branch.defaultLanguageId
+    //   );
 
-  //   let defaultCurrency = currency.find(
-  //     (item: DataTypesWithIdAndMultipleLangLabel) =>
-  //       +item.id == +branch.defaultCurrencyId
-  //   );
+    //   let defaultCurrency = currency.find(
+    //     (item: DataTypesWithIdAndMultipleLangLabel) =>
+    //       +item.id == +branch.defaultCurrencyId
+    //   );
 
-  //   console.log(defaultLanguage, defaultCurrency);
+    //   console.log(defaultLanguage, defaultCurrency);
 
-  const navigation = (record: BranchDataType, redirectTo: string) => {
-    switch (redirectTo) {
-      case "detail":
-        setModelVisible(true);
-        // navigate(`/branch/detail/${record.branchId}`, {
-        //   state: {
-        //     branchToEdit: record as BranchDataType,
-        //   },
-        // });
-        break;
+    const navigation = (record: BranchDataType, redirectTo: string) => {
+        switch (redirectTo) {
+            case 'detail':
+                setModelVisible(true)
+                // navigate(`/branch/detail/${record.branchId}`, {
+                //   state: {
+                //     branchToEdit: record as BranchDataType,
+                //   },
+                // });
+                break
 
-      case "edit":
-        navigate(`/branch/edit/${record.branchId}`, {
-          state: {
-            branch: record as BranchDataType,
-          },
-        });
-        break;
-      case "delete":
-        navigate(`/branch/delete/${record.branchId}`, {
-          state: {
-            branch: record as BranchDataType,
-          },
-        });
+            case 'edit':
+                navigate(`/branch/edit/${record.branchId}`, {
+                    state: {
+                        branch: record as BranchDataType,
+                    },
+                })
+                break
+            case 'delete':
+                navigate(`/branch/delete/${record.branchId}`, {
+                    state: {
+                        branch: record as BranchDataType,
+                    },
+                })
+        }
     }
-  };
 
-  const columns: ColumnsType<BranchDataType> = [
-    {
-      title: "Payment Information",
-      dataIndex: "paymentMethod",
-      key: "paymentMethod",
-    },
-    {
-      title: "Account Name",
-      dataIndex: "accountNumber",
-      key: "accountNumber",
-    },
-    {
-      title: "Country Name",
-      dataIndex: "countryName",
-      key: "countryName",
-    },
-    {
-      title: "Mode",
-      dataIndex: "mode",
-      key: "mode",
-      render: (DummyData) => {
-        return (
-          <div className={DummyData}>
-            <button>{DummyData}</button>
-            <img src={StatusActiveError} alt="images" />
-          </div>
-        );
-      },
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "Staus",
-      render: (DummyData) => {
-        return (
-          <div className={DummyData}>
-            <button>{DummyData}</button>
-            <img src={StatusActiveError} alt="images" />
-          </div>
-        );
-      },
-    },
-    {
-      title: "Action",
-      key: "action",
-      render: (value: any, record: BranchDataType, index: number): any => {
-        const items = [
-          {
-            key: "1",
-            label: "detail",
-            onClick: () => navigation(record, "detail"),
-          },
-          {
-            key: "2",
-            label: "Edit",
-            onClick: () => navigation(record, "edit"),
-          },
-          {
-            key: "4",
-            label: "Delete",
-            onClick: () => navigation(record, "delete"),
-          },
-        ];
+    const columns: ColumnsType<BranchDataType> = [
+        {
+            title: 'Payment Information',
+            dataIndex: 'paymentMethod',
+            key: 'paymentMethod',
+        },
+        {
+            title: 'Account Name',
+            dataIndex: 'accountNumber',
+            key: 'accountNumber',
+        },
+        {
+            title: 'Country Name',
+            dataIndex: 'countryName',
+            key: 'countryName',
+        },
+        {
+            title: 'Mode',
+            dataIndex: 'mode',
+            key: 'mode',
+            render: (DummyData) => {
+                return (
+                    <div className={DummyData}>
+                        <button>{DummyData}</button>
+                        <img src={StatusActiveError} alt="images" />
+                    </div>
+                )
+            },
+        },
+        {
+            title: 'Status',
+            dataIndex: 'status',
+            key: 'Staus',
+            render: (DummyData) => {
+                return (
+                    <div className={DummyData}>
+                        <button>{DummyData}</button>
+                        <img src={StatusActiveError} alt="images" />
+                    </div>
+                )
+            },
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            render: (
+                value: any,
+                record: BranchDataType,
+                index: number
+            ): any => {
+                const items = [
+                    {
+                        key: '1',
+                        label: 'detail',
+                        onClick: () => navigation(record, 'detail'),
+                    },
+                    {
+                        key: '2',
+                        label: 'Edit',
+                        onClick: () => navigation(record, 'edit'),
+                    },
+                    {
+                        key: '4',
+                        label: 'Delete',
+                        onClick: () => navigation(record, 'delete'),
+                    },
+                ]
 
-        return (
-          <Space size="middle">
-            <Dropdown menu={{ items }}>
-              <img
-                src={actionMenuTogglerIcon}
-                alt="action menu"
-                style={{ cursor: "pointer" }}
-              />
-            </Dropdown>
-          </Space>
-        );
-      },
-    },
-  ];
+                return (
+                    <Space size="middle">
+                        <Dropdown menu={{ items }}>
+                            <img
+                                src={actionMenuTogglerIcon}
+                                alt="action menu"
+                                style={{ cursor: 'pointer' }}
+                            />
+                        </Dropdown>
+                    </Space>
+                )
+            },
+        },
+    ]
 
-  const { handleCreateSubmit, Createmodal } = useCreateSchool();
+    const { handleCreateSubmit, Createmodal } = useCreateSchool()
 
-  const businessName = {
-    notBlankMsgEn: "Business name cannot be blank",
-    patternMsgEn: "Invalid business name pattern",
-  };
+    const businessName = {
+        notBlankMsgEn: 'Business name cannot be blank',
+        patternMsgEn: 'Invalid business name pattern',
+    }
 
-  const initialValues: CreateSchoolInitialValues = {
-    businessName: "",
-    businessType: "",
-    address: "",
-    businessPhoneNumber: "",
-    defaultLanguage: "",
-    defaultCurrency: "",
-    description: "",
-    rank: 0,
-    defaultCurrencyId: 0,
-    defaultLanguageId: 0,
-    selectedActivities: [],
-    selectedFacilities: [],
-  };
+    const initialValues: CreateSchoolInitialValues = {
+        businessName: '',
+        businessType: '',
+        address: '',
+        businessPhoneNumber: '',
+        defaultLanguage: '',
+        defaultCurrency: '',
+        description: '',
+        rank: 0,
+        defaultCurrencyId: 0,
+        defaultLanguageId: 0,
+        selectedActivities: [],
+        selectedFacilities: [],
+    }
 
-  return (
-    <AddPaymentMethod>
-      {loading && <LoadingOverlay message="" />}
-      <h3 className="table-heading">Payment Information</h3>
-      <Table
-        columns={columns}
-        dataSource={DummyData as any}
-        scroll={{ x: true }}
-      />
+    return (
+        <AddPaymentMethod>
+            {loading && <LoadingOverlay message="" />}
+            <h3 className="table-heading">Payment Information</h3>
+            <Table
+                columns={columns}
+                dataSource={DummyData as any}
+                scroll={{ x: true }}
+            />
 
-      {/* Create Pages */}
+            {/* Create Pages */}
 
-      {/* <CustomModal
+            {/* <CustomModal
         width="477px"
         children={
           <PaymentPop>
@@ -282,7 +286,7 @@ const AddPaymentSchool: React.FC = () => {
 
           </PaymentPop>
         } isModalVisible={isModalVisible} setIsModalVisible={setModelVisible} /> */}
-      {/* <CustomModal
+            {/* <CustomModal
         width="953px"
         children={
           <PaymentPop>
@@ -406,7 +410,7 @@ const AddPaymentSchool: React.FC = () => {
 
           </PaymentPop>
         } isModalVisible={isModalVisible} setIsModalVisible={setModelVisible} /> */}
-      {/* <CustomModal
+            {/* <CustomModal
         width="953px"
         children={
           <PaymentPop>
@@ -557,9 +561,9 @@ const AddPaymentSchool: React.FC = () => {
           </PaymentPop>
         } isModalVisible={isModalVisible} setIsModalVisible={setModelVisible} /> */}
 
-      {/* View Pages */}
+            {/* View Pages */}
 
-      {/* <CustomModal
+            {/* <CustomModal
         width="493px"
         showCloseBtn={false}
         children={
@@ -641,7 +645,7 @@ const AddPaymentSchool: React.FC = () => {
             </div>
           </PaymentPop>
         } isModalVisible={isModalVisible} setIsModalVisible={setModelVisible} /> */}
-      {/* <CustomModal
+            {/* <CustomModal
         width="493px"
         showCloseBtn={false}
         children={
@@ -743,7 +747,7 @@ const AddPaymentSchool: React.FC = () => {
             </div>
           </PaymentPop>
         } isModalVisible={isModalVisible} setIsModalVisible={setModelVisible} /> */}
-      {/* <CustomModal
+            {/* <CustomModal
         width="493px"
         showCloseBtn={false}
         children={
@@ -865,8 +869,8 @@ const AddPaymentSchool: React.FC = () => {
             </div>
           </PaymentPop>
         } isModalVisible={isModalVisible} setIsModalVisible={setModelVisible} /> */}
-    </AddPaymentMethod>
-  );
-};
+        </AddPaymentMethod>
+    )
+}
 
-export default AddPaymentSchool;
+export default AddPaymentSchool

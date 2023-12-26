@@ -1,114 +1,122 @@
-import { Formik } from "formik";
-import * as Yup from "yup";
-import { Form } from "antd";
-import FormControl from "../../components/FormControl";
-import CustomButton from "../../components/CustomButton/CustomButton";
+import { Formik } from 'formik'
+import * as Yup from 'yup'
+import { Form } from 'antd'
+import FormControl from '../../components/FormControl'
+import CustomButton from '../../components/CustomButton/CustomButton'
 import {
     fontFamilyMedium,
     fontFamilyRegular,
     lightBlue3,
     pureDark2,
-} from "../../components/GlobalStyle";
-import Head from "../../components/Head/Head";
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import EnnvisionModal from "../../components/CustomModals/EnnvisionModal";
-import CustomModal from "../../components/Modal/CustomModal";
-import { useAppSelector } from "../../app/hooks";
-import { validationFinder } from "../../utils/utilities";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { signup_url } from "../../utils/api_urls";
+} from '../../components/GlobalStyle'
+import Head from '../../components/Head/Head'
+import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import EnnvisionModal from '../../components/CustomModals/EnnvisionModal'
+import CustomModal from '../../components/Modal/CustomModal'
+import { useAppSelector } from '../../app/hooks'
+import { validationFinder } from '../../utils/utilities'
+import { toast } from 'react-toastify'
+import axios from 'axios'
+import { signup_url } from '../../utils/api_urls'
 
-import "react-phone-number-input/style.css";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import HelpSupportStyling from "./style";
+import 'react-phone-number-input/style.css'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../redux/store'
+import HelpSupportStyling from './style'
 
 // create user initial values types
 type initialValuesType = {
-    firstName: string;
-    lastName: string;
-    emailAddress: string;
-    phoneNumber: string;
-    password: string;
-    confirmPassword?: string;
-};
+    firstName: string
+    lastName: string
+    emailAddress: string
+    phoneNumber: string
+    password: string
+    confirmPassword?: string
+}
 
 const HelpSupport = () => {
-    const [isShowModal, setIsShowModal] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-    const [terms] = useState(false);
+    const [isShowModal, setIsShowModal] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const [terms] = useState(false)
 
-    const scrollViewRef = useRef<any>();
-    const navigate = useNavigate();
+    const scrollViewRef = useRef<any>()
+    const navigate = useNavigate()
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
-    );
+    )
     const initialValues: initialValuesType = {
-        firstName: "",
-        lastName: "",
-        emailAddress: "",
-        phoneNumber: "",
-        password: "",
-        confirmPassword: "",
-    };
+        firstName: '',
+        lastName: '',
+        emailAddress: '',
+        phoneNumber: '',
+        password: '',
+        confirmPassword: '',
+    }
 
     const { result: userLocation } = useAppSelector(
         (state) => state.userLocation
-    );
+    )
     // get Validations from redux appData
     const {
         countryName: {
             results: { countryCode, name },
         },
-    } = useAppSelector((state) => state.appData.data);
+    } = useAppSelector((state) => state.appData.data)
     // create user initial values
     useEffect(() => {
         const countrySelect = document.querySelector(
-            ".PhoneInput .PhoneInputCountry"
-        );
-        const phoneNumberInput = document.querySelector(".PhoneInput input");
+            '.PhoneInput .PhoneInputCountry'
+        )
+        const phoneNumberInput = document.querySelector('.PhoneInput input')
 
         if (countrySelect) {
-            if (selectedLanguage === "ur" || selectedLanguage === "ar") {
-                countrySelect.classList.remove("country-left-to-right-border-radius");
-                countrySelect.classList.add("country-right-to-left-border-radius");
+            if (selectedLanguage === 'ur' || selectedLanguage === 'ar') {
+                countrySelect.classList.remove(
+                    'country-left-to-right-border-radius'
+                )
+                countrySelect.classList.add(
+                    'country-right-to-left-border-radius'
+                )
             } else {
-                countrySelect.classList.add("country-left-to-right-border-radius");
-                countrySelect.classList.remove("country-right-to-left-border-radius");
+                countrySelect.classList.add(
+                    'country-left-to-right-border-radius'
+                )
+                countrySelect.classList.remove(
+                    'country-right-to-left-border-radius'
+                )
             }
         }
         if (phoneNumberInput) {
-            if (selectedLanguage === "ur" || selectedLanguage === "ar") {
+            if (selectedLanguage === 'ur' || selectedLanguage === 'ar') {
                 phoneNumberInput.classList.add(
-                    "phone-number-right-to-left-border-radius"
-                );
+                    'phone-number-right-to-left-border-radius'
+                )
                 phoneNumberInput.classList.remove(
-                    "phone-number-left-to-right-border-radius"
-                );
+                    'phone-number-left-to-right-border-radius'
+                )
             } else {
                 phoneNumberInput.classList.add(
-                    "phone-number-left-to-right-border-radius"
-                );
+                    'phone-number-left-to-right-border-radius'
+                )
                 phoneNumberInput.classList.remove(
-                    "phone-number-right-to-left-border-radius"
-                );
+                    'phone-number-right-to-left-border-radius'
+                )
             }
         }
-    }, [selectedLanguage]);
+    }, [selectedLanguage])
     // user validations
-    const firstName = validationFinder("USER_FIRSTNAME")!;
-    const lastName = validationFinder("USER_LASTNAME")!;
-    const emailAddress = validationFinder("EMAIL_ADDRESS")!;
-    const phoneNumber = validationFinder("PHONE_NUMBER")!;
-    const password = validationFinder("PASSWORD")!;
+    const firstName = validationFinder('USER_FIRSTNAME')!
+    const lastName = validationFinder('USER_LASTNAME')!
+    const emailAddress = validationFinder('EMAIL_ADDRESS')!
+    const phoneNumber = validationFinder('PHONE_NUMBER')!
+    const password = validationFinder('PASSWORD')!
     // user regExpressions
-    const firstNameReg = new RegExp(firstName.pattern);
-    const lastNameReg = new RegExp(lastName.pattern);
-    const emailAddressReg = new RegExp(emailAddress.pattern);
-    const phoneNumberReg = new RegExp(phoneNumber.pattern);
-    const passwordReg = new RegExp(password.pattern);
+    const firstNameReg = new RegExp(firstName.pattern)
+    const lastNameReg = new RegExp(lastName.pattern)
+    const emailAddressReg = new RegExp(emailAddress.pattern)
+    const phoneNumberReg = new RegExp(phoneNumber.pattern)
+    const passwordReg = new RegExp(password.pattern)
 
     // create user validation schema
     const validationSchema = Yup.object({
@@ -128,57 +136,57 @@ const HelpSupport = () => {
             .required(password.notBlankMsgEn)
             .matches(passwordReg, password.patternMsgEn),
         confirmPassword: Yup.string()
-            .required("confirm password is required!")
-            .oneOf([Yup.ref("password")], "passwords must match"),
-    });
+            .required('confirm password is required!')
+            .oneOf([Yup.ref('password')], 'passwords must match'),
+    })
     // create user data submit
     const onSubmit = async (values: initialValuesType) => {
         if (!terms) {
-            setShowTermsError(true);
+            setShowTermsError(true)
             setTimeout(() => {
-                setShowTermsError(false);
-            }, 2000);
+                setShowTermsError(false)
+            }, 2000)
             if (scrollViewRef.current) {
-                scrollViewRef.current.scrollToEnd({ animated: true });
+                scrollViewRef.current.scrollToEnd({ animated: true })
             }
-            return;
+            return
         }
         // get all values other than confirm password
         const allValues = {
             ...values,
-        };
-        delete allValues.confirmPassword;
+        }
+        delete allValues.confirmPassword
         const registerUserValues = {
             ...allValues,
             phoneNumber: values.phoneNumber.toString(),
             countryName: name,
             countryCode: countryCode,
-        };
+        }
         const userData = {
             ...registerUserValues,
             roleId: 1,
-            channel: "Web",
+            channel: 'Web',
             address: userLocation?.address,
             city: userLocation?.city,
             state: userLocation?.state,
-        };
-        try {
-            setIsLoading(true);
-            await axios.post(signup_url, userData);
-            setIsShowModal(true);
-            setTimeout(() => {
-                setIsShowModal(false);
-                navigate("/login");
-            }, 2000);
-            setIsLoading(false);
-        } catch (error: any) {
-            setIsLoading(false);
-            toast(error.response.data.responseMessage, {
-                type: "error",
-                autoClose: 1000,
-            });
         }
-    };
+        try {
+            setIsLoading(true)
+            await axios.post(signup_url, userData)
+            setIsShowModal(true)
+            setTimeout(() => {
+                setIsShowModal(false)
+                navigate('/login')
+            }, 2000)
+            setIsLoading(false)
+        } catch (error: any) {
+            setIsLoading(false)
+            toast(error.response.data.responseMessage, {
+                type: 'error',
+                autoClose: 1000,
+            })
+        }
+    }
 
     return (
         <>
@@ -190,8 +198,8 @@ const HelpSupport = () => {
             >
                 <EnnvisionModal
                     doTask={() => {
-                        navigate("/login");
-                        setIsShowModal(false);
+                        navigate('/login')
+                        setIsShowModal(false)
                     }}
                     title="Account Created Successfully!"
                     description="Thank You For Joining Us And We're Excited To Have You On Board"
@@ -229,7 +237,9 @@ const HelpSupport = () => {
                                                         fontSize="16px"
                                                         border="none"
                                                         placeholder="Full Name"
-                                                        labelFamily={fontFamilyMedium}
+                                                        labelFamily={
+                                                            fontFamilyMedium
+                                                        }
                                                         className="customInput"
                                                     />
                                                 </div>
@@ -241,7 +251,9 @@ const HelpSupport = () => {
                                                         fontSize="16px"
                                                         label="Email"
                                                         border="none"
-                                                        labelFamily={fontFamilyMedium}
+                                                        labelFamily={
+                                                            fontFamilyMedium
+                                                        }
                                                         placeholder="abc@gmail.com"
                                                         className="customInput"
                                                     />
@@ -251,7 +263,9 @@ const HelpSupport = () => {
                                                         control="textarea"
                                                         type="text"
                                                         name="description"
-                                                        fontFamily={fontFamilyRegular}
+                                                        fontFamily={
+                                                            fontFamilyRegular
+                                                        }
                                                         // prefix={<img src={lock_icon} alt="lock_icon" />}
                                                         label="Message"
                                                         padding="10px"
@@ -277,7 +291,7 @@ const HelpSupport = () => {
                                                 </div>
                                             </div>
                                         </Form>
-                                    );
+                                    )
                                 }}
                             </Formik>
                         </div>
@@ -285,11 +299,10 @@ const HelpSupport = () => {
                 </div>
             </HelpSupportStyling>
         </>
-    );
-};
-
-export default HelpSupport;
-function setShowTermsError(arg0: boolean) {
-    throw new Error("Function not implemented.");
+    )
 }
 
+export default HelpSupport
+function setShowTermsError(arg0: boolean) {
+    throw new Error('Function not implemented.')
+}

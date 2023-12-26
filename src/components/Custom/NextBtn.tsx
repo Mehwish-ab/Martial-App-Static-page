@@ -1,15 +1,15 @@
-import { FiChevronRight } from "react-icons/fi";
-import { NextBtnStyle } from "./style";
+import { FiChevronRight } from 'react-icons/fi'
+import { NextBtnStyle } from './style'
 
 type nextBtnProps = {
-  clicked: () => void;
-};
+    clicked: () => void
+}
 const NextBtn: React.FC<nextBtnProps> = ({ clicked }) => {
-  return (
-    <NextBtnStyle type="button" onClick={clicked}>
-      <FiChevronRight />
-    </NextBtnStyle>
-  );
-};
+    return (
+        <NextBtnStyle type="button" onClick={clicked}>
+            <FiChevronRight />
+        </NextBtnStyle>
+    )
+}
 
-export default NextBtn;
+export default NextBtn

@@ -92,7 +92,7 @@ const EditInstructor = () => {
       <CreateSchoolStyled>
         <Formik
           initialValues={initialValues}
-          // validationSchema={validationSchema}
+          validationSchema={validationSchema}
           onSubmit={() => { }}
         >
           {(formik) => {
@@ -103,7 +103,7 @@ const EditInstructor = () => {
                 autoComplete="off"
               >
                 <div className="bg-white form">
-                  <h3 style={{ color: pureDark2 }}>Instructor Information</h3>
+                  <h3>Instructor Information</h3>
                   <Row>
                     <Col md="4" className="mt-20">
                       <FormControl

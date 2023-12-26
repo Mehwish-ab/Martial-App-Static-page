@@ -111,16 +111,7 @@ export const ForgetPasswordStyle = styled.div`
         line-height: normal;
       }
 
-
-      .custom-phone-input-label {
-        display: block;
-        color: rgb(27, 40, 63);
-        text-transform: capitalize;
-        font-size: 16px !important;
-        font-family: EnnVisionsMedium, sans-serif;
-        margin-bottom: 10px;
-      }
-
+  
       .closeButtonIcon{
         position: absolute;
         right: 0px;

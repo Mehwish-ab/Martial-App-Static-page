@@ -315,7 +315,6 @@ const RegisterUser = () => {
                           <div className="mt-20">
                             <label
                               htmlFor="phoneNumber"
-                              className="custom-phone-input-label"
                             >
                               {getLabelByKey(
                                 SCREEN_LABEL_KEYS.mobileFieldTitle
@@ -327,6 +326,12 @@ const RegisterUser = () => {
                               placeholder={getLabelByKey(
                                 SCREEN_LABEL_KEYS.mobileFieldPlaceholder
                               )}
+                              className={
+                                formik.errors.phoneNumber &&
+                                  formik.touched.phoneNumber
+                                  ? "is-invalid_phone"
+                                  : "custom-phone-input-label"
+                              }
                               value={formik.values.phoneNumber}
                               onChange={(e: string) => {
                                 formik.setValues({
@@ -337,23 +342,7 @@ const RegisterUser = () => {
                               withCountryCallingCode
                               countryCallingCodeEditable
                             />
-                            {/* <CustomPhoneInput
-                            countryNumber={countryCode}
-                            placeholder={getLabelByKey(
-                              SCREEN_LABEL_KEYS.mobileFieldPlaceholder
-                            )}
-                            phoneLength={phoneNumberLength}
-                            countryFlag={countryFlagURL}
-                            phoneValueHandler={(value: number | string) =>
-                              formik.setFieldValue("phoneNumber", value)
-                            }
-                            label={getLabelByKey(
-                              SCREEN_LABEL_KEYS.mobileFieldTitle
-                            )}
-                            value={formik.values.phoneNumber}
-                            name="phoneNumber"
-                            countryName={name}
-                          /> */}
+
                             <div className="mt-1">
                               <ErrorMessage
                                 name="phoneNumber"

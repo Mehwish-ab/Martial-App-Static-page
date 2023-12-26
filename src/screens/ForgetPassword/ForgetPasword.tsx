@@ -115,15 +115,13 @@ const ForgetPassword = () => {
                         onFinish={formik.handleSubmit}
                         autoComplete="off"
                       >
-                        <div className="phone-input-fields w-100">
+                        <div className="phone-input-fields mt-10 w-100">
                           <label
-                            className="custom-phone-input-label"
                             htmlFor="phoneNumber"
                           >
-                            {/* {getLabelByKey(
+                            {getLabelByKey(
                               FORGOT_SCREEN_LABEL_KEYS.mobileFieldTitle
-                            )} */}
-                            Phone
+                            )}
                           </label>
                           <Input
                             defaultCountry="GB"
@@ -131,6 +129,12 @@ const ForgetPassword = () => {
                             placeholder={getLabelByKey(
                               FORGOT_SCREEN_LABEL_KEYS.mobileFieldPlaceholder
                             )}
+                            className={
+                              formik.errors.phoneNumber &&
+                                formik.touched.phoneNumber
+                                ? "is-invalid_phone"
+                                : "custom-phone-input-label"
+                            }
                             name="phoneNumber"
                             value={formik.values.phoneNumber}
                             onChange={(e: any) => {

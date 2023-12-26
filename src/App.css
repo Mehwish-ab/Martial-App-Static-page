@@ -266,7 +266,7 @@ button {
 
 .PhoneInput {
   width: 100%;
-  height: 50px;
+  height: 52px;
 }
 
 .PhoneInputCountrySelect option{
@@ -299,7 +299,7 @@ button {
 
 .PhoneInput .PhoneInputCountry {
   width: 80px;
-  height: 50px;
+  height: 52px;
   position: relative;
   padding: 0 11px;
   font-weight: normal;
@@ -320,7 +320,7 @@ button {
 }
 .PhoneInput input {
   width: 100%;
-  height: 50px;
+  height: 52px;
   padding: 0 11px 0 0;
   background-color: transparent;
   border: 1px solid #E0E0E0;
@@ -354,10 +354,51 @@ button {
   font-family: EnnVisions;
   margin-bottom: 7px;
 }
-.PhoneInput:hover input, .PhoneInput:hover .PhoneInputCountry {
+.PhoneInput:hover input, .PhoneInput:hover .PhoneInputCountry  {
   border-color: rgb(64, 169, 255);
   border-right-width: 1px;
   z-index: 1;
+}
+
+.is-invalid_phone {
+  height: 52px;
+  border: 1px solid #E43535;
+  background: white;
+  width: 100%;
+  width: -moz-available;
+  outline: none;
+  border-radius: 10px;
+  line-height: normal;
+  font-size: 16px;
+  transition: none;
+  .PhoneInputCountry{
+    border: none;
+  }
+  input{
+    color: #4F4F4F;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    font-family: EnnVisions;
+    border: 1px solid rgb(228, 53, 53);
+    border-right: none;
+    border-left: none;
+    transition: none;
+  }
+}
+.is-invalid_phone.PhoneInput:hover .PhoneInputCountry{
+  border: none;
+  transition: none;
+}
+.is-invalid_phone:hover {
+  border-color: rgb(64, 169, 255);
+  z-index: 1;
+  position: relative;
+
+  input{
+    border-color: rgb(64, 169, 255);
+  }
 }
 
 .text-14 {

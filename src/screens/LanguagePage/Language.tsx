@@ -2,7 +2,7 @@ import { Col, Row } from 'react-bootstrap'
 import { LanguageStyling } from './style'
 import UK_Flag from '../../assets/icons/ic_uk_flag.svg'
 
-const Language = () => {
+const Language: unknown = () => {
     return (
         <LanguageStyling>
             <div className="language">
@@ -12,7 +12,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -23,7 +23,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -36,7 +36,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -47,7 +47,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -62,7 +62,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -73,7 +73,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -86,7 +86,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -97,7 +97,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -108,7 +108,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -119,7 +119,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -130,7 +130,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -141,7 +141,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -154,7 +154,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -167,7 +167,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -178,7 +178,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -189,7 +189,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -200,7 +200,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -211,7 +211,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -222,7 +222,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -233,7 +233,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -244,7 +244,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -255,7 +255,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -266,7 +266,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -277,7 +277,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -288,7 +288,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -299,7 +299,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -310,7 +310,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -321,7 +321,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -332,7 +332,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -343,7 +343,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -354,7 +354,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -365,7 +365,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -376,7 +376,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -387,7 +387,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -398,7 +398,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -409,7 +409,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -420,7 +420,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -431,7 +431,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -442,7 +442,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -453,7 +453,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -464,7 +464,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}
@@ -475,7 +475,7 @@ const Language = () => {
                     <Col md="3">
                         <div className="d-flex align-items-center column-gap-3 mb-20">
                             <img
-                                src={UK_Flag}
+                                src={UK_Flag as string}
                                 alt="UK"
                                 width={26}
                                 height={16}

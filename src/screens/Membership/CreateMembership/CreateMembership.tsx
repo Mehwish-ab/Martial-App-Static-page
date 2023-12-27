@@ -23,7 +23,7 @@ import { CreateMembershipInitialValues } from '../constant'
 import EnnvisionModal from '../../../components/CustomModals/EnnvisionModal'
 import CustomModal from '../../../components/Modal/CustomModal'
 import OverlayImages from '../../Home/OverlayImages/OverlayImages'
-const CreateMembership = () => {
+const CreateMembership = (): JSX.Element => {
     const [isLoading, setIsLoading] = useState(false)
     const [isShowModal, setIsShowModal] = useState(false)
     const navigate = useNavigate()
@@ -55,7 +55,7 @@ const CreateMembership = () => {
         Liabilitywaivers: '',
     }
 
-    const onSubmit = async () => {
+    const onSubmit = async (): Promise<void> => {
         try {
             setIsShowModal(true)
             setTimeout(() => {
@@ -63,7 +63,7 @@ const CreateMembership = () => {
                 navigate('/membership/list')
             }, 3000)
             setIsLoading(false)
-        } catch (error: any) {}
+        } catch (error: unknown) {}
     }
     return (
         <CreateClassStyled>
@@ -130,7 +130,7 @@ const CreateMembership = () => {
                                                             suffix={
                                                                 <img
                                                                     src={
-                                                                        DateCalander
+                                                                        DateCalander as string
                                                                     }
                                                                     alt=""
                                                                     width={25}
@@ -157,7 +157,7 @@ const CreateMembership = () => {
                                                             suffix={
                                                                 <img
                                                                     src={
-                                                                        DateCalander
+                                                                        DateCalander as string
                                                                     }
                                                                     alt=""
                                                                     width={25}
@@ -228,7 +228,9 @@ const CreateMembership = () => {
                                                             placeholder="300:00"
                                                             suffix={
                                                                 <img
-                                                                    src={doller}
+                                                                    src={
+                                                                        doller as string
+                                                                    }
                                                                     alt=""
                                                                     width={13}
                                                                     height={27}
@@ -285,7 +287,7 @@ const CreateMembership = () => {
                                             placeholder="30:00"
                                             suffix={
                                                 <img
-                                                    src={doller}
+                                                    src={doller as string}
                                                     alt=""
                                                     width={13}
                                                     height={27}
@@ -304,7 +306,7 @@ const CreateMembership = () => {
                                             placeholder="30:00"
                                             suffix={
                                                 <img
-                                                    src={doller}
+                                                    src={doller as string}
                                                     alt=""
                                                     width={13}
                                                     height={27}
@@ -323,7 +325,7 @@ const CreateMembership = () => {
                                             placeholder="30:00"
                                             suffix={
                                                 <img
-                                                    src={doller}
+                                                    src={doller as string}
                                                     alt=""
                                                     width={13}
                                                     height={27}
@@ -342,7 +344,7 @@ const CreateMembership = () => {
                                             placeholder="30:00"
                                             suffix={
                                                 <img
-                                                    src={doller}
+                                                    src={doller as string}
                                                     alt=""
                                                     width={13}
                                                     height={27}
@@ -376,7 +378,7 @@ const CreateMembership = () => {
                                             placeholder="Monday, October 27, 2023"
                                             suffix={
                                                 <img
-                                                    src={DateCalander}
+                                                    src={DateCalander as string}
                                                     alt=""
                                                     width={25}
                                                     height={25}
@@ -396,7 +398,7 @@ const CreateMembership = () => {
                                             placeholder="Monday, October 27, 2023"
                                             suffix={
                                                 <img
-                                                    src={DateCalander}
+                                                    src={DateCalander as string}
                                                     alt=""
                                                     width={25}
                                                     height={25}
@@ -416,7 +418,7 @@ const CreateMembership = () => {
                                             placeholder="Monday, October 27, 2023"
                                             suffix={
                                                 <img
-                                                    src={DateCalander}
+                                                    src={DateCalander as string}
                                                     alt=""
                                                     width={25}
                                                     height={25}
@@ -436,7 +438,7 @@ const CreateMembership = () => {
                                             placeholder="20:00"
                                             suffix={
                                                 <img
-                                                    src={doller}
+                                                    src={doller as string}
                                                     alt=""
                                                     width={13}
                                                     height={27}
@@ -499,7 +501,7 @@ const CreateMembership = () => {
                                                 className="checkBoxPara"
                                                 id="agreement"
                                             >
-                                                Agreement to follow the app's
+                                                Agreement to follow the apps
                                                 guidelines and policies
                                             </p>
                                         </form>

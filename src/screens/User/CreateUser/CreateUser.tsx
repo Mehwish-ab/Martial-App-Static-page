@@ -42,14 +42,14 @@ type initialValuesType = {
     confirmPassword?: string
 }
 
-const RegisterUser = () => {
+const RegisterUser = (): JSX.Element => {
     // const [isShowModal, setIsShowModal] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
     const [terms, setTerms] = useState(false)
     const [showTermsError, setShowTermsError] = useState(false)
     const { getLabelByKey } = useScreenTranslation('registerScreen')
 
-    const scrollViewRef = useRef<any>()
+    const scrollViewRef = useRef<unknown>()
     const navigate = useNavigate()
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
@@ -149,7 +149,7 @@ const RegisterUser = () => {
             .oneOf([Yup.ref('password')], 'passwords must match'),
     })
     // create user data submit
-    const onSubmit = async (values: initialValuesType) => {
+    const onSubmit = async (values: initialValuesType): Promise<void> => {
         if (!terms) {
             setShowTermsError(true)
             setTimeout(() => {
@@ -181,7 +181,7 @@ const RegisterUser = () => {
         }
         try {
             setIsLoading(true)
-            const response = await axios.post(signup_url, userData)
+            await axios.post(signup_url, userData)
             // const successMessage = response.data.responseMessage;
             toast(
                 <MessageModal
@@ -195,7 +195,7 @@ const RegisterUser = () => {
             )
             navigate('/login')
             setIsLoading(false)
-        } catch (error: any) {
+        } catch (error: unknown) {
             setIsLoading(false)
             const errorMessage = error.response?.data?.responseMessage
             toast(errorMessage, {

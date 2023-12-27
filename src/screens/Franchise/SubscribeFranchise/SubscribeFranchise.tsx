@@ -1,16 +1,14 @@
 import { SubscribeFranchiseStyled } from './styles'
-import AliceCarousel from 'react-alice-carousel'
 import 'react-alice-carousel/lib/alice-carousel.css'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import {
     fontFamilyMedium,
     lightBlue3,
     maastrichtBlue,
-    pureDark,
 } from '../../../components/GlobalStyle'
 
-const SubscribeFranchise = () => {
-    const CarouselItem = () => {
+const SubscribeFranchise = (): JSX.Element => {
+    const CarouselItem = (): JSX.Element => {
         return (
             <div className="plan">
                 <div className="plan-heading">Basic Martial Arts Plan</div>

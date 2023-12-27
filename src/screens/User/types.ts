@@ -19,7 +19,7 @@ export interface userProfileTypes {
     likedNewsFeedList: LikedNewsFeedList
     storiesNewsFeedList: StoriesNewsFeedList
     userNewsFeedList: UserNewsFeedList
-    favouriteNewsFeedList: any
+    favouriteNewsFeedList: unknown
     professionalDetails: ProfessionalDetails
     active: boolean
     createdAt: string
@@ -77,15 +77,15 @@ export interface OwnerData {
 export interface LastLikeAndComment {
     isLiked: boolean
     totalLikes: number
-    lastLikedUserId: any
-    lastLikedUserFirstName: any
-    lastLikedUserLastName: any
+    lastLikedUserId: unknown
+    lastLikedUserFirstName: unknown
+    lastLikedUserLastName: unknown
     totalComments: number
-    lastCommentUserId: any
-    lastCommentUserFirstName: any
-    lastCommentUserLastName: any
-    lastCommentText: any
-    lastCommentUserProfilePicture: any
+    lastCommentUserId: unknown
+    lastCommentUserFirstName: unknown
+    lastCommentUserLastName: unknown
+    lastCommentText: unknown
+    lastCommentUserProfilePicture: unknown
 }
 
 export interface PropertiesList {
@@ -139,11 +139,11 @@ export interface LastLikeAndComment2 {
     lastLikedUserFirstName?: string
     lastLikedUserLastName?: string
     totalComments: number
-    lastCommentUserId: any
-    lastCommentUserFirstName: any
-    lastCommentUserLastName: any
-    lastCommentText: any
-    lastCommentUserProfilePicture: any
+    lastCommentUserId: unknown
+    lastCommentUserFirstName: unknown
+    lastCommentUserLastName: unknown
+    lastCommentText: unknown
+    lastCommentUserProfilePicture: unknown
 }
 
 export interface OwnerData2 {
@@ -169,14 +169,14 @@ export interface LikedNewsFeedList {
 export interface LikedList {
     newsFeedId: number
     postType: string
-    postId: any
+    postId: unknown
     address: string
     cityName: string
-    professionTypeId: any
-    professionalId: any
-    professionalBusinessName: any
-    professionalBannerImage: any
-    postLayout: any
+    professionTypeId: unknown
+    professionalId: unknown
+    professionalBusinessName: unknown
+    professionalBannerImage: unknown
+    postLayout: unknown
     description: string
     propertyId: number
     propertyPurpose: string
@@ -188,7 +188,7 @@ export interface LikedList {
     propertyUnit: string
     propertyOriginalPrice: number
     propertyDiscountPrice: number
-    propertyCurrencySymbol: any
+    propertyCurrencySymbol: unknown
     imagesURLS: string[]
     videoURL: string
     contactRequestPermission: boolean
@@ -200,7 +200,7 @@ export interface LikedList {
     saveFavourite: boolean
     isFavourite: boolean
     createdDateTime: string
-    updatedDateTime: any
+    updatedDateTime: unknown
     isEdited: boolean
     lastLikeAndComment: LastLikeAndComment3
     ownerData: OwnerData3
@@ -213,11 +213,11 @@ export interface LastLikeAndComment3 {
     lastLikedUserFirstName: string
     lastLikedUserLastName: string
     totalComments: number
-    lastCommentUserId: any
-    lastCommentUserFirstName: any
-    lastCommentUserLastName: any
-    lastCommentText: any
-    lastCommentUserProfilePicture: any
+    lastCommentUserId: unknown
+    lastCommentUserFirstName: unknown
+    lastCommentUserLastName: unknown
+    lastCommentText: unknown
+    lastCommentUserProfilePicture: unknown
 }
 
 export interface OwnerData3 {
@@ -271,11 +271,11 @@ export interface LastLikeAndComment4 {
     lastLikedUserFirstName?: string
     lastLikedUserLastName?: string
     totalComments: number
-    lastCommentUserId: any
-    lastCommentUserFirstName: any
-    lastCommentUserLastName: any
-    lastCommentText: any
-    lastCommentUserProfilePicture: any
+    lastCommentUserId: unknown
+    lastCommentUserFirstName: unknown
+    lastCommentUserLastName: unknown
+    lastCommentText: unknown
+    lastCommentUserProfilePicture: unknown
 }
 
 export interface OwnerData4 {
@@ -304,23 +304,23 @@ export interface NewsFeedList {
     postId: number
     address: string
     cityName: string
-    professionTypeId: any
-    professionalId: any
-    professionalBusinessName: any
-    professionalBannerImage: any
+    professionTypeId: unknown
+    professionalId: unknown
+    professionalBusinessName: unknown
+    professionalBannerImage: unknown
     postLayout: number
     description: string
-    propertyId: any
-    propertyPurpose: any
-    propertyType: any
-    propertyTitle: any
+    propertyId: unknown
+    propertyPurpose: unknown
+    propertyType: unknown
+    propertyTitle: unknown
     propertyBathroom: number
     propertyBedroom: number
-    propertySize: any
-    propertyUnit: any
+    propertySize: unknown
+    propertyUnit: unknown
     propertyOriginalPrice: number
     propertyDiscountPrice: number
-    propertyCurrencySymbol: any
+    propertyCurrencySymbol: unknown
     imagesURLS: string[]
     videoURL: string
     contactRequestPermission: boolean
@@ -335,21 +335,21 @@ export interface NewsFeedList {
     lastLikeAndComment: LastLikeAndComment5
     ownerData: OwnerData5
     createdDateTime: string
-    updatedDateTime: any
+    updatedDateTime: unknown
 }
 
 export interface LastLikeAndComment5 {
     isLiked: boolean
     totalLikes: number
-    lastLikedUserId: any
-    lastLikedUserFirstName: any
-    lastLikedUserLastName: any
+    lastLikedUserId: unknown
+    lastLikedUserFirstName: unknown
+    lastLikedUserLastName: unknown
     totalComments: number
-    lastCommentUserId: any
-    lastCommentUserFirstName: any
-    lastCommentUserLastName: any
-    lastCommentText: any
-    lastCommentUserProfilePicture: any
+    lastCommentUserId: unknown
+    lastCommentUserFirstName: unknown
+    lastCommentUserLastName: unknown
+    lastCommentText: unknown
+    lastCommentUserProfilePicture: unknown
 }
 
 export interface OwnerData5 {

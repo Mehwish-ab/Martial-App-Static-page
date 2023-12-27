@@ -1,21 +1,55 @@
 import React from 'react'
-import { Dropdown, Space } from 'antd'
+import { Dropdown, Space, Table } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import { useSelector } from 'react-redux'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 import DummyData from './dummyData.json'
-import { Table } from 'antd'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
 import { TimeTableDataType } from '../../../redux/features/TimeTable/TimeTableSlice'
 import { RootState } from '../../../redux/store'
 import { ColumnsType } from 'antd/lib/table'
 import { InformationTimeTableStyle } from './styles'
-
+const RenderTableTitle = (): JSX.Element => {
+    return (
+        <>
+            <h3 className="timetable-heading">Session Timings by Day</h3>
+        </>
+    )
+}
 const InformationTimeTableSheet: React.FC = () => {
     const navigate = useNavigate()
 
     const { loading } = useSelector((state: RootState) => state.timeTableData)
+    const navigation = (
+        record: TimeTableDataType,
+        redirectTo: string
+    ): void => {
+        switch (redirectTo) {
+            case 'edit':
+                navigate(`/timetable/edit/${record.timeTableId}`, {
+                    state: {
+                        branchToEdit: record as TimeTableDataType,
+                    },
+                })
+                break
+
+            case 'view':
+                navigate(`/timetable/view/${record.timeTableId}`, {
+                    state: {
+                        branch: record as TimeTableDataType,
+                    },
+                })
+                break
+
+            case 'subscribe':
+                navigate(`/timetable/subscribe/${record.timeTableId}`, {
+                    state: {
+                        branch: record as TimeTableDataType,
+                    },
+                })
+        }
+    }
 
     const columns: ColumnsType<TimeTableDataType> = [
         {
@@ -27,10 +61,10 @@ const InformationTimeTableSheet: React.FC = () => {
             title: 'Start Time',
             dataIndex: 'createTimeTableStartDate',
             key: 'createTimeTableStartDate',
-            render: (DummyData) => {
+            render: (DummyDataa) => {
                 return (
                     <div className="list-item mb-0">
-                        <div className="list-item-value ms-2">{DummyData}</div>
+                        <div className="list-item-value ms-2">{DummyDataa}</div>
                     </div>
                 )
             },
@@ -39,10 +73,10 @@ const InformationTimeTableSheet: React.FC = () => {
             title: 'End Date',
             dataIndex: 'createTimeTableEndDate',
             key: 'createTimeTableEndDate',
-            render: (DummyData) => {
+            render: (DummyDatas) => {
                 return (
                     <div className="list-item mb-0">
-                        <div className="list-item-value ms-2">{DummyData}</div>
+                        <div className="list-item-value ms-2">{DummyDatas}</div>
                     </div>
                 )
             },
@@ -51,10 +85,12 @@ const InformationTimeTableSheet: React.FC = () => {
             title: 'Start Break',
             dataIndex: 'createTimeTableStartBreak',
             key: 'createTimeTableStartBreak',
-            render: (DummyData) => {
+            render: (DummyDataas) => {
                 return (
                     <div className="list-item mb-0">
-                        <div className="list-item-value ms-2">{DummyData}</div>
+                        <div className="list-item-value ms-2">
+                            {DummyDataas}
+                        </div>
                     </div>
                 )
             },
@@ -63,10 +99,12 @@ const InformationTimeTableSheet: React.FC = () => {
             title: 'End Break',
             dataIndex: 'createTimeTableEndBreak',
             key: 'createTimeTableEndBreak',
-            render: (DummyData) => {
+            render: (DummyDatass) => {
                 return (
                     <div className="list-item mb-0">
-                        <div className="list-item-value ms-2">{DummyData}</div>
+                        <div className="list-item-value ms-2">
+                            {DummyDatass}
+                        </div>
                     </div>
                 )
             },
@@ -75,11 +113,11 @@ const InformationTimeTableSheet: React.FC = () => {
             title: 'Status',
             dataIndex: 'createTimeTableStatus',
             key: 'createTimeTableStatus',
-            render: (DummyData) => {
+            render: (DummyDataass) => {
                 return (
                     <div>
-                        <button>{DummyData}</button>
-                        <img src={StatusActiveError} alt="images" />
+                        <button>{DummyDataass}</button>
+                        <img src={StatusActiveError as string} alt="images" />
                     </div>
                 )
             },
@@ -109,7 +147,7 @@ const InformationTimeTableSheet: React.FC = () => {
                     <Space size="middle">
                         <Dropdown menu={{ items }}>
                             <img
-                                src={actionMenuTogglerIcon}
+                                src={actionMenuTogglerIcon as string}
                                 alt="action menu"
                                 style={{ cursor: 'pointer' }}
                             />
@@ -120,33 +158,6 @@ const InformationTimeTableSheet: React.FC = () => {
         },
     ]
 
-    const navigation = (record: TimeTableDataType, redirectTo: string) => {
-        switch (redirectTo) {
-            case 'edit':
-                navigate(`/timetable/edit/${record.timeTableId}`, {
-                    state: {
-                        branchToEdit: record as TimeTableDataType,
-                    },
-                })
-                break
-
-            case 'view':
-                navigate(`/timetable/view/${record.timeTableId}`, {
-                    state: {
-                        branch: record as TimeTableDataType,
-                    },
-                })
-                break
-
-            case 'subscribe':
-                navigate(`/timetable/subscribe/${record.timeTableId}`, {
-                    state: {
-                        branch: record as TimeTableDataType,
-                    },
-                })
-        }
-    }
-
     console.log('DummyData', DummyData)
     return (
         <>
@@ -154,7 +165,7 @@ const InformationTimeTableSheet: React.FC = () => {
             <InformationTimeTableStyle>
                 <Table
                     columns={columns}
-                    dataSource={DummyData as any}
+                    dataSource={DummyData as unknown as TimeTableDataType[]}
                     title={() => <RenderTableTitle />}
                     scroll={{ x: true }}
                     pagination={false}
@@ -164,11 +175,3 @@ const InformationTimeTableSheet: React.FC = () => {
     )
 }
 export default InformationTimeTableSheet
-
-const RenderTableTitle = () => {
-    return (
-        <>
-            <h3 className="timetable-heading">Session Timings by Day</h3>
-        </>
-    )
-}

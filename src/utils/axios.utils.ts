@@ -11,10 +11,10 @@ const authorizedClient = axios.create({ baseURL })
 
 type axiosRequest = AxiosRequestConfig
 // normal axios request
-export const axiosRequest = ({ ...options }: axiosRequest) => {
+export const axiosRequest = ({ ...options }: axiosRequest): unknown => {
     console.log({ options })
-    const onSuccess = (response: any) => response
-    const onError = (error: any) => {
+    const onSuccess = (response: unknown): unknown => response
+    const onError = (error: unknown): unknown => {
         // optionaly catch errors and add additional logging here
         return error
     }
@@ -22,10 +22,12 @@ export const axiosRequest = ({ ...options }: axiosRequest) => {
 }
 
 // authorized axios request
-export const authorizedAxiosRequest = ({ ...options }: axiosRequest) => {
+export const authorizedAxiosRequest = ({
+    ...options
+}: axiosRequest): unknown => {
     console.log({ options })
-    const onSuccess = (response: any) => response
-    const onError = (error: any) => {
+    const onSuccess = (response: unknown): unknown => response
+    const onError = (error: unknown): unknown => {
         // optionaly catch errors and add additional logging here
         return error
     }

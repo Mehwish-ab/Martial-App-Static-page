@@ -15,19 +15,13 @@ export type registerPhoneTypes = {
     phoneNumber: string
 }
 
-const RegisterPhone = () => {
+const RegisterPhone = (): JSX.Element => {
     const { loading, handleSubmit, error } = useGenerateOtp()
 
     // get Validations from redux appData
     const {
         countryName: {
-            results: {
-                countryCode,
-                countryFlagURL,
-                examplePhoneNumber,
-                name,
-                phoneNumberLength,
-            },
+            results: { countryCode, countryFlagURL, examplePhoneNumber, name },
         },
         validations,
     } = useAppSelector((state) => state.appData.data)
@@ -54,7 +48,7 @@ const RegisterPhone = () => {
             <RegisterPhoneStyle>
                 <div className="inner-container">
                     <ImgContainer
-                        src={logo}
+                        src={logo as string}
                         alt="logo"
                         height="50px"
                         width="164px"

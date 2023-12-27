@@ -35,25 +35,25 @@ export type creditCardTypes = {
     isDefault: boolean
 }
 
-const PaymentAndWallet = () => {
+const PaymentAndWallet = (): JSX.Element => {
     const navigate = useNavigate()
     const [cardsData, setCardsData] = useState([] as creditCardTypes[])
-    const [error, setError] = useState(null as any)
+    const [error, setError] = useState(null as unknown)
     const [loading, setLoading] = useState(false)
     const { data: loginData } = useAppSelector(
         (state: RootState) => state.loginData
     )
-    const deleteCardToastId = useRef<any>(null)
-    const cardDefaultToastId = useRef<any>(null)
+    const deleteCardToastId = useRef<unknown>(null)
+    const cardDefaultToastId = useRef<unknown>(null)
 
     // credit card brands
-    const cardBrands: any = {
+    const cardBrands: unknown = {
         VisaCard: visa,
         Mastercard: master,
     }
 
     // credit card toggler
-    const togglePayment = (index: number) => {
+    const togglePayment = (): void => {
         // const data = [...payments];
         // const unSelectData = data.map((paymentData) => {
         //   return paymentData.select === true
@@ -68,7 +68,7 @@ const PaymentAndWallet = () => {
     const makeCardDefaultPromise = async (
         cardId: number,
         isDefault: boolean
-    ) => {
+    ): Promise<void> => {
         // if card is already default then do nothing
         if (isDefault) return
         try {
@@ -98,14 +98,41 @@ const PaymentAndWallet = () => {
             })
 
             console.log({ data })
-        } catch (error) {
-            console.log({ error })
+        } catch (errors) {
+            console.log({ errors })
             cardDefaultToastId.current = toast('something went wrong ', {
                 type: 'error',
             })
         }
     }
-
+    const creditCardListHandler = async () => {
+        try {
+            setLoading(true)
+            const { data } = await axios.post(
+                credit_cards__list_url,
+                {
+                    userId: loginData?.userDetails.id,
+                },
+                {
+                    headers: {
+                        ...authorizationToken(loginData!),
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+            setCardsData(data.results)
+            setLoading(false)
+            console.log(data)
+        } catch (error) {
+            const { data } = error.response
+            if (data.responseCode === '400') {
+                setCardsData([])
+            }
+            setError(data)
+            console.log({ error })
+            setLoading(false)
+        }
+    }
     // delete credit card
     type deleteCardTypes = {
         cardId: number
@@ -116,7 +143,7 @@ const PaymentAndWallet = () => {
         cardId,
         stripeCardId,
         userId,
-    }: deleteCardTypes) => {
+    }: deleteCardTypes): Promise<void> => {
         try {
             setLoading(true)
             const { data } = await axios.post(
@@ -152,34 +179,7 @@ const PaymentAndWallet = () => {
     }
 
     // handle credit cards list
-    const creditCardListHandler = async () => {
-        try {
-            setLoading(true)
-            const { data } = await axios.post(
-                credit_cards__list_url,
-                {
-                    userId: loginData?.userDetails.id,
-                },
-                {
-                    headers: {
-                        ...authorizationToken(loginData!),
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-            setCardsData(data.results)
-            setLoading(false)
-            console.log(data)
-        } catch (error: any) {
-            const { data } = error.response
-            if (data.responseCode === '400') {
-                setCardsData([])
-            }
-            setError(data)
-            console.log({ error })
-            setLoading(false)
-        }
-    }
+
     useEffect(() => {
         creditCardListHandler()
     }, [])
@@ -231,9 +231,9 @@ const PaymentAndWallet = () => {
                                                                     )
                                                                 }
                                                                 src={
-                                                                    isDefault
+                                                                    (isDefault
                                                                         ? selectIcon
-                                                                        : unselectIcon
+                                                                        : unselectIcon) as string
                                                                 }
                                                                 alt={`${
                                                                     isDefault
@@ -267,7 +267,9 @@ const PaymentAndWallet = () => {
                                                                 </div>
                                                             </div>
                                                             <img
-                                                                src={deleteIcon}
+                                                                src={
+                                                                    deleteIcon as string
+                                                                }
                                                                 className="fs-4 ms-auto mt-2 mb-3 delete-icon"
                                                                 onClick={() =>
                                                                     deleteCreditCard(
@@ -314,7 +316,7 @@ const PaymentAndWallet = () => {
                             <div className="inner-section">
                                 <div className="center-section">
                                     <img
-                                        src={placeholder}
+                                        src={placeholder as string}
                                         className="right-side-placeholder"
                                         alt="placeholder"
                                     />

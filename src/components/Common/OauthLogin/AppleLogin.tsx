@@ -9,7 +9,7 @@ const AppleLogin = ({ usecase }: OauthPropTypes) => {
     const { handleSignin, handleSignup } = useOauthLogin()
     const onResolve = (res: IResolveParams) => {
         console.log('apple success response:', res)
-        let payload: OauthApiValueTypes = {
+        const payload: OauthApiValueTypes = {
             authProvider: 'APPLE',
             accessToken: res.data?.authorization?.code || '',
         }

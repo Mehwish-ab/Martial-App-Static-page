@@ -1,25 +1,19 @@
 import { CreateSchoolStyled } from '../../CreateSchool/styles'
-import profileImg from '../../../../assets/images/create_school_user_profile.svg'
-import banner from '../../../../assets/images/create_school_banner.svg'
-import { ErrorMessage, Formik, useFormik, useFormikContext } from 'formik'
+import { ErrorMessage, Formik } from 'formik'
 import { Form } from 'antd'
 
 import { Col, Row } from 'react-bootstrap'
-import searchIcon from '../../../../assets/icons/ic_search.svg'
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { RootState } from '../../../redux/store'
-import useCreateSchool from '../../../hooks/useCreateSchool'
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import {
     BELTS_SELECT_OPTIONS,
     SelectOptionsDataTypes,
 } from '../../Home/constants'
 import { validationFinder } from '../../../utils/utilities'
 import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
-import AppLayout from '../../../components/Layout/Layout'
-import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import FormControl from '../../../components/FormControl'
 import {
     fontFamilyMedium,
@@ -27,19 +21,16 @@ import {
     lightBlue3,
     pureDark,
 } from '../../../components/GlobalStyle'
-import SearchGoogleLocation from '../../../components/Common/SearchGoogleLocation/SearchGoogleLocation'
 import CustomPhoneInput from '../../../components/CustomPhoneInput/CustomPhoneInput'
-import CheckboxesList from '../../../components/CustomCheckbox/CheckboxesList'
-import PaymentInformation from '../../../components/Common/PaymentInformation/PaymentInformation'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import { CreateFranchiseInitialValues } from '../constant'
 import { useEffect, useState } from 'react'
-import { FranchiseDataType } from '../../../redux/features/franchise/franchiseSlice'
 import useFranchise from '../hooks/useFranchise'
 import PlacesAutoCompleteInput from '../../../maps/PlacesAutocomplete'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
+import { FranchiseDataType } from '../../../redux/features/franchise/franchiseSlice'
 
-const EditFranchise = () => {
+const EditFranchise = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('franchiseUpdate')
     const {
         statusData: { activities, facilities },
@@ -51,34 +42,36 @@ const EditFranchise = () => {
     // );
     const { loading, editFranchise, getFranchisebyid } = useFranchise()
     const { franchiseId } = useParams()
-    const location = useLocation()
-    const franchiseToEdit: FranchiseDataType = location.state.franchiseToEdit
     // const [franchiseToEdit, setfranchiseToEdit] = useState({});
     // const handleSubmit = () => {};
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
-    const [franchiseDatas, setfranchiseDatas] = useState<any>({})
+    const [franchiseDatas, setfranchiseDatas] = useState<
+        FranchiseDataType | undefined
+    >()
 
     // console.log("franchisetoedit", language, currency);
 
     const franchiseName = validationFinder('BUSINESS_NAME')!
     const franchiseNameReg = new RegExp(franchiseName.pattern)
-    const address = validationFinder('ADDRESS')!
-    const addressReg = new RegExp(address.pattern)
     const franchisePhoneNumber = validationFinder('PHONE_NUMBER')!
 
-    const handleEditSchool = async (value: any) => {
+    const handleEditSchool = async (
+        value: CreateFranchiseInitialValues
+    ): Promise<void> => {
         console.log('zamisha', value)
 
-        await editFranchise(franchiseId, value)
+        await editFranchise(Number(franchiseId), value)
     }
 
-    const createOptions = (list: DataTypesWithIdAndMultipleLangLabel[]) => {
-        let options: SelectOptionsDataTypes[] = []
+    const createOptions = (
+        list: DataTypesWithIdAndMultipleLangLabel[]
+    ): SelectOptionsDataTypes[] => {
+        const options: SelectOptionsDataTypes[] = []
         list.forEach((item) => {
-            let obj = {
-                label: (item as any)[selectedLanguage],
+            const obj = {
+                label: (item as unknown as string)[Number(selectedLanguage)],
                 value: item.id,
             }
 
@@ -87,16 +80,18 @@ const EditFranchise = () => {
 
         return options
     }
-    async function fetchinfo() {
-        const data = await getFranchisebyid(franchiseId)
-        setfranchiseDatas(data)
-    }
+
     useEffect(() => {
+        const fetchinfo = async (): Promise<void> => {
+            const data = await getFranchisebyid(Number(franchiseId))
+            setfranchiseDatas(data)
+        }
         fetchinfo()
-    }, [])
+    }, [franchiseId, getFranchisebyid])
+
     const initialValues: CreateFranchiseInitialValues = {
-        franchiseName: franchiseDatas.franchiseName,
-        franchiseType: franchiseDatas.franchiseType,
+        franchiseName: franchiseDatas ? franchiseDatas.franchiseName : '--',
+        franchiseType: franchiseDatas ? franchiseDatas.franchiseType : '--',
         address: franchiseDatas ? franchiseDatas?.address : '--',
         franchisePhoneNumber: franchiseDatas
             ? franchiseDatas?.phoneNumber
@@ -109,8 +104,12 @@ const EditFranchise = () => {
         selectedFacilities: franchiseDatas
             ? franchiseDatas?.facilities?.split(',').map(String)
             : [],
-        defaultLanguage: franchiseDatas.defaultLanguageId,
-        defaultCurrency: franchiseDatas.defaultCurrencyId,
+        defaultLanguage: franchiseDatas
+            ? franchiseDatas.defaultLanguageId
+            : '--',
+        defaultCurrency: franchiseDatas
+            ? franchiseDatas.defaultCurrencyId
+            : '--',
         // stripePublishableKey: franchiseToEdit ? franchiseToEdit.stripePublicKey : "",
         // stripeSecretKey: franchiseToEdit ? franchiseToEdit.stripeSecretKey : "",
         // cardAccessToken: franchiseToEdit ? franchiseToEdit.gclAccessToken : "",
@@ -305,7 +304,7 @@ const EditFranchise = () => {
                                             placeholder={getLabelByKey(
                                                 'enterCompleteAddress'
                                             )}
-                                            handleChange={(val: any) => {
+                                            handleChange={(val: unknown) => {
                                                 formik.setFieldValue(
                                                     'address',
                                                     val

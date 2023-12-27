@@ -11,70 +11,6 @@ import {
 type requestTourProps = {
     newsFeedId: number
 }
-
-const RequestTour: React.FC<requestTourProps> = ({ newsFeedId }) => {
-    const navigate = useNavigate()
-
-    return (
-        <Wrapper>
-            <h6 className="heading">Request a Home Tour</h6>
-            <div className="inner-section">
-                <article className="tours d-flex">
-                    <button className="d-flex justify-content-center align-items-center gap-1 tour-btn1 btn w-100">
-                        <span>
-                            <img src={in_person} alt="person" />
-                        </span>
-                        <span
-                            className="mt-1 ms-2"
-                            onClick={() =>
-                                navigate('/in-person', {
-                                    state: {
-                                        newsFeedId,
-                                        visitType: 'IN_PERSON',
-                                    },
-                                })
-                            }
-                        >
-                            In Person
-                        </span>
-                    </button>
-                    <button
-                        className="d-flex justify-content-center align-items-center gap-1 tour-btn2 btn w-100"
-                        onClick={() => navigate('/virtual')}
-                    >
-                        <span>
-                            <img src={virtual} alt="virtual" />
-                        </span>
-                        <span className="mt-1 ms-2">Virtual</span>
-                    </button>
-                </article>
-                {/* <Row>
-          <Col md={6}>
-            <CustomDate date={date} setDate={setDate} />
-            {date && <p>Selected date: {date.format("DD MMM YYYY")}</p>}
-          </Col>
-          <Col md={6}>
-            <CustomTime time={selectedTime} setTime={setSelectedTime} />
-          </Col>
-        </Row> */}
-                <div className="mt-3">
-                    {/* <CustomButton
-            bgcolor={primaryColor}
-            color="white"
-            padding="8px"
-            width="100%"
-            type="submit"
-            title="Request for tour"
-            margin="auto"
-          /> */}
-                    <p className="cancal-payment">
-                        its free no obligation -cancel anytime
-                    </p>
-                </div>
-            </div>
-        </Wrapper>
-    )
-}
 const Wrapper = styled.section`
     .heading {
         font-family: ${fontFamilyMedium};
@@ -181,4 +117,68 @@ const Wrapper = styled.section`
         }
     }
 `
+const RequestTour: React.FC<requestTourProps> = ({ newsFeedId }) => {
+    const navigate = useNavigate()
+
+    return (
+        <Wrapper>
+            <h6 className="heading">Request a Home Tour</h6>
+            <div className="inner-section">
+                <article className="tours d-flex">
+                    <button className="d-flex justify-content-center align-items-center gap-1 tour-btn1 btn w-100">
+                        <span>
+                            <img src={in_person as string} alt="person" />
+                        </span>
+                        <span
+                            className="mt-1 ms-2"
+                            onClick={() =>
+                                navigate('/in-person', {
+                                    state: {
+                                        newsFeedId,
+                                        visitType: 'IN_PERSON',
+                                    },
+                                })
+                            }
+                        >
+                            In Person
+                        </span>
+                    </button>
+                    <button
+                        className="d-flex justify-content-center align-items-center gap-1 tour-btn2 btn w-100"
+                        onClick={() => navigate('/virtual')}
+                    >
+                        <span>
+                            <img src={virtual as string} alt="virtual" />
+                        </span>
+                        <span className="mt-1 ms-2">Virtual</span>
+                    </button>
+                </article>
+                {/* <Row>
+          <Col md={6}>
+            <CustomDate date={date} setDate={setDate} />
+            {date && <p>Selected date: {date.format("DD MMM YYYY")}</p>}
+          </Col>
+          <Col md={6}>
+            <CustomTime time={selectedTime} setTime={setSelectedTime} />
+          </Col>
+        </Row> */}
+                <div className="mt-3">
+                    {/* <CustomButton
+            bgcolor={primaryColor}
+            color="white"
+            padding="8px"
+            width="100%"
+            type="submit"
+            title="Request for tour"
+            margin="auto"
+          /> */}
+                    <p className="cancal-payment">
+                        its free no obligation -cancel anytime
+                    </p>
+                </div>
+            </div>
+        </Wrapper>
+    )
+}
+
 export default RequestTour

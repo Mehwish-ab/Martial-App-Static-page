@@ -37,10 +37,10 @@ type updateUserTypes = {
     profileImage: string
 }
 
-const UpdateUser = () => {
+const UpdateUser = (): JSX.Element => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const userToastId = useRef<any>(null)
+    const userToastId = useRef<unknown>(null)
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [profileImage, setProfileImage] = useState<File | null>(null)
     const { data: loginData } = useAppSelector((state) => state.loginData)
@@ -93,9 +93,9 @@ const UpdateUser = () => {
     })
 
     // on submit handler
-    const onSubmit = async (values: updateUserTypes) => {
+    const onSubmit = async (values: unknown): Promise<void> => {
         const userData = {
-            userId: data?.userDetails.id!,
+            userId: data?.userDetails.id,
             firstName: values.firstName,
             lastName: values.lastName,
         }
@@ -119,13 +119,13 @@ const UpdateUser = () => {
     }
 
     // do task
-    const doTask = () => {
+    const doTask = (): void => {
         navigate('/user-profile')
     }
 
     // upload file promise
 
-    const uploadFilePromise = async () => {
+    const uploadFilePromise = async (): Promise<void> => {
         if (!profileImage) return
         const formData = new FormData()
         formData.append('profilePicture', profileImage)
@@ -153,7 +153,7 @@ const UpdateUser = () => {
 
         try {
             setLoading(true)
-            const { data } = await axios.post(
+            const { data: data2 } = await axios.post(
                 upload_profile_url,
                 formData,
 
@@ -163,12 +163,12 @@ const UpdateUser = () => {
                     },
                 }
             )
-            console.log({ data })
+            console.log({ data2 })
             setLoading(false)
-        } catch (error: any) {
+        } catch (errors: unknown) {
             // setError(error.response.data);
             setLoading(false)
-            console.log(error.response.data, 'error in properties data')
+            console.log(errors.response.data, 'error in properties data')
         }
     }
 
@@ -190,6 +190,7 @@ const UpdateUser = () => {
             >
                 <EnnvisionModal
                     title="Profile successfully updated"
+                    // eslint-disable-next-line max-len
                     description="Profile successfully edited. Your changes have been saved and are now reflected in your updated profile"
                     doTask={doTask}
                 />
@@ -229,7 +230,7 @@ const UpdateUser = () => {
                                                     onChange={(
                                                         event: React.ChangeEvent<HTMLInputElement>
                                                     ) => {
-                                                        let files =
+                                                        const files =
                                                             event.target.files
                                                         if (files) {
                                                             setProfileImage(
@@ -242,6 +243,7 @@ const UpdateUser = () => {
                                                     {profileImage ? (
                                                         <div
                                                             style={{
+                                                                // eslint-disable-next-line max-len
                                                                 backgroundImage: `url(${URL.createObjectURL(
                                                                     profileImage
                                                                 )})`,
@@ -261,13 +263,13 @@ const UpdateUser = () => {
                                                     ) : (
                                                         <img
                                                             src={
-                                                                formik.values
+                                                                (formik.values
                                                                     .profileImage
                                                                     ? media_base_url +
                                                                       formik
                                                                           .values
                                                                           .profileImage
-                                                                    : placeholder
+                                                                    : placeholder) as string
                                                             }
                                                             alt={
                                                                 formik.values

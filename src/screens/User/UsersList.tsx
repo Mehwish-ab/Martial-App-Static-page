@@ -1,6 +1,6 @@
 import React from 'react'
 
-const UsersList = () => {
+const UsersList = (): JSX.Element => {
     return <div>UsersList</div>
 }
 

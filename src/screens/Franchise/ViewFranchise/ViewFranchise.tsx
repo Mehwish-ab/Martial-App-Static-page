@@ -1,26 +1,22 @@
-import { Card, Dropdown, List, Space, Table } from 'antd'
+import { Card } from 'antd'
 import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import { ViewFranchiseStyled } from './styles'
-import { AddPaymentMethod } from './styles'
-import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
 import { useSelector } from 'react-redux'
-
-import DummyData from '../AddPaymentFranchise/dummyData.json'
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import useFranchise from '../hooks/useFranchise'
 import { RootState } from '../../../redux/store'
-import type { ColumnsType } from 'antd/es/table'
-import StatusActiveError from '../../../assets/images/activeBtnError.svg'
-import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
-import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
+// import type { ColumnsType } from 'antd/es/table'
+// import StatusActiveError from '../../../assets/images/activeBtnError.svg'
+// import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
+// import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 import { FranchiseDataType } from '../../../redux/features/franchise/franchiseSlice'
 import { useEffect, useState } from 'react'
 import AddPaymentFranchise from '../AddPaymentFranchise/AddPaymentFranchise'
-const ViewFranchise = () => {
-    const navigate = useNavigate()
-    const { schoolData, loading } = useSelector(
+const ViewFranchise = (): JSX.Element => {
+    // const navigate = useNavigate()
+    const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
     const { franchiseId } = useParams()
@@ -32,137 +28,142 @@ const ViewFranchise = () => {
     console.log(franchiseId, 'ids')
 
     useEffect(() => {
-        fetchstripe()
-        async function fetchstripe() {
+        const fetchstripe = async (): Promise<unknown> => {
             const data = await getFranchisebyid(franchiseId)
             setFranchise(data)
+            return data
         }
-    }, [])
+        fetchstripe()
+    }, [franchiseId, getFranchisebyid])
+
     console.log('School data', schoolData)
-    const location = useLocation()
+    // const location = useLocation()
     const { getLabelByKey } = useScreenTranslation('franchiseCreate')
-    const navigation = (record: FranchiseDataType, redirectTo: string) => {
-        switch (redirectTo) {
-            case 'edit':
-                navigate(`/franchise/edit/${record.franchiseId}`, {
-                    state: {
-                        franchiseToEdit: record as FranchiseDataType,
-                    },
-                })
-                break
+    // const navigation = (
+    //     record: FranchiseDataType,
+    //     redirectTo: string
+    // ): void => {
+    //     switch (redirectTo) {
+    //         case 'edit':
+    //             navigate(`/franchise/edit/${record.franchiseId}`, {
+    //                 state: {
+    //                     franchiseToEdit: record as FranchiseDataType,
+    //                 },
+    //             })
+    //             break
 
-            case 'view':
-                navigate(`/franchise/view/${record.franchiseId}`, {
-                    state: {
-                        franchise: record as FranchiseDataType,
-                    },
-                })
-        }
-    }
-    const columns: ColumnsType<FranchiseDataType> = [
-        {
-            title: 'Payment Information',
-            dataIndex: 'paymentMethod',
-            key: 'paymentMethod',
-        },
-        {
-            title: 'Account Nmae',
-            dataIndex: 'accountNumber',
-            key: 'accountNumber',
-        },
-        {
-            title: 'Country Name',
-            dataIndex: 'countryName',
-            key: 'countryName',
-        },
-        {
-            title: 'Mode',
-            dataIndex: 'mode',
-            key: 'mode',
-            render: (DummyData) => {
-                return (
-                    <div className={DummyData}>
-                        <button>{DummyData}</button>
-                        <img src={StatusActiveError} alt="image" />
-                    </div>
-                )
-            },
-        },
-        {
-            title: 'Status',
-            dataIndex: 'status',
-            key: 'Staus',
-            render: (DummyData) => {
-                return (
-                    <div className={DummyData}>
-                        <button>{DummyData}</button>
-                        <img src={StatusActiveError} alt="image" />
-                    </div>
-                )
-            },
-        },
-        {
-            title: 'Action',
-            key: 'action',
-            render: (
-                value: any,
-                record: FranchiseDataType,
-                index: number
-            ): any => {
-                const items = [
-                    {
-                        key: '1',
-                        label: 'View',
-                        onClick: () => navigation(record, 'view'),
-                    },
-                    {
-                        key: '2',
-                        label: 'Edit',
-                        onClick: () => navigation(record, 'edit'),
-                    },
-                    {
-                        key: '3',
-                        label: 'Payment',
-                        onClick: () => navigation(record, 'payment'),
-                    },
-                    {
-                        key: '4',
-                        label: 'Delete',
-                        onClick: () => navigation(record, 'delete'),
-                    },
-                ]
-                return (
-                    <Space size="middle">
-                        <Dropdown menu={{ items }}>
-                            <img
-                                src={actionMenuTogglerIcon}
-                                alt="action menu"
-                                style={{ cursor: 'pointer' }}
-                            />
-                        </Dropdown>
-                    </Space>
-                )
-            },
-        },
-    ]
+    //         case 'view':
+    //             navigate(`/franchise/view/${record.franchiseId}`, {
+    //                 state: {
+    //                     franchise: record as FranchiseDataType,
+    //                 },
+    //             })
+    //     }
+    // }
+    // const columns: ColumnsType<FranchiseDataType> = [
+    //     {
+    //         title: 'Payment Information',
+    //         dataIndex: 'paymentMethod',
+    //         key: 'paymentMethod',
+    //     },
+    //     {
+    //         title: 'Account Nmae',
+    //         dataIndex: 'accountNumber',
+    //         key: 'accountNumber',
+    //     },
+    //     {
+    //         title: 'Country Name',
+    //         dataIndex: 'countryName',
+    //         key: 'countryName',
+    //     },
+    //     {
+    //         title: 'Mode',
+    //         dataIndex: 'mode',
+    //         key: 'mode',
+    //         render: (DummyData) => {
+    //             return (
+    //                 <div className={DummyData}>
+    //                     <button>{DummyData}</button>
+    //                     <img src={StatusActiveError} alt="image" />
+    //                 </div>
+    //             )
+    //         },
+    //     },
+    //     {
+    //         title: 'Status',
+    //         dataIndex: 'status',
+    //         key: 'Staus',
+    //         render: (DummyData) => {
+    //             return (
+    //                 <div className={DummyData}>
+    //                     <button>{DummyData}</button>
+    //                     <img src={StatusActiveError} alt="image" />
+    //                 </div>
+    //             )
+    //         },
+    //     },
+    //     {
+    //         title: 'Action',
+    //         key: 'action',
+    //         render: (
+    //             value: any,
+    //             record: FranchiseDataType,
+    //             index: number
+    //         ): any => {
+    //             const items = [
+    //                 {
+    //                     key: '1',
+    //                     label: 'View',
+    //                     onClick: () => navigation(record, 'view'),
+    //                 },
+    //                 {
+    //                     key: '2',
+    //                     label: 'Edit',
+    //                     onClick: () => navigation(record, 'edit'),
+    //                 },
+    //                 {
+    //                     key: '3',
+    //                     label: 'Payment',
+    //                     onClick: () => navigation(record, 'payment'),
+    //                 },
+    //                 {
+    //                     key: '4',
+    //                     label: 'Delete',
+    //                     onClick: () => navigation(record, 'delete'),
+    //                 },
+    //             ]
+    //             return (
+    //                 <Space size="middle">
+    //                     <Dropdown menu={{ items }}>
+    //                         <img
+    //                             src={actionMenuTogglerIcon}
+    //                             alt="action menu"
+    //                             style={{ cursor: 'pointer' }}
+    //                         />
+    //                     </Dropdown>
+    //                 </Space>
+    //             )
+    //         },
+    //     },
+    // ]
 
-    const Franchise: FranchiseDataType = location.state?.branch
+    // const Franchise: FranchiseDataType = location.state?.branch
 
-    const { language, currency } = useSelector(
-        (state: RootState) => state.appData.data.dropdowns
-    )
-    const { selectedLanguage } = useSelector(
-        (state: RootState) => state.selectedLanguage
-    )
-    let defaultLanguage = language.find(
-        (item: DataTypesWithIdAndMultipleLangLabel) =>
-            +item.id == +Franchise?.defaultCurrencyId
-    )
+    // const { language, currency } = useSelector(
+    //     (state: RootState) => state.appData.data.dropdowns
+    // )
+    // const { selectedLanguage } = useSelector(
+    //     (state: RootState) => state.selectedLanguage
+    // )
+    // const defaultLanguage = language.find(
+    //     (item: DataTypesWithIdAndMultipleLangLabel) =>
+    //         +item.id == +Franchise?.defaultCurrencyId
+    // )
 
-    let defaultCurrency = currency.find(
-        (item: DataTypesWithIdAndMultipleLangLabel) =>
-            console.log(+item.id == +Franchise?.defaultCurrencyId)
-    )
+    // const defaultCurrency = currency.find(
+    //     (item: DataTypesWithIdAndMultipleLangLabel) =>
+    //         console.log(+item.id == +Franchise?.defaultCurrencyId)
+    // )
     console.log('data', franchisedata)
 
     return (

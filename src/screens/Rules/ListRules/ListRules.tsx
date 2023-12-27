@@ -12,20 +12,112 @@ import {
 import { useNavigate } from 'react-router-dom'
 import plusIcon from '../../../assets/icons/ic_plus.svg'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../redux/store'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
 import { RulesDataType } from '../../../redux/features/Rules/RulesSlice'
 import DummyData from './dummyData.json'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
-import Download from '../../../assets/icons/ic_download.svg'
 import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
 import DateCalander from '../../../assets/images/dateCalander.svg'
 
+const RenderTableTitle = (): JSX.Element => {
+    const navigate = useNavigate()
+
+    return (
+        <>
+            <div className="d-flex justify-content-between">
+                <h3 className="table-heading">Classes</h3>
+                <CustomDiv>
+                    <div className="instructorDateSection">
+                        <div className="mainarrow">
+                            <div className="arrowright">
+                                <img
+                                    src={LeftArrow as string}
+                                    alt="Date"
+                                    width={18}
+                                    height={12}
+                                />
+                            </div>
+                            <div className="arrowleft">
+                                <img
+                                    src={RightArrow as string}
+                                    alt="Date"
+                                    width={18}
+                                    height={12}
+                                />
+                            </div>
+                        </div>
+                        <div className="dateRange">
+                            <p>
+                                <span>Mon,</span> Sep 11, 2023 -{' '}
+                                <span>Thu,</span> Sep 21, 2023
+                            </p>
+                            <img
+                                src={DateCalander as string}
+                                alt="Calander"
+                                width={21}
+                                height={21}
+                            />
+                        </div>
+                        <div className="dateToday">Today</div>
+                    </div>
+                    <CustomButton
+                        bgcolor={tertiaryBlue2}
+                        textTransform="Captilize"
+                        color={pureDark}
+                        padding="6.5px 0px"
+                        fontFamily={`${fontFamilyMedium}`}
+                        width="40px"
+                        type="submit"
+                        title=""
+                        fontSize="17px"
+                        icon={
+                            <img
+                                src={plusIcon as string}
+                                alt="edit icon"
+                                width={17}
+                                height={17}
+                            />
+                        }
+                        clicked={() => {
+                            navigate(`/Rules/create`)
+                        }}
+                    />
+                </CustomDiv>
+            </div>
+        </>
+    )
+}
+
 const ListRules: React.FC = () => {
     const navigate = useNavigate()
 
+    const navigation = (record: RulesDataType, redirectTo: string): void => {
+        switch (redirectTo) {
+            case 'edit':
+                navigate(`/Rules/edit/${record.RulesID}`, {
+                    state: {
+                        branchToEdit: record as RulesDataType,
+                    },
+                })
+                break
+
+            case 'view':
+                navigate(`/Rules/view/${record.RulesID}`, {
+                    state: {
+                        branch: record as RulesDataType,
+                    },
+                })
+                break
+
+            case 'school':
+                navigate(`/Rules/School-profile${record.RulesID}`, {
+                    state: {
+                        branch: record as RulesDataType,
+                    },
+                })
+        }
+    }
     const loading = false
 
     const columns: ColumnsType<RulesDataType> = [
@@ -58,11 +150,11 @@ const ListRules: React.FC = () => {
             title: 'State',
             dataIndex: 'RulesState',
             key: 'RulesState',
-            render: (DummyData) => {
+            render: (DummyDataa) => {
                 return (
                     <div>
-                        <button>{DummyData}</button>
-                        <img src={StatusActiveError} alt="images" />
+                        <button>{DummyDataa}</button>
+                        <img src={StatusActiveError as string} alt="images" />
                     </div>
                 )
             },
@@ -71,11 +163,11 @@ const ListRules: React.FC = () => {
             title: 'Status',
             dataIndex: 'RulesStatus',
             key: 'RulesStatus',
-            render: (DummyData) => {
+            render: (DummyDatas) => {
                 return (
                     <div>
-                        <button>{DummyData}</button>
-                        <img src={StatusActiveError} alt="images" />
+                        <button>{DummyDatas}</button>
+                        <img src={StatusActiveError as string} alt="images" />
                     </div>
                 )
             },
@@ -105,7 +197,7 @@ const ListRules: React.FC = () => {
                     <Space size="middle">
                         <Dropdown menu={{ items }}>
                             <img
-                                src={actionMenuTogglerIcon}
+                                src={actionMenuTogglerIcon as string}
                                 alt="action menu"
                                 style={{ cursor: 'pointer' }}
                             />
@@ -115,33 +207,6 @@ const ListRules: React.FC = () => {
             },
         },
     ]
-
-    const navigation = (record: RulesDataType, redirectTo: string) => {
-        switch (redirectTo) {
-            case 'edit':
-                navigate(`/Rules/edit/${record.RulesID}`, {
-                    state: {
-                        branchToEdit: record as RulesDataType,
-                    },
-                })
-                break
-
-            case 'view':
-                navigate(`/Rules/view/${record.RulesID}`, {
-                    state: {
-                        branch: record as RulesDataType,
-                    },
-                })
-                break
-
-            case 'school':
-                navigate(`/Rules/School-profile${record.RulesID}`, {
-                    state: {
-                        branch: record as RulesDataType,
-                    },
-                })
-        }
-    }
 
     console.log('DummyData', DummyData)
 
@@ -155,7 +220,7 @@ const ListRules: React.FC = () => {
                         DummyData.map((item) => ({
                             ...item,
                             key: item.RulesID,
-                        })) as any
+                        })) as unknown as RulesDataType[]
                     }
                     title={() => <RenderTableTitle />}
                     pagination={{
@@ -174,72 +239,3 @@ const ListRules: React.FC = () => {
 }
 
 export default ListRules
-
-const RenderTableTitle = () => {
-    const navigate = useNavigate()
-
-    return (
-        <>
-            <div className="d-flex justify-content-between">
-                <h3 className="table-heading">Classes</h3>
-                <CustomDiv>
-                    <div className="instructorDateSection">
-                        <div className="mainarrow">
-                            <div className="arrowright">
-                                <img
-                                    src={LeftArrow}
-                                    alt="Date"
-                                    width={18}
-                                    height={12}
-                                />
-                            </div>
-                            <div className="arrowleft">
-                                <img
-                                    src={RightArrow}
-                                    alt="Date"
-                                    width={18}
-                                    height={12}
-                                />
-                            </div>
-                        </div>
-                        <div className="dateRange">
-                            <p>
-                                <span>Mon,</span> Sep 11, 2023 -{' '}
-                                <span>Thu,</span> Sep 21, 2023
-                            </p>
-                            <img
-                                src={DateCalander}
-                                alt="Calander"
-                                width={21}
-                                height={21}
-                            />
-                        </div>
-                        <div className="dateToday">Today</div>
-                    </div>
-                    <CustomButton
-                        bgcolor={tertiaryBlue2}
-                        textTransform="Captilize"
-                        color={pureDark}
-                        padding="6.5px 0px"
-                        fontFamily={`${fontFamilyMedium}`}
-                        width="40px"
-                        type="submit"
-                        title=""
-                        fontSize="17px"
-                        icon={
-                            <img
-                                src={plusIcon}
-                                alt="edit icon"
-                                width={17}
-                                height={17}
-                            />
-                        }
-                        clicked={() => {
-                            navigate(`/Rules/create`)
-                        }}
-                    />
-                </CustomDiv>
-            </div>
-        </>
-    )
-}

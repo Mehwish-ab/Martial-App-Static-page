@@ -2,7 +2,7 @@ import deleteIcon from '../../assets/icons/ic_delete.svg'
 import editIcon from '../../assets/icons/ic_edit.svg'
 import { TableCardStyle } from './style'
 
-const MobileTable = () => {
+const MobileTable = (): JSX.Element => {
     return (
         <TableCardStyle>
             <div className=" plus-icon d-md-none">
@@ -27,12 +27,12 @@ const MobileTable = () => {
                         <div className="d-flex warn-actions">
                             <div style={{ display: 'flex', gap: '4px' }}>
                                 <img
-                                    src={deleteIcon}
+                                    src={deleteIcon as string}
                                     alt="delete Icon"
                                     className="action_icons deleteicon"
                                 />
                                 <img
-                                    src={editIcon}
+                                    src={editIcon as string}
                                     alt="edit Icon"
                                     className="action_icons editicon"
                                 />

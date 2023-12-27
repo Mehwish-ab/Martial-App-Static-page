@@ -1,6 +1,6 @@
 import React from 'react'
 
-const UserStories = () => {
+const UserStories = (): JSX.Element => {
     return <div>UserStories</div>
 }
 

@@ -3,7 +3,7 @@ import { MainSettingPageStyle } from './style'
 import { Link } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 
-const MainSettingPage = () => {
+const MainSettingPage = (): JSX.Element => {
     return (
         <MainSettingPageStyle>
             <Card className="MainContainer">
@@ -94,7 +94,7 @@ const MainSettingPage = () => {
                             </h4>
                             <p className="list-item-value">
                                 Decide what you want to be notified about, &
-                                unsubscribe from what you don't
+                                unsubscribe from what you dosnt
                             </p>
                             <Link
                                 to={'/settings/tabs'}

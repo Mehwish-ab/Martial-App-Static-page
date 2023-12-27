@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+/* eslint-disable max-len */
+import React from 'react'
 import { CardViewStyled } from './styles'
-import { Avatar, Dropdown, List, Rate } from 'antd'
+import { Dropdown } from 'antd'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
-import { BranchDataType } from '../../../redux/features/branch/branchSlice'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import FormControl from '../../../components/FormControl'
 import placeHolderImage from '../../../assets/images/custom_card_placeholder.png'
 import {
@@ -20,10 +20,8 @@ import DateCalander from '../../../assets/images/dateCalander.svg'
 import FilterIcon from '../../../assets/icons/ic_filter.svg'
 import { CustomDiv } from './CustomDiv'
 
-const CardView = () => {
+const CardView = (): JSX.Element => {
     const navigate = useNavigate()
-    const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful']
-    const [value, setValue] = useState(3)
 
     const items = [
         {
@@ -43,32 +41,32 @@ const CardView = () => {
         },
     ]
 
-    const navigation = (record: BranchDataType, redirectTo: string) => {
-        switch (redirectTo) {
-            case 'edit':
-                navigate(`/franchise/edit/${record.branchId}`, {
-                    state: {
-                        branchToEdit: record as BranchDataType,
-                    },
-                })
-                break
+    // const navigation = (record: BranchDataType, redirectTo: string) => {
+    //     switch (redirectTo) {
+    //         case 'edit':
+    //             navigate(`/franchise/edit/${record.branchId}`, {
+    //                 state: {
+    //                     branchToEdit: record as BranchDataType,
+    //                 },
+    //             })
+    //             break
 
-            case 'view':
-                navigate(`/franchise/view/${record.branchId}`, {
-                    state: {
-                        branch: record as BranchDataType,
-                    },
-                })
-                break
+    //         case 'view':
+    //             navigate(`/franchise/view/${record.branchId}`, {
+    //                 state: {
+    //                     branch: record as BranchDataType,
+    //                 },
+    //             })
+    //             break
 
-            case 'subscribe':
-                navigate(`/franchise/subscribe/${record.branchId}`, {
-                    state: {
-                        branch: record as BranchDataType,
-                    },
-                })
-        }
-    }
+    //         case 'subscribe':
+    //             navigate(`/franchise/subscribe/${record.branchId}`, {
+    //                 state: {
+    //                     branch: record as BranchDataType,
+    //                 },
+    //             })
+    //     }
+    // }
 
     return (
         <CardViewStyled>
@@ -79,7 +77,7 @@ const CardView = () => {
                         <div className="mainarrow">
                             <div className="arrowright">
                                 <img
-                                    src={LeftArrow}
+                                    src={LeftArrow as string}
                                     alt="Date"
                                     width={18}
                                     height={12}
@@ -87,7 +85,7 @@ const CardView = () => {
                             </div>
                             <div className="arrowleft">
                                 <img
-                                    src={RightArrow}
+                                    src={RightArrow as string}
                                     alt="Date"
                                     width={18}
                                     height={12}
@@ -100,7 +98,7 @@ const CardView = () => {
                                 <span>Thu,</span> Sep 21, 2023
                             </p>
                             <img
-                                src={DateCalander}
+                                src={DateCalander as string}
                                 alt="Calander"
                                 width={21}
                                 height={21}
@@ -120,7 +118,7 @@ const CardView = () => {
                         fontSize="17px"
                         icon={
                             <img
-                                src={FilterIcon}
+                                src={FilterIcon as string}
                                 alt="edit icon"
                                 width={17}
                                 height={17}
@@ -168,7 +166,7 @@ const CardView = () => {
                                 </div>
                                 <Dropdown menu={{ items }}>
                                     <img
-                                        src={actionMenuTogglerIcon}
+                                        src={actionMenuTogglerIcon as string}
                                         alt="action menu"
                                         style={{ cursor: 'pointer' }}
                                     />

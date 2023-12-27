@@ -4,15 +4,15 @@ import { ViewInstructorStyled } from './styles'
 import { useLocation } from 'react-router-dom'
 // import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { Col, Row } from 'react-bootstrap'
-import { Field, Formik } from 'formik'
+import { Formik } from 'formik'
 import { useState, useEffect } from 'react'
 import FormControl from '../../../components/FormControl'
 import useInstructor from '../../../hooks/useInstructor'
 import { InstructorDataType } from '../../../redux/features/instructor/instructorSlice'
 
-const ViewInstructor = () => {
+const ViewInstructor = (): JSX.Element => {
     // const { getLabelByKey } = useScreenTranslation("branchCreate");
-    const [initialValues, setInitialValues] = useState({
+    const [initialValues] = useState({
         termCondition: false,
         agreement: false,
         liability: false,
@@ -24,16 +24,16 @@ const ViewInstructor = () => {
     const location = useLocation()
     const instructor: InstructorDataType = location.state?.branch
     console.log(instructor, 'Nadaaaaaa')
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const getInstructor = async (): Promise<void> => {
+        if (instructor) {
+            const data = await getInstructorbyid(instructor.instructorId)
+            setValues(data as InstructorDataType)
+        }
+    }
     useEffect(() => {
         getInstructor()
-        async function getInstructor() {
-            if (instructor) {
-                const data = await getInstructorbyid(instructor.instructorId)
-                setValues(data as InstructorDataType)
-            }
-        }
-    }, [])
+    }, [getInstructor])
     console.log('getInstructor', values)
 
     // TODO: this state will be set after getting response from api
@@ -197,7 +197,7 @@ const ViewInstructor = () => {
                                     checked
                                 />
                                 <p className="checkBoxPara" id="agreement">
-                                    Agreement to follow the app's guidelines and
+                                    Agreement to follow the apps guidelines and
                                     policies
                                 </p>
                             </form>

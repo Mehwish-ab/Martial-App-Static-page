@@ -34,7 +34,7 @@ type loginValuesType = {
     password: string
 }
 
-const Login = () => {
+const Login = (): JSX.Element => {
     const navigate = useNavigate()
     const [terms, setTerms] = useState(false)
     const [showTermsError] = useState(false)
@@ -73,7 +73,7 @@ const Login = () => {
 
     // login handle submit
     console.log(initialValues)
-    const handleSubmit = async (values: loginValuesType) => {
+    const handleSubmit = async (values: loginValuesType): Promise<void> => {
         try {
             setloading(true)
             const {

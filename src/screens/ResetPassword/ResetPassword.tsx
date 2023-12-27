@@ -6,7 +6,6 @@ import FormControl from '../../components/FormControl'
 import CustomButton from '../../components/CustomButton/CustomButton'
 import { primaryColor } from '../../components/GlobalStyle'
 import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
 import { Col, Container, Row } from 'react-bootstrap'
 import ic_logo from '../../assets/icons/ic_logo.svg'
 
@@ -23,14 +22,14 @@ const validationSchema = Yup.object({
         .min(6, 'Minimum six character is required'),
 })
 
-const ResetPassword = ({ logIn }: any) => {
+const ResetPassword = (): JSX.Element => {
     const navigation = useNavigate()
 
-    const moveToLogin = () => {
+    const moveToLogin = (): void => {
         navigation('/')
     }
 
-    const onSubmit = (value: any) => {
+    const onSubmit = (value: unknown): void => {
         console.log(value, 'value')
     }
 
@@ -44,7 +43,7 @@ const ResetPassword = ({ logIn }: any) => {
                     <Col md={7}>
                         <div className="right-side">
                             <div className="text-center img-logo">
-                                <img src={ic_logo} alt="logo" />
+                                <img src={ic_logo as string} alt="logo" />
                             </div>
                             <h4 className="main-heading mt-5">
                                 Reset password

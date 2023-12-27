@@ -1,7 +1,5 @@
 import { ProfileStyled } from './styles'
-import OverlayImages, { ipForImages } from '../OverlayImages/OverlayImages'
-import profileImg from '../../../assets/images/create_school_user_profile.svg'
-import banner from '../../../assets/images/create_school_banner.svg'
+import OverlayImages from '../OverlayImages/OverlayImages'
 import editIcon from '../../../assets/icons/ic_edit.svg'
 import dobIcon from '../../../assets/icons/ic_dob.svg'
 import emailIcon from '../../../assets/icons/ic_email.svg'
@@ -12,18 +10,14 @@ import addressIcon from '../../../assets/icons/ic_address.svg'
 import { Col, Row } from 'react-bootstrap'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import { fontFamilyMedium, pureDark } from '../../../components/GlobalStyle'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import store, { RootState } from '../../../redux/store'
 import { useNavigate } from 'react-router-dom'
-import Loader from '../../../components/Loader/Loader'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
 import { useEffect } from 'react'
-import { message } from 'antd'
-import MessageModal from '../../../components/Common/MessageModal/MessageModal'
-import { toast } from 'react-toastify'
 import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
 import useLogout from '../../../hooks/useLogout'
-const Profile = () => {
+const Profile = (): JSX.Element => {
     const navigate = useNavigate()
     const { logoutHandler } = useLogout()
 
@@ -39,7 +33,7 @@ const Profile = () => {
         if (error) {
             logoutHandler()
         }
-    }, [error])
+    }, [error, logoutHandler])
 
     return (
         <ProfileStyled>
@@ -72,7 +66,10 @@ const Profile = () => {
                                     title=""
                                     fontSize="17px"
                                     icon={
-                                        <img src={editIcon} alt="edit icon" />
+                                        <img
+                                            src={editIcon as string}
+                                            alt="edit icon"
+                                        />
                                     }
                                     // loading={loading}
                                     clicked={() => {
@@ -92,7 +89,10 @@ const Profile = () => {
                                 md="12"
                                 className="d-flex align-items-center mb-3 gap-2"
                             >
-                                <img src={addressIcon} alt="address icon" />
+                                <img
+                                    src={addressIcon as string}
+                                    alt="address icon"
+                                />
                                 <p className="mb-0">
                                     {schoolData.address}
                                     {/* 76 St Maurices Road, Priest Hutton,
@@ -105,7 +105,10 @@ const Profile = () => {
                                 md="6"
                                 className="d-flex align-items-center mb-3 gap-2"
                             >
-                                <img src={emailIcon} alt="email icon" />
+                                <img
+                                    src={emailIcon as string}
+                                    alt="email icon"
+                                />
                                 <p className="mb-0">
                                     {schoolData.emailAddress}
                                     {/* Stevens.wilson@gmail.com */}
@@ -116,7 +119,10 @@ const Profile = () => {
                                 md="6"
                                 className="d-flex align-items-center mb-3 gap-2"
                             >
-                                <img src={phoneIcon} alt="phone icon" />
+                                <img
+                                    src={phoneIcon as string}
+                                    alt="phone icon"
+                                />
                                 <p className="mb-0">
                                     {schoolData.phoneNumber}
                                     {/* +4167045720 */}
@@ -127,7 +133,10 @@ const Profile = () => {
                                 md="6"
                                 className="d-flex align-items-center mb-3 gap-2"
                             >
-                                <img src={joinDateIcon} alt="join date icon" />
+                                <img
+                                    src={joinDateIcon as string}
+                                    alt="join date icon"
+                                />
                                 <p className="mb-0">
                                     Join From: 13 March, 2023
                                 </p>
@@ -137,7 +146,10 @@ const Profile = () => {
                                 md="6"
                                 className="d-flex align-items-center mb-3 gap-2"
                             >
-                                <img src={dobIcon} alt="date of birth icon" />
+                                <img
+                                    src={dobIcon as string}
+                                    alt="date of birth icon"
+                                />
                                 <p className="mb-0">D.O.B: 13 March, 2001</p>
                             </Col>
                         </Row>

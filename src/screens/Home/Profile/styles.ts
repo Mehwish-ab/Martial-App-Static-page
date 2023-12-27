@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { mediaDeviceMax, mediaDeviceMin } from '../../../components/GlobalStyle'
 
 export const ProfileStyled = styled.div`
     // .profileImg {

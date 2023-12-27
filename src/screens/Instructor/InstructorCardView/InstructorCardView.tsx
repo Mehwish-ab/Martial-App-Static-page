@@ -1,16 +1,11 @@
-import React, { useState } from 'react'
 import { InstructorCardViewStyled } from './styles'
-import { Avatar, Dropdown, List, Rate } from 'antd'
+import { Avatar, Dropdown, List } from 'antd'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
-import { BranchDataType } from '../../../redux/features/branch/branchSlice'
-import { Link, useNavigate } from 'react-router-dom'
 
 import placeHolderImage from '../../../assets/images/custom_card_placeholder.png'
 
-const InstructorCardView = () => {
-    const navigate = useNavigate()
-    const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful']
-    const [value, setValue] = useState(3)
+const InstructorCardView = (): JSX.Element => {
+    // const navigate = useNavigate()
 
     const items = [
         {
@@ -30,32 +25,32 @@ const InstructorCardView = () => {
         },
     ]
 
-    const navigation = (record: BranchDataType, redirectTo: string) => {
-        switch (redirectTo) {
-            case 'edit':
-                navigate(`/franchise/edit/${record.branchId}`, {
-                    state: {
-                        branchToEdit: record as BranchDataType,
-                    },
-                })
-                break
+    // const navigation = (record: BranchDataType, redirectTo: string) => {
+    //     switch (redirectTo) {
+    //         case 'edit':
+    //             navigate(`/franchise/edit/${record.branchId}`, {
+    //                 state: {
+    //                     branchToEdit: record as BranchDataType,
+    //                 },
+    //             })
+    //             break
 
-            case 'view':
-                navigate(`/franchise/view/${record.branchId}`, {
-                    state: {
-                        branch: record as BranchDataType,
-                    },
-                })
-                break
+    //         case 'view':
+    //             navigate(`/franchise/view/${record.branchId}`, {
+    //                 state: {
+    //                     branch: record as BranchDataType,
+    //                 },
+    //             })
+    //             break
 
-            case 'subscribe':
-                navigate(`/franchise/subscribe/${record.branchId}`, {
-                    state: {
-                        branch: record as BranchDataType,
-                    },
-                })
-        }
-    }
+    //         case 'subscribe':
+    //             navigate(`/franchise/subscribe/${record.branchId}`, {
+    //                 state: {
+    //                     branch: record as BranchDataType,
+    //                 },
+    //             })
+    //     }
+    // }
 
     return (
         <>
@@ -74,7 +69,9 @@ const InstructorCardView = () => {
                                         />
                                         <Dropdown menu={{ items }}>
                                             <img
-                                                src={actionMenuTogglerIcon}
+                                                src={
+                                                    actionMenuTogglerIcon as string
+                                                }
                                                 alt="action menu"
                                                 style={{ cursor: 'pointer' }}
                                             />

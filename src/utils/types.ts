@@ -85,10 +85,10 @@ export type singleStoryTypes = {
     createdDateTime: string
     createdDateTimeAgo: string
     imagesURLS: string[]
-    lastCommentUserFirstName: any | null
-    lastCommentUserLastName: any | null
-    lastLikedUserFirstName: any | null
-    lastLikedUserLastName: any | null
+    lastCommentUserFirstName: unknown
+    lastCommentUserLastName: unknown
+    lastLikedUserFirstName: unknown
+    lastLikedUserLastName: unknown
     newsFeedId: number
     storyId: number
     storyText: string
@@ -121,14 +121,14 @@ type propertySizeTypes = {
 type draftTypes = {
     fullBathrooms: string
     fullBedrooms: string
-    location: any
+    location: unknown
     price: string
     propertyId: number
     propertySize: propertySizeTypes
-    propertySubTypeId: any
-    propertyTypeId: any
+    propertySubTypeId: unknown
+    propertyTypeId: unknown
     purpose: string
-    title: any
+    title: unknown
 }
 export type getMyPropertiesTypes = {
     active: []
@@ -166,8 +166,8 @@ type basicResidentialOptionsTypes = {
     assessmentValue: string
     heatingSystemTypeCode: string
     hydroServiceDescription: string
-    saleAmount: any
-    saleDate: any
+    saleAmount: unknown
+    saleDate: unknown
     sanitaryServiceDescription: string
     waterServiceDescription: string
 }
@@ -185,8 +185,8 @@ type primaryResidenceTypes = {
 }
 
 type secondaryResidenceDTOTypes = {
-    actualYearBuilt: any
-    totalFloorArea: any
+    actualYearBuilt: unknown
+    totalFloorArea: unknown
 }
 type propertyUniqueOptionsTypes = {
     accessibility: 'true' | 'false'
@@ -210,16 +210,16 @@ type garageStructureTypes = {
 }
 
 type buildingPermitTypes = {
-    expiryDate: any
-    issueDate: any
-    permitDescription: any
-    permitNumber: any
+    expiryDate: unknown
+    issueDate: unknown
+    permitDescription: unknown
+    permitNumber: unknown
 }
 
 type facingAndFlorInfoTypes = {
     direction: string
-    numberOfFloors: any
-    yourFloor: any
+    numberOfFloors: unknown
+    yourFloor: unknown
 }
 
 type propertyServicesTypes = {
@@ -337,7 +337,7 @@ type professionalRecords = {
     professionalStatusId: number
     professionTypeId: number
     profilePictureURL: string
-    updatedAt: any
+    updatedAt: unknown
     userId: number
     userName: string
     userStatus: number

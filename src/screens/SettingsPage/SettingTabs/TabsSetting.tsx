@@ -12,7 +12,7 @@ import { TabsStyling } from './styles'
 type TabsType = {
     label: string
     index: number
-    Component: React.FC<{}>
+    Component: React.FC<object>
 }[]
 
 // Tabs Array
@@ -49,7 +49,7 @@ const tabs: TabsType = [
     },
 ]
 
-export default function TabsSetting() {
+export default function TabsSetting(): JSX.Element {
     const [selectedTab, setSelectedTab] = useState<number>(tabs[0].index)
 
     return (

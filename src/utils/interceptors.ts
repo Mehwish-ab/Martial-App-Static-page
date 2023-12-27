@@ -35,13 +35,15 @@ const onResponse = (response: AxiosResponse): AxiosResponse => {
 }
 
 // on Error Response
-const onResponseError = async (error: AxiosError<any>): Promise<AxiosError> => {
-    if (error.response) {
+const onResponseError = async (errors: {
+    response: { status: number; data: { responseMessage: string } }
+}): Promise<AxiosError> => {
+    if (errors.response) {
         // Access Token was expired
         // checking if token is expire
         if (
-            error.response.status === 401 &&
-            error.response.data.responseMessage ===
+            errors.response.status === 401 &&
+            errors.response.data.responseMessage ===
                 'JWT Token has been expired. Please refresh'
         ) {
             // alert("token expired");
@@ -83,7 +85,7 @@ const onResponseError = async (error: AxiosError<any>): Promise<AxiosError> => {
             }
         }
     }
-    return Promise.reject(error)
+    return Promise.reject(errors)
 }
 
 // axios interceptor

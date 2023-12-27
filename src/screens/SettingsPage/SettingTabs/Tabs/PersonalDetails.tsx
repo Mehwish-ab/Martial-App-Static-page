@@ -614,7 +614,9 @@ const PersonalDetails: FC<{}> = () => {
                                                         fontSize="16px"
                                                         suffixIcon={
                                                             <img
-                                                                src={dateIcon}
+                                                                src={
+                                                                    dateIcon as string
+                                                                }
                                                                 alt="calender-icon"
                                                             />
                                                         }

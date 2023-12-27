@@ -1,12 +1,13 @@
+import { Validation } from '../redux/features/types'
 import store from '../redux/store'
 
 // checking object is empty or not
-export const objectNotEmpty = <T>(object: Record<string, any>) => {
+export const objectNotEmpty = (object: Record<string, unknown>): boolean => {
     return Object.keys(object).length > 0 ? true : false
 }
 
 /* truncate string method */
-export function truncateString(str: string, maxLength: number) {
+export function truncateString(str: string, maxLength: number): string {
     if (str.length <= maxLength) {
         return str
     }
@@ -26,7 +27,7 @@ export function ObjectToArray(obj: Record<string, unknown>): unknown[] {
 
 // local decimal function
 
-export const numberToLocalString = (price: number) => {
+export const numberToLocalString = (price: number): string => {
     const formattedNumber = price.toLocaleString(undefined, {
         maximumFractionDigits: 2,
     })
@@ -38,7 +39,9 @@ export const numberToLocalString = (price: number) => {
 
 // validation finder
 
-export const validationFinder = (validationKey: string) => {
+export const validationFinder = (
+    validationKey: string
+): Validation | undefined => {
     return store
         .getState()
         .appData?.data?.validations?.find(({ key }) => key === validationKey)

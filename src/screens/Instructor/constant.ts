@@ -1,11 +1,11 @@
 export interface CreateInstructorInitialValues {
     instructorName: string
     emailAddress: string
-    instructorPhoneNumber: string
+    instructorPhoneNumber: string | number
     address: string
     yearsOfExperience: string | number
     latestCertification: string | number
-    description: string
+    description: string | number
     activities: string[]
     specializations: string[]
     termCondition: string

@@ -4,7 +4,7 @@ import videoThumbnail from '../../assets/images/Event_Image.svg'
 import { SectionVideosBodyStyled } from './styesl'
 import TitleWithAnchor from '../Common/Typography/TitleWithAnchor/TitleWithAnchor'
 import Card from './Card'
-const SectionVideos = () => {
+const SectionVideos = (): JSX.Element => {
     return (
         <Card className="videos-box">
             <TitleWithAnchor title="Videos" linkLabel="View All" href="#" />
@@ -25,14 +25,14 @@ const SectionVideos = () => {
                                     submis...
                                 </p>
                                 <div className="video-time d-flex gap-2 align-items-center">
-                                    <img src={videoPlayIcon} alt="" />
+                                    <img src={videoPlayIcon as string} alt="" />
                                     <span className="time">15 m 10 s</span>
                                 </div>
                             </div>
                             <div className="video-thumbnail">
-                                <img src={videoThumbnail} alt="" />
+                                <img src={videoThumbnail as string} alt="" />
                                 <img
-                                    src={videoPlayIconWithBg}
+                                    src={videoPlayIconWithBg as string}
                                     className="play-icon"
                                     alt=""
                                 />

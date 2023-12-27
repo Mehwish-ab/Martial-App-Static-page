@@ -259,7 +259,7 @@ const Login = (): JSX.Element => {
                                 </p>
                                 <div className="line" />
                             </div>
-                            <OauthLogin usecase={OAUTH_USECASES.login} />
+                            <OauthLogin useCase={OAUTH_USECASES.login} />
                             <TermsAndConditions
                                 setTerms={setTerms}
                                 showTermsError={showTermsError}

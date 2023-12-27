@@ -84,7 +84,7 @@ const EditFranchise = (): JSX.Element => {
     useEffect(() => {
         const fetchinfo = async (): Promise<void> => {
             const data = await getFranchisebyid(Number(franchiseId))
-            setfranchiseDatas(data)
+            setfranchiseDatas(data as any)
         }
         fetchinfo()
     }, [franchiseId, getFranchisebyid])
@@ -110,18 +110,14 @@ const EditFranchise = (): JSX.Element => {
         defaultCurrency: franchiseDatas
             ? franchiseDatas.defaultCurrencyId
             : '--',
-        // stripePublishableKey: franchiseToEdit ? franchiseToEdit.stripePublicKey : "",
-        // stripeSecretKey: franchiseToEdit ? franchiseToEdit.stripeSecretKey : "",
-        // cardAccessToken: franchiseToEdit ? franchiseToEdit.gclAccessToken : "",
-        // cardClientId: franchiseToEdit ? franchiseToEdit.gclClientId : "",
-        // cardWebHook: franchiseToEdit ? franchiseToEdit.gclWebHook : "",
-        // cardClientSecret: franchiseToEdit ? franchiseToEdit.gclClientSecret : "",
-        // schoolStripeMethod: franchiseToEdit
-        //   ? franchiseToEdit.schoolStripeMethod || false
-        //   : false,
-        // schoolGclMethod: franchiseToEdit
-        //   ? franchiseToEdit.schoolGclMethod || false
-        //   : false,
+        stripePublishableKey: '',
+        stripeSecretKey: '',
+        cardAccessToken: '',
+        cardClientId: '',
+        cardWebHook: '',
+        cardClientSecret: '',
+        schoolStripeMethod: false,
+        schoolGclMethod: false,
     }
     const validationSchema = Yup.object({
         branchName: Yup.string()

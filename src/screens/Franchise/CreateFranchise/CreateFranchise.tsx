@@ -35,7 +35,7 @@ import useFranchise from '../hooks/useFranchise'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
 import PlacesAutoCompleteInput from '../../../maps/PlacesAutocomplete'
 
-const CreateFranchise = () => {
+const CreateFranchise = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('franchiseCreate')
 
     const {
@@ -55,14 +55,14 @@ const CreateFranchise = () => {
         defaultCurrency: '',
         selectedActivities: [],
         selectedFacilities: [],
-        // stripePublishableKey: "",
-        // stripeSecretKey: "",
-        // cardAccessToken: "",
-        // cardClientId: "",
-        // cardWebHook: "",
-        // cardClientSecret: "",
-        // schoolStripeMethod: false,
-        // schoolGclMethod: false,
+        stripePublishableKey: '',
+        stripeSecretKey: '',
+        cardAccessToken: '',
+        cardClientId: '',
+        cardWebHook: '',
+        cardClientSecret: '',
+        schoolStripeMethod: false,
+        schoolGclMethod: false,
     }
 
     const { selectedLanguage } = useSelector(
@@ -72,8 +72,10 @@ const CreateFranchise = () => {
     const franchiseName = validationFinder('BUSINESS_NAME')!
     const franchiseNameReg = new RegExp(franchiseName.pattern)
     const address = validationFinder('ADDRESS')!
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const addressReg = new RegExp(address.pattern)
     const franchisePhoneNumber = validationFinder('PHONE_NUMBER')!
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const ranks = validationFinder('Ranks')
 
     const validationSchema = Yup.object({
@@ -136,10 +138,12 @@ const CreateFranchise = () => {
         // schoolGclMethod: Yup.boolean(),
     })
 
-    const createOptions = (list: DataTypesWithIdAndMultipleLangLabel[]) => {
-        let options: SelectOptionsDataTypes[] = []
+    const createOptions = (
+        list: DataTypesWithIdAndMultipleLangLabel[]
+    ): SelectOptionsDataTypes[] => {
+        const options: SelectOptionsDataTypes[] = []
         list.forEach((item) => {
-            let obj = {
+            const obj = {
                 label: (item as any)[selectedLanguage],
                 value: item.id,
             }

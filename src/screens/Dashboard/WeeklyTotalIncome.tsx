@@ -3,7 +3,7 @@ import { TertiaryHeadingMini } from '../../components/GlobalStyle'
 import { WeeklyTotalIncomeStyled } from './style'
 import avatar from '../../assets/icons/ic_add_property_type.svg'
 
-const WeeklyTotalIncome = () => {
+const WeeklyTotalIncome = (): JSX.Element => {
     const rolesAndCommissionsData = [
         {
             title: 'Admin',
@@ -35,16 +35,16 @@ const WeeklyTotalIncome = () => {
         <WeeklyTotalIncomeStyled>
             <TertiaryHeadingMini>Weekly & Total Income</TertiaryHeadingMini>
             <div className="red-line" />
-            {[1, 2, 3].map((title, index) => (
+            {[1, 2, 3].map((_title, index) => (
                 <Row key={index}>
                     {rolesAndCommissionsData.map(
-                        ({ title, week_income, monthly_income }, index) => (
+                        ({ title, week_income, monthly_income }, ind) => (
                             <Col
                                 xs={12}
                                 sm={6}
                                 md={3}
                                 className="col-lg"
-                                key={index}
+                                key={ind}
                             >
                                 <Card>
                                     <Row className="d-flex align-items-center justify-content-between">
@@ -75,7 +75,7 @@ const WeeklyTotalIncome = () => {
                                                     width: '37px',
                                                     height: '37px',
                                                 }}
-                                                src={avatar}
+                                                src={avatar as string}
                                                 alt="avatar"
                                             />
                                         </Col>

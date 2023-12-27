@@ -1,39 +1,23 @@
-import { Card, Dropdown, List, Space, Table } from 'antd'
-import OverlayImages from '../../Home/OverlayImages/OverlayImages'
+/* eslint-disable @typescript-eslint/no-use-before-define */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Dropdown, Space, Table } from 'antd'
+// import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import { AddPaymentMethod } from './styles'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useParams, useNavigate } from 'react-router-dom'
 import { FranchiseDataType } from '../../../redux/features/franchise/franchiseSlice'
-import { Col, Row } from 'react-bootstrap'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
-import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
-import { useNavigate } from 'react-router-dom'
 import type { ColumnsType } from 'antd/es/table'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
-import CustomButton from '../../../components/CustomButton/CustomButton'
-import {
-    fontFamilyMedium,
-    pureDark,
-    tertiaryBlue2,
-} from '../../../components/GlobalStyle'
-import plusIcon from '../../../assets/icons/ic_plus.svg'
+
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
-import getPayment from '../../../redux/features/branch/branchSlice'
 import { useEffect, useState } from 'react'
-import dummydata from './dummyData.json'
-import useFranchise from '../hooks/useFranchise'
-import useBranch from '../../Branches/hooks/useBranch'
-import { number } from 'yup'
 import usePayment from '../../../hooks/usePayment'
 import StripeKeysModal from '../../../components/Modals/payments/createStripeKeys'
 import BankaccountKeysModal from '../../../components/Modals/payments/school/create/createSchoolBankAccount'
 import GocardlessKeysModal from '../../../components/Modals/payments/createGocardless'
-interface AddPaymentFranchiseProps {
-    branch: FranchiseDataType // Make sure to import BranchDataType
-}
-
 const AddPaymentFranchise: React.FC = () => {
     const location = useLocation()
     const { franchiseId } = useParams()
@@ -65,7 +49,7 @@ const AddPaymentFranchise: React.FC = () => {
         useState(false)
     const [isCashModalVisible, setisCashModalVisible] = useState(false)
     const [paymentMethod, setpaymentMethod] = useState('')
-    const openModal = (paymentType: string, paymentData: any) => {
+    const openModal = (paymentType: string, paymentData: any): void => {
         console.log('openModal called', paymentData, paymentType)
 
         switch (paymentType) {
@@ -96,7 +80,7 @@ const AddPaymentFranchise: React.FC = () => {
         console.log('hi use effect')
 
         fetchstripe()
-        async function fetchstripe() {
+        async function fetchstripe(): Promise<void> {
             if (branch) {
                 const data = (await get_stripe(
                     'FRANCHISE',
@@ -107,7 +91,7 @@ const AddPaymentFranchise: React.FC = () => {
         }
 
         fetchbank()
-        async function fetchbank() {
+        async function fetchbank(): Promise<void> {
             // Check if branch is truthy before accessing its properties
             if (branch) {
                 const data = (await get_bank(
@@ -118,7 +102,7 @@ const AddPaymentFranchise: React.FC = () => {
             }
         }
         fetchPaypal()
-        async function fetchPaypal() {
+        async function fetchPaypal(): Promise<void> {
             if (branch) {
                 const data = (await get_paypal(
                     'FRANCHISE',
@@ -128,7 +112,7 @@ const AddPaymentFranchise: React.FC = () => {
             }
         }
         fetchgocard()
-        async function fetchgocard() {
+        async function fetchgocard(): Promise<void> {
             if (branch) {
                 const data = (await get_gocard(
                     'FRANCHISE',
@@ -138,7 +122,7 @@ const AddPaymentFranchise: React.FC = () => {
             }
         }
         fetchCash()
-        async function fetchCash() {
+        async function fetchCash(): Promise<void> {
             if (branch) {
                 const data = (await get_cash(
                     'FRANCHISE',
@@ -156,8 +140,8 @@ const AddPaymentFranchise: React.FC = () => {
     const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
 
-    const handleDelete = (paymentMethod: any, record: any) => {
-        deletePayment(paymentMethod, record)
+    const handleDelete = (_paymentMethod: any, record: any): void => {
+        deletePayment(_paymentMethod, record)
     }
 
     const { franchiseData, loading } = useSelector(
@@ -170,7 +154,10 @@ const AddPaymentFranchise: React.FC = () => {
         return <div>No data</div>
     }
 
-    const navigation = (record: FranchiseDataType, redirectTo: string) => {
+    const navigation = (
+        record: FranchiseDataType,
+        redirectTo: string
+    ): void => {
         switch (redirectTo) {
             case 'detail':
                 navigate(`/branch/detail/${record?.franchiseId}`, {
@@ -220,14 +207,20 @@ const AddPaymentFranchise: React.FC = () => {
                     return (
                         <div className={'Test'}>
                             <button>Test</button>
-                            <img src={StatusActiveError} alt="image" />
+                            <img
+                                src={StatusActiveError as string}
+                                alt="image"
+                            />
                         </div>
                     )
                 } else if (DummyData[0] === 'Live') {
                     return (
                         <div className={'Live'}>
                             <button>Live</button>
-                            <img src={StatusActiveError} alt="image" />
+                            <img
+                                src={StatusActiveError as string}
+                                alt="image"
+                            />
                         </div>
                     )
                 } else {
@@ -256,7 +249,10 @@ const AddPaymentFranchise: React.FC = () => {
                             >
                                 Add
                             </button>
-                            <img src={StatusActiveError} alt="image" />
+                            <img
+                                src={StatusActiveError as string}
+                                alt="image"
+                            />
                         </div>
                     )
                     // return (
@@ -269,14 +265,20 @@ const AddPaymentFranchise: React.FC = () => {
                     return (
                         <div className={'De-Active'}>
                             <button>De-Active</button>
-                            <img src={StatusActiveError} alt="image" />
+                            <img
+                                src={StatusActiveError as string}
+                                alt="image"
+                            />
                         </div>
                     )
                 } else if (DummyData[0] === true) {
                     return (
                         <div className={'Active'}>
                             <button>Active</button>
-                            <img src={StatusActiveError} alt="image" />
+                            <img
+                                src={StatusActiveError as string}
+                                alt="image"
+                            />
                         </div>
                     )
                 }
@@ -310,7 +312,7 @@ const AddPaymentFranchise: React.FC = () => {
                     <Space size="middle">
                         <Dropdown menu={{ items }}>
                             <img
-                                src={actionMenuTogglerIcon}
+                                src={actionMenuTogglerIcon as string}
                                 alt="action menu"
                                 style={{ cursor: 'pointer' }}
                             />

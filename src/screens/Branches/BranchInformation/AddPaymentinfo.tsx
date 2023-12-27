@@ -1,27 +1,15 @@
-import { Card, Dropdown, List, Space, Table } from 'antd'
-import OverlayImages from '../../Home/OverlayImages/OverlayImages'
+import { Dropdown, Space, Table } from 'antd'
 import { AddPaymentMethod } from '../AddPaymentBranch/styles'
 import { useLocation, useNavigate } from 'react-router-dom'
-import getPayment, {
-    BranchDataType,
-} from '../../../redux/features/branch/branchSlice'
-import { Col, Row } from 'react-bootstrap'
+import { BranchDataType } from '../../../redux/features/branch/branchSlice'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
-import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
 
 import type { ColumnsType } from 'antd/es/table'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
-import CustomButton from '../../../components/CustomButton/CustomButton'
-import DummyData from './dummyData.json'
-import {
-    fontFamilyMedium,
-    pureDark,
-    tertiaryBlue2,
-} from '../../../components/GlobalStyle'
-import plusIcon from '../../../assets/icons/ic_plus.svg'
+
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 
 import useBranch from '../hooks/useBranch'
@@ -29,6 +17,7 @@ import { useEffect, useState } from 'react'
 
 const AddPaymentinfo: React.FC = () => {
     const navigate = useNavigate()
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
     const {
         get_stripe,
@@ -39,7 +28,7 @@ const AddPaymentinfo: React.FC = () => {
         deletePayment,
         deletemodal,
     } = useBranch()
-    const handleDelete = (paymentMethod: any, record: any) => {
+    const handleDelete = (paymentMethod: any, record: any): void => {
         console.log('hi', record, paymentMethod)
 
         deletePayment(paymentMethod, record)
@@ -51,16 +40,15 @@ const AddPaymentinfo: React.FC = () => {
     const branch: BranchDataType = location.state?.branch
     const [stripepayment, setStripepayment] = useState<any[]>([])
     const [bankpayment, setBankpayment] = useState<any[]>([])
-    const [paypalpayment, setPaypalpayment] = useState<unknown[]>([])
-    const [Gocardlesspayment, setGocardlesspayment] = useState<unknown[]>([])
-    const [cashpayment, setCash] = useState<unknown[]>([])
+    const [paypalpayment, setPaypalpayment] = useState<any[]>([])
+    const [Gocardlesspayment, setGocardlesspayment] = useState<any[]>([])
+    const [cashpayment, setCash] = useState<any[]>([])
 
     const { branchData, loading } = useSelector(
         (state: RootState) => state?.branchData
     )
     useEffect(() => {
-        fetchstripe()
-        async function fetchstripe() {
+        async function fetchstripe(): Promise<void> {
             const data = (await get_stripe(
                 'BRANCH',
                 branch?.branchId
@@ -68,30 +56,34 @@ const AddPaymentinfo: React.FC = () => {
             setStripepayment(data)
             console.log('>> date:', data)
         }
-        fetchbank()
-        async function fetchbank() {
+        fetchstripe()
+
+        async function fetchbank(): Promise<void> {
             const data = (await get_bank('BRANCH', branch?.branchId)) as any[]
             setBankpayment(data)
             console.log('fetchbank:', data)
         }
-        fetchPaypal()
-        async function fetchPaypal() {
+        fetchbank()
+        async function fetchPaypal(): Promise<void> {
             const data = (await get_paypal('BRANCH', branch?.branchId)) as any[]
             setPaypalpayment(data)
             console.log('fetchPaypal:', data)
         }
-        fetchgocard()
-        async function fetchgocard() {
+        fetchPaypal()
+        async function fetchgocard(): Promise<void> {
             const data = (await get_gocard('BRANCH', branch?.branchId)) as any[]
             setGocardlesspayment(data)
             console.log('fetchgocard:', data)
         }
-        fetchCash()
-        async function fetchCash() {
+        fetchgocard()
+
+        async function fetchCash(): Promise<void> {
             const data = (await get_cash('BRANCH', branch?.branchId)) as any[]
             setCash(data)
             console.log('fetchCash:', data)
         }
+        fetchCash()
+
         // if (branchToEdit && branchToEdit.branchId) {
         //   fetchPayment();
         // }
@@ -102,7 +94,7 @@ const AddPaymentinfo: React.FC = () => {
     //console.log("id", branchToEdit.branchId);
     // const [dataSource, setDataSource] = useState<any[]>([]);
 
-    const navigation = (record: BranchDataType, redirectTo: string) => {
+    const navigation = (record: BranchDataType, redirectTo: string): void => {
         switch (redirectTo) {
             case 'detail':
                 navigate(`/branch/detail/${record?.branchId}`, {
@@ -208,6 +200,7 @@ const AddPaymentinfo: React.FC = () => {
         {
             title: 'Action',
             key: 'action',
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             render: (value: any, record: any, index: number): any => {
                 console.log('g', record)
 

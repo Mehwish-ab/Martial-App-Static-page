@@ -67,7 +67,7 @@ const OverlayImages = ({
             setLoading(true)
 
             const formData = new FormData()
-            formData.append('multiPart', info.file)
+            formData.append('multiPart', (info as any).file)
 
             const requestData = {
                 id: schoolData.schoolId || branchId || '',
@@ -108,11 +108,11 @@ const OverlayImages = ({
                 }
                 message.success(`${data.responseMessage}`)
             } else {
-                message.error(`${info.file.name} file upload failed.`)
+                message.error(`${(info as any).file.name} file upload failed.`)
             }
         } catch (error) {
             console.error(`Error uploading ${useCase} image:`, error)
-            message.error(`${info.file.name} file upload failed.`)
+            message.error(`${(info as any).file.name} file upload failed.`)
         } finally {
             setLoading(false)
         }
@@ -154,7 +154,7 @@ const OverlayImages = ({
                         />
                         {isEditable && (
                             <div className="changeBannerImgButton">
-                                <Upload {...BannerImgUploadProps}>
+                                <Upload {...(BannerImgUploadProps as any)}>
                                     <Button
                                         icon={
                                             <img
@@ -180,7 +180,7 @@ const OverlayImages = ({
                             />
                             {isEditable && (
                                 <div className="changeProfileImgButton">
-                                    <Upload {...ProfileImgUploadProps}>
+                                    <Upload {...(ProfileImgUploadProps as any)}>
                                         <Button
                                             icon={
                                                 <img

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { useState } from 'react'
 import { CardViewStyled } from './styles'
 import { Avatar, Dropdown, List, Rate } from 'antd'
@@ -19,7 +20,7 @@ import DateCalander from '../../../assets/images/dateCalander.svg'
 import FilterIcon from '../../../assets/icons/ic_filter.svg'
 import { CustomDiv } from './CustomDiv'
 
-const CardView = () => {
+const CardView = (): JSX.Element => {
     const navigate = useNavigate()
     const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful']
     const [value, setValue] = useState(3)
@@ -51,7 +52,7 @@ const CardView = () => {
                         <div className="mainarrow">
                             <div className="arrowright">
                                 <img
-                                    src={LeftArrow}
+                                    src={LeftArrow as string}
                                     alt="Date"
                                     width={18}
                                     height={12}
@@ -59,7 +60,7 @@ const CardView = () => {
                             </div>
                             <div className="arrowleft">
                                 <img
-                                    src={RightArrow}
+                                    src={RightArrow as string}
                                     alt="Date"
                                     width={18}
                                     height={12}
@@ -72,7 +73,7 @@ const CardView = () => {
                                 <span>Thu,</span> Sep 21, 2023
                             </p>
                             <img
-                                src={DateCalander}
+                                src={DateCalander as string}
                                 alt="Calander"
                                 width={21}
                                 height={21}
@@ -92,7 +93,7 @@ const CardView = () => {
                         fontSize="17px"
                         icon={
                             <img
-                                src={FilterIcon}
+                                src={FilterIcon as string}
                                 alt="edit icon"
                                 width={17}
                                 height={17}
@@ -116,7 +117,7 @@ const CardView = () => {
                                 />
                                 <Dropdown menu={{ items }}>
                                     <img
-                                        src={actionMenuTogglerIcon}
+                                        src={actionMenuTogglerIcon as string}
                                         alt="action menu"
                                         style={{ cursor: 'pointer' }}
                                     />

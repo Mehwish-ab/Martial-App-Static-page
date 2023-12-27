@@ -142,7 +142,7 @@ const CreateBranch = (): JSX.Element => {
         const options: SelectOptionsDataTypes[] = []
         list.forEach((item) => {
             const obj = {
-                label: (item as unknown as string)[selectedLanguage],
+                label: (item as unknown as string)[Number(selectedLanguage)],
                 value: item.id,
             }
 

@@ -46,7 +46,7 @@ import UpdateInstructor from '../screens/Instructor/UpdateInstructor/UpdateInstr
 // import { useDispatch, useSelector } from "react-redux";
 // import { RootState } from "../redux/store";
 
-function AppRoutes() {
+function AppRoutes(): JSX.Element {
     // const dispatch = useDispatch();
     // const handleChange = (value: string) => {
     //   dispatch(setLanguage(value));

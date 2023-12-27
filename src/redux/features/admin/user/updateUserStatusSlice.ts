@@ -17,7 +17,7 @@ type updateUserDataTypes = {
 type initialStateTypes = {
     loading: boolean
     result: null | updateUserDataTypes
-    error: any
+    error: unknown
 }
 const initialState: initialStateTypes = {
     loading: false,
@@ -26,13 +26,13 @@ const initialState: initialStateTypes = {
 }
 
 // Generates pending, fulfilled and rejected action types
-export const updateUser = createAsyncThunk(
+export const updateUser = createAsyncThunk<updateUserDataTypes, userDataTypes>(
     'user/updateStatus',
     async (userData: userDataTypes, thunkAPI) => {
         const state = thunkAPI.getState() as RootState
 
         try {
-            const { data } = await axiosRequest({
+            const { data } = await axiosRequest<updateUserDataTypes>({
                 url: update_user,
                 data: userData,
                 method: 'post',
@@ -59,12 +59,39 @@ export const updateUser = createAsyncThunk(
             thunkAPI.dispatch(updateUserHandler(userData))
             console.log(data, 'data in update user')
             return data
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.data.response.errorMessage)
         }
     }
 )
 
+// const updateUserSlice = createSlice({
+//     name: 'user_update_status',
+//     initialState,
+//     reducers: {
+//         removeData: (state) => {
+//             state.result = null
+//         },
+//     },
+//     extraReducers: (builder) => {
+//         builder.addCase(updateUser.pending, (state) => {
+//             state.loading = true
+//         })
+//         builder.addCase(
+//             updateUser.fulfilled,
+//             (state, action: PayloadAction<updateUserDataTypes>) => {
+//                 state.result = action.payload
+//                 state.loading = false
+//             }
+//         )
+//         builder.addCase(updateUser.rejected, (state, action) => {
+//             state.loading = false
+//             state.result = null
+//             state.error = action.payload || 'Something went wrong'
+//         })
+//     },
+// })
 const updateUserSlice = createSlice({
     name: 'user_update_status',
     initialState,

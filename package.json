@@ -43,6 +43,7 @@
     "react-input-mask": "^2.0.4",
     "react-loading-skeleton": "^3.3.1",
     "react-modal": "^3.16.1",
+    "react-native": "^0.73.1",
     "react-phone-number-input": "^3.3.6",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.3",

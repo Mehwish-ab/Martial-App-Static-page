@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { base_url } from './api_urls'
 const baseURL = base_url
 
@@ -11,20 +11,25 @@ const authorizedClient = axios.create({ baseURL })
 
 type axiosRequest = AxiosRequestConfig
 // normal axios request
-export const axiosRequest = ({ ...options }: axiosRequest): unknown => {
+export const axiosRequest = <Type>({
+    ...options
+}: axiosRequest): Promise<AxiosResponse<Type, Type>> => {
     console.log({ options })
-    const onSuccess = (response: unknown): unknown => response
-    const onError = (error: unknown): unknown => {
+    const onSuccess = (
+        response: AxiosResponse<Type, Type>
+    ): AxiosResponse<Type, Type> => response
+    const onError = (error: Type): Promise<never> => {
         // optionaly catch errors and add additional logging here
-        return error
+        return Promise.reject(error)
     }
+
     return client(options).then(onSuccess).catch(onError)
 }
 
 // authorized axios request
 export const authorizedAxiosRequest = ({
     ...options
-}: axiosRequest): unknown => {
+}: axiosRequest): Promise<unknown> => {
     console.log({ options })
     const onSuccess = (response: unknown): unknown => response
     const onError = (error: unknown): unknown => {

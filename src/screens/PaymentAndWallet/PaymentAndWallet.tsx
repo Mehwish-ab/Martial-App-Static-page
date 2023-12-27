@@ -47,22 +47,22 @@ const PaymentAndWallet = (): JSX.Element => {
     const cardDefaultToastId = useRef<unknown>(null)
 
     // credit card brands
-    const cardBrands: unknown = {
-        VisaCard: visa,
-        Mastercard: master,
+    const cardBrands: Record<string, string> = {
+        VisaCard: visa as string,
+        Mastercard: master as string,
     }
 
     // credit card toggler
-    const togglePayment = (): void => {
-        // const data = [...payments];
-        // const unSelectData = data.map((paymentData) => {
-        //   return paymentData.select === true
-        //     ? { ...paymentData, select: false }
-        //     : paymentData;
-        // });
-        // unSelectData[index].select = !data[index].select;
-        // setPayments(unSelectData);
-    }
+    // const togglePayment = (): void => {
+    //     // const data = [...payments];
+    //     // const unSelectData = data.map((paymentData) => {
+    //     //   return paymentData.select === true
+    //     //     ? { ...paymentData, select: false }
+    //     //     : paymentData;
+    //     // });
+    //     // unSelectData[index].select = !data[index].select;
+    //     // setPayments(unSelectData);
+    // }
 
     // make card default promise
     const makeCardDefaultPromise = async (
@@ -105,34 +105,7 @@ const PaymentAndWallet = (): JSX.Element => {
             })
         }
     }
-    const creditCardListHandler = async () => {
-        try {
-            setLoading(true)
-            const { data } = await axios.post(
-                credit_cards__list_url,
-                {
-                    userId: loginData?.userDetails.id,
-                },
-                {
-                    headers: {
-                        ...authorizationToken(loginData!),
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-            setCardsData(data.results)
-            setLoading(false)
-            console.log(data)
-        } catch (error) {
-            const { data } = error.response
-            if (data.responseCode === '400') {
-                setCardsData([])
-            }
-            setError(data)
-            console.log({ error })
-            setLoading(false)
-        }
-    }
+
     // delete credit card
     type deleteCardTypes = {
         cardId: number
@@ -166,7 +139,8 @@ const PaymentAndWallet = (): JSX.Element => {
                 type: 'success',
             })
             console.log(data)
-            creditCardListHandler()
+            // creditCardListHandler()
+            // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
         } catch (error: any) {
             const { data } = error.response
             deleteCardToastId.current = toast(error.responseMessage, {
@@ -181,8 +155,37 @@ const PaymentAndWallet = (): JSX.Element => {
     // handle credit cards list
 
     useEffect(() => {
+        const creditCardListHandler = async (): Promise<void> => {
+            try {
+                setLoading(true)
+                const { data } = await axios.post(
+                    credit_cards__list_url,
+                    {
+                        userId: loginData?.userDetails.id,
+                    },
+                    {
+                        headers: {
+                            ...authorizationToken(loginData!),
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                )
+                setCardsData(data.results)
+                setLoading(false)
+                console.log(data)
+                // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
+            } catch (error: any) {
+                const { data } = error.response
+                if (data.responseCode === '400') {
+                    setCardsData([])
+                }
+                setError(data)
+                console.log({ error })
+                setLoading(false)
+            }
+        }
         creditCardListHandler()
-    }, [])
+    }, [loginData])
 
     return (
         <Container>
@@ -215,11 +218,11 @@ const PaymentAndWallet = (): JSX.Element => {
                                                         stripeCardId,
                                                     }) => (
                                                         <div
-                                                            onClick={() =>
-                                                                togglePayment(
-                                                                    id
-                                                                )
-                                                            }
+                                                            // onClick={() =>
+                                                            //     // togglePayment(
+                                                            //     //     id
+                                                            //     // )
+                                                            // }
                                                             key={id}
                                                             className="payments-type d-flex align-items-center"
                                                         >
@@ -276,9 +279,11 @@ const PaymentAndWallet = (): JSX.Element => {
                                                                         {
                                                                             cardId: id,
                                                                             stripeCardId,
-                                                                            userId: loginData
-                                                                                ?.userDetails
-                                                                                .id!,
+                                                                            userId: Number(
+                                                                                loginData
+                                                                                    ?.userDetails
+                                                                                    .id
+                                                                            ),
                                                                         }
                                                                     )
                                                                 }

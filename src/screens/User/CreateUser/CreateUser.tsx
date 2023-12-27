@@ -4,6 +4,8 @@ import { Form } from 'antd'
 import FormControl from '../../../components/FormControl'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import CreateUserStyle from './style'
+import { ScrollView } from 'react-native'
+
 import {
     fontFamilyMedium,
     lightBlue3,
@@ -49,7 +51,7 @@ const RegisterUser = (): JSX.Element => {
     const [showTermsError, setShowTermsError] = useState(false)
     const { getLabelByKey } = useScreenTranslation('registerScreen')
 
-    const scrollViewRef = useRef<unknown>()
+    const scrollViewRef = useRef<ScrollView>(null)
     const navigate = useNavigate()
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
@@ -195,7 +197,8 @@ const RegisterUser = (): JSX.Element => {
             )
             navigate('/login')
             setIsLoading(false)
-        } catch (error: unknown) {
+            // eslint-disable-next-line prettier/prettier, @typescript-eslint/no-explicit-any
+        } catch (error: any) {
             setIsLoading(false)
             const errorMessage = error.response?.data?.responseMessage
             toast(errorMessage, {

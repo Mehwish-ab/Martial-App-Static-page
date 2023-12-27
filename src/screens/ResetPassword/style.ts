@@ -8,7 +8,7 @@ import banner from '../../assets/icons/ic_side_banner.svg'
 
 const ResetPasswordStyle = styled.div`
     .left-side-img {
-        background-image: url(${banner});
+        background-image: url(${banner as unknown as string});
         background-size: contain;
         height: 100vh;
         background-repeat: no-repeat;

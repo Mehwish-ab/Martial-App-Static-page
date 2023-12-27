@@ -93,9 +93,12 @@ const UpdateUser = (): JSX.Element => {
     })
 
     // on submit handler
-    const onSubmit = async (values: unknown): Promise<void> => {
+    const onSubmit = async (values: {
+        firstName: string
+        lastName: string
+    }): Promise<void> => {
         const userData = {
-            userId: data?.userDetails.id,
+            userId: Number(data?.userDetails.id),
             firstName: values.firstName,
             lastName: values.lastName,
         }
@@ -125,60 +128,60 @@ const UpdateUser = (): JSX.Element => {
 
     // upload file promise
 
-    const uploadFilePromise = async (): Promise<void> => {
-        if (!profileImage) return
-        const formData = new FormData()
-        formData.append('profilePicture', profileImage)
-
-        // formdata.append(
-        //   "data",
-        //   JSON.stringify({
-        //     userId: loginData?.userDetails.id,
-        //   })
-        // );
-
-        formData.append(
-            'data',
-            new Blob(
-                [
-                    JSON.stringify({
-                        userId: loginData?.userDetails.id,
-                    }),
-                ],
-                {
-                    type: 'application/json',
-                }
-            )
-        )
-
-        try {
-            setLoading(true)
-            const { data: data2 } = await axios.post(
-                upload_profile_url,
-                formData,
-
-                {
-                    headers: {
-                        ...authorizationToken(loginData!),
-                    },
-                }
-            )
-            console.log({ data2 })
-            setLoading(false)
-        } catch (errors: unknown) {
-            // setError(error.response.data);
-            setLoading(false)
-            console.log(errors.response.data, 'error in properties data')
-        }
-    }
-
     useEffect(() => {
+        const uploadFilePromise = async (): Promise<void> => {
+            if (!profileImage) return
+            const formData = new FormData()
+            formData.append('profilePicture', profileImage)
+
+            // formdata.append(
+            //   "data",
+            //   JSON.stringify({
+            //     userId: loginData?.userDetails.id,
+            //   })
+            // );
+
+            formData.append(
+                'data',
+                new Blob(
+                    [
+                        JSON.stringify({
+                            userId: loginData?.userDetails.id,
+                        }),
+                    ],
+                    {
+                        type: 'application/json',
+                    }
+                )
+            )
+
+            try {
+                setLoading(true)
+                const { data: data2 } = await axios.post(
+                    upload_profile_url,
+                    formData,
+
+                    {
+                        headers: {
+                            ...authorizationToken(loginData!),
+                        },
+                    }
+                )
+                console.log({ data2 })
+                setLoading(false)
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            } catch (errors: any) {
+                // setError(error.response.data);
+                setLoading(false)
+                console.log(errors.response.data, 'error in properties data')
+            }
+        }
         ;(async () => {
             if (profileImage) {
                 await uploadFilePromise()
             }
         })()
-    }, [profileImage])
+    }, [loginData, profileImage])
 
     return (
         <>

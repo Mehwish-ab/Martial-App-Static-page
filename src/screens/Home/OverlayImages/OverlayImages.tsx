@@ -60,7 +60,7 @@ const OverlayImages = ({
           ? 'SCHOOL_PROFILE_PICTURE'
           : ''
     const uploadImage = async (
-        info: unknown,
+        info: string | Blob | File,
         useCase: string
     ): Promise<void> => {
         try {
@@ -127,7 +127,7 @@ const OverlayImages = ({
 
     const ProfileImgUploadProps = {
         name: 'profileImg',
-        customRequest: (info: unknown) => uploadImage(info, useCaseOfProfile),
+        customRequest: (info: string) => uploadImage(info, useCaseOfProfile),
         showUploadList: false,
         accept: '.jpeg, .jpg, .webp, .png, tiff,.bmp',
     }

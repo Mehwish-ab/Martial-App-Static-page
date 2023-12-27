@@ -54,7 +54,7 @@ const CreateInstructor = (): JSX.Element => {
     }
 
     const instructorName = validationFinder('BUSINESS_NAME')!
-    const franchiseNameReg: unknown = new RegExp(instructorName.pattern)
+    const franchiseNameReg = new RegExp(instructorName.pattern)
     const address = validationFinder('ADDRESS')!
     const addressReg = new RegExp(address.pattern)
     const emailAddress = validationFinder('EMAIL_ADDRESS')!

@@ -22,7 +22,7 @@ const SearchGoogleLocation: FC<SearchGoogleLocationProps> = ({
     const [options, setOptions] = useState([])
     const [searchValue, setSearchValue] = useState(value)
     const handleOnChange = async (
-        e: React.FormEvent<HTMLInputElement>
+        e: React.ChangeEvent<HTMLInputElement>
     ): Promise<void> => {
         setSearchValue(e.target.value)
 
@@ -33,10 +33,12 @@ const SearchGoogleLocation: FC<SearchGoogleLocationProps> = ({
         const data = await response.json()
 
         if (data && data.predictions && data.predictions.length > 0) {
-            const arr: unknown = []
-            data.predictions.forEach((item) => {
-                arr.push({ label: item.description, value: item.place_id })
-            })
+            const arr: any = []
+            data.predictions.forEach(
+                (item: { description: any; place_id: any }) => {
+                    arr.push({ label: item.description, value: item.place_id })
+                }
+            )
 
             setOptions(arr)
         } else {
@@ -44,9 +46,10 @@ const SearchGoogleLocation: FC<SearchGoogleLocationProps> = ({
         }
     }
 
-    const handleClick = (e: unknown): void => {
-        setFieldValue(e.target.innerText)
-        setSearchValue(e.target.innerText)
+    const handleClick = (e: React.MouseEvent<HTMLElement>): void => {
+        const htmlElement = e.target as HTMLElement
+        setFieldValue(htmlElement.innerText)
+        setSearchValue(htmlElement.innerText)
         setOptions([])
     }
     return (
@@ -69,7 +72,7 @@ const SearchGoogleLocation: FC<SearchGoogleLocationProps> = ({
                     size="small"
                     bordered
                     dataSource={options}
-                    renderItem={(item: unknown) => (
+                    renderItem={(item: any) => (
                         <List.Item
                             onClick={handleClick}
                             style={{ cursor: 'pointer' }}

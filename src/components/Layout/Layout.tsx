@@ -5,7 +5,7 @@ import Sidebar from '../Sidebar/Sidebar'
 import { Layout } from 'antd'
 const { Header, Content } = Layout
 
-const AppLayout = (props: any) => {
+const AppLayout = (props: any): JSX.Element => {
     // const {
     //   token: { colorBgContainer },
     // } = theme?.useToken();

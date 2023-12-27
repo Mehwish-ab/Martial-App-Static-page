@@ -29,8 +29,8 @@ const ViewFranchise = (): JSX.Element => {
 
     useEffect(() => {
         const fetchstripe = async (): Promise<unknown> => {
-            const data = await getFranchisebyid(franchiseId)
-            setFranchise(data)
+            const data = await getFranchisebyid(Number(franchiseId))
+            setFranchise(data as any)
             return data
         }
         fetchstripe()

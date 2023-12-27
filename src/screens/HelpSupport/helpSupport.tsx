@@ -184,7 +184,7 @@ const HelpSupport = (): JSX.Element => {
             setIsLoading(false)
         } catch (error) {
             setIsLoading(false)
-            toast(error.response.data.responseMessage, {
+            toast((error as any).response.data.responseMessage, {
                 type: 'error',
                 autoClose: 1000,
             })

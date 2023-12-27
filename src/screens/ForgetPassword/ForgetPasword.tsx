@@ -27,7 +27,8 @@ export type forgetPasswordInitialTypes = {
     phoneNumber: string
 }
 
-const ForgetPassword = () => {
+const ForgetPassword = (): JSX.Element => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { loading, handleSubmit, error } = useGenerateOtp()
     const { getLabelByKey } = useScreenTranslation('forgotPassword')
     const navigate = useNavigate()
@@ -102,7 +103,7 @@ const ForgetPassword = () => {
                     <div className="forget-password-container-card">
                         <div className="forget-password-container-card-inner position-relative ">
                             <img
-                                src={CloseBtn}
+                                src={CloseBtn as string}
                                 alt=""
                                 className="closeButtonIcon"
                                 onClick={() => navigate('/login')}

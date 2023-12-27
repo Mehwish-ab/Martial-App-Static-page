@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react'
 import { Autocomplete } from '@react-google-maps/api'
 import { AutoCompleteSuggestionsStyle } from './style'
@@ -54,7 +55,7 @@ const AutoCompleteAddress: React.FC<autoCompleteMapsProps> = ({
     //     setAutocomplete(autocomplete)
     // }
 
-    const onPlaceChanged = (): unknown => {
+    const onPlaceChanged = (): void => {
         if (autocomplete) {
             const place = autocomplete.getPlace()
             if (place && place.geometry && place.geometry.location) {

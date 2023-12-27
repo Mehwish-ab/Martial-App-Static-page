@@ -8,11 +8,11 @@ import select from '../../assets/icons/ic_add_property_sel_payment.svg'
 import unselect from '../../assets/icons/ic_add_property_payment.svg'
 import plusIcon from '../../assets/icons/ic_add_property_add_card.svg'
 import CustomButton from '../../components/CustomButton/CustomButton'
-import { lightBlue2, primaryColor } from '../../components/GlobalStyle'
+import { primaryColor } from '../../components/GlobalStyle'
 import { useNavigate } from 'react-router-dom'
 import { useGlobalContext } from '../../context/context'
 
-const BillSummary = () => {
+const BillSummary = (): JSX.Element => {
     const navigate = useNavigate()
     const { createPropertyPlan, createPropertyReport } = useGlobalContext()
 
@@ -118,7 +118,7 @@ const BillSummary = () => {
                                     <h6 className="head-bar-title">
                                         Credit Card Info
                                     </h6>
-                                    <img src={plusIcon} alt="plus" />
+                                    <img src={plusIcon as string} alt="plus" />
                                 </div>
                                 <div className="payments">
                                     {payments.map(
@@ -130,7 +130,10 @@ const BillSummary = () => {
                                                 key={index}
                                                 className="payments-type d-flex align-items-center align-items-center"
                                             >
-                                                <img src={icon} alt="plus" />
+                                                <img
+                                                    src={icon as string}
+                                                    alt="plus"
+                                                />
                                                 <div className="ms-3 d-flex justify-content-between w-100 align-items-center">
                                                     <div>
                                                         <h6 className="step-title mb-2">
@@ -141,7 +144,9 @@ const BillSummary = () => {
                                                         </p>
                                                     </div>
                                                     <img
-                                                        src={selection}
+                                                        src={
+                                                            selection as string
+                                                        }
                                                         alt="select"
                                                         className="select"
                                                     />

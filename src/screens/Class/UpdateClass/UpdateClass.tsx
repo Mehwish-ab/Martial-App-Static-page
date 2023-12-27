@@ -21,9 +21,10 @@ import { useNavigate } from 'react-router-dom'
 import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import { RootState } from '../../../redux/store'
 
-const CreateClass = () => {
+const CreateClass = (): JSX.Element => {
     const [isShowModal, setIsShowModal] = useState(false)
     const navigate = useNavigate()
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isLoading, setIsLoading] = useState(false)
 
     const { ClassData } = useSelector((state: RootState) => state.ClassData)
@@ -35,7 +36,7 @@ const CreateClass = () => {
         emailAddress: '',
         Classinstructor: [],
         ClassFee: '',
-        ClassActivities: '',
+        ClassActivities: [],
         Classcapicity: '',
         MinimumStudents: '',
         startbooking: '',
@@ -56,7 +57,7 @@ const CreateClass = () => {
         profilePicture: '',
     }
 
-    const onSubmit = async () => {
+    const onSubmit = async (): Promise<void> => {
         try {
             setIsShowModal(true)
             setTimeout(() => {
@@ -508,8 +509,9 @@ const CreateClass = () => {
                                                 className="checkBoxPara"
                                                 id="agreement"
                                             >
-                                                Agreement to follow the app's
-                                                guidelines and policies
+                                                Agreement to follow the
+                                                app&apos;s guidelines and
+                                                policies
                                             </p>
                                         </form>
                                     </label>

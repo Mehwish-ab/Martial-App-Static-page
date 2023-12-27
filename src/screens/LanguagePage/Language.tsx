@@ -2,7 +2,7 @@ import { Col, Row } from 'react-bootstrap'
 import { LanguageStyling } from './style'
 import UK_Flag from '../../assets/icons/ic_uk_flag.svg'
 
-const Language: unknown = () => {
+const Language = (): JSX.Element => {
     return (
         <LanguageStyling>
             <div className="language">

@@ -480,7 +480,7 @@ const RegisterUser = (): JSX.Element => {
                                                         <div className="line" />
                                                     </div>
                                                     <OauthLogin
-                                                        usecase={
+                                                        useCase={
                                                             OAUTH_USECASES.register
                                                         }
                                                     />

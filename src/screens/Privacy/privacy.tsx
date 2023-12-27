@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { PrivacyStyling } from './style'
 
-const Privacy = () => {
+const Privacy = (): JSX.Element => {
     return (
         <PrivacyStyling>
             <h3>Privacy Statement</h3>
@@ -32,7 +32,7 @@ const Privacy = () => {
                     <p>
                         <span>Affiliate </span>means an entity that controls, is
                         controlled by, or is under common control with a party,
-                        where "control" means ownership of 50% or more of the
+                        where control means ownership of 50% or more of the
                         shares, equity interest, or other securities entitled to
                         vote for election of directors or other managing
                         authority
@@ -45,9 +45,9 @@ const Privacy = () => {
                 </li>
                 <li>
                     <p>
-                        <span>Company </span>(referred to as either "the
-                        Company," "We," "Us," or "Our" in this Agreement) refers
-                        to Martial App Ltd, ac.
+                        <span>Company </span>(referred to as either the
+                        Company,We,Us,orOur in this Agreement) refers to Martial
+                        App Ltd, ac.
                     </p>
                 </li>
                 <li>
@@ -65,7 +65,7 @@ const Privacy = () => {
                 <li>
                     <p>
                         <span>Terms and Conditions </span>(also referred to as
-                        "Terms") mean these Terms and Conditions that form the
+                        Terms) mean these Terms and Conditions that form the
                         entire agreement between You and the Company regarding
                         the use of the Service. This Terms and Conditions
                         agreement has been created with the help of the Terms
@@ -152,7 +152,7 @@ const Privacy = () => {
                 liability of the Company and any of its suppliers under any
                 provision of this Terms and Your exclusive remedy for all of the
                 foregoing shall be limited to the amount actually paid by You
-                through the Service or 100 USD if You haven't purchased anything
+                through the Service or 100 USD if You havent purchased anything
                 through the Service. To the maximum extent permitted by
                 applicable law, in no event shall the Company or its suppliers
                 be liable for any special, incidental, indirect, or
@@ -168,7 +168,7 @@ const Privacy = () => {
                 do not allow the exclusion of implied warranties or limitation
                 of liability for incidental or consequential damages, which
                 means that some of the above limitations may not apply. In these
-                states, each party's liability will be limited to the greatest
+                states, each partys liability will be limited to the greatest
                 extent permitted by law.
             </p>
 
@@ -178,7 +178,7 @@ const Privacy = () => {
                 liability of the Company and any of its suppliers under any
                 provision of this Terms and Your exclusive remedy for all of the
                 foregoing shall be limited to the amount actually paid by You
-                through the Service or 100 USD if You haven't purchased anything
+                through the Service or 100 USD if You havent purchased anything
                 through the Service. To the maximum extent permitted by
                 applicable law, in no event shall the Company or its suppliers
                 be liable for any special, incidental, indirect, or
@@ -194,14 +194,14 @@ const Privacy = () => {
                 do not allow the exclusion of implied warranties or limitation
                 of liability for incidental or consequential damages, which
                 means that some of the above limitations may not apply. In these
-                states, each party's liability will be limited to the greatest
+                states, each partys liability will be limited to the greatest
                 extent permitted by law.
             </p>
 
-            <h3 className="mt-30">"AS IS" and "AS AVAILABLE" Disclaimer</h3>
+            <h3 className="mt-30">AS IS and AS AVAILABLE Disclaimer</h3>
             <p className="mt-10">
-                The Service is provided to You "AS IS" and "AS AVAILABLE" and
-                with all faults and defects without warranty of any kind. To the
+                The Service is provided to You AS IS and AS AVAILABLE and with
+                all faults and defects without warranty of any kind. To the
                 maximum extent permitted under applicable law, the Company, on
                 its own behalf and on behalf of its Affiliates and its and their
                 respective licensors and service providers, expressly disclaims
@@ -218,7 +218,7 @@ const Privacy = () => {
                 without interruption, meet any performance or reliability
                 standards or be error-free or that any errors or defects can or
                 will be corrected. Without limiting the foregoing, neither the
-                Company nor any of the company's provider makes any
+                Company nor any of the companys provider makes any
                 representation or warranty of any kind, express or implied: (i)
                 as to the operation or availability of the Service, or the
                 information, content, and materials or products included
@@ -264,8 +264,8 @@ const Privacy = () => {
                 You represent and warrant that (i) You are not located in a
                 country that is subject to the United States government embargo
                 or that has been designated by the United States government as a
-                "terrorist supporting" country, and (ii) You are not listed on
-                any United States government list of prohibited or restricted
+                terrorist supporting country, and (ii) You are not listed on any
+                United States government list of prohibited or restricted
                 parties.
             </p>
 
@@ -284,7 +284,7 @@ const Privacy = () => {
             <p className="mt-10">
                 Except as provided herein, the failure to exercise a right or to
                 require performance of an obligation under this Terms shall not
-                affect a party's ability to exercise such right or require such
+                affect a partys ability to exercise such right or require such
                 performance at any time thereafter nor shall the waiver of a
                 breach constitute a waiver of any subsequent breach.
             </p>
@@ -300,7 +300,7 @@ const Privacy = () => {
             <p className="mt-10">
                 We reserve the right, at Our sole discretion, to modify or
                 replace these Terms at any time. If a revision is material We
-                will make reasonable efforts to provide at least 30 days' notice
+                will make reasonable efforts to provide at least 30 days notice
                 prior to any new terms taking effect. What constitutes a
                 material change will be determined at Our sole discretion. By
                 continuing to access or use Our Service after those revisions

@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import {
     darkBlue,
-    fontFamilyBold,
     fontFamilyMedium,
     fontFamilyRegular,
     lightDark2,

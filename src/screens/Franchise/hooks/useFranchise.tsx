@@ -1,34 +1,33 @@
 import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import axios from 'axios'
-import {
-    authorizationToken,
-    create_branch_url,
-    edit_branch_url,
-} from '../../../utils/api_urls'
+import { authorizationToken } from '../../../utils/api_urls'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { loginDataTypes } from '../../../redux/features/types'
 import { CreateFranchiseInitialValues } from '../constant'
+import { FormikHelpers } from 'formik'
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const useFranchise = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
-    const toastId = useRef<any>(null)
-    const { branchId } = useParams()
+    const toastId = useRef<unknown>(null)
     const navigate = useNavigate()
     const { loginData } = useSelector((state: RootState) => state)
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isShowModal, setIsShowModal] = useState(false)
     const [data, setData] = useState<unknown>({})
 
     const handleSubmit = async (
         values: CreateFranchiseInitialValues,
-        { resetForm }: any
-    ) => {
-        const userDetails = loginData.data?.userDetails
+        { resetForm }: FormikHelpers<CreateFranchiseInitialValues>
+    ): Promise<void> => {
         console.log('values', values)
         const payload = {
             franchiseName: values.franchiseName,
@@ -57,24 +56,27 @@ const useFranchise = () => {
             // schoolGclMethod: values.schoolGclMethod,
         }
 
-        let endpoint = branchId ? edit_branch_url : create_branch_url
         try {
             setError('')
             setLoading(true)
-            const { data } = await axios.post('/franchise/create', payload, {
-                headers: {
-                    ...authorizationToken(loginData.data as loginDataTypes),
-                },
-            })
-            if (data.responseCode === '500') {
-                toast(data.responseMessage, {
+            const { data: data4 } = await axios.post(
+                '/franchise/create',
+                payload,
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            if (data4.responseCode === '500') {
+                toast(data4.responseMessage, {
                     type: 'error',
                     autoClose: 1000,
                 })
                 setLoading(false)
                 return
             }
-            toastId.current = toast(data.responseMessage, {
+            toastId.current = toast(data4.responseMessage, {
                 type: 'success',
                 autoClose: 1000,
             })
@@ -82,6 +84,7 @@ const useFranchise = () => {
             console.log({ data })
             navigate('/franchise/list')
             resetForm()
+            // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.log({ error })
             setLoading(false)
@@ -96,11 +99,11 @@ const useFranchise = () => {
         }
     }
 
-    const viewFranchisebyid = async (franchiseId: number) => {
+    const viewFranchisebyid = async (franchiseId: number): Promise<unknown> => {
         try {
             setError('')
             setLoading(true)
-            const { data } = await axios.post(
+            const { data: data3 } = await axios.post(
                 '/franchise/getDetailsById',
                 { franchiseId },
                 {
@@ -110,13 +113,14 @@ const useFranchise = () => {
                 }
             )
 
-            if (data.responseCode === '500') {
+            if (data3.responseCode === '500') {
                 setLoading(false)
                 return
             }
-            console.log('franchise info', data.results)
+            console.log('franchise info', data3.results)
             setLoading(false)
-            return data.results
+            return data3.results
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-shadow
         } catch (error: any) {
             console.log('error', error)
             setLoading(false)
@@ -125,9 +129,9 @@ const useFranchise = () => {
     }
 
     const editFranchise = async (
-        franchiseId: any,
+        franchiseId: number,
         values: CreateFranchiseInitialValues
-    ) => {
+    ): Promise<unknown> => {
         const url = '/franchise/edit'
         const userDetails = loginData.data?.userDetails
 
@@ -155,14 +159,14 @@ const useFranchise = () => {
             }
             console.log('Payload', payload)
 
-            const { data } = await axios.post(url, payload, {
+            const { data: data1 } = await axios.post(url, payload, {
                 headers: {
                     ...authorizationToken(loginData.data as loginDataTypes),
                 },
             })
-            if (data.responseCode === '500') {
+            if (data1.responseCode === '500') {
                 setLoading(false)
-                return data.response
+                return data1.response
             }
 
             setIsShowModal(true)
@@ -173,28 +177,29 @@ const useFranchise = () => {
             }, 3000)
 
             console.log({ data })
+            // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.log({ error })
             setLoading(false)
             setError(error.response.data.responseMessage)
-            let id = setTimeout(() => {
+            const id = setTimeout(() => {
                 setError('')
             }, 3000)
-            // if (!setIsShowModal) {
-            //   clearTimeout(id);
-            // }
-            // toastId.current = toast(error.response.data.errors, {
-            //   type: "error",
-            //   autoClose: 1000,
-            // });
+            if (!setIsShowModal) {
+                clearTimeout(id)
+            }
+            toastId.current = toast(error.response.data.errors, {
+                type: 'error',
+                autoClose: 1000,
+            })
         }
     }
 
-    const getFranchisebyid = async (franchiseId: any) => {
+    const getFranchisebyid = async (franchiseId: number): Promise<unknown> => {
         try {
             setError('')
             setLoading(true)
-            const { data } = await axios.post(
+            const { data: datas } = await axios.post(
                 '/franchise/getDetailsById',
                 { franchiseId },
                 {
@@ -204,13 +209,14 @@ const useFranchise = () => {
                 }
             )
 
-            if (data.responseCode === '500') {
+            if (datas.responseCode === '500') {
                 setLoading(false)
-                return
+                return datas
             }
-            console.log('franchise info', data.results)
+            console.log('franchise info', datas.results)
             setLoading(false)
-            return data.results
+            return datas.results
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (Error: any) {
             console.log('error', Error)
             setLoading(false)
@@ -218,7 +224,7 @@ const useFranchise = () => {
         }
     }
 
-    const deleteFranchise = async (franchiseId: number) => {
+    const deleteFranchise = async (franchiseId: number): Promise<void> => {
         const url = '/franchise/delete'
         console.log(franchiseId)
 
@@ -227,7 +233,7 @@ const useFranchise = () => {
         try {
             setError('')
             setLoading(true)
-            const { data } = await axios.post(
+            const { data: data2 } = await axios.post(
                 url,
                 { franchiseId },
                 {
@@ -236,8 +242,8 @@ const useFranchise = () => {
                     },
                 }
             )
-            if (data.responseCode === '500') {
-                toast(data.responseMessage, {
+            if (data2.responseCode === '500') {
+                toast(data2.responseMessage, {
                     type: 'error',
                     autoClose: 1000,
                 })
@@ -258,6 +264,7 @@ const useFranchise = () => {
             console.log('data', { data })
             setLoading(false)
             // navigate("/school");
+            // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.log('api error', error)
             setError(error.response.data.responseMessage)

@@ -29,7 +29,7 @@ import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelec
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 
-const CreateBranch = () => {
+const CreateBranch = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('branchCreate')
     const navigate = useNavigate()
     const { schoolData } = useSelector(
@@ -79,9 +79,9 @@ const CreateBranch = () => {
         branchName: Yup.string()
             .required(branchName.notBlankMsgEn)
             .matches(branchNameReg, branchName.patternMsgEn),
-        // address: Yup.string()
-        //   .required(address.notBlankMsgEn)
-        //   .matches(addressReg, address.patternMsgEn),
+        address: Yup.string()
+            .required(address.notBlankMsgEn)
+            .matches(addressReg, address.patternMsgEn),
         branchType: Yup.string().required('Please select branch type'),
         branchPhoneNumber: Yup.string().required(
             branchPhoneNumber.notBlankMsgEn
@@ -136,11 +136,13 @@ const CreateBranch = () => {
         schoolGclMethod: Yup.boolean(),
     })
 
-    const createOptions = (list: DataTypesWithIdAndMultipleLangLabel[]) => {
-        let options: SelectOptionsDataTypes[] = []
+    const createOptions = (
+        list: DataTypesWithIdAndMultipleLangLabel[]
+    ): SelectOptionsDataTypes[] => {
+        const options: SelectOptionsDataTypes[] = []
         list.forEach((item) => {
-            let obj = {
-                label: (item as any)[selectedLanguage],
+            const obj = {
+                label: (item as unknown as string)[selectedLanguage],
                 value: item.id,
             }
 
@@ -266,7 +268,7 @@ const CreateBranch = () => {
                                             placeholder={getLabelByKey(
                                                 'enterCompleteAddress'
                                             )}
-                                            handleChange={(val: any) => {
+                                            handleChange={(val: unknown) => {
                                                 formik.setFieldValue(
                                                     'address',
                                                     val

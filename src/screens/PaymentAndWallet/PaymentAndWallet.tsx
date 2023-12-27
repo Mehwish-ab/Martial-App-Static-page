@@ -35,40 +35,40 @@ export type creditCardTypes = {
     isDefault: boolean
 }
 
-const PaymentAndWallet = () => {
+const PaymentAndWallet = (): JSX.Element => {
     const navigate = useNavigate()
     const [cardsData, setCardsData] = useState([] as creditCardTypes[])
-    const [error, setError] = useState(null as any)
+    const [error, setError] = useState(null as unknown)
     const [loading, setLoading] = useState(false)
     const { data: loginData } = useAppSelector(
         (state: RootState) => state.loginData
     )
-    const deleteCardToastId = useRef<any>(null)
-    const cardDefaultToastId = useRef<any>(null)
+    const deleteCardToastId = useRef<unknown>(null)
+    const cardDefaultToastId = useRef<unknown>(null)
 
     // credit card brands
-    const cardBrands: any = {
-        VisaCard: visa,
-        Mastercard: master,
+    const cardBrands: Record<string, string> = {
+        VisaCard: visa as string,
+        Mastercard: master as string,
     }
 
     // credit card toggler
-    const togglePayment = (index: number) => {
-        // const data = [...payments];
-        // const unSelectData = data.map((paymentData) => {
-        //   return paymentData.select === true
-        //     ? { ...paymentData, select: false }
-        //     : paymentData;
-        // });
-        // unSelectData[index].select = !data[index].select;
-        // setPayments(unSelectData);
-    }
+    // const togglePayment = (): void => {
+    //     // const data = [...payments];
+    //     // const unSelectData = data.map((paymentData) => {
+    //     //   return paymentData.select === true
+    //     //     ? { ...paymentData, select: false }
+    //     //     : paymentData;
+    //     // });
+    //     // unSelectData[index].select = !data[index].select;
+    //     // setPayments(unSelectData);
+    // }
 
     // make card default promise
     const makeCardDefaultPromise = async (
         cardId: number,
         isDefault: boolean
-    ) => {
+    ): Promise<void> => {
         // if card is already default then do nothing
         if (isDefault) return
         try {
@@ -98,8 +98,8 @@ const PaymentAndWallet = () => {
             })
 
             console.log({ data })
-        } catch (error) {
-            console.log({ error })
+        } catch (errors) {
+            console.log({ errors })
             cardDefaultToastId.current = toast('something went wrong ', {
                 type: 'error',
             })
@@ -116,7 +116,7 @@ const PaymentAndWallet = () => {
         cardId,
         stripeCardId,
         userId,
-    }: deleteCardTypes) => {
+    }: deleteCardTypes): Promise<void> => {
         try {
             setLoading(true)
             const { data } = await axios.post(
@@ -139,7 +139,8 @@ const PaymentAndWallet = () => {
                 type: 'success',
             })
             console.log(data)
-            creditCardListHandler()
+            // creditCardListHandler()
+            // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
         } catch (error: any) {
             const { data } = error.response
             deleteCardToastId.current = toast(error.responseMessage, {
@@ -152,37 +153,39 @@ const PaymentAndWallet = () => {
     }
 
     // handle credit cards list
-    const creditCardListHandler = async () => {
-        try {
-            setLoading(true)
-            const { data } = await axios.post(
-                credit_cards__list_url,
-                {
-                    userId: loginData?.userDetails.id,
-                },
-                {
-                    headers: {
-                        ...authorizationToken(loginData!),
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-            setCardsData(data.results)
-            setLoading(false)
-            console.log(data)
-        } catch (error: any) {
-            const { data } = error.response
-            if (data.responseCode === '400') {
-                setCardsData([])
-            }
-            setError(data)
-            console.log({ error })
-            setLoading(false)
-        }
-    }
+
     useEffect(() => {
+        const creditCardListHandler = async (): Promise<void> => {
+            try {
+                setLoading(true)
+                const { data } = await axios.post(
+                    credit_cards__list_url,
+                    {
+                        userId: loginData?.userDetails.id,
+                    },
+                    {
+                        headers: {
+                            ...authorizationToken(loginData!),
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                )
+                setCardsData(data.results)
+                setLoading(false)
+                console.log(data)
+                // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
+            } catch (error: any) {
+                const { data } = error.response
+                if (data.responseCode === '400') {
+                    setCardsData([])
+                }
+                setError(data)
+                console.log({ error })
+                setLoading(false)
+            }
+        }
         creditCardListHandler()
-    }, [])
+    }, [loginData])
 
     return (
         <Container>
@@ -215,11 +218,11 @@ const PaymentAndWallet = () => {
                                                         stripeCardId,
                                                     }) => (
                                                         <div
-                                                            onClick={() =>
-                                                                togglePayment(
-                                                                    id
-                                                                )
-                                                            }
+                                                            // onClick={() =>
+                                                            //     // togglePayment(
+                                                            //     //     id
+                                                            //     // )
+                                                            // }
                                                             key={id}
                                                             className="payments-type d-flex align-items-center"
                                                         >
@@ -231,9 +234,9 @@ const PaymentAndWallet = () => {
                                                                     )
                                                                 }
                                                                 src={
-                                                                    isDefault
+                                                                    (isDefault
                                                                         ? selectIcon
-                                                                        : unselectIcon
+                                                                        : unselectIcon) as string
                                                                 }
                                                                 alt={`${
                                                                     isDefault
@@ -267,16 +270,20 @@ const PaymentAndWallet = () => {
                                                                 </div>
                                                             </div>
                                                             <img
-                                                                src={deleteIcon}
+                                                                src={
+                                                                    deleteIcon as string
+                                                                }
                                                                 className="fs-4 ms-auto mt-2 mb-3 delete-icon"
                                                                 onClick={() =>
                                                                     deleteCreditCard(
                                                                         {
                                                                             cardId: id,
                                                                             stripeCardId,
-                                                                            userId: loginData
-                                                                                ?.userDetails
-                                                                                .id!,
+                                                                            userId: Number(
+                                                                                loginData
+                                                                                    ?.userDetails
+                                                                                    .id
+                                                                            ),
                                                                         }
                                                                     )
                                                                 }
@@ -314,7 +321,7 @@ const PaymentAndWallet = () => {
                             <div className="inner-section">
                                 <div className="center-section">
                                     <img
-                                        src={placeholder}
+                                        src={placeholder as string}
                                         className="right-side-placeholder"
                                         alt="placeholder"
                                     />

@@ -1,6 +1,6 @@
 import CardView from '../CardView/CardView'
 
-const ProfileMembership = () => {
+const ProfileMembership = (): JSX.Element => {
     return (
         <>
             <CardView />

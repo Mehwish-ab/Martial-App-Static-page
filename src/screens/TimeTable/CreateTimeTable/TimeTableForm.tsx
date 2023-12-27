@@ -1,6 +1,4 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import FormControl from '../../../components/FormControl'
 import { useSelector } from 'react-redux'
 import { Col, Row } from 'react-bootstrap'
@@ -13,10 +11,6 @@ import { RootState } from '../../../redux/store'
 // import { FormControl } from "react-bootstrap";
 
 const TimeTableForm: React.FC = () => {
-    const { getLabelByKey } = useScreenTranslation('listTimeTable')
-
-    const navigate = useNavigate()
-
     const { loading } = useSelector((state: RootState) => state.timeTableData)
 
     return (
@@ -64,7 +58,7 @@ const TimeTableForm: React.FC = () => {
                                     fontSize="16px"
                                     suffix={
                                         <img
-                                            src={DateCalander}
+                                            src={DateCalander as string}
                                             alt=""
                                             style={{
                                                 width: '23px',
@@ -86,7 +80,7 @@ const TimeTableForm: React.FC = () => {
                                     fontSize="16px"
                                     suffix={
                                         <img
-                                            src={DateCalander}
+                                            src={DateCalander as string}
                                             alt=""
                                             style={{
                                                 width: '23px',

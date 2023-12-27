@@ -13,14 +13,11 @@ import { authorizationToken, base_url } from '../../../utils/api_urls'
 
 import editIcon from '../../../assets/icons/ic_cameraIcon.svg'
 
-import profile from '../../../assets/images/create_school_user_profile.svg'
-import banner from '../../../assets/images/create_school_banner.svg'
-
 import DefaultProfileImage from '../../../assets/images/defaultProfileImage.svg'
 import DefaultBannerImage from '../../../assets/images/defaultBannerImage.svg'
 interface OverlayImagesProps {
-    backgroundImg: any
-    overlayImg: any
+    backgroundImg: unknown
+    overlayImg: unknown
     isEditable: boolean
 }
 export const ipForImages = 'https://fistastore.com:444/'
@@ -29,13 +26,13 @@ const OverlayImages = ({
     backgroundImg,
     overlayImg,
     isEditable,
-}: OverlayImagesProps) => {
+}: OverlayImagesProps): JSX.Element => {
     const { schoolId } = useParams()
     const { branchId } = useParams()
 
-    const jwtDetails = useSelector(
-        (state: RootState) => state.loginData.data?.jwtDetails
-    )
+    // const jwtDetails = useSelector(
+    //     (state: RootState) => state.loginData.data?.jwtDetails
+    // )
 
     const [profileImg, setProfileImg] = useState(overlayImg)
     const [bannerImg, setBannerImg] = useState(backgroundImg)
@@ -46,28 +43,28 @@ const OverlayImages = ({
     const { loginData } = useSelector((state: RootState) => state)
     console.log('schoolid', schoolId, 'br', branchId, schoolData)
 
-    const [profileImage, setProfileImage] = useState()
-
     useEffect(() => {
         setProfileImg(overlayImg)
         setBannerImg(backgroundImg)
     }, [overlayImg, backgroundImg])
 
-    let useCaseOfBanner = branchId
+    const useCaseOfBanner = branchId
         ? 'BRANCH_BANNER_IMAGE'
         : schoolData.schoolId
           ? 'SCHOOL_BANNER_IMAGE'
           : ''
 
-    let useCaseOfProfile = branchId
+    const useCaseOfProfile = branchId
         ? 'BRANCH_PROFILE_IMAGE'
         : schoolData.schoolId
           ? 'SCHOOL_PROFILE_PICTURE'
           : ''
-    const uploadImage = async (info: any, useCase: string) => {
+    const uploadImage = async (
+        info: string | Blob | File,
+        useCase: string
+    ): Promise<void> => {
         try {
             setLoading(true)
-            const userDetails = loginData.data?.userDetails
 
             const formData = new FormData()
             formData.append('multiPart', info.file)
@@ -108,7 +105,6 @@ const OverlayImages = ({
                 ) {
                     setProfileImg(data.results.url)
                     console.log('image', data.results.url)
-                    setProfileImage(data.results.url)
                 }
                 message.success(`${data.responseMessage}`)
             } else {
@@ -124,14 +120,14 @@ const OverlayImages = ({
 
     const BannerImgUploadProps = {
         name: 'bannerImg',
-        customRequest: (info: any) => uploadImage(info, useCaseOfBanner),
+        customRequest: (info: string) => uploadImage(info, useCaseOfBanner),
         showUploadList: false,
         accept: '.jpeg, .jpg, .webp, .png, tiff,.bmp',
     }
 
     const ProfileImgUploadProps = {
         name: 'profileImg',
-        customRequest: (info: any) => uploadImage(info, useCaseOfProfile),
+        customRequest: (info: string) => uploadImage(info, useCaseOfProfile),
         showUploadList: false,
         accept: '.jpeg, .jpg, .webp, .png, tiff,.bmp',
     }
@@ -144,9 +140,9 @@ const OverlayImages = ({
                     <div className="bannerImg">
                         <img
                             src={
-                                bannerImg
+                                (bannerImg
                                     ? ipForImages + bannerImg
-                                    : DefaultBannerImage
+                                    : DefaultBannerImage) as string
                             }
                             // src={bannerImg ? ipForImages + profileImage : DefaultBannerImage}
                             // src={
@@ -162,7 +158,7 @@ const OverlayImages = ({
                                     <Button
                                         icon={
                                             <img
-                                                src={editIcon}
+                                                src={editIcon as string}
                                                 alt=""
                                                 width={'unset'}
                                             />
@@ -176,9 +172,9 @@ const OverlayImages = ({
                         <div className="img">
                             <img
                                 src={
-                                    profileImg
+                                    (profileImg
                                         ? ipForImages + profileImg
-                                        : DefaultProfileImage
+                                        : DefaultProfileImage) as string
                                 }
                                 alt=""
                             />
@@ -188,7 +184,7 @@ const OverlayImages = ({
                                         <Button
                                             icon={
                                                 <img
-                                                    src={editIcon}
+                                                    src={editIcon as string}
                                                     alt=""
                                                     width={'unset'}
                                                 />

@@ -35,12 +35,15 @@ type initialValuesType = {
     confirmPassword?: string
 }
 
-const HelpSupport = () => {
+const HelpSupport = (): JSX.Element => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [ShowTermsError, setShowTermsError] = useState(false)
+
     const [isShowModal, setIsShowModal] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [terms] = useState(false)
 
-    const scrollViewRef = useRef<any>()
+    const scrollViewRef = useRef<HTMLDivElement>()
     const navigate = useNavigate()
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
@@ -140,14 +143,14 @@ const HelpSupport = () => {
             .oneOf([Yup.ref('password')], 'passwords must match'),
     })
     // create user data submit
-    const onSubmit = async (values: initialValuesType) => {
+    const onSubmit = async (values: initialValuesType): Promise<void> => {
         if (!terms) {
             setShowTermsError(true)
             setTimeout(() => {
                 setShowTermsError(false)
             }, 2000)
             if (scrollViewRef.current) {
-                scrollViewRef.current.scrollToEnd({ animated: true })
+                scrollViewRef.current.scrollTo({})
             }
             return
         }
@@ -179,7 +182,7 @@ const HelpSupport = () => {
                 navigate('/login')
             }, 2000)
             setIsLoading(false)
-        } catch (error: any) {
+        } catch (error) {
             setIsLoading(false)
             toast(error.response.data.responseMessage, {
                 type: 'error',
@@ -303,6 +306,7 @@ const HelpSupport = () => {
 }
 
 export default HelpSupport
-function setShowTermsError(arg0: boolean) {
-    throw new Error('Function not implemented.')
-}
+// function setShowTermsError(arg0: boolean) {
+//     // throw new Error('Function not implemented.')
+//     return 0
+// }

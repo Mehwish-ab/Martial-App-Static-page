@@ -4,7 +4,7 @@
 // };
 
 export type initialTypesSettings = {
-    preventDefault(): any
+    preventDefault(): unknown
     firstName: string
     lastName: string
     phoneNumber: string

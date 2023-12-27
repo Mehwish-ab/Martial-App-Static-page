@@ -23,9 +23,9 @@ import DateCalander from '../../../assets/images/dateCalander.svg'
 import FileSubmit from '../../../assets/icons/ic_fileSubmit.svg'
 import { validationFinder } from '../../../utils/utilities'
 import * as Yup from 'yup'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BELTS_SELECT_OPTIONS } from '../../Home/constants'
-const CreateInstructor = () => {
+const CreateInstructor = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('instructorCreate')
     const {
         statusData: { activities, facilities },
@@ -34,9 +34,8 @@ const CreateInstructor = () => {
     useEffect(() => {
         console.log('this is create instructor')
     }, [])
-    const handleImagesUpload = (selectedFiless: any) => {
+    const handleImagesUpload = (selectedFiless: FileList | null): void => {
         setSelectedFiless(selectedFiless)
-        console.log('Selected Files:', selectedFiless.name)
     }
     const { loading, handleSubmit } = useInstructor()
 
@@ -66,9 +65,9 @@ const CreateInstructor = () => {
         in: Yup.string()
             .required(instructorName.notBlankMsgEn)
             .matches(franchiseNameReg, instructorName.patternMsgEn),
-        // address: Yup.string()
-        //   .required(address.notBlankMsgEn)
-        //   .matches(addressReg, address.patternMsgEn),
+        address: Yup.string()
+            .required(address.notBlankMsgEn)
+            .matches(addressReg, address.patternMsgEn),
         emailAddress: Yup.string()
             .required(emailAddress.notBlankMsgEn)
             .matches(emailAddressReg, emailAddress.patternMsgEn),
@@ -94,7 +93,7 @@ const CreateInstructor = () => {
             .of(Yup.string().required('Select an specilization'))
             .min(1, 'Select at least one specilization'),
     })
-    const handleonSubmit = (values: any) => {
+    const handleonSubmit = (values: CreateInstructorInitialValues): void => {
         handleSubmit(values, selectedFiles)
         console.log('submitted button pressed')
     }
@@ -155,10 +154,10 @@ const CreateInstructor = () => {
                                                 'placeholderInstructorName'
                                             )}
                                             name="instructorPhoneNumber"
-                                            value={
+                                            value={String(
                                                 formik.values
                                                     .instructorPhoneNumber
-                                            }
+                                            )}
                                             placeholder={getLabelByKey(
                                                 'instructorPhoneNumber'
                                             )}
@@ -178,7 +177,7 @@ const CreateInstructor = () => {
                                             placeholder={getLabelByKey(
                                                 'placeholderAddress'
                                             )}
-                                            handleChange={(val: any) => {
+                                            handleChange={(val: unknown) => {
                                                 formik.setFieldValue(
                                                     'address',
                                                     val
@@ -211,7 +210,9 @@ const CreateInstructor = () => {
                                                     padding="10px"
                                                     suffix={
                                                         <img
-                                                            src={DateCalander}
+                                                            src={
+                                                                DateCalander as string
+                                                            }
                                                             alt="Calander"
                                                             width={21}
                                                             height={21}
@@ -333,7 +334,7 @@ const CreateInstructor = () => {
                                                 className="ms-3 mb-0"
                                                 id="agreement"
                                             >
-                                                Agreement to follow the app's
+                                                Agreement to follow the apps
                                                 guidelines and policies
                                             </p>
                                         </form>

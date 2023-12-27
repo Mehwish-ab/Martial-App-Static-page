@@ -1,17 +1,14 @@
 import styled from 'styled-components'
 import {
     fontFamilyMedium,
-    lightColor1,
-    lightGrey,
     lightGrey2,
     primaryColor,
     pureDark,
     secondaryDark4,
     tertiaryGrey6,
     whiteColor,
+    secondaryGrey,
 } from '../../components/GlobalStyle'
-import { lightDark } from '../../components/GlobalStyle'
-import { secondaryGrey } from '../../components/GlobalStyle'
 
 const PaymentAndWalletStyle = styled.div`
     padding-top: 20px;

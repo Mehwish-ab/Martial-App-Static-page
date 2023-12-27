@@ -118,7 +118,9 @@ export const verify_otp_url = 'otp/verifyOTP'
 export const reset_password_url = 'user/resetPassword'
 
 // user authorized token
-export const authorizationToken = (loginData: loginDataTypes | string) => {
+export const authorizationToken = (
+    loginData: loginDataTypes | string
+): object => {
     return {
         Authorization: `Bearer ${
             typeof loginData === 'string'
@@ -129,7 +131,7 @@ export const authorizationToken = (loginData: loginDataTypes | string) => {
 }
 
 // user refresh token
-export const refreshToken = (loginData: loginDataTypes) => {
+export const refreshToken = (loginData: loginDataTypes): unknown => {
     return {
         refreshToken: `Bearer ${loginData.jwtDetails.refreshToken}`,
     }

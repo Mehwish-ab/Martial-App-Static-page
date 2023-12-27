@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react'
 
-import { ErrorMessage, Field, Formik } from 'formik'
+import { Field, Formik } from 'formik'
 import { Form } from 'antd'
 
 import { Col, Row } from 'react-bootstrap'
-import * as Yup from 'yup'
+// import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { RootState } from '../../../redux/store'
 
-import { validationFinder } from '../../../utils/utilities'
 import FormControl from '../../../components/FormControl'
 import {
     fontFamilyMedium,
@@ -28,7 +27,7 @@ import { useParams } from 'react-router-dom'
 import { InstructorDataType } from '../../../redux/features/instructor/instructorSlice'
 import { BELTS_SELECT_OPTIONS } from '../../Home/constants'
 
-const UpdateeInstructor = () => {
+const UpdateeInstructor = (): JSX.Element => {
     const { instructorId } = useParams()
     const { getLabelByKey } = useScreenTranslation('instructorCreate')
     const {
@@ -39,33 +38,30 @@ const UpdateeInstructor = () => {
         InstructorDataType | undefined
     >()
 
-    const handleupdate = async () => {
+    const handleupdate = async (): Promise<void> => {
         await updateInstructor()
     }
 
     useEffect(() => {
         console.log('this is edit instructor')
-
-        fetchstripe()
-        async function fetchstripe() {
+        const fetchstripe = async (): Promise<void> => {
             const data = await getInstructorbyid(Number(instructorId))
             setinstructorData(data)
         }
-    }, [])
+        fetchstripe()
+    }, [getInstructorbyid, instructorId])
 
     const initialValues: CreateInstructorInitialValues = {
         instructorName: instructorData?.instructorName || '--',
         emailAddress: '--',
         instructorPhoneNumber: instructorData
             ? instructorData?.phoneNumber
-            : ('--' as any),
+            : '--',
         address: instructorData ? instructorData.address : '--',
         yearsOfExperience: instructorData?.experience || '--',
         rankId: Number(instructorData?.rankId) || 0, // or a default value
         latestCertification: instructorData?.certificationURL || '--',
-        description: instructorData
-            ? instructorData?.description
-            : ('--' as any),
+        description: instructorData ? instructorData.description : '--',
         activities: instructorData
             ? String(instructorData?.activities)
                   .split('')
@@ -79,43 +75,43 @@ const UpdateeInstructor = () => {
         termCondition: '',
     }
 
-    const franchiseName = validationFinder('BUSINESS_NAME')!
-    const franchiseNameReg = new RegExp(franchiseName.pattern)
-    const address = validationFinder('ADDRESS')!
-    const addressReg = new RegExp(address.pattern)
-    const emailAddress = validationFinder('EMAIL_ADDRESS')!
-    const emailAddressReg = new RegExp(emailAddress.pattern)
+    // const franchiseName = validationFinder('BUSINESS_NAME')!
+    // const franchiseNameReg = new RegExp(franchiseName.pattern)
+    // const address = validationFinder('ADDRESS')!
+    // const addressReg = new RegExp(address.pattern)
+    // const emailAddress = validationFinder('EMAIL_ADDRESS')!
+    // const emailAddressReg = new RegExp(emailAddress.pattern)
 
-    const franchisePhoneNumber = validationFinder('PHONE_NUMBER')!
+    // const franchisePhoneNumber = validationFinder('PHONE_NUMBER')!
 
-    const validationSchema = Yup.object({
-        franchiseName: Yup.string()
-            .required(franchiseName.notBlankMsgEn)
-            .matches(franchiseNameReg, franchiseName.patternMsgEn),
-        // address: Yup.string()
-        //   .required(address.notBlankMsgEn)
-        //   .matches(addressReg, address.patternMsgEn),
-        emailAddress: Yup.string()
-            .required(emailAddress.notBlankMsgEn)
-            .matches(emailAddressReg, emailAddress.patternMsgEn),
-        franchisePhoneNumber: Yup.string().required(
-            franchisePhoneNumber.notBlankMsgEn
-        ),
-        rankId: Yup.string().required('Please select belts'),
-        description: Yup.string().required('Please enter description'),
-        defaultLanguage: Yup.string().required(
-            'Please select default language'
-        ),
-        defaultCurrency: Yup.string().required(
-            'Please select default currency'
-        ),
-        activities: Yup.array()
-            .of(Yup.string().required('Select an activity'))
-            .min(1, 'Select at least one activity'),
-        specializations: Yup.array()
-            .of(Yup.string().required('Select an activity'))
-            .min(1, 'Select at least one facility'),
-    })
+    // const validationSchema = Yup.object({
+    //     franchiseName: Yup.string()
+    //         .required(franchiseName.notBlankMsgEn)
+    //         .matches(franchiseNameReg, franchiseName.patternMsgEn),
+    //     // address: Yup.string()
+    //     //   .required(address.notBlankMsgEn)
+    //     //   .matches(addressReg, address.patternMsgEn),
+    //     emailAddress: Yup.string()
+    //         .required(emailAddress.notBlankMsgEn)
+    //         .matches(emailAddressReg, emailAddress.patternMsgEn),
+    //     franchisePhoneNumber: Yup.string().required(
+    //         franchisePhoneNumber.notBlankMsgEn
+    //     ),
+    //     rankId: Yup.string().required('Please select belts'),
+    //     description: Yup.string().required('Please enter description'),
+    //     defaultLanguage: Yup.string().required(
+    //         'Please select default language'
+    //     ),
+    //     defaultCurrency: Yup.string().required(
+    //         'Please select default currency'
+    //     ),
+    //     activities: Yup.array()
+    //         .of(Yup.string().required('Select an activity'))
+    //         .min(1, 'Select at least one activity'),
+    //     specializations: Yup.array()
+    //         .of(Yup.string().required('Select an activity'))
+    //         .min(1, 'Select at least one facility'),
+    // })
 
     return (
         <>
@@ -177,10 +173,10 @@ const UpdateeInstructor = () => {
                                             <CustomPhoneInput
                                                 label="Instructor Phone Number"
                                                 name="instructorPhoneNumber"
-                                                value={
+                                                value={String(
                                                     formik.values
                                                         .instructorPhoneNumber
-                                                }
+                                                )}
                                                 placeholder={getLabelByKey(
                                                     'instructorPhoneNumber'
                                                 )}
@@ -200,7 +196,9 @@ const UpdateeInstructor = () => {
                                                 placeholder={getLabelByKey(
                                                     'enterCompleteAddress'
                                                 )}
-                                                handleChange={(val: any) => {
+                                                handleChange={(
+                                                    val: unknown
+                                                ) => {
                                                     formik.setFieldValue(
                                                         'address',
                                                         val
@@ -353,9 +351,8 @@ const UpdateeInstructor = () => {
                                                     className="ms-3 mb-0"
                                                     id="agreement"
                                                 >
-                                                    Agreement to follow the
-                                                    app's guidelines and
-                                                    policies
+                                                    Agreement to follow the apps
+                                                    guidelines and policies
                                                 </p>
                                             </form>
                                         </label>

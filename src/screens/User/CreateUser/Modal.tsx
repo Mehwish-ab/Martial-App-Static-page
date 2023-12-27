@@ -4,17 +4,17 @@ import CustomButton from '../../../components/CustomButton/CustomButton'
 import { fontFamilyMedium, primaryColor } from '../../../components/GlobalStyle'
 import { CreatedUserModalStyle } from './style'
 
-const CreatedUserModal = () => {
+const CreatedUserModal = (): JSX.Element => {
     const navigate = useNavigate()
     return (
         <CreatedUserModalStyle>
             <div className="inner-container">
-                <img src={logo} alt="logo" />
+                <img src={logo as string} alt="logo" />
                 <h6 className="account-created my-2">
                     Congratulations! Your Account Has Been{' '}
                 </h6>
                 <p className="message">
-                    Successfully Created. Thank You For Joining Us And We're
+                    Successfully Created. Thank You For Joining Us And We are
                     Excited To Have You On Board
                 </p>
                 <div className="mt-1">

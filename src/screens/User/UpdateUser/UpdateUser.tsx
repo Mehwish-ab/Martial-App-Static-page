@@ -37,10 +37,10 @@ type updateUserTypes = {
     profileImage: string
 }
 
-const UpdateUser = () => {
+const UpdateUser = (): JSX.Element => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const userToastId = useRef<any>(null)
+    const userToastId = useRef<unknown>(null)
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [profileImage, setProfileImage] = useState<File | null>(null)
     const { data: loginData } = useAppSelector((state) => state.loginData)
@@ -93,9 +93,12 @@ const UpdateUser = () => {
     })
 
     // on submit handler
-    const onSubmit = async (values: updateUserTypes) => {
+    const onSubmit = async (values: {
+        firstName: string
+        lastName: string
+    }): Promise<void> => {
         const userData = {
-            userId: data?.userDetails.id!,
+            userId: Number(data?.userDetails.id),
             firstName: values.firstName,
             lastName: values.lastName,
         }
@@ -119,66 +122,66 @@ const UpdateUser = () => {
     }
 
     // do task
-    const doTask = () => {
+    const doTask = (): void => {
         navigate('/user-profile')
     }
 
     // upload file promise
 
-    const uploadFilePromise = async () => {
-        if (!profileImage) return
-        const formData = new FormData()
-        formData.append('profilePicture', profileImage)
-
-        // formdata.append(
-        //   "data",
-        //   JSON.stringify({
-        //     userId: loginData?.userDetails.id,
-        //   })
-        // );
-
-        formData.append(
-            'data',
-            new Blob(
-                [
-                    JSON.stringify({
-                        userId: loginData?.userDetails.id,
-                    }),
-                ],
-                {
-                    type: 'application/json',
-                }
-            )
-        )
-
-        try {
-            setLoading(true)
-            const { data } = await axios.post(
-                upload_profile_url,
-                formData,
-
-                {
-                    headers: {
-                        ...authorizationToken(loginData!),
-                    },
-                }
-            )
-            console.log({ data })
-            setLoading(false)
-        } catch (error: any) {
-            // setError(error.response.data);
-            setLoading(false)
-            console.log(error.response.data, 'error in properties data')
-        }
-    }
-
     useEffect(() => {
+        const uploadFilePromise = async (): Promise<void> => {
+            if (!profileImage) return
+            const formData = new FormData()
+            formData.append('profilePicture', profileImage)
+
+            // formdata.append(
+            //   "data",
+            //   JSON.stringify({
+            //     userId: loginData?.userDetails.id,
+            //   })
+            // );
+
+            formData.append(
+                'data',
+                new Blob(
+                    [
+                        JSON.stringify({
+                            userId: loginData?.userDetails.id,
+                        }),
+                    ],
+                    {
+                        type: 'application/json',
+                    }
+                )
+            )
+
+            try {
+                setLoading(true)
+                const { data: data2 } = await axios.post(
+                    upload_profile_url,
+                    formData,
+
+                    {
+                        headers: {
+                            ...authorizationToken(loginData!),
+                        },
+                    }
+                )
+                console.log({ data2 })
+                setLoading(false)
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            } catch (errors: any) {
+                // setError(error.response.data);
+                setLoading(false)
+                console.log(errors.response.data, 'error in properties data')
+            }
+        }
         ;(async () => {
             if (profileImage) {
                 await uploadFilePromise()
             }
         })()
-    }, [profileImage])
+    }, [loginData, profileImage])
 
     return (
         <>
@@ -190,6 +193,7 @@ const UpdateUser = () => {
             >
                 <EnnvisionModal
                     title="Profile successfully updated"
+                    // eslint-disable-next-line max-len
                     description="Profile successfully edited. Your changes have been saved and are now reflected in your updated profile"
                     doTask={doTask}
                 />
@@ -229,7 +233,7 @@ const UpdateUser = () => {
                                                     onChange={(
                                                         event: React.ChangeEvent<HTMLInputElement>
                                                     ) => {
-                                                        let files =
+                                                        const files =
                                                             event.target.files
                                                         if (files) {
                                                             setProfileImage(
@@ -242,6 +246,7 @@ const UpdateUser = () => {
                                                     {profileImage ? (
                                                         <div
                                                             style={{
+                                                                // eslint-disable-next-line max-len
                                                                 backgroundImage: `url(${URL.createObjectURL(
                                                                     profileImage
                                                                 )})`,
@@ -261,13 +266,13 @@ const UpdateUser = () => {
                                                     ) : (
                                                         <img
                                                             src={
-                                                                formik.values
+                                                                (formik.values
                                                                     .profileImage
                                                                     ? media_base_url +
                                                                       formik
                                                                           .values
                                                                           .profileImage
-                                                                    : placeholder
+                                                                    : placeholder) as string
                                                             }
                                                             alt={
                                                                 formik.values

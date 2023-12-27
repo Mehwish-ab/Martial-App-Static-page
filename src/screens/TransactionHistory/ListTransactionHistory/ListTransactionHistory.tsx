@@ -12,8 +12,6 @@ import {
 import { useNavigate } from 'react-router-dom'
 import plusIcon from '../../../assets/icons/ic_plus.svg'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../redux/store'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
 import { TransactionDataType } from '../../../redux/features/Transaction/TransactionSlice'
 import DummyData from './dummyData.json'
@@ -26,7 +24,35 @@ import { Col, Row } from 'react-bootstrap'
 
 const ListTransactionHistory: React.FC = () => {
     const navigate = useNavigate()
+    const navigation = (
+        record: TransactionDataType,
+        redirectTo: string
+    ): void => {
+        switch (redirectTo) {
+            case 'edit':
+                navigate(`/Transaction/edit/${record.TransactionID}`, {
+                    state: {
+                        branchToEdit: record as TransactionDataType,
+                    },
+                })
+                break
 
+            case 'view':
+                navigate(`/Transaction/view/${record.TransactionID}`, {
+                    state: {
+                        branch: record as TransactionDataType,
+                    },
+                })
+                break
+
+            case 'school':
+                navigate(`/Transaction/School-profile${record.TransactionID}`, {
+                    state: {
+                        branch: record as TransactionDataType,
+                    },
+                })
+        }
+    }
     const loading = false
 
     const columns: ColumnsType<TransactionDataType> = [
@@ -59,11 +85,11 @@ const ListTransactionHistory: React.FC = () => {
             title: 'Status',
             dataIndex: 'TransactionStatus',
             key: 'TransactionStatus',
-            render: (DummyData) => {
+            render: (DummyDatas) => {
                 return (
                     <div>
-                        <button>{DummyData}</button>
-                        <img src={StatusActiveError} alt="images" />
+                        <button>{DummyDatas}</button>
+                        <img src={StatusActiveError as string} alt="images" />
                     </div>
                 )
             },
@@ -72,12 +98,12 @@ const ListTransactionHistory: React.FC = () => {
             title: 'Download',
             dataIndex: 'TransactionDownload',
             key: 'TransactionDownload',
-            render: (DummyData) => {
+            render: (DummyDatass) => {
                 return (
                     <div>
                         <button>
-                            <img src={Download} alt="images" />
-                            {DummyData}
+                            <img src={Download as string} alt="images" />
+                            {DummyDatass}
                         </button>
                     </div>
                 )
@@ -108,7 +134,7 @@ const ListTransactionHistory: React.FC = () => {
                     <Space size="middle">
                         <Dropdown menu={{ items }}>
                             <img
-                                src={actionMenuTogglerIcon}
+                                src={actionMenuTogglerIcon as string}
                                 alt="action menu"
                                 style={{ cursor: 'pointer' }}
                             />
@@ -118,33 +144,6 @@ const ListTransactionHistory: React.FC = () => {
             },
         },
     ]
-
-    const navigation = (record: TransactionDataType, redirectTo: string) => {
-        switch (redirectTo) {
-            case 'edit':
-                navigate(`/Transaction/edit/${record.TransactionID}`, {
-                    state: {
-                        branchToEdit: record as TransactionDataType,
-                    },
-                })
-                break
-
-            case 'view':
-                navigate(`/Transaction/view/${record.TransactionID}`, {
-                    state: {
-                        branch: record as TransactionDataType,
-                    },
-                })
-                break
-
-            case 'school':
-                navigate(`/Transaction/School-profile${record.TransactionID}`, {
-                    state: {
-                        branch: record as TransactionDataType,
-                    },
-                })
-        }
-    }
 
     console.log('DummyData', DummyData)
 
@@ -158,13 +157,15 @@ const ListTransactionHistory: React.FC = () => {
                         DummyData.map((item) => ({
                             ...item,
                             key: item.TransactionID,
-                        })) as any
+                        })) as never
                     }
+                    // eslint-disable-next-line @typescript-eslint/no-use-before-define
                     title={() => <RenderTableTitle />}
                     pagination={{
                         showTotal: (total, range) => (
                             <span
                                 dangerouslySetInnerHTML={{
+                                    // eslint-disable-next-line max-len
                                     __html: `Page <span className='paginationVal'>${range[0]}</span> of ${range[1]}`,
                                 }}
                             />
@@ -178,7 +179,7 @@ const ListTransactionHistory: React.FC = () => {
 
 export default ListTransactionHistory
 
-const RenderTableTitle = () => {
+const RenderTableTitle = (): JSX.Element => {
     const navigate = useNavigate()
 
     return (
@@ -190,7 +191,7 @@ const RenderTableTitle = () => {
                         <div className="mainarrow">
                             <div className="arrowright">
                                 <img
-                                    src={LeftArrow}
+                                    src={LeftArrow as string}
                                     alt="Date"
                                     width={18}
                                     height={12}
@@ -198,7 +199,7 @@ const RenderTableTitle = () => {
                             </div>
                             <div className="arrowleft">
                                 <img
-                                    src={RightArrow}
+                                    src={RightArrow as string}
                                     alt="Date"
                                     width={18}
                                     height={12}
@@ -211,7 +212,7 @@ const RenderTableTitle = () => {
                                 <span>Thu,</span> Sep 21, 2023
                             </p>
                             <img
-                                src={DateCalander}
+                                src={DateCalander as string}
                                 alt="Calander"
                                 width={21}
                                 height={21}
@@ -231,7 +232,7 @@ const RenderTableTitle = () => {
                         fontSize="17px"
                         icon={
                             <img
-                                src={plusIcon}
+                                src={plusIcon as string}
                                 alt="edit icon"
                                 width={17}
                                 height={17}

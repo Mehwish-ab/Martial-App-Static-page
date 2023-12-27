@@ -1,14 +1,16 @@
 import { Card, Dropdown, List, Space, Table } from 'antd'
 import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import { AddPaymentMethod } from '../AddPaymentBranch/styles'
-import { useLocation } from 'react-router-dom'
-import { BranchDataType } from '../../../redux/features/branch/branchSlice'
+import { useLocation, useNavigate } from 'react-router-dom'
+import getPayment, {
+    BranchDataType,
+} from '../../../redux/features/branch/branchSlice'
 import { Col, Row } from 'react-bootstrap'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
 import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
-import { useNavigate } from 'react-router-dom'
+
 import type { ColumnsType } from 'antd/es/table'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
@@ -21,7 +23,7 @@ import {
 } from '../../../components/GlobalStyle'
 import plusIcon from '../../../assets/icons/ic_plus.svg'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
-import getPayment from '../../../redux/features/branch/branchSlice'
+
 import useBranch from '../hooks/useBranch'
 import { useEffect, useState } from 'react'
 
@@ -49,9 +51,9 @@ const AddPaymentinfo: React.FC = () => {
     const branch: BranchDataType = location.state?.branch
     const [stripepayment, setStripepayment] = useState<any[]>([])
     const [bankpayment, setBankpayment] = useState<any[]>([])
-    const [paypalpayment, setPaypalpayment] = useState<any[]>([])
-    const [Gocardlesspayment, setGocardlesspayment] = useState<any[]>([])
-    const [cashpayment, setCash] = useState<any[]>([])
+    const [paypalpayment, setPaypalpayment] = useState<unknown[]>([])
+    const [Gocardlesspayment, setGocardlesspayment] = useState<unknown[]>([])
+    const [cashpayment, setCash] = useState<unknown[]>([])
 
     const { branchData, loading } = useSelector(
         (state: RootState) => state?.branchData
@@ -59,7 +61,10 @@ const AddPaymentinfo: React.FC = () => {
     useEffect(() => {
         fetchstripe()
         async function fetchstripe() {
-            const data = (await get_stripe('BRANCH', branch?.branchId)) as any[]
+            const data = (await get_stripe(
+                'BRANCH',
+                branch?.branchId
+            )) as unknown[]
             setStripepayment(data)
             console.log('>> date:', data)
         }

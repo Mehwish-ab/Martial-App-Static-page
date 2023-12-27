@@ -22,18 +22,18 @@ type autoCompleteMapsProps = {
     }: onChangeProps) => void
 }
 
-const libraries: (
-    | 'places'
-    | 'drawing'
-    | 'geometry'
-    | 'localContext'
-    | 'visualization'
-)[] = ['places'] // Move libraries array outside of the component
+// const libraries: (
+//     | 'places'
+//     | 'drawing'
+//     | 'geometry'
+//     | 'localContext'
+//     | 'visualization'
+// )[] = ['places'] // Move libraries array outside of the component
 
 // Customize the style of the suggestions
 const autocompleteOptions = {
     componentRestrictions: { country: 'ca' }, // Restrict suggestions to Canada only
-    // types: ["address"], // Restrict suggestions to addresses only
+    types: ['address'], // Restrict suggestions to addresses only
     // fields: ["formatted_address", "geometry"], // Retrieve formatted address and geometry
     // Add any other options as needed
 }
@@ -44,24 +44,22 @@ const AutoCompleteAddress: React.FC<autoCompleteMapsProps> = ({
     name,
     onChange,
 }) => {
-    const [map, setMap] = useState<google.maps.Map | null>(null)
     const [autocomplete, setAutocomplete] =
         useState<google.maps.places.Autocomplete | null>(null)
-    const [address, setAddress] = useState<string>('')
+    // const [address, setAddress] = useState<string>('')
 
-    const onLoadAutocomplete = (
-        autocomplete: google.maps.places.Autocomplete
-    ) => {
-        setAutocomplete(autocomplete)
-    }
+    // const onLoadAutocomplete = (
+    //     autocomplete: google.maps.places.Autocomplete
+    // ) => {
+    //     setAutocomplete(autocomplete)
+    // }
 
-    const onPlaceChanged = () => {
+    const onPlaceChanged = (): unknown => {
         if (autocomplete) {
             const place = autocomplete.getPlace()
             if (place && place.geometry && place.geometry.location) {
-                setAddress(place.formatted_address || '')
-                map?.setCenter(place.geometry.location)
-                map?.setZoom(10)
+                // setAddress(place.formatted_address || '')
+
                 console.log('Address: ', place.formatted_address)
 
                 // Extract street name, street number, and postal code
@@ -119,7 +117,7 @@ const AutoCompleteAddress: React.FC<autoCompleteMapsProps> = ({
             <label htmlFor="label">{label}</label>
             <Autocomplete
                 options={autocompleteOptions}
-                onLoad={onLoadAutocomplete}
+                onLoad={setAutocomplete}
                 onPlaceChanged={onPlaceChanged}
             >
                 <input

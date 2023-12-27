@@ -1,5 +1,4 @@
 import verifiedIcon from '../../assets/icons/ic_verifed.svg'
-import { primaryColor } from '../GlobalStyle'
 import { ProfileIntroStyle } from './style'
 
 type SuggestedUserProfileProps = {
@@ -11,15 +10,7 @@ type SuggestedUserProfileProps = {
     border?: string
     verfied?: boolean
 }
-const SuggestedUserProfile: React.FC<SuggestedUserProfileProps> = ({
-    btnText = 'text',
-    btnColor = primaryColor,
-    profileName,
-    userName,
-    btnBgColor = 'white',
-    border = 'none',
-    verfied,
-}) => {
+const SuggestedUserProfile: React.FC<SuggestedUserProfileProps> = ({}) => {
     return (
         <ProfileIntroStyle>
             <div className="d-flex align-items-center">
@@ -33,7 +24,7 @@ const SuggestedUserProfile: React.FC<SuggestedUserProfileProps> = ({
                         <span>
                             <img
                                 className="ms-1 verified-icon"
-                                src={verifiedIcon}
+                                src={verifiedIcon as string}
                                 alt="verified"
                             />
                         </span>

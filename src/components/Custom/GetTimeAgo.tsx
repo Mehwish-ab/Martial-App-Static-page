@@ -56,7 +56,7 @@ const getTimeAgo = (
     // timeZone: string = "America/Denver"
 ): string => {
     const dateTime = parseISO(dateTimeString)
-    const now = new Date()
+    // const now = new Date()
     const timeAgo = formatDistanceToNowStrict(dateTime, { addSuffix: true })
 
     return timeAgo
@@ -101,8 +101,8 @@ export const formattedDateTime = (dateTimeString: string): string => {
     const formattedHours = hours % 12 === 0 ? 12 : hours % 12
     const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes
 
-    const formattedDate = `${day}-${month}-${year}`
+    const formatDate = `${day}-${month}-${year}`
     const formattedTime = `${formattedHours}:${formattedMinutes} ${period}`
 
-    return `${formattedDate} ${formattedTime}`
+    return `${formatDate} ${formattedTime}`
 }

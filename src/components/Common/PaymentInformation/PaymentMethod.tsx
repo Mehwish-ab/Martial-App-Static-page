@@ -1,22 +1,26 @@
-import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { Switch } from 'antd'
 import { PaymentMethodStyled } from './styles'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../redux/store'
+import { CreateFranchiseInitialValues } from '../../../screens/Franchise/constant'
+import { FormikProps } from 'formik'
+import { FC } from 'react'
 
-const PaymentMethod = ({ formik }: any) => {
+interface Props {
+    formik: FormikProps<CreateFranchiseInitialValues>
+}
+
+const PaymentMethod: FC<Props> = ({ formik }): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('paymentInformation')
-    const onChangeStripeMethod = (checked: boolean) => {
+    const onChangeStripeMethod = (checked: boolean): void => {
         formik.setFieldValue('schoolStripeMethod', checked)
         console.log(`switch to ${checked}`)
     }
-    const onChangeGclMethod = (checked: boolean) => {
+    const onChangeGclMethod = (checked: boolean): void => {
         console.log(`switch to ${checked}`)
         formik.setFieldValue('schoolGclMethod', checked)
     }
-    const { branchData } = useSelector((state: RootState) => state.branchData)
+    // const { branchData } = useSelector((state: RootState) => state.branchData)
     return (
         <PaymentMethodStyled>
             <Row className="mb-3">

@@ -13,9 +13,9 @@ export interface PaymentInfoDataType {
     mode: string
     status: string
 }
-const PaymentInfoTable = ({ formik }: any) => {
+const PaymentInfoTable = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('paymentInformation')
-    const navigation = () => {
+    const navigation = (): void => {
         // navigate(`/branch/edit/${record.branchId}`, {
         //   state: {
         //     branchToEdit: record as BranchDataType,
@@ -62,7 +62,7 @@ const PaymentInfoTable = ({ formik }: any) => {
         {
             title: 'Action',
             key: 'action',
-            render: (_, record) => {
+            render: () => {
                 const items = [
                     {
                         key: '1',
@@ -75,7 +75,7 @@ const PaymentInfoTable = ({ formik }: any) => {
                     <Space size="middle">
                         <Dropdown menu={{ items }}>
                             <img
-                                src={actionMenuTogglerIcon}
+                                src={actionMenuTogglerIcon as string}
                                 alt="action menu"
                                 style={{ cursor: 'pointer' }}
                             />

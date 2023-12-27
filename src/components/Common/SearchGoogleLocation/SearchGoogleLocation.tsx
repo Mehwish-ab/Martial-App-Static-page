@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
-import FormControl from '../../FormControl'
-import { fontFamilyMedium } from '../../GlobalStyle'
+import React, { FC, useState } from 'react'
+
 import searchIcon from '../../../assets/icons/ic_search.svg'
 import { Input, List } from 'antd'
 
@@ -8,21 +7,23 @@ interface SearchGoogleLocationProps {
     name: string
     label: string
     placeholder: string
-    setFieldValue: (val: any) => void
+    setFieldValue: (val: unknown) => void
     className: string
     value: string
 }
-const SearchGoogleLocation = ({
+const SearchGoogleLocation: FC<SearchGoogleLocationProps> = ({
     name,
     label,
     value,
     placeholder,
     className,
     setFieldValue,
-}: SearchGoogleLocationProps) => {
+}: SearchGoogleLocationProps): JSX.Element => {
     const [options, setOptions] = useState([])
     const [searchValue, setSearchValue] = useState(value)
-    const handleOnChange = async (e: any) => {
+    const handleOnChange = async (
+        e: React.FormEvent<HTMLInputElement>
+    ): Promise<void> => {
         setSearchValue(e.target.value)
 
         const response = await fetch(
@@ -32,8 +33,8 @@ const SearchGoogleLocation = ({
         const data = await response.json()
 
         if (data && data.predictions && data.predictions.length > 0) {
-            let arr: any = []
-            data.predictions.forEach((item: any) => {
+            const arr: unknown = []
+            data.predictions.forEach((item) => {
                 arr.push({ label: item.description, value: item.place_id })
             })
 
@@ -43,7 +44,7 @@ const SearchGoogleLocation = ({
         }
     }
 
-    const handleClick = (e: any) => {
+    const handleClick = (e: unknown): void => {
         setFieldValue(e.target.innerText)
         setSearchValue(e.target.innerText)
         setOptions([])
@@ -58,7 +59,7 @@ const SearchGoogleLocation = ({
                 className={className}
                 type={'text'}
                 placeholder={placeholder}
-                suffix={<img src={searchIcon} alt="search icon" />}
+                suffix={<img src={searchIcon as string} alt="search icon" />}
                 value={searchValue}
                 onChange={handleOnChange}
                 style={{ borderRadius: 10 }}
@@ -68,7 +69,7 @@ const SearchGoogleLocation = ({
                     size="small"
                     bordered
                     dataSource={options}
-                    renderItem={(item: any) => (
+                    renderItem={(item: unknown) => (
                         <List.Item
                             onClick={handleClick}
                             style={{ cursor: 'pointer' }}

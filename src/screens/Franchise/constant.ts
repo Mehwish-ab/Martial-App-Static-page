@@ -9,12 +9,12 @@ export interface CreateFranchiseInitialValues {
     defaultCurrency: string | number
     selectedActivities: string[]
     selectedFacilities: string[]
-    // stripePublishableKey: string;
-    // stripeSecretKey: string;
-    // cardAccessToken: string;
-    // cardClientId: string;
-    // cardWebHook: string;
-    // cardClientSecret: string;
-    // schoolStripeMethod: boolean;
-    // schoolGclMethod: boolean;
+    stripePublishableKey: string
+    stripeSecretKey: string
+    cardAccessToken: string
+    cardClientId: string
+    cardWebHook: string
+    cardClientSecret: string
+    schoolStripeMethod: boolean
+    schoolGclMethod: boolean
 }

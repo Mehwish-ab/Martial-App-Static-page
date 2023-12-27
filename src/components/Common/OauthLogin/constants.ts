@@ -1,5 +1,5 @@
 export type OauthPropTypes = {
-    usecase: string
+    useCase: string
 }
 
 export const OAUTH_USECASES = {

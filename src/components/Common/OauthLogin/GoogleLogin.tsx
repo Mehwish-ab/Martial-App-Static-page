@@ -1,4 +1,5 @@
-import { IResolveParams, LoginSocialGoogle } from 'reactjs-social-login'
+import { LoginSocialGoogle } from 'reactjs-social-login'
+import type { IResolveParams } from 'reactjs-social-login'
 import LoginButton from './LoginButton'
 import google from '../../../assets/icons/ic_google.svg'
 import { OAUTH_USECASES, OauthApiValueTypes, OauthPropTypes } from './constants'
@@ -11,21 +12,21 @@ const clientId =
 // const clientId =
 // "225264675338-fmh7lku6vb1b6rsg544fc431dic4qu0n.apps.googleusercontent.com"; // arslan testing project
 
-const GoogleLogin = ({ usecase }: OauthPropTypes) => {
+const GoogleLogin = ({ useCase }: OauthPropTypes): JSX.Element => {
     const { handleSignin, handleSignup } = useOauthLogin()
-    const onResolve = (res: IResolveParams) => {
+    const onResolve = (res: IResolveParams): void => {
         console.log('google res:', res)
-        let payload: OauthApiValueTypes = {
+        const payload: OauthApiValueTypes = {
             authProvider: 'GOOGLE',
             accessToken: res.data?.access_token || '',
         }
-        if (usecase === OAUTH_USECASES.login) {
+        if (useCase === OAUTH_USECASES.login) {
             handleSignin(payload)
-        } else if (usecase === OAUTH_USECASES.register) {
+        } else if (useCase === OAUTH_USECASES.register) {
             handleSignup(payload)
         }
     }
-    const onReject = (err: any) => {
+    const onReject = (err: unknown): void => {
         console.log('google error', err)
     }
 
@@ -37,7 +38,7 @@ const GoogleLogin = ({ usecase }: OauthPropTypes) => {
             onReject={onReject}
             scope="https://www.googleapis.com/auth/userinfo.email"
         >
-            <LoginButton type={google} alt={'Google'} />
+            <LoginButton type={google as string} alt={'Google'} />
         </LoginSocialGoogle>
     )
 }

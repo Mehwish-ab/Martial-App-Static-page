@@ -5,7 +5,11 @@ type TitleWithAnchorProps = {
     href: string
     linkLabel: string
 }
-const TitleWithAnchor = ({ title, href, linkLabel }: TitleWithAnchorProps) => {
+const TitleWithAnchor = ({
+    title,
+    href,
+    linkLabel,
+}: TitleWithAnchorProps): JSX.Element => {
     return (
         <TitleWithAnchorStyled>
             <div className="d-flex justify-content-between ">

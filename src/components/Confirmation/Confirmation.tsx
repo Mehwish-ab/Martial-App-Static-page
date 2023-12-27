@@ -1,12 +1,18 @@
+import { FC } from 'react'
 import logo from '../../assets/icons/ic_logo.svg'
 import CustomButton from '../CustomButton/CustomButton'
 import { lightBlue, secondaryDark3, tertiaryGrey13 } from '../GlobalStyle'
 import ConfirmationStyle from './style'
-const Index = ({ setIsModalVisible }: any) => {
+
+interface Props {
+    setIsModalVisible: (isModal: boolean) => void
+}
+
+const Index: FC<Props> = ({ setIsModalVisible }): JSX.Element => {
     return (
         <ConfirmationStyle>
             <div className="inner-container">
-                <img src={logo} alt="logo" />
+                <img src={logo as string} alt="logo" />
                 <p className="message">
                     Are You Sure You Want To Delete Your Account? This Action Is
                     Irreversible And All Your Data And Information Associated

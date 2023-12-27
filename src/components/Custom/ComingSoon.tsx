@@ -2,14 +2,14 @@ import { Container } from 'react-bootstrap'
 import placeholder from '../../assets/icons/ic_data_not found.svg'
 import { ComingSoonStyle } from './style'
 
-const ComingSoon = () => {
+const ComingSoon = (): JSX.Element => {
     return (
         <Container>
             <ComingSoonStyle className="right-side">
                 <div className="inner-section">
                     <div className="center-section">
                         <img
-                            src={placeholder}
+                            src={placeholder as string}
                             className="right-side-placeholder"
                             alt="placeholder"
                         />

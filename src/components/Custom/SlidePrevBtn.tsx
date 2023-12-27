@@ -1,19 +1,6 @@
 import { FiChevronLeft } from 'react-icons/fi'
 import styled from 'styled-components'
 
-type slidePrevBtnProps = {
-    clicked: () => void
-}
-const SlidePrevBtn: React.FC<slidePrevBtnProps> = ({ clicked }) => {
-    return (
-        <Wrapper type="button" onClick={clicked}>
-            <FiChevronLeft />
-        </Wrapper>
-    )
-}
-
-export default SlidePrevBtn
-
 // styling
 const Wrapper = styled.button`
     border-radius: 50%;
@@ -38,3 +25,16 @@ const Wrapper = styled.button`
         background: rgba(255, 255, 255, 1);
     }
 `
+
+type slidePrevBtnProps = {
+    clicked: () => void
+}
+const SlidePrevBtn: React.FC<slidePrevBtnProps> = ({ clicked }) => {
+    return (
+        <Wrapper type="button" onClick={clicked}>
+            <FiChevronLeft />
+        </Wrapper>
+    )
+}
+
+export default SlidePrevBtn

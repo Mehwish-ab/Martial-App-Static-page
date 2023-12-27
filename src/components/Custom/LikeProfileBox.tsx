@@ -1,6 +1,5 @@
-import { BaseImgContainer, primaryColor } from '../GlobalStyle'
-import { followerUserTypes } from '../Modals/FollowersModal'
-import { likesOnNewsFeed, ownerData } from '../Modals/LikesModal'
+import { BaseImgContainer } from '../GlobalStyle'
+import { ownerData } from '../Modals/LikesModal'
 import { LikeProfileBoxStyle } from './style'
 import placeholder from '../../assets/icons/ic_use_placeholder.svg'
 
@@ -14,11 +13,6 @@ type likeProfileBoxProps = {
     verfied?: boolean
 } & ownerData
 const LikeProfileBox: React.FC<likeProfileBoxProps> = ({
-    btnText = 'text',
-    btnColor = primaryColor,
-    profileName,
-    btnBgColor = 'white',
-    border = 'none',
     firstName,
     lastName,
     profilePicture,
@@ -37,7 +31,7 @@ const LikeProfileBox: React.FC<likeProfileBoxProps> = ({
                 ) : (
                     <img
                         className="profile-icon"
-                        src={placeholder}
+                        src={placeholder as string}
                         alt={userName}
                     />
                 )}

@@ -10,12 +10,18 @@ interface MessageModalProps {
     message: string
     description: string
 }
-const MessageModal = ({ type, message, description }: MessageModalProps) => {
+const MessageModal = ({
+    type,
+    message,
+    description,
+}: MessageModalProps): JSX.Element => {
     return (
         <MessageModalStyled>
             <div className="d-flex justify-content-center align-items-center flex-column pt-0 gap-2 modal_content">
                 <img
-                    src={type === 'success' ? successIcon : errorIcon}
+                    src={
+                        (type === 'success' ? successIcon : errorIcon) as string
+                    }
                     alt=""
                 />
                 <h4 className="message">{message}</h4>

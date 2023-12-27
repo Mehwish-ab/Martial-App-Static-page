@@ -1,20 +1,6 @@
 import { FiChevronRight } from 'react-icons/fi'
 import styled from 'styled-components'
 
-type slideNextBtnProps = {
-    clicked: () => void
-}
-const SlideNextBtn: React.FC<slideNextBtnProps> = ({ clicked }) => {
-    return (
-        <Wrapper type="button" onClick={clicked}>
-            <FiChevronRight />
-        </Wrapper>
-    )
-}
-
-export default SlideNextBtn
-
-// styling
 const Wrapper = styled.button`
     border-radius: 50%;
     top: 50%;
@@ -39,3 +25,16 @@ const Wrapper = styled.button`
         background: rgba(255, 255, 255, 1);
     }
 `
+
+type slideNextBtnProps = {
+    clicked: () => void
+}
+const SlideNextBtn: React.FC<slideNextBtnProps> = ({ clicked }) => {
+    return (
+        <Wrapper type="button" onClick={clicked}>
+            <FiChevronRight />
+        </Wrapper>
+    )
+}
+
+export default SlideNextBtn

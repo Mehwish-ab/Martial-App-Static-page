@@ -6,20 +6,6 @@ import MicroSoftLogin from './MicroSoftLogin'
 import { OauthPropTypes } from './constants'
 import DiscordLogin from './DiscordLogin'
 
-const OauthLogin = ({ usecase }: OauthPropTypes) => {
-    return (
-        <Wrapper>
-            <GoogleLogin usecase={usecase} />
-            <FacebookLogin usecase={usecase} />
-            <AppleLogin usecase={usecase} />
-            <MicroSoftLogin usecase={usecase} />
-            <DiscordLogin />
-        </Wrapper>
-    )
-}
-
-export default OauthLogin
-
 const Wrapper = styled.div`
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -43,3 +29,17 @@ const Wrapper = styled.div`
         }
     }
 `
+
+const OauthLogin = ({ useCase }: OauthPropTypes): JSX.Element => {
+    return (
+        <Wrapper>
+            <GoogleLogin useCase={useCase} />
+            <FacebookLogin useCase={useCase} />
+            <AppleLogin useCase={useCase} />
+            <MicroSoftLogin useCase={useCase} />
+            <DiscordLogin />
+        </Wrapper>
+    )
+}
+
+export default OauthLogin

@@ -3,8 +3,19 @@ import FormControl from '../../FormControl'
 import { fontFamilyMedium } from '../../GlobalStyle'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import PaymentMethod from './PaymentMethod'
+import { FC } from 'react'
+import type { FormikProps } from 'formik'
+import { CreateFranchiseInitialValues } from '../../../screens/Franchise/constant'
 
-const PaymentInformation = ({ formik, showPaymentMethods }: any) => {
+interface Props {
+    formik: FormikProps<CreateFranchiseInitialValues>
+    showPaymentMethods: boolean
+}
+
+const PaymentInformation: FC<Props> = ({
+    formik,
+    showPaymentMethods,
+}): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('paymentInformation')
     return (
         <>

@@ -2,11 +2,11 @@ import logo from '../../assets/icons/ic_logo.svg'
 import CustomButton from '../CustomButton/CustomButton'
 import { lightBlue } from '../GlobalStyle'
 import ConfirmedStyle from './style'
-const Confirmed = () => {
+const Confirmed = (): JSX.Element => {
     return (
         <ConfirmedStyle>
             <div className="inner-container">
-                <img src={logo} alt="logo" />
+                <img src={logo as string} alt="logo" />
                 <p className="message">
                     Lorem Ipsum Dolor Sit Amet, Consetetur Sadipscing Elitr, Sed
                     Diam Nonumy Eirmod Tempor Invidunt Ut Labore Et Dolore Magna

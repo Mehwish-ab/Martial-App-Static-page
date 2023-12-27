@@ -1,5 +1,4 @@
 import verifiedIcon from '../../assets/icons/ic_verifed.svg'
-import profile3 from '../../assets/images/ic_professional_4.png'
 import CustomButton from '../CustomButton/CustomButton'
 import { BaseImgContainer, primaryColor } from '../GlobalStyle'
 import { followerUserTypes } from '../Modals/FollowersModal'
@@ -18,14 +17,8 @@ type profileIntroProps = {
 const ProfileIntro: React.FC<profileIntroProps> = ({
     btnText = 'text',
     btnColor = primaryColor,
-    profileName,
-    userName,
     btnBgColor = 'white',
     border = 'none',
-    verfied,
-    followingDateTime,
-    userId,
-    isFollower,
     userFirstName,
     userLastName,
     userProfilePicture,
@@ -43,7 +36,7 @@ const ProfileIntro: React.FC<profileIntroProps> = ({
                         />
                     ) : (
                         <img
-                            src={profile_placeholder}
+                            src={profile_placeholder as string}
                             className="property-listing-icon"
                             alt="place-holder"
                         />
@@ -55,7 +48,7 @@ const ProfileIntro: React.FC<profileIntroProps> = ({
                             <span>
                                 <img
                                     className="ms-1 verified-icon"
-                                    src={verifiedIcon}
+                                    src={verifiedIcon as string}
                                     alt="verified"
                                 />
                             </span>

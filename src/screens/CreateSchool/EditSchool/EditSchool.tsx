@@ -28,13 +28,12 @@ import PlacesAutoCompleteInput from '../../../maps/PlacesAutocomplete'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
 
 const EditSchool = (): JSX.Element => {
-    const { editSchool, loading } = useSchool()
+    const { editSchool, loading, UpdateModal } = useSchool()
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
     const {
         statusData: { activities, facilities },
         dropdowns: { currency, language, businessTypes },
     } = useSelector((state: RootState) => state.appData.data)
-
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
@@ -126,12 +125,7 @@ const EditSchool = (): JSX.Element => {
 
     return (
         <CreateSchoolStyled>
-            {/* {UpdateModal().modalComponent}
-      <OverlayImages
-        backgroundImg={schoolData.bannerPicture || ""}
-        overlayImg={schoolData.profilePicture || ""}
-        isEditable={true}
-      /> */}
+            {UpdateModal().modalComponent}
             <Formik
                 initialValues={initialValuesForEdit}
                 validationSchema={validationSchema}

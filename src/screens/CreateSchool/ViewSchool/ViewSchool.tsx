@@ -21,7 +21,7 @@ import {
 const ViewSchool = (): JSX.Element => {
     const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
-    const { deleteSchool, deletemodal, loading } = useSchool()
+    const { deleteConfirmation, loading } = useSchool()
 
     const { data } = useSelector((state: RootState) => state.loginData)
     const { schoolData } = useSelector(
@@ -48,13 +48,16 @@ const ViewSchool = (): JSX.Element => {
         navigate(`/school/edit/:${schoolData.schoolId}`)
     }
 
-    const handleDeleteClick = async (): Promise<void> => {
-        if (schoolData.schoolId > 0) await deleteSchool(schoolData.schoolId)
-        else navigate('/school/create')
-    }
+    // const handleDeleteClick = async (): Promise<void> => {
+    //     Createmodal().modalComponent
+    //     // if (schoolData.schoolId > 0) {
+    //     //     await deleteSchool(schoolData.schoolId)
+    //     //     navigate('/school/create')
+    //     // } else navigate('/school/create')
+    // }
 
     useEffect(() => {
-        if (data?.schoolId === 0) {
+        if (!data || data.schoolId === 0) {
             navigate('/school/create')
             return
         }
@@ -81,7 +84,7 @@ const ViewSchool = (): JSX.Element => {
                 activitiesName =
                     activitiesName === ''
                         ? (activities[index] as any)[selectedLanguage]
-                        : `${activitiesName},${
+                        : `${activitiesName}, ${
                               (activities[index] as any)[selectedLanguage]
                           }`
             }
@@ -92,7 +95,8 @@ const ViewSchool = (): JSX.Element => {
 
     return (
         <ViewSchoolStyled>
-            {deletemodal().modalComponent}
+            {/* {deletemodal().modalComponent} */}
+            {/* {deleteConfirmation().modalComponent} */}
 
             <OverlayImages
                 backgroundImg={schoolData.bannerPicture || ''}
@@ -236,7 +240,7 @@ const ViewSchool = (): JSX.Element => {
                         title="Delete"
                         fontSize="18px"
                         loading={loading}
-                        clicked={handleDeleteClick}
+                        clicked={() => deleteConfirmation(schoolData.schoolId)}
                     />
                 </div>
                 <div>

@@ -12,9 +12,17 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../redux/store'
 import { useNavigate, useParams } from 'react-router-dom'
 import { loginDataTypes } from '../redux/features/types'
-import EnnvisionModal from '../components/CustomModals/EnnvisionModal'
 import CustomModal from '../components/Modal/CustomModal'
 import { useAppSelector } from '../app/hooks'
+import ic_success from '../assets/images/ic_success.svg'
+import CustomButton from '../components/CustomButton/CustomButton'
+import {
+    fontFamilyMedium,
+    lightBlue3,
+    lightColor1,
+    pureDark2,
+} from '../components/GlobalStyle'
+import { Col, Row } from 'react-bootstrap'
 
 interface IModalComponent {
     modalComponent: JSX.Element
@@ -37,6 +45,7 @@ interface IUseSchool {
     deletemodal: () => IModalComponent
     Createmodal: () => IModalComponent
     UpdateModal: () => IModalComponent
+    deleteConfirmation: (id: number) => IModalComponent
 }
 
 const useCreateSchool = (): IUseSchool => {
@@ -255,17 +264,25 @@ const useCreateSchool = (): IUseSchool => {
                 <CustomModal
                     isModalVisible={isShowModal}
                     setIsModalVisible={setIsShowModal}
-                    showCloseBtn={false}
+                    showCloseBtn={true}
                 >
-                    {' '}
-                    <EnnvisionModal
-                        doTask={() => {
-                            navigate('/school/view')
-                            setIsShowModal(false)
-                        }}
-                        title="Successfully Account Removed"
-                        description="The student class has been successfully removed, and please note that any associated data will be retained for a period of 30 days before it is permanently deleted from our system."
-                    />
+                    <div className="d-flex flex-column align-items-center">
+                        <img
+                            src={ic_success}
+                            alt="Success Icon"
+                            width={188}
+                            height={55}
+                        />
+                        <h6 className="text-center">
+                            Successfully Account Removed
+                        </h6>
+                        <p className="text-center">
+                            The student class has been successfully removed, and
+                            please note that any associated data will be
+                            retained for a period of 30 days before it is
+                            permanently deleted from our system.
+                        </p>
+                    </div>
                 </CustomModal>
             ),
         }
@@ -277,17 +294,24 @@ const useCreateSchool = (): IUseSchool => {
                 <CustomModal
                     isModalVisible={isShowModal}
                     setIsModalVisible={setIsShowModal}
-                    showCloseBtn={false}
+                    showCloseBtn={true}
                 >
-                    {' '}
-                    <EnnvisionModal
-                        doTask={() => {
-                            navigate('/school/view')
-                            setIsShowModal(false)
-                        }}
-                        title="Complete Profile Successfully!"
-                        description="Congratulations! Your profile has been successfully completed, ensuring a seamless experience within the Marital"
-                    />
+                    <div className="d-flex flex-column align-items-center">
+                        <img
+                            src={ic_success}
+                            alt="Success Icon"
+                            width={188}
+                            height={55}
+                        />
+                        <h6 className="text-center">
+                            Complete Profile Successfully!
+                        </h6>
+                        <p className="text-center">
+                            Congratulations! Your profile has been successfully
+                            completed, ensuring a seamless experience within the
+                            Marital
+                        </p>
+                    </div>
                 </CustomModal>
             ),
         }
@@ -299,17 +323,80 @@ const useCreateSchool = (): IUseSchool => {
                 <CustomModal
                     isModalVisible={isShowModal}
                     setIsModalVisible={setIsShowModal}
-                    showCloseBtn={false}
+                    showCloseBtn={true}
                 >
-                    {' '}
-                    <EnnvisionModal
-                        doTask={() => {
-                            navigate('/school/view')
-                            setIsShowModal(false)
-                        }}
-                        title="Update Profile Successfully!"
-                        description="Congratulations! on updating your profile! Your changes have been successfully saved, enhancing your experience within the Marital platform."
-                    />
+                    <div className="d-flex flex-column align-items-center">
+                        <img
+                            src={ic_success}
+                            alt="Success Icon"
+                            width={188}
+                            height={55}
+                        />
+                        <h6 className="text-center">
+                            Update Profile Successfully!
+                        </h6>
+                        <p className="text-center">
+                            Congratulations! on updating your profile! Your
+                            changes have been successfully saved, enhancing your
+                            experience within the Marital platform.
+                        </p>
+                    </div>
+                </CustomModal>
+            ),
+        }
+    }
+
+    const deleteConfirmation = (_id: number): IModalComponent => {
+        const Deleteschool = async (id: number): Promise<void> => {
+            await deleteSchool(id)
+        }
+        return {
+            modalComponent: (
+                <CustomModal
+                    isModalVisible={isShowModal}
+                    setIsModalVisible={setIsShowModal}
+                    showCloseBtn={true}
+                >
+                    <h3>Want to Delete Account</h3>
+                    <p>
+                        Before proceeding with the removal of a student account,
+                        please be aware that once the removal is confirmed, all
+                        access will be permanently revoked. If the user still
+                        holds an active membership, the account cannot be
+                        removed until the membership is completed or canceled.
+                    </p>
+                    <Row>
+                        <Col md="6">
+                            <CustomButton
+                                bgcolor={lightColor1}
+                                textTransform="Captilize"
+                                color={pureDark2}
+                                padding="10px 12.5px"
+                                fontFamily={fontFamilyMedium}
+                                width="100%"
+                                type="button"
+                                title="Cancel"
+                                fontSize="16px"
+                                loading={false}
+                                // clicked={}
+                            />
+                        </Col>
+                        <Col md="6">
+                            <CustomButton
+                                bgcolor={lightBlue3}
+                                textTransform="Captilize"
+                                color={pureDark2}
+                                padding="10px 12.5px"
+                                fontFamily={fontFamilyMedium}
+                                width="100%"
+                                type="submit"
+                                title="Save"
+                                fontSize="16px"
+                                loading={false}
+                                clicked={() => Deleteschool(_id)}
+                            />
+                        </Col>
+                    </Row>
                 </CustomModal>
             ),
         }
@@ -326,6 +413,7 @@ const useCreateSchool = (): IUseSchool => {
         deletemodal,
         Createmodal,
         UpdateModal,
+        deleteConfirmation,
     }
 }
 

@@ -82,52 +82,6 @@ export interface PropertiesList {
 }
 
 export interface PropertyList {
-    propertyId: number
-    newsFeedId: number
-    propertyTypeId: number
-    purpose: string
-    propertySubTypeId: number
-    title: string
-    location: string
-    propertySize: PropertySize
-    price: string
-    fullBedrooms: string
-    fullBathrooms: string
-    propertyStatusId: number
-    imageURLS: string[]
-    videoULRS: string
-    longitude: number
-    latitude: number
-}
-
-export interface PropertySize {
-    keyName: string
-    size: string
-}
-
-export interface StoriesNewsFeedList {
-    totalItems: number
-    storiesList: StoriesList[]
-    totalPages: number
-    currentPage: number
-}
-
-export interface StoriesList {
-    storyId: number
-    newsFeedId: number
-    storyText: string
-    imagesURLS: string
-    videosURLS: string
-    longitude: number
-    latitude: number
-    address: string
-    city: string
-    statusId: number
-}
-
-// property list types
-
-export interface PropertyList {
     ownerId: number
     ownerUserName: string
     ownerProfilePicture: any
@@ -171,7 +125,52 @@ export interface PropertyList {
     lastCommentUserLastName: any
     createdDateTime: string
     updatedDateTime: any
+
+    // TODO: another object starts
+    // propertyId: number
+    // newsFeedId: number
+    propertyTypeId: number
+    purpose: string
+    propertySubTypeId: number
+    title: string
+    location: string
+    propertySize: PropertySize
+    price: string
+    fullBedrooms: string
+    fullBathrooms: string
+    propertyStatusId: number
+    // imageURLS: string[]
+    videoULRS: string
+    longitude: number
+    latitude: number
 }
+
+export interface PropertySize {
+    keyName: string
+    size: string
+}
+
+export interface StoriesNewsFeedList {
+    totalItems: number
+    storiesList: StoriesList[]
+    totalPages: number
+    currentPage: number
+}
+
+export interface StoriesList {
+    storyId: number
+    newsFeedId: number
+    storyText: string
+    imagesURLS: string
+    videosURLS: string
+    longitude: number
+    latitude: number
+    address: string
+    city: string
+    statusId: number
+}
+
+// property list types
 
 export interface ProfessionalDetails {
     professionalStatusId: number
@@ -183,6 +182,20 @@ export interface ProfessionalDetails {
     businessRegisterNumber: string
     businessRegisterDocURL: string
     idProfileDocURL: string
+
+    // TODO: another interface started
+    // professionalStatusId: number
+    // professionalId: number
+    // address: string
+    // professionTypeId: number
+    // businessName: string
+    // businessStartedDate: string
+    // businessRegisterNumber: string
+    // businessRegisterDocURL: string
+    // idProfileDocURL: string
+    bannerImage: string
+    longitude: number
+    latitude: number
 }
 export interface LikedNewsFeedList {
     totalItems: number
@@ -308,12 +321,12 @@ export type mpacAvailableReportingPlan = {
     totalServiceFee: string
     isWant: boolean
 }
-type professionTypes = {
-    description: string
-    id: number
-    isActive: boolean
-    name: string
-}
+// type professionTypes = {
+//     description: string
+//     id: number
+//     isActive: boolean
+//     name: string
+// }
 
 export type professionalPlanTypes = {
     description: string
@@ -486,21 +499,6 @@ export interface professionalDetailTypes {
     professionalDetails: ProfessionalDetails
     planSubscriptionDetails: PlanSubscriptionDetails
     user: User
-}
-
-export interface ProfessionalDetails {
-    professionalStatusId: number
-    professionalId: number
-    address: string
-    professionTypeId: number
-    businessName: string
-    businessStartedDate: string
-    businessRegisterNumber: string
-    businessRegisterDocURL: string
-    idProfileDocURL: string
-    bannerImage: string
-    longitude: number
-    latitude: number
 }
 
 export interface PlanSubscriptionDetails {

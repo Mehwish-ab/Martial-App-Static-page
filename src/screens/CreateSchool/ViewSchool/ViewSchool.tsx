@@ -23,7 +23,7 @@ const ViewSchool = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
     const { deleteSchool, deletemodal, loading } = useSchool()
 
-    const { data } = useSelector((state: RootState) => state.loginData)
+    // const { data } = useSelector((state: RootState) => state.loginData)
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
@@ -32,6 +32,12 @@ const ViewSchool = (): JSX.Element => {
     )
     const { activities } = useSelector(
         (state: RootState) => state.appData.data.statusData
+    )
+    const { facilities } = useSelector(
+        (state: RootState) => state.appData.data.statusData
+    )
+    const { businessTypes } = useSelector(
+        (state: RootState) => state.appData.data.dropdowns
     )
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
@@ -49,27 +55,32 @@ const ViewSchool = (): JSX.Element => {
     }
 
     const handleDeleteClick = async (): Promise<void> => {
-        if (schoolData.schoolId > 0) await deleteSchool(schoolData.schoolId)
-        else navigate('/school/create')
+        if (schoolData.schoolId > 0) {
+            await deleteSchool(schoolData.schoolId)
+            navigate('/school/create')
+        } else navigate('/school/create')
     }
 
     useEffect(() => {
-        if (data?.schoolId === 0) {
-            navigate('/school/create')
-            return
-        }
+        // if (data?.schoolId === 0) {
+        //     navigate('/school/create')
+        //     return
+        // }
 
         store.dispatch(getSchoolByUserId())
     }, [])
 
-    console.log('SchoolData:', schoolData)
+    const showBusinessType = (_businessType: number): string => {
+        const index = businessTypes.findIndex((business: any) => {
+            return business.id === _businessType
+        })
 
-    console.log(
-        'belt value',
-        schoolData.rank,
-        'business Name',
-        schoolData.businessName
-    )
+        if (index !== -1) {
+            return (businessTypes[index] as any)[selectedLanguage]
+        }
+
+        return '--'
+    }
 
     const showActivities = (_activities: string): string => {
         const activitiesArr = _activities.split(',')
@@ -86,6 +97,27 @@ const ViewSchool = (): JSX.Element => {
                           }`
             }
         })
+        if (activitiesName !== '') return activitiesName
+        return '--'
+    }
+    const showFacilities = (_Facilities: string): string => {
+        const activitiesArr = _Facilities.split(',')
+
+        let activitiesName = ''
+        activitiesArr.map((facility) => {
+            const index = facilities.findIndex(
+                (acts: any) => acts.id === facility
+            )
+            if (index !== -1) {
+                activitiesName =
+                    activitiesName === ''
+                        ? (facilities[index] as any)[selectedLanguage]
+                        : `${activitiesName},${
+                              (facilities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+
         if (activitiesName !== '') return activitiesName
         return '--'
     }
@@ -119,7 +151,9 @@ const ViewSchool = (): JSX.Element => {
                                 {getLabelByKey('businessType')}
                             </div>
                             <div className="list-item-value">
-                                {schoolData.businessType || '--'}
+                                {showBusinessType(
+                                    schoolData.businessType as number
+                                )}
                             </div>
                         </div>
                     </Col>
@@ -207,7 +241,7 @@ const ViewSchool = (): JSX.Element => {
                                 {getLabelByKey('facilities')}
                             </div>
                             <div className="list-item-value">
-                                {schoolData.facilities || '--'}
+                                {showFacilities(schoolData.facilities)}
                             </div>
                         </div>
                     </Col>

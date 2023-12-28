@@ -10,6 +10,7 @@ export type CheckboxesListProps = {
     label: string
     showErrorMsgInList: boolean
     list: DataTypesWithIdAndMultipleLangLabel[]
+    placeholder?: string
 }
 
 const CheckboxesList = ({
@@ -21,6 +22,7 @@ const CheckboxesList = ({
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
+
     return (
         <CustomCheckboxListStyled>
             {label && (
@@ -38,7 +40,7 @@ const CheckboxesList = ({
                             <Field
                                 type="checkbox"
                                 name={name}
-                                value={item.en}
+                                value={item.id}
                             />
                             {(item as any)[selectedLanguage]}
                         </label>

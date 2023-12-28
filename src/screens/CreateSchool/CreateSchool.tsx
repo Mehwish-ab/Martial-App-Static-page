@@ -35,6 +35,8 @@ const CreateSchool = (): JSX.Element => {
     )
     const navigate = useNavigate()
 
+    console.log('checking schoolData: ', schoolData)
+
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
     const {
         statusData: { activities, facilities },
@@ -124,7 +126,42 @@ const CreateSchool = (): JSX.Element => {
         if (schoolData && schoolData.schoolId > 0)
             return navigate('/school/view')
     }, [schoolData])
+    const showActivities = (_activities: string[]): string => {
+        let activitiesName = ''
+        _activities.map((activity) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                activitiesName =
+                    activitiesName === ''
+                        ? (activities[index] as any)[selectedLanguage]
+                        : `${activitiesName}, ${
+                              (activities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+        if (activitiesName !== '') return activitiesName
+        return getLabelByKey('activity')
+    }
 
+    const showFacilities = (_facilities: string[]): string => {
+        let facilitiesName = ''
+        _facilities.map((facility) => {
+            const index = facilities.findIndex(
+                (facts: any) => facts.id === facility
+            )
+            if (index !== -1) {
+                facilitiesName =
+                    facilitiesName === ''
+                        ? (facilities[index] as any)[selectedLanguage]
+                        : `${facilitiesName}, ${
+                              (facilities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+
+        if (facilitiesName !== '') return facilitiesName
+        return getLabelByKey('facilities')
+    }
     return (
         <CreateSchoolStyled>
             {Createmodal().modalComponent}
@@ -345,6 +382,9 @@ const CreateSchool = (): JSX.Element => {
                                             name="selectedActivities"
                                             label={getLabelByKey('activity')}
                                             showErrorMsgInList={false}
+                                            placeholder={showActivities(
+                                                formik.values.selectedActivities
+                                            )}
                                         />
                                     </Col>
 
@@ -352,6 +392,9 @@ const CreateSchool = (): JSX.Element => {
                                         <CheckboxesSelect
                                             name="selectedFacilities"
                                             label={getLabelByKey('facilities')}
+                                            placeholder={showFacilities(
+                                                formik.values.selectedFacilities
+                                            )}
                                             list={facilities}
                                             showErrorMsgInList={false}
                                         />

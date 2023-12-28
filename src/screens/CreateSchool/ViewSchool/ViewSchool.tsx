@@ -30,6 +30,9 @@ const ViewSchool = (): JSX.Element => {
     const { language, currency } = useSelector(
         (state: RootState) => state.appData.data.dropdowns
     )
+    const { activities } = useSelector(
+        (state: RootState) => state.appData.data.statusData
+    )
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
@@ -67,6 +70,25 @@ const ViewSchool = (): JSX.Element => {
         'business Name',
         schoolData.businessName
     )
+
+    const showActivities = (_activities: string): string => {
+        const activitiesArr = _activities.split(',')
+
+        let activitiesName = ''
+        activitiesArr.map((activity) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                activitiesName =
+                    activitiesName === ''
+                        ? (activities[index] as any)[selectedLanguage]
+                        : `${activitiesName},${
+                              (activities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+        if (activitiesName !== '') return activitiesName
+        return '--'
+    }
 
     return (
         <ViewSchoolStyled>
@@ -175,7 +197,7 @@ const ViewSchool = (): JSX.Element => {
                                 {getLabelByKey('activity')}
                             </div>
                             <div className="list-item-value">
-                                {schoolData.activities || '--'}
+                                {showActivities(schoolData.activities)}
                             </div>
                         </div>
                     </Col>

@@ -4,8 +4,8 @@ import apple from '../../../assets/icons/ic_apple.svg'
 import { OAUTH_USECASES, OauthApiValueTypes, OauthPropTypes } from './constants'
 import LoginButton from './LoginButton'
 import useOauthLogin from '../../../hooks/useOauthLogin'
-
-const clientId = 'com.martialApp.latestService-id' // need to change this
+const clientId = 'com.innovatelq.maritalschool'
+const redirect_uri = process.env.REACT_APP_APPLE_REDIRECT_URL
 const AppleLogin = ({ useCase }: OauthPropTypes): JSX.Element => {
     const { handleSignin, handleSignup } = useOauthLogin()
     const onResolve = (res: IResolveParams): void => {
@@ -30,8 +30,7 @@ const AppleLogin = ({ useCase }: OauthPropTypes): JSX.Element => {
             onResolve={onResolve}
             onReject={onReject}
             scope={'name email'}
-            // redirect_uri="http://localhost:3000/auth/callback/apple"
-            redirect_uri="https://maritalschool.innovatelq.com/auth/callback/apple"
+            redirect_uri={redirect_uri}
         >
             <LoginButton type={apple as string} alt={'Apple'} />
         </LoginSocialApple>

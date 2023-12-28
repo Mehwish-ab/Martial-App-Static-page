@@ -1,11 +1,11 @@
 import { Dropdown, Space, Table } from 'antd'
 import { AddPaymentMethod } from './styles'
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { PaymentDataType } from '../../../redux/features/payments/PaymentSlice'
-import useScreenTranslation from '../../../hooks/useScreenTranslation'
+// import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
-import { useNavigate } from 'react-router-dom'
+
 import type { ColumnsType } from 'antd/es/table'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
@@ -22,12 +22,12 @@ import DisplaygocardlessschoolKeysModal from '../../../components/Modals/payment
 import EditStripechoolSKeysModal from '../../../components/Modals/payments/school/edit/editSchoolStripekey'
 import EditBankaccountSchoolKeysModal from '../../../components/Modals/payments/school/edit/editSchoolbankaccount'
 import EditSchoolGocardlessKeysModal from '../../../components/Modals/payments/school/edit/editSchoolGocardless'
-interface AddPaymentSchoolProps {
-    branch: PaymentDataType // Make sure to import BranchDataType
-}
+// interface AddPaymentSchoolProps {
+//     branch: PaymentDataType // Make sure to import BranchDataType
+// }
 
 const AddPaymentSchool: React.FC = () => {
-    const location = useLocation()
+    // const location = useLocation()
     const { schoolId } = useParams()
 
     // const branch: SchoolDataType | undefined = location?.state?.branch;
@@ -39,7 +39,7 @@ const AddPaymentSchool: React.FC = () => {
         get_bank,
         get_paypal,
         get_cash,
-        deletePayment,
+        // deletePayment,
         deletemodal,
     } = usePayment()
 
@@ -48,38 +48,38 @@ const AddPaymentSchool: React.FC = () => {
     const [paypalpayment, setPaypalpayment] = useState<any[]>([])
     const [Gocardlesspayment, setGocardlesspayment] = useState<any[]>([])
     const [cashpayment, setCash] = useState<any[]>([])
-    const [showPopup, setShowPopup] = useState(false)
+    // const [showPopup, setShowPopup] = useState(false)
     const [isStripeKeysModalVisible, setIsStripeKeysModalVisible] =
         useState(false)
     const [isGocardlessKeysModalVisible, setIsGocardlessKeysModalVisible] =
         useState(false)
-    const [isPayPalModalVisible, setIsPayPalKeysModalVisible] = useState(false)
+    // const [isPayPalModalVisible, setIsPayPalKeysModalVisible] = useState(false)
     const [isBankAccountModalVisible, setisBankAccountModalVisible] =
         useState(false)
-    const [isCashModalVisible, setisCashModalVisible] = useState(false)
+    // const [isCashModalVisible, setisCashModalVisible] = useState(false)
     const [isdStripeKeysModalVisible, setdIsStripeKeysModalVisible] =
         useState(false)
     const [isdGocardlessKeysModalVisible, setIsdGocardlessKeysModalVisible] =
         useState(false)
-    const [isdPayPalModalVisible, setIsdPayPalKeysModalVisible] =
-        useState(false)
+    // const [isdPayPalModalVisible, setIsdPayPalKeysModalVisible] =
+    //     useState(false)
     const [isdBankAccountModalVisible, setisdBankAccountModalVisible] =
         useState(false)
-    const [isdCashModalVisible, setisdCashModalVisible] = useState(false)
+    // const [isdCashModalVisible, setisdCashModalVisible] = useState(false)
     const [isEStripeKeysModalVisible, setIsEStripeKeysModalVisible] =
         useState(false)
     const [isEGocardlessKeysModalVisible, setIsEGocardlessKeysModalVisible] =
         useState(false)
-    const [isEPayPalModalVisible, setIsEPayPalKeysModalVisible] =
-        useState(false)
+    // const [isEPayPalModalVisible, setIsEPayPalKeysModalVisible] =
+    //     useState(false)
     const [isEBankAccountModalVisible, setisEBankAccountModalVisible] =
         useState(false)
-    const [isECashModalVisible, setisECashModalVisible] = useState(false)
+    // const [isECashModalVisible, setisECashModalVisible] = useState(false)
     const [businessUC, setbusinessUC] = useState('')
     const [paymentMethod, setpaymentMethod] = useState('')
 
     // Function to handle opening modals
-    const openDisplayModal = (paymentType: string, paymentData: any) => {
+    const openDisplayModal = (paymentType: string, paymentData: any): void => {
         console.log(' create openModal called', paymentData, paymentType)
 
         switch (paymentType) {
@@ -114,7 +114,7 @@ const AddPaymentSchool: React.FC = () => {
         }
     }
 
-    const openShowModal = (paymentType: string, paymentdetails: any) => {
+    const openShowModal = (paymentType: string, paymentdetails: any): void => {
         console.log(' display openModal called', paymentdetails, paymentType)
 
         switch (paymentType) {
@@ -150,7 +150,7 @@ const AddPaymentSchool: React.FC = () => {
                 break
         }
     }
-    const openEditModal = (paymentType: string, paymentdetails: any) => {
+    const openEditModal = (paymentType: string, paymentdetails: any): void => {
         console.log('edit openModal called', paymentdetails, paymentType)
 
         switch (paymentType) {
@@ -166,11 +166,11 @@ const AddPaymentSchool: React.FC = () => {
                 setbusinessUC(paymentType)
 
                 break
-            case 'PayPal':
-                setIsEPayPalKeysModalVisible(true)
-                setbusinessUC(paymentType)
+            // case 'PayPal':
+            //     setIsEPayPalKeysModalVisible(true)
+            //     setbusinessUC(paymentType)
 
-                break
+            //     break
             case 'Bank Account':
                 setisEBankAccountModalVisible(true)
                 setbusinessUC(paymentType)
@@ -189,62 +189,62 @@ const AddPaymentSchool: React.FC = () => {
     useEffect(() => {
         console.log('hi use effect')
 
-        fetchstripe()
-        async function fetchstripe() {
+        async function fetchstripe(): Promise<void> {
             const data = (await get_stripe('SCHOOL', Number(schoolId))) as any[]
             setStripepayment(data)
         }
+        fetchstripe()
 
-        fetchbank()
-        async function fetchbank() {
+        async function fetchbank(): Promise<void> {
             // Check if branch is truthy before accessing its properties
             // if (branch) {
             const data = (await get_bank('SCHOOL', Number(schoolId))) as any[]
             setBankpayment(data)
             // }
         }
-        fetchPaypal()
-        async function fetchPaypal() {
+        fetchbank()
+        async function fetchPaypal(): Promise<void> {
             // if (branch) {
             const data = (await get_paypal('SCHOOL', Number(schoolId))) as any[]
             setPaypalpayment(data)
             //  /   }
         }
-        fetchgocard()
-        async function fetchgocard() {
+        fetchPaypal()
+        async function fetchgocard(): Promise<void> {
             // if (branch) {
             const data = (await get_gocard('SCHOOL', Number(schoolId))) as any[]
             setGocardlesspayment(data)
             // }
         }
-        fetchCash()
-        async function fetchCash() {
+        fetchgocard()
+        async function fetchCash(): Promise<void> {
             // if (branch) {
             const data = (await get_cash('SCHOOL', Number(schoolId))) as any[]
             setCash(data)
             // }
         }
+        fetchCash()
 
         // if (branchToEdit && branchToEdit.branchId) {
         //   fetchPayment();
         // }
     }, [1000])
 
-    const navigate = useNavigate()
-    const { getLabelByKey } = useScreenTranslation('schoolCreate')
+    // const navigate = useNavigate()
+    // const { getLabelByKey } = useScreenTranslation('schoolCreate')
 
-    const handleDelete = (paymentMethod: any, record: any) => {
-        deletePayment(paymentMethod, record)
-    }
+    // const handleDelete = (paymentMethod, record): void => {
+    //     deletePayment(paymentMethod, record)
+    // }
     // const handleCreate = () => {
     //   //  setModelVisible(true);
     //   console.log(">>button is clicked");
 
     //   return;
     // };
-    const handleClosePopup = () => {
-        setShowPopup(false)
-    }
+    // const handleClosePopup = (): void => {
+    //     setShowPopup(false)
+    // }
     const { franchiseData, loading } = useSelector(
         (state: RootState) => state?.franchiseData
     )
@@ -255,28 +255,28 @@ const AddPaymentSchool: React.FC = () => {
         return <div>No data</div>
     }
 
-    const navigation = (record: PaymentDataType, redirectTo: string) => {
-        switch (redirectTo) {
-            case 'detail':
-                navigate(`/branch/detail/${record?.id}`, {
-                    state: {
-                        branchToEdit: record as PaymentDataType,
-                    },
-                })
-                break
+    // const navigation = (record: PaymentDataType, redirectTo: string): void => {
+    //     switch (redirectTo) {
+    //         case 'detail':
+    //             navigate(`/branch/detail/${record?.id}`, {
+    //                 state: {
+    //                     branchToEdit: record as PaymentDataType,
+    //                 },
+    //             })
+    //             break
 
-            case 'edit':
-                navigate(`/branch/edit/${record?.id}`, {
-                    state: {
-                        branch: record as PaymentDataType,
-                    },
-                })
-                break
-            case 'delete': {
-                handleDelete(record.businessUC, record.id)
-            }
-        }
-    }
+    //         case 'edit':
+    //             navigate(`/branch/edit/${record?.id}`, {
+    //                 state: {
+    //                     branch: record as PaymentDataType,
+    //                 },
+    //             })
+    //             break
+    //         case 'delete': {
+    //             handleDelete(record.businessUC, record.id)
+    //         }
+    //     }
+    // }
     const columns: ColumnsType<PaymentDataType> = [
         {
             title: 'Payment Information',
@@ -400,7 +400,7 @@ const AddPaymentSchool: React.FC = () => {
         {
             title: 'Action',
             key: 'action',
-            render: (value: any, record: any, index: number): any => {
+            render: (value: any, record: any): any => {
                 const items = [
                     {
                         key: '1',
@@ -418,7 +418,7 @@ const AddPaymentSchool: React.FC = () => {
                         key: '4',
                         label: 'Delete',
                         onClick: () => {
-                            handleDelete(record?.paymentMethod, record?.id[0])
+                            // handleDelete(record?.paymentMethod, record?.id[0])
                             // window.location.reload();
                         },
                     },

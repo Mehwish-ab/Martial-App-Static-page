@@ -3,7 +3,7 @@ import CustomButton from '../../components/CustomButton/CustomButton'
 import { primaryColor } from '../../components/GlobalStyle'
 import { ErrorPageStyle } from './style'
 
-const ErrorPage = (props: FallbackProps) => {
+const ErrorPage = (props: FallbackProps): JSX.Element => {
     const { error, resetErrorBoundary } = props
     return (
         <ErrorPageStyle>

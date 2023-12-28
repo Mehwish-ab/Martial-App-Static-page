@@ -1,9 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 import store from '../../store'
-import { base_url, get_branch_by_school_id_url } from '../../../utils/api_urls'
+import {
+    base_url,
+    get_branch_by_school_id_url,
+    authorizationToken,
+} from '../../../utils/api_urls'
 import { loginDataTypes } from '../types'
-import { authorizationToken } from '../../../utils/api_urls'
 
 export interface TimeTableDataType {
     timeTableId: number
@@ -37,38 +40,6 @@ const initialState: TimeTableDataInitialState = {
     loading: false,
     error: '',
 }
-const timeTableSlice = createSlice({
-    name: 'instructorData',
-    initialState,
-    reducers: {
-        updateInstructor: (state, action) => {
-            const updateInstructor: TimeTableDataType = action.payload
-            const index = state.timeTableData.data.findIndex(
-                (b) => b.timeTableId === updateInstructor.timeTableId
-            )
-            state.timeTableData.data[index] = updateInstructor
-        },
-    },
-    extraReducers(builder) {
-        builder
-            .addCase(getBranchBySchoolId.pending, (state, action) => {
-                state.timeTableData = initialState.timeTableData
-                state.loading = true
-                state.error = ''
-            })
-            .addCase(getBranchBySchoolId.fulfilled, (state, action) => {
-                state.timeTableData = action.payload
-                state.loading = false
-                state.error = ''
-            })
-            .addCase(getBranchBySchoolId.rejected, (state, action) => {
-                console.log('action.error', action)
-                state.timeTableData = initialState.timeTableData
-                state.error = action.error.message
-                state.loading = false
-            })
-    },
-})
 
 export const getBranchBySchoolId = createAsyncThunk(
     'instructorData/getBranchBySchoolId',
@@ -94,7 +65,7 @@ export const getBranchBySchoolId = createAsyncThunk(
             return data.results
         } catch (error: any) {
             if (error.response && error.response.data) {
-                let obj = {
+                const obj = {
                     name: 'AxiosError',
                     message: error.response.data?.responseMessage,
                     code: 'ERR_BAD_RESPONSE',
@@ -105,6 +76,39 @@ export const getBranchBySchoolId = createAsyncThunk(
         }
     }
 )
+
+const timeTableSlice = createSlice({
+    name: 'instructorData',
+    initialState,
+    reducers: {
+        updateInstructor: (state, action) => {
+            const updateInstructor: TimeTableDataType = action.payload
+            const index = state.timeTableData.data.findIndex(
+                (b) => b.timeTableId === updateInstructor.timeTableId
+            )
+            state.timeTableData.data[index] = updateInstructor
+        },
+    },
+    extraReducers(builder) {
+        builder
+            .addCase(getBranchBySchoolId.pending, (state) => {
+                state.timeTableData = initialState.timeTableData
+                state.loading = true
+                state.error = ''
+            })
+            .addCase(getBranchBySchoolId.fulfilled, (state, action) => {
+                state.timeTableData = action.payload
+                state.loading = false
+                state.error = ''
+            })
+            .addCase(getBranchBySchoolId.rejected, (state, action) => {
+                console.log('action.error', action)
+                state.timeTableData = initialState.timeTableData
+                state.error = action.error.message
+                state.loading = false
+            })
+    },
+})
 
 export const { updateInstructor } = timeTableSlice.actions
 

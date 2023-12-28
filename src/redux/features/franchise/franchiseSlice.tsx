@@ -4,9 +4,9 @@ import store from '../../store'
 import {
     base_url,
     get_franchise_by_school_id_url,
+    authorizationToken,
 } from '../../../utils/api_urls'
 import { loginDataTypes } from '../types'
-import { authorizationToken } from '../../../utils/api_urls'
 
 export interface FranchiseDataType {
     franchiseId: number
@@ -72,40 +72,7 @@ const initialState: franchiseDataInitialState = {
     loading: false,
     error: '',
 }
-const franchiseSlice = createSlice({
-    name: 'franchiseData',
-    initialState,
-    reducers: {
-        updateFranchise: (state, action) => {
-            const updatedfranchise: FranchiseDataType = action.payload
-            const index = state.franchiseData.data.findIndex(
-                (b) => b.franchiseId === updatedfranchise.franchiseId
-            )
-            state.franchiseData.data[index] = updatedfranchise
-        },
-    },
-    extraReducers(builder) {
-        builder
-            .addCase(getfranchiseBySchoolId.pending, (state, action) => {
-                state.franchiseData = initialState.franchiseData
-                state.loading = true
-                state.error = ''
-            })
-            .addCase(getfranchiseBySchoolId.fulfilled, (state, action) => {
-                state.franchiseData = action.payload
-                state.loading = false
-                state.error = ''
-            })
-            .addCase(getfranchiseBySchoolId.rejected, (state, action) => {
-                console.log('action.error', action)
-                state.franchiseData = initialState.franchiseData
-                state.error = action.error.message
-                state.loading = false
-            })
-    },
-})
-
-export const getfranchiseBySchoolId = createAsyncThunk(
+export const getfranchiseBySchoolId: any = createAsyncThunk(
     'franchiseData/getfranchiseBySchoolId',
     async () => {
         const state = store.getState()
@@ -129,7 +96,7 @@ export const getfranchiseBySchoolId = createAsyncThunk(
             return data.results
         } catch (error: any) {
             if (error.response && error.response.data) {
-                let obj = {
+                const obj = {
                     name: 'AxiosError',
                     message: error.response.data?.responseMessage,
                     code: 'ERR_BAD_RESPONSE',
@@ -140,6 +107,39 @@ export const getfranchiseBySchoolId = createAsyncThunk(
         }
     }
 )
+
+const franchiseSlice = createSlice({
+    name: 'franchiseData',
+    initialState,
+    reducers: {
+        updateFranchise: (state, action) => {
+            const updatedfranchise: FranchiseDataType = action.payload
+            const index = state.franchiseData.data.findIndex(
+                (b) => b.franchiseId === updatedfranchise.franchiseId
+            )
+            state.franchiseData.data[index] = updatedfranchise
+        },
+    },
+    extraReducers(builder) {
+        builder
+            .addCase(getfranchiseBySchoolId.pending, (state) => {
+                state.franchiseData = initialState.franchiseData
+                state.loading = true
+                state.error = ''
+            })
+            .addCase(getfranchiseBySchoolId.fulfilled, (state, action) => {
+                state.franchiseData = action.payload
+                state.loading = false
+                state.error = ''
+            })
+            .addCase(getfranchiseBySchoolId.rejected, (state, action) => {
+                console.log('action.error', action)
+                state.franchiseData = initialState.franchiseData
+                state.error = action.error.message
+                state.loading = false
+            })
+    },
+})
 
 export const { updateFranchise } = franchiseSlice.actions
 

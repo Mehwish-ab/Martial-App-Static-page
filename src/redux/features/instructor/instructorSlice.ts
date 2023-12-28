@@ -4,9 +4,9 @@ import store from '../../store'
 import {
     base_url,
     get_instructor_by_user_id_url,
+    authorizationToken,
 } from '../../../utils/api_urls'
 import { loginDataTypes } from '../types'
-import { authorizationToken } from '../../../utils/api_urls'
 
 export interface InstructorDataType {
     instructorId: number
@@ -63,38 +63,6 @@ const initialState: InstructorDataInitialState = {
     loading: false,
     error: '',
 }
-const instructorSlice = createSlice({
-    name: 'instructorData',
-    initialState,
-    reducers: {
-        updateInstructor: (state, action) => {
-            const updateInstructor: InstructorDataType = action.payload
-            const index = state.instructorData.data.findIndex(
-                (b) => b.instructorId === updateInstructor.instructorId
-            )
-            state.instructorData.data[index] = updateInstructor
-        },
-    },
-    extraReducers(builder) {
-        builder
-            .addCase(getInstructorByUserId.pending, (state, action) => {
-                state.instructorData = initialState.instructorData
-                state.loading = true
-                state.error = ''
-            })
-            .addCase(getInstructorByUserId.fulfilled, (state, action) => {
-                state.instructorData = action.payload
-                state.loading = false
-                state.error = ''
-            })
-            .addCase(getInstructorByUserId.rejected, (state, action) => {
-                console.log('action.error', action)
-                state.instructorData = initialState.instructorData
-                state.error = action.error.message
-                state.loading = false
-            })
-    },
-})
 
 export const getInstructorByUserId = createAsyncThunk(
     'instructor/getByUserId',
@@ -118,7 +86,7 @@ export const getInstructorByUserId = createAsyncThunk(
             return data.results
         } catch (error: any) {
             if (error.response && error.response.data) {
-                let obj = {
+                const obj = {
                     name: 'AxiosError',
                     message: error.response.data?.responseMessage,
                     code: 'ERR_BAD_RESPONSE',
@@ -129,6 +97,39 @@ export const getInstructorByUserId = createAsyncThunk(
         }
     }
 )
+
+const instructorSlice = createSlice({
+    name: 'instructorData',
+    initialState,
+    reducers: {
+        updateInstructor: (state, action) => {
+            const updateInstructor: InstructorDataType = action.payload
+            const index = state.instructorData.data.findIndex(
+                (b) => b.instructorId === updateInstructor.instructorId
+            )
+            state.instructorData.data[index] = updateInstructor
+        },
+    },
+    extraReducers(builder) {
+        builder
+            .addCase(getInstructorByUserId.pending, (state) => {
+                state.instructorData = initialState.instructorData
+                state.loading = true
+                state.error = ''
+            })
+            .addCase(getInstructorByUserId.fulfilled, (state, action) => {
+                state.instructorData = action.payload
+                state.loading = false
+                state.error = ''
+            })
+            .addCase(getInstructorByUserId.rejected, (state, action) => {
+                console.log('action.error', action)
+                state.instructorData = initialState.instructorData
+                state.error = action.error.message
+                state.loading = false
+            })
+    },
+})
 
 export const { updateInstructor } = instructorSlice.actions
 

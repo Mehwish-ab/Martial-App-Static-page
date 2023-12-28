@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import axios from 'axios'
@@ -8,8 +9,8 @@ import {
     edit_branch_url,
     get_branch_by_school_id_url,
 } from '../../../utils/api_urls'
-import { useDispatch, useSelector } from 'react-redux'
-import store, { RootState } from '../../../redux/store'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../redux/store'
 import { useNavigate, useParams } from 'react-router-dom'
 import { loginDataTypes } from '../../../redux/features/types'
 import { CreateBranchInitialValues } from '../constant'
@@ -17,10 +18,36 @@ import EnnvisionModal from '../../../components/CustomModals/EnnvisionModal'
 import CustomModal from '../../../components/Modal/CustomModal'
 import { useAppSelector } from '../../../app/hooks'
 
-const useBranch = () => {
+interface IUseBranch {
+    loading: Boolean;
+    handleSubmit: ( values: CreateBranchInitialValues,
+        { resetForm }: any ) => Promise<void>;
+    editSchool: (values: CreateBranchInitialValues,
+              ) => Promise<void>;
+    getallbranch: ( values: CreateBranchInitialValues
+        ) => Promise<void>;
+    error: (values: CreateBranchInitialValues
+        ) => Promise<void>
+    get_bank: (businessUC: any, id: number)=> Promise<any>;
+    get_gocard: (businessUC: any, id: number) => Promise<any>;
+    get_paypal: (businessUC: any, id: number) => Promise<any>;
+    get_stripe: (businessUC: any, id: number) => Promise<any>;
+    get_cash: (businessUC: any, id: number) => Promise<any>;
+    getbranchbyid: (_branchId: number) => Promise<any>;
+    deletebranch:  (_branchId: number) => Promise<void>;
+    deletePayment: (
+        paymentMethod: string,
+        id: number
+    ) => Promise<void>;
+    deletemodal: 
+    UpdateModal: 
+    Createmodal: 
+}
+
+const useBranch = (): IUseBranch => {
     const [loading, setLoading] = useState(false)
     const [isShowModal, setIsShowModal] = useState(false)
-    const [data, setData] = useState<unknown>({})
+    const [data, setData] = useState<any>({})
 
     const [error, setError] = useState('')
     const toastId = useRef<any>(null)
@@ -33,12 +60,12 @@ const useBranch = () => {
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
     const handleSubmit = async (
         values: CreateBranchInitialValues,
         { resetForm }: any
-    ) => {
+    ): Promise<void> => {
         const userDetails = loginData.data?.userDetails
         console.log('values', values)
         const payload = {
@@ -73,18 +100,22 @@ const useBranch = () => {
         try {
             setError('')
             setLoading(true)
-            const { data } = await axios.post(create_branch_url, payload, {
-                headers: {
-                    ...authorizationToken(loginData.data as loginDataTypes),
-                },
-            })
+            const { data: data2 } = await axios.post(
+                create_branch_url,
+                payload,
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
             if (data.responseCode === '500') {
                 toast(data.responseMessage, {
                     type: 'error',
                     autoClose: 1000,
                 })
                 setLoading(false)
-                return
+                return data2
             }
             setIsShowModal(true)
             setTimeout(() => {
@@ -103,28 +134,28 @@ const useBranch = () => {
             //setIsUploadImgVisible(true);
             // navigate("/");
             resetForm()
-        } catch (error: any) {
-            console.error('Error:', error)
+        } catch (e: any) {
+            console.error('Error:', e)
             //console.log({ error });
             setLoading(false)
             //setError(error.response.data.responseMessage);
             setTimeout(() => {
                 setError('')
             }, 2000)
-            toastId.current = toast(error, {
+            toastId.current = toast(e, {
                 type: 'error',
                 autoClose: 1000,
             })
         }
     }
 
-    const getallbranch = async (schoolid: number) => {
+    const getallbranch = async (schoolid: number): Promise<any> => {
         const url = get_branch_by_school_id_url
         console.log('>> im in getall branch button')
         try {
             setError('')
             setLoading(true)
-            const { data } = await axios.post(
+            const { data: data3 } = await axios.post(
                 url,
                 { schoolId: schoolid },
                 {
@@ -139,7 +170,7 @@ const useBranch = () => {
                     autoClose: 1000,
                 })
                 setLoading(false)
-                return
+                return data3
             }
             // setIsShowModal(true);
             // setTimeout(() => {
@@ -157,24 +188,24 @@ const useBranch = () => {
             // );
             setLoading(false)
             return data.results.data
-        } catch (error: any) {
+        } catch (e: any) {
             console.log('api error', error)
-            setError(error.response.data.responseMessage)
+            setError((error as any).response.data.responseMessage)
             setLoading(false)
             console.log(
-                error.response.data.responseMessage,
+                (error as any).response.data.responseMessage,
                 'error in api data'
             )
             setError(
-                error.response?.data?.responseMessage || 'An error occurred'
+                (error as any).response?.data?.responseMessage ||
+                    'An error occurred'
             )
         }
     }
 
     const editSchool = async (
-        branchId: number,
         values: CreateBranchInitialValues
-    ) => {
+    ): Promise<void> => {
         const userDetails = loginData.data?.userDetails
 
         try {
@@ -211,7 +242,7 @@ const useBranch = () => {
                 ...(branchId && { branchId }), // Add schoolId conditionally
             }
 
-            const { data } = await axios.post(edit_branch_url, payload, {
+            const { data: data4 } = await axios.post(edit_branch_url, payload, {
                 headers: {
                     ...authorizationToken(loginData.data as loginDataTypes),
                 },
@@ -230,31 +261,31 @@ const useBranch = () => {
             console.log('hi', data.results.data)
 
             // navigate("/school/view");
-            console.log('hello', data)
+            console.log('hello', data4)
             //setIsUploadImgVisible(true);
             // navigate("/school/view");
-        } catch (error: any) {
+        } catch (e: any) {
             console.log('error', { error })
             setLoading(false)
-            setError(error.response.data.responseMessage)
-            let id = setTimeout(() => {
+            setError((error as any).response.data.responseMessage)
+            const id = setTimeout(() => {
                 setError('')
             }, 3000)
             if (!setIsShowModal) {
                 clearTimeout(id)
             }
-            toastId.current = toast(error.response.data.errors, {
+            toastId.current = toast((error as any).response.data.errors, {
                 type: 'error',
                 autoClose: 1000,
             })
         }
     }
 
-    const get_bank = async (businessUC: any, id: number) => {
+    const get_bank = async (businessUC: any, id: number): Promise<any> => {
         try {
             setError('')
             setLoading(true)
-            const { data } = await axios.post(
+            const { data: data2 } = await axios.post(
                 get_payment,
                 { businessUC, id },
                 {
@@ -264,11 +295,11 @@ const useBranch = () => {
                 }
             )
 
-            if (data.responseCode === '500') {
+            if (data2.responseCode === '500') {
                 setLoading(false)
                 return
             }
-            const values = data.results.bankAccount
+            const values = data2.results.bankAccount
             console.log('payment info', values)
 
             return values
@@ -278,11 +309,11 @@ const useBranch = () => {
             setError(error)
         }
     }
-    const get_gocard = async (businessUC: any, id: number) => {
+    const get_gocard = async (businessUC: any, id: number): Promise<any> => {
         try {
             setError('')
             setLoading(true)
-            const { data } = await axios.post(
+            const { data: data2 } = await axios.post(
                 get_payment,
                 { businessUC, id },
                 {
@@ -292,25 +323,25 @@ const useBranch = () => {
                 }
             )
 
-            if (data.responseCode === '500') {
+            if (data2.responseCode === '500') {
                 setLoading(false)
                 return
             }
-            const values = data.results.goCardLess
+            const values = data2.results.goCardLess
             console.log('payment info', values)
 
             return values
-        } catch (error: any) {
-            console.log('error', error)
+        } catch (error2: any) {
+            console.log('error', error2)
             setLoading(false)
-            setError(error)
+            setError(error2)
         }
     }
-    const get_stripe = async (businessUC: any, id: number) => {
+    const get_stripe = async (businessUC: any, id: number): Promise<any> => {
         try {
             setError('')
             setLoading(true)
-            const { data } = await axios.post(
+            const { data: data2 } = await axios.post(
                 '/paymentMethod/get',
                 { businessUC, id },
                 {
@@ -320,25 +351,25 @@ const useBranch = () => {
                 }
             )
 
-            if (data.responseCode === '500') {
+            if (data2.responseCode === '500') {
                 setLoading(false)
                 return
             }
-            const values = data.results.stripe
+            const values = data2.results.stripe
             console.log('payment info', values)
 
             return values
-        } catch (error: any) {
-            console.log('error', error)
+        } catch (error2: any) {
+            console.log('error', error2)
             setLoading(false)
-            setError(error)
+            setError(error2)
         }
     }
-    const get_paypal = async (businessUC: any, id: number) => {
+    const get_paypal = async (businessUC: any, id: number): Promise<any> => {
         try {
             setError('')
             setLoading(true)
-            const { data } = await axios.post(
+            const { data: data2 } = await axios.post(
                 get_payment,
                 { businessUC, id },
                 {
@@ -348,25 +379,25 @@ const useBranch = () => {
                 }
             )
 
-            if (data.responseCode === '500') {
+            if (data2.responseCode === '500') {
                 setLoading(false)
                 return
             }
-            const values = data.results.paypal
+            const values = data2.results.paypal
             console.log('payment info', values)
 
             return values
-        } catch (error: any) {
-            console.log('error', error)
+        } catch (error2: any) {
+            console.log('error', error2)
             setLoading(false)
-            setError(error)
+            setError(error2)
         }
     }
-    const get_cash = async (businessUC: any, id: number) => {
+    const get_cash = async (businessUC: any, id: number): Promise<any> => {
         try {
             setError('')
             setLoading(true)
-            const { data } = await axios.post(
+            const { data: data2 } = await axios.post(
                 get_payment,
                 { businessUC, id },
                 {
@@ -376,28 +407,31 @@ const useBranch = () => {
                 }
             )
 
-            if (data.responseCode === '500') {
+            if (data2.responseCode === '500') {
                 setLoading(false)
                 return
             }
-            const values = data.results.cash
+            const values = data2.results.cash
             console.log('payment info', values)
 
             return values
-        } catch (error: any) {
-            console.log('error', error)
+        } catch (error2: any) {
+            console.log('error', error2)
             setLoading(false)
-            setError(error)
+            setError(error2)
         }
     }
-    const deletePayment = async (paymentMethod: string, id: number) => {
+    const deletePayment = async (
+        paymentMethod: string,
+        id: number
+    ): Promise<void> => {
         const url = '/paymentMethod/delete'
         console.log('nada', paymentMethod, id)
 
         try {
             setError('')
             setLoading(true)
-            const { data } = await axios.post(
+            const { data: data2 } = await axios.post(
                 url,
                 { paymentMethod, id },
                 {
@@ -406,15 +440,15 @@ const useBranch = () => {
                     },
                 }
             )
-            if (data.responseCode === '500') {
-                toast(data.responseMessage, {
+            if (data2.responseCode === '500') {
+                toast(data2.responseMessage, {
                     type: 'error',
                     autoClose: 1000,
                 })
                 setLoading(false)
                 return
             }
-            const values = data
+            const values = data2
             console.log('payment info', values)
 
             setIsShowModal(true)
@@ -423,41 +457,41 @@ const useBranch = () => {
                 setIsShowModal(false)
                 navigate('/branch/list')
             }, 3000)
-            setData('results: ' + data.results)
-            console.log('data', { data })
+            setData('results: ' + data2.results)
+            console.log('data', { data: data2 })
             setLoading(false)
             // return values;
-        } catch (error: any) {
-            console.log('api error', error)
-            setError(error.response.data.responseMessage)
+        } catch (error2: any) {
+            console.log('api error', error2)
+            setError(error2.response.data.responseMessage)
             setLoading(false)
             console.log(
-                error.response.data.responseMessage,
+                error2.response.data.responseMessage,
                 'error in api data'
             )
         }
     }
 
-    const deletebranch = async (branchId: number) => {
+    const deletebranch = async (_branchId: number): Promise<void> => {
         const url = '/branch/delete'
-        console.log(branchId)
+        console.log(_branchId)
 
         console.log('>> im in deletebranch button')
 
         try {
             setError('')
             setLoading(true)
-            const { data } = await axios.post(
+            const { data: data2 } = await axios.post(
                 url,
-                { branchId },
+                { branchId: _branchId },
                 {
                     headers: {
                         ...authorizationToken(logindata!),
                     },
                 }
             )
-            if (data.responseCode === '500') {
-                toast(data.responseMessage, {
+            if (data2.responseCode === '500') {
+                toast(data2.responseMessage, {
                     type: 'error',
                     autoClose: 1000,
                 })
@@ -474,28 +508,28 @@ const useBranch = () => {
                 setIsShowModal(false)
                 navigate('/branch/list')
             }, 3000)
-            setData('results: ' + data)
-            console.log('data', { data })
+            setData('results: ' + data2)
+            console.log('data', { data: data2 })
             setLoading(false)
             // navigate("/school");
-        } catch (error: any) {
-            console.log('api error', error)
-            setError(error.response.data.responseMessage)
+        } catch (error2: any) {
+            console.log('api error', error2)
+            setError(error2.response.data.responseMessage)
             setLoading(false)
             console.log(
-                error.response.data.responseMessage,
+                error2.response.data.responseMessage,
                 'error in api data'
             )
         }
     }
 
-    const getbranchbyid = async (branchId: number) => {
+    const getbranchbyid = async (_branchId: number): Promise<any> => {
         try {
             setError('')
             setLoading(true)
-            const { data } = await axios.post(
+            const { data: data2 } = await axios.post(
                 '/branch/getDetailsById',
-                { branchId },
+                { branchId: _branchId },
                 {
                     headers: {
                         ...authorizationToken(loginData.data as loginDataTypes),
@@ -503,21 +537,23 @@ const useBranch = () => {
                 }
             )
 
-            if (data.responseCode === '500') {
+            if (data2.responseCode === '500') {
                 setLoading(false)
                 return
             }
-            console.log('branchh info', data.results)
+            console.log('branchh info', data2.results)
             setLoading(false)
-            return data.results
-        } catch (error: any) {
-            console.log('error', error)
+            return data2.results
+        } catch (error2: any) {
+            console.log('error', error2)
             setLoading(false)
-            setError(error)
+            setError(error2)
         }
     }
 
-    const Createmodal = () => {
+    const Createmodal = (): {
+        modalComponent: JSX.Element
+    } => {
         return {
             modalComponent: (
                 <CustomModal
@@ -539,7 +575,9 @@ const useBranch = () => {
         }
     }
 
-    const deletemodal = () => {
+    const deletemodal = (): {
+        modalComponent: JSX.Element
+    } => {
         return {
             modalComponent: (
                 <CustomModal
@@ -561,7 +599,9 @@ const useBranch = () => {
         }
     }
 
-    const UpdateModal = () => {
+    const UpdateModal = (): {
+        modalComponent: JSX.Element
+    } => {
         return {
             modalComponent: (
                 <CustomModal

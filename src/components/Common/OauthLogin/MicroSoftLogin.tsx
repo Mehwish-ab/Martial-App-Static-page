@@ -14,7 +14,7 @@ const clientId = '95b82b00-311b-44b5-a6f8-d46da51e852c'
 const config = {
     auth: {
         clientId: clientId,
-        redirectUri: 'http://localhost:3000',
+        redirectUri: process.env.REACT_APP_BASE_URL,
         scope: ['openid', 'profile', 'email', 'User.read'],
         // redirectUri: "https://maritalschool.innovatelq.com/",
     },

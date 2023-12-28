@@ -27,7 +27,7 @@ const initialState: ScreenTranslationInitialState = {
 
 export const getScreenTranslation = createAsyncThunk(
     'user_screenTranslations/getScreenTranslation', // Use the correct action type
-    async (thunkAPI) => {
+    async () => {
         try {
             const { data } = await axios.post(
                 `${base_url}${screen_translations}`,
@@ -55,7 +55,7 @@ const screenTranslationSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(getScreenTranslation.pending, (state) => {
+            .addCase(getScreenTranslation.pending, () => {
                 // state.loading = true;
             })
             .addCase(getScreenTranslation.fulfilled, (state, action) => {
@@ -63,7 +63,7 @@ const screenTranslationSlice = createSlice({
                 state.translations = action.payload
                 // state.error = "";
             })
-            .addCase(getScreenTranslation.rejected, (state, action) => {
+            .addCase(getScreenTranslation.rejected, () => {
                 // state.loading = false;
                 // state.error = action.error.message || ''; // Access the error message
             })

@@ -2,12 +2,10 @@ import { Card } from 'antd'
 import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import { ViewSchoolStyled } from './styles'
 import { useNavigate } from 'react-router-dom'
-// import { BranchDataType } from "../../../redux/features/branch/branchSlice";
 import { Col, Row } from 'react-bootstrap'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { useSelector } from 'react-redux'
 import store, { RootState } from '../../../redux/store'
-// import { DataTypeWithIdAndCurrentLangLabel } from "../../Home/constants";
 import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
 import { useEffect } from 'react'
 import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
@@ -20,7 +18,7 @@ import {
     fontFamilyMedium,
 } from '../../../components/GlobalStyle'
 
-const ViewSchool = () => {
+const ViewSchool = (): JSX.Element => {
     const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
     const { deleteSchool, deletemodal, loading } = useSchool()
@@ -34,19 +32,19 @@ const ViewSchool = () => {
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
-    let defaultLanguage = language.find(
+    const defaultLanguage = language.find(
         (item: DataTypesWithIdAndMultipleLangLabel) =>
             +item.id == +schoolData.defaultLanguageId
     )
-    let defaultCurrency = currency.find(
+    const defaultCurrency = currency.find(
         (item: DataTypesWithIdAndMultipleLangLabel) =>
             +item.id == +schoolData.defaultCurrencyId
     )
-    const handleUpdateClick = () => {
+    const handleUpdateClick = (): void => {
         navigate(`/school/edit/:${schoolData.schoolId}`)
     }
 
-    const handleDeleteClick = async () => {
+    const handleDeleteClick = async (): Promise<void> => {
         if (schoolData.schoolId > 0) await deleteSchool(schoolData.schoolId)
         else navigate('/school/create')
     }

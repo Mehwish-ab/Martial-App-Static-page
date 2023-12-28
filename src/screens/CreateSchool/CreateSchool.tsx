@@ -29,7 +29,7 @@ import CheckboxesSelect from '../../components/CustomCheckbox/CheckboxesSelect'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const CreateSchool = () => {
+const CreateSchool = (): JSX.Element => {
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
@@ -64,8 +64,8 @@ const CreateSchool = () => {
 
     const businessName = validationFinder('BUSINESS_NAME')!
     const businessNameReg = new RegExp(businessName.pattern)
-    const address = validationFinder('ADDRESS')!
-    const addressReg = new RegExp(address.pattern)
+    // const address = validationFinder('ADDRESS')!
+    // const addressReg = new RegExp(address.pattern)
     const businessPhoneNumber = validationFinder('PHONE_NUMBER')!
 
     const validationSchema = Yup.object({
@@ -104,10 +104,12 @@ const CreateSchool = () => {
             .min(1, 'Select at least one facility'),
     })
 
-    const createOptions = (list: DataTypesWithIdAndMultipleLangLabel[]) => {
-        let options: SelectOptionsDataTypes[] = []
+    const createOptions = (
+        list: DataTypesWithIdAndMultipleLangLabel[]
+    ): SelectOptionsDataTypes[] => {
+        const options: SelectOptionsDataTypes[] = []
         list?.forEach((item) => {
-            let obj = {
+            const obj = {
                 label: (item as any)[selectedLanguage],
                 value: item.id,
             }

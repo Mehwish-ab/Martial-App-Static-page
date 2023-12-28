@@ -4,7 +4,6 @@ import { getAppData } from '../redux/features/appDataSlice'
 import store from '../redux/store'
 import { MAP_API } from '../App'
 import { getScreenTranslation } from '../redux/features/screenTranslationSlice'
-import { getSchoolByUserId } from '../redux/features/dashboard/dashboardDataSlice'
 
 interface Location {
     latitude: number
@@ -26,9 +25,12 @@ interface AddressComponent {
     long_name: string
     short_name: string
     types: string[]
+    loading: boolean
+    error: string
+    location: []
 }
 
-const useLocationData = () => {
+const useLocationData = (): void => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [location, setLocation] = useState<Location>({
@@ -40,7 +42,7 @@ const useLocationData = () => {
         address: '',
     })
 
-    const getLocation = () => {
+    const getLocation = (): void => {
         // console.log("use geolocation");
         if (navigator.geolocation) {
             // console.log("use if geolocation");
@@ -105,7 +107,7 @@ const useLocationData = () => {
 
                     setLoading(false)
                 },
-                (error) => {
+                () => {
                     // console.log("Error retrieving location:", error);
                     store.dispatch(getAppData('Canada'))
                     store.dispatch(getScreenTranslation())
@@ -128,12 +130,6 @@ const useLocationData = () => {
         // console.log("running 1");
         getLocation()
     }, [])
-
-    return {
-        loading,
-        error,
-        location,
-    }
 }
 
 export default useLocationData

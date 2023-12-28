@@ -2,7 +2,7 @@ import { Col, Row } from 'react-bootstrap'
 import { CurrencyStyling } from './style'
 import Check from '../../assets/icons/list-style-check.png'
 
-const Currency = () => {
+const Currency = (): JSX.Element => {
     return (
         <CurrencyStyling>
             <div className="curreny">

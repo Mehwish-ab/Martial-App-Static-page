@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+
 import {
     Avatar,
     Badge,
@@ -29,9 +30,26 @@ import ukIcon from '../../assets/icons/ic_uk_flag.svg'
 // import { fontFamilyMedium, pureDark2 } from "../GlobalStyle";
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
+import { useAppSelector } from '../../app/hooks'
 
 //import useCreateSchool from '../../hooks/useCreateSchool'
 function Navbar(): JSX.Element {
+    // const { selectedLanguage } = useSelector(
+    //     (state: RootState) => state.selectedLanguage
+    // )
+    // const [defaultCountry, setDefaultCountry] = useState<string>('GB')
+
+    // useEffect(() => {
+    //     // Adjust default country based on selected language
+    //     if (selectedLanguage === 'ur' || selectedLanguage === 'ar') {
+    //         setDefaultCountry('AE') // Change to the appropriate ISO code
+    //     } else {
+    //         setDefaultCountry('GB')
+    //     }
+    // }, [selectedLanguage])
+    const { data: loginData } = useAppSelector((state) => state.loginData)
+    console.log('Nadad', loginData?.userDetails)
+
     const { searchText, setSearchText } = useGlobalContext()
     const searchRef = useRef<InputRef>(null)
     const { schoolId } = useSelector(
@@ -148,7 +166,10 @@ function Navbar(): JSX.Element {
                                     style={{ width: '45px', height: '45px' }}
                                 />
                             </Badge>
-                            <h3 className="profileName">Adnan Qureshi</h3>
+                            <h3 className="profileName">
+                                {loginData?.userDetails.userFirstName}{' '}
+                                {loginData?.userDetails.userLastName}
+                            </h3>
                         </div>
                         <div className="d-flex align-items-start  ">
                             <div className="language-area">

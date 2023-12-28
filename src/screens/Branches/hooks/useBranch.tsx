@@ -19,29 +19,26 @@ import CustomModal from '../../../components/Modal/CustomModal'
 import { useAppSelector } from '../../../app/hooks'
 
 interface IUseBranch {
-    loading: Boolean;
-    handleSubmit: ( values: CreateBranchInitialValues,
-        { resetForm }: any ) => Promise<void>;
-    editSchool: (values: CreateBranchInitialValues,
-              ) => Promise<void>;
-    getallbranch: ( values: CreateBranchInitialValues
-        ) => Promise<void>;
-    error: (values: CreateBranchInitialValues
-        ) => Promise<void>
-    get_bank: (businessUC: any, id: number)=> Promise<any>;
-    get_gocard: (businessUC: any, id: number) => Promise<any>;
-    get_paypal: (businessUC: any, id: number) => Promise<any>;
-    get_stripe: (businessUC: any, id: number) => Promise<any>;
-    get_cash: (businessUC: any, id: number) => Promise<any>;
-    getbranchbyid: (_branchId: number) => Promise<any>;
-    deletebranch:  (_branchId: number) => Promise<void>;
-    deletePayment: (
-        paymentMethod: string,
-        id: number
-    ) => Promise<void>;
-    deletemodal: 
-    UpdateModal: 
-    Createmodal: 
+    loading: boolean
+    handleSubmit: (
+        values: CreateBranchInitialValues,
+        { resetForm }: any
+    ) => Promise<void>
+    editSchool: (id: number, values: CreateBranchInitialValues) => Promise<void>
+    getallbranch: (schoolid: number) => Promise<any> // Change the parameter type to number
+    errorMessage: string
+    // error: (message: string) => Promise<void>
+    get_bank: (businessUC: any, id: number) => Promise<any>
+    get_gocard: (businessUC: any, id: number) => Promise<any>
+    get_paypal: (businessUC: any, id: number) => Promise<any>
+    get_stripe: (businessUC: any, id: number) => Promise<any>
+    get_cash: (businessUC: any, id: number) => Promise<any>
+    getbranchbyid: (_branchId: number) => Promise<any>
+    deletebranch: (_branchId: number) => Promise<void>
+    deletePayment: (paymentMethod: string, id: number) => Promise<void>
+    deletemodal: () => { modalComponent: JSX.Element }
+    UpdateModal: () => { modalComponent: JSX.Element }
+    Createmodal: () => { modalComponent: JSX.Element }
 }
 
 const useBranch = (): IUseBranch => {
@@ -49,7 +46,7 @@ const useBranch = (): IUseBranch => {
     const [isShowModal, setIsShowModal] = useState(false)
     const [data, setData] = useState<any>({})
 
-    const [error, setError] = useState('')
+    const [errorMessage, setError] = useState('')
     const toastId = useRef<any>(null)
     const { branchId } = useParams()
 
@@ -60,6 +57,7 @@ const useBranch = (): IUseBranch => {
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
+
     // const dispatch = useDispatch()
 
     const handleSubmit = async (
@@ -164,7 +162,7 @@ const useBranch = (): IUseBranch => {
                     },
                 }
             )
-            if (data.responseCode === '500') {
+            if (data3.responseCode === '500') {
                 toast(data.responseMessage, {
                     type: 'error',
                     autoClose: 1000,
@@ -189,21 +187,22 @@ const useBranch = (): IUseBranch => {
             setLoading(false)
             return data.results.data
         } catch (e: any) {
-            console.log('api error', error)
-            setError((error as any).response.data.responseMessage)
+            console.log('api error', errorMessage)
+            setError((errorMessage as any).response.data.responseMessage)
             setLoading(false)
             console.log(
-                (error as any).response.data.responseMessage,
+                (errorMessage as any).response.data.responseMessage,
                 'error in api data'
             )
             setError(
-                (error as any).response?.data?.responseMessage ||
+                (errorMessage as any).response?.data?.responseMessage ||
                     'An error occurred'
             )
         }
     }
 
     const editSchool = async (
+        id: number,
         values: CreateBranchInitialValues
     ): Promise<void> => {
         const userDetails = loginData.data?.userDetails
@@ -265,19 +264,22 @@ const useBranch = (): IUseBranch => {
             //setIsUploadImgVisible(true);
             // navigate("/school/view");
         } catch (e: any) {
-            console.log('error', { error })
+            console.log('error', { error: errorMessage })
             setLoading(false)
-            setError((error as any).response.data.responseMessage)
-            const id = setTimeout(() => {
+            setError((errorMessage as any).response.data.responseMessage)
+            const id2 = setTimeout(() => {
                 setError('')
             }, 3000)
             if (!setIsShowModal) {
-                clearTimeout(id)
+                clearTimeout(id2)
             }
-            toastId.current = toast((error as any).response.data.errors, {
-                type: 'error',
-                autoClose: 1000,
-            })
+            toastId.current = toast(
+                (errorMessage as any).response.data.errors,
+                {
+                    type: 'error',
+                    autoClose: 1000,
+                }
+            )
         }
     }
 
@@ -303,10 +305,10 @@ const useBranch = (): IUseBranch => {
             console.log('payment info', values)
 
             return values
-        } catch (error: any) {
-            console.log('error', error)
+        } catch (error2: any) {
+            console.log('error', error2)
             setLoading(false)
-            setError(error)
+            setError(error2)
         }
     }
     const get_gocard = async (businessUC: any, id: number): Promise<any> => {
@@ -627,7 +629,7 @@ const useBranch = (): IUseBranch => {
         handleSubmit,
         editSchool,
         getallbranch,
-        error,
+        errorMessage,
         Createmodal,
         get_bank,
         get_gocard,

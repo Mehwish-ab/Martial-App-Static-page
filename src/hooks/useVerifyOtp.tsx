@@ -2,14 +2,21 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
-import { useGlobalContext } from '../context/context'
 import { useCaseForgetPassowrd, verify_otp_url } from '../utils/api_urls'
 import { OtpPropValues } from '../screens/ForgetPassword/Otp/Otp'
+import { number } from 'yup'
 
-interface Otp {
-    value: string | number
+// interface Otp {
+// value: string | number
+
+// }
+
+interface OtpResponse {
+    loading: boolean
+    handleSubmit: (values: OtpPropValues) => Promise<void>
+    error: string
 }
-const useVerifyOtp = () => {
+const useVerifyOtp = (): OtpResponse => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
@@ -44,7 +51,7 @@ const useVerifyOtp = () => {
         // setOtp(values.phoneNumber.toString());
         console.log(values, 'otp number')
         const phoneData = {
-            phoneNumber: userPhoneNumber,
+            phoneNumber: number,
             useCase: useCaseForgetPassowrd,
             otp: values.input0 + values.input1 + values.input2 + values.input3,
         }

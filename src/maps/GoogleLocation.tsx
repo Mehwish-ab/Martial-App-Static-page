@@ -29,8 +29,13 @@ interface AddressComponent {
     error: string
     location: []
 }
+interface Address {
+    loading: boolean
+    error: string
+    location: Location
+}
 
-const useLocationData = (): void => {
+const useLocationData = (): Address => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [location, setLocation] = useState<Location>({
@@ -130,6 +135,12 @@ const useLocationData = (): void => {
         // console.log("running 1");
         getLocation()
     }, [])
+
+    return {
+        loading,
+        error,
+        location,
+    }
 }
 
 export default useLocationData

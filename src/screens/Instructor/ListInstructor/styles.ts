@@ -2,9 +2,7 @@ import styled from 'styled-components'
 import {
     AntiFlashWhite,
     BallBlue,
-    darkBlue,
     darkGery,
-    fontFamilyBold,
     fontFamilyMedium,
     fontFamilyRegular,
     pureDark2,

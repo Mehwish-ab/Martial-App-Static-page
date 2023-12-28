@@ -1,14 +1,14 @@
-import React, { FC, Fragment } from 'react'
+import { Fragment } from 'react'
 import { Col, Row } from 'react-bootstrap'
 
-const Privacy: FC<{}> = () => {
+const Privacy = (): JSX.Element => {
     return (
         <Fragment>
             <div className="panel-heading">
                 <h3>Email notifications</h3>
                 <p>
                     Decide what you want to be notified about, and unsubscribe
-                    from what you don't.
+                    from what you don&apos;t.
                 </p>
             </div>
             <div>

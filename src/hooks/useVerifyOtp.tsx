@@ -2,27 +2,26 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
-import { useGlobalContext } from '../context/context'
-import { useAppSelector } from '../app/hooks'
-import {
-    generate_otp_url,
-    useCaseForgetPassowrd,
-    useCaseRegisteration,
-    verify_otp_url,
-} from '../utils/api_urls'
-import { forgetPasswordInitialTypes } from '../screens/ForgetPassword/ForgetPasword'
-import * as Yup from 'yup'
+import { useCaseForgetPassowrd, verify_otp_url } from '../utils/api_urls'
 import { OtpPropValues } from '../screens/ForgetPassword/Otp/Otp'
+import { number } from 'yup'
 
-interface Otp {
-    value: string | number
+// interface Otp {
+// value: string | number
+
+// }
+
+interface OtpResponse {
+    loading: boolean
+    handleSubmit: (values: OtpPropValues) => Promise<void>
+    error: string
 }
-const useVerifyOtp = () => {
+const useVerifyOtp = (): OtpResponse => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const toastId = useRef<any>(null)
-    const { setUserPhoneNumber, userPhoneNumber } = useGlobalContext()
+    // const { setUserPhoneNumber, userPhoneNumber } = useGlobalContext()
     // get Validations from redux appData
     // const {
     //   countryName: {
@@ -48,11 +47,11 @@ const useVerifyOtp = () => {
     // });
 
     // register phone handler
-    const handleSubmit = async (values: OtpPropValues) => {
+    const handleSubmit = async (values: OtpPropValues): Promise<void> => {
         // setOtp(values.phoneNumber.toString());
         console.log(values, 'otp number')
         const phoneData = {
-            phoneNumber: userPhoneNumber,
+            phoneNumber: number,
             useCase: useCaseForgetPassowrd,
             otp: values.input0 + values.input1 + values.input2 + values.input3,
         }
@@ -79,14 +78,14 @@ const useVerifyOtp = () => {
                 },
             })
             console.log({ data })
-        } catch (error: any) {
-            console.log({ error })
+        } catch (error2: any) {
+            console.log({ error: error2 })
             setLoading(false)
-            setError(error.response.data.responseMessage)
+            setError(error2.response.data.responseMessage)
             setTimeout(() => {
                 setError('')
             }, 2000)
-            toastId.current = toast(error.response.data.responseMessage, {
+            toastId.current = toast(error2.response.data.responseMessage, {
                 type: 'error',
                 autoClose: 1000,
             })

@@ -1,14 +1,17 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 import store from '../../store'
-import { base_url, get_branch_by_school_id_url } from '../../../utils/api_urls'
+import {
+    base_url,
+    get_branch_by_school_id_url,
+    authorizationToken,
+} from '../../../utils/api_urls'
 import { loginDataTypes } from '../types'
-import { authorizationToken } from '../../../utils/api_urls'
 
 export interface ClassDataType {
     ClassId: number
     ClassTitle: string
-    ClassInstructor: String
+    ClassInstructor: []
     ClassStartDate: string
     ClassEndDate: string
     ClassFee: number
@@ -43,39 +46,6 @@ const initialState: ClassDataInitialState = {
     loading: false,
     error: '',
 }
-
-const ClassSlice = createSlice({
-    name: 'instructorData',
-    initialState,
-    reducers: {
-        updateInstructor: (state, action) => {
-            const updateInstructor: ClassDataType = action.payload
-            const index = state.ClassData.data.findIndex(
-                (b) => b.ClassId === updateInstructor.ClassId
-            )
-            state.ClassData.data[index] = updateInstructor
-        },
-    },
-    extraReducers(builder) {
-        builder
-            .addCase(getBranchBySchoolId.pending, (state, action) => {
-                state.ClassData = initialState.ClassData
-                state.loading = true
-                state.error = ''
-            })
-            .addCase(getBranchBySchoolId.fulfilled, (state, action) => {
-                state.ClassData = action.payload
-                state.loading = false
-                state.error = ''
-            })
-            .addCase(getBranchBySchoolId.rejected, (state, action) => {
-                console.log('action.error', action)
-                state.ClassData = initialState.ClassData
-                state.error = action.error.message
-                state.loading = false
-            })
-    },
-})
 export const getBranchBySchoolId = createAsyncThunk(
     'instructorData/getBranchBySchoolId',
     async () => {
@@ -100,7 +70,7 @@ export const getBranchBySchoolId = createAsyncThunk(
             return data.results
         } catch (error: any) {
             if (error.response && error.response.data) {
-                let obj = {
+                const obj = {
                     name: 'AxiosError',
                     message: error.response.data?.responseMessage,
                     code: 'ERR_BAD_RESPONSE',
@@ -111,6 +81,39 @@ export const getBranchBySchoolId = createAsyncThunk(
         }
     }
 )
+const ClassSlice = createSlice({
+    name: 'instructorData',
+    initialState,
+    reducers: {
+        updateInstructor: (state, action) => {
+            const updateInstructor: ClassDataType = action.payload
+            const index = state.ClassData.data.findIndex(
+                (b) => b.ClassId === updateInstructor.ClassId
+            )
+            state.ClassData.data[index] = updateInstructor
+        },
+    },
+    extraReducers(builder) {
+        builder
+            .addCase(getBranchBySchoolId.pending, (state) => {
+                state.ClassData = initialState.ClassData
+                state.loading = true
+                state.error = ''
+            })
+            .addCase(getBranchBySchoolId.fulfilled, (state, action) => {
+                state.ClassData = action.payload
+                state.loading = false
+                state.error = ''
+            })
+            .addCase(getBranchBySchoolId.rejected, (state, action) => {
+                console.log('action.error', action)
+                state.ClassData = initialState.ClassData
+                state.error = action.error.message
+                state.loading = false
+            })
+    },
+})
+
 export const { updateInstructor } = ClassSlice.actions
 
 export default ClassSlice.reducer

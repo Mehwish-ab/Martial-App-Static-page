@@ -1,7 +1,7 @@
-import { FC, Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import FormControl from '../../../../components/FormControl'
-import { EditPopUpStying } from './EditPopUpStying'
+import { EditPopupStyling } from './EditPopUpStyling'
 import {
     fontFamilyMedium,
     lightBlue3,
@@ -15,6 +15,7 @@ import 'react-phone-number-input/style.css'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
 import dateIcon from '../../../../assets/images/dateCalander.svg'
+import PlacesAutoCompleteInput from '../../../../maps/PlacesAutocomplete'
 
 type initialTypesSettings = {
     firstName: string
@@ -27,7 +28,7 @@ type initialTypesSettings = {
     address: string
 }
 
-const PersonalDetails: FC<{}> = () => {
+const PersonalDetails = (): JSX.Element => {
     const initialValues: initialTypesSettings = {
         firstName: '',
         lastName: '',
@@ -91,7 +92,7 @@ const PersonalDetails: FC<{}> = () => {
     const handleSubmit = (
         values: initialTypesSettings,
         { setSubmitting }: FormikHelpers<initialTypesSettings>
-    ) => {
+    ): void => {
         setSubmitting(false)
     }
 
@@ -122,268 +123,337 @@ const PersonalDetails: FC<{}> = () => {
 
             {/* Update Name */}
 
-            {/* <CustomModal
+            <CustomModal
                 width="485px"
                 showCloseBtn={false}
-                children={
-                    <>
-                        <EditPopUpStying>
-                            <h3>Update Name</h3>
-                            <p>Update your information and find out how it's used.</p>
-                            <Formik
-                                initialValues={initialValues}
-                                onSubmit={handleSubmit}
-                            >
-                                {(formik) => {
-                                    return (
-                                        <Form
-                                            name="basic"
-                                            autoComplete="off"
-                                        >
-                                            <div className="mt-20">
-                                                <FormControl
-                                                    control="input"
-                                                    type="text"
-                                                    name="firstName"
-                                                    label="First Name"
-                                                    fontSize="16px"
-                                                    border="none"
-                                                    placeholder="First Name"
-                                                    // prefix={
-                                                    //   <img src={profile_icon} alt="profile_icon" />
-                                                    // }
-                                                    labelFamily={fontFamilyMedium}
-                                                    className={
-                                                        formik.errors.firstName &&
-                                                            formik.touched.firstName
-                                                            ? "is-invalid"
-                                                            : "customInput"
-                                                    }
-                                                />
-                                            </div>
-                                            <div className="mt-20">
-                                                <FormControl
-                                                    control="input"
-                                                    type="text"
-                                                    name="lastName"
-                                                    fontSize="16px"
-                                                    label="Last Name"
-                                                    border="none"
-                                                    labelFamily={fontFamilyMedium}
-                                                    // prefix={
-                                                    //   <img src={profile_icon} alt="profile_icon" />
-                                                    // }
-                                                    placeholder="Last Name"
-                                                    className={
-                                                        formik.errors.lastName &&
-                                                            formik.touched.lastName
-                                                            ? "is-invalid"
-                                                            : "customInput"
-                                                    }
-                                                />
-                                            </div>
-                                            <div className="mt-20">
-                                                <CustomButton
-                                                    bgcolor={lightBlue3}
-                                                    textTransform="Captilize"
-                                                    color={pureDark2}
-                                                    padding="12.5px"
-                                                    fontFamily={fontFamilyMedium}
-                                                    width="100%"
-                                                    type="submit"
-                                                    title="Save"
-                                                    fontSize="16px"
-                                                    loading={false}
-                                                />
-                                            </div>
-                                        </Form>
-                                    );
-                                }}
-                            </Formik>
-                        </EditPopUpStying>
-                    </>
-                } isModalVisible={isLanguageModalVisible} setIsModalVisible={setIsLanguageModelVisible} /> */}
+                isModalVisible={isLanguageModalVisible}
+                setIsModalVisible={setIsLanguageModelVisible}
+            >
+                <>
+                    <EditPopupStyling>
+                        <h3>Update Name</h3>
+                        <p>
+                            Update your information and find out how it&apos;s
+                            used.
+                        </p>
+                        <Formik
+                            initialValues={initialValues}
+                            onSubmit={handleSubmit}
+                        >
+                            {(formik) => {
+                                return (
+                                    <Form name="basic" autoComplete="off">
+                                        <div className="mt-20">
+                                            <FormControl
+                                                control="input"
+                                                type="text"
+                                                name="firstName"
+                                                label="First Name"
+                                                fontSize="16px"
+                                                border="none"
+                                                placeholder="First Name"
+                                                // prefix={
+                                                //   <img src={profile_icon} alt="profile_icon" />
+                                                // }
+                                                labelFamily={fontFamilyMedium}
+                                                className={
+                                                    formik.errors.firstName &&
+                                                    formik.touched.firstName
+                                                        ? 'is-invalid'
+                                                        : 'customInput'
+                                                }
+                                            />
+                                        </div>
+                                        <div className="mt-20">
+                                            <FormControl
+                                                control="input"
+                                                type="text"
+                                                name="lastName"
+                                                fontSize="16px"
+                                                label="Last Name"
+                                                border="none"
+                                                labelFamily={fontFamilyMedium}
+                                                // prefix={
+                                                //   <img src={profile_icon} alt="profile_icon" />
+                                                // }
+                                                placeholder="Last Name"
+                                                className={
+                                                    formik.errors.lastName &&
+                                                    formik.touched.lastName
+                                                        ? 'is-invalid'
+                                                        : 'customInput'
+                                                }
+                                            />
+                                        </div>
+                                        <div className="mt-20">
+                                            <CustomButton
+                                                bgcolor={lightBlue3}
+                                                textTransform="Captilize"
+                                                color={pureDark2}
+                                                padding="12.5px"
+                                                fontFamily={fontFamilyMedium}
+                                                width="100%"
+                                                type="submit"
+                                                title="Save"
+                                                fontSize="16px"
+                                                loading={false}
+                                            />
+                                        </div>
+                                    </Form>
+                                )
+                            }}
+                        </Formik>
+                    </EditPopupStyling>
+                </>
+            </CustomModal>
 
             {/* Update UserName */}
 
-            {/* <CustomModal
+            <CustomModal
                 width="485px"
                 showCloseBtn={false}
-                children={
-                    <>
-                        <EditPopUpStying>
-                            <h3>Update Username</h3>
-                            <p>Update your information and find out how it's used.</p>
-                            <Formik
-                                initialValues={initialValues}
-                                onSubmit={handleSubmit}
-                            >
-                                {(formik) => {
-                                    return (
-                                        <Form
-                                            name="basic"
-                                            autoComplete="off"
-                                        >
-                                            <div className="mt-20">
-                                                <FormControl
-                                                    control="input"
-                                                    type="text"
-                                                    name="username"
-                                                    label="Username"
-                                                    fontSize="16px"
-                                                    border="none"
-                                                    placeholder="Username"
-                                                    // prefix={
-                                                    //   <img src={profile_icon} alt="profile_icon" />
-                                                    // }
-                                                    labelFamily={fontFamilyMedium}
-                                                    className={
-                                                        formik.errors.username &&
-                                                            formik.touched.username
-                                                            ? "is-invalid"
-                                                            : "customInput"
-                                                    }
-                                                />
-                                            </div>
-                                            <div className="mt-20">
-                                                <CustomButton
-                                                    bgcolor={lightBlue3}
-                                                    textTransform="Captilize"
-                                                    color={pureDark2}
-                                                    padding="12.5px"
-                                                    fontFamily={fontFamilyMedium}
-                                                    width="100%"
-                                                    type="submit"
-                                                    title="Save"
-                                                    fontSize="16px"
-                                                    loading={false}
-                                                />
-                                            </div>
-                                        </Form>
-                                    );
-                                }}
-                            </Formik>
-                        </EditPopUpStying>
-                    </>
-                } isModalVisible={isLanguageModalVisible} setIsModalVisible={setIsLanguageModelVisible} /> */}
-
-            {/* Update Email */}
-
-            {/* <CustomModal
-                width="485px"
-                showCloseBtn={false}
-                children={
-                    <>
-                        <EditPopUpStying>
-                            <h3>Update Email</h3>
-                            <p>Update your information and find out how it's used.</p>
-                            <Formik
-                                initialValues={initialValues}
-                                onSubmit={handleSubmit}
-                            >
-                                {(formik) => {
-                                    return (
-                                        <Form
-                                            name="basic"
-                                            autoComplete="off"
-                                        >
-                                            <div className="mt-20">
-                                                <FormControl
-                                                    control="input"
-                                                    type="text"
-                                                    name="email"
-                                                    label="Email"
-                                                    fontSize="16px"
-                                                    border="none"
-                                                    placeholder="abc@gmail.com"
-                                                    // prefix={
-                                                    //   <img src={profile_icon} alt="profile_icon" />
-                                                    // }
-                                                    labelFamily={fontFamilyMedium}
-                                                    className={
-                                                        formik.errors.emailAddress &&
-                                                            formik.touched.emailAddress
-                                                            ? "is-invalid"
-                                                            : "customInput"
-                                                    }
-                                                />
-                                            </div>
-                                            <p className="text-start mt-10">We'll send a verification link to your new email address. Please check your inbox.</p>
-                                            <div className="mt-20">
-                                                <CustomButton
-                                                    bgcolor={lightBlue3}
-                                                    textTransform="Captilize"
-                                                    color={pureDark2}
-                                                    padding="12.5px"
-                                                    fontFamily={fontFamilyMedium}
-                                                    width="100%"
-                                                    type="submit"
-                                                    title="Save"
-                                                    fontSize="16px"
-                                                    loading={false}
-                                                />
-                                            </div>
-                                        </Form>
-                                    );
-                                }}
-                            </Formik>
-                        </EditPopUpStying>
-                    </>
-                } isModalVisible={isLanguageModalVisible} setIsModalVisible={setIsLanguageModelVisible} /> */}
+                isModalVisible={isLanguageModalVisible}
+                setIsModalVisible={setIsLanguageModelVisible}
+            >
+                <>
+                    <EditPopupStyling>
+                        <h3>Update Username</h3>
+                        <p>
+                            Update your information and find out how it&apos;s
+                            used.
+                        </p>
+                        <Formik
+                            initialValues={initialValues}
+                            onSubmit={handleSubmit}
+                        >
+                            {(formik) => {
+                                return (
+                                    <Form name="basic" autoComplete="off">
+                                        <div className="mt-20">
+                                            <FormControl
+                                                control="input"
+                                                type="text"
+                                                name="username"
+                                                label="Username"
+                                                fontSize="16px"
+                                                border="none"
+                                                placeholder="Username"
+                                                // prefix={
+                                                //   <img src={profile_icon} alt="profile_icon" />
+                                                // }
+                                                labelFamily={fontFamilyMedium}
+                                                className={
+                                                    formik.errors.username &&
+                                                    formik.touched.username
+                                                        ? 'is-invalid'
+                                                        : 'customInput'
+                                                }
+                                            />
+                                        </div>
+                                        <div className="mt-20">
+                                            <CustomButton
+                                                bgcolor={lightBlue3}
+                                                textTransform="Captilize"
+                                                color={pureDark2}
+                                                padding="12.5px"
+                                                fontFamily={fontFamilyMedium}
+                                                width="100%"
+                                                type="submit"
+                                                title="Save"
+                                                fontSize="16px"
+                                                loading={false}
+                                            />
+                                        </div>
+                                    </Form>
+                                )
+                            }}
+                        </Formik>
+                    </EditPopupStyling>
+                </>
+            </CustomModal>
 
             {/* Update Email */}
 
             <CustomModal
                 width="485px"
                 showCloseBtn={false}
-                children={
-                    <>
-                        <EditPopUpStying>
-                            <h3>Update Phone</h3>
-                            <p>
-                                Update your information and find out how it's
-                                used.
-                            </p>
-                            <Formik
-                                initialValues={initialValues}
-                                onSubmit={handleSubmit}
-                            >
-                                {(formik) => {
-                                    return (
-                                        <Form name="basic" autoComplete="off">
-                                            <div className="mt-10">
-                                                <label
-                                                    htmlFor="phoneNumber"
-                                                    className="custom-phone-input-label"
-                                                >
-                                                    Phone
-                                                </label>
-                                                <Input
-                                                    defaultCountry="GB"
-                                                    international
-                                                    placeholder="+44"
-                                                    value={
-                                                        formik.values
-                                                            .phoneNumber
-                                                    }
-                                                    onChange={(e: string) => {
-                                                        formik.setValues({
-                                                            ...formik.values,
-                                                            phoneNumber: e,
-                                                        })
-                                                    }}
-                                                    withCountryCallingCode
-                                                    countryCallingCodeEditable
-                                                />
-                                                {/* <div className="mt-1">
+                isModalVisible={isLanguageModalVisible}
+                setIsModalVisible={setIsLanguageModelVisible}
+            >
+                <>
+                    <EditPopupStyling>
+                        <h3>Update Email</h3>
+                        <p>
+                            Update your information and find out how it&apos;s
+                            used.
+                        </p>
+                        <Formik
+                            initialValues={initialValues}
+                            onSubmit={handleSubmit}
+                        >
+                            {(formik) => {
+                                return (
+                                    <Form name="basic" autoComplete="off">
+                                        <div className="mt-20">
+                                            <FormControl
+                                                control="input"
+                                                type="text"
+                                                name="email"
+                                                label="Email"
+                                                fontSize="16px"
+                                                border="none"
+                                                placeholder="abc@gmail.com"
+                                                // prefix={
+                                                //   <img src={profile_icon} alt="profile_icon" />
+                                                // }
+                                                labelFamily={fontFamilyMedium}
+                                                className={
+                                                    formik.errors
+                                                        .emailAddress &&
+                                                    formik.touched.emailAddress
+                                                        ? 'is-invalid'
+                                                        : 'customInput'
+                                                }
+                                            />
+                                        </div>
+                                        <p className="text-start mt-10">
+                                            We&apos;ll send a verification link
+                                            to your new email address. Please
+                                            check your inbox.
+                                        </p>
+                                        <div className="mt-20">
+                                            <CustomButton
+                                                bgcolor={lightBlue3}
+                                                textTransform="Captilize"
+                                                color={pureDark2}
+                                                padding="12.5px"
+                                                fontFamily={fontFamilyMedium}
+                                                width="100%"
+                                                type="submit"
+                                                title="Save"
+                                                fontSize="16px"
+                                                loading={false}
+                                            />
+                                        </div>
+                                    </Form>
+                                )
+                            }}
+                        </Formik>
+                    </EditPopupStyling>
+                </>
+            </CustomModal>
+
+            {/* Update Email */}
+
+            <CustomModal
+                width="485px"
+                showCloseBtn={false}
+                isModalVisible={isPhoneNumberModalVisible}
+                setIsModalVisible={setIsPhoneNumberModelVisible}
+            >
+                <>
+                    <EditPopupStyling>
+                        <h3>Update Phone</h3>
+                        <p>
+                            Update your information and find out how it&apos;s
+                            used.
+                        </p>
+                        <Formik
+                            initialValues={initialValues}
+                            onSubmit={handleSubmit}
+                        >
+                            {(formik) => {
+                                return (
+                                    <Form name="basic" autoComplete="off">
+                                        <div className="mt-10">
+                                            <label
+                                                htmlFor="phoneNumber"
+                                                className="custom-phone-input-label"
+                                            >
+                                                Phone
+                                            </label>
+                                            <Input
+                                                defaultCountry="GB"
+                                                international
+                                                placeholder="+44"
+                                                value={
+                                                    formik.values.phoneNumber
+                                                }
+                                                onChange={(e: string) => {
+                                                    formik.setValues({
+                                                        ...formik.values,
+                                                        phoneNumber: e,
+                                                    })
+                                                }}
+                                                withCountryCallingCode
+                                                countryCallingCodeEditable
+                                            />
+                                            {/* <div className="mt-1">
                                                     <ErrorMessage
                                                         name="phoneNumber"
                                                         component={Errormsg}
                                                     />
                                                 </div> */}
-                                            </div>
+                                        </div>
 
-                                            <div className="mt-20">
+                                        <div className="mt-20">
+                                            <CustomButton
+                                                bgcolor={lightBlue3}
+                                                textTransform="Captilize"
+                                                color={pureDark2}
+                                                padding="12.5px"
+                                                fontFamily={fontFamilyMedium}
+                                                width="100%"
+                                                type="submit"
+                                                title="Save"
+                                                fontSize="16px"
+                                                loading={false}
+                                            />
+                                        </div>
+                                    </Form>
+                                )
+                            }}
+                        </Formik>
+                    </EditPopupStyling>
+                </>
+            </CustomModal>
+
+            {/* Update Nationality */}
+
+            <CustomModal
+                width="485px"
+                showCloseBtn={false}
+                isModalVisible={isLanguageModalVisible}
+                setIsModalVisible={setIsLanguageModelVisible}
+            >
+                <>
+                    <EditPopupStyling>
+                        <h3>Update Nationality</h3>
+                        <p>
+                            Update your information and find out how it&apos;s
+                            used.
+                        </p>
+                        <Formik
+                            initialValues={initialValues}
+                            onSubmit={handleSubmit}
+                        >
+                            {() => {
+                                return (
+                                    <Form name="basic" autoComplete="off">
+                                        <Row>
+                                            <Col md="12" className="mt-10">
+                                                <FormControl
+                                                    control="select"
+                                                    type="select"
+                                                    name="countryName"
+                                                    labelFamily={`${fontFamilyMedium}`}
+                                                    label="Nationality"
+                                                    fontSize="16px"
+                                                    max={6}
+                                                    placeholder="Pakistan"
+                                                />
+                                            </Col>
+                                            <Col md="12" className="mt-20">
                                                 <CustomButton
                                                     bgcolor={lightBlue3}
                                                     textTransform="Captilize"
@@ -398,259 +468,216 @@ const PersonalDetails: FC<{}> = () => {
                                                     fontSize="16px"
                                                     loading={false}
                                                 />
-                                            </div>
-                                        </Form>
-                                    )
-                                }}
-                            </Formik>
-                        </EditPopUpStying>
-                    </>
-                }
-                isModalVisible={isPhoneNumberModalVisible}
-                setIsModalVisible={setIsPhoneNumberModelVisible}
-            />
-
-            {/* Update Nationality */}
-
-            {/* <CustomModal
-                width="485px"
-                showCloseBtn={false}
-                children={
-                    <>
-                        <EditPopUpStying>
-                            <h3>Update Nationality</h3>
-                            <p>Update your information and find out how it's used.</p>
-                            <Formik
-                                initialValues={initialValues}
-                                onSubmit={handleSubmit}
-                            >
-                                {(formik) => {
-                                    return (
-                                        <Form
-                                            name="basic"
-                                            autoComplete="off"
-                                        >
-                                            <Row>
-                                                <Col md="12" className="mt-10">
-                                                    <FormControl
-                                                        control="select"
-                                                        type="select"
-                                                        name="countryName"
-                                                        labelFamily={`${fontFamilyMedium}`}
-                                                        label="Nationality"
-                                                        fontSize="16px"
-                                                        max={6}
-                                                        placeholder="Pakistan"
-                                                    />
-                                                </Col>
-                                                <Col md="12" className="mt-20">
-                                                    <CustomButton
-                                                        bgcolor={lightBlue3}
-                                                        textTransform="Captilize"
-                                                        color={pureDark2}
-                                                        padding="12.5px"
-                                                        fontFamily={fontFamilyMedium}
-                                                        width="100%"
-                                                        type="submit"
-                                                        title="Save"
-                                                        fontSize="16px"
-                                                        loading={false}
-                                                    />
-                                                </Col>
-                                            </Row>
-                                        </Form>
-                                    );
-                                }}
-                            </Formik>
-                        </EditPopUpStying>
-                    </>
-                } isModalVisible={isLanguageModalVisible} setIsModalVisible={setIsLanguageModelVisible} /> */}
+                                            </Col>
+                                        </Row>
+                                    </Form>
+                                )
+                            }}
+                        </Formik>
+                    </EditPopupStyling>
+                </>
+            </CustomModal>
 
             {/* Update Gender */}
 
-            {/* <CustomModal
+            <CustomModal
                 width="485px"
                 showCloseBtn={false}
-                children={
-                    <>
-                        <EditPopUpStying>
-                            <h3>Update Gender</h3>
-                            <p>Update your information and find out how it's used.</p>
-                            <Formik
-                                initialValues={initialValues}
-                                onSubmit={handleSubmit}
-                            >
-                                {(formik) => {
-                                    return (
-                                        <Form
-                                            name="basic"
-                                            autoComplete="off"
-                                        >
-                                            <Row>
-                                                <Col md="12" className="mt-10">
-                                                    <FormControl
-                                                        control="select"
-                                                        type="select"
-                                                        name="countryName"
-                                                        labelFamily={`${fontFamilyMedium}`}
-                                                        label="Gender"
-                                                        fontSize="16px"
-                                                        max={6}
-                                                        placeholder="Male"
-                                                    />
-                                                </Col>
-                                                <Col md="12" className="mt-20">
-                                                    <CustomButton
-                                                        bgcolor={lightBlue3}
-                                                        textTransform="Captilize"
-                                                        color={pureDark2}
-                                                        padding="12.5px"
-                                                        fontFamily={fontFamilyMedium}
-                                                        width="100%"
-                                                        type="submit"
-                                                        title="Save"
-                                                        fontSize="16px"
-                                                        loading={false}
-                                                    />
-                                                </Col>
-                                            </Row>
-                                        </Form>
-                                    );
-                                }}
-                            </Formik>
-                        </EditPopUpStying>
-                    </>
-                } isModalVisible={isLanguageModalVisible} setIsModalVisible={setIsLanguageModelVisible} /> */}
+                isModalVisible={isLanguageModalVisible}
+                setIsModalVisible={setIsLanguageModelVisible}
+            >
+                <>
+                    <EditPopupStyling>
+                        <h3>Update Gender</h3>
+                        <p>
+                            Update your information and find out how it&apos;s
+                            used.
+                        </p>
+                        <Formik
+                            initialValues={initialValues}
+                            onSubmit={handleSubmit}
+                        >
+                            {() => {
+                                return (
+                                    <Form name="basic" autoComplete="off">
+                                        <Row>
+                                            <Col md="12" className="mt-10">
+                                                <FormControl
+                                                    control="select"
+                                                    type="select"
+                                                    name="countryName"
+                                                    labelFamily={`${fontFamilyMedium}`}
+                                                    label="Gender"
+                                                    fontSize="16px"
+                                                    max={6}
+                                                    placeholder="Male"
+                                                />
+                                            </Col>
+                                            <Col md="12" className="mt-20">
+                                                <CustomButton
+                                                    bgcolor={lightBlue3}
+                                                    textTransform="Captilize"
+                                                    color={pureDark2}
+                                                    padding="12.5px"
+                                                    fontFamily={
+                                                        fontFamilyMedium
+                                                    }
+                                                    width="100%"
+                                                    type="submit"
+                                                    title="Save"
+                                                    fontSize="16px"
+                                                    loading={false}
+                                                />
+                                            </Col>
+                                        </Row>
+                                    </Form>
+                                )
+                            }}
+                        </Formik>
+                    </EditPopupStyling>
+                </>
+            </CustomModal>
 
             {/* Update Address */}
 
-            {/* <CustomModal
+            <CustomModal
                 width="485px"
                 showCloseBtn={false}
-                children={
-                    <>
-                        <EditPopUpStying>
-                            <h3>Update Address</h3>
-                            <p>Update your information and find out how it's used.</p>
-                            <Formik
-                                initialValues={initialValues}
-                                onSubmit={handleSubmit}
-                            >
-                                {(formik) => {
-                                    return (
-                                        <Form
-                                            name="basic"
-                                            autoComplete="off"
-                                        >
-                                            <Row>
-                                                <Col md="12" className="mt-10">
-                                                    <PlacesAutoCompleteInput
-                                                        label="Address"
-                                                        placeholder="Address"
-                                                        handleChange={(val: any) => {
-                                                            formik.setFieldValue("address", val);
-                                                        }}
-                                                        className={
-                                                            formik.errors.address && formik.touched.address
-                                                                ? "is-invalid"
-                                                                : "customInput"
-                                                        }
-                                                        formik={formik}
-                                                        name="address"
-                                                        value={formik.values.address}
-                                                    />
-                                                </Col>
-                                                <Col md="12" className="mt-20">
-                                                    <CustomButton
-                                                        bgcolor={lightBlue3}
-                                                        textTransform="Captilize"
-                                                        color={pureDark2}
-                                                        padding="12.5px"
-                                                        fontFamily={fontFamilyMedium}
-                                                        width="100%"
-                                                        type="submit"
-                                                        title="Save"
-                                                        fontSize="16px"
-                                                        loading={false}
-                                                    />
-                                                </Col>
-                                            </Row>
-                                        </Form>
-                                    );
-                                }}
-                            </Formik>
-                        </EditPopUpStying>
-                    </>
-                } isModalVisible={isLanguageModalVisible} setIsModalVisible={setIsLanguageModelVisible} /> */}
+                isModalVisible={isLanguageModalVisible}
+                setIsModalVisible={setIsLanguageModelVisible}
+            >
+                <>
+                    <EditPopupStyling>
+                        <h3>Update Address</h3>
+                        <p>
+                            Update your information and find out how it&apos;s
+                            used.
+                        </p>
+                        <Formik
+                            initialValues={initialValues}
+                            onSubmit={handleSubmit}
+                        >
+                            {(formik) => {
+                                return (
+                                    <Form name="basic" autoComplete="off">
+                                        <Row>
+                                            <Col md="12" className="mt-10">
+                                                <PlacesAutoCompleteInput
+                                                    label="Address"
+                                                    placeholder="Address"
+                                                    handleChange={(
+                                                        val: any
+                                                    ) => {
+                                                        formik.setFieldValue(
+                                                            'address',
+                                                            val
+                                                        )
+                                                    }}
+                                                    className={
+                                                        formik.errors.address &&
+                                                        formik.touched.address
+                                                            ? 'is-invalid'
+                                                            : 'customInput'
+                                                    }
+                                                    formik={formik}
+                                                    name="address"
+                                                    value={
+                                                        formik.values.address
+                                                    }
+                                                />
+                                            </Col>
+                                            <Col md="12" className="mt-20">
+                                                <CustomButton
+                                                    bgcolor={lightBlue3}
+                                                    textTransform="Captilize"
+                                                    color={pureDark2}
+                                                    padding="12.5px"
+                                                    fontFamily={
+                                                        fontFamilyMedium
+                                                    }
+                                                    width="100%"
+                                                    type="submit"
+                                                    title="Save"
+                                                    fontSize="16px"
+                                                    loading={false}
+                                                />
+                                            </Col>
+                                        </Row>
+                                    </Form>
+                                )
+                            }}
+                        </Formik>
+                    </EditPopupStyling>
+                </>
+            </CustomModal>
 
             {/* Update Date Of Birth */}
 
             <CustomModal
                 width="485px"
                 showCloseBtn={false}
-                children={
-                    <>
-                        <EditPopUpStying>
-                            <h3>Update Date of Birth</h3>
-                            <p>
-                                Update your information and find out how it's
-                                used.
-                            </p>
-                            <Formik
-                                initialValues={initialValues}
-                                onSubmit={handleSubmit}
-                            >
-                                {(formik) => {
-                                    return (
-                                        <Form name="basic" autoComplete="off">
-                                            <Row>
-                                                <Col md="12" className="mt-10">
-                                                    <FormControl
-                                                        control="date"
-                                                        type="date"
-                                                        name="countryName"
-                                                        labelFamily={`${fontFamilyMedium}`}
-                                                        label="Date of birth"
-                                                        fontSize="16px"
-                                                        suffixIcon={
-                                                            <img
-                                                                src={
-                                                                    dateIcon as string
-                                                                }
-                                                                alt="calender-icon"
-                                                            />
-                                                        }
-                                                        max={6}
-                                                        placeholder="12-05-1989"
-                                                    />
-                                                </Col>
-                                                <Col md="12" className="mt-20">
-                                                    <CustomButton
-                                                        bgcolor={lightBlue3}
-                                                        textTransform="Captilize"
-                                                        color={pureDark2}
-                                                        padding="12.5px"
-                                                        fontFamily={
-                                                            fontFamilyMedium
-                                                        }
-                                                        width="100%"
-                                                        type="submit"
-                                                        title="Save"
-                                                        fontSize="16px"
-                                                        loading={false}
-                                                    />
-                                                </Col>
-                                            </Row>
-                                        </Form>
-                                    )
-                                }}
-                            </Formik>
-                        </EditPopUpStying>
-                    </>
-                }
                 isModalVisible={isLanguageModalVisible}
                 setIsModalVisible={setIsLanguageModelVisible}
-            />
+            >
+                <>
+                    <EditPopupStyling>
+                        <h3>Update Date of Birth</h3>
+                        <p>
+                            Update your information and find out how it&apos;s
+                            used.
+                        </p>
+                        <Formik
+                            initialValues={initialValues}
+                            onSubmit={handleSubmit}
+                        >
+                            {() => {
+                                return (
+                                    <Form name="basic" autoComplete="off">
+                                        <Row>
+                                            <Col md="12" className="mt-10">
+                                                <FormControl
+                                                    control="date"
+                                                    type="date"
+                                                    name="countryName"
+                                                    labelFamily={`${fontFamilyMedium}`}
+                                                    label="Date of birth"
+                                                    fontSize="16px"
+                                                    suffixIcon={
+                                                        <img
+                                                            src={
+                                                                dateIcon as string
+                                                            }
+                                                            alt="calender-icon"
+                                                        />
+                                                    }
+                                                    max={6}
+                                                    placeholder="12-05-1989"
+                                                />
+                                            </Col>
+                                            <Col md="12" className="mt-20">
+                                                <CustomButton
+                                                    bgcolor={lightBlue3}
+                                                    textTransform="Captilize"
+                                                    color={pureDark2}
+                                                    padding="12.5px"
+                                                    fontFamily={
+                                                        fontFamilyMedium
+                                                    }
+                                                    width="100%"
+                                                    type="submit"
+                                                    title="Save"
+                                                    fontSize="16px"
+                                                    loading={false}
+                                                />
+                                            </Col>
+                                        </Row>
+                                    </Form>
+                                )
+                            }}
+                        </Formik>
+                    </EditPopupStyling>
+                </>
+            </CustomModal>
         </Fragment>
     )
 }

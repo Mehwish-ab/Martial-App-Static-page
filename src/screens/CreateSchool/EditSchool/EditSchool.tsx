@@ -1,7 +1,6 @@
 import { CreateSchoolStyled } from '../styles'
 import { ErrorMessage, Formik } from 'formik'
 import { Form } from 'antd'
-
 import { Col, Row } from 'react-bootstrap'
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
@@ -16,7 +15,6 @@ import {
 } from '../../Home/constants'
 import { validationFinder } from '../../../utils/utilities'
 import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
-import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import FormControl from '../../../components/FormControl'
 import {
     fontFamilyMedium,
@@ -29,8 +27,8 @@ import CustomButton from '../../../components/CustomButton/CustomButton'
 import PlacesAutoCompleteInput from '../../../maps/PlacesAutocomplete'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
 
-const EditSchool = () => {
-    const { editSchool, loading, UpdateModal } = useSchool()
+const EditSchool = (): JSX.Element => {
+    const { editSchool, loading } = useSchool()
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
     const {
         statusData: { activities, facilities },
@@ -48,8 +46,8 @@ const EditSchool = () => {
 
     const businessName = validationFinder('BUSINESS_NAME')!
     const businessNameReg = new RegExp(businessName.pattern)
-    const address = validationFinder('ADDRESS')!
-    const addressReg = new RegExp(address.pattern)
+    // const address = validationFinder('ADDRESS')!
+    // const addressReg = new RegExp(address.pattern)
     const businessPhoneNumber = validationFinder('PHONE_NUMBER')!
 
     const validationSchema = Yup.object({
@@ -86,13 +84,15 @@ const EditSchool = () => {
             .of(Yup.string().required('Select at least one facility'))
             .min(1, 'Select at least one facility'),
     })
-    const handleEditSchool = async (value: any) => {
+    const handleEditSchool = async (value: any): Promise<void> => {
         await editSchool(schoolData.schoolId, value)
     }
-    const createOptions = (list: DataTypesWithIdAndMultipleLangLabel[]) => {
-        let options: SelectOptionsDataTypes[] = []
+    const createOptions = (
+        list: DataTypesWithIdAndMultipleLangLabel[]
+    ): SelectOptionsDataTypes[] => {
+        const options: SelectOptionsDataTypes[] = []
         list.forEach((item) => {
-            let obj = {
+            const obj = {
                 label: (item as any)[selectedLanguage],
                 value: item.id,
             }

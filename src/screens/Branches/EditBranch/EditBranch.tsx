@@ -31,7 +31,7 @@ import PlacesAutoCompleteInput from '../../../maps/PlacesAutocomplete'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
 import { useEffect, useState } from 'react'
 
-const EditBranch = () => {
+const EditBranch = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('branchCreate')
     const [branchDatas, setBranchDatas] = useState<any>({})
 
@@ -40,7 +40,7 @@ const EditBranch = () => {
         dropdowns: { currency, language, businessTypes },
     } = useSelector((state: RootState) => state.appData.data)
 
-    const { loading, editSchool, getbranchbyid, UpdateModal } = useBranch()
+    const { editSchool, getbranchbyid, UpdateModal } = useBranch()
     const { branchId } = useParams()
     const location = useLocation()
     const branchToEdit: BranchDataType = location.state?.branchToEdit
@@ -50,14 +50,16 @@ const EditBranch = () => {
 
     const branchName = validationFinder('BUSINESS_NAME')!
     const branchNameReg = new RegExp(branchName.pattern)
-    const address = validationFinder('ADDRESS')!
-    const addressReg = new RegExp(address.pattern)
+    // const address = validationFinder('ADDRESS')!
+    // const addressReg = new RegExp(address.pattern)
     const branchPhoneNumber = validationFinder('PHONE_NUMBER')!
 
-    const createOptions = (list: DataTypesWithIdAndMultipleLangLabel[]) => {
-        let options: SelectOptionsDataTypes[] = []
+    const createOptions = (
+        list: DataTypesWithIdAndMultipleLangLabel[]
+    ): SelectOptionsDataTypes[] => {
+        const options: SelectOptionsDataTypes[] = []
         list.forEach((item) => {
-            let obj = {
+            const obj = {
                 label: (item as any)[selectedLanguage],
                 value: item.id,
             }
@@ -67,7 +69,7 @@ const EditBranch = () => {
 
         return options
     }
-    async function fetchinfo() {
+    async function fetchinfo(): Promise<void> {
         const data = await getbranchbyid(branchToEdit.branchId)
         setBranchDatas(data)
     }
@@ -76,7 +78,7 @@ const EditBranch = () => {
     }, [])
     console.log('branchDatas', branchDatas)
 
-    const handleEditSchool = async (value: any) => {
+    const handleEditSchool = async (value: any): Promise<void> => {
         await editSchool(branchToEdit.branchId, value)
     }
     const initialValues: CreateBranchInitialValues = {
@@ -468,7 +470,7 @@ const EditBranch = () => {
                                     title={getLabelByKey('primaryButton')}
                                     fontSize="17px"
                                     disabled={!formik.isValid}
-                                    loading={loading}
+                                    loading={false}
                                 />
                             </div>
                         </Form>

@@ -21,7 +21,7 @@ import { useNavigate } from 'react-router-dom'
 import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import { RootState } from '../../../redux/store'
 
-const CreateClass = () => {
+const CreateClass = (): JSX.Element => {
     const [isShowModal, setIsShowModal] = useState(false)
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
@@ -56,7 +56,7 @@ const CreateClass = () => {
         profilePicture: '',
     }
 
-    const onSubmit = async () => {
+    const onSubmit = async (): Promise<void> => {
         try {
             setIsShowModal(true)
             setTimeout(() => {
@@ -508,8 +508,9 @@ const CreateClass = () => {
                                                 className="checkBoxPara"
                                                 id="agreement"
                                             >
-                                                Agreement to follow the app's
-                                                guidelines and policies
+                                                Agreement to follow the
+                                                app&apos;s guidelines and
+                                                policies
                                             </p>
                                         </form>
                                     </label>

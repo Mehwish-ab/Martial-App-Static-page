@@ -5,10 +5,9 @@ import {
     base_url,
     get_branch_by_school_id_url,
     get_branch_by_id_url,
-    get_payment,
+    authorizationToken,
 } from '../../../utils/api_urls'
 import { loginDataTypes } from '../types'
-import { authorizationToken } from '../../../utils/api_urls'
 
 export interface BranchDataType {
     branchId: number
@@ -92,38 +91,6 @@ const initialState: BranchDataInitialState = {
     loading: false,
     error: '',
 }
-const branchSlice = createSlice({
-    name: 'branchData',
-    initialState,
-    reducers: {
-        updateBranch: (state, action) => {
-            const updatedBranch: BranchDataType = action.payload
-            const index = state.branchData.data.findIndex(
-                (b) => b.branchId === updatedBranch.branchId
-            )
-            state.branchData.data[index] = updatedBranch
-        },
-    },
-    extraReducers(builder) {
-        builder
-            .addCase(getBranchBySchoolId.pending, (state, action) => {
-                state.branchData = initialState.branchData
-                state.loading = true
-                state.error = ''
-            })
-            .addCase(getBranchBySchoolId.fulfilled, (state, action) => {
-                state.branchData = action.payload
-                state.loading = false
-                state.error = ''
-            })
-            .addCase(getBranchBySchoolId.rejected, (state, action) => {
-                console.log('action.error', action)
-                state.branchData = initialState.branchData
-                state.error = action.error.message
-                state.loading = false
-            })
-    },
-})
 
 export const getBranchBySchoolId = createAsyncThunk(
     'branchData/getBranchBySchoolId',
@@ -149,7 +116,7 @@ export const getBranchBySchoolId = createAsyncThunk(
             return data.results
         } catch (error: any) {
             if (error.response && error.response.data) {
-                let obj = {
+                const obj = {
                     name: 'AxiosError',
                     message: error.response.data?.responseMessage,
                     code: 'ERR_BAD_RESPONSE',
@@ -162,7 +129,7 @@ export const getBranchBySchoolId = createAsyncThunk(
 )
 export const getBranchById = createAsyncThunk(
     'branchData/getBranchById',
-    async (branchId) => {
+    async () => {
         const state = store.getState()
         try {
             const { data } = await axios.post(
@@ -183,7 +150,7 @@ export const getBranchById = createAsyncThunk(
             return data.result[0]
         } catch (error: any) {
             if (error.response && error.response.data) {
-                let obj = {
+                const obj = {
                     name: 'AxiosError',
                     message: error.response.data?.responseMessage,
                     code: 'ERR_BAD_RESPONSE',
@@ -194,6 +161,39 @@ export const getBranchById = createAsyncThunk(
         }
     }
 )
+
+const branchSlice = createSlice({
+    name: 'branchData',
+    initialState,
+    reducers: {
+        updateBranch: (state, action) => {
+            const updatedBranch: BranchDataType = action.payload
+            const index = state.branchData.data.findIndex(
+                (b) => b.branchId === updatedBranch.branchId
+            )
+            state.branchData.data[index] = updatedBranch
+        },
+    },
+    extraReducers(builder) {
+        builder
+            .addCase(getBranchBySchoolId.pending, (state) => {
+                state.branchData = initialState.branchData
+                state.loading = true
+                state.error = ''
+            })
+            .addCase(getBranchBySchoolId.fulfilled, (state, action) => {
+                state.branchData = action.payload
+                state.loading = false
+                state.error = ''
+            })
+            .addCase(getBranchBySchoolId.rejected, (state, action) => {
+                console.log('action.error', action)
+                state.branchData = initialState.branchData
+                state.error = action.error.message
+                state.loading = false
+            })
+    },
+})
 
 // export const getPyment = createAsyncThunk(
 //   "branchData/paymentMethod",

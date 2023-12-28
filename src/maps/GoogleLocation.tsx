@@ -25,9 +25,17 @@ interface AddressComponent {
     long_name: string
     short_name: string
     types: string[]
+    loading: boolean
+    error: string
+    location: []
+}
+interface Address {
+    loading: boolean
+    error: string
+    location: Location
 }
 
-const useLocationData = (): any => {
+const useLocationData = (): Address => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [location, setLocation] = useState<Location>({
@@ -104,8 +112,7 @@ const useLocationData = (): any => {
 
                     setLoading(false)
                 },
-                // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-unused-vars
-                (error: any) => {
+                () => {
                     // console.log("Error retrieving location:", error);
                     store.dispatch(getAppData('Canada'))
                     store.dispatch(getScreenTranslation())

@@ -22,10 +22,8 @@ const PlacesAutoCompleteInput: React.FC<placesAutoCompleteInputProps> = ({
     handleChange,
     showLabel = true,
     placeholder,
-    className,
     name,
     formik,
-    suffix,
     value,
 }) => {
     return (

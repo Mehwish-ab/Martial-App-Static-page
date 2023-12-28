@@ -29,5 +29,10 @@
     "[css]": {
         "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
     },
-    "Files.eol": "\n"   // Unix
+    "Files.eol": "\n",
+    "cSpell.words": [
+        "Createmodal",
+        "deletebranch",
+        "deletemodal"
+    ] // Unix
 }

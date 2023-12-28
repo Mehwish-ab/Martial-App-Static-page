@@ -4,11 +4,11 @@ import FacebookLogin from './FacebookLogin'
 import AppleLogin from './AppleLogin'
 import MicroSoftLogin from './MicroSoftLogin'
 import { OauthPropTypes } from './constants'
-import DiscordLogin from './DiscordLogin'
+// import DiscordLogin from './DiscordLogin'
 
 const Wrapper = styled.div`
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     width: 100%;
     gap: 10px;
     margin-top: 20px;
@@ -37,7 +37,7 @@ const OauthLogin = ({ useCase }: OauthPropTypes): JSX.Element => {
             <FacebookLogin useCase={useCase} />
             <AppleLogin useCase={useCase} />
             <MicroSoftLogin useCase={useCase} />
-            <DiscordLogin />
+            {/* <DiscordLogin /> */}
         </Wrapper>
     )
 }

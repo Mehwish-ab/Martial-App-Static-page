@@ -7,7 +7,7 @@ import {
     tertiaryGrey24,
 } from '../../../../components/GlobalStyle'
 
-export const EditPopUpStying = styled.div`
+export const EditPopupStyling = styled.div`
     h3 {
         font-family: ${fontFamilyMedium};
         color: ${pureDark2};

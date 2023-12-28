@@ -1,70 +1,56 @@
-import { Card, Dropdown, List, Space, Table } from 'antd'
+import { Card } from 'antd'
 import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import { InformationBranchStyled } from './styles'
 import { useLocation } from 'react-router-dom'
 import { BranchDataType } from '../../../redux/features/branch/branchSlice'
 import { Col, Row } from 'react-bootstrap'
-import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { useSelector } from 'react-redux'
-import store, { RootState } from '../../../redux/store'
+import { RootState } from '../../../redux/store'
 import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
-import { useNavigate } from 'react-router-dom'
-import type { ColumnsType } from 'antd/es/table'
-import StatusActiveError from '../../../assets/images/activeBtnError.svg'
-import { ListBranchStyled } from '../ListBranch/styles'
+
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
-import CustomButton from '../../../components/CustomButton/CustomButton'
-import {
-    fontFamilyMedium,
-    pureDark,
-    tertiaryBlue2,
-} from '../../../components/GlobalStyle'
-import plusIcon from '../../../assets/icons/ic_plus.svg'
-import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
+
 import { useEffect, useState } from 'react'
 import useBranch from '../hooks/useBranch'
 import AddPaymentinfo from './AddPaymentinfo'
 
 const BranchInformation: React.FC = () => {
-    const navigate = useNavigate()
-    const { getLabelByKey } = useScreenTranslation('schoolCreate')
+    // const { getLabelByKey } = useScreenTranslation('schoolCreate')
     const { get_bank, getbranchbyid } = useBranch()
 
     const location = useLocation()
     const branch: BranchDataType = location?.state?.branch
 
-    const branchToEdit: BranchDataType = location?.state?.branchToEdit
+    // const branchToEdit: BranchDataType = location?.state?.branchToEdit
     const { language, currency } = useSelector(
         (state: RootState) => state.appData.data.dropdowns
     )
-    const [paymentData, setPaymentData] = useState<any[]>([])
+    // const [paymentData, setPaymentData] = useState<any[]>([])
     const [branchDatas, setBranchDatas] = useState<any>({})
 
     // console.log("b", branch);
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
-    let defaultLanguage = language.find(
+    const defaultLanguage = language.find(
         (item: DataTypesWithIdAndMultipleLangLabel) =>
             +item.id == +branch?.defaultLanguageId
     )
 
-    let defaultCurrency = currency.find(
+    const defaultCurrency = currency.find(
         (item: DataTypesWithIdAndMultipleLangLabel) =>
             +item.id == +branch?.defaultCurrencyId
     )
 
-    const { branchData, loading } = useSelector(
-        (state: RootState) => state.branchData
-    )
-    async function fetchinfo() {
+    const { loading } = useSelector((state: RootState) => state.branchData)
+    async function fetchinfo(): Promise<void> {
         const data = await getbranchbyid(branch.branchId)
         setBranchDatas(data)
         console.log(' getbranchbyid:', data)
     }
-    async function fetchPayment() {
+    async function fetchPayment(): Promise<void> {
         const data = (await get_bank('BRANCH', branch?.branchId)) as any[]
-        setPaymentData(data)
+        // setPaymentData(data)
         console.log('>> fetchPayment:', data)
     }
 
@@ -73,119 +59,6 @@ const BranchInformation: React.FC = () => {
         fetchinfo()
         // console.log("?????", paymentData);
     }, [])
-
-    const navigation = (record: BranchDataType, redirectTo: string) => {
-        switch (redirectTo) {
-            case 'edit':
-                navigate(`/branch/edit/${record?.branchId}`, {
-                    state: {
-                        branchToEdit: record as BranchDataType,
-                    },
-                })
-                break
-
-            case 'view':
-                navigate(`/branch/view/${record?.branchId}`, {
-                    state: {
-                        branch: record as BranchDataType,
-                    },
-                })
-        }
-    }
-
-    const columns: ColumnsType<BranchDataType> = [
-        {
-            title: 'Payment Information',
-            dataIndex: 'bankName',
-            key: 'bankName',
-        },
-        {
-            title: 'Account Nmae',
-            dataIndex: 'accountNumber',
-            key: 'accountNumber',
-        },
-        {
-            title: 'Country Name',
-            dataIndex: 'countryName',
-            key: 'countryName',
-        },
-        {
-            title: 'Mode',
-            dataIndex: 'mode',
-            key: 'mode',
-            render: (DummyData) => {
-                return (
-                    <div className={DummyData}>
-                        <button>{DummyData}</button>
-                        <img src={StatusActiveError} alt="image" />
-                    </div>
-                )
-            },
-        },
-        {
-            title: 'Status',
-            dataIndex: 'isActive',
-            key: 'isActive',
-            render: (DummyData) => {
-                // console.log(DummyData);
-                if (DummyData == true)
-                    return (
-                        <div className={'Active'}>
-                            <button>Active</button>
-                            <img src={StatusActiveError} alt="image" />
-                        </div>
-                    )
-                else {
-                    return (
-                        <div className={'De-Active'}>
-                            <button>De-Active</button>
-                            <img src={StatusActiveError} alt="image" />
-                        </div>
-                    )
-                }
-            },
-        },
-        {
-            title: 'Action',
-            key: 'action',
-            render: (value, record: BranchDataType, index): any => {
-                const items = [
-                    {
-                        key: '1',
-                        label: 'View',
-                        onClick: () => navigation(record, 'view'),
-                    },
-                    {
-                        key: '2',
-                        label: 'Edit',
-                        onClick: () => navigation(record, 'edit'),
-                    },
-                    {
-                        key: '3',
-                        label: 'Payment',
-                        onClick: () => navigation(record, 'payment'),
-                    },
-                    {
-                        key: '4',
-                        label: 'Delete',
-                        onClick: () => navigation(record, 'delete'),
-                    },
-                ]
-
-                return (
-                    <Space size="middle">
-                        <Dropdown menu={{ items }}>
-                            <img
-                                src={actionMenuTogglerIcon}
-                                alt="action menu"
-                                style={{ cursor: 'pointer' }}
-                            />
-                        </Dropdown>
-                    </Space>
-                )
-            },
-        },
-    ]
 
     return (
         <InformationBranchStyled>

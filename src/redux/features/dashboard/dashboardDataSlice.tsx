@@ -1,8 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { base_url, get_school_by_user_id_url } from '../../../utils/api_urls'
-import { loginData } from '../../../App'
-import { authorizationToken } from '../../../utils/api_urls'
+import {
+    base_url,
+    get_school_by_user_id_url,
+    authorizationToken,
+} from '../../../utils/api_urls'
+
 import store from '../../store'
 import { loginDataTypes } from '../types'
 export interface SchoolDataType {
@@ -63,34 +66,9 @@ const initialState: DashboardDataInitialState = {
     error: '',
 }
 
-const dashboardDataSlice = createSlice({
-    name: 'dashboardData',
-    initialState,
-    reducers: {},
-    extraReducers: (builder) => {
-        builder
-            .addCase(getSchoolByUserId.pending, (state, action) => {
-                state.schoolData = initialState.schoolData
-                state.loading = true
-                state.error = ''
-            })
-            .addCase(getSchoolByUserId.fulfilled, (state, action) => {
-                state.schoolData = action.payload
-                state.loading = false
-                state.error = ''
-            })
-            .addCase(getSchoolByUserId.rejected, (state, action) => {
-                console.log('action.error', action)
-                state.schoolData = initialState.schoolData
-                state.error = action.error.message
-                state.loading = false
-            })
-    },
-})
-
 export const getSchoolByUserId = createAsyncThunk(
     'dashboardData/getSchoolByUserId', // Use the correct action type
-    async (thunkAPI) => {
+    async () => {
         // const userDetails: any = thunkAPI.getState().state.loginData.userDetails;
         const state = store.getState()
         try {
@@ -110,7 +88,7 @@ export const getSchoolByUserId = createAsyncThunk(
             return data.results
         } catch (error: any) {
             if (error.response && error.response.data) {
-                let obj = {
+                const obj = {
                     name: 'AxiosError',
                     message: error.response.data?.responseMessage,
                     code: 'ERR_BAD_RESPONSE',
@@ -121,5 +99,30 @@ export const getSchoolByUserId = createAsyncThunk(
         }
     }
 )
+
+const dashboardDataSlice = createSlice({
+    name: 'dashboardData',
+    initialState,
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(getSchoolByUserId.pending, (state) => {
+                state.schoolData = initialState.schoolData
+                state.loading = true
+                state.error = ''
+            })
+            .addCase(getSchoolByUserId.fulfilled, (state, action) => {
+                state.schoolData = action.payload
+                state.loading = false
+                state.error = ''
+            })
+            .addCase(getSchoolByUserId.rejected, (state, action) => {
+                console.log('action.error', action)
+                state.schoolData = initialState.schoolData
+                state.error = action.error.message
+                state.loading = false
+            })
+    },
+})
 
 export default dashboardDataSlice.reducer

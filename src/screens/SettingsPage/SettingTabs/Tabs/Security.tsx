@@ -1,7 +1,7 @@
-import { FC, Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import CustomModal from '../../../../components/Modal/CustomModal'
-import { EditPopUpStying } from './EditPopUpStying'
+import { EditPopupStyling } from './EditPopUpStyling'
 import FormControl from '../../../../components/FormControl'
 import CustomButton from '../../../../components/CustomButton/CustomButton'
 import {
@@ -14,7 +14,7 @@ import { Form, Formik, FormikHelpers } from 'formik'
 
 import Input from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
-import { useEffect } from 'react'
+
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
 
@@ -26,7 +26,7 @@ type initialTypesSettings = {
     confirmPassword: string
 }
 
-const Security: FC<{}> = () => {
+const Security = (): JSX.Element => {
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
@@ -88,7 +88,7 @@ const Security: FC<{}> = () => {
     const handleSubmit = (
         values: initialTypesSettings,
         { setSubmitting }: FormikHelpers<initialTypesSettings>
-    ) => {
+    ): void => {
         setSubmitting(false)
     }
 
@@ -184,32 +184,52 @@ const Security: FC<{}> = () => {
             <CustomModal
                 width="485px"
                 showCloseBtn={false}
-                children={
-                    <>
-                        <EditPopUpStying>
-                            <h3>Reset Password</h3>
-                            <p>
-                                Your new password must be different from
-                                previous used passwords.
-                            </p>
-                            <Formik
-                                initialValues={initialValues}
-                                onSubmit={handleSubmit}
-                            >
-                                {(formik) => {
-                                    return (
-                                        <Form name="basic" autoComplete="off">
+                isModalVisible={isResetModalVisible}
+                setIsModalVisible={setIsResetModelVisible}
+            >
+                <>
+                    <EditPopupStyling>
+                        <h3>Reset Password</h3>
+                        <p>
+                            Your new password must be different from previous
+                            used passwords.
+                        </p>
+                        <Formik
+                            initialValues={initialValues}
+                            onSubmit={handleSubmit}
+                        >
+                            {(formik) => {
+                                return (
+                                    <Form name="basic" autoComplete="off">
+                                        <div className="mt-20">
+                                            <FormControl
+                                                control="password"
+                                                type="text"
+                                                name="currentPassword"
+                                                label="Current Password"
+                                                fontFamily={fontFamilyMedium}
+                                                max={6}
+                                                placeholder="Enter Password"
+                                                className={
+                                                    formik.errors &&
+                                                    formik.touched
+                                                        ? 'customPasswordInput'
+                                                        : 'is-invalid'
+                                                }
+                                            />
+                                        </div>
+                                        <div className="createUserPassword">
                                             <div className="mt-20">
                                                 <FormControl
                                                     control="password"
                                                     type="text"
-                                                    name="currentPassword"
-                                                    label="Current Password"
+                                                    name="newpassword"
+                                                    label="New Password"
                                                     fontFamily={
                                                         fontFamilyMedium
                                                     }
                                                     max={6}
-                                                    placeholder="Enter Password"
+                                                    placeholder="Enter New Password"
                                                     className={
                                                         formik.errors &&
                                                         formik.touched
@@ -218,135 +238,30 @@ const Security: FC<{}> = () => {
                                                     }
                                                 />
                                             </div>
-                                            <div className="createUserPassword">
-                                                <div className="mt-20">
-                                                    <FormControl
-                                                        control="password"
-                                                        type="text"
-                                                        name="newpassword"
-                                                        label="New Password"
-                                                        fontFamily={
-                                                            fontFamilyMedium
-                                                        }
-                                                        max={6}
-                                                        placeholder="Enter New Password"
-                                                        className={
-                                                            formik.errors &&
-                                                            formik.touched
-                                                                ? 'customPasswordInput'
-                                                                : 'is-invalid'
-                                                        }
-                                                    />
-                                                </div>
-                                                <div className="mt-20">
-                                                    <FormControl
-                                                        control="password"
-                                                        type="text"
-                                                        name="confirmPassword"
-                                                        fontFamily={
-                                                            fontFamilyMedium
-                                                        }
-                                                        border="none"
-                                                        label="Confirm Password"
-                                                        // placeholder={getLabelByKey(
-                                                        //   SCREEN_LABEL_KEYS.confrimPasscodeFieldPlaceholder
-                                                        // )}
-                                                        placeholder="Enter Confirm Password"
-                                                        className={
-                                                            formik.errors &&
-                                                            formik.touched
-                                                                ? 'customPasswordInput'
-                                                                : 'is-invalid'
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
                                             <div className="mt-20">
-                                                <CustomButton
-                                                    bgcolor={lightBlue3}
-                                                    textTransform="Captilize"
-                                                    color={pureDark2}
-                                                    padding="12.5px"
+                                                <FormControl
+                                                    control="password"
+                                                    type="text"
+                                                    name="confirmPassword"
                                                     fontFamily={
                                                         fontFamilyMedium
                                                     }
-                                                    width="100%"
-                                                    type="submit"
-                                                    title="Reset"
-                                                    fontSize="16px"
-                                                    loading={false}
-                                                />
-                                            </div>
-                                        </Form>
-                                    )
-                                }}
-                            </Formik>
-                        </EditPopUpStying>
-                    </>
-                }
-                isModalVisible={isResetModalVisible}
-                setIsModalVisible={setIsResetModelVisible}
-            />
-
-            {/* Authentication Password Model */}
-            <CustomModal
-                width="485px"
-                showCloseBtn={false}
-                children={
-                    <>
-                        <EditPopUpStying>
-                            <h3>Two-factor authentication</h3>
-                            <p>
-                                Update your information and find out how it's
-                                used.
-                            </p>
-                            <Formik
-                                initialValues={initialValues}
-                                onSubmit={handleSubmit}
-                            >
-                                {(formik) => {
-                                    return (
-                                        <Form name="basic" autoComplete="off">
-                                            <div className="mt-10">
-                                                <label
-                                                    htmlFor="phoneNumber"
-                                                    className="custom-phone-input-label"
-                                                >
-                                                    Phone
-                                                </label>
-                                                <Input
-                                                    defaultCountry="GB"
-                                                    international
-                                                    placeholder="44"
-                                                    value={
-                                                        formik.values
-                                                            .phoneNumber
+                                                    border="none"
+                                                    label="Confirm Password"
+                                                    // placeholder={getLabelByKey(
+                                                    //   SCREEN_LABEL_KEYS.confrimPasscodeFieldPlaceholder
+                                                    // )}
+                                                    placeholder="Enter Confirm Password"
+                                                    className={
+                                                        formik.errors &&
+                                                        formik.touched
+                                                            ? 'customPasswordInput'
+                                                            : 'is-invalid'
                                                     }
-                                                    onChange={(e: string) => {
-                                                        formik.setValues({
-                                                            ...formik.values,
-                                                            phoneNumber: e,
-                                                        })
-                                                    }}
-                                                    withCountryCallingCode
-                                                    countryCallingCodeEditable
                                                 />
-
-                                                {/* <div className="mt-1">
-                                                    <ErrorMessage
-                                                        name="phoneNumber"
-                                                        component={Errormsg}
-                                                    />
-                                                </div> */}
                                             </div>
-
-                                            <p className="text-start mt-10">
-                                                To set up two-factor
-                                                authentication, we’ll send a
-                                                6-digit code to this number.
-                                                You’ll be asked to enter it at
-                                                the next step.
-                                            </p>
+                                        </div>
+                                        <div className="mt-20">
                                             <CustomButton
                                                 bgcolor={lightBlue3}
                                                 textTransform="Captilize"
@@ -355,73 +270,149 @@ const Security: FC<{}> = () => {
                                                 fontFamily={fontFamilyMedium}
                                                 width="100%"
                                                 type="submit"
-                                                title="Set Up"
+                                                title="Reset"
                                                 fontSize="16px"
                                                 loading={false}
                                             />
-                                        </Form>
-                                    )
-                                }}
-                            </Formik>
-                        </EditPopUpStying>
-                    </>
-                }
-                isModalVisible={isAuthenticationModalVisible}
-                setIsModalVisible={setAuthenticationModelVisible}
-            />
+                                        </div>
+                                    </Form>
+                                )
+                            }}
+                        </Formik>
+                    </EditPopupStyling>
+                </>
+            </CustomModal>
 
             {/* Authentication Password Model */}
             <CustomModal
                 width="485px"
                 showCloseBtn={false}
-                children={
-                    <>
-                        <EditPopUpStying>
-                            <h3>Want to Delete Account</h3>
-                            <p>
-                                Before proceeding with the removal of a student
-                                account, please be aware that once the removal
-                                is confirmed, all access will be permanently
-                                revoked. If the user still holds an active
-                                membership, the account cannot be removed until
-                                the membership is completed or canceled.
-                            </p>
-                            <Row>
-                                <Col md="6">
-                                    <CustomButton
-                                        bgcolor={lightColor1}
-                                        textTransform="Captilize"
-                                        color={pureDark2}
-                                        padding="10px 12.5px"
-                                        fontFamily={fontFamilyMedium}
-                                        width="100%"
-                                        type="button"
-                                        title="Cancel"
-                                        fontSize="16px"
-                                        loading={false}
-                                    />
-                                </Col>
-                                <Col md="6">
-                                    <CustomButton
-                                        bgcolor={lightBlue3}
-                                        textTransform="Captilize"
-                                        color={pureDark2}
-                                        padding="10px 12.5px"
-                                        fontFamily={fontFamilyMedium}
-                                        width="100%"
-                                        type="submit"
-                                        title="Save"
-                                        fontSize="16px"
-                                        loading={false}
-                                    />
-                                </Col>
-                            </Row>
-                        </EditPopUpStying>
-                    </>
-                }
+                isModalVisible={isAuthenticationModalVisible}
+                setIsModalVisible={setAuthenticationModelVisible}
+            >
+                <>
+                    <EditPopupStyling>
+                        <h3>Two-factor authentication</h3>
+                        <p>
+                            Update your information and find out how it&apos;s
+                            used.
+                        </p>
+                        <Formik
+                            initialValues={initialValues}
+                            onSubmit={handleSubmit}
+                        >
+                            {(formik) => {
+                                return (
+                                    <Form name="basic" autoComplete="off">
+                                        <div className="mt-10">
+                                            <label
+                                                htmlFor="phoneNumber"
+                                                className="custom-phone-input-label"
+                                            >
+                                                Phone
+                                            </label>
+                                            <Input
+                                                defaultCountry="GB"
+                                                international
+                                                placeholder="44"
+                                                value={
+                                                    formik.values.phoneNumber
+                                                }
+                                                onChange={(e: string) => {
+                                                    formik.setValues({
+                                                        ...formik.values,
+                                                        phoneNumber: e,
+                                                    })
+                                                }}
+                                                withCountryCallingCode
+                                                countryCallingCodeEditable
+                                            />
+
+                                            {/* <div className="mt-1">
+                                                    <ErrorMessage
+                                                        name="phoneNumber"
+                                                        component={Errormsg}
+                                                    />
+                                                </div> */}
+                                        </div>
+
+                                        <p className="text-start mt-10">
+                                            To set up two-factor authentication,
+                                            we’ll send a 6-digit code to this
+                                            number. You’ll be asked to enter it
+                                            at the next step.
+                                        </p>
+                                        <CustomButton
+                                            bgcolor={lightBlue3}
+                                            textTransform="Captilize"
+                                            color={pureDark2}
+                                            padding="12.5px"
+                                            fontFamily={fontFamilyMedium}
+                                            width="100%"
+                                            type="submit"
+                                            title="Set Up"
+                                            fontSize="16px"
+                                            loading={false}
+                                        />
+                                    </Form>
+                                )
+                            }}
+                        </Formik>
+                    </EditPopupStyling>
+                </>
+            </CustomModal>
+
+            {/* Authentication Password Model */}
+            <CustomModal
+                width="485px"
+                showCloseBtn={false}
                 isModalVisible={isDeleteModalVisible}
                 setIsModalVisible={setIsDeleteModelVisible}
-            />
+            >
+                <>
+                    <EditPopupStyling>
+                        <h3>Want to Delete Account</h3>
+                        <p>
+                            Before proceeding with the removal of a student
+                            account, please be aware that once the removal is
+                            confirmed, all access will be permanently revoked.
+                            If the user still holds an active membership, the
+                            account cannot be removed until the membership is
+                            completed or canceled.
+                        </p>
+                        <Row>
+                            <Col md="6">
+                                <CustomButton
+                                    bgcolor={lightColor1}
+                                    textTransform="Captilize"
+                                    color={pureDark2}
+                                    padding="10px 12.5px"
+                                    fontFamily={fontFamilyMedium}
+                                    width="100%"
+                                    type="button"
+                                    title="Cancel"
+                                    fontSize="16px"
+                                    loading={false}
+                                />
+                            </Col>
+                            <Col md="6">
+                                <CustomButton
+                                    bgcolor={lightBlue3}
+                                    textTransform="Captilize"
+                                    color={pureDark2}
+                                    padding="10px 12.5px"
+                                    fontFamily={fontFamilyMedium}
+                                    width="100%"
+                                    type="submit"
+                                    title="Save"
+                                    fontSize="16px"
+                                    loading={false}
+                                />
+                            </Col>
+                        </Row>
+                    </EditPopupStyling>
+                </>
+            </CustomModal>
         </Fragment>
     )
 }

@@ -41,11 +41,7 @@ const CheckboxesList = ({
                                 name={name}
                                 value={item.id}
                             />
-                            {
-                                (item as unknown as string)[
-                                    Number(selectedLanguage)
-                                ]
-                            }
+                            {(item as any)[selectedLanguage]}
                         </label>
                     </div>
                 ))}

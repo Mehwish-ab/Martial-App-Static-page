@@ -385,7 +385,7 @@ const CreateBranch = (): JSX.Element => {
                                     <Col md="6">
                                         <CheckboxesSelect
                                             name="selectedFacilities"
-                                            label="Facility"
+                                            label={getLabelByKey('facilities')}
                                             list={facilities}
                                             showErrorMsgInList={false}
                                         />

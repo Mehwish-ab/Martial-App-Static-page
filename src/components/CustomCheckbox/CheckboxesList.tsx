@@ -10,6 +10,7 @@ export type CheckboxesListProps = {
     label: string
     showErrorMsgInList: boolean
     list: DataTypesWithIdAndMultipleLangLabel[]
+    placeholder?: string
 }
 
 const CheckboxesList = ({

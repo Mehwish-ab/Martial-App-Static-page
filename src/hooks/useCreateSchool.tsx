@@ -46,6 +46,7 @@ interface IUseSchool {
     Createmodal: () => IModalComponent
     UpdateModal: () => IModalComponent
     deleteConfirmation: (id: number) => IModalComponent
+    setIsShowModal: (showModal: true) => void
 }
 
 const useCreateSchool = (): IUseSchool => {
@@ -59,6 +60,7 @@ const useCreateSchool = (): IUseSchool => {
     const navigate = useNavigate()
 
     const [isShowModal, setIsShowModal] = useState(false)
+
     const { loginData } = useSelector((state: RootState) => state)
 
     // to create School
@@ -357,8 +359,8 @@ const useCreateSchool = (): IUseSchool => {
                     setIsModalVisible={setIsShowModal}
                     showCloseBtn={true}
                 >
-                    <h3>Want to Delete Account</h3>
-                    <p>
+                    <h3 className="text-center">Want to Delete Account</h3>
+                    <p className="text-center">
                         Before proceeding with the removal of a student account,
                         please be aware that once the removal is confirmed, all
                         access will be permanently revoked. If the user still
@@ -404,6 +406,7 @@ const useCreateSchool = (): IUseSchool => {
 
     return {
         loading,
+        setIsShowModal,
         handleCreateSubmit,
         editSchool,
         deleteSchool,

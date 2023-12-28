@@ -29,19 +29,24 @@ import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelec
 
 const EditSchool = (): JSX.Element => {
     const { editSchool, loading, UpdateModal } = useSchool()
+    const { activities } = useSelector(
+        (state: RootState) => state.appData.data.statusData
+    )
+    const { facilities } = useSelector(
+        (state: RootState) => state.appData.data.statusData
+    )
+    const { selectedLanguage } = useSelector(
+        (state: RootState) => state.selectedLanguage
+    )
+
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
     const {
-        statusData: { activities, facilities },
         dropdowns: { currency, language, businessTypes },
     } = useSelector((state: RootState) => state.appData.data)
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
     const { schoolId } = useParams()
-
-    const { selectedLanguage } = useSelector(
-        (state: RootState) => state.selectedLanguage
-    )
 
     const businessName = validationFinder('BUSINESS_NAME')!
     const businessNameReg = new RegExp(businessName.pattern)
@@ -102,6 +107,43 @@ const EditSchool = (): JSX.Element => {
         return options
     }
 
+    const showActivities = (_activities: string[]): string => {
+        let activitiesName = ''
+        _activities.map((activity) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                activitiesName =
+                    activitiesName === ''
+                        ? (activities[index] as any)[selectedLanguage]
+                        : `${activitiesName}, ${
+                              (activities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+        if (activitiesName !== '') return activitiesName
+        return getLabelByKey('activity')
+    }
+
+    const showFacilities = (_facilities: string[]): string => {
+        let facilitiesName = ''
+        _facilities.map((facility) => {
+            const index = facilities.findIndex(
+                (facts: any) => facts.id === facility
+            )
+            if (index !== -1) {
+                facilitiesName =
+                    facilitiesName === ''
+                        ? (facilities[index] as any)[selectedLanguage]
+                        : `${facilitiesName}, ${
+                              (facilities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+
+        if (facilitiesName !== '') return facilitiesName
+        return getLabelByKey('facilities')
+    }
+
     const initialValuesForEdit: CreateSchoolInitialValues = {
         businessName: schoolData.businessName,
         businessType: schoolData.businessType.toString(),
@@ -125,6 +167,12 @@ const EditSchool = (): JSX.Element => {
 
     return (
         <CreateSchoolStyled>
+            {/* {UpdateModal().modalComponent}
+      <OverlayImages
+        backgroundImg={schoolData.bannerPicture || ""}
+        overlayImg={schoolData.profilePicture || ""}
+        isEditable={true}
+      /> */}
             {UpdateModal().modalComponent}
             <Formik
                 initialValues={initialValuesForEdit}
@@ -132,9 +180,6 @@ const EditSchool = (): JSX.Element => {
                 onSubmit={handleEditSchool}
             >
                 {(formik) => {
-                    console.log('Form Values:', formik.values)
-                    console.log('School Values:', schoolData)
-
                     return (
                         <Form
                             name="basic"
@@ -388,6 +433,9 @@ const EditSchool = (): JSX.Element => {
                                             list={activities}
                                             name="selectedActivities"
                                             label={getLabelByKey('activity')}
+                                            placeholder={showActivities(
+                                                formik.values.selectedActivities
+                                            )}
                                             showErrorMsgInList={false}
                                         />
                                     </Col>
@@ -396,6 +444,9 @@ const EditSchool = (): JSX.Element => {
                                         <CheckboxesSelect
                                             name="selectedFacilities"
                                             label={getLabelByKey('facilities')}
+                                            placeholder={showFacilities(
+                                                formik.values.selectedFacilities
+                                            )}
                                             list={facilities}
                                             showErrorMsgInList={false}
                                         />

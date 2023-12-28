@@ -21,7 +21,7 @@ import {
 const ViewSchool = (): JSX.Element => {
     const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
-    const { deleteConfirmation, loading } = useSchool()
+    const { deleteConfirmation, loading, setIsShowModal } = useSchool()
 
     const { data } = useSelector((state: RootState) => state.loginData)
     const { schoolData } = useSelector(
@@ -32,6 +32,12 @@ const ViewSchool = (): JSX.Element => {
     )
     const { activities } = useSelector(
         (state: RootState) => state.appData.data.statusData
+    )
+    const { facilities } = useSelector(
+        (state: RootState) => state.appData.data.statusData
+    )
+    const { businessTypes } = useSelector(
+        (state: RootState) => state.appData.data.dropdowns
     )
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
@@ -61,18 +67,27 @@ const ViewSchool = (): JSX.Element => {
             navigate('/school/create')
             return
         }
-
         store.dispatch(getSchoolByUserId())
     }, [])
 
-    console.log('SchoolData:', schoolData)
+    // const handleDeleteClick = async (): Promise<void> => {
+    //     if (schoolData.schoolId > 0) {
+    //         await deleteSchool(schoolData.schoolId)
+    //         navigate('/school/create')
+    //     } else navigate('/school/create')
+    // }
 
-    console.log(
-        'belt value',
-        schoolData.rank,
-        'business Name',
-        schoolData.businessName
-    )
+    const showBusinessType = (_businessType: number): string => {
+        const index = businessTypes.findIndex((business: any) => {
+            return business.id === _businessType
+        })
+
+        if (index !== -1) {
+            return (businessTypes[index] as any)[selectedLanguage]
+        }
+
+        return '--'
+    }
 
     const showActivities = (_activities: string): string => {
         const activitiesArr = _activities.split(',')
@@ -92,11 +107,32 @@ const ViewSchool = (): JSX.Element => {
         if (activitiesName !== '') return activitiesName
         return '--'
     }
+    const showFacilities = (_Facilities: string): string => {
+        const activitiesArr = _Facilities.split(',')
+
+        let activitiesName = ''
+        activitiesArr.map((facility) => {
+            const index = facilities.findIndex(
+                (acts: any) => acts.id === facility
+            )
+            if (index !== -1) {
+                activitiesName =
+                    activitiesName === ''
+                        ? (facilities[index] as any)[selectedLanguage]
+                        : `${activitiesName},${
+                              (facilities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+
+        if (activitiesName !== '') return activitiesName
+        return '--'
+    }
 
     return (
         <ViewSchoolStyled>
             {/* {deletemodal().modalComponent} */}
-            {/* {deleteConfirmation().modalComponent} */}
+            {deleteConfirmation(schoolData.schoolId).modalComponent}
 
             <OverlayImages
                 backgroundImg={schoolData.bannerPicture || ''}
@@ -123,7 +159,9 @@ const ViewSchool = (): JSX.Element => {
                                 {getLabelByKey('businessType')}
                             </div>
                             <div className="list-item-value">
-                                {schoolData.businessType || '--'}
+                                {showBusinessType(
+                                    schoolData.businessType as number
+                                )}
                             </div>
                         </div>
                     </Col>
@@ -211,7 +249,7 @@ const ViewSchool = (): JSX.Element => {
                                 {getLabelByKey('facilities')}
                             </div>
                             <div className="list-item-value">
-                                {schoolData.facilities || '--'}
+                                {showFacilities(schoolData.facilities)}
                             </div>
                         </div>
                     </Col>
@@ -240,7 +278,7 @@ const ViewSchool = (): JSX.Element => {
                         title="Delete"
                         fontSize="18px"
                         loading={loading}
-                        clicked={() => deleteConfirmation(schoolData.schoolId)}
+                        clicked={() => setIsShowModal(true)}
                     />
                 </div>
                 <div>

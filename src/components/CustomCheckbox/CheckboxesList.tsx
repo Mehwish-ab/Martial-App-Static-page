@@ -21,7 +21,6 @@ const CheckboxesList = ({
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
-
     return (
         <CustomCheckboxListStyled>
             {label && (
@@ -39,7 +38,7 @@ const CheckboxesList = ({
                             <Field
                                 type="checkbox"
                                 name={name}
-                                value={item.id}
+                                value={item.en}
                             />
                             {(item as any)[selectedLanguage]}
                         </label>

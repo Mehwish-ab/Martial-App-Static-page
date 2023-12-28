@@ -384,6 +384,8 @@ export interface StatusDataTypes {
 }
 
 export interface DataTypesWithIdAndMultipleLangLabel {
+    value: any
+    label: any
     id: string
     en: string
     es: string
@@ -520,7 +522,18 @@ export interface User {
 }
 
 // property app data
+interface DataType {
+    value: string
+    label: string
+    // other properties
+}
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const list: DataType[] = [
+    { value: 'value1', label: 'Label 1' },
+    { value: 'value2', label: 'Label 2' },
+    // ...
+]
 export interface propertyAppDataTypes {
     id: number
     typeName: string

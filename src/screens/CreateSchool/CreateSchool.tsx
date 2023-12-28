@@ -30,8 +30,8 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const CreateSchool = (): JSX.Element => {
-    const { schoolData } = useSelector(
-        (state: RootState) => state.dashboardData
+    const { data: schoolData } = useSelector(
+        (state: RootState) => state.loginData
     )
     const navigate = useNavigate()
 
@@ -120,10 +120,11 @@ const CreateSchool = (): JSX.Element => {
         return options
     }
     useEffect(() => {
-        console.log('ids', schoolData.schoolId)
-        if (schoolData.schoolId > 0) return navigate('/school/view')
-        console.log('id', schoolData.schoolId)
-    }, [])
+        console.log('ids', schoolData?.schoolId)
+        if (schoolData && schoolData.schoolId > 0)
+            return navigate('/school/view')
+    }, [schoolData])
+
     return (
         <CreateSchoolStyled>
             {Createmodal().modalComponent}
@@ -235,7 +236,7 @@ const CreateSchool = (): JSX.Element => {
                                             placeholder={getLabelByKey(
                                                 'enterCompleteAddress'
                                             )}
-                                            handleChange={(val: any) => {
+                                            handleChange={(val) => {
                                                 formik.setFieldValue(
                                                     'address',
                                                     val

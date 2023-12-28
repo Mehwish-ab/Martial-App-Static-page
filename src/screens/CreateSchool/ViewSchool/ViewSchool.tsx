@@ -23,6 +23,7 @@ const ViewSchool = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
     const { deleteSchool, deletemodal, loading } = useSchool()
 
+    const { data } = useSelector((state: RootState) => state.loginData)
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
@@ -48,10 +49,16 @@ const ViewSchool = (): JSX.Element => {
         if (schoolData.schoolId > 0) await deleteSchool(schoolData.schoolId)
         else navigate('/school/create')
     }
+
     useEffect(() => {
+        if (data?.schoolId === 0) {
+            navigate('/school/create')
+            return
+        }
+
         store.dispatch(getSchoolByUserId())
-        if (schoolData.schoolId === 0) navigate('/school/create')
     }, [])
+
     console.log('SchoolData:', schoolData)
 
     console.log(

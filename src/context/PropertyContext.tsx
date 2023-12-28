@@ -62,7 +62,11 @@ type propertyContext = {
 
 const PropertyContext = createContext({} as propertyContext)
 
-const PropertyProvider = ({ children }: { children: React.ReactNode }) => {
+const PropertyProvider = ({
+    children,
+}: {
+    children: React.ReactNode
+}): JSX.Element => {
     const [createPropertyData, setCreatePropertyData] =
         useState<createPropertyDataTypes>({} as createPropertyDataTypes)
 
@@ -104,7 +108,7 @@ const PropertyProvider = ({ children }: { children: React.ReactNode }) => {
     const [secondFloorInfoItems, setSecondFloorInfoItems] = useState([0, 1])
     const [thirdFloorInfoItems, setThirdFloorInfoItems] = useState([0, 1])
 
-    const resetPropertyDataContext = () => {
+    const resetPropertyDataContext = (): void => {
         // Reset all the state variables to their initial values
         setCreatePropertyData({} as createPropertyDataTypes)
         setMpacCreatePropertyData({} as mpacCreatePropertyDataTypes)
@@ -168,7 +172,7 @@ const PropertyProvider = ({ children }: { children: React.ReactNode }) => {
 }
 
 // make sure use
-const usePropertyContext = () => {
+const usePropertyContext = (): propertyContext => {
     return useContext(PropertyContext)
 }
 

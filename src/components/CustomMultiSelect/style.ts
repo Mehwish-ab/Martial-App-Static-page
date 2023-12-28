@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { mediaDeviceMax, pureDark2 } from '../GlobalStyle'
+import { pureDark2 } from '../GlobalStyle'
 
 export const CustomSelectContainer = styled.div`
     margin-bottom: 10px;

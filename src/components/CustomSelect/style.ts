@@ -1,11 +1,9 @@
 import styled from 'styled-components'
 import {
-    fontFamilyMedium,
     fontFamilyRegular,
     lightDark2,
     mediaDeviceMax,
     pureDark2,
-    tertiaryGrey7,
 } from '../GlobalStyle'
 
 type CustomSelectProps = {

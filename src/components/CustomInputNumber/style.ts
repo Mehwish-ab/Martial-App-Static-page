@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import {
     fontFamilyMedium,
     fontFamilyRegular,
-    lightGrey2,
     pureDark2,
     tertiaryGrey21,
 } from '../GlobalStyle'

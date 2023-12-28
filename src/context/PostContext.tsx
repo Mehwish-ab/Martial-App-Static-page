@@ -19,7 +19,11 @@ type PostContext = {
 
 const PostContext = createContext({} as PostContext)
 
-const PostProvider = ({ children }: { children: React.ReactNode }) => {
+const PostProvider = ({
+    children,
+}: {
+    children: React.ReactNode
+}): JSX.Element => {
     const [createPostFiles, setCreatePostFiles] = useState<Array<any>>([])
     const [croppedImages, setCroppedImages] = useState<File[]>([])
     const [postImages, setPostImages] = useState<string[]>([])
@@ -43,7 +47,7 @@ const PostProvider = ({ children }: { children: React.ReactNode }) => {
 }
 
 // make sure use
-const usePostContext = () => {
+const usePostContext = (): PostContext => {
     return useContext(PostContext)
 }
 

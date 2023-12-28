@@ -1,7 +1,7 @@
-import { InputNumber, Select } from 'antd'
+import { InputNumber } from 'antd'
 import { CustomPhoneInputStyle } from './style'
 import { BaseImgContainer } from '../GlobalStyle'
-import useFetch from '../../hooks/useFetch'
+// import useFetch from '../../hooks/useFetch'
 
 type CustomPhoneInputProps = {
     countryNumber: string
@@ -16,7 +16,7 @@ type CustomPhoneInputProps = {
     label?: string
 }
 
-const { Option } = Select
+// const { Option } = Select
 
 const CustomPhoneInput: React.FC<CustomPhoneInputProps> = ({
     countryNumber,
@@ -51,7 +51,7 @@ const CustomPhoneInput: React.FC<CustomPhoneInputProps> = ({
                 placeholder={placeholder}
                 disabled={disabled}
                 value={value}
-                onChange={(value) => phoneValueHandler(value || '')}
+                onChange={(_value) => phoneValueHandler(_value || '')}
                 addonBefore={
                     <div
                         style={{ width: '40px', height: '40px' }}

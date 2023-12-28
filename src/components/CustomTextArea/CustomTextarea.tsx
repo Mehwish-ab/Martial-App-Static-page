@@ -10,7 +10,7 @@ const CustomTextarea = ({
     label,
     defaultValue,
     ...props
-}: any) => {
+}: any): JSX.Element => {
     const { TextArea } = Input
 
     const [field] = useField(props)

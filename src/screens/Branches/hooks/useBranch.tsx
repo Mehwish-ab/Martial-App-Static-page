@@ -237,7 +237,7 @@ const useBranch = () => {
             console.log('error', { error })
             setLoading(false)
             setError(error.response.data.responseMessage)
-            let id = setTimeout(() => {
+            const id = setTimeout(() => {
                 setError('')
             }, 3000)
             if (!setIsShowModal) {
@@ -517,26 +517,23 @@ const useBranch = () => {
         }
     }
 
-    const Createmodal = () => {
-        return {
-            modalComponent: (
-                <CustomModal
-                    isModalVisible={isShowModal}
-                    setIsModalVisible={setIsShowModal}
-                    showCloseBtn={false}
-                >
-                    {' '}
-                    <EnnvisionModal
-                        doTask={() => {
-                            navigate('/branch/list')
-                            setIsShowModal(false)
-                        }}
-                        title="Complete Profile Successfully!"
-                        description="Congratulations! Your profile has been successfully completed, ensuring a seamless experience within the Marital"
-                    />
-                </CustomModal>
-            ),
-        }
+    const CreateModal = (): JSX.Element => {
+        return (
+            <CustomModal
+                isModalVisible={isShowModal}
+                setIsModalVisible={setIsShowModal}
+                showCloseBtn={false}
+            >
+                <EnnvisionModal
+                    doTask={() => {
+                        navigate('/branch/list')
+                        setIsShowModal(false)
+                    }}
+                    title="Complete Profile Successfully!"
+                    description="Congratulations! Your profile has been successfully completed, ensuring a seamless experience within the Marital"
+                />
+            </CustomModal>
+        )
     }
 
     const deletemodal = () => {
@@ -588,7 +585,7 @@ const useBranch = () => {
         editSchool,
         getallbranch,
         error,
-        Createmodal,
+        CreateModal,
         get_bank,
         get_gocard,
         get_paypal,

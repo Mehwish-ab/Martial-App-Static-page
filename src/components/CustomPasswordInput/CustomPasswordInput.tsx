@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Field, ErrorMessage } from 'formik'
 import ErrorMsg from '../ErrorMessage'
 import { Input } from 'antd'
@@ -29,7 +30,7 @@ type CustomPasswordInputProps = {
     labelMarginBottom?: string
 }
 
-const CustomPasswordInput = (props: CustomPasswordInputProps) => {
+const CustomPasswordInput = (props: CustomPasswordInputProps): JSX.Element => {
     const {
         label,
         className,
@@ -47,7 +48,7 @@ const CustomPasswordInput = (props: CustomPasswordInputProps) => {
         fontSize = '16px',
         ...rest
     } = props
-    const { getLabelByKey } = useScreenTranslation('loginScreen')
+    // const { getLabelByKey } = useScreenTranslation('loginScreen')
     return (
         <CustomPasswordInputStyle
             fontFamily={fontFamily}

@@ -12,7 +12,7 @@ export type ButtonProps = {
     color: string
     padding: string
     clicked?: () => void
-    form?: any
+    form?: string
     key?: string | number
     fontSize?: string
     fontFamily?: 'EnnVisions' | 'EnnVisionsMedium' | 'EnnVisionsBold'
@@ -43,7 +43,7 @@ const CustomButton = ({
     loading = false,
     textTransform = 'uppercase',
     borderRadius = '10px',
-}: ButtonProps) => {
+}: ButtonProps): JSX.Element => {
     return (
         <CustormButtonStyle
             bgcolor={bgcolor}

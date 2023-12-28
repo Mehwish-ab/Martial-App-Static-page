@@ -23,7 +23,7 @@ export interface followerTypes {
     follower: followerUserTypes[]
 }
 
-const FollowersModal = () => {
+const FollowersModal = (): JSX.Element => {
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState<null | followerTypes>({} as followerTypes)
     const [error, setError] = useState('')
@@ -34,7 +34,7 @@ const FollowersModal = () => {
     const { data: loginData } = useAppSelector((state) => state.loginData)
 
     // get followers promise
-    const getFollowersPromise = async () => {
+    const getFollowersPromise = async (): Promise<void> => {
         try {
             setLoading(true)
             const { data: followersData } = await axios(
@@ -52,6 +52,7 @@ const FollowersModal = () => {
             followersToastId.current = toast('got followers successfully', {
                 type: 'success',
             })
+            // eslint-disable-next-line @typescript-eslint/no-shadow
         } catch (error: any) {
             setError(error)
             setLoading(false)
@@ -80,6 +81,7 @@ const FollowersModal = () => {
             ) : (
                 data?.follower.map((follower) => (
                     <ProfileIntro
+                        key={follower.userId} //added by nada using google
                         btnColor="white"
                         btnBgColor={secondaryBlue}
                         btnText="Follow Back"

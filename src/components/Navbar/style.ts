@@ -5,7 +5,6 @@ import {
     tertiaryGrey21,
     lightDark2,
     fontFamilyRegular,
-    fontFamilyMedium,
     pureDark2,
 } from '../GlobalStyle'
 

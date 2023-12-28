@@ -17,7 +17,7 @@ const CheckboxesList = ({
     label,
     list,
     showErrorMsgInList,
-}: CheckboxesListProps) => {
+}: CheckboxesListProps): JSX.Element => {
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
@@ -41,7 +41,11 @@ const CheckboxesList = ({
                                 name={name}
                                 value={item.id}
                             />
-                            {(item as any)[selectedLanguage]}
+                            {
+                                (item as unknown as string)[
+                                    Number(selectedLanguage)
+                                ]
+                            }
                         </label>
                     </div>
                 ))}

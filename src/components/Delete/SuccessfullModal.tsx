@@ -1,20 +1,26 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { LoginContainer } from './style'
+// eslint-disable-next-line import/no-unresolved
 import ic_logo from '../../Assets/icons/ic_logo.svg'
-import { Link } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 
-const Index = ({ handleCancel, message, deleteUser, toLocation }: any) => {
-    const navigate = useNavigate()
-    const closeModal = () => {
-        handleCancel()
-    }
-    const handleDelete = () => {
-        deleteUser()
-        setTimeout(() => {
-            handleCancel()
-            navigate(toLocation)
-        }, 300)
-    }
+const Index = ({
+    handleCancel,
+    message,
+    deleteUser,
+    toLocation,
+}: any): JSX.Element => {
+    // const navigate = useNavigate()
+    // const closeModal = () => {
+    //     handleCancel()
+    // }
+    // const handleDelete = () => {
+    //     deleteUser()
+    //     setTimeout(() => {
+    //         handleCancel()
+    //         navigate(toLocation)
+    //     }, 300)
+    // }
 
     return (
         <LoginContainer>

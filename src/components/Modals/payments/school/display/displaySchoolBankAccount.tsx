@@ -1,28 +1,12 @@
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import { Formik, Form } from 'formik'
 import { Row, Col, Card } from 'react-bootstrap' // Replace with your layout library
 import CustomModal from '../../../../Modal/CustomModal'
-import FormControl from '../../../../FormControl'
 import { PaymentPop } from '../../../../../screens/CreateSchool/AddPaymentSchool/PaymentPop'
-import {
-    fontFamilyMedium,
-    fontFamilyRegular,
-    lightBlue3,
-    pureDark2,
-} from '../../../../GlobalStyle'
-// import countryList from "react-select-country-list";
-
-import CustomButton from '../../../../CustomButton/CustomButton'
-import show_password_icon from '../../../assets/icons/ic_show_passcode.svg'
 import { createPaymentInitialValues } from '../../constant'
 import usePayment from '../../../../../hooks/usePayment'
 import { AddPaymentMethod } from '../../../../../screens/Franchise/ViewFranchise/styles'
-import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../../../redux/store'
-import { DataTypesWithIdAndMultipleLangLabel } from '../../../../../redux/features/types'
-import { SelectOptionsDataTypes } from '../../../../../screens/Home/constants'
-import PlacesAutoCompleteInput from '../../../../../maps/PlacesAutocomplete'
+
 interface StripeKeysModalProps {
     open: boolean
     onClose: (value: string) => void
@@ -63,30 +47,13 @@ const DisplayBankaccountSchoolKeysModal: React.FC<StripeKeysModalProps> = (
         sortCode: '',
         bic: '',
     }
-    const { selectedLanguage } = useSelector(
-        (state: RootState) => state.selectedLanguage
-    )
-    const createOptions = (list: DataTypesWithIdAndMultipleLangLabel[]) => {
-        let options: SelectOptionsDataTypes[] = []
-        list?.forEach((item) => {
-            let obj = {
-                label: (item as any)[selectedLanguage],
-                value: item.id,
-            }
 
-            options.push(obj)
-        })
-
-        return options
-    }
-
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [iSModalVisible, setModelVisible] = useState(false)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { create_Payment, loading } = usePayment()
-    const {
-        statusData: { activities, facilities },
-        dropdowns: { currency, language, businessTypes, countryName },
-    } = useSelector((state: RootState) => state.appData.data)
-    const handleCreateSubmit = async (values: any) => {
+
+    const handleCreateSubmit = async (): Promise<void> => {
         // const data = await create_bankaccount("SCHOOL", values, props.id);
         // if (data) props.onClose("");
     }
@@ -96,7 +63,12 @@ const DisplayBankaccountSchoolKeysModal: React.FC<StripeKeysModalProps> = (
             <CustomModal
                 onCancel={() => props.onClose('')}
                 width="953px"
-                children={
+                isModalVisible={props.open}
+                setIsModalVisible={setModelVisible}
+            >
+                {' '}
+                children=
+                {
                     <PaymentPop>
                         <h3>Bank Account</h3>
                         <div>
@@ -104,7 +76,7 @@ const DisplayBankaccountSchoolKeysModal: React.FC<StripeKeysModalProps> = (
                                 initialValues={initialValues}
                                 onSubmit={handleCreateSubmit}
                             >
-                                {(formik) => {
+                                {() => {
                                     return (
                                         <Form name="basic" autoComplete="off">
                                             <Card>
@@ -254,9 +226,7 @@ const DisplayBankaccountSchoolKeysModal: React.FC<StripeKeysModalProps> = (
                         </div>
                     </PaymentPop>
                 }
-                isModalVisible={props.open}
-                setIsModalVisible={setModelVisible}
-            />
+            </CustomModal>
         </AddPaymentMethod>
     )
 }

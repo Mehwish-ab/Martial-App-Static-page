@@ -41,7 +41,7 @@ const CreateBranch = (): JSX.Element => {
         dropdowns: { currency, language, businessTypes },
     } = useSelector((state: RootState) => state.appData.data)
 
-    const { loading, handleSubmit, Createmodal } = useBranch()
+    const { loading, handleSubmit, CreateModal } = useBranch()
     const initialValues: CreateBranchInitialValues = {
         branchName: '',
         branchType: '',
@@ -158,7 +158,7 @@ const CreateBranch = (): JSX.Element => {
     return (
         <CreateSchoolStyled>
             {/* <OverlayImages backgroundImg={""} overlayImg={""} isEditable={false} /> */}
-            {Createmodal().modalComponent}
+            {CreateModal()}
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}

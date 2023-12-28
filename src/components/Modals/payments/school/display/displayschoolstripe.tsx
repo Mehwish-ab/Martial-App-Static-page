@@ -2,21 +2,11 @@ import React, { useState } from 'react'
 import { Formik, Form } from 'formik'
 import { Row, Col, Card } from 'react-bootstrap' // Replace with your layout library
 import CustomModal from '../../../../Modal/CustomModal'
-import FormControl from '../../../../FormControl'
 import { PaymentPop } from '../../../../../screens/CreateSchool/AddPaymentSchool/PaymentPop'
-import {
-    fontFamilyMedium,
-    fontFamilyRegular,
-    lightBlue3,
-    pureDark2,
-} from '../../../../GlobalStyle'
-import CustomButton from '../../../../CustomButton/CustomButton'
-import show_password_icon from '../../../assets/icons/ic_show_passcode.svg'
 import { createPaymentInitialValues } from '../../constant'
 import usePayment from '../../../../../hooks/usePayment'
 import { AddPaymentMethod } from '../../../../../screens/Franchise/ViewFranchise/styles'
-import PlacesAutoCompleteInput from '../../../../../maps/PlacesAutocomplete'
-import { useParams } from 'react-router-dom'
+
 interface StripeKeysModalProps {
     open: boolean
     onClose: (value: string) => void
@@ -48,9 +38,11 @@ const DislayStripechoolSKeysModal: React.FC<StripeKeysModalProps> = (props) => {
         sortCode: '',
         bic: '',
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [iSModalVisible, setModelVisible] = useState(false)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { create_Payment, loading, Createmodal } = usePayment()
-    const handleCreateSubmit = async (values: any) => {
+    const handleCreateSubmit = async (values: any): Promise<void> => {
         console.log(values)
 
         // await create_Stripe("SCHOOL", values, props.id);
@@ -61,7 +53,12 @@ const DislayStripechoolSKeysModal: React.FC<StripeKeysModalProps> = (props) => {
             <CustomModal
                 width="493px"
                 onCancel={() => props.onClose('')}
-                children={
+                isModalVisible={props.open}
+                setIsModalVisible={setModelVisible}
+            >
+                {' '}
+                children=
+                {
                     <PaymentPop>
                         <h3>Stripe Keys</h3>
                         <div>
@@ -69,7 +66,7 @@ const DislayStripechoolSKeysModal: React.FC<StripeKeysModalProps> = (props) => {
                                 initialValues={initialValues}
                                 onSubmit={handleCreateSubmit}
                             >
-                                {(formik) => {
+                                {() => {
                                     return (
                                         <Form name="basic" autoComplete="off">
                                             <Card>
@@ -157,9 +154,7 @@ const DislayStripechoolSKeysModal: React.FC<StripeKeysModalProps> = (props) => {
                         </div>
                     </PaymentPop>
                 }
-                isModalVisible={props.open}
-                setIsModalVisible={setModelVisible}
-            />
+            </CustomModal>
         </AddPaymentMethod>
     )
 }

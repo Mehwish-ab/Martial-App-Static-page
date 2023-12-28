@@ -43,9 +43,10 @@ const StripechoolSKeysModal: React.FC<StripeKeysModalProps> = (props) => {
         sortCode: '',
         bic: '',
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [iSModalVisible, setModelVisible] = useState(false)
     const { loading, Createmodal, create_Payment } = usePayment()
-    const handleCreateSubmit = async (values: any) => {
+    const handleCreateSubmit = async (values: any): Promise<void> => {
         console.log(values)
 
         const data = await create_Payment(
@@ -66,7 +67,12 @@ const StripechoolSKeysModal: React.FC<StripeKeysModalProps> = (props) => {
             <CustomModal
                 width="477px"
                 onCancel={() => props.onClose('')}
-                children={
+                isModalVisible={props.open}
+                setIsModalVisible={setModelVisible}
+            >
+                {' '}
+                children=
+                {
                     <PaymentPop>
                         <h3>Stripe keys</h3>
                         <div>
@@ -209,9 +215,7 @@ const StripechoolSKeysModal: React.FC<StripeKeysModalProps> = (props) => {
                         </div>
                     </PaymentPop>
                 }
-                isModalVisible={props.open}
-                setIsModalVisible={setModelVisible}
-            />
+            </CustomModal>
         </AddPaymentMethod>
     )
 }

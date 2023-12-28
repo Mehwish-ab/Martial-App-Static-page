@@ -111,7 +111,7 @@ const AppProvider: React.FC<appProviderProps> = ({ children }) => {
     const [showPropertyOptions, setShowPropertyOptions] = useState(false)
     const [counter, setCounter] = useState(0)
 
-    const searchHandler = () => {}
+    const searchHandler = (): void => {}
     // console.log({ createPropertyReport, createPropertyPlan });
     // console.log({ generatePropertyType });
 
@@ -170,7 +170,7 @@ const AppProvider: React.FC<appProviderProps> = ({ children }) => {
     )
 }
 // make sure use
-export const useGlobalContext = () => {
+export const useGlobalContext = (): contextApiData => {
     return useContext(AppContext)
 }
 

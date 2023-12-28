@@ -9,8 +9,7 @@ const CheckboxesSelect = ({
     list,
     name,
     label,
-    showErrorMsgInList,
-}: CheckboxesListProps) => {
+}: CheckboxesListProps): JSX.Element => {
     return (
         <CheckboxesSelectStyled>
             <label htmlFor="" className="title">

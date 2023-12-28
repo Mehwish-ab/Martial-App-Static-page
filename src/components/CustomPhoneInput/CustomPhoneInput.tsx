@@ -20,7 +20,7 @@ const CustomPhoneInput = ({
     handleOnChange,
     limitMaxLength,
     ...rest
-}: CustomPhoneInputProps) => {
+}: CustomPhoneInputProps): JSX.Element => {
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )

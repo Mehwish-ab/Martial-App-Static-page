@@ -1,10 +1,11 @@
+/* eslint-disable import/no-unresolved */
 import { MobileCardContainer } from './style'
 import { Link, useNavigate } from 'react-router-dom'
-import { basicColor, primaryColor } from '../GlobalStyle'
 import deleteIcon from '../../Assets/icons/ic_delete.svg'
 import editIcon from '../../Assets/icons/ic_edit.svg'
-import addIcon from '../../Assets/ic_add_new.svg'
-const Index = ({ data, deleteHandler, editHandler }: any) => {
+import addIcon from '../../assets/icons/ic_add_new.svg'
+
+const Index = ({ data, deleteHandler, editHandler }: any): JSX.Element => {
     const navigate = useNavigate()
 
     return (

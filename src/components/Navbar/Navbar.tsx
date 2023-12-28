@@ -29,14 +29,15 @@ import ukIcon from '../../assets/icons/ic_uk_flag.svg'
 // import { fontFamilyMedium, pureDark2 } from "../GlobalStyle";
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
-import useCreateSchool from '../../hooks/useCreateSchool'
-function Navbar() {
+
+//import useCreateSchool from '../../hooks/useCreateSchool'
+function Navbar(): JSX.Element {
     const { searchText, setSearchText } = useGlobalContext()
     const searchRef = useRef<InputRef>(null)
     const { schoolId } = useSelector(
         (state: RootState) => state.dashboardData.schoolData
     )
-    const { deleteSchool } = useCreateSchool()
+    //const { deleteSchool } = useCreateSchool()
     const [drawerVisible, setDrawerVisible] = useState(false)
     const items: MenuProps['items'] = [
         {

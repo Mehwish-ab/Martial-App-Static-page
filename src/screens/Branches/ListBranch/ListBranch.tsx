@@ -62,8 +62,19 @@ const ListBranch: React.FC = () => {
             title: 'Image',
             //dataIndex: "profilePicture",
             //key: "profilePicture",
-            render: () => {
-                return <img src={defaltimg} width={44} height={44} />
+            render: (Dummydatas) => {
+                console.log('images', Dummydatas.profilePicture)
+                if (Dummydatas.profilePicture === null) {
+                    return <img src={defaltimg} width={44} height={44} />
+                } else {
+                    return (
+                        <img
+                            src={Dummydatas.profilePicture}
+                            width={44}
+                            height={44}
+                        />
+                    )
+                }
             },
         },
         {
@@ -77,7 +88,7 @@ const ListBranch: React.FC = () => {
             dataIndex: 'branchType',
             key: 'branchType',
             render: (_, { branchType }) => {
-                let item = businessTypes.find((b) => b.id === branchType)
+                const item = businessTypes.find((b) => b.id === branchType)
                 return <p>{item?.en}</p>
             },
         },
@@ -128,7 +139,7 @@ const ListBranch: React.FC = () => {
             title: 'Action',
             key: 'action',
             render: (_, record) => {
-                console.log(record, 'bibi')
+                console.log(record, 'records')
                 const items = [
                     {
                         key: '1',

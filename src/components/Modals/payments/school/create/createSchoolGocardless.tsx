@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import { Formik, Form } from 'formik'
 import { Row, Col } from 'react-bootstrap' // Replace with your layout library
 import CustomModal from '../../../../Modal/CustomModal'
@@ -6,22 +6,16 @@ import FormControl from '../../../../FormControl'
 import { PaymentPop } from '../../../../../screens/CreateSchool/AddPaymentSchool/PaymentPop'
 import {
     fontFamilyMedium,
-    fontFamilyRegular,
     lightBlue3,
     pureDark2,
 } from '../../../../GlobalStyle'
 // import countryList from "react-select-country-list";
 
 import CustomButton from '../../../../CustomButton/CustomButton'
-import show_password_icon from '../../../assets/icons/ic_show_passcode.svg'
 import { createPaymentInitialValues } from '../../constant'
 import usePayment from '../../../../../hooks/usePayment'
 import { AddPaymentMethod } from '../../../../../screens/Franchise/ViewFranchise/styles'
-import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../../../redux/store'
-import { DataTypesWithIdAndMultipleLangLabel } from '../../../../../redux/features/types'
-import { SelectOptionsDataTypes } from '../../../../../screens/Home/constants'
+
 import PlacesAutoCompleteInput from '../../../../../maps/PlacesAutocomplete'
 interface StripeKeysModalProps {
     open: boolean
@@ -58,30 +52,12 @@ const SchoolGocardlessKeysModal: React.FC<StripeKeysModalProps> = (props) => {
         sortCode: '',
         bic: '',
     }
-    const { selectedLanguage } = useSelector(
-        (state: RootState) => state.selectedLanguage
-    )
-    const createOptions = (list: DataTypesWithIdAndMultipleLangLabel[]) => {
-        let options: SelectOptionsDataTypes[] = []
-        list?.forEach((item) => {
-            let obj = {
-                label: (item as any)[selectedLanguage],
-                value: item.id,
-            }
 
-            options.push(obj)
-        })
-
-        return options
-    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [iSModalVisible, setModelVisible] = useState(false)
     const { create_Payment, loading } = usePayment()
-    const {
-        statusData: { activities, facilities },
-        dropdowns: { currency, language, businessTypes, countryName },
-    } = useSelector((state: RootState) => state.appData.data)
 
-    const handleCreateSubmit = async (values: any) => {
+    const handleCreateSubmit = async (values: any): Promise<void> => {
         console.log('initial', values)
 
         const data = await create_Payment(
@@ -97,7 +73,12 @@ const SchoolGocardlessKeysModal: React.FC<StripeKeysModalProps> = (props) => {
             <CustomModal
                 width="953px"
                 onCancel={() => props.onClose('')}
-                children={
+                isModalVisible={props.open}
+                setIsModalVisible={setModelVisible}
+            >
+                {' '}
+                children=
+                {
                     <PaymentPop>
                         <h3>GoCardLess</h3>
                         <div>
@@ -284,9 +265,7 @@ const SchoolGocardlessKeysModal: React.FC<StripeKeysModalProps> = (props) => {
                         </div>
                     </PaymentPop>
                 }
-                isModalVisible={props.open}
-                setIsModalVisible={setModelVisible}
-            />
+            </CustomModal>
         </AddPaymentMethod>
     )
 }

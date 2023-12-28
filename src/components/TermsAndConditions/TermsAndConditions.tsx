@@ -6,6 +6,37 @@ import FormControl from '../FormControl'
 import type { CheckboxChangeEvent } from 'antd/es/checkbox'
 import useScreenTranslation from '../../hooks/useScreenTranslation'
 
+const Wrapper = styled.div`
+    // width: 100%;
+
+    .terms {
+        // max-width: 390px;
+        // width: 100%;
+        font-size: 14px;
+        span {
+            color: #000;
+            font-family: ${fontFamilyRegular};
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+    }
+    a {
+        font-family: ${fontFamilyMedium};
+        text-decoration: underline;
+        color: ${darkBlue};
+        margin: 0 2px;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
+    a:hover {
+        text-decoration: none;
+    }
+`
+
 type termsAndConditionsProps = {
     terms: boolean
     setTerms: React.Dispatch<React.SetStateAction<boolean>>
@@ -61,34 +92,3 @@ const TermsAndConditions: React.FC<termsAndConditionsProps> = ({
 }
 
 export default TermsAndConditions
-
-const Wrapper = styled.div`
-    // width: 100%;
-
-    .terms {
-        // max-width: 390px;
-        // width: 100%;
-        font-size: 14px;
-        span {
-            color: #000;
-            font-family: ${fontFamilyRegular};
-            font-size: 14px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: normal;
-        }
-    }
-    a {
-        font-family: ${fontFamilyMedium};
-        text-decoration: underline;
-        color: ${darkBlue};
-        margin: 0 2px;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: normal;
-    }
-    a:hover {
-        text-decoration: none;
-    }
-`

@@ -44,9 +44,8 @@
 //                     }}
 //                     defaultValue={value}
 //                     placeholder={placeholder}
-//                     className={`ant-input ${
-//                         formik.errors.address ? 'is-invalid' : 'customInput'
-//                     }`}
+//                     className={`ant-input ${formik.errors.address ? 'is-invalid' : 'customInput'
+//                         }`}
 //                 />
 //                 <span>
 //                     <img src={MagnifiedIcon} alt="as" />
@@ -83,6 +82,52 @@ type placesAutoCompleteInputProps = {
     suffix?: any
 }
 
+// const PlacesAutoCompleteInput: React.FC<placesAutoCompleteInputProps> = ({
+//     label,
+//     handleChange,
+//     showLabel = true,
+//     placeholder,
+//     name,
+//     formik,
+//     value,
+// }) => {
+//     const { isLoaded } = useJsApiLoader({
+//         googleMapsApiKey: MAP_API,
+//     })
+
+//     return (
+//         <PlacesAutocompleteStyle>
+//             {showLabel && <label htmlFor="places-suggestion">{label}</label>}
+//             <div className="PlacesAutocomplete">
+//                 {isLoaded && (
+//                     <GoogleAutocomplete
+//                         onLoad={(autocomplete) => console.log(autocomplete)}
+//                         onPlaceChanged={() => console.log('Place changed')}
+//                     >
+//                         <input
+//                             type="text"
+//                             placeholder={placeholder}
+//                             value={value}
+//                             onChange={(e) => handleChange(e.target.value)}
+//                             className={`ant-input ${formik.errors.address
+//                                 ? 'is-invalid'
+//                                 : 'customInput'
+//                             }`}
+//                         />
+//                     </GoogleAutocomplete>
+//                 )}
+//                 <span>
+//                     <img src={MagnifiedIcon} alt="as" />
+//                 </span>
+//             </div>
+
+//             <ErrorMessage name={name} component={Errormsg} />
+//         </PlacesAutocompleteStyle>
+//     )
+// }
+
+// export default PlacesAutoCompleteInput
+
 const PlacesAutoCompleteInput: React.FC<placesAutoCompleteInputProps> = ({
     label,
     handleChange,
@@ -96,25 +141,38 @@ const PlacesAutoCompleteInput: React.FC<placesAutoCompleteInputProps> = ({
         googleMapsApiKey: MAP_API,
     })
 
+    // Function to handle when a place is selected from the autocomplete suggestions
+    const handlePlaceSelect = (place: any) => {
+        const selectedAddress = place.formatted_address
+        handleChange(selectedAddress)
+        formik.setFieldValue(name, selectedAddress)
+    }
+
     return (
         <PlacesAutocompleteStyle>
             {showLabel && <label htmlFor="places-suggestion">{label}</label>}
             <div className="PlacesAutocomplete">
                 {isLoaded && (
                     <GoogleAutocomplete
-                        onLoad={(autocomplete) => console.log(autocomplete)}
-                        onPlaceChanged={() => console.log('Place changed')}
+                        // onLoad={(autocomplete) => console.log(autocomplete)}
+                        // onPlaceChanged={() => console.log('Place changed')}
+                        // Handle the selected place from suggestions
+                        onLoad={(autocomplete) => {
+                            autocomplete.addListener('place_changed', () => {
+                                const selectedPlace = autocomplete.getPlace()
+                                handlePlaceSelect(selectedPlace)
+                            })
+                        }}
                     >
                         <input
                             type="text"
                             placeholder={placeholder}
                             value={value}
                             onChange={(e) => handleChange(e.target.value)}
-                            className={`ant-input ${
-                                formik.errors.address
+                            className={`ant-input ${formik.errors.address
                                     ? 'is-invalid'
                                     : 'customInput'
-                            }`}
+                                }`}
                         />
                     </GoogleAutocomplete>
                 )}

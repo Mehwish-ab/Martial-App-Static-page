@@ -1,7 +1,6 @@
 import { LoginContainer } from './style'
 import ic_logo from '../../Assets/icons/ic_logo.svg'
-import { Link } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Index = () => {
     const navigate = useNavigate()

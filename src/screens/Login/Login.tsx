@@ -57,16 +57,15 @@ const Login = (): JSX.Element => {
 
     // regExpressions from redux appData
     const emailReg = new RegExp(email.pattern)
-    const passwordReg = new RegExp(password.pattern)
+    // const passwordReg = new RegExp(password.pattern)
 
     // validation schema
     const validationSchema = Yup.object({
         emailAddress: Yup.string()
             .required(email.notBlankMsgEn)
             .matches(emailReg, email.patternMsgEn),
-        password: Yup.string()
-            .required(password.notBlankMsgEn)
-            .matches(passwordReg, password.patternMsgEn),
+        password: Yup.string().required(password.notBlankMsgEn),
+        // .matches(passwordReg, password.patternMsgEn),
     })
 
     const dispatch = useDispatch()

@@ -14,7 +14,14 @@ import { setLoginData } from '../redux/features/loginDataSlice'
 import MessageModal from '../components/Common/MessageModal/MessageModal'
 import { useDispatch } from 'react-redux'
 
-const useOauthLogin = () => {
+interface IUseOauthLogin {
+    loading: boolean
+    handleSignup: (values: OauthApiValueTypes) => Promise<void>
+    handleSignin: (values: OauthApiValueTypes) => Promise<void>
+    error: string
+}
+
+const useOauthLogin = (): IUseOauthLogin => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
@@ -29,9 +36,9 @@ const useOauthLogin = () => {
     const { result } = useAppSelector((state: RootState) => state.userLocation)
 
     // signin
-    const handleSignin = async (values: OauthApiValueTypes) => {
+    const handleSignin = async (values: OauthApiValueTypes): Promise<void> => {
         console.log(values, 'social login')
-        let payload = {
+        const payload = {
             authProvider: values.authProvider,
             accessToken: values.accessToken,
         }
@@ -67,15 +74,15 @@ const useOauthLogin = () => {
             //   },
             // });
             console.log({ data })
-        } catch (error: any) {
-            console.log({ error })
+        } catch (error2: any) {
+            console.log({ error: error2 })
             setLoading(false)
-            setError(error?.response?.data?.responseMessage || error.message)
+            setError(error2?.response?.data?.responseMessage || error2.message)
             setTimeout(() => {
                 setError('')
             }, 2000)
             toastId.current = toast(
-                error?.response?.data?.responseMessage || error.message,
+                error2?.response?.data?.responseMessage || error2.message,
                 {
                     type: 'error',
                     autoClose: 1000,
@@ -85,9 +92,9 @@ const useOauthLogin = () => {
     }
 
     // register
-    const handleSignup = async (values: OauthApiValueTypes) => {
+    const handleSignup = async (values: OauthApiValueTypes): Promise<void> => {
         console.log(values, 'social signup')
-        let payload = {
+        const payload = {
             authProvider: values.authProvider,
             accessToken: values.accessToken,
             address: result?.address || '',
@@ -116,15 +123,15 @@ const useOauthLogin = () => {
             setLoading(false)
             navigate('/login')
             console.log({ data })
-        } catch (error: any) {
-            console.log({ error })
+        } catch (error2: any) {
+            console.log({ error: error2 })
             setLoading(false)
-            setError(error?.response?.data?.responseMessage || error.message)
+            setError(error2?.response?.data?.responseMessage || error2.message)
             setTimeout(() => {
                 setError('')
             }, 2000)
             toastId.current = toast(
-                error?.response?.data?.responseMessage || error.message,
+                error2?.response?.data?.responseMessage || error2.message,
                 {
                     type: 'error',
                     autoClose: 1000,

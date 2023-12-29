@@ -1,9 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 import store from '../../store'
-import { base_url, get_branch_by_school_id_url } from '../../../utils/api_urls'
+import {
+    base_url,
+    get_branch_by_school_id_url,
+    authorizationToken,
+} from '../../../utils/api_urls'
 import { loginDataTypes } from '../types'
-import { authorizationToken } from '../../../utils/api_urls'
 
 export interface TransactionDataType {
     TransactionID: number
@@ -98,7 +101,7 @@ export const getBranchBySchoolId = createAsyncThunk(
             return data.results
         } catch (error: any) {
             if (error.response && error.response.data) {
-                let obj = {
+                const obj = {
                     name: 'AxiosError',
                     message: error.response.data?.responseMessage,
                     code: 'ERR_BAD_RESPONSE',

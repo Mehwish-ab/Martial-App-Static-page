@@ -6,7 +6,13 @@ import { useGlobalContext } from '../context/context'
 import { generate_otp_url, useCaseForgetPassowrd } from '../utils/api_urls'
 import { forgetPasswordInitialTypes } from '../screens/ForgetPassword/ForgetPasword'
 
-const useGenerateOtp = () => {
+interface IUseGenerator {
+    loading: boolean
+    handleSubmit: (values: forgetPasswordInitialTypes) => Promise<void>
+    error: string
+}
+
+const useGenerateOtp = (): IUseGenerator => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
@@ -37,13 +43,16 @@ const useGenerateOtp = () => {
     // });
 
     // register phone handler
-    const handleSubmit = async (values: forgetPasswordInitialTypes) => {
+    const handleSubmit = async (
+        values: forgetPasswordInitialTypes
+    ): Promise<void> => {
         setUserPhoneNumber(values.phoneNumber.toString())
         console.log(values.phoneNumber, 'phone number')
         const phoneData = {
             phoneNumber: values.phoneNumber.toString(),
             useCase: useCaseForgetPassowrd,
         }
+
         try {
             setError('')
             setLoading(true)
@@ -63,14 +72,14 @@ const useGenerateOtp = () => {
             setLoading(false)
             navigate('/register/verify-otp')
             console.log({ data })
-        } catch (error: any) {
-            console.log({ error })
+        } catch (error2: any) {
+            console.log({ error: error2 })
             setLoading(false)
-            setError(error.response.data.responseMessage)
+            setError(error2.response.data.responseMessage)
             setTimeout(() => {
                 setError('')
             }, 2000)
-            toastId.current = toast(error.response.data.responseMessage, {
+            toastId.current = toast(error2.response.data.responseMessage, {
                 type: 'error',
                 autoClose: 1000,
             })

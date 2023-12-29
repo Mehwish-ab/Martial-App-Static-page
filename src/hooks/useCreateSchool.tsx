@@ -56,10 +56,14 @@ const useCreateSchool = (): IUseSchool => {
     const toastId = useRef<any>(null)
     const { schoolId } = useParams()
     const { data: logindata } = useAppSelector((state) => state.loginData)
+    const { schoolData } = useAppSelector((state) => state.dashboardData)
 
     const navigate = useNavigate()
+    console.log(schoolData, 'helooo')
 
     const [isShowModal, setIsShowModal] = useState(false)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
 
     const { loginData } = useSelector((state: RootState) => state)
 
@@ -150,7 +154,6 @@ const useCreateSchool = (): IUseSchool => {
         try {
             setError('')
             setLoading(true)
-
             const payload = {
                 userId: userDetails?.id || '',
                 businessName: values.businessName,
@@ -172,7 +175,6 @@ const useCreateSchool = (): IUseSchool => {
 
                 ...(_schoolId && { schoolId: _schoolId }), // Add schoolId conditionally
             }
-
             const { data: data2 } = await axios.post(url, payload, {
                 headers: {
                     ...authorizationToken(loginData.data as loginDataTypes),
@@ -182,18 +184,14 @@ const useCreateSchool = (): IUseSchool => {
                 setLoading(false)
                 return
             }
-
+            setLoading(false)
             setIsShowModal(true)
             setTimeout(() => {
-                setLoading(false)
                 setIsShowModal(false)
                 navigate('/school/view')
             }, 3000)
 
-            // navigate("/school/view");
             console.log({ data: data2 })
-            //setIsUploadImgVisible(true);
-            // navigate("/school/view");
         } catch (error2: any) {
             console.log({ error: error2 })
             setLoading(false)
@@ -211,61 +209,12 @@ const useCreateSchool = (): IUseSchool => {
         }
     }
 
-    //to delete school
-    const deleteSchool = async (userId: number): Promise<void> => {
-        const url = '/school/delete'
-        console.log('>> im in deleteSchool button')
-
-        try {
-            setError('')
-            setLoading(true)
-            const { data: data2 } = await axios.post(
-                url,
-                { schoolId: userId },
-                {
-                    headers: {
-                        ...authorizationToken(logindata!),
-                    },
-                }
-            )
-            if (data2.responseCode === '500') {
-                toast(data2.responseMessage, {
-                    type: 'error',
-                    autoClose: 1000,
-                })
-                setLoading(false)
-                return
-            }
-            // toastId.current = toast(data.responseMessage, {
-            //   type: "success",
-            //   autoClose: 1000,
-            // });
-            setIsShowModal(true)
-            setTimeout(() => {
-                setLoading(false)
-                setIsShowModal(false)
-                navigate('/school/create')
-            }, 3000)
-            console.log('data', { data: data2 })
-            setLoading(false)
-            // navigate("/school");
-        } catch (error2: any) {
-            console.log('api error', error2)
-            setError(error2.response.data.responseMessage)
-            setLoading(false)
-            console.log(
-                error2.response.data.responseMessage,
-                'error in api data'
-            )
-        }
-    }
-
     const deletemodal = (): IModalComponent => {
         return {
             modalComponent: (
                 <CustomModal
-                    isModalVisible={isShowModal}
-                    setIsModalVisible={setIsShowModal}
+                    isModalVisible={isShowDeleteModal}
+                    setIsModalVisible={setIsShowDeleteModal}
                     showCloseBtn={true}
                 >
                     <div className="d-flex flex-column align-items-center">
@@ -287,6 +236,54 @@ const useCreateSchool = (): IUseSchool => {
                     </div>
                 </CustomModal>
             ),
+        }
+    }
+
+    //to delete school
+    const deleteSchool = async (userId: number): Promise<void> => {
+        const url = '/school/delete'
+        console.log('>> im in deleteSchool button', userId)
+
+        try {
+            setError('')
+            setLoading(true)
+
+            const { data: data2 } = await axios.post(
+                url,
+                { schoolId: userId },
+                {
+                    headers: {
+                        ...authorizationToken(logindata!),
+                    },
+                }
+            )
+            if (data2.responseCode === '500') {
+                toast(data2.responseMessage, {
+                    type: 'error',
+                    autoClose: 1000,
+                })
+                setLoading(false)
+                return
+            }
+
+            setLoading(false)
+            setIsShowModal(false) // Open the deletemodal
+            setIsShowDeleteModal(true)
+
+            setTimeout(() => {
+                setIsShowDeleteModal(false)
+                // setIsShowDeleteModal(true)
+                navigate('/school/create')
+            }, 3000)
+            // console.log('data', { data: data2 })
+        } catch (error2: any) {
+            console.log('api error', error2)
+            setError(error2.response.data.responseMessage)
+            setLoading(false)
+            console.log(
+                error2.response.data.responseMessage,
+                'error in api data'
+            )
         }
     }
 
@@ -350,6 +347,8 @@ const useCreateSchool = (): IUseSchool => {
 
     const deleteConfirmation = (_id: number): IModalComponent => {
         const Deleteschool = async (id: number): Promise<void> => {
+            setIsShowModal(false) // Close any other modals
+            setIsShowDeleteModal(true)
             await deleteSchool(id)
         }
         return {
@@ -380,7 +379,7 @@ const useCreateSchool = (): IUseSchool => {
                                 title="Cancel"
                                 fontSize="16px"
                                 loading={false}
-                                // clicked={}
+                                clicked={() => setIsShowModal(false)}
                             />
                         </Col>
                         <Col md="6">
@@ -392,7 +391,7 @@ const useCreateSchool = (): IUseSchool => {
                                 fontFamily={fontFamilyMedium}
                                 width="100%"
                                 type="submit"
-                                title="Save"
+                                title="Confirmed"
                                 fontSize="16px"
                                 loading={false}
                                 clicked={() => Deleteschool(_id)}

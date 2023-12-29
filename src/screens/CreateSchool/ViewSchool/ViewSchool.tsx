@@ -5,10 +5,10 @@ import { useNavigate } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { useSelector } from 'react-redux'
-import store, { RootState } from '../../../redux/store'
+import { RootState } from '../../../redux/store'
 import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
 import { useEffect } from 'react'
-import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
+// import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import useSchool from '../../../hooks/useCreateSchool'
 
@@ -21,9 +21,10 @@ import {
 const ViewSchool = (): JSX.Element => {
     const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
-    const { deleteConfirmation, loading, setIsShowModal } = useSchool()
+    const { deleteConfirmation, loading, setIsShowModal, deletemodal } =
+        useSchool()
 
-    const { data } = useSelector((state: RootState) => state.loginData)
+    // const { data } = useSelector((state: RootState) => state.loginData)
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
@@ -63,11 +64,11 @@ const ViewSchool = (): JSX.Element => {
     // }
 
     useEffect(() => {
-        if (!data || data.schoolId === 0) {
+        if (!schoolData || schoolData.schoolId === 0) {
             navigate('/school/create')
             return
         }
-        store.dispatch(getSchoolByUserId())
+        // store.dispatch(getSchoolByUserId())
     }, [])
 
     // const handleDeleteClick = async (): Promise<void> => {
@@ -131,7 +132,7 @@ const ViewSchool = (): JSX.Element => {
 
     return (
         <ViewSchoolStyled>
-            {/* {deletemodal().modalComponent} */}
+            {deletemodal().modalComponent}
             {deleteConfirmation(schoolData.schoolId).modalComponent}
 
             <OverlayImages

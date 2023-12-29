@@ -30,7 +30,7 @@ export const ViewSchoolStyled = styled.div`
             &-title {
                 color: ${lightDark2};
                 font-family: ${fontFamilyRegular};
-                font-size: 12px;
+                font-size: 14px;
                 font-style: normal;
                 font-weight: 400;
                 line-height: normal;
@@ -41,10 +41,11 @@ export const ViewSchoolStyled = styled.div`
             }
 
             &-value {
-                font-size: 14px;
+                margin-top: 6px;
+                font-size: 16px;
                 color: ${pureDark2};
                 font-weight: 400;
-                font-family: ${fontFamilyRegular};
+                font-family: ${fontFamilyMedium};
 
                 @media screen and ${mediaDeviceMax.laptop} {
                     font-size: 14px;

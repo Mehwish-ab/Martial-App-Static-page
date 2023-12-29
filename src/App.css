@@ -366,7 +366,6 @@ button {
 .PhoneInput:hover .PhoneInputCountry {
     border-color: rgb(64, 169, 255);
     border-right-width: 1px;
-    z-index: 1;
 }
 
 .is-invalid_phone {

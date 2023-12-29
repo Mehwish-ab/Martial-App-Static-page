@@ -6,7 +6,7 @@ import { Col, Row } from 'react-bootstrap'
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
 import useScreenTranslation from '../../hooks/useScreenTranslation'
-import { RootState } from '../../redux/store'
+import store, { RootState } from '../../redux/store'
 import useCreateSchool from '../../hooks/useCreateSchool'
 import {
     BELTS_SELECT_OPTIONS,
@@ -30,12 +30,14 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 // import { getSchoolByUserId } from '../../redux/features/dashboard/dashboardDataSlice'
 import { useAppSelector } from '../../app/hooks'
+import { getSchoolByUserId } from '../../redux/features/dashboard/dashboardDataSlice'
 
 const CreateSchool = (): JSX.Element => {
+    // const { data } = useSelector((state: RootState) => state.loginData)
     const { schoolData } = useAppSelector((state) => state.dashboardData)
     const navigate = useNavigate()
 
-    console.log('checking schoolData: ', schoolData)
+    // console.log('checking schoolData: ', schoolData, data)
 
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
     const {
@@ -122,10 +124,10 @@ const CreateSchool = (): JSX.Element => {
         return options
     }
     useEffect(() => {
-        console.log('ids', schoolData?.schoolId)
+        store.dispatch(getSchoolByUserId())
+        // console.log('ids', schoolData?.schoolId)
         if (schoolData && schoolData.schoolId > 0)
             return navigate('/school/view')
-        // store.dispatch(getSchoolByUserId())
     }, [schoolData])
     // const showActivities = (_activities: string[]): string => {
     //     let activitiesName = ''

@@ -27,9 +27,9 @@ const OverlayImages = ({
     overlayImg,
     isEditable,
 }: OverlayImagesProps): JSX.Element => {
-    const { schoolId } = useParams()
+    // const { schoolId } = useParams()
     const { branchId } = useParams()
-    const { franchiseId } = useParams()
+    // const { franchiseId } = useParams()
 
     // const jwtDetails = useSelector(
     //     (state: RootState) => state.loginData.data?.jwtDetails
@@ -42,7 +42,6 @@ const OverlayImages = ({
         (state: RootState) => state.dashboardData
     )
     const { loginData } = useSelector((state: RootState) => state)
-    console.log('schoolid', schoolId, 'br', branchId, schoolData, franchiseId)
 
     useEffect(() => {
         setProfileImg(overlayImg)

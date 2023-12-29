@@ -120,8 +120,10 @@ const EditSchool = (): JSX.Element => {
                           }`
             }
         })
-        if (activitiesName !== '') return activitiesName
-        return getLabelByKey('activity')
+        if (activitiesName.length > 40) {
+            return `${activitiesName.slice(0, 40)}...`
+        }
+        return activitiesName || getLabelByKey('activity')
     }
 
     const showFacilities = (_facilities: string[]): string => {
@@ -140,8 +142,10 @@ const EditSchool = (): JSX.Element => {
             }
         })
 
-        if (facilitiesName !== '') return facilitiesName
-        return getLabelByKey('facilities')
+        if (facilitiesName.length > 40) {
+            return `${facilitiesName.slice(0, 40)}...`
+        }
+        return facilitiesName || getLabelByKey('facilities')
     }
 
     const initialValuesForEdit: CreateSchoolInitialValues = {

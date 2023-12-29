@@ -28,11 +28,11 @@ import PlacesAutoCompleteInput from '../../maps/PlacesAutocomplete'
 import CheckboxesSelect from '../../components/CustomCheckbox/CheckboxesSelect'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+// import { getSchoolByUserId } from '../../redux/features/dashboard/dashboardDataSlice'
+import { useAppSelector } from '../../app/hooks'
 
 const CreateSchool = (): JSX.Element => {
-    const { data: schoolData } = useSelector(
-        (state: RootState) => state.loginData
-    )
+    const { schoolData } = useAppSelector((state) => state.dashboardData)
     const navigate = useNavigate()
 
     console.log('checking schoolData: ', schoolData)
@@ -125,42 +125,83 @@ const CreateSchool = (): JSX.Element => {
         console.log('ids', schoolData?.schoolId)
         if (schoolData && schoolData.schoolId > 0)
             return navigate('/school/view')
+        // store.dispatch(getSchoolByUserId())
     }, [schoolData])
+    // const showActivities = (_activities: string[]): string => {
+    //     let activitiesName = ''
+    //     _activities.map((activity) => {
+    //         const index = activities.findIndex((act) => act.id === activity)
+    //         if (index !== -1) {
+    //             activitiesName =
+    //                 activitiesName === ''
+    //                     ? (activities[index] as any)[selectedLanguage]
+    //                     : `${activitiesName}, ${
+    //                           (activities[index] as any)[selectedLanguage]
+    //                       }`
+    //         }
+    //     })
+    //     if (activitiesName !== '') return activitiesName
+    //     return getLabelByKey('activity')
+    // }
     const showActivities = (_activities: string[]): string => {
         let activitiesName = ''
-        _activities.map((activity) => {
+        _activities.forEach((activity) => {
             const index = activities.findIndex((act) => act.id === activity)
             if (index !== -1) {
+                const activityLabel = (activities[index] as any)[
+                    selectedLanguage
+                ]
                 activitiesName =
                     activitiesName === ''
-                        ? (activities[index] as any)[selectedLanguage]
-                        : `${activitiesName}, ${
-                              (activities[index] as any)[selectedLanguage]
-                          }`
+                        ? activityLabel
+                        : `${activitiesName}, ${activityLabel}`
             }
         })
-        if (activitiesName !== '') return activitiesName
-        return getLabelByKey('activity')
+        if (activitiesName.length > 35) {
+            return `${activitiesName.slice(0, 35)}...`
+        }
+        return activitiesName || getLabelByKey('activity')
     }
 
+    // const showFacilities = (_facilities: string[]): string => {
+    //     let facilitiesName = ''
+    //     _facilities.map((facility) => {
+    //         const index = facilities.findIndex(
+    //             (facts: any) => facts.id === facility
+    //         )
+    //         if (index !== -1) {
+    //             facilitiesName =
+    //                 facilitiesName === ''
+    //                     ? (facilities[index] as any)[selectedLanguage]
+    //                     : `${facilitiesName}, ${
+    //                           (facilities[index] as any)[selectedLanguage]
+    //                       }`
+    //         }
+    //     })
+
+    //     if (facilitiesName !== '') return facilitiesName
+    //     return getLabelByKey('facilities')
+    // }
     const showFacilities = (_facilities: string[]): string => {
         let facilitiesName = ''
-        _facilities.map((facility) => {
+        _facilities.forEach((facility) => {
             const index = facilities.findIndex(
                 (facts: any) => facts.id === facility
             )
             if (index !== -1) {
+                const facilityLabel = (facilities[index] as any)[
+                    selectedLanguage
+                ]
                 facilitiesName =
                     facilitiesName === ''
-                        ? (facilities[index] as any)[selectedLanguage]
-                        : `${facilitiesName}, ${
-                              (facilities[index] as any)[selectedLanguage]
-                          }`
+                        ? facilityLabel
+                        : `${facilitiesName}, ${facilityLabel}`
             }
         })
-
-        if (facilitiesName !== '') return facilitiesName
-        return getLabelByKey('facilities')
+        if (facilitiesName.length > 35) {
+            return `${facilitiesName.slice(0, 35)}...`
+        }
+        return facilitiesName || getLabelByKey('facilities')
     }
     return (
         <CreateSchoolStyled>

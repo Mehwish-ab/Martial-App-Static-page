@@ -142,7 +142,7 @@ const PlacesAutoCompleteInput: React.FC<placesAutoCompleteInputProps> = ({
     })
 
     // Function to handle when a place is selected from the autocomplete suggestions
-    const handlePlaceSelect = (place: any) => {
+    const handlePlaceSelect = (place: any): void => {
         const selectedAddress = place.formatted_address
         handleChange(selectedAddress)
         formik.setFieldValue(name, selectedAddress)
@@ -169,10 +169,11 @@ const PlacesAutoCompleteInput: React.FC<placesAutoCompleteInputProps> = ({
                             placeholder={placeholder}
                             value={value}
                             onChange={(e) => handleChange(e.target.value)}
-                            className={`ant-input ${formik.errors.address
+                            className={`ant-input ${
+                                formik.errors.address
                                     ? 'is-invalid'
                                     : 'customInput'
-                                }`}
+                            }`}
                         />
                     </GoogleAutocomplete>
                 )}

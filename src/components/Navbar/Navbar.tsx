@@ -48,7 +48,6 @@ function Navbar(): JSX.Element {
     //     }
     // }, [selectedLanguage])
     const { data: loginData } = useAppSelector((state) => state.loginData)
-    console.log('Nadad', loginData?.userDetails)
 
     const { searchText, setSearchText } = useGlobalContext()
     const searchRef = useRef<InputRef>(null)

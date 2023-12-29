@@ -56,10 +56,9 @@ const useCreateSchool = (): IUseSchool => {
     const toastId = useRef<any>(null)
     const { schoolId } = useParams()
     const { data: logindata } = useAppSelector((state) => state.loginData)
-    const { schoolData } = useAppSelector((state) => state.dashboardData)
+    // const { schoolData } = useAppSelector((state) => state.dashboardData)
 
     const navigate = useNavigate()
-    console.log(schoolData, 'helooo')
 
     const [isShowModal, setIsShowModal] = useState(false)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -72,7 +71,6 @@ const useCreateSchool = (): IUseSchool => {
         values: CreateSchoolInitialValues,
         { resetForm }: any
     ): Promise<void> => {
-        console.log('>> im in handleSubmit')
         const userDetails = loginData.data?.userDetails
 
         const payload = {
@@ -242,7 +240,6 @@ const useCreateSchool = (): IUseSchool => {
     //to delete school
     const deleteSchool = async (userId: number): Promise<void> => {
         const url = '/school/delete'
-        console.log('>> im in deleteSchool button', userId)
 
         try {
             setError('')
@@ -269,7 +266,14 @@ const useCreateSchool = (): IUseSchool => {
             setLoading(false)
             setIsShowModal(false) // Open the deletemodal
             setIsShowDeleteModal(true)
-
+            const storedObject = JSON.parse(
+                localStorage.getItem('ennvision-admin:token') as any
+            )
+            storedObject.schoolId = null
+            localStorage.setItem(
+                'ennvision-admin:token',
+                JSON.stringify(storedObject)
+            )
             setTimeout(() => {
                 setIsShowDeleteModal(false)
                 // setIsShowDeleteModal(true)
@@ -358,7 +362,7 @@ const useCreateSchool = (): IUseSchool => {
                     setIsModalVisible={setIsShowModal}
                     showCloseBtn={true}
                 >
-                    <h3 className="text-center">Want to Delete Account</h3>
+                    <h3 className="text-center">Want to Remove Account</h3>
                     <p className="text-center">
                         Before proceeding with the removal of a student account,
                         please be aware that once the removal is confirmed, all

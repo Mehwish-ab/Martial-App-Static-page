@@ -18,8 +18,8 @@ import { Form, Formik } from 'formik'
 import useCreateSchool from '../../../hooks/useCreateSchool'
 import { CreateSchoolInitialValues } from '../../Home/constants'
 import * as Yup from 'yup'
-import { Row } from 'react-bootstrap'
-import { Col } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
+
 import {
     fontFamilyMedium,
     fontFamilyRegular,

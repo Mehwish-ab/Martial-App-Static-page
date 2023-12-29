@@ -2,35 +2,48 @@ import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import { authorizationToken } from '../utils/api_urls'
-import { useDispatch, useSelector } from 'react-redux'
-import store, { RootState } from '../redux/store'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { RootState } from '../redux/store'
+import { useNavigate } from 'react-router-dom'
 import { loginDataTypes } from '../redux/features/types'
 import { CreateInstructorInitialValues } from '../../src/screens/Instructor/constant'
 import EnnvisionModal from '../components/CustomModals/EnnvisionModal'
 import CustomModal from '../components/Modal/CustomModal'
-import { useAppSelector } from '../app/hooks'
+interface IUseInstructor {
+    loading: boolean
+    handleSubmit: (
+        values: CreateInstructorInitialValues,
+        file: any
+    ) => Promise<void>
+    deleteInstructor: (instructorId: number) => Promise<void>
+    deletemodal: () => {
+        modalComponent: JSX.Element
+    }
+    getInstructorbyid: (instructorId: number) => Promise<any>
+    updateInstructor: () => Promise<void>
+    errorMessage: string
+}
 
-const useInstructor = () => {
+const useInstructor = (): IUseInstructor => {
     const [loading, setLoading] = useState(false)
     const [isShowModal, setIsShowModal] = useState(false)
-    const [data, setData] = useState<unknown>({})
-    const [error, setError] = useState('')
+    // const [data, setData] = useState<unknown>({})
+    const [errorMessage, setError] = useState('')
     const toastId = useRef<any>(null)
 
     const navigate = useNavigate()
     const { loginData } = useSelector((state: RootState) => state)
     //   const { data: logindata } = useAppSelector((state) => state.loginData);
 
-    const { schoolData } = useSelector(
-        (state: RootState) => state.dashboardData
-    )
-    const dispatch = useDispatch()
+    // const { schoolData } = useSelector(
+    //     (state: RootState) => state.dashboardData
+    // )
+    // const dispatch = useDispatch()
 
     const handleSubmit = async (
         values: CreateInstructorInitialValues,
         file: any
-    ) => {
+    ): Promise<void> => {
         console.log('values from form:', values, file)
         const Payload = {
             instructorName: values.instructorName,
@@ -82,20 +95,20 @@ const useInstructor = () => {
             }, 3000)
 
             console.log({ data })
-        } catch (error: any) {
-            console.error('Error:', error.response.data.error)
+        } catch (error2: any) {
+            console.error('Error:', error2.response.data.error)
             setLoading(false)
-            setError(error.message || 'An error occurred')
+            setError(error2.message || 'An error occurred')
             setTimeout(() => {
                 setError('')
             }, 2000)
-            toastId.current = toast(error.message || 'An error occurred', {
+            toastId.current = toast(error2.message || 'An error occurred', {
                 type: 'error',
                 autoClose: 1000,
             })
         }
     }
-    const deleteInstructor = async (instructorId: number) => {
+    const deleteInstructor = async (instructorId: number): Promise<void> => {
         console.log('<<instructor id to delete', instructorId)
         const url = '/instructor/delete'
         try {
@@ -128,21 +141,21 @@ const useInstructor = () => {
                 setIsShowModal(false)
                 navigate('/instructor/list')
             }, 3000)
-            setData('results: ' + data.results)
+            // setData('results: ' + data.results)
             console.log('data', { data })
             setLoading(false)
-        } catch (error: any) {
-            console.log('api error', error)
-            setError(error.response.data.responseMessage)
+        } catch (error2: any) {
+            console.log('api error', error2)
+            setError(error2.response.data.responseMessage)
             setLoading(false)
             console.log(
-                error.response.data.responseMessage,
+                error2.response.data.responseMessage,
                 'error in api data'
             )
         }
     }
 
-    const getInstructorbyid = async (instructorId: number) => {
+    const getInstructorbyid = async (instructorId: number): Promise<any> => {
         try {
             setError('')
             setLoading(true)
@@ -163,15 +176,17 @@ const useInstructor = () => {
             console.log('Instructor info', data.results)
             setLoading(false)
             return data.results
-        } catch (error: any) {
-            console.log('error', error)
+        } catch (error2: any) {
+            console.log('error', error2)
             setLoading(false)
-            setError(error)
+            setError(error2)
         }
     }
-    const updateInstructor = async () => {}
+    const updateInstructor = async (): Promise<void> => {}
 
-    const deletemodal = () => {
+    const deletemodal = (): {
+        modalComponent: JSX.Element
+    } => {
         return {
             modalComponent: (
                 <CustomModal
@@ -199,6 +214,7 @@ const useInstructor = () => {
         deletemodal,
         getInstructorbyid,
         updateInstructor,
+        errorMessage,
     }
 }
 

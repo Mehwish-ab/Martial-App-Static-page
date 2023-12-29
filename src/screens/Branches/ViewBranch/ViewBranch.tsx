@@ -23,12 +23,12 @@ const ViewBranch = () => {
     const { selectedLanguage } = useSelector(
         (state: RootState) => state?.selectedLanguage
     )
-    let defaultLanguage = language.find(
+    const defaultLanguage = language.find(
         (item: DataTypesWithIdAndMultipleLangLabel) =>
             +item.id == +branch?.defaultLanguageId
     )
 
-    let defaultCurrency = currency.find(
+    const defaultCurrency = currency.find(
         (item: DataTypesWithIdAndMultipleLangLabel) =>
             +item.id == +branch?.defaultCurrencyId
     )

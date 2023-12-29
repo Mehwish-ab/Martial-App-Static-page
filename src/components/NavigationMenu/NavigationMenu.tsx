@@ -49,17 +49,22 @@ const menuLinksKeys: any = {
     qrCode: 'qrCode',
 }
 
-const NavigationMenu = () => {
+const NavigationMenu = (): JSX.Element => {
     const location = useLocation()
     const navigate = useNavigate()
 
     // const getMenuIcon = (file: any) => <img src={file} alt="" />;
 
-    const navigation = (link: string, key: string) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const navigation = (link: string, key: string): void => {
         navigate(link)
     }
 
-    const getLabel = (label: string, link: string, key: string) => (
+    const getLabel = (
+        label: string,
+        link: string,
+        key: string
+    ): JSX.Element => (
         <div onClick={() => (link ? navigation(link, key) : '')}>{label}</div>
     )
     const sidebarData: MenuItem[] = [
@@ -199,8 +204,8 @@ const NavigationMenu = () => {
 
     useEffect(() => {
         if (location.pathname !== '/') {
-            let tempSidebar = [...sidebarData]
-            let listWithNoDashboard = tempSidebar.filter(
+            const tempSidebar = [...sidebarData]
+            const listWithNoDashboard = tempSidebar.filter(
                 (item: any) => item.key !== 'dashboard'
             )
             const key =

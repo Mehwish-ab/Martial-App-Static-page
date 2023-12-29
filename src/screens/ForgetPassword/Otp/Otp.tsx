@@ -43,7 +43,7 @@ const Otp: React.FC = () => {
     })
 
     const initialTimer = { minutes: 2, seconds: 0 }
-    const [timer, setTimer] = useState(initialTimer)
+    const [timer] = useState(initialTimer)
 
     const { handleSubmit, loading } = useVerifyOtp()
     // useEffect(() => {
@@ -63,7 +63,7 @@ const Otp: React.FC = () => {
     //   return () => clearInterval(interval);
     // }, [timer]);
 
-    const formatTimer = () => {
+    const formatTimer = (): string => {
         const { minutes, seconds } = timer
         let timerText = ''
         if (minutes > 0) {
@@ -104,9 +104,9 @@ const Otp: React.FC = () => {
                                     onSubmit={handleSubmit}
                                 >
                                     {({
-                                        handleSubmit,
-                                        errors,
-                                        touched,
+                                        // handleSubmit,
+                                        // errors,
+                                        // touched,
                                         values,
                                     }) => (
                                         <Form onFinish={handleSubmit}>
@@ -120,7 +120,7 @@ const Otp: React.FC = () => {
                                                             >
                                                                 {({
                                                                     field,
-                                                                    meta,
+                                                                    // meta,
                                                                 }: FieldProps<string>) => (
                                                                     <Input
                                                                         {...field}

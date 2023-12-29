@@ -29,6 +29,7 @@ const OverlayImages = ({
 }: OverlayImagesProps): JSX.Element => {
     const { schoolId } = useParams()
     const { branchId } = useParams()
+    const { franchiseId } = useParams()
 
     // const jwtDetails = useSelector(
     //     (state: RootState) => state.loginData.data?.jwtDetails
@@ -41,7 +42,7 @@ const OverlayImages = ({
         (state: RootState) => state.dashboardData
     )
     const { loginData } = useSelector((state: RootState) => state)
-    console.log('schoolid', schoolId, 'br', branchId, schoolData)
+    console.log('schoolid', schoolId, 'br', branchId, schoolData, franchiseId)
 
     useEffect(() => {
         setProfileImg(overlayImg)
@@ -101,7 +102,8 @@ const OverlayImages = ({
                     console.log('image', data.results.url)
                 } else if (
                     useCase === 'BRANCH_PROFILE_IMAGE' ||
-                    useCase === 'SCHOOL_PROFILE_PICTURE'
+                    useCase === 'SCHOOL_PROFILE_PICTURE' ||
+                    useCase === 'FRANCHISE_PROFILE_PICTURE'
                 ) {
                     setProfileImg(data.results.url)
                     console.log('image', data.results.url)
@@ -110,8 +112,11 @@ const OverlayImages = ({
             } else {
                 message.error(`${(info as any).file.name} file upload failed.`)
             }
-        } catch (error) {
-            console.error(`Error uploading ${useCase} image:`, error)
+        } catch (error: any) {
+            console.error(
+                `Error uploading ${useCase} image:`,
+                error.response.data.responseMessage
+            )
             message.error(`${(info as any).file.name} file upload failed.`)
         } finally {
             setLoading(false)

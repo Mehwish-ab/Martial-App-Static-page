@@ -1,16 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
 import { Field, ErrorMessage } from 'formik'
 import ErrorMsg from '../ErrorMessage'
 import { Select } from 'antd'
 import { CustomSelectContainer } from './style'
 
-const SelectComp = (props: any) => {
+const SelectComp = (props: any): JSX.Element => {
     const {
         name,
         placeholder,
         loading,
         handleSelectValue = null,
-        onSelect,
+        // onSelect,
         defaultValue,
         label,
         options,

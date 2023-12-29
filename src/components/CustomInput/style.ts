@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { FieldStyleBasicProps } from '../FormControl'
-import { lightDark2, pureDark2, secondaryDark3 } from '../GlobalStyle'
+import { lightDark2, pureDark2 } from '../GlobalStyle'
 
 interface InputStyleProps extends FieldStyleBasicProps {
     fontSize: string

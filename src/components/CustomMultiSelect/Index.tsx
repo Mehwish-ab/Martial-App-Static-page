@@ -1,9 +1,22 @@
-import { Field, ErrorMessage } from 'formik'
-import ErrorMsg from '../ErrorMessage'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Field, FieldProps } from 'formik'
 import { Select } from 'antd'
 import { CustomSelectContainer } from './style'
+import { FC } from 'react'
 
-const SelectComp = (props: any) => {
+interface Props {
+    [x: string]: any
+    name: string
+    placeholder: any
+    onChange: any
+    defaultValue: any
+    label: any
+    options: any
+    formik: any
+    setCities: any
+}
+
+const SelectComp: FC<Props> = (props: Props): JSX.Element => {
     const {
         name,
         placeholder,
@@ -19,37 +32,25 @@ const SelectComp = (props: any) => {
     return (
         <CustomSelectContainer>
             <label htmlFor={name}>{label}</label>
-            <Field name={name} id={name} {...rest}>
-                {({ field, form, meta }: any) => {
-                    return (
-                        // <Form.Item name={name}>
-                        <div className="custom-select-inner">
-                            <Select
-                                bordered={false}
-                                className="customSelect"
-                                showArrow
-                                name={name}
-                                id={name}
-                                mode="multiple"
-                                defaultValue={defaultValue}
-                                {...rest}
-                                placeholder={placeholder}
-                                // You have to provide the onChange function and on changing the value you should call
-                                // the setFieldValue function provided by the prop of "form"
-                                onChange={(val, select) => {
-                                    formik.setFieldValue(name, select)
-                                    setCities(select)
-                                }}
-                                options={options}
-                            />
-                            {/* {options}
-              </Select> */}
-                        </div>
-                        // </Form.Item>
-                    )
-                }}
+            <Field name={name} id={name}>
+                {({ field, form, meta }: FieldProps) => (
+                    <div className="custom-select-inner">
+                        <Select
+                            bordered={false}
+                            className="customSelect"
+                            showArrow
+                            mode="multiple"
+                            defaultValue={defaultValue}
+                            placeholder={placeholder}
+                            onChange={(val, select) => {
+                                formik.setFieldValue(name, select)
+                                setCities(select)
+                            }}
+                            options={options}
+                        />
+                    </div>
+                )}
             </Field>
-            {/* <ErrorMessage name={name} component={ErrorMsg} /> */}
         </CustomSelectContainer>
     )
 }

@@ -1,14 +1,19 @@
 import { LoginContainer } from './style'
+// eslint-disable-next-line import/no-unresolved
 import ic_logo from '../../Assets/icons/ic_logo.svg'
-import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
-const Index = ({ handleCancel, userDetail, deleteUser, toLocation }: any) => {
+const Index = ({
+    handleCancel,
+    userDetail,
+    deleteUser,
+    toLocation,
+}: any): JSX.Element => {
     const navigate = useNavigate()
-    const closeModal = () => {
+    const closeModal = (): void => {
         handleCancel()
     }
-    const handleDelete = () => {
+    const handleDelete = (): void => {
         deleteUser()
         setTimeout(() => {
             handleCancel()

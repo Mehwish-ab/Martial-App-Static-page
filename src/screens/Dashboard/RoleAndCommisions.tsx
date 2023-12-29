@@ -3,7 +3,7 @@ import { TertiaryHeadingMini } from '../../components/GlobalStyle'
 import { RoleAndCommisionsSytled } from './style'
 import avatar from '../../assets/icons/ic_placehoher.svg'
 
-const RoleAndCommisions = () => {
+const RoleAndCommisions = (): JSX.Element => {
     const rolesAndCommissionsData = [
         {
             title: 'Admin',
@@ -29,16 +29,16 @@ const RoleAndCommisions = () => {
     return (
         <RoleAndCommisionsSytled>
             <TertiaryHeadingMini>User Roles & Commissions</TertiaryHeadingMini>
-            {[1, 2, 3].map((title, index) => (
+            {[1, 2, 3].map((_title, index) => (
                 <Row key={index}>
                     {rolesAndCommissionsData.map(
-                        ({ title, sub_title }, index) => (
+                        ({ title, sub_title }, ind) => (
                             <Col
                                 xs={12}
                                 sm={6}
                                 md={3}
                                 className="col-lg"
-                                key={index}
+                                key={ind}
                             >
                                 <Card>
                                     <Row className="d-flex align-items-center justify-content-between">

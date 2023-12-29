@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Input } from 'antd'
 import { ErrorMessage, Field } from 'formik'
 import CustomFileInputStyle from './style'

@@ -2,20 +2,6 @@ import styled from 'styled-components'
 // import martial_logo from "../assets/icons/logo.svg";
 import martial_logo from '../assets/icons/ic_logo_splash.svg'
 import Loader from './Loader/Loader'
-import { primaryColor } from './GlobalStyle'
-
-const IntroScreen = () => {
-    return (
-        <Wrapper>
-            <img src={martial_logo} alt="martial-logo" />
-            <div className="mt-3">
-                <Loader color={'#fff'} />
-            </div>
-        </Wrapper>
-    )
-}
-
-export default IntroScreen
 
 const Wrapper = styled.div`
     height: 100vh;
@@ -29,3 +15,16 @@ const Wrapper = styled.div`
         width: 200px;
     }
 `
+
+const IntroScreen = (): JSX.Element => {
+    return (
+        <Wrapper>
+            <img src={martial_logo} alt="martial-logo" />
+            <div className="mt-3">
+                <Loader color={'#fff'} />
+            </div>
+        </Wrapper>
+    )
+}
+
+export default IntroScreen

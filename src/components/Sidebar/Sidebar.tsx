@@ -1,14 +1,9 @@
-import { ActivitesStyled, SidebarStyle } from './style'
+import { SidebarStyle } from './style'
 
 import { Layout } from 'antd'
 import CustomButton from '../CustomButton/CustomButton'
 import { fontFamilyMedium, pureDark, tertiaryBlue } from '../GlobalStyle'
 
-import jujistu from '../../assets/images/Jiu_Jitsu.svg'
-import wrestling from '../../assets/images/Wrestling.svg'
-import karate from '../../assets/images/Karate.svg'
-import yoga from '../../assets/images/Yoga.svg'
-import arrowRight from '../../assets/icons/ic_arrow_right.svg'
 import { auth_token_key } from '../../utils/api_urls'
 import { removeLoginData } from '../../redux/features/loginDataSlice'
 import { removeUserLogin } from '../../redux/features/admin/user/loginDataSlice'
@@ -16,9 +11,9 @@ import { useDispatch } from 'react-redux'
 import NavigationMenu from '../NavigationMenu/NavigationMenu'
 const { Sider } = Layout
 
-const Sidebar = () => {
+const Sidebar = (): JSX.Element => {
     const dispatch = useDispatch()
-    const logoutHandler = () => {
+    const logoutHandler = (): void => {
         localStorage.removeItem(auth_token_key)
         dispatch(removeUserLogin())
         dispatch(removeLoginData())

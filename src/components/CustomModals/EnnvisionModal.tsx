@@ -16,8 +16,11 @@ const EnnvisionModal: React.FC<ennvisionsModalProps> = ({
     title,
     description,
     doTask,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     closeText = 'DISMISS',
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     bgBtn = 'transparent',
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     color = primaryColor,
 }) => {
     return (

@@ -4,17 +4,31 @@ import CustomDatePickerStyle from './style'
 import ErrorMsg from '../ErrorMessage'
 import dateIcon from '../../assets/images/dateCalander.svg'
 import moment from 'moment'
+interface Props {
+    [x: string]: any
+    name: any
+    placeholder: any
+    label: any
+    bgColor?: 'white' | undefined
+    border?: '1px solid #c6c6c8;' | undefined
+    padding?: '10px' | undefined
+    fontFamily?: 'EnnVisions' | undefined
+    labelFamily?: 'EnnVisions' | undefined
+    onChange: any
+    showErroMessage?: true | undefined
+    value: any
+}
 
-const CustomDate = (props: any) => {
+const CustomDate = (props: Props): JSX.Element => {
     const {
         name,
         placeholder,
         label,
-        options,
+        // options,
         bgColor = 'white',
         border = '1px solid #c6c6c8;',
         padding = '10px',
-        title,
+        // title,
         fontFamily = 'EnnVisions',
         labelFamily = 'EnnVisions',
         onChange,
@@ -52,7 +66,7 @@ const CustomDate = (props: any) => {
             </div>
 
             {showErroMessage && (
-                <ErrorMessage name={name} component={ErrorMsg} />
+                <ErrorMessage name={String(name)} component={ErrorMsg} />
             )}
         </CustomDatePickerStyle>
     )

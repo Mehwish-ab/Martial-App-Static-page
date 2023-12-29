@@ -18,12 +18,6 @@ export interface FieldStyleBasicProps {
     border: string
 }
 
-export interface FieldStyleBasicProps {
-    padding: string
-    bgColor: string
-    border: string
-}
-
 type formControlProps = {
     control:
         | 'input'

@@ -1,23 +1,23 @@
 import React from 'react'
-import { DatePicker, Space } from 'antd'
+import { DatePicker } from 'antd'
 import { Field, ErrorMessage } from 'formik'
 import { CustomDatePickerContainer } from './style'
 import ErrorMsg from '../ErrorMessage'
 import dateIcon from '../../assets/icons/ic_calendar.svg'
 
-const Index = (props: any) => {
+const Index = (props: any): JSX.Element => {
     const {
         name,
         placeholder,
         label,
-        options,
-        title,
+        // options,
+        // title,
         defaultValue,
-        onChange,
+        // onChange,
         ...rest
     } = props
 
-    const onOk = (value: any) => {
+    const onOk = (value: any): void => {
         console.log('onOk: ', value)
     }
 
@@ -25,7 +25,7 @@ const Index = (props: any) => {
         <CustomDatePickerContainer>
             <label htmlFor={name}>{label}</label>
             <Field name={name} id={name} {...rest}>
-                {({ field, form, meta }: any) => {
+                {({ form }: any) => {
                     return (
                         // <Form.Item name={name}>
                         <div>

@@ -2,12 +2,10 @@ import { Card } from 'antd'
 import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import { ViewSchoolStyled } from './styles'
 import { useNavigate } from 'react-router-dom'
-// import { BranchDataType } from "../../../redux/features/branch/branchSlice";
 import { Col, Row } from 'react-bootstrap'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { useSelector } from 'react-redux'
 import store, { RootState } from '../../../redux/store'
-// import { DataTypeWithIdAndCurrentLangLabel } from "../../Home/constants";
 import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
 import { useEffect } from 'react'
 import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
@@ -20,52 +18,121 @@ import {
     fontFamilyMedium,
 } from '../../../components/GlobalStyle'
 
-const ViewSchool = () => {
+const ViewSchool = (): JSX.Element => {
     const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
-    const { deleteSchool, deletemodal, loading } = useSchool()
+    const { deleteConfirmation, loading, setIsShowModal } = useSchool()
 
+    const { data } = useSelector((state: RootState) => state.loginData)
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
     const { language, currency } = useSelector(
         (state: RootState) => state.appData.data.dropdowns
     )
+    const { activities } = useSelector(
+        (state: RootState) => state.appData.data.statusData
+    )
+    const { facilities } = useSelector(
+        (state: RootState) => state.appData.data.statusData
+    )
+    const { businessTypes } = useSelector(
+        (state: RootState) => state.appData.data.dropdowns
+    )
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
-    let defaultLanguage = language.find(
+    const defaultLanguage = language.find(
         (item: DataTypesWithIdAndMultipleLangLabel) =>
             +item.id == +schoolData.defaultLanguageId
     )
-    let defaultCurrency = currency.find(
+    const defaultCurrency = currency.find(
         (item: DataTypesWithIdAndMultipleLangLabel) =>
             +item.id == +schoolData.defaultCurrencyId
     )
-    const handleUpdateClick = () => {
+    const handleUpdateClick = (): void => {
         navigate(`/school/edit/:${schoolData.schoolId}`)
     }
 
-    const handleDeleteClick = async () => {
-        if (schoolData.schoolId > 0) await deleteSchool(schoolData.schoolId)
-        else navigate('/school/create')
-    }
-    useEffect(() => {
-        store.dispatch(getSchoolByUserId())
-        if (schoolData.schoolId === 0) navigate('/school/create')
-    }, [])
-    console.log('SchoolData:', schoolData)
+    // const handleDeleteClick = async (): Promise<void> => {
+    //     Createmodal().modalComponent
+    //     // if (schoolData.schoolId > 0) {
+    //     //     await deleteSchool(schoolData.schoolId)
+    //     //     navigate('/school/create')
+    //     // } else navigate('/school/create')
+    // }
 
-    console.log(
-        'belt value',
-        schoolData.rank,
-        'business Name',
-        schoolData.businessName
-    )
+    useEffect(() => {
+        if (!data || data.schoolId === 0) {
+            navigate('/school/create')
+            return
+        }
+        store.dispatch(getSchoolByUserId())
+    }, [])
+
+    // const handleDeleteClick = async (): Promise<void> => {
+    //     if (schoolData.schoolId > 0) {
+    //         await deleteSchool(schoolData.schoolId)
+    //         navigate('/school/create')
+    //     } else navigate('/school/create')
+    // }
+
+    const showBusinessType = (_businessType: number): string => {
+        const index = businessTypes.findIndex((business: any) => {
+            return business.id === _businessType
+        })
+
+        if (index !== -1) {
+            return (businessTypes[index] as any)[selectedLanguage]
+        }
+
+        return '--'
+    }
+
+    const showActivities = (_activities: string): string => {
+        const activitiesArr = _activities.split(',')
+
+        let activitiesName = ''
+        activitiesArr.map((activity) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                activitiesName =
+                    activitiesName === ''
+                        ? (activities[index] as any)[selectedLanguage]
+                        : `${activitiesName}, ${
+                              (activities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+        if (activitiesName !== '') return activitiesName
+        return '--'
+    }
+    const showFacilities = (_Facilities: string): string => {
+        const activitiesArr = _Facilities.split(',')
+
+        let activitiesName = ''
+        activitiesArr.map((facility) => {
+            const index = facilities.findIndex(
+                (acts: any) => acts.id === facility
+            )
+            if (index !== -1) {
+                activitiesName =
+                    activitiesName === ''
+                        ? (facilities[index] as any)[selectedLanguage]
+                        : `${activitiesName},${
+                              (facilities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+
+        if (activitiesName !== '') return activitiesName
+        return '--'
+    }
 
     return (
         <ViewSchoolStyled>
-            {deletemodal().modalComponent}
+            {/* {deletemodal().modalComponent} */}
+            {deleteConfirmation(schoolData.schoolId).modalComponent}
 
             <OverlayImages
                 backgroundImg={schoolData.bannerPicture || ''}
@@ -92,7 +159,9 @@ const ViewSchool = () => {
                                 {getLabelByKey('businessType')}
                             </div>
                             <div className="list-item-value">
-                                {schoolData.businessType || '--'}
+                                {showBusinessType(
+                                    schoolData.businessType as number
+                                )}
                             </div>
                         </div>
                     </Col>
@@ -170,7 +239,7 @@ const ViewSchool = () => {
                                 {getLabelByKey('activity')}
                             </div>
                             <div className="list-item-value">
-                                {schoolData.activities || '--'}
+                                {showActivities(schoolData.activities)}
                             </div>
                         </div>
                     </Col>
@@ -180,7 +249,7 @@ const ViewSchool = () => {
                                 {getLabelByKey('facilities')}
                             </div>
                             <div className="list-item-value">
-                                {schoolData.facilities || '--'}
+                                {showFacilities(schoolData.facilities)}
                             </div>
                         </div>
                     </Col>
@@ -209,7 +278,7 @@ const ViewSchool = () => {
                         title="Delete"
                         fontSize="18px"
                         loading={loading}
-                        clicked={handleDeleteClick}
+                        clicked={() => setIsShowModal(true)}
                     />
                 </div>
                 <div>

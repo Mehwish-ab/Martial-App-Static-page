@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { user_details_url } from '../../../../utils/api_urls'
-import { axiosRequest } from '../../../../utils/axios.utils'
 import { userDetailTypes } from '../../types'
 import axios from 'axios'
 

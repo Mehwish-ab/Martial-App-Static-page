@@ -1,10 +1,5 @@
 import styled from 'styled-components'
-import {
-    fontFamilyBold,
-    fontFamilyMedium,
-    lightBlue3,
-    pureDark2,
-} from '../GlobalStyle'
+import { fontFamilyMedium, pureDark2 } from '../GlobalStyle'
 
 export const NavigationMenuStyled = styled.div`
     .ant-menu {

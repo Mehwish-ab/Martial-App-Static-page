@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import {
-    fontFamilyBold,
     fontFamilyRegular,
     lightDark2,
     mediaDeviceMin,

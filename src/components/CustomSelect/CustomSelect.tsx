@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Field, ErrorMessage } from 'formik'
 import ErrorMsg from '../ErrorMessage'
 import { Select } from 'antd'
 import CustomSelectStyle from './style'
 import dropDownArrow from '../../assets/icons/ic_add_property_dropdown.svg'
 import { fontFamilyRegular, tertiaryGrey24 } from '../GlobalStyle'
-const CustomSelect = (props: any) => {
+const CustomSelect = (props: any): JSX.Element => {
     const {
         name,
         placeholder,

@@ -2,10 +2,10 @@ import { Field, ErrorMessage } from 'formik'
 import ErrorMsg from '../ErrorMessage'
 import { InputNumber } from 'antd'
 import CustomInputNumberStyle from './style'
-const CustomInputNumber = (props: any) => {
+const CustomInputNumber = (props: any): JSX.Element => {
     const {
         label,
-        prefix,
+        // prefix,
         maxLength,
         disabled,
         placeholder,

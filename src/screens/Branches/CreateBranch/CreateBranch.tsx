@@ -28,6 +28,7 @@ import PlacesAutoCompleteInput from '../../../maps/PlacesAutocomplete'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 
 const CreateBranch = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('branchCreate')
@@ -157,7 +158,11 @@ const CreateBranch = (): JSX.Element => {
 
     return (
         <CreateSchoolStyled>
-            {/* <OverlayImages backgroundImg={""} overlayImg={""} isEditable={false} /> */}
+            <OverlayImages
+                backgroundImg={''}
+                overlayImg={''}
+                isEditable={false}
+            />
             {Createmodal().modalComponent}
             <Formik
                 initialValues={initialValues}
@@ -380,7 +385,7 @@ const CreateBranch = (): JSX.Element => {
                                     <Col md="6">
                                         <CheckboxesSelect
                                             name="selectedFacilities"
-                                            label="Facility"
+                                            label={getLabelByKey('facilities')}
                                             list={facilities}
                                             showErrorMsgInList={false}
                                         />

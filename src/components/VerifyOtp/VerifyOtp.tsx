@@ -5,7 +5,6 @@ import { ImgContainer, primaryColor } from '../../components/GlobalStyle'
 import VerifyOtpStyle from './style'
 import * as Yup from 'yup'
 import FormControl from '../../components/FormControl'
-import { useNavigate } from 'react-router-dom'
 import { useAppSelector } from '../../app/hooks'
 import { useEffect, useRef, useState } from 'react'
 import { Form } from 'antd'
@@ -15,8 +14,6 @@ import {
     authorizationToken,
     create_pro_verfiy_otp,
     useCaseBecomeProfessional,
-    useCaseRegisteration,
-    verify_otp_url,
 } from '../../utils/api_urls'
 import { toast } from 'react-toastify'
 import Head from '../../components/Head/Head'
@@ -24,12 +21,13 @@ import Head from '../../components/Head/Head'
 type verifyOtpTypes = {
     otp: string
 }
-const VerifyOtp = () => {
+const VerifyOtp = (): JSX.Element => {
     // get Validations from redux appData
     const { validations } = useAppSelector((state) => state.appData.data)
     const [count, setCount] = useState(59)
     const otpToastId = useRef<any>(null)
     const [loading, setLoading] = useState(false)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [error, setError] = useState<null | errorTypes>(null)
 
     // login data
@@ -40,7 +38,7 @@ const VerifyOtp = () => {
         let interval: any
         if (count > 0) {
             interval = setInterval(() => {
-                setCount((count) => count - 1)
+                setCount((_count) => _count - 1)
             }, 1000)
         } else {
             return
@@ -66,7 +64,7 @@ const VerifyOtp = () => {
     })
 
     // register phone handler
-    const handleSubmit = async (values: verifyOtpTypes) => {
+    const handleSubmit = async (values: verifyOtpTypes): Promise<void> => {
         const phoneData = {
             otp: values.otp.toString(),
             phoneNumber: '',
@@ -99,6 +97,7 @@ const VerifyOtp = () => {
             })
             setLoading(false)
             console.log({ data })
+            // eslint-disable-next-line @typescript-eslint/no-shadow
         } catch (error: any) {
             otpToastId.current = toast(error.response.data.responseMessage, {
                 type: 'error',

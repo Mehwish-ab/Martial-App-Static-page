@@ -3,7 +3,6 @@ import {
     fontFamilyMedium,
     fontFamilyRegular,
     lightDark2,
-    lightGrey2,
     pureDark2,
 } from '../components/GlobalStyle'
 

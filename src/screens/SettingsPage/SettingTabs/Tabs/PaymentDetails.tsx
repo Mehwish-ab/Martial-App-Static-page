@@ -1,7 +1,7 @@
-import React, { FC, Fragment } from 'react'
+import { Fragment } from 'react'
 import { Col, Row } from 'react-bootstrap'
 
-const PaymentDetails: FC<{}> = () => {
+const PaymentDetails = (): JSX.Element => {
     return (
         <Fragment>
             <div className="panel-heading">

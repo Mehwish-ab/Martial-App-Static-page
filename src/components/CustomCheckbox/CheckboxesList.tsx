@@ -10,6 +10,7 @@ export type CheckboxesListProps = {
     label: string
     showErrorMsgInList: boolean
     list: DataTypesWithIdAndMultipleLangLabel[]
+    placeholder?: string
 }
 
 const CheckboxesList = ({
@@ -17,7 +18,7 @@ const CheckboxesList = ({
     label,
     list,
     showErrorMsgInList,
-}: CheckboxesListProps) => {
+}: CheckboxesListProps): JSX.Element => {
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )

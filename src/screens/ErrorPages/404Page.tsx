@@ -3,7 +3,7 @@ import ErrorImg from '../../assets/images/error.svg'
 import { Button } from '../../components/styles/Button'
 import ErrorPage404Style from './style'
 
-const ErrorPage404 = () => {
+const ErrorPage404 = (): JSX.Element => {
     return (
         <ErrorPage404Style>
             <img src={ErrorImg} alt="error-404-pic" />

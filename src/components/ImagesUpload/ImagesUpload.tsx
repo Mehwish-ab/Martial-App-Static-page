@@ -5,10 +5,11 @@ import 'react-alice-carousel/lib/alice-carousel.css'
 const ImagesUpload: React.FC<{
     onImagesSelect: (files: FileList | null) => void
 }> = ({ onImagesSelect }) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null)
     const [fileNames, setFileNames] = useState<string[]>([])
 
-    const selectImages = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectImages = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const files = event.target.files
 
         if (files) {

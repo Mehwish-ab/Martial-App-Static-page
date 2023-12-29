@@ -3,7 +3,12 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../redux/store'
 import { ScreenTranslation } from '../redux/features/screenTranslationSlice'
 
-const useScreenTranslation = (screenName: string) => {
+const useScreenTranslation = (
+    screenName: string
+): {
+    screenTranslation: ScreenTranslation[]
+    getLabelByKey: (key: string) => string
+} => {
     const { translations } = useSelector(
         (state: RootState) => state.translations
     )
@@ -15,13 +20,13 @@ const useScreenTranslation = (screenName: string) => {
         ScreenTranslation[]
     >([])
 
-    const getScreenData = () => {
+    const getScreenData = (): void => {
         const screen = translations[screenName] || []
         setScreenTranslation(screen)
     }
 
     const getLabelByKey = (key: string): string => {
-        const item = screenTranslation.find((item) => item.labelKey === key)
+        const item = screenTranslation.find((item2) => item2.labelKey === key)
         if (item) {
             switch (selectedLanguage) {
                 case 'en':

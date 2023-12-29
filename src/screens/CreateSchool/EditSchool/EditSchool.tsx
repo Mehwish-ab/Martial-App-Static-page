@@ -1,7 +1,6 @@
 import { CreateSchoolStyled } from '../styles'
 import { ErrorMessage, Formik } from 'formik'
 import { Form } from 'antd'
-
 import { Col, Row } from 'react-bootstrap'
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
@@ -16,7 +15,6 @@ import {
 } from '../../Home/constants'
 import { validationFinder } from '../../../utils/utilities'
 import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
-import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import FormControl from '../../../components/FormControl'
 import {
     fontFamilyMedium,
@@ -29,27 +27,31 @@ import CustomButton from '../../../components/CustomButton/CustomButton'
 import PlacesAutoCompleteInput from '../../../maps/PlacesAutocomplete'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
 
-const EditSchool = () => {
+const EditSchool = (): JSX.Element => {
     const { editSchool, loading, UpdateModal } = useSchool()
+    const { activities } = useSelector(
+        (state: RootState) => state.appData.data.statusData
+    )
+    const { facilities } = useSelector(
+        (state: RootState) => state.appData.data.statusData
+    )
+    const { selectedLanguage } = useSelector(
+        (state: RootState) => state.selectedLanguage
+    )
+
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
     const {
-        statusData: { activities, facilities },
         dropdowns: { currency, language, businessTypes },
     } = useSelector((state: RootState) => state.appData.data)
-
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
     const { schoolId } = useParams()
 
-    const { selectedLanguage } = useSelector(
-        (state: RootState) => state.selectedLanguage
-    )
-
     const businessName = validationFinder('BUSINESS_NAME')!
     const businessNameReg = new RegExp(businessName.pattern)
-    const address = validationFinder('ADDRESS')!
-    const addressReg = new RegExp(address.pattern)
+    // const address = validationFinder('ADDRESS')!
+    // const addressReg = new RegExp(address.pattern)
     const businessPhoneNumber = validationFinder('PHONE_NUMBER')!
 
     const validationSchema = Yup.object({
@@ -86,13 +88,15 @@ const EditSchool = () => {
             .of(Yup.string().required('Select at least one facility'))
             .min(1, 'Select at least one facility'),
     })
-    const handleEditSchool = async (value: any) => {
+    const handleEditSchool = async (value: any): Promise<void> => {
         await editSchool(schoolData.schoolId, value)
     }
-    const createOptions = (list: DataTypesWithIdAndMultipleLangLabel[]) => {
-        let options: SelectOptionsDataTypes[] = []
+    const createOptions = (
+        list: DataTypesWithIdAndMultipleLangLabel[]
+    ): SelectOptionsDataTypes[] => {
+        const options: SelectOptionsDataTypes[] = []
         list.forEach((item) => {
-            let obj = {
+            const obj = {
                 label: (item as any)[selectedLanguage],
                 value: item.id,
             }
@@ -101,6 +105,43 @@ const EditSchool = () => {
         })
 
         return options
+    }
+
+    const showActivities = (_activities: string[]): string => {
+        let activitiesName = ''
+        _activities.map((activity) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                activitiesName =
+                    activitiesName === ''
+                        ? (activities[index] as any)[selectedLanguage]
+                        : `${activitiesName}, ${
+                              (activities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+        if (activitiesName !== '') return activitiesName
+        return getLabelByKey('activity')
+    }
+
+    const showFacilities = (_facilities: string[]): string => {
+        let facilitiesName = ''
+        _facilities.map((facility) => {
+            const index = facilities.findIndex(
+                (facts: any) => facts.id === facility
+            )
+            if (index !== -1) {
+                facilitiesName =
+                    facilitiesName === ''
+                        ? (facilities[index] as any)[selectedLanguage]
+                        : `${facilitiesName}, ${
+                              (facilities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+
+        if (facilitiesName !== '') return facilitiesName
+        return getLabelByKey('facilities')
     }
 
     const initialValuesForEdit: CreateSchoolInitialValues = {
@@ -132,15 +173,13 @@ const EditSchool = () => {
         overlayImg={schoolData.profilePicture || ""}
         isEditable={true}
       /> */}
+            {UpdateModal().modalComponent}
             <Formik
                 initialValues={initialValuesForEdit}
                 validationSchema={validationSchema}
                 onSubmit={handleEditSchool}
             >
                 {(formik) => {
-                    console.log('Form Values:', formik.values)
-                    console.log('School Values:', schoolData)
-
                     return (
                         <Form
                             name="basic"
@@ -394,6 +433,9 @@ const EditSchool = () => {
                                             list={activities}
                                             name="selectedActivities"
                                             label={getLabelByKey('activity')}
+                                            placeholder={showActivities(
+                                                formik.values.selectedActivities
+                                            )}
                                             showErrorMsgInList={false}
                                         />
                                     </Col>
@@ -402,6 +444,9 @@ const EditSchool = () => {
                                         <CheckboxesSelect
                                             name="selectedFacilities"
                                             label={getLabelByKey('facilities')}
+                                            placeholder={showFacilities(
+                                                formik.values.selectedFacilities
+                                            )}
                                             list={facilities}
                                             showErrorMsgInList={false}
                                         />

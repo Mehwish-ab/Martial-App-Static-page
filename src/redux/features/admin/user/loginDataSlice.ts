@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import { axiosRequest } from '../../../../utils/axios.utils'
 import { auth_token_key, base_url, login_url } from '../../../../utils/api_urls'
 import { setLoginData } from '../../loginDataSlice'
 import { loginDataTypes } from '../../types'

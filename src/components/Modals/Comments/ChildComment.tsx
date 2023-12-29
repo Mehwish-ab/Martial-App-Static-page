@@ -1,11 +1,8 @@
-import { EditOutlined } from '@ant-design/icons'
-import { SlOptionsVertical } from 'react-icons/sl'
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { BaseImgContainer } from '../../GlobalStyle'
 import { childrenComment, commentTypes } from './CommentsModal'
 import Replybox from './Replybox'
-import { DownOutlined } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
-import { Dropdown, Space } from 'antd'
 import { useState } from 'react'
 import {
     authorizationToken,
@@ -65,10 +62,10 @@ const ChildComment: React.FC<commentProps> = ({
     const { data: loginData } = useAppSelector((state) => state.loginData)
 
     // edit comment promise
-    const editCommentPromise = async (newsFeedId: number) => {
+    const editCommentPromise = async (_newsFeedId: number): Promise<void> => {
         try {
             setEditCommentData(true)
-            const { data } = await axios.post(
+            const { data: data2 } = await axios.post(
                 edit_comments_url,
                 {
                     newsFeedId,
@@ -82,8 +79,9 @@ const ChildComment: React.FC<commentProps> = ({
                     },
                 }
             )
-            setEditCommentData(data.results)
+            setEditCommentData(data2.results)
             setEditCommentData(false)
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-shadow
         } catch (error: any) {
             console.log(error)
             setEditCommentError(error.response.data.responseMessage)
@@ -92,10 +90,10 @@ const ChildComment: React.FC<commentProps> = ({
     }
 
     // delete comment promise
-    const deleteCommentPromise = async (newsFeedId: number) => {
+    const deleteCommentPromise = async (newsFeedId_: number): Promise<void> => {
         try {
             setDeleteCommentLoading(true)
-            const { data } = await axios.post(
+            const { data: data3 } = await axios.post(
                 delete_comment_url,
                 {
                     newsFeedId,
@@ -107,8 +105,9 @@ const ChildComment: React.FC<commentProps> = ({
                     },
                 }
             )
-            setDeleteCommentData(data.results)
+            setDeleteCommentData(data3.results)
             setDeleteCommentLoading(false)
+            // eslint-disable-next-line @typescript-eslint/no-shadow
         } catch (error: any) {
             console.log(error)
             setDeleteCommentError(error.response.data.responseMessage)
@@ -125,7 +124,7 @@ const ChildComment: React.FC<commentProps> = ({
         setOpen(false)
     }
 
-    const handleOpenChange = (flag: boolean) => {
+    const handleOpenChange = (flag: boolean): void => {
         setOpen(flag)
     }
 

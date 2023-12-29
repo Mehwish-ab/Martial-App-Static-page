@@ -1,7 +1,7 @@
-import { FC, Fragment, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import CustomModal from '../../../../components/Modal/CustomModal'
-import { EditPopUpStying } from './EditPopUpStying'
+import { EditPopupStyling } from './EditPopUpStyling'
 import FormControl from '../../../../components/FormControl'
 import CustomButton from '../../../../components/CustomButton/CustomButton'
 import {
@@ -10,8 +10,6 @@ import {
     pureDark2,
 } from '../../../../components/GlobalStyle'
 import { Form, Formik, FormikHelpers } from 'formik'
-import { CreateSchoolInitialValues } from '../../../Home/constants'
-import useCreateSchool from '../../../../hooks/useCreateSchool'
 
 type initialTypesSettings = {
     firstName: string
@@ -21,7 +19,7 @@ type initialTypesSettings = {
     confirmPassword: string
 }
 
-const Preferences: FC<{}> = () => {
+const Preferences = (): JSX.Element => {
     const [isLanguageModalVisible, setIsLanguageModelVisible] = useState(false)
     const [isCurrencyModalVisible, setIsCurrencyModelVisible] = useState(false)
     const [isAccesssibilityModalVisible, setIsAccesssibilityModelVisible] =
@@ -29,7 +27,7 @@ const Preferences: FC<{}> = () => {
     const handleSubmit = (
         values: initialTypesSettings,
         { setSubmitting }: FormikHelpers<initialTypesSettings>
-    ) => {
+    ): void => {
         setSubmitting(false)
     }
     const initialValues: initialTypesSettings = {
@@ -107,182 +105,180 @@ const Preferences: FC<{}> = () => {
                     </Col>
                 </Row>
             </div>
+
             <CustomModal
                 width="485px"
                 showCloseBtn={false}
-                children={
-                    <>
-                        <EditPopUpStying>
-                            <h3>Update Language</h3>
-                            <p>
-                                Update your information and find out how it's
-                                used.
-                            </p>
-                            <Formik
-                                initialValues={initialValues}
-                                onSubmit={handleSubmit}
-                            >
-                                {(formik) => {
-                                    return (
-                                        <Form name="basic" autoComplete="off">
-                                            <Row>
-                                                <Col md="12" className="mt-10">
-                                                    <FormControl
-                                                        control="select"
-                                                        type="select"
-                                                        name="countryName"
-                                                        labelFamily={`${fontFamilyMedium}`}
-                                                        label="Select your language"
-                                                        fontSize="16px"
-                                                        max={6}
-                                                        placeholder="English"
-                                                    />
-                                                </Col>
-                                                <Col md="12" className="mt-20">
-                                                    <CustomButton
-                                                        bgcolor={lightBlue3}
-                                                        textTransform="Captilize"
-                                                        color={pureDark2}
-                                                        padding="12.5px"
-                                                        fontFamily={
-                                                            fontFamilyMedium
-                                                        }
-                                                        width="100%"
-                                                        type="submit"
-                                                        title="Save"
-                                                        fontSize="16px"
-                                                        loading={false}
-                                                    />
-                                                </Col>
-                                            </Row>
-                                        </Form>
-                                    )
-                                }}
-                            </Formik>
-                        </EditPopUpStying>
-                    </>
-                }
                 isModalVisible={isLanguageModalVisible}
                 setIsModalVisible={setIsLanguageModelVisible}
-            />
+            >
+                <>
+                    <EditPopupStyling>
+                        <h3>Update Language</h3>
+                        <p>
+                            Update your information and find out how it&apos;s
+                            used.
+                        </p>
+                        <Formik
+                            initialValues={initialValues}
+                            onSubmit={handleSubmit}
+                        >
+                            {() => {
+                                return (
+                                    <Form name="basic" autoComplete="off">
+                                        <Row>
+                                            <Col md="12" className="mt-10">
+                                                <FormControl
+                                                    control="select"
+                                                    type="select"
+                                                    name="countryName"
+                                                    labelFamily={`${fontFamilyMedium}`}
+                                                    label="Select your language"
+                                                    fontSize="16px"
+                                                    max={6}
+                                                    placeholder="English"
+                                                />
+                                            </Col>
+                                            <Col md="12" className="mt-20">
+                                                <CustomButton
+                                                    bgcolor={lightBlue3}
+                                                    textTransform="Captilize"
+                                                    color={pureDark2}
+                                                    padding="12.5px"
+                                                    fontFamily={
+                                                        fontFamilyMedium
+                                                    }
+                                                    width="100%"
+                                                    type="submit"
+                                                    title="Save"
+                                                    fontSize="16px"
+                                                    loading={false}
+                                                />
+                                            </Col>
+                                        </Row>
+                                    </Form>
+                                )
+                            }}
+                        </Formik>
+                    </EditPopupStyling>
+                </>
+            </CustomModal>
 
             <CustomModal
                 width="485px"
                 showCloseBtn={false}
-                children={
-                    <>
-                        <EditPopUpStying>
-                            <h3>Update Currency</h3>
-                            <p>
-                                Update your information and find out how it's
-                                used.
-                            </p>
-                            <Formik
-                                initialValues={initialValues}
-                                onSubmit={handleSubmit}
-                            >
-                                {(formik) => {
-                                    return (
-                                        <Form name="basic" autoComplete="off">
-                                            <Row>
-                                                <Col md="12" className="mt-10">
-                                                    <FormControl
-                                                        control="select"
-                                                        type="select"
-                                                        name="countryName"
-                                                        labelFamily={`${fontFamilyMedium}`}
-                                                        label="Select your currency"
-                                                        fontSize="16px"
-                                                        max={6}
-                                                        placeholder="GBP"
-                                                    />
-                                                </Col>
-                                                <Col md="12" className="mt-20">
-                                                    <CustomButton
-                                                        bgcolor={lightBlue3}
-                                                        textTransform="Captilize"
-                                                        color={pureDark2}
-                                                        padding="12.5px"
-                                                        fontFamily={
-                                                            fontFamilyMedium
-                                                        }
-                                                        width="100%"
-                                                        type="submit"
-                                                        title="Save"
-                                                        fontSize="16px"
-                                                        loading={false}
-                                                    />
-                                                </Col>
-                                            </Row>
-                                        </Form>
-                                    )
-                                }}
-                            </Formik>
-                        </EditPopUpStying>
-                    </>
-                }
                 isModalVisible={isCurrencyModalVisible}
                 setIsModalVisible={setIsCurrencyModelVisible}
-            />
+            >
+                <>
+                    <EditPopupStyling>
+                        <h3>Update Currency</h3>
+                        <p>
+                            Update your information and find out how it&apos;s
+                            used.
+                        </p>
+                        <Formik
+                            initialValues={initialValues}
+                            onSubmit={handleSubmit}
+                        >
+                            {() => {
+                                return (
+                                    <Form name="basic" autoComplete="off">
+                                        <Row>
+                                            <Col md="12" className="mt-10">
+                                                <FormControl
+                                                    control="select"
+                                                    type="select"
+                                                    name="countryName"
+                                                    labelFamily={`${fontFamilyMedium}`}
+                                                    label="Select your currency"
+                                                    fontSize="16px"
+                                                    max={6}
+                                                    placeholder="GBP"
+                                                />
+                                            </Col>
+                                            <Col md="12" className="mt-20">
+                                                <CustomButton
+                                                    bgcolor={lightBlue3}
+                                                    textTransform="Captilize"
+                                                    color={pureDark2}
+                                                    padding="12.5px"
+                                                    fontFamily={
+                                                        fontFamilyMedium
+                                                    }
+                                                    width="100%"
+                                                    type="submit"
+                                                    title="Save"
+                                                    fontSize="16px"
+                                                    loading={false}
+                                                />
+                                            </Col>
+                                        </Row>
+                                    </Form>
+                                )
+                            }}
+                        </Formik>
+                    </EditPopupStyling>
+                </>
+            </CustomModal>
 
             <CustomModal
                 width="485px"
                 showCloseBtn={false}
-                children={
-                    <>
-                        <EditPopUpStying>
-                            <h3>Update Accessible</h3>
-                            <p>
-                                Update your information and find out how it's
-                                used.
-                            </p>
-                            <Formik
-                                initialValues={initialValues}
-                                onSubmit={handleSubmit}
-                            >
-                                {(formik) => {
-                                    return (
-                                        <Form name="basic" autoComplete="off">
-                                            <Row>
-                                                <Col md="12" className="mt-10">
-                                                    <FormControl
-                                                        control="select"
-                                                        type="select"
-                                                        name="countryName"
-                                                        labelFamily={`${fontFamilyMedium}`}
-                                                        label="Only show accessible properties"
-                                                        fontSize="16px"
-                                                        max={6}
-                                                        placeholder="Yes"
-                                                    />
-                                                </Col>
-                                                <Col md="12" className="mt-20">
-                                                    <CustomButton
-                                                        bgcolor={lightBlue3}
-                                                        textTransform="Captilize"
-                                                        color={pureDark2}
-                                                        padding="12.5px"
-                                                        fontFamily={
-                                                            fontFamilyMedium
-                                                        }
-                                                        width="100%"
-                                                        type="submit"
-                                                        title="Save"
-                                                        fontSize="16px"
-                                                        loading={false}
-                                                    />
-                                                </Col>
-                                            </Row>
-                                        </Form>
-                                    )
-                                }}
-                            </Formik>
-                        </EditPopUpStying>
-                    </>
-                }
                 isModalVisible={isAccesssibilityModalVisible}
                 setIsModalVisible={setIsAccesssibilityModelVisible}
-            />
+            >
+                <>
+                    <EditPopupStyling>
+                        <h3>Update Accessible</h3>
+                        <p>
+                            Update your information and find out how it&apos;s
+                            used.
+                        </p>
+                        <Formik
+                            initialValues={initialValues}
+                            onSubmit={handleSubmit}
+                        >
+                            {() => {
+                                return (
+                                    <Form name="basic" autoComplete="off">
+                                        <Row>
+                                            <Col md="12" className="mt-10">
+                                                <FormControl
+                                                    control="select"
+                                                    type="select"
+                                                    name="countryName"
+                                                    labelFamily={`${fontFamilyMedium}`}
+                                                    label="Only show accessible properties"
+                                                    fontSize="16px"
+                                                    max={6}
+                                                    placeholder="Yes"
+                                                />
+                                            </Col>
+                                            <Col md="12" className="mt-20">
+                                                <CustomButton
+                                                    bgcolor={lightBlue3}
+                                                    textTransform="Captilize"
+                                                    color={pureDark2}
+                                                    padding="12.5px"
+                                                    fontFamily={
+                                                        fontFamilyMedium
+                                                    }
+                                                    width="100%"
+                                                    type="submit"
+                                                    title="Save"
+                                                    fontSize="16px"
+                                                    loading={false}
+                                                />
+                                            </Col>
+                                        </Row>
+                                    </Form>
+                                )
+                            }}
+                        </Formik>
+                    </EditPopupStyling>
+                </>
+            </CustomModal>
         </Fragment>
     )
 }

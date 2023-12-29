@@ -20,7 +20,7 @@ const CustomModal: React.FC<CustomModalPropsTypes> = ({
     width = '550px',
     showCloseBtn = true,
 }) => {
-    const handleCancel = () => {
+    const handleCancel = (): void => {
         setIsModalVisible(false)
         if (onCancel) {
             onCancel()

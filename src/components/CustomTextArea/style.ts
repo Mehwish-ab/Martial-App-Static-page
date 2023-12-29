@@ -1,11 +1,5 @@
 import styled from 'styled-components'
-import {
-    fontFamilyRegular,
-    lightBlue2,
-    lightDark2,
-    pureDark2,
-    secondaryDark3,
-} from '../GlobalStyle'
+import { fontFamilyRegular, lightDark2, pureDark2 } from '../GlobalStyle'
 
 type customTextareaProps = {
     height: string

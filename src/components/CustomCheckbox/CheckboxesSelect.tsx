@@ -9,8 +9,8 @@ const CheckboxesSelect = ({
     list,
     name,
     label,
-    showErrorMsgInList,
-}: CheckboxesListProps) => {
+    placeholder,
+}: CheckboxesListProps): JSX.Element => {
     return (
         <CheckboxesSelectStyled>
             <label htmlFor="" className="title">
@@ -30,7 +30,7 @@ const CheckboxesSelect = ({
                 trigger={['click']}
             >
                 <CheckboxSelectTriggerStyled>
-                    <label htmlFor="">{label}</label>
+                    <label htmlFor="">{placeholder ?? label}</label>
                     <img src={dropDownArrow} alt="" height={7} width={12} />
                 </CheckboxSelectTriggerStyled>
             </Dropdown>

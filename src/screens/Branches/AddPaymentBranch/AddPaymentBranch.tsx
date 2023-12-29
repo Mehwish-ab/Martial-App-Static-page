@@ -1,37 +1,24 @@
-import { Card, Dropdown, List, Space, Table } from 'antd'
-import OverlayImages from '../../Home/OverlayImages/OverlayImages'
+import { Dropdown, Space, Table } from 'antd'
 import { AddPaymentMethod } from './styles'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { BranchDataType } from '../../../redux/features/branch/branchSlice'
-import { Col, Row } from 'react-bootstrap'
-import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
-import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
-import { useNavigate } from 'react-router-dom'
+
 import type { ColumnsType } from 'antd/es/table'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
-import CustomButton from '../../../components/CustomButton/CustomButton'
-import {
-    fontFamilyMedium,
-    pureDark,
-    tertiaryBlue2,
-} from '../../../components/GlobalStyle'
-import plusIcon from '../../../assets/icons/ic_plus.svg'
+
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
-import getPayment from '../../../redux/features/branch/branchSlice'
-import useBranch from '../hooks/useBranch'
 import { useEffect, useState } from 'react'
-import dummydata from './dummyData.json'
 import usePayment from '../../../hooks/usePayment'
-interface AddPaymentBranchProps {
-    branch: BranchDataType // Make sure to import BranchDataType
-}
+// interface AddPaymentBranchProps {
+//     branch: BranchDataType // Make sure to import BranchDataType
+// }
 
 const AddPaymentBranch: React.FC = () => {
     const navigate = useNavigate()
-    const { getLabelByKey } = useScreenTranslation('schoolCreate')
+    // const { getLabelByKey } = useScreenTranslation('schoolCreate')
     const {
         get_stripe,
         get_gocard,
@@ -42,7 +29,7 @@ const AddPaymentBranch: React.FC = () => {
         deletemodal,
     } = usePayment()
 
-    const handleDelete = (paymentMethod: any, record: any) => {
+    const handleDelete = (paymentMethod: any, record: any): void => {
         deletePayment(paymentMethod, record)
     }
 
@@ -58,8 +45,7 @@ const AddPaymentBranch: React.FC = () => {
     )
 
     useEffect(() => {
-        fetchstripe()
-        async function fetchstripe() {
+        async function fetchstripe(): Promise<void> {
             if (branch) {
                 const data = (await get_stripe(
                     'BRANCH',
@@ -68,9 +54,9 @@ const AddPaymentBranch: React.FC = () => {
                 setStripepayment(data)
             }
         }
+        fetchstripe()
 
-        fetchbank()
-        async function fetchbank() {
+        async function fetchbank(): Promise<void> {
             // Check if branch is truthy before accessing its properties
             if (branch) {
                 const data = (await get_bank(
@@ -80,8 +66,9 @@ const AddPaymentBranch: React.FC = () => {
                 setBankpayment(data)
             }
         }
-        fetchPaypal()
-        async function fetchPaypal() {
+        fetchbank()
+
+        async function fetchPaypal(): Promise<void> {
             if (branch) {
                 const data = (await get_paypal(
                     'BRANCH',
@@ -90,8 +77,9 @@ const AddPaymentBranch: React.FC = () => {
                 setPaypalpayment(data)
             }
         }
-        fetchgocard()
-        async function fetchgocard() {
+        fetchPaypal()
+
+        async function fetchgocard(): Promise<void> {
             if (branch) {
                 const data = (await get_gocard(
                     'BRANCH',
@@ -100,8 +88,9 @@ const AddPaymentBranch: React.FC = () => {
                 setGocardlesspayment(data)
             }
         }
-        fetchCash()
-        async function fetchCash() {
+        fetchgocard()
+
+        async function fetchCash(): Promise<void> {
             if (branch) {
                 const data = (await get_cash(
                     'BRANCH',
@@ -110,6 +99,7 @@ const AddPaymentBranch: React.FC = () => {
                 setCash(data)
             }
         }
+        fetchCash()
 
         // if (branchToEdit && branchToEdit.branchId) {
         //   fetchPayment();
@@ -119,7 +109,7 @@ const AddPaymentBranch: React.FC = () => {
         return <div>No data</div>
     }
 
-    const navigation = (record: BranchDataType, redirectTo: string) => {
+    const navigation = (record: BranchDataType, redirectTo: string): void => {
         switch (redirectTo) {
             case 'detail':
                 navigate(`/branch/detail/${record?.branchId}`, {
@@ -222,7 +212,7 @@ const AddPaymentBranch: React.FC = () => {
         {
             title: 'Action',
             key: 'action',
-            render: (value: any, record: any, index: number): any => {
+            render: (value: any, record: any) => {
                 const items = [
                     {
                         key: '1',

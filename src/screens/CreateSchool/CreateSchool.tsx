@@ -29,11 +29,13 @@ import CheckboxesSelect from '../../components/CustomCheckbox/CheckboxesSelect'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const CreateSchool = () => {
-    const { schoolData } = useSelector(
-        (state: RootState) => state.dashboardData
+const CreateSchool = (): JSX.Element => {
+    const { data: schoolData } = useSelector(
+        (state: RootState) => state.loginData
     )
     const navigate = useNavigate()
+
+    console.log('checking schoolData: ', schoolData)
 
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
     const {
@@ -64,8 +66,8 @@ const CreateSchool = () => {
 
     const businessName = validationFinder('BUSINESS_NAME')!
     const businessNameReg = new RegExp(businessName.pattern)
-    const address = validationFinder('ADDRESS')!
-    const addressReg = new RegExp(address.pattern)
+    // const address = validationFinder('ADDRESS')!
+    // const addressReg = new RegExp(address.pattern)
     const businessPhoneNumber = validationFinder('PHONE_NUMBER')!
 
     const validationSchema = Yup.object({
@@ -104,10 +106,12 @@ const CreateSchool = () => {
             .min(1, 'Select at least one facility'),
     })
 
-    const createOptions = (list: DataTypesWithIdAndMultipleLangLabel[]) => {
-        let options: SelectOptionsDataTypes[] = []
+    const createOptions = (
+        list: DataTypesWithIdAndMultipleLangLabel[]
+    ): SelectOptionsDataTypes[] => {
+        const options: SelectOptionsDataTypes[] = []
         list?.forEach((item) => {
-            let obj = {
+            const obj = {
                 label: (item as any)[selectedLanguage],
                 value: item.id,
             }
@@ -118,10 +122,46 @@ const CreateSchool = () => {
         return options
     }
     useEffect(() => {
-        console.log('ids', schoolData.schoolId)
-        if (schoolData.schoolId > 0) return navigate('/school/view')
-        console.log('id', schoolData.schoolId)
-    }, [])
+        console.log('ids', schoolData?.schoolId)
+        if (schoolData && schoolData.schoolId > 0)
+            return navigate('/school/view')
+    }, [schoolData])
+    const showActivities = (_activities: string[]): string => {
+        let activitiesName = ''
+        _activities.map((activity) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                activitiesName =
+                    activitiesName === ''
+                        ? (activities[index] as any)[selectedLanguage]
+                        : `${activitiesName}, ${
+                              (activities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+        if (activitiesName !== '') return activitiesName
+        return getLabelByKey('activity')
+    }
+
+    const showFacilities = (_facilities: string[]): string => {
+        let facilitiesName = ''
+        _facilities.map((facility) => {
+            const index = facilities.findIndex(
+                (facts: any) => facts.id === facility
+            )
+            if (index !== -1) {
+                facilitiesName =
+                    facilitiesName === ''
+                        ? (facilities[index] as any)[selectedLanguage]
+                        : `${facilitiesName}, ${
+                              (facilities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+
+        if (facilitiesName !== '') return facilitiesName
+        return getLabelByKey('facilities')
+    }
     return (
         <CreateSchoolStyled>
             {Createmodal().modalComponent}
@@ -233,7 +273,7 @@ const CreateSchool = () => {
                                             placeholder={getLabelByKey(
                                                 'enterCompleteAddress'
                                             )}
-                                            handleChange={(val: any) => {
+                                            handleChange={(val) => {
                                                 formik.setFieldValue(
                                                     'address',
                                                     val
@@ -342,6 +382,9 @@ const CreateSchool = () => {
                                             name="selectedActivities"
                                             label={getLabelByKey('activity')}
                                             showErrorMsgInList={false}
+                                            placeholder={showActivities(
+                                                formik.values.selectedActivities
+                                            )}
                                         />
                                     </Col>
 
@@ -349,6 +392,9 @@ const CreateSchool = () => {
                                         <CheckboxesSelect
                                             name="selectedFacilities"
                                             label={getLabelByKey('facilities')}
+                                            placeholder={showFacilities(
+                                                formik.values.selectedFacilities
+                                            )}
                                             list={facilities}
                                             showErrorMsgInList={false}
                                         />

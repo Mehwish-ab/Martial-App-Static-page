@@ -9,15 +9,43 @@ import EnnvisionModal from '../components/CustomModals/EnnvisionModal'
 import { toast } from 'react-toastify'
 import { createPaymentInitialValues } from '../components/Modals/payments/constant'
 
-const usePayment = () => {
+interface IUsePayments {
+    loading: boolean
+    error: string
+    get_bank: (businessUC: any, id: number) => Promise<any>
+    get_gocard: (businessUC: any, id: number) => Promise<any>
+    get_paypal: (businessUC: any, id: number) => Promise<any>
+    get_stripe: (businessUC: any, id: number) => Promise<any>
+    get_cash: (businessUC: any, id: number) => Promise<any>
+    deletePayment: (paymentMethod: string, id: number) => Promise<void>
+    Createmodal: () => {
+        modalComponent: JSX.Element
+    }
+    UpdateModal: () => {
+        modalComponent: JSX.Element
+    }
+    deletemodal: () => {
+        modalComponent: JSX.Element
+    }
+    create_Payment: (
+        businessuc: any,
+        values: any,
+        Id: any,
+        PaymentMethod: createPaymentInitialValues
+    ) => Promise<any>
+    editPayment: (businessuc: any, values: any, id: any) => Promise<any>
+    data: any
+}
+
+const usePayment = (): IUsePayments => {
     const [loading, setLoading] = useState(false)
     const [isShowModal, setIsShowModal] = useState(false)
     const [data, setData] = useState<unknown>({})
     const [error, setError] = useState('')
     const { loginData } = useSelector((state: RootState) => state)
 
-    const editPayment = async (businessuc: any, values: any, Id: any) => {
-        const url = 'paymentMethod/update'
+    const editPayment = async (businessuc: any, values: any): Promise<any> => {
+        // const url = 'paymentMethod/update'
 
         try {
             setError('')
@@ -58,12 +86,16 @@ const usePayment = () => {
             }
             console.log('Payload', payload.accessToken)
 
-            const { data } = await axios.post('paymentMethod/update', payload, {
-                headers: {
-                    ...authorizationToken(loginData.data as loginDataTypes),
-                },
-            })
-            if (data.responseCode === '500') {
+            const { data: data2 } = await axios.post(
+                'paymentMethod/update',
+                payload,
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            if (data2.responseCode === '500') {
                 setLoading(false)
                 return
             }
@@ -76,15 +108,15 @@ const usePayment = () => {
             }, 3000)
 
             // navigate("/school/view");
-            console.log({ data })
-            return data
+            console.log({ data: data2 })
+            return data2
             //setIsUploadImgVisible(true);
             // navigate("/school/view");
-        } catch (error: any) {
-            console.log('error is', error.response.data.responseMessage)
+        } catch (error2: any) {
+            console.log('error is', error2.response.data.responseMessage)
             setLoading(false)
-            setError(error.response.data.responseMessage)
-            let id = setTimeout(() => {
+            setError(error2.response.data.responseMessage)
+            const id = setTimeout(() => {
                 setError('')
             }, 3000)
             if (!setIsShowModal) {
@@ -98,7 +130,7 @@ const usePayment = () => {
         values: any,
         Id: any,
         PaymentMethod: createPaymentInitialValues
-    ) => {
+    ): Promise<any> => {
         console.log(values, '???')
         const token = values.accessToken
         console.log('token', token)
@@ -142,7 +174,7 @@ const usePayment = () => {
         try {
             setError('')
             setLoading(true)
-            const { data } = await axios.post(
+            const { data: data2 } = await axios.post(
                 '/paymentMethod/create',
                 payload,
                 {
@@ -152,7 +184,7 @@ const usePayment = () => {
                 }
             )
 
-            if (data.responseCode === '500') {
+            if (data2.responseCode === '500') {
                 setLoading(false)
                 return
             }
@@ -162,22 +194,22 @@ const usePayment = () => {
                 setIsShowModal(false)
                 // navigate("/branch/list");
             }, 3000)
-            const values = data
-            console.log('payment info', values)
+            const values2 = data2
+            console.log('payment info', values2)
 
-            return values
-        } catch (error: any) {
-            console.log('error', error)
+            return values2
+        } catch (error2: any) {
+            console.log('error', error2)
             setLoading(false)
-            setError(error)
+            setError(error2)
         }
     }
 
-    const get_bank = async (businessUC: any, id: number) => {
+    const get_bank = async (businessUC: any, id: number): Promise<any> => {
         try {
             setError('')
             setLoading(true)
-            const { data } = await axios.post(
+            const { data: data2 } = await axios.post(
                 get_payment,
                 { businessUC, id },
                 {
@@ -187,26 +219,26 @@ const usePayment = () => {
                 }
             )
 
-            if (data.responseCode === '500') {
+            if (data2.responseCode === '500') {
                 setLoading(false)
                 return
             }
-            const values = data.results.bankAccount
+            const values = data2.results.bankAccount
             console.log('payment info', values)
 
             return values
-        } catch (error: any) {
-            console.log('error', error)
+        } catch (error2: any) {
+            console.log('error', error2)
             setLoading(false)
-            setError(error)
+            setError(error2)
         }
     }
 
-    const get_gocard = async (businessUC: any, id: number) => {
+    const get_gocard = async (businessUC: any, id: number): Promise<any> => {
         try {
             setError('')
             setLoading(true)
-            const { data } = await axios.post(
+            const { data: data2 } = await axios.post(
                 get_payment,
                 { businessUC, id },
                 {
@@ -216,26 +248,26 @@ const usePayment = () => {
                 }
             )
 
-            if (data.responseCode === '500') {
+            if (data2.responseCode === '500') {
                 setLoading(false)
                 return
             }
-            const values = data.results.goCardLess
+            const values = data2.results.goCardLess
             console.log('payment info', values)
 
             return values
-        } catch (error: any) {
-            console.log('error', error)
+        } catch (error2: any) {
+            console.log('error', error2)
             setLoading(false)
-            setError(error)
+            setError(error2)
         }
     }
 
-    const get_stripe = async (businessUC: any, id: number) => {
+    const get_stripe = async (businessUC: any, id: number): Promise<any> => {
         try {
             setError('')
             setLoading(true)
-            const { data } = await axios.post(
+            const { data: data2 } = await axios.post(
                 '/paymentMethod/get',
                 { businessUC, id },
                 {
@@ -245,26 +277,26 @@ const usePayment = () => {
                 }
             )
 
-            if (data.responseCode === '500') {
+            if (data2.responseCode === '500') {
                 setLoading(false)
                 return
             }
-            const values = data.results.stripe
+            const values = data2.results.stripe
             console.log('payment info', values)
 
             return values
-        } catch (error: any) {
-            console.log('error', error)
+        } catch (error2: any) {
+            console.log('error', error2)
             setLoading(false)
-            setError(error)
+            setError(error2)
         }
     }
 
-    const get_paypal = async (businessUC: any, id: number) => {
+    const get_paypal = async (businessUC: any, id: number): Promise<any> => {
         try {
             setError('')
             setLoading(true)
-            const { data } = await axios.post(
+            const { data: data2 } = await axios.post(
                 get_payment,
                 { businessUC, id },
                 {
@@ -274,26 +306,26 @@ const usePayment = () => {
                 }
             )
 
-            if (data.responseCode === '500') {
+            if (data2.responseCode === '500') {
                 setLoading(false)
                 return
             }
-            const values = data.results.paypal
+            const values = data2.results.paypal
             console.log('payment info', values)
 
             return values
-        } catch (error: any) {
-            console.log('error', error)
+        } catch (error2: any) {
+            console.log('error', error2)
             setLoading(false)
-            setError(error)
+            setError(error2)
         }
     }
 
-    const get_cash = async (businessUC: any, id: number) => {
+    const get_cash = async (businessUC: any, id: number): Promise<any> => {
         try {
             setError('')
             setLoading(true)
-            const { data } = await axios.post(
+            const { data: data2 } = await axios.post(
                 get_payment,
                 { businessUC, id },
                 {
@@ -303,29 +335,32 @@ const usePayment = () => {
                 }
             )
 
-            if (data.responseCode === '500') {
+            if (data2.responseCode === '500') {
                 setLoading(false)
                 return
             }
-            const values = data.results.cash
+            const values = data2.results.cash
             console.log('payment info', values)
 
             return values
-        } catch (error: any) {
-            console.log('error', error)
+        } catch (error2: any) {
+            console.log('error', error2)
             setLoading(false)
-            setError(error)
+            setError(error2)
         }
     }
 
-    const deletePayment = async (paymentMethod: string, id: number) => {
+    const deletePayment = async (
+        paymentMethod: string,
+        id: number
+    ): Promise<void> => {
         const url = '/paymentMethod/delete'
         console.log('nada', paymentMethod, id)
 
         try {
             setError('')
             setLoading(true)
-            const { data } = await axios.post(
+            const { data: data2 } = await axios.post(
                 url,
                 { paymentMethod, id },
                 {
@@ -334,15 +369,15 @@ const usePayment = () => {
                     },
                 }
             )
-            if (data.responseCode === '500') {
-                toast(data.responseMessage, {
+            if (data2.responseCode === '500') {
+                toast(data2.responseMessage, {
                     type: 'error',
                     autoClose: 1000,
                 })
                 setLoading(false)
                 return
             }
-            const values = data
+            const values = data2
             console.log('payment info', values)
 
             setIsShowModal(true)
@@ -351,22 +386,24 @@ const usePayment = () => {
                 setIsShowModal(false)
                 // navigate("/branch/list");
             }, 3000)
-            setData('results: ' + data.results)
-            console.log('data', { data })
+            setData('results: ' + data2.results)
+            console.log('data', { data: data2 })
             setLoading(false)
             // return values;
-        } catch (error: any) {
-            console.log('api error', error)
-            setError(error.response.data.responseMessage)
+        } catch (error2: any) {
+            console.log('api error', error2)
+            setError(error2.response.data.responseMessage)
             setLoading(false)
             console.log(
-                error.response.data.responseMessage,
+                error2.response.data.responseMessage,
                 'error in api data'
             )
         }
     }
 
-    const Createmodal = () => {
+    const Createmodal = (): {
+        modalComponent: JSX.Element
+    } => {
         return {
             modalComponent: (
                 <CustomModal
@@ -388,7 +425,9 @@ const usePayment = () => {
         }
     }
 
-    const deletemodal = () => {
+    const deletemodal = (): {
+        modalComponent: JSX.Element
+    } => {
         return {
             modalComponent: (
                 <CustomModal
@@ -410,7 +449,9 @@ const usePayment = () => {
         }
     }
 
-    const UpdateModal = () => {
+    const UpdateModal = (): {
+        modalComponent: JSX.Element
+    } => {
         return {
             modalComponent: (
                 <CustomModal
@@ -445,6 +486,7 @@ const usePayment = () => {
         deletemodal,
         create_Payment,
         editPayment,
+        data,
     }
 }
 

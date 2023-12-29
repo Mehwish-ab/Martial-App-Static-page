@@ -1,13 +1,11 @@
 import styled from 'styled-components'
 import {
-    fontFamilyBold,
     fontFamilyMedium,
     lightDark2,
     mediaDeviceMax,
     pureDark2,
     tertiaryGrey24,
     darkGery,
-    darkBlue,
     lightDark3,
     Diamond,
     whiteColor,

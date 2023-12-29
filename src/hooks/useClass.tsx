@@ -63,7 +63,7 @@ const useCreateSchool = () => {
             ...(schoolId && { schoolId }), // Add schoolId conditionally
         }
 
-        let endpoint = schoolId ? edit_school_url : create_school_url
+        const endpoint = schoolId ? edit_school_url : create_school_url
         try {
             setError('')
             setLoading(true)
@@ -168,7 +168,7 @@ const useCreateSchool = () => {
             console.log({ error })
             setLoading(false)
             setError(error.response.data.responseMessage)
-            let id = setTimeout(() => {
+            const id = setTimeout(() => {
                 setError('')
             }, 3000)
             if (!setIsShowModal) {

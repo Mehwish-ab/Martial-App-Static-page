@@ -55,14 +55,14 @@ const CreateBranch = (): JSX.Element => {
 
         selectedActivities: [],
         selectedFacilities: [],
-        // schoolStripeMethod: false,
-        // schoolGclMethod: false,
-        // cardAccessToken: '',
-        // cardClientId: '',
-        // cardClientSecret: '',
-        // cardWebHook: '',
-        // stripePublishableKey: '',
-        // stripeSecretKey: '',
+        schoolStripeMethod: false,
+        schoolGclMethod: false,
+        cardAccessToken: '',
+        cardClientId: '',
+        cardClientSecret: '',
+        cardWebHook: '',
+        stripePublishableKey: '',
+        stripeSecretKey: '',
     }
 
     const { selectedLanguage } = useSelector(
@@ -171,7 +171,7 @@ const CreateBranch = (): JSX.Element => {
         if (activitiesName.length > 35) {
             return `${activitiesName.slice(0, 35)}...`
         }
-        return activitiesName || getLabelByKey('Activities')
+        return activitiesName || 'Activities'
     }
     const showFacilities = (_facilities: string[]): string => {
         let facilitiesName = ''
@@ -405,7 +405,7 @@ const CreateBranch = (): JSX.Element => {
                                     <Col md="6">
                                         <CheckboxesSelect
                                             name="selectedActivities"
-                                            label="Activity"
+                                            label={getLabelByKey('activity')}
                                             list={activities}
                                             showErrorMsgInList={false}
                                             placeholder={showActivities(

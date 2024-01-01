@@ -51,6 +51,5 @@ export const CustomTextAreaContaienr = styled.div<customTextareaProps>`
     textarea.ant-input:hover {
         border-color: rgb(64, 169, 255);
         border-width: 1px;
-        z-index: 1;
     }
 `

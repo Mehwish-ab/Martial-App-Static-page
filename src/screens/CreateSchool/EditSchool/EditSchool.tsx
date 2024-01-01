@@ -20,7 +20,7 @@ import {
     fontFamilyMedium,
     fontFamilyRegular,
     lightBlue3,
-    pureDark,
+    maastrichtBlue,
 } from '../../../components/GlobalStyle'
 import CustomPhoneInput from '../../../components/CustomPhoneInput/CustomPhoneInput'
 import CustomButton from '../../../components/CustomButton/CustomButton'
@@ -89,6 +89,9 @@ const EditSchool = (): JSX.Element => {
             .min(1, 'Select at least one facility'),
     })
     const handleEditSchool = async (value: any): Promise<void> => {
+        if (!value.selectedActivities[0] || !value.selectedFacilities[0]) {
+            return
+        }
         await editSchool(schoolData.schoolId, value)
     }
     const createOptions = (
@@ -168,7 +171,11 @@ const EditSchool = (): JSX.Element => {
         selectedActivities: schoolData.activities.split(',').map(String),
         selectedFacilities: schoolData.facilities.split(',').map(String),
     }
-
+    console.log(
+        '>>selectedActivities',
+        initialValuesForEdit.selectedActivities,
+        initialValuesForEdit.businessName
+    )
     return (
         <CreateSchoolStyled>
             {/* {UpdateModal().modalComponent}
@@ -181,7 +188,8 @@ const EditSchool = (): JSX.Element => {
             <Formik
                 initialValues={initialValuesForEdit}
                 validationSchema={validationSchema}
-                onSubmit={handleEditSchool}
+                validateOnMount
+                onSubmit={(values) => handleEditSchool(values)}
             >
                 {(formik) => {
                     return (
@@ -487,13 +495,13 @@ const EditSchool = (): JSX.Element => {
                                 <CustomButton
                                     bgcolor={lightBlue3}
                                     textTransform="Captilize"
-                                    color={pureDark}
+                                    color={maastrichtBlue}
                                     padding="11px 40.50px"
                                     fontFamily={`${fontFamilyMedium}`}
                                     width="fit-content"
                                     type="submit"
                                     title="Update"
-                                    fontSize="17px"
+                                    fontSize="18px"
                                     clicked={() =>
                                         handleEditSchool(formik.values)
                                     }

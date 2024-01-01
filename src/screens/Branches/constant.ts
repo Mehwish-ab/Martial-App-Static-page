@@ -8,15 +8,15 @@ export interface CreateBranchInitialValues {
     defaultLanguage: string | number
     defaultCurrency: string | number
     description: string
-    // stripePublishableKey: string
-    // stripeSecretKey: string
-    // cardAccessToken: string
-    // cardClientId: string
-    // cardWebHook: string
-    // cardClientSecret: string
+    stripePublishableKey: string
+    stripeSecretKey: string
+    cardAccessToken: string
+    cardClientId: string
+    cardWebHook: string
+    cardClientSecret: string
     selectedActivities: string[]
     selectedFacilities: string[]
-    //     schoolStripeMethod: boolean
-    //     schoolGclMethod: boolean
+    schoolStripeMethod: boolean
+    schoolGclMethod: boolean
     //
 }

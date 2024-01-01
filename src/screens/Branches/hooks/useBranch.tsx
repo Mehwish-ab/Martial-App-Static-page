@@ -14,9 +14,18 @@ import { RootState } from '../../../redux/store'
 import { useNavigate, useParams } from 'react-router-dom'
 import { loginDataTypes } from '../../../redux/features/types'
 import { CreateBranchInitialValues } from '../constant'
-import EnnvisionModal from '../../../components/CustomModals/EnnvisionModal'
+// import EnnvisionModal from '../../../components/CustomModals/EnnvisionModal'
 import CustomModal from '../../../components/Modal/CustomModal'
 import { useAppSelector } from '../../../app/hooks'
+import ic_success from '../../../assets/images/ic_success.svg'
+import CustomButton from '../../../components/CustomButton/CustomButton'
+import {
+    fontFamilyMedium,
+    lightBlue3,
+    lightColor1,
+    pureDark2,
+} from '../../../components/GlobalStyle'
+import { Col, Row } from 'antd'
 
 interface IUseBranch {
     loading: boolean
@@ -43,6 +52,8 @@ interface IUseBranch {
     deletemodal: () => { modalComponent: JSX.Element }
     UpdateModal: () => { modalComponent: JSX.Element }
     Createmodal: () => { modalComponent: JSX.Element }
+    deleteConfirmation: (id: number) => { modalComponent: JSX.Element }
+    setIsShowModal: (showModal: true) => void
 }
 
 const useBranch = (): IUseBranch => {
@@ -57,6 +68,7 @@ const useBranch = (): IUseBranch => {
     const navigate = useNavigate()
     const { loginData } = useSelector((state: RootState) => state)
     const { data: logindata } = useAppSelector((state) => state.loginData)
+    const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
 
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
@@ -80,15 +92,15 @@ const useBranch = (): IUseBranch => {
             activities: values.selectedActivities.join(','),
             facilities: values.selectedFacilities.join(','),
             description: values.description,
-            // stripePublicKey: values.stripePublishableKey,
-            // stripeSecretKey: values.stripeSecretKey,
-            // gclAccessToken: values.cardAccessToken,
-            // gclClientId: values.cardClientId,
-            // gclWebHook: values.cardWebHook,
-            // gclClientSecret: values.cardClientSecret,
-            // schoolId: schoolData.schoolId || loginData.data?.schoolId,
-            // schoolStripeMethod: values.schoolStripeMethod,
-            // schoolGclMethod: values.schoolGclMethod,
+            stripePublicKey: values.stripePublishableKey,
+            stripeSecretKey: values.stripeSecretKey,
+            gclAccessToken: values.cardAccessToken,
+            gclClientId: values.cardClientId,
+            gclWebHook: values.cardWebHook,
+            gclClientSecret: values.cardClientSecret,
+            schoolId: schoolData.schoolId || loginData.data?.schoolId,
+            schoolStripeMethod: values.schoolStripeMethod,
+            schoolGclMethod: values.schoolGclMethod,
             defaultLanguageId: values.defaultLanguage,
             defaultCurrencyId: values.defaultCurrency,
             schoolCashMethod: false,
@@ -510,10 +522,11 @@ const useBranch = (): IUseBranch => {
             //   type: "success",
             //   autoClose: 1000,
             // });
-            setIsShowModal(true)
+            setLoading(false)
+            setIsShowModal(false) // Open the deletemodal
+            setIsShowDeleteModal(true)
             setTimeout(() => {
-                setLoading(false)
-                setIsShowModal(false)
+                setIsShowDeleteModal(false)
                 navigate('/branch/list')
             }, 3000)
             setData('results: ' + data2)
@@ -566,41 +579,24 @@ const useBranch = (): IUseBranch => {
                 <CustomModal
                     isModalVisible={isShowModal}
                     setIsModalVisible={setIsShowModal}
-                    showCloseBtn={false}
+                    showCloseBtn={true}
                 >
-                    {' '}
-                    <EnnvisionModal
-                        doTask={() => {
-                            navigate('/branch/list')
-                            setIsShowModal(false)
-                        }}
-                        title="Complete Profile Successfully!"
-                        description="Congratulations! Your profile has been successfully completed, ensuring a seamless experience within the Marital"
-                    />
-                </CustomModal>
-            ),
-        }
-    }
-
-    const deletemodal = (): {
-        modalComponent: JSX.Element
-    } => {
-        return {
-            modalComponent: (
-                <CustomModal
-                    isModalVisible={isShowModal}
-                    setIsModalVisible={setIsShowModal}
-                    showCloseBtn={false}
-                >
-                    {' '}
-                    <EnnvisionModal
-                        doTask={() => {
-                            navigate('/school/view')
-                            setIsShowModal(false)
-                        }}
-                        title="Successfully Branch Removed"
-                        description="The Branch has been successfully removed, and please note that any associated data will be retained for a period of 30 days before it is permanently deleted from our system."
-                    />
+                    <div className="d-flex flex-column align-items-center">
+                        <img
+                            src={ic_success}
+                            alt="Success Icon"
+                            width={188}
+                            height={55}
+                        />
+                        <h6 className="text-center">
+                            Complete Profile Successfully!
+                        </h6>
+                        <p className="text-center">
+                            Congratulations! Your profile has been successfully
+                            completed, ensuring a seamless experience within the
+                            Marital
+                        </p>
+                    </div>
                 </CustomModal>
             ),
         }
@@ -614,21 +610,120 @@ const useBranch = (): IUseBranch => {
                 <CustomModal
                     isModalVisible={isShowModal}
                     setIsModalVisible={setIsShowModal}
-                    showCloseBtn={false}
+                    showCloseBtn={true}
                 >
-                    {' '}
-                    <EnnvisionModal
-                        doTask={() => {
-                            setIsShowModal(false)
-                        }}
-                        title="Update Profile Successfully!"
-                        description="Congratulations! on updating your profile! Your changes have been successfully saved, enhancing your experience within the Marital platform."
-                    />
+                    <div className="d-flex flex-column align-items-center">
+                        <img
+                            src={ic_success}
+                            alt="Success Icon"
+                            width={188}
+                            height={55}
+                        />
+                        <h6 className="text-center">
+                            Update Profile Successfully!
+                        </h6>
+                        <p className="text-center">
+                            Congratulations! on updating your profile! Your
+                            changes have been successfully saved, enhancing your
+                            experience within the Marital platform.
+                        </p>
+                    </div>
                 </CustomModal>
             ),
         }
     }
-
+    const deletemodal = (): {
+        modalComponent: JSX.Element
+    } => {
+        return {
+            modalComponent: (
+                <CustomModal
+                    isModalVisible={isShowDeleteModal}
+                    setIsModalVisible={setIsShowDeleteModal}
+                    showCloseBtn={true}
+                >
+                    <div className="d-flex flex-column align-items-center">
+                        <img
+                            src={ic_success}
+                            alt="Success Icon"
+                            width={188}
+                            height={55}
+                        />
+                        <h6 className="text-center">
+                            Successfully Account Removed
+                        </h6>
+                        <p className="text-center">
+                            The student Branch has been successfully removed,and
+                            please note that any associated data will be
+                            retained for a period of 30 days before it is
+                            permanently deleted from our system.
+                        </p>
+                    </div>
+                </CustomModal>
+            ),
+        }
+    }
+    const deleteConfirmation = (
+        _id: number
+    ): {
+        modalComponent: JSX.Element
+    } => {
+        const Deleteschool = async (id: number): Promise<void> => {
+            setIsShowModal(false) // Close any other modals
+            setIsShowDeleteModal(true)
+            await deletebranch(id)
+        }
+        return {
+            modalComponent: (
+                <CustomModal
+                    isModalVisible={isShowModal}
+                    setIsModalVisible={setIsShowModal}
+                    showCloseBtn={true}
+                >
+                    <h3 className="text-center">Want to Remove Account</h3>
+                    <p className="text-center">
+                        Before proceeding with the removal of a student account,
+                        please be aware that once the removal is confirmed, all
+                        access will be permanently revoked. If the user still
+                        holds an active membership, the account cannot be
+                        removed until the membership is completed or canceled.
+                    </p>
+                    <Row>
+                        <Col md="6">
+                            <CustomButton
+                                bgcolor={lightColor1}
+                                textTransform="Captilize"
+                                color={pureDark2}
+                                padding="10px 12.5px"
+                                fontFamily={fontFamilyMedium}
+                                width="100%"
+                                type="button"
+                                title="Cancel"
+                                fontSize="16px"
+                                loading={false}
+                                clicked={() => setIsShowModal(false)}
+                            />
+                        </Col>
+                        <Col md="6">
+                            <CustomButton
+                                bgcolor={lightBlue3}
+                                textTransform="Captilize"
+                                color={pureDark2}
+                                padding="10px 12.5px"
+                                fontFamily={fontFamilyMedium}
+                                width="100%"
+                                type="submit"
+                                title="Confirmed"
+                                fontSize="16px"
+                                loading={false}
+                                clicked={() => Deleteschool(_id)}
+                            />
+                        </Col>
+                    </Row>
+                </CustomModal>
+            ),
+        }
+    }
     return {
         loading,
         handleSubmit,
@@ -646,6 +741,8 @@ const useBranch = (): IUseBranch => {
         deletemodal,
         deletePayment,
         UpdateModal,
+        deleteConfirmation,
+        setIsShowModal,
     }
 }
 

@@ -31,7 +31,6 @@ import useFranchise from '../hooks/useFranchise'
 
 const RenderTableTitle = (): JSX.Element => {
     const navigate = useNavigate()
-
     return (
         <div className="d-flex justify-content-between align-center">
             {/* <h3 className="table-heading">{getLabelByKey("title")}</h3> */}
@@ -98,8 +97,34 @@ const RenderTableTitle = (): JSX.Element => {
 }
 
 const ListFranchise: React.FC = () => {
+    const {
+        statusData: { activities },
+    } = useSelector((state: RootState) => state.appData.data)
     const { deleteFranchise } = useFranchise()
     const navigate = useNavigate()
+    const { selectedLanguage } = useSelector(
+        (state: RootState) => state.selectedLanguage
+    )
+    const showActivities = (_activities: string): string => {
+        const activitiesArr = _activities.split(',')
+
+        let activitiesName = ''
+        activitiesArr.map((activity) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                activitiesName =
+                    activitiesName === ''
+                        ? (activities[index] as any)[selectedLanguage]
+                        : `${activitiesName}, ${
+                              (activities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+        if (activitiesName.length > 35) {
+            return `${activitiesName.slice(0, 35)}...`
+        }
+        return activitiesName
+    }
     const navigation = (
         record: FranchiseDataType,
         redirectTo: string
@@ -213,13 +238,7 @@ const ListFranchise: React.FC = () => {
             render: (DummyData) => {
                 console.log(DummyData)
 
-                return (
-                    <p className="sub-title">
-                        {DummyData?.length > 33
-                            ? `${DummyData.slice(0, 38)}...`
-                            : DummyData}
-                    </p>
-                )
+                return <p className="sub-title">{showActivities(DummyData)}</p>
             },
         },
         {
@@ -236,7 +255,7 @@ const ListFranchise: React.FC = () => {
 
                 return (
                     <div>
-                        <button>{DummyData}</button>
+                        <button>{'Active'}</button>
                         <img src={StatusActiveError as string} alt="image" />
                     </div>
                 )

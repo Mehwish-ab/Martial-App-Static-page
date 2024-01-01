@@ -96,20 +96,20 @@ const EditBranch = (): JSX.Element => {
         defaultCurrency: branchDatas.defaultCurrencyId,
         rank: branchDatas.rank ? 1 : 2,
         description: branchDatas.description,
-        // stripePublishableKey: 'branchDatas.stripePublicKey',
-        // stripeSecretKey: 'branchDatas.stripeSecretKey',
-        // cardAccessToken: 'ranchDatas.gclAccessToken',
-        // cardClientId: 'branchDatas.gclClientId',
-        // cardWebHook: 'branchDatas.gclWebHook',
-        // cardClientSecret: 'branchDatas.gclClientSecret',
+        stripePublishableKey: 'branchDatas.stripePublicKey',
+        stripeSecretKey: 'branchDatas.stripeSecretKey',
+        cardAccessToken: 'ranchDatas.gclAccessToken',
+        cardClientId: 'branchDatas.gclClientId',
+        cardWebHook: 'branchDatas.gclWebHook',
+        cardClientSecret: 'branchDatas.gclClientSecret',
         selectedActivities: branchDatas
             ? branchDatas?.activities?.split(',').map(String)
             : [],
         selectedFacilities: branchDatas
             ? branchDatas?.facilities?.split(',').map(String)
             : [],
-        // schoolStripeMethod: branchDatas.schoolStripeMethod || false,
-        // schoolGclMethod: branchDatas.schoolGclMethod || false,
+        schoolStripeMethod: branchDatas.schoolStripeMethod || false,
+        schoolGclMethod: branchDatas.schoolGclMethod || false,
     }
     const validationSchema = Yup.object({
         branchName: Yup.string()

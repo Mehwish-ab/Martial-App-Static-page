@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useSelector } from 'react-redux'
@@ -36,7 +36,9 @@ const ListBranch = (): JSX.Element => {
     } = useSelector((state: RootState) => state.appData.data)
     // const { getLabelByKey } = useScreenTranslation("BranchList");
     const navigate = useNavigate()
-    const { deletebranch, deletemodal } = useBranch()
+    const { deletemodal, deleteConfirmation, setIsShowModal } = useBranch()
+    const [Id, setId] = useState(0)
+
     // const [branch, setbranch] = useState()
     const { branchData, loading } = useSelector(
         (state: RootState) => state.branchData
@@ -49,10 +51,16 @@ const ListBranch = (): JSX.Element => {
     } = useSelector((state: RootState) => state.appData.data)
     // const location = useLocation()
 
-    const handleDelete = (record: any): void => {
-        deletebranch(record)
-        store.dispatch(getBranchBySchoolId())
-    }
+    // const handleDelete = (record: any): void => {
+    //     setIsShowModal(true)
+    //     {
+    //         deletemodal().modalComponent
+    //     }
+    //     {
+    //         deleteConfirmation(record.branchId).modalComponent
+    //     }
+    //     store.dispatch(getBranchBySchoolId())
+    // }
     console.log('Branch Data:', branchData)
 
     const navigation = (record: BranchDataType, redirectTo: string): void => {
@@ -211,11 +219,10 @@ const ListBranch = (): JSX.Element => {
                     {
                         key: '4',
                         label: 'Delete',
-                        onClick: () =>
-                            //navigation(record, "delete"),
-                            {
-                                handleDelete(record.branchId)
-                            },
+                        onClick: () => {
+                            setId(record.branchId)
+                            setIsShowModal(true)
+                        },
                     },
                 ]
 
@@ -316,6 +323,9 @@ const ListBranch = (): JSX.Element => {
     return (
         <>
             {deletemodal().modalComponent}
+            {deleteConfirmation(Id).modalComponent}
+
+            {/* {deleteConfirmation(record.branchId).modalComponent}  */}
 
             {loading && <LoadingOverlay message="" />}
             <ListBranchStyled>

@@ -1,35 +1,28 @@
 export interface CreateClassInitialValues {
-    ClassTitle: string
-    ClassStartDate: string
-    ClassEndDate: string
-    emailAddress: string
-    Classinstructor: string[]
-    ClassFee: string | number
-    ClassActivities: string[]
-    Classcapicity: string
-    MinimumStudents: string | number
-    startbooking: string
-    endbooking: string
-    QRCodeAttendanceStart: string
-    QRCodeAttendanceEnd: string
-    AllowToStudentCancle: string
-    RefundFeeDate: string
-    BookingCancellationStart: string
-    BookingCancellationEnd: string
-    CancellationCharges: string
-    Accommodate: string
-    Description: string
+    useCase: string
+    id: number
+    title: string
+    startDate: string
+    endDate: string
+    instructorId: string[]
+    fee: string | number
+    activities: string[]
+    capacity: number
+    minimumStudent: number | string
+    bookingStartDate: string
+    bookingEndDate: string
+    qrCodeStartDate: string
+    qrCodeEndDate: string
+    allowStudentCancel: string
+    refundDate: string
+    bookingCancelStartDate: string
+    bookingCancelEndDate: string
+    cancellationCharges: string
+    accommodation: string
+    description: string
     Agreement: string
     termCondition: string
     Liabilitywaivers: string
     bannerPicture: string | null | undefined
     profilePicture: string | null | undefined
-    // stripePublishableKey: string;
-    // stripeSecretKey: string;
-    // cardAccessToken: string;
-    // cardClientId: string;
-    // cardWebHook: string;
-    // cardClientSecret: string;
-    // schoolStripeMethod: boolean;
-    // schoolGclMethod: boolean;
 }

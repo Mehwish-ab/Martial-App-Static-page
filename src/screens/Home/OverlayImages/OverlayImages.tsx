@@ -116,7 +116,11 @@ const OverlayImages = ({
                 `Error uploading ${useCase} image:`,
                 error.response.data.responseMessage
             )
-            message.error(`${(info as any).file.name} file upload failed.`)
+            message.error(
+                `${(info as any).file.name} file upload failed, ${
+                    (error as any).response.data.responseMessage
+                }`
+            )
         } finally {
             setLoading(false)
         }

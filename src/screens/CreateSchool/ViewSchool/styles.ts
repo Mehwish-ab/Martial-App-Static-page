@@ -45,7 +45,7 @@ export const ViewSchoolStyled = styled.div`
                 font-size: 16px;
                 color: ${pureDark2};
                 font-weight: 400;
-                font-family: ${fontFamilyMedium};
+                font-family: ${fontFamilyRegular};
 
                 @media screen and ${mediaDeviceMax.laptop} {
                     font-size: 14px;

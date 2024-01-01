@@ -141,7 +141,7 @@ const ViewSchool = (): JSX.Element => {
                 overlayImg={schoolData.profilePicture || ''}
                 isEditable={true}
             />
-            <h3>School Information</h3>
+            <h3>School Informations</h3>
 
             <Card>
                 <Row>

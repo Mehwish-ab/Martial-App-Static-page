@@ -1,7 +1,8 @@
 import { Dropdown, Space, Table } from 'antd'
 import { AddPaymentMethod } from './styles'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { BranchDataType } from '../../../redux/features/branch/branchSlice'
+import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
 
@@ -10,15 +11,18 @@ import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
 
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
-import { useEffect, useState } from 'react'
-import usePayment from '../../../hooks/usePayment'
-// interface AddPaymentBranchProps {
-//     branch: BranchDataType // Make sure to import BranchDataType
-// }
 
-const AddPaymentBranch: React.FC = () => {
+import useBranch from '../hooks/useBranch'
+import { useEffect, useState } from 'react'
+
+const AddPaymentinfo: React.FC = () => {
+    console.log('hello naddda')
     const navigate = useNavigate()
-    // const { getLabelByKey } = useScreenTranslation('schoolCreate')
+    const { branchId } = useParams()
+    console.log('id:', branchId)
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { getLabelByKey } = useScreenTranslation('schoolCreate')
     const {
         get_stripe,
         get_gocard,
@@ -27,87 +31,65 @@ const AddPaymentBranch: React.FC = () => {
         get_cash,
         deletePayment,
         deletemodal,
-    } = usePayment()
-
+    } = useBranch()
     const handleDelete = (paymentMethod: any, record: any): void => {
         deletePayment(paymentMethod, record)
     }
 
-    const location = useLocation()
-    const branch: BranchDataType | undefined = location?.state?.branchToEdit
+    // const location = useLocation()
+    //const branch: BranchDataType = location?.state?.branchToEdit;
+
+    // const branch: BranchDataType = location.state?.branch
     const [stripepayment, setStripepayment] = useState<any[]>([])
     const [bankpayment, setBankpayment] = useState<any[]>([])
     const [paypalpayment, setPaypalpayment] = useState<any[]>([])
     const [Gocardlesspayment, setGocardlesspayment] = useState<any[]>([])
     const [cashpayment, setCash] = useState<any[]>([])
+
     const { branchData, loading } = useSelector(
         (state: RootState) => state?.branchData
     )
-
     useEffect(() => {
         async function fetchstripe(): Promise<void> {
-            if (branch) {
-                const data = (await get_stripe(
-                    'BRANCH',
-                    branch.branchId
-                )) as any[]
-                setStripepayment(data)
-            }
+            const data = (await get_stripe(
+                'BRANCH',
+                Number(branchId)
+            )) as unknown[]
+            setStripepayment(data)
         }
         fetchstripe()
 
         async function fetchbank(): Promise<void> {
-            // Check if branch is truthy before accessing its properties
-            if (branch) {
-                const data = (await get_bank(
-                    'BRANCH',
-                    branch.branchId
-                )) as any[]
-                setBankpayment(data)
-            }
+            const data = (await get_bank('BRANCH', Number(branchId))) as any[]
+            setBankpayment(data)
         }
         fetchbank()
-
         async function fetchPaypal(): Promise<void> {
-            if (branch) {
-                const data = (await get_paypal(
-                    'BRANCH',
-                    branch.branchId
-                )) as any[]
-                setPaypalpayment(data)
-            }
+            const data = (await get_paypal('BRANCH', Number(branchId))) as any[]
+            setPaypalpayment(data)
         }
         fetchPaypal()
-
         async function fetchgocard(): Promise<void> {
-            if (branch) {
-                const data = (await get_gocard(
-                    'BRANCH',
-                    branch.branchId
-                )) as any[]
-                setGocardlesspayment(data)
-            }
+            const data = (await get_gocard('BRANCH', Number(branchId))) as any[]
+            setGocardlesspayment(data)
         }
         fetchgocard()
 
         async function fetchCash(): Promise<void> {
-            if (branch) {
-                const data = (await get_cash(
-                    'BRANCH',
-                    branch.branchId
-                )) as any[]
-                setCash(data)
-            }
+            const data = (await get_cash('BRANCH', Number(branchId))) as any[]
+            setCash(data)
         }
         fetchCash()
 
         // if (branchToEdit && branchToEdit.branchId) {
         //   fetchPayment();
         // }
-    }, [])
+    }, []) // Add branchToEdit to the dependency array
     if (!loading && !branchData) {
         return <div>No data</div>
     }
+    //console.log("id", branchToEdit.branchId);
+    // const [dataSource, setDataSource] = useState<any[]>([]);
 
     const navigation = (record: BranchDataType, redirectTo: string): void => {
         switch (redirectTo) {
@@ -154,7 +136,7 @@ const AddPaymentBranch: React.FC = () => {
             title: 'Mode',
             dataIndex: 'mode',
             key: 'mode',
-            render: (DummyData) => {
+            render: (DummyData: any) => {
                 if (DummyData[0] === 'Test') {
                     return (
                         <div className={'Test'}>
@@ -184,7 +166,9 @@ const AddPaymentBranch: React.FC = () => {
             title: 'Status',
             dataIndex: 'status',
             key: 'status',
-            render: (DummyData) => {
+            render: (DummyData: any) => {
+                console.log('checking dummy data', DummyData)
+
                 if (DummyData === 'Add') {
                     return (
                         <div className={'Add'}>
@@ -212,7 +196,8 @@ const AddPaymentBranch: React.FC = () => {
         {
             title: 'Action',
             key: 'action',
-            render: (value: any, record: any) => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            render: (value: any, record: any, index: number): any => {
                 const items = [
                     {
                         key: '1',
@@ -431,4 +416,4 @@ const AddPaymentBranch: React.FC = () => {
     )
 }
 
-export default AddPaymentBranch
+export default AddPaymentinfo

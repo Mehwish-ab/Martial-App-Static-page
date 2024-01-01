@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../redux/store'
+import store, { RootState } from '../../../redux/store'
 import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
 import { useEffect } from 'react'
 // import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
@@ -14,9 +14,10 @@ import useSchool from '../../../hooks/useCreateSchool'
 
 import {
     lightBlue3,
-    pureDark2,
     fontFamilyMedium,
+    maastrichtBlue,
 } from '../../../components/GlobalStyle'
+import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
 
 const ViewSchool = (): JSX.Element => {
     const navigate = useNavigate()
@@ -24,7 +25,7 @@ const ViewSchool = (): JSX.Element => {
     const { deleteConfirmation, loading, setIsShowModal, deletemodal } =
         useSchool()
 
-    // const { data } = useSelector((state: RootState) => state.loginData)
+    const { data } = useSelector((state: RootState) => state.loginData)
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
@@ -64,11 +65,11 @@ const ViewSchool = (): JSX.Element => {
     // }
 
     useEffect(() => {
-        if (!schoolData || schoolData.schoolId === 0) {
+        if (!data || data.schoolId === 0) {
             navigate('/school/create')
             return
         }
-        // store.dispatch(getSchoolByUserId())
+        store.dispatch(getSchoolByUserId())
     }, [])
 
     // const handleDeleteClick = async (): Promise<void> => {
@@ -140,7 +141,7 @@ const ViewSchool = (): JSX.Element => {
                 overlayImg={schoolData.profilePicture || ''}
                 isEditable={true}
             />
-            <h3>School Information</h3>
+            <h3>School Informations</h3>
 
             <Card>
                 <Row>
@@ -271,12 +272,12 @@ const ViewSchool = (): JSX.Element => {
                     <CustomButton
                         bgcolor={lightBlue3}
                         textTransform="Capitalize"
-                        color={pureDark2}
+                        color={maastrichtBlue}
                         padding="11px 40.50px"
                         fontFamily={`${fontFamilyMedium}`}
                         width="fit-content"
                         type="submit"
-                        title="Delete"
+                        title="Delete Account"
                         fontSize="18px"
                         loading={loading}
                         clicked={() => setIsShowModal(true)}
@@ -286,12 +287,12 @@ const ViewSchool = (): JSX.Element => {
                     <CustomButton
                         bgcolor={lightBlue3}
                         textTransform="Capitalize"
-                        color={pureDark2}
+                        color={maastrichtBlue}
                         padding="11px 40.50px"
                         fontFamily={`${fontFamilyMedium}`}
                         width="fit-content"
                         type="submit"
-                        title="Update"
+                        title="Edit Account"
                         fontSize="18px"
                         clicked={handleUpdateClick}
                     />

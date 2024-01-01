@@ -14,7 +14,7 @@ import {
 } from '../../Home/constants'
 import { validationFinder } from '../../../utils/utilities'
 import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
-import OverlayImages from '../../Home/OverlayImages/OverlayImages'
+// import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import FormControl from '../../../components/FormControl'
 import {
     fontFamilyMedium,
@@ -30,6 +30,7 @@ import useBranch from '../hooks/useBranch'
 import PlacesAutoCompleteInput from '../../../maps/PlacesAutocomplete'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
 import { useEffect, useState } from 'react'
+// import { Item } from 'react-bootstrap/lib/Breadcrumb'
 
 const EditBranch = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('branchCreate')
@@ -39,7 +40,10 @@ const EditBranch = (): JSX.Element => {
         statusData: { activities, facilities },
         dropdowns: { currency, language, businessTypes },
     } = useSelector((state: RootState) => state.appData.data)
-
+    const { schoolData } = useSelector(
+        (state: RootState) => state.dashboardData
+    )
+    console.log('Beautiful', schoolData)
     const { editSchool, getbranchbyid, UpdateModal } = useBranch()
     const { branchId } = useParams()
     const location = useLocation()
@@ -69,17 +73,18 @@ const EditBranch = (): JSX.Element => {
 
         return options
     }
-    async function fetchinfo(): Promise<void> {
-        const data = await getbranchbyid(branchToEdit.branchId)
-        setBranchDatas(data)
-    }
+
     useEffect(() => {
+        async function fetchinfo(): Promise<void> {
+            const data = await getbranchbyid(branchToEdit.branchId)
+            setBranchDatas(data)
+        }
         fetchinfo()
     }, [])
-    console.log('branchDatas', branchDatas)
+    console.log('branchDatas', schoolData)
 
     const handleEditSchool = async (value: any): Promise<void> => {
-        await editSchool(branchToEdit.branchId, value)
+        await editSchool(branchToEdit.branchId, value, schoolData.schoolId)
     }
     const initialValues: CreateBranchInitialValues = {
         branchName: branchDatas.branchName,
@@ -91,20 +96,20 @@ const EditBranch = (): JSX.Element => {
         defaultCurrency: branchDatas.defaultCurrencyId,
         rank: branchDatas.rank ? 1 : 2,
         description: branchDatas.description,
-        stripePublishableKey: 'branchDatas.stripePublicKey',
-        stripeSecretKey: 'branchDatas.stripeSecretKey',
-        cardAccessToken: 'ranchDatas.gclAccessToken',
-        cardClientId: 'branchDatas.gclClientId',
-        cardWebHook: 'branchDatas.gclWebHook',
-        cardClientSecret: 'branchDatas.gclClientSecret',
+        // stripePublishableKey: 'branchDatas.stripePublicKey',
+        // stripeSecretKey: 'branchDatas.stripeSecretKey',
+        // cardAccessToken: 'ranchDatas.gclAccessToken',
+        // cardClientId: 'branchDatas.gclClientId',
+        // cardWebHook: 'branchDatas.gclWebHook',
+        // cardClientSecret: 'branchDatas.gclClientSecret',
         selectedActivities: branchDatas
-            ? branchDatas.activities?.split(',').map(String)
+            ? branchDatas?.activities?.split(',').map(String)
             : [],
         selectedFacilities: branchDatas
-            ? branchDatas.facilities?.split(',').map(String)
+            ? branchDatas?.facilities?.split(',').map(String)
             : [],
-        schoolStripeMethod: branchDatas.schoolStripeMethod || false,
-        schoolGclMethod: branchDatas.schoolGclMethod || false,
+        // schoolStripeMethod: branchDatas.schoolStripeMethod || false,
+        // schoolGclMethod: branchDatas.schoolGclMethod || false,
     }
     const validationSchema = Yup.object({
         branchName: Yup.string()
@@ -166,15 +171,56 @@ const EditBranch = (): JSX.Element => {
         schoolStripeMethod: Yup.boolean(),
         schoolGclMethod: Yup.boolean(),
     })
+    const showActivities = (_activities: string[]): string => {
+        console.log('_activities', _activities)
 
+        let activitiesName = ''
+        _activities?.map((activity: string) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                activitiesName =
+                    activitiesName === ''
+                        ? (activities[index] as any)[selectedLanguage]
+                        : `${activitiesName}, ${
+                              (activities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+        if (activitiesName.length > 40) {
+            return `${activitiesName.slice(0, 40)}...`
+        }
+        return activitiesName || getLabelByKey('activity')
+    }
+
+    const showFacilities = (_facilities: string[]): string => {
+        let facilitiesName = ''
+        _facilities?.map((facility) => {
+            const index = facilities.findIndex(
+                (facts: any) => facts.id === facility
+            )
+            if (index !== -1) {
+                facilitiesName =
+                    facilitiesName === ''
+                        ? (facilities[index] as any)[selectedLanguage]
+                        : `${facilitiesName}, ${
+                              (facilities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+
+        if (facilitiesName.length > 40) {
+            return `${facilitiesName.slice(0, 40)}...`
+        }
+        return facilitiesName || getLabelByKey('facilities')
+    }
     return (
         <CreateSchoolStyled>
             {UpdateModal().modalComponent}
-            <OverlayImages
+            {/* <OverlayImages
                 backgroundImg={branchToEdit?.bannerPicture || ''}
                 overlayImg={branchToEdit?.profilePicture || ''}
                 isEditable={true}
-            />
+            /> */}
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -182,7 +228,7 @@ const EditBranch = (): JSX.Element => {
                 enableReinitialize
             >
                 {(formik) => {
-                    console.log('m', formik.values.rank)
+                    console.log('checking formik values', formik.values)
 
                     return (
                         <Form
@@ -341,18 +387,21 @@ const EditBranch = (): JSX.Element => {
                                                     options={
                                                         BELTS_SELECT_OPTIONS
                                                     }
-                                                    defaultValue={
-                                                        // formik.values.rank === 1 ? "Yes" : "No"
-                                                        formik.values
-                                                            ? BELTS_SELECT_OPTIONS.find(
-                                                                  (item) =>
-                                                                      item.value ===
-                                                                      formik
-                                                                          .values
-                                                                          .rank
-                                                              )?.label
-                                                            : undefined
+                                                    value={
+                                                        formik.values.rank === 1
+                                                            ? 'Yes'
+                                                            : 'No'
                                                     }
+                                                    //     formik.values
+                                                    //         ? BELTS_SELECT_OPTIONS.find(
+                                                    //               (item) =>
+                                                    //                   item.value ===
+                                                    //                   formik
+                                                    //                       .values
+                                                    //                       .rank
+                                                    //           )?.label
+                                                    //         : undefined
+                                                    // }
                                                 />
                                             </Col>
                                             <Col md="4" className="mt-20">
@@ -381,6 +430,25 @@ const EditBranch = (): JSX.Element => {
                                                     options={createOptions(
                                                         language
                                                     )}
+                                                    value={
+                                                        formik.values
+                                                            .defaultLanguage
+                                                    }
+                                                    // defaultValue={
+                                                    //     branchId
+                                                    //         ? createOptions(
+                                                    //               language
+                                                    //           ).find((item) => {
+                                                    //               if (
+                                                    //                   item.value ===
+                                                    //                   branchDatas?.defaultCurrencyId
+                                                    //               )
+                                                    //                   console.log(
+                                                    //                       item
+                                                    //                   )
+                                                    //           })?.label
+                                                    //         : undefined
+                                                    // }
                                                 />
                                             </Col>
                                             <Col md="4" className="mt-20">
@@ -409,6 +477,22 @@ const EditBranch = (): JSX.Element => {
                                                     options={createOptions(
                                                         currency
                                                     )}
+                                                    value={
+                                                        formik.values
+                                                            .defaultCurrency
+                                                    }
+                                                    // defaultValue={
+                                                    //     branchDatas
+                                                    //         ? createOptions(
+                                                    //               language
+                                                    //           ).find((item) => {
+                                                    //               item.value ===
+                                                    //                   formik
+                                                    //                       .values
+                                                    //                       .defaultCurrency
+                                                    //           })?.label
+                                                    //         : undefined
+                                                    // }
                                                 />
                                             </Col>
                                         </Row>
@@ -420,6 +504,9 @@ const EditBranch = (): JSX.Element => {
                                             label="Activity"
                                             list={activities}
                                             showErrorMsgInList={false}
+                                            placeholder={showActivities(
+                                                formik.values.selectedActivities
+                                            )}
                                         />
                                     </Col>
 
@@ -429,6 +516,9 @@ const EditBranch = (): JSX.Element => {
                                             label="Facility"
                                             list={facilities}
                                             showErrorMsgInList={false}
+                                            placeholder={showFacilities(
+                                                formik.values.selectedFacilities
+                                            )}
                                         />
                                     </Col>
 

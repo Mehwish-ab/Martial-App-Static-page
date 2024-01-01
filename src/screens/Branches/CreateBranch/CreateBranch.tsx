@@ -28,7 +28,6 @@ import PlacesAutoCompleteInput from '../../../maps/PlacesAutocomplete'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
-import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 
 const CreateBranch = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('branchCreate')
@@ -56,14 +55,14 @@ const CreateBranch = (): JSX.Element => {
 
         selectedActivities: [],
         selectedFacilities: [],
-        schoolStripeMethod: false,
-        schoolGclMethod: false,
-        cardAccessToken: '',
-        cardClientId: '',
-        cardClientSecret: '',
-        cardWebHook: '',
-        stripePublishableKey: '',
-        stripeSecretKey: '',
+        // schoolStripeMethod: false,
+        // schoolGclMethod: false,
+        // cardAccessToken: '',
+        // cardClientId: '',
+        // cardClientSecret: '',
+        // cardWebHook: '',
+        // stripePublishableKey: '',
+        // stripeSecretKey: '',
     }
 
     const { selectedLanguage } = useSelector(
@@ -143,7 +142,7 @@ const CreateBranch = (): JSX.Element => {
         const options: SelectOptionsDataTypes[] = []
         list.forEach((item) => {
             const obj = {
-                label: (item as unknown as string)[Number(selectedLanguage)],
+                label: (item as any)[selectedLanguage],
                 value: item.id,
             }
 
@@ -155,14 +154,48 @@ const CreateBranch = (): JSX.Element => {
     useEffect(() => {
         if (schoolData.schoolId === 0) navigate('/school/create')
     }, [])
-
+    const showActivities = (_activities: string[]): string => {
+        let activitiesName = ''
+        _activities.forEach((activity) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                const activityLabel = (activities[index] as any)[
+                    selectedLanguage
+                ]
+                activitiesName =
+                    activitiesName === ''
+                        ? activityLabel
+                        : `${activitiesName}, ${activityLabel}`
+            }
+        })
+        if (activitiesName.length > 35) {
+            return `${activitiesName.slice(0, 35)}...`
+        }
+        return activitiesName || getLabelByKey('Activities')
+    }
+    const showFacilities = (_facilities: string[]): string => {
+        let facilitiesName = ''
+        _facilities.forEach((facility) => {
+            const index = facilities.findIndex(
+                (facts: any) => facts.id === facility
+            )
+            if (index !== -1) {
+                const facilityLabel = (facilities[index] as any)[
+                    selectedLanguage
+                ]
+                facilitiesName =
+                    facilitiesName === ''
+                        ? facilityLabel
+                        : `${facilitiesName}, ${facilityLabel}`
+            }
+        })
+        if (facilitiesName.length > 35) {
+            return `${facilitiesName.slice(0, 35)}...`
+        }
+        return facilitiesName || getLabelByKey('facilities')
+    }
     return (
         <CreateSchoolStyled>
-            <OverlayImages
-                backgroundImg={''}
-                overlayImg={''}
-                isEditable={false}
-            />
             {Createmodal().modalComponent}
             <Formik
                 initialValues={initialValues}
@@ -171,11 +204,6 @@ const CreateBranch = (): JSX.Element => {
             >
                 {(formik) => {
                     console.log('formik values: ', formik.values)
-                    console.log(
-                        'formik values: ',
-                        formik.values.defaultCurrency
-                    )
-
                     return (
                         <Form
                             name="basic"
@@ -211,7 +239,7 @@ const CreateBranch = (): JSX.Element => {
                                             control="select"
                                             type="text"
                                             name="branchType"
-                                            fontFamily={fontFamilyRegular}
+                                            // fontFamily={fontFamilyRegular}
                                             // prefix={<img src={lock_icon} alt="lock_icon" />}
                                             label={getLabelByKey('branchType')}
                                             placeholder={getLabelByKey(
@@ -273,7 +301,7 @@ const CreateBranch = (): JSX.Element => {
                                             placeholder={getLabelByKey(
                                                 'enterCompleteAddress'
                                             )}
-                                            handleChange={(val: unknown) => {
+                                            handleChange={(val) => {
                                                 formik.setFieldValue(
                                                     'address',
                                                     val
@@ -380,6 +408,9 @@ const CreateBranch = (): JSX.Element => {
                                             label="Activity"
                                             list={activities}
                                             showErrorMsgInList={false}
+                                            placeholder={showActivities(
+                                                formik.values.selectedActivities
+                                            )}
                                         />
                                     </Col>
                                     <Col md="6">
@@ -388,6 +419,9 @@ const CreateBranch = (): JSX.Element => {
                                             label={getLabelByKey('facilities')}
                                             list={facilities}
                                             showErrorMsgInList={false}
+                                            placeholder={showFacilities(
+                                                formik.values.selectedFacilities
+                                            )}
                                         />
                                     </Col>
                                     <div className="mt-20">

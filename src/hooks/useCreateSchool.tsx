@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable max-len */
 import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -20,9 +21,10 @@ import {
     fontFamilyMedium,
     lightBlue3,
     lightColor1,
-    pureDark2,
+    maastrichtBlue,
 } from '../components/GlobalStyle'
 import { Col, Row } from 'react-bootstrap'
+import { SchoolSuccessfulModals } from './PopupModalsStyling'
 
 interface IModalComponent {
     modalComponent: JSX.Element
@@ -56,10 +58,9 @@ const useCreateSchool = (): IUseSchool => {
     const toastId = useRef<any>(null)
     const { schoolId } = useParams()
     const { data: logindata } = useAppSelector((state) => state.loginData)
-    const { schoolData } = useAppSelector((state) => state.dashboardData)
+    // const { schoolData } = useAppSelector((state) => state.dashboardData)
 
     const navigate = useNavigate()
-    console.log(schoolData, 'helooo')
 
     const [isShowModal, setIsShowModal] = useState(false)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -72,7 +73,6 @@ const useCreateSchool = (): IUseSchool => {
         values: CreateSchoolInitialValues,
         { resetForm }: any
     ): Promise<void> => {
-        console.log('>> im in handleSubmit')
         const userDetails = loginData.data?.userDetails
 
         const payload = {
@@ -217,23 +217,25 @@ const useCreateSchool = (): IUseSchool => {
                     setIsModalVisible={setIsShowDeleteModal}
                     showCloseBtn={true}
                 >
-                    <div className="d-flex flex-column align-items-center">
-                        <img
-                            src={ic_success}
-                            alt="Success Icon"
-                            width={188}
-                            height={55}
-                        />
-                        <h6 className="text-center">
-                            Successfully Account Removed
-                        </h6>
-                        <p className="text-center">
-                            The student class has been successfully removed, and
-                            please note that any associated data will be
-                            retained for a period of 30 days before it is
-                            permanently deleted from our system.
-                        </p>
-                    </div>
+                    <SchoolSuccessfulModals>
+                        <div className="mainContainer d-flex flex-column align-items-center">
+                            <img
+                                src={ic_success}
+                                alt="Success Icon"
+                                width={79}
+                                height={79}
+                            />
+                            <h3 className="mainContainer-heading text-center">
+                                Successfully Account Removed
+                            </h3>
+                            <p className="mainContainer-subText text-center">
+                                The student class has been successfully removed,
+                                and please note that any associated data will be
+                                retained for a period of 30 days before it is
+                                permanently deleted from our system.
+                            </p>
+                        </div>
+                    </SchoolSuccessfulModals>
                 </CustomModal>
             ),
         }
@@ -242,7 +244,6 @@ const useCreateSchool = (): IUseSchool => {
     //to delete school
     const deleteSchool = async (userId: number): Promise<void> => {
         const url = '/school/delete'
-        console.log('>> im in deleteSchool button', userId)
 
         try {
             setError('')
@@ -269,7 +270,14 @@ const useCreateSchool = (): IUseSchool => {
             setLoading(false)
             setIsShowModal(false) // Open the deletemodal
             setIsShowDeleteModal(true)
-
+            const storedObject = JSON.parse(
+                localStorage.getItem('ennvision-admin:token') as any
+            )
+            storedObject.schoolId = null
+            localStorage.setItem(
+                'ennvision-admin:token',
+                JSON.stringify(storedObject)
+            )
             setTimeout(() => {
                 setIsShowDeleteModal(false)
                 // setIsShowDeleteModal(true)
@@ -295,22 +303,24 @@ const useCreateSchool = (): IUseSchool => {
                     setIsModalVisible={setIsShowModal}
                     showCloseBtn={true}
                 >
-                    <div className="d-flex flex-column align-items-center">
-                        <img
-                            src={ic_success}
-                            alt="Success Icon"
-                            width={188}
-                            height={55}
-                        />
-                        <h6 className="text-center">
-                            Complete Profile Successfully!
-                        </h6>
-                        <p className="text-center">
-                            Congratulations! Your profile has been successfully
-                            completed, ensuring a seamless experience within the
-                            Marital
-                        </p>
-                    </div>
+                    <SchoolSuccessfulModals>
+                        <div className="mainContainer d-flex flex-column align-items-center">
+                            <img
+                                src={ic_success}
+                                alt="Success Icon"
+                                width={79}
+                                height={79}
+                            />
+                            <h3 className="mainContainer-heading text-center">
+                                Complete Profile Successfully!
+                            </h3>
+                            <p className="mainContainer-subText text-center">
+                                Congratulations! Your profile has been
+                                successfully completed, ensuring a seamless
+                                experience within the Marital
+                            </p>
+                        </div>
+                    </SchoolSuccessfulModals>
                 </CustomModal>
             ),
         }
@@ -324,22 +334,24 @@ const useCreateSchool = (): IUseSchool => {
                     setIsModalVisible={setIsShowModal}
                     showCloseBtn={true}
                 >
-                    <div className="d-flex flex-column align-items-center">
-                        <img
-                            src={ic_success}
-                            alt="Success Icon"
-                            width={188}
-                            height={55}
-                        />
-                        <h6 className="text-center">
-                            Update Profile Successfully!
-                        </h6>
-                        <p className="text-center">
-                            Congratulations! on updating your profile! Your
-                            changes have been successfully saved, enhancing your
-                            experience within the Marital platform.
-                        </p>
-                    </div>
+                    <SchoolSuccessfulModals>
+                        <div className="mainContainer d-flex flex-column align-items-center">
+                            <img
+                                src={ic_success}
+                                alt="Success Icon"
+                                width={79}
+                                height={79}
+                            />
+                            <h3 className="mainContainer-heading text-center">
+                                Update Profile Successfully!
+                            </h3>
+                            <p className="mainContainer-subText text-center">
+                                Congratulations! on updating your profile! Your
+                                changes have been successfully saved, enhancing
+                                your experience within the Marital platform.
+                            </p>
+                        </div>
+                    </SchoolSuccessfulModals>
                 </CustomModal>
             ),
         }
@@ -358,46 +370,51 @@ const useCreateSchool = (): IUseSchool => {
                     setIsModalVisible={setIsShowModal}
                     showCloseBtn={true}
                 >
-                    <h3 className="text-center">Want to Delete Account</h3>
-                    <p className="text-center">
-                        Before proceeding with the removal of a student account,
-                        please be aware that once the removal is confirmed, all
-                        access will be permanently revoked. If the user still
-                        holds an active membership, the account cannot be
-                        removed until the membership is completed or canceled.
-                    </p>
-                    <Row>
-                        <Col md="6">
-                            <CustomButton
-                                bgcolor={lightColor1}
-                                textTransform="Captilize"
-                                color={pureDark2}
-                                padding="10px 12.5px"
-                                fontFamily={fontFamilyMedium}
-                                width="100%"
-                                type="button"
-                                title="Cancel"
-                                fontSize="16px"
-                                loading={false}
-                                clicked={() => setIsShowModal(false)}
-                            />
-                        </Col>
-                        <Col md="6">
-                            <CustomButton
-                                bgcolor={lightBlue3}
-                                textTransform="Captilize"
-                                color={pureDark2}
-                                padding="10px 12.5px"
-                                fontFamily={fontFamilyMedium}
-                                width="100%"
-                                type="submit"
-                                title="Confirmed"
-                                fontSize="16px"
-                                loading={false}
-                                clicked={() => Deleteschool(_id)}
-                            />
-                        </Col>
-                    </Row>
+                    <SchoolSuccessfulModals>
+                    <div className='mainContainer'>
+                        <h3 className="mainContainer-heading text-center">Want to Remove Account</h3>
+                        <p className="mainContainer-subText text-center">
+                            Before proceeding with the removal of a student
+                            account, please be aware that once the removal is
+                            confirmed, all access will be permanently revoked.
+                            If the user still holds an active membership, the
+                            account cannot be removed until the membership is
+                            completed or canceled.
+                        </p>
+                        <Row  className='mt-20'>
+                            <Col md="6">
+                                <CustomButton
+                                    bgcolor={lightColor1}
+                                    textTransform="Captilize"
+                                    color={maastrichtBlue}
+                                    padding="10px 12.5px"
+                                    fontFamily={fontFamilyMedium}
+                                    width="100%"
+                                    type="button"
+                                    title="Cancel"
+                                    fontSize="16px"
+                                    loading={false}
+                                    clicked={() => setIsShowModal(false)}
+                                />
+                            </Col>
+                            <Col md="6">
+                                <CustomButton
+                                    bgcolor={lightBlue3}
+                                    textTransform="Captilize"
+                                    color={maastrichtBlue}
+                                    padding="10px 12.5px"
+                                    fontFamily={fontFamilyMedium}
+                                    width="100%"
+                                    type="submit"
+                                    title="Confirmed"
+                                    fontSize="16px"
+                                    loading={false}
+                                    clicked={() => Deleteschool(_id)}
+                                />
+                            </Col>
+                        </Row>
+                        </div>
+                    </SchoolSuccessfulModals>
                 </CustomModal>
             ),
         }

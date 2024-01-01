@@ -27,9 +27,9 @@ const OverlayImages = ({
     overlayImg,
     isEditable,
 }: OverlayImagesProps): JSX.Element => {
-    const { schoolId } = useParams()
-    const { branchId } = useParams()
-    const { franchiseId } = useParams()
+    // const { schoolId } = useParams()
+    // const { branchId } = useParams()
+    // const { franchiseId } = useParams()
 
     // const jwtDetails = useSelector(
     //     (state: RootState) => state.loginData.data?.jwtDetails
@@ -42,24 +42,34 @@ const OverlayImages = ({
         (state: RootState) => state.dashboardData
     )
     const { loginData } = useSelector((state: RootState) => state)
-    console.log('schoolid', schoolId, 'br', branchId, schoolData, franchiseId)
 
     useEffect(() => {
         setProfileImg(overlayImg)
         setBannerImg(backgroundImg)
     }, [overlayImg, backgroundImg])
+    const { schoolId } = useParams()
+    const { branchId } = useParams()
+
+    const { franchiseId } = useParams()
+
+    const { instructorId } = useParams()
+    console.log('checking pages', schoolId, branchId, franchiseId, instructorId)
 
     const useCaseOfBanner = branchId
         ? 'BRANCH_BANNER_IMAGE'
         : schoolData.schoolId
           ? 'SCHOOL_BANNER_IMAGE'
-          : ''
+          : instructorId
+            ? 'INSTRUCTOR_BANNER_IMAGE'
+            : ''
 
     const useCaseOfProfile = branchId
         ? 'BRANCH_PROFILE_IMAGE'
         : schoolData.schoolId
           ? 'SCHOOL_PROFILE_PICTURE'
-          : ''
+          : instructorId
+            ? 'INSTRUCTOR_PROFILE_IMAGE'
+            : ''
     const uploadImage = async (
         info: string | Blob | File,
         useCase: string
@@ -71,7 +81,7 @@ const OverlayImages = ({
             formData.append('multiPart', (info as any).file)
 
             const requestData = {
-                id: schoolData.schoolId || branchId || '',
+                id: schoolData.schoolId || branchId || instructorId || '',
                 useCase: useCase,
                 // Add any additional parameters needed
             }
@@ -117,7 +127,11 @@ const OverlayImages = ({
                 `Error uploading ${useCase} image:`,
                 error.response.data.responseMessage
             )
-            message.error(`${(info as any).file.name} file upload failed.`)
+            message.error(
+                `${(info as any).file.name} file upload failed, ${
+                    (error as any).response.data.responseMessage
+                }`
+            )
         } finally {
             setLoading(false)
         }

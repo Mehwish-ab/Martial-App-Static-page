@@ -31,12 +31,18 @@ import defaltimg from '../../../assets/images/create_school_user_profile.svg'
 import useBranch from '../hooks/useBranch'
 
 const ListBranch = (): JSX.Element => {
+    const {
+        statusData: { activities },
+    } = useSelector((state: RootState) => state.appData.data)
     // const { getLabelByKey } = useScreenTranslation("BranchList");
     const navigate = useNavigate()
     const { deletebranch, deletemodal } = useBranch()
     // const [branch, setbranch] = useState()
     const { branchData, loading } = useSelector(
         (state: RootState) => state.branchData
+    )
+    const { selectedLanguage } = useSelector(
+        (state: RootState) => state.selectedLanguage
     )
     const {
         dropdowns: { businessTypes },
@@ -82,7 +88,26 @@ const ListBranch = (): JSX.Element => {
                 })
         }
     }
+    const showActivities = (_activities: string): string => {
+        const activitiesArr = _activities.split(',')
 
+        let activitiesName = ''
+        activitiesArr.map((activity) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                activitiesName =
+                    activitiesName === ''
+                        ? (activities[index] as any)[selectedLanguage]
+                        : `${activitiesName}, ${
+                              (activities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+        if (activitiesName.length > 35) {
+            return `${activitiesName.slice(0, 35)}...`
+        }
+        return activitiesName
+    }
     const columns: ColumnsType<BranchDataType> = [
         {
             title: 'Id',
@@ -128,13 +153,9 @@ const ListBranch = (): JSX.Element => {
             dataIndex: 'activities',
             key: 'activities',
             render: (DummyData) => {
-                return (
-                    <p className="sub-title">
-                        {DummyData?.length > 33
-                            ? `${DummyData.slice(0, 38)}...`
-                            : DummyData}
-                    </p>
-                )
+                console.log(DummyData, 'DummyData')
+
+                return <p className="sub-title">{showActivities(DummyData)}</p>
             },
         },
         {
@@ -300,9 +321,11 @@ const ListBranch = (): JSX.Element => {
             <ListBranchStyled>
                 <Table
                     columns={columns}
-                    dataSource={branchData.data.map((data) => {
-                        return data
-                    })}
+                    dataSource={
+                        branchData?.data[0].branchId !== 0
+                            ? branchData.data
+                            : []
+                    }
                     title={() => <RenderTableTitle />}
                     scroll={{ x: true }}
                     pagination={{

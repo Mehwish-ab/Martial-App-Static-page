@@ -24,7 +24,11 @@ interface IUseBranch {
         values: CreateBranchInitialValues,
         { resetForm }: any
     ) => Promise<void>
-    editSchool: (id: number, values: CreateBranchInitialValues) => Promise<void>
+    editSchool: (
+        id: number,
+        values: CreateBranchInitialValues,
+        schoolid: number
+    ) => Promise<void>
     getallbranch: (schoolid: number) => Promise<any> // Change the parameter type to number
     errorMessage: string
     // error: (message: string) => Promise<void>
@@ -76,15 +80,15 @@ const useBranch = (): IUseBranch => {
             activities: values.selectedActivities.join(','),
             facilities: values.selectedFacilities.join(','),
             description: values.description,
-            stripePublicKey: values.stripePublishableKey,
-            stripeSecretKey: values.stripeSecretKey,
-            gclAccessToken: values.cardAccessToken,
-            gclClientId: values.cardClientId,
-            gclWebHook: values.cardWebHook,
-            gclClientSecret: values.cardClientSecret,
-            schoolId: schoolData.schoolId || loginData.data?.schoolId,
-            schoolStripeMethod: values.schoolStripeMethod,
-            schoolGclMethod: values.schoolGclMethod,
+            // stripePublicKey: values.stripePublishableKey,
+            // stripeSecretKey: values.stripeSecretKey,
+            // gclAccessToken: values.cardAccessToken,
+            // gclClientId: values.cardClientId,
+            // gclWebHook: values.cardWebHook,
+            // gclClientSecret: values.cardClientSecret,
+            // schoolId: schoolData.schoolId || loginData.data?.schoolId,
+            // schoolStripeMethod: values.schoolStripeMethod,
+            // schoolGclMethod: values.schoolGclMethod,
             defaultLanguageId: values.defaultLanguage,
             defaultCurrencyId: values.defaultCurrency,
             schoolCashMethod: false,
@@ -203,9 +207,11 @@ const useBranch = (): IUseBranch => {
 
     const editSchool = async (
         id: number,
-        values: CreateBranchInitialValues
+        values: CreateBranchInitialValues,
+        schoolid: number
     ): Promise<void> => {
         const userDetails = loginData.data?.userDetails
+        console.log('schooooolll', schoolid, id)
 
         try {
             setError('')
@@ -223,7 +229,7 @@ const useBranch = (): IUseBranch => {
                 facilities: values.selectedFacilities.join(','),
                 description: values.description,
                 gclClientSecret: false,
-                schoolId: schoolData.schoolId,
+                schoolId: schoolid,
                 // schoolId: 3,
                 defaultCurrencyId: values.defaultCurrency,
                 defaultLanguageId: values.defaultLanguage,
@@ -543,7 +549,6 @@ const useBranch = (): IUseBranch => {
                 setLoading(false)
                 return
             }
-            console.log('branchh info', data2.results)
             setLoading(false)
             return data2.results
         } catch (error2: any) {

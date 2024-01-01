@@ -304,9 +304,11 @@ const ListFranchise: React.FC = () => {
             <ListFranchiseStyled>
                 <Table
                     columns={columns}
-                    dataSource={franchiseData.data.map((data) => {
-                        return data
-                    })}
+                    dataSource={
+                        franchiseData?.data[0]?.franchiseId !== 0
+                            ? franchiseData?.data
+                            : []
+                    }
                     title={() => <RenderTableTitle />}
                     pagination={{
                         showTotal: (total, range) => (

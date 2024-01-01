@@ -76,70 +76,64 @@ const SchoolGocardlessKeysModal: React.FC<StripeKeysModalProps> = (props) => {
                 isModalVisible={props.open}
                 setIsModalVisible={setModelVisible}
             >
-                {' '}
-                children=
-                {
-                    <PaymentPop>
-                        <h3>GoCardLess</h3>
-                        <div>
-                            <Formik
-                                initialValues={initialValues}
-                                onSubmit={handleCreateSubmit}
-                            >
-                                {(formik) => {
-                                    return (
-                                        <Form name="basic" autoComplete="off">
-                                            <Row>
-                                                <Col md="12">
-                                                    <Row>
-                                                        <Col
-                                                            md="6"
-                                                            className="mt-20"
-                                                        >
-                                                            <FormControl
-                                                                control="input"
-                                                                type="text"
-                                                                name="accountName"
-                                                                label="Account Title"
-                                                                fontSize="16px"
-                                                                max={6}
-                                                                placeholder="Enter Account Title"
-                                                            />
-                                                        </Col>
-                                                        <Col
-                                                            md="6"
-                                                            className="mt-20"
-                                                        >
-                                                            <PlacesAutoCompleteInput
-                                                                label="Country Name"
-                                                                placeholder="Select Country Name"
-                                                                handleChange={(
-                                                                    val: any
-                                                                ) => {
-                                                                    formik.setFieldValue(
-                                                                        'countryName',
-                                                                        val
-                                                                    )
-                                                                }}
-                                                                className={
-                                                                    formik
-                                                                        .errors
-                                                                        .countryName &&
-                                                                    formik
-                                                                        .touched
-                                                                        .countryName
-                                                                        ? 'is-invalid'
-                                                                        : 'customInput'
-                                                                }
-                                                                formik={formik}
-                                                                name="countryName"
-                                                                value={
-                                                                    formik
-                                                                        .values
-                                                                        .countryName
-                                                                }
-                                                            />
-                                                            {/* <FormControl
+                <PaymentPop>
+                    <h3>GoCardLess</h3>
+                    <div>
+                        <Formik
+                            initialValues={initialValues}
+                            onSubmit={handleCreateSubmit}
+                        >
+                            {(formik) => {
+                                return (
+                                    <Form name="basic" autoComplete="off">
+                                        <Row>
+                                            <Col md="12">
+                                                <Row>
+                                                    <Col
+                                                        md="6"
+                                                        className="mt-20"
+                                                    >
+                                                        <FormControl
+                                                            control="input"
+                                                            type="text"
+                                                            name="accountName"
+                                                            label="Account Title"
+                                                            fontSize="16px"
+                                                            max={6}
+                                                            placeholder="Enter Account Title"
+                                                        />
+                                                    </Col>
+                                                    <Col
+                                                        md="6"
+                                                        className="mt-20"
+                                                    >
+                                                        <PlacesAutoCompleteInput
+                                                            label="Country Name"
+                                                            placeholder="Select Country Name"
+                                                            handleChange={(
+                                                                val: any
+                                                            ) => {
+                                                                formik.setFieldValue(
+                                                                    'countryName',
+                                                                    val
+                                                                )
+                                                            }}
+                                                            className={
+                                                                formik.errors
+                                                                    .countryName &&
+                                                                formik.touched
+                                                                    .countryName
+                                                                    ? 'is-invalid'
+                                                                    : 'customInput'
+                                                            }
+                                                            formik={formik}
+                                                            name="countryName"
+                                                            value={
+                                                                formik.values
+                                                                    .countryName
+                                                            }
+                                                        />
+                                                        {/* <FormControl
                                 control="select"
                                 type="text"
                                 name="countryName"
@@ -157,114 +151,107 @@ const SchoolGocardlessKeysModal: React.FC<StripeKeysModalProps> = (props) => {
                                 // value={value}
                                 // onChange={changeHandler}
                               /> */}
-                                                        </Col>
-                                                    </Row>
-                                                </Col>
-                                                <Col md="12">
-                                                    <Row>
-                                                        <Col
-                                                            md="6"
-                                                            className="mt-20"
-                                                        >
-                                                            <FormControl
-                                                                control="input"
-                                                                type="text"
-                                                                name="accessToken"
-                                                                label="Access Token"
-                                                                fontSize="16px"
-                                                                max={6}
-                                                                placeholder="Enter Access Token"
-                                                            />
-                                                        </Col>
-                                                        <Col
-                                                            md="6"
-                                                            className="mt-20"
-                                                        >
-                                                            <FormControl
-                                                                control="input"
-                                                                type="text"
-                                                                name="clientId"
-                                                                label="Client Id"
-                                                                fontSize="16px"
-                                                                max={6}
-                                                                placeholder="Enter Client Id"
-                                                            />
-                                                        </Col>
-                                                    </Row>
-                                                </Col>
-                                                <Col md="12">
-                                                    <Row>
-                                                        <Col
-                                                            md="6"
-                                                            className="mt-20"
-                                                        >
-                                                            <FormControl
-                                                                control="input"
-                                                                type="text"
-                                                                name="webhook"
-                                                                label="Webhook"
-                                                                fontSize="16px"
-                                                                max={6}
-                                                                placeholder="Enter Webhook"
-                                                            />
-                                                        </Col>
-                                                        <Col
-                                                            md="6"
-                                                            className="mt-20"
-                                                        >
-                                                            <FormControl
-                                                                control="input"
-                                                                type="text"
-                                                                name="clientSecret"
-                                                                label="Client Secret"
-                                                                fontSize="16px"
-                                                                max={6}
-                                                                placeholder="Enter Client Secret"
-                                                            />
-                                                        </Col>
-                                                    </Row>
-                                                </Col>
-                                                <Col md="12">
-                                                    <Row>
-                                                        <Col
-                                                            md="6"
-                                                            className="mt-20"
-                                                        ></Col>
-                                                        <Col
-                                                            md="6"
-                                                            className="mt-20"
-                                                        >
-                                                            <CustomButton
-                                                                bgcolor={
-                                                                    lightBlue3
-                                                                }
-                                                                textTransform="Captilize"
-                                                                color={
-                                                                    pureDark2
-                                                                }
-                                                                padding="12.5px"
-                                                                fontFamily={
-                                                                    fontFamilyMedium
-                                                                }
-                                                                width="100%"
-                                                                type="submit"
-                                                                title="Submit"
-                                                                fontSize="16px"
-                                                                loading={
-                                                                    loading
-                                                                }
-                                                            />
-                                                        </Col>
-                                                    </Row>
-                                                </Col>
-                                            </Row>
-                                        </Form>
-                                    )
-                                }}
-                            </Formik>
-                        </div>
-                    </PaymentPop>
-                }
+                                                    </Col>
+                                                </Row>
+                                            </Col>
+                                            <Col md="12">
+                                                <Row>
+                                                    <Col
+                                                        md="6"
+                                                        className="mt-20"
+                                                    >
+                                                        <FormControl
+                                                            control="input"
+                                                            type="text"
+                                                            name="accessToken"
+                                                            label="Access Token"
+                                                            fontSize="16px"
+                                                            max={6}
+                                                            placeholder="Enter Access Token"
+                                                        />
+                                                    </Col>
+                                                    <Col
+                                                        md="6"
+                                                        className="mt-20"
+                                                    >
+                                                        <FormControl
+                                                            control="input"
+                                                            type="text"
+                                                            name="clientId"
+                                                            label="Client Id"
+                                                            fontSize="16px"
+                                                            max={6}
+                                                            placeholder="Enter Client Id"
+                                                        />
+                                                    </Col>
+                                                </Row>
+                                            </Col>
+                                            <Col md="12">
+                                                <Row>
+                                                    <Col
+                                                        md="6"
+                                                        className="mt-20"
+                                                    >
+                                                        <FormControl
+                                                            control="input"
+                                                            type="text"
+                                                            name="webhook"
+                                                            label="Webhook"
+                                                            fontSize="16px"
+                                                            max={6}
+                                                            placeholder="Enter Webhook"
+                                                        />
+                                                    </Col>
+                                                    <Col
+                                                        md="6"
+                                                        className="mt-20"
+                                                    >
+                                                        <FormControl
+                                                            control="input"
+                                                            type="text"
+                                                            name="clientSecret"
+                                                            label="Client Secret"
+                                                            fontSize="16px"
+                                                            max={6}
+                                                            placeholder="Enter Client Secret"
+                                                        />
+                                                    </Col>
+                                                </Row>
+                                            </Col>
+                                            <Col md="12">
+                                                <Row>
+                                                    <Col
+                                                        md="6"
+                                                        className="mt-20"
+                                                    ></Col>
+                                                    <Col
+                                                        md="6"
+                                                        className="mt-20"
+                                                    >
+                                                        <CustomButton
+                                                            bgcolor={lightBlue3}
+                                                            textTransform="Captilize"
+                                                            color={pureDark2}
+                                                            padding="12.5px"
+                                                            fontFamily={
+                                                                fontFamilyMedium
+                                                            }
+                                                            width="100%"
+                                                            type="submit"
+                                                            title="Submit"
+                                                            fontSize="16px"
+                                                            loading={loading}
+                                                        />
+                                                    </Col>
+                                                </Row>
+                                            </Col>
+                                        </Row>
+                                    </Form>
+                                )
+                            }}
+                        </Formik>
+                    </div>
+                </PaymentPop>
             </CustomModal>
         </AddPaymentMethod>
     )

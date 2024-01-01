@@ -101,8 +101,9 @@ const ViewSchool = (): JSX.Element => {
                 activitiesName =
                     activitiesName === ''
                         ? (activities[index] as any)[selectedLanguage]
-                        : `${activitiesName}, ${(activities[index] as any)[selectedLanguage]
-                        }`
+                        : `${activitiesName}, ${
+                              (activities[index] as any)[selectedLanguage]
+                          }`
             }
         })
         if (activitiesName !== '') return activitiesName
@@ -120,8 +121,9 @@ const ViewSchool = (): JSX.Element => {
                 activitiesName =
                     activitiesName === ''
                         ? (facilities[index] as any)[selectedLanguage]
-                        : `${activitiesName},${(facilities[index] as any)[selectedLanguage]
-                        }`
+                        : `${activitiesName},${
+                              (facilities[index] as any)[selectedLanguage]
+                          }`
             }
         })
 
@@ -196,8 +198,8 @@ const ViewSchool = (): JSX.Element => {
                                         {schoolData.rank
                                             ? 'Yes'
                                             : schoolData.rank === false
-                                                ? 'No'
-                                                : '--'}
+                                              ? 'No'
+                                              : '--'}
                                     </div>
                                 </div>
                             </Col>
@@ -210,7 +212,7 @@ const ViewSchool = (): JSX.Element => {
                                     <div className="list-item-value">
                                         {(defaultLanguage &&
                                             (defaultLanguage as any)[
-                                            selectedLanguage
+                                                selectedLanguage
                                             ]) ||
                                             '--'}
                                     </div>
@@ -224,7 +226,7 @@ const ViewSchool = (): JSX.Element => {
                                     <div className="list-item-value">
                                         {(defaultLanguage &&
                                             (defaultCurrency as any)[
-                                            selectedLanguage
+                                                selectedLanguage
                                             ]) ||
                                             '--'}
                                     </div>

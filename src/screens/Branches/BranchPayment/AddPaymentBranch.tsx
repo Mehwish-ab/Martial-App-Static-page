@@ -1,8 +1,7 @@
 import { Dropdown, Space, Table } from 'antd'
-import { AddPaymentMethod } from '../BranchPayment/styles'
+import { AddPaymentMethod } from './styles'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { BranchDataType } from '../../../redux/features/branch/branchSlice'
-import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
 
@@ -11,14 +10,17 @@ import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
 
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
-
-import useBranch from '../hooks/useBranch'
 import { useEffect, useState } from 'react'
+import usePayment from '../../../hooks/usePayment'
+// interface AddPaymentBranchProps {
+//     branch: BranchDataType // Make sure to import BranchDataType
+// }
 
-const AddPaymentinfo: React.FC = () => {
+const AddPaymentBranch: React.FC = () => {
     const navigate = useNavigate()
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { getLabelByKey } = useScreenTranslation('schoolCreate')
+    console.log('AddPaymentBranch')
+
+    // const { getLabelByKey } = useScreenTranslation('schoolCreate')
     const {
         get_stripe,
         get_gocard,
@@ -27,72 +29,90 @@ const AddPaymentinfo: React.FC = () => {
         get_cash,
         deletePayment,
         deletemodal,
-    } = useBranch()
-    const handleDelete = (paymentMethod: any, record: any): void => {
-        console.log('hi', record, paymentMethod)
+    } = usePayment()
 
+    const handleDelete = (paymentMethod: any, record: any): void => {
         deletePayment(paymentMethod, record)
     }
 
     const location = useLocation()
-    //const branch: BranchDataType = location?.state?.branchToEdit;
-
-    const branch: BranchDataType = location.state?.branch
+    const branch: BranchDataType | undefined = location?.state?.branchToEdit
     const [stripepayment, setStripepayment] = useState<any[]>([])
     const [bankpayment, setBankpayment] = useState<any[]>([])
     const [paypalpayment, setPaypalpayment] = useState<any[]>([])
     const [Gocardlesspayment, setGocardlesspayment] = useState<any[]>([])
     const [cashpayment, setCash] = useState<any[]>([])
+    console.log('gocardless', Gocardlesspayment)
 
     const { branchData, loading } = useSelector(
         (state: RootState) => state?.branchData
     )
+
     useEffect(() => {
         async function fetchstripe(): Promise<void> {
-            const data = (await get_stripe(
-                'BRANCH',
-                branch?.branchId
-            )) as unknown[]
-            setStripepayment(data)
-            console.log('>> date:', data)
+            if (branch) {
+                const data = (await get_stripe(
+                    'BRANCH',
+                    branch.branchId
+                )) as any[]
+                setStripepayment(data)
+            }
         }
         fetchstripe()
 
         async function fetchbank(): Promise<void> {
-            const data = (await get_bank('BRANCH', branch?.branchId)) as any[]
-            setBankpayment(data)
-            console.log('fetchbank:', data)
+            // Check if branch is truthy before accessing its properties
+            if (branch) {
+                const data = (await get_bank(
+                    'BRANCH',
+                    branch.branchId
+                )) as any[]
+                setBankpayment(data)
+            }
         }
         fetchbank()
+
         async function fetchPaypal(): Promise<void> {
-            const data = (await get_paypal('BRANCH', branch?.branchId)) as any[]
-            setPaypalpayment(data)
-            console.log('fetchPaypal:', data)
+            if (branch) {
+                const data = (await get_paypal(
+                    'BRANCH',
+                    branch.branchId
+                )) as any[]
+                setPaypalpayment(data)
+            }
         }
         fetchPaypal()
+
         async function fetchgocard(): Promise<void> {
-            const data = (await get_gocard('BRANCH', branch?.branchId)) as any[]
-            setGocardlesspayment(data)
-            console.log('fetchgocard:', data)
+            if (branch) {
+                const data = (await get_gocard(
+                    'BRANCH',
+                    branch.branchId
+                )) as any[]
+                setGocardlesspayment(data)
+                console.log('gocardless', Gocardlesspayment)
+            }
         }
         fetchgocard()
 
         async function fetchCash(): Promise<void> {
-            const data = (await get_cash('BRANCH', branch?.branchId)) as any[]
-            setCash(data)
-            console.log('fetchCash:', data)
+            if (branch) {
+                const data = (await get_cash(
+                    'BRANCH',
+                    branch.branchId
+                )) as any[]
+                setCash(data)
+            }
         }
         fetchCash()
 
         // if (branchToEdit && branchToEdit.branchId) {
-        //   fetchPayment();
+        //   fetchPayment();ay
         // }
-    }, []) // Add branchToEdit to the dependency array
+    }, [branch, get_bank, get_cash, get_gocard, get_paypal, get_stripe])
     if (!loading && !branchData) {
         return <div>No data</div>
     }
-    //console.log("id", branchToEdit.branchId);
-    // const [dataSource, setDataSource] = useState<any[]>([]);
 
     const navigation = (record: BranchDataType, redirectTo: string): void => {
         switch (redirectTo) {
@@ -139,8 +159,7 @@ const AddPaymentinfo: React.FC = () => {
             title: 'Mode',
             dataIndex: 'mode',
             key: 'mode',
-            render: (DummyData: any) => {
-                console.log('mode', DummyData as any)
+            render: (DummyData) => {
                 if (DummyData[0] === 'Test') {
                     return (
                         <div className={'Test'}>
@@ -170,9 +189,7 @@ const AddPaymentinfo: React.FC = () => {
             title: 'Status',
             dataIndex: 'status',
             key: 'status',
-            render: (DummyData: any) => {
-                console.log('statussss', DummyData[0])
-
+            render: (DummyData) => {
                 if (DummyData === 'Add') {
                     return (
                         <div className={'Add'}>
@@ -200,10 +217,7 @@ const AddPaymentinfo: React.FC = () => {
         {
             title: 'Action',
             key: 'action',
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            render: (value: any, record: any, index: number): any => {
-                console.log('g', record)
-
+            render: (value: any, record: any) => {
                 const items = [
                     {
                         key: '1',
@@ -363,8 +377,6 @@ const AddPaymentinfo: React.FC = () => {
                 bankpayment?.length === 0
                     ? 'Add'
                     : bankpayment?.map((e) => {
-                          console.log('bankaccount', e.isActive)
-
                           return e.isActive
                       }),
             id:
@@ -408,6 +420,7 @@ const AddPaymentinfo: React.FC = () => {
                       }),
         },
     ]
+    console.log('payment', Gocardlesspayment)
 
     return (
         <AddPaymentMethod>
@@ -424,4 +437,4 @@ const AddPaymentinfo: React.FC = () => {
     )
 }
 
-export default AddPaymentinfo
+export default AddPaymentBranch

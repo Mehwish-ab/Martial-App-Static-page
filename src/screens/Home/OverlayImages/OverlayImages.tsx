@@ -28,7 +28,7 @@ const OverlayImages = ({
     isEditable,
 }: OverlayImagesProps): JSX.Element => {
     // const { schoolId } = useParams()
-    const { branchId } = useParams()
+    // const { branchId } = useParams()
     // const { franchiseId } = useParams()
 
     // const jwtDetails = useSelector(
@@ -47,18 +47,29 @@ const OverlayImages = ({
         setProfileImg(overlayImg)
         setBannerImg(backgroundImg)
     }, [overlayImg, backgroundImg])
+    const { schoolId } = useParams()
+    const { branchId } = useParams()
+
+    const { franchiseId } = useParams()
+
+    const { instructorId } = useParams()
+    console.log('checking pages', schoolId, branchId, franchiseId, instructorId)
 
     const useCaseOfBanner = branchId
         ? 'BRANCH_BANNER_IMAGE'
         : schoolData.schoolId
           ? 'SCHOOL_BANNER_IMAGE'
-          : ''
+          : instructorId
+            ? 'INSTRUCTOR_BANNER_IMAGE'
+            : ''
 
     const useCaseOfProfile = branchId
         ? 'BRANCH_PROFILE_IMAGE'
         : schoolData.schoolId
           ? 'SCHOOL_PROFILE_PICTURE'
-          : ''
+          : instructorId
+            ? 'INSTRUCTOR_PROFILE_IMAGE'
+            : ''
     const uploadImage = async (
         info: string | Blob | File,
         useCase: string
@@ -70,7 +81,7 @@ const OverlayImages = ({
             formData.append('multiPart', (info as any).file)
 
             const requestData = {
-                id: schoolData.schoolId || branchId || '',
+                id: schoolData.schoolId || branchId || instructorId || '',
                 useCase: useCase,
                 // Add any additional parameters needed
             }

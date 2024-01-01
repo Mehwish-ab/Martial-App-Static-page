@@ -1,20 +1,29 @@
-import { Card, List } from 'antd'
+import { Card } from 'antd'
 import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import { ViewBranchStyled } from './styles'
-import { useLocation } from 'react-router-dom'
-import { BranchDataType } from '../../../redux/features/branch/branchSlice'
+import { useParams } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
-import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
 import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
-import viewBranch from '../hooks/useBranch'
-const ViewBranch = () => {
-    const { getLabelByKey } = useScreenTranslation('branchCreate')
+// import AddPaymentBranch from '../AddPaymentBranch/AddPaymentBranch'
+import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
+import AddPaymentinfo from '../BranchPayment/AddPaymentinfo'
+import { useEffect, useState } from 'react'
+import useBranch from '../hooks/useBranch'
+const ViewBranch = (): JSX.Element => {
+    const { branchId } = useParams()
 
-    const location = useLocation()
-    const branch: BranchDataType = location.state?.branch
-    console.log('?Nadda', branch)
+    const { loading } = useSelector((state: RootState) => state.branchData)
+    const { getbranchbyid } = useBranch()
+    const [Branch, setBranch] = useState<any>()
+    useEffect(() => {
+        const getbranch = async (): Promise<void> => {
+            const data = await getbranchbyid(Number(branchId))
+            setBranch(data)
+        }
+        getbranch()
+    }, [branchId])
 
     const { language, currency } = useSelector(
         (state: RootState) => state.appData.data.dropdowns
@@ -25,21 +34,85 @@ const ViewBranch = () => {
     )
     const defaultLanguage = language.find(
         (item: DataTypesWithIdAndMultipleLangLabel) =>
-            +item.id == +branch?.defaultLanguageId
+            +item.id == +Branch?.defaultLanguageId
     )
 
     const defaultCurrency = currency.find(
         (item: DataTypesWithIdAndMultipleLangLabel) =>
-            +item.id == +branch?.defaultCurrencyId
+            +item.id == +Branch?.defaultCurrencyId
     )
 
-    // console.log(defaultLanguage, defaultCurrency);
+    const { activities } = useSelector(
+        (state: RootState) => state.appData.data.statusData
+    )
+    const { facilities } = useSelector(
+        (state: RootState) => state.appData.data.statusData
+    )
+
+    const { businessTypes } = useSelector(
+        (state: RootState) => state.appData.data.dropdowns
+    )
+    const showBusinessType = (_businessType: number): string => {
+        const index = businessTypes.findIndex((business: any) => {
+            return business.id === _businessType
+        })
+
+        if (index !== -1) {
+            return (businessTypes[index] as any)[selectedLanguage]
+        }
+
+        return '--'
+    }
+
+    const showActivities = (_activities: string): string => {
+        const activitiesArr = _activities.split(',')
+
+        let activitiesName = ''
+        activitiesArr.map((activity) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                activitiesName =
+                    activitiesName === ''
+                        ? (activities[index] as any)[selectedLanguage]
+                        : `${activitiesName}, ${
+                              (activities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+        if (activitiesName !== '') return activitiesName
+        return '--'
+    }
+    const showFacilities = (_Facilities: string): string => {
+        const activitiesArr = _Facilities.split(',')
+
+        let activitiesName = ''
+        activitiesArr.map((facility) => {
+            const index = facilities.findIndex(
+                (acts: any) => acts.id === facility
+            )
+            if (index !== -1) {
+                activitiesName =
+                    activitiesName === ''
+                        ? (facilities[index] as any)[selectedLanguage]
+                        : `${activitiesName},${
+                              (facilities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+
+        if (activitiesName !== '') return activitiesName
+        return '--'
+    }
+    const activitiesToShow = Branch?.activities || ''
+    const facilitiesToShow = Branch?.facilities || ''
+    const BranchTypeToShow = Branch?.branchType || ''
+
     return (
         <ViewBranchStyled>
             <OverlayImages
-                overlayImg={branch?.profilePicture || ''}
-                backgroundImg={branch?.bannerPicture || ''}
-                isEditable={false}
+                overlayImg={Branch?.profilePicture || ''}
+                backgroundImg={Branch?.bannerPicture || ''}
+                isEditable={true}
             />
 
             <h3>Branch Information</h3>
@@ -53,7 +126,7 @@ const ViewBranch = () => {
                                 Branch Name
                             </div>
                             <div className="list-item-value">
-                                {branch?.branchName || '--'}
+                                {Branch?.branchName || '--'}
                             </div>
                         </div>
                     </Col>
@@ -64,7 +137,7 @@ const ViewBranch = () => {
                                 {/* {getLabelByKey("branchType")} */}
                             </div>
                             <div className="list-item-value">
-                                {branch?.branchType || '--'}
+                                {showBusinessType(BranchTypeToShow as number)}
                             </div>
                         </div>
                     </Col>
@@ -75,33 +148,33 @@ const ViewBranch = () => {
                                 {/* {getLabelByKey("branchPhoneNumber")} */}
                             </div>
                             <div className="list-item-value">
-                                {branch?.phoneNumber || '--'}
+                                {Branch?.phoneNumber || '--'}
                             </div>
                         </div>
                     </Col>
-                    <Col md="4">
+                    <Col md="3">
                         <div className="list-item">
                             <div className="list-item-title">
                                 Address
                                 {/* {getLabelByKey("address")} */}
                             </div>
                             <div className="list-item-value">
-                                {branch?.address || '--'}
+                                {Branch?.address || '--'}
                             </div>
                         </div>
                     </Col>
-                    <Col md="4">
+                    <Col md="3">
                         <div className="list-item">
                             <div className="list-item-title">
                                 {/* {getLabelByKey("belts")} */}
                                 Belts
                             </div>
                             <div className="list-item-value">
-                                {branch?.belts ? 'Yes' : 'No'}
+                                {Branch?.rank === true ? 'Yes' : 'No'}
                             </div>
                         </div>
                     </Col>
-                    <Col md="4">
+                    <Col md="3">
                         <div className="list-item">
                             <div className="list-item-title">
                                 {/* {getLabelByKey("defaultLanguage")} */}
@@ -116,7 +189,7 @@ const ViewBranch = () => {
                             </div>
                         </div>
                     </Col>
-                    <Col md="4">
+                    <Col md="3">
                         <div className="list-item">
                             <div className="list-item-title">
                                 {/* {getLabelByKey("defaultCurrency")} */}
@@ -131,25 +204,26 @@ const ViewBranch = () => {
                             </div>
                         </div>
                     </Col>
-                    <Col md="4">
+                    <Col md="6">
                         <div className="list-item">
                             <div className="list-item-title">
                                 {/* {getLabelByKey("activity")} */}
                                 Activity
                             </div>
                             <div className="list-item-value">
-                                {branch?.activities || '--'}
+                                {/* { {const actg=Branch?.activities}} */}
+                                {showActivities(activitiesToShow)}
                             </div>
                         </div>
                     </Col>
-                    <Col md="4">
+                    <Col md="6">
                         <div className="list-item">
                             <div className="list-item-title">
                                 {/* {getLabelByKey("facilities")} */}
                                 Facilities
                             </div>
                             <div className="list-item-value">
-                                {branch?.facilities || '--'}
+                                {showFacilities(facilitiesToShow)}
                             </div>
                         </div>
                     </Col>
@@ -160,12 +234,15 @@ const ViewBranch = () => {
                                 Description
                             </div>
                             <div className="list-item-value">
-                                {branch?.description || '--'}
+                                {Branch?.description || '--'}
                             </div>
                         </div>
                     </Col>
                 </Row>
             </Card>
+            {loading && <LoadingOverlay message="" />}
+
+            <AddPaymentinfo />
         </ViewBranchStyled>
     )
 }

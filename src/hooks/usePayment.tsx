@@ -84,7 +84,6 @@ const usePayment = (): IUsePayments => {
                 // schoolStripeMethod: values.schoolStripeMethod,
                 // schoolGclMethod: values.schoolGclMethod,
             }
-            console.log('Payload', payload.accessToken)
 
             const { data: data2 } = await axios.post(
                 'paymentMethod/update',
@@ -108,7 +107,6 @@ const usePayment = (): IUsePayments => {
             }, 3000)
 
             // navigate("/school/view");
-            console.log({ data: data2 })
             return data2
             //setIsUploadImgVisible(true);
             // navigate("/school/view");
@@ -131,7 +129,6 @@ const usePayment = (): IUsePayments => {
         Id: any,
         PaymentMethod: createPaymentInitialValues
     ): Promise<any> => {
-        console.log(values, '???')
         const token = values.accessToken
         console.log('token', token)
 
@@ -169,7 +166,6 @@ const usePayment = (): IUsePayments => {
             // schoolStripeMethod: values.schoolStripeMethod,
             // schoolGclMethod: values.schoolGclMethod,
         }
-        console.log(payload)
 
         try {
             setError('')
@@ -253,7 +249,7 @@ const usePayment = (): IUsePayments => {
                 return
             }
             const values = data2.results.goCardLess
-            console.log('payment info', values)
+            console.log('payment info gocardless', values)
 
             return values
         } catch (error2: any) {

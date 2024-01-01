@@ -31,7 +31,7 @@ import BranchInformation from '../screens/Branches/BranchInformation/BranchInfor
 import AddPaymentSchool from '../screens/CreateSchool/AddPaymentSchool/AddPaymentSchool'
 import AddPaymentFranchise from '../screens/Franchise/AddPaymentFranchise/AddPaymentFranchise'
 import SchoolFranchise from '../screens/Franchise/SchoolFranchise/SchoolFranchise'
-import AddPaymentBranch from '../screens/Branches/AddPaymentBranch/AddPaymentBranch'
+// import AddPaymentBranch from '../screens/Branches/AddPaymentBranch/AddPaymentBranch'
 import ProfileMembership from '../screens/Membership/ProfileMembership/ProfileMembership'
 import ListTransactionHistort from '../screens/TransactionHistory/ListTransactionHistory/ListTransactionHistory'
 import ListRules from '../screens/Rules/ListRules/ListRules'
@@ -43,6 +43,8 @@ import HelpSupport from '../screens/HelpSupport/helpSupport'
 import Language from '../screens/LanguagePage/Language'
 import Currency from '../screens/CurrencyPage/Currency'
 import UpdateInstructor from '../screens/Instructor/UpdateInstructor/UpdateInstructor'
+import ViewBranch from '../screens/Branches/ViewBranch/ViewBranch'
+import AddPaymentinfo from '../screens/Branches/BranchPayment/AddPaymentinfo'
 // import { useDispatch, useSelector } from "react-redux";
 // import { RootState } from "../redux/store";
 
@@ -168,7 +170,8 @@ function AppRoutes(): JSX.Element {
                     path="/branch/view/:branchId"
                     element={
                         <AppLayout>
-                            <BranchInformation />
+                            {/* <BranchInformation /> */}
+                            <ViewBranch />
                         </AppLayout>
                     }
                 />
@@ -176,7 +179,8 @@ function AppRoutes(): JSX.Element {
                     path="/branch/add-payment-information/:branchId"
                     element={
                         <AppLayout>
-                            <AddPaymentBranch />
+                            {/* <AddPaymentBranch /> */}
+                            <AddPaymentinfo />
                         </AppLayout>
                     }
                 />

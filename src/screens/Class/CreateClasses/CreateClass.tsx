@@ -1,4 +1,4 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 import { Formik } from 'formik'
 import { Form } from 'antd'
 import { Col, Row } from 'react-bootstrap'
@@ -11,79 +11,97 @@ import {
     lightBlue3,
     pureDark,
 } from '../../../components/GlobalStyle'
+import FileSubmit from '../../../assets/icons/ic_fileSubmit.svg'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import { CreateClassStyled } from './styles'
 import { CreateClassInitialValues } from '../constant'
 import dollar from '../../../assets/images/$.svg'
-import EnnvisionModal from '../../../components/CustomModals/EnnvisionModal'
-import CustomModal from '../../../components/Modal/CustomModal'
-import { useNavigate } from 'react-router-dom'
-import OverlayImages from '../../Home/OverlayImages/OverlayImages'
+// import EnnvisionModal from '../../../components/CustomModals/EnnvisionModal'
+// import CustomModal from '../../../components/Modal/CustomModal'
+// import { useNavigate } from 'react-router-dom'
+// import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import { RootState } from '../../../redux/store'
+import useClass from '../../../hooks/useClass'
+import ImagesUpload from '../../../components/ImagesUpload/ImagesUpload'
+import { useState } from 'react'
+import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
 
 const CreateClass = (): JSX.Element => {
-    const [isShowModal, setIsShowModal] = useState(false)
-    const navigate = useNavigate()
-    const [isLoading, setIsLoading] = useState(false)
+    const {
+        statusData: { activities },
+    } = useSelector((state: RootState) => state.appData.data)
 
+    // const [isShowModal, setIsShowModal] = useState(false)
+    // const navigate = useNavigate()
+    // const [isLoading, setIsLoading] = useState(false)
+    // const [bannerImage, setBannerImage] = useState(null); // State to manage banner image
     const { ClassData } = useSelector((state: RootState) => state.ClassData)
+    const { handleCreateSubmit, loading } = useClass()
+    console.log('asdf', ClassData.data)
 
     const initialValues: CreateClassInitialValues = {
-        ClassTitle: '',
-        ClassStartDate: '',
-        ClassEndDate: '',
-        emailAddress: '',
-        Classinstructor: [],
-        ClassFee: '',
-        ClassActivities: [],
-        Classcapicity: '',
-        MinimumStudents: '',
-        startbooking: '',
-        endbooking: '',
-        QRCodeAttendanceStart: '',
-        QRCodeAttendanceEnd: '',
-        AllowToStudentCancle: '',
-        RefundFeeDate: '',
-        BookingCancellationStart: '',
-        BookingCancellationEnd: '',
-        CancellationCharges: '',
-        Accommodate: '',
-        Description: '',
+        title: '',
+        startDate: '',
+        endDate: '',
+        instructorId: [],
+        fee: '',
+        activities: [],
+        capacity: 0,
+        minimumStudent: 0,
+        bookingStartDate: '',
+        bookingEndDate: '',
+        qrCodeStartDate: '',
+        qrCodeEndDate: '',
+        allowStudentCancel: '',
+        refundDate: '',
+        bookingCancelStartDate: '',
+        bookingCancelEndDate: '',
+        cancellationCharges: '',
+        accommodation: '',
+        description: '',
         Agreement: '',
         termCondition: '',
         Liabilitywaivers: '',
         bannerPicture: '',
         profilePicture: '',
+        useCase: '',
+        id: 0,
     }
-
-    const onSubmit = async (): Promise<void> => {
-        try {
-            setIsShowModal(true)
-            setTimeout(() => {
-                setIsShowModal(false)
-                navigate('/membership/list')
-            }, 3000)
-            setIsLoading(false)
-        } catch (error: any) {}
+    const [selectedFiles, setSelectedFiless] = useState<FileList | null>(null)
+    const handleImagesUpload = (selectedFiless: FileList | null): void => {
+        setSelectedFiless(selectedFiless)
+    }
+    const submit = async (values: any): Promise<void> => {
+        console.log(values)
+        await handleCreateSubmit(values, selectedFiles)
+    }
+    const { selectedLanguage } = useSelector(
+        (state: RootState) => state.selectedLanguage
+    )
+    const showActivities = (_activities: string[]): string => {
+        let activitiesName = ''
+        _activities.forEach((activity) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                const activityLabel = (activities[index] as any)[
+                    selectedLanguage
+                ]
+                activitiesName =
+                    activitiesName === ''
+                        ? activityLabel
+                        : `${activitiesName}, ${activityLabel}`
+            }
+        })
+        if (activitiesName.length > 35) {
+            return `${activitiesName.slice(0, 35)}...`
+        }
+        return activitiesName
     }
     return (
         <CreateClassStyled>
-            <CustomModal
-                isModalVisible={isShowModal}
-                setIsModalVisible={setIsShowModal}
-                showCloseBtn={false}
-            >
-                <EnnvisionModal
-                    doTask={() => {
-                        navigate('/branch/list')
-                        setIsShowModal(false)
-                    }}
-                    title="Membership Created Successfully!"
-                    description="Congratulations! Your Membership has been successfully Created, ensuring a seamless experience within the Marital "
-                />
-            </CustomModal>
-            <Formik initialValues={initialValues} onSubmit={onSubmit}>
+            <Formik initialValues={initialValues} onSubmit={submit}>
                 {(formik) => {
+                    console.log('checking formik', formik.values)
                     return (
                         <Form
                             name="basic"
@@ -120,7 +138,7 @@ const CreateClass = (): JSX.Element => {
                                                         <FormControl
                                                             control="input"
                                                             type="text"
-                                                            name="StartDate"
+                                                            name="startDate"
                                                             fontFamily={
                                                                 fontFamilyRegular
                                                             }
@@ -178,7 +196,7 @@ const CreateClass = (): JSX.Element => {
                                                         <FormControl
                                                             control="select"
                                                             type="text"
-                                                            name="Instructors"
+                                                            name="instructorId"
                                                             label="Instructors"
                                                             padding="7px"
                                                             fontFamily={
@@ -196,7 +214,7 @@ const CreateClass = (): JSX.Element => {
                                                         <FormControl
                                                             control="input"
                                                             type="text"
-                                                            name="ClassFee"
+                                                            name="fee"
                                                             fontFamily={
                                                                 fontFamilyRegular
                                                             }
@@ -218,16 +236,14 @@ const CreateClass = (): JSX.Element => {
                                             </Col>
 
                                             <Col md="12" className="mt-20">
-                                                <FormControl
-                                                    control="input"
-                                                    type="text"
-                                                    name="Activities"
-                                                    fontFamily={
-                                                        fontFamilyRegular
-                                                    }
-                                                    label="Activities"
-                                                    padding="10px"
-                                                    placeholder="Select Class Activities"
+                                                <CheckboxesSelect
+                                                    name="activities"
+                                                    label="Activity"
+                                                    list={activities}
+                                                    showErrorMsgInList={false}
+                                                    placeholder={showActivities(
+                                                        formik.values.activities
+                                                    )}
                                                 />
                                             </Col>
                                         </Col>
@@ -237,7 +253,31 @@ const CreateClass = (): JSX.Element => {
                                                 <p className="bannerTitle ">
                                                     Select Banner Image
                                                 </p>
-                                                <OverlayImages
+                                                <FormControl
+                                                    control="input"
+                                                    type="ImagesUpload"
+                                                    name="latestCertification"
+                                                    fontFamily={
+                                                        fontFamilyRegular
+                                                    }
+                                                    label={
+                                                        'latestCertification'
+                                                    }
+                                                    src={FileSubmit}
+                                                    // onChange={handleChange}
+                                                    suffix={
+                                                        <ImagesUpload
+                                                            onImagesSelect={
+                                                                handleImagesUpload
+                                                            }
+                                                        />
+                                                    }
+                                                    padding="10px"
+                                                    placeholder={
+                                                        'PlaceholderLatestCertification'
+                                                    }
+                                                />
+                                                {/* <OverlayImages
                                                     backgroundImg={
                                                         ClassData.bannerPicture ||
                                                         ''
@@ -247,7 +287,7 @@ const CreateClass = (): JSX.Element => {
                                                         ''
                                                     }
                                                     isEditable={true}
-                                                />
+                                                /> */}
                                             </Col>
                                         </Col>
                                     </Row>
@@ -256,7 +296,7 @@ const CreateClass = (): JSX.Element => {
                                         <FormControl
                                             control="input"
                                             type="text"
-                                            name="ClassCapacity"
+                                            name="capacity"
                                             fontFamily={fontFamilyRegular}
                                             label="Class Capacity"
                                             padding="10px"
@@ -268,7 +308,7 @@ const CreateClass = (): JSX.Element => {
                                         <FormControl
                                             control="input"
                                             type="text"
-                                            name="MinimumStudent"
+                                            name="minimumStudent"
                                             fontFamily={fontFamilyRegular}
                                             label="Minimum Student"
                                             padding="10px"
@@ -279,7 +319,7 @@ const CreateClass = (): JSX.Element => {
                                         <FormControl
                                             control="input"
                                             type="text"
-                                            name="StartBooking"
+                                            name="bookingStartDate"
                                             fontFamily={fontFamilyRegular}
                                             label="Start Booking"
                                             padding="10px"
@@ -299,7 +339,7 @@ const CreateClass = (): JSX.Element => {
                                         <FormControl
                                             control="input"
                                             type="text"
-                                            name="EndBooking"
+                                            name="bookingEndDate"
                                             fontFamily={fontFamilyRegular}
                                             label="End Booking"
                                             padding="10px"
@@ -319,7 +359,7 @@ const CreateClass = (): JSX.Element => {
                                         <FormControl
                                             control="input"
                                             type="text"
-                                            name="QRCodeAttendanceStart"
+                                            name="qrCodeStartDate"
                                             fontFamily={fontFamilyRegular}
                                             label="QR Code Attendance Start"
                                             padding="10px"
@@ -339,7 +379,7 @@ const CreateClass = (): JSX.Element => {
                                         <FormControl
                                             control="input"
                                             type="text"
-                                            name="QRCodeAttendanceEnd"
+                                            name="qrCodeEndDate"
                                             fontFamily={fontFamilyRegular}
                                             label="QR Code Attendance End"
                                             padding="10px"
@@ -360,7 +400,7 @@ const CreateClass = (): JSX.Element => {
                                         <FormControl
                                             control="select"
                                             type="text"
-                                            name="AllowtoStudentCancel"
+                                            name="allowStudentCancel"
                                             label="Allow to Student Cancel"
                                             padding="7px"
                                             fontFamily={fontFamilyRegular}
@@ -374,7 +414,7 @@ const CreateClass = (): JSX.Element => {
                                         <FormControl
                                             control="input"
                                             type="text"
-                                            name="RefundFeesDate"
+                                            name="refundDate"
                                             fontFamily={fontFamilyRegular}
                                             label="Refund Fees Date"
                                             padding="10px"
@@ -395,7 +435,7 @@ const CreateClass = (): JSX.Element => {
                                         <FormControl
                                             control="input"
                                             type="text"
-                                            name="BookingCancellationStart"
+                                            name="bookingCancelStartDate"
                                             fontFamily={fontFamilyRegular}
                                             label="Booking Cancellation Start"
                                             padding="10px"
@@ -416,7 +456,7 @@ const CreateClass = (): JSX.Element => {
                                         <FormControl
                                             control="input"
                                             type="text"
-                                            name="BookingCancellationEnd"
+                                            name="bookingCancelEndDate"
                                             fontFamily={fontFamilyRegular}
                                             label="Booking Cancellation End"
                                             padding="10px"
@@ -437,7 +477,7 @@ const CreateClass = (): JSX.Element => {
                                         <FormControl
                                             control="input"
                                             type="text"
-                                            name="Cancellation Charge"
+                                            name="cancellationCharges"
                                             fontFamily={fontFamilyRegular}
                                             label="Cancellation Charge"
                                             padding="10px"
@@ -458,7 +498,7 @@ const CreateClass = (): JSX.Element => {
                                         <FormControl
                                             control="select"
                                             type="text"
-                                            name="Accommodate"
+                                            name="accommodation"
                                             label="Accommodate"
                                             fontFamily={fontFamilyRegular}
                                             fontSize="15px"
@@ -485,8 +525,8 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="checkbox"
                                                 type="checkbox"
-                                                id="rememberMe"
-                                                name="rememberMe"
+                                                id="termCondition"
+                                                name="termCondition"
                                             />
                                             <p
                                                 className="checkBoxPara"
@@ -501,8 +541,8 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="checkbox"
                                                 type="checkbox"
-                                                id="rememberMe"
-                                                name="rememberMe"
+                                                id="Agreement"
+                                                name="Agreement"
                                             />
                                             <p
                                                 className="checkBoxPara"
@@ -519,8 +559,8 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="checkbox"
                                                 type="checkbox"
-                                                id="rememberMe"
-                                                name="rememberMe"
+                                                id="Liabilitywaivers"
+                                                name="Liabilitywaivers"
                                             />
                                             <p
                                                 className="checkBoxPara"
@@ -545,7 +585,8 @@ const CreateClass = (): JSX.Element => {
                                     type="submit"
                                     title="Submit"
                                     fontSize="18px"
-                                    loading={isLoading}
+                                    loading={loading}
+                                    clicked={() => submit(formik.values)}
                                 />
                             </div>
                         </Form>

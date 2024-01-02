@@ -110,8 +110,8 @@ const ViewBranch = (): JSX.Element => {
     return (
         <ViewBranchStyled>
             <OverlayImages
-                overlayImg={Branch?.profilePicture || ''}
                 backgroundImg={Branch?.bannerPicture || ''}
+                overlayImg={Branch?.profilePicture || ''}
                 isEditable={true}
             />
 

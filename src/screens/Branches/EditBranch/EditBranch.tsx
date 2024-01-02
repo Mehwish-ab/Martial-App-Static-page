@@ -84,6 +84,10 @@ const EditBranch = (): JSX.Element => {
     console.log('branchDatas', schoolData)
 
     const handleEditSchool = async (value: any): Promise<void> => {
+        console.log('>>value', value)
+        if (!value.selectedActivities[0] || !value.selectedFacilities[0]) {
+            return
+        }
         await editSchool(branchToEdit.branchId, value, schoolData.schoolId)
     }
     const initialValues: CreateBranchInitialValues = {
@@ -161,12 +165,12 @@ const EditBranch = (): JSX.Element => {
         //   then: Yup.string().required("Please enter card client secret"),
         //   otherwise: Yup.string().notRequired(),
         // }),
-        // selectedActivities: Yup.array()
-        //   .of(Yup.string().required("Select an activity"))
-        //   .min(1, "Select at least one activity"),
-        // selectedFacilities: Yup.array()
-        //   .of(Yup.string().required("Select an activity"))
-        //   .min(1, "Select at least one facility"),
+        selectedActivities: Yup.array()
+            .of(Yup.string().required('Select an activity'))
+            .min(1, 'Select at least one activity'),
+        selectedFacilities: Yup.array()
+            .of(Yup.string().required('Select an activity'))
+            .min(1, 'Select at least one facility'),
 
         schoolStripeMethod: Yup.boolean(),
         schoolGclMethod: Yup.boolean(),
@@ -224,7 +228,8 @@ const EditBranch = (): JSX.Element => {
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
-                onSubmit={handleEditSchool}
+                validateOnMount
+                onSubmit={(values) => handleEditSchool(values)}
                 enableReinitialize
             >
                 {(formik) => {
@@ -500,25 +505,25 @@ const EditBranch = (): JSX.Element => {
 
                                     <Col md="6">
                                         <CheckboxesSelect
-                                            name="selectedActivities"
-                                            label="Activity"
                                             list={activities}
-                                            showErrorMsgInList={false}
+                                            name="selectedActivities"
+                                            label={getLabelByKey('activity')}
                                             placeholder={showActivities(
                                                 formik.values.selectedActivities
                                             )}
+                                            showErrorMsgInList={false}
                                         />
                                     </Col>
 
                                     <Col md="6">
                                         <CheckboxesSelect
                                             name="selectedFacilities"
-                                            label="Facility"
-                                            list={facilities}
-                                            showErrorMsgInList={false}
+                                            label={getLabelByKey('facilities')}
                                             placeholder={showFacilities(
                                                 formik.values.selectedFacilities
                                             )}
+                                            list={facilities}
+                                            showErrorMsgInList={false}
                                         />
                                     </Col>
 

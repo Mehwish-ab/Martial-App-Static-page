@@ -50,9 +50,7 @@ const EditFranchise = (): JSX.Element => {
     const [franchiseDatas, setfranchiseDatas] = useState<
         FranchiseDataType | undefined
     >()
-
-    // console.log("franchisetoedit", language, currency);
-
+    console.log('>>franchiseDatas'), franchiseDatas
     const franchiseName = validationFinder('BUSINESS_NAME')!
     const franchiseNameReg = new RegExp(franchiseName.pattern)
     const franchisePhoneNumber = validationFinder('PHONE_NUMBER')!
@@ -87,8 +85,47 @@ const EditFranchise = (): JSX.Element => {
             setfranchiseDatas(data as any)
         }
         fetchinfo()
-    }, [franchiseId, getFranchisebyid])
+    }, [])
 
+    const showActivities = (_activities: string[]): string => {
+        let activitiesName = ''
+        _activities.map((activity) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                activitiesName =
+                    activitiesName === ''
+                        ? (activities[index] as any)[selectedLanguage]
+                        : `${activitiesName}, ${
+                              (activities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+        if (activitiesName.length > 40) {
+            return `${activitiesName.slice(0, 40)}...`
+        }
+        return activitiesName || getLabelByKey('activity')
+    }
+    const showFacilities = (_facilities: string[]): string => {
+        let facilitiesName = ''
+        _facilities.map((facility) => {
+            const index = facilities.findIndex(
+                (facts: any) => facts.id === facility
+            )
+            if (index !== -1) {
+                facilitiesName =
+                    facilitiesName === ''
+                        ? (facilities[index] as any)[selectedLanguage]
+                        : `${facilitiesName}, ${
+                              (facilities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+
+        if (facilitiesName.length > 40) {
+            return `${facilitiesName.slice(0, 40)}...`
+        }
+        return facilitiesName || getLabelByKey('facilities')
+    }
     const initialValues: CreateFranchiseInitialValues = {
         franchiseName: franchiseDatas ? franchiseDatas.franchiseName : '--',
         franchiseType: franchiseDatas ? franchiseDatas.franchiseType : '--',
@@ -441,6 +478,9 @@ const EditFranchise = (): JSX.Element => {
                                         <CheckboxesSelect
                                             name="selectedActivities"
                                             label="Activity"
+                                            placeholder={showActivities(
+                                                formik.values.selectedActivities
+                                            )}
                                             showErrorMsgInList={false}
                                             list={activities}
                                         />
@@ -451,6 +491,9 @@ const EditFranchise = (): JSX.Element => {
                                             name="selectedFacilities"
                                             label="Facility"
                                             list={facilities}
+                                            placeholder={showFacilities(
+                                                formik.values.selectedFacilities
+                                            )}
                                             showErrorMsgInList={false}
                                         />
                                     </Col>

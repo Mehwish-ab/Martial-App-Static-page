@@ -49,7 +49,6 @@ const CreateBranch = (): JSX.Element => {
         branchPhoneNumber: '',
         defaultLanguage: '',
         defaultCurrency: '',
-        // belts: "",
         rank: '',
         description: '',
 

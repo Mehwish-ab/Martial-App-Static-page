@@ -71,17 +71,17 @@ const CreateBranch = (): JSX.Element => {
 
     const branchName = validationFinder('BUSINESS_NAME')!
     const branchNameReg = new RegExp(branchName.pattern)
-    const address = validationFinder('ADDRESS')!
-    const addressReg = new RegExp(address.pattern)
+    // const address = validationFinder('ADDRESS')!
+    // const addressReg = new RegExp(address.pattern)
     const branchPhoneNumber = validationFinder('PHONE_NUMBER')!
 
     const validationSchema = Yup.object({
         branchName: Yup.string()
             .required(branchName.notBlankMsgEn)
             .matches(branchNameReg, branchName.patternMsgEn),
-        address: Yup.string()
-            .required(address.notBlankMsgEn)
-            .matches(addressReg, address.patternMsgEn),
+        // address: Yup.string()
+        //     .required(address.notBlankMsgEn)
+        //     .matches(addressReg, address.patternMsgEn),
         branchType: Yup.string().required('Please select branch type'),
         branchPhoneNumber: Yup.string().required(
             branchPhoneNumber.notBlankMsgEn

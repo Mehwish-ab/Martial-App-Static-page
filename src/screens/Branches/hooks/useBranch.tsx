@@ -10,7 +10,7 @@ import {
     get_branch_by_school_id_url,
 } from '../../../utils/api_urls'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../redux/store'
+import store, { RootState } from '../../../redux/store'
 import { useNavigate, useParams } from 'react-router-dom'
 import { loginDataTypes } from '../../../redux/features/types'
 import { CreateBranchInitialValues } from '../constant'
@@ -26,6 +26,7 @@ import {
     pureDark2,
 } from '../../../components/GlobalStyle'
 import { Col, Row } from 'antd'
+import { getBranchBySchoolId } from '../../../redux/features/branch/branchSlice'
 
 interface IUseBranch {
     loading: boolean
@@ -47,6 +48,8 @@ interface IUseBranch {
     get_stripe: (businessUC: any, id: number) => Promise<any>
     get_cash: (businessUC: any, id: number) => Promise<any>
     getbranchbyid: (_branchId: number) => Promise<any>
+    getallbranchbyschoolid: (schoolId: number) => Promise<any>
+
     deletebranch: (_branchId: number) => Promise<void>
     deletePayment: (paymentMethod: string, id: number) => Promise<void>
     deletemodal: () => { modalComponent: JSX.Element }
@@ -214,6 +217,61 @@ const useBranch = (): IUseBranch => {
                 (errorMessage as any).response?.data?.responseMessage ||
                     'An error occurred'
             )
+        }
+    }
+    const getallbranchbyschoolid = async (schoolid: number): Promise<any> => {
+        // const url = get_branch_by_school_id_url
+        console.log('>> im in getall branch button')
+        try {
+            setLoading(true)
+            const { data: data3 } = await axios.post(
+                'branch/getBySchoolId',
+                { schoolId: schoolid },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            if (data3.responseCode === '500') {
+                toast(data.responseMessage, {
+                    type: 'error',
+                    autoClose: 1000,
+                })
+                setLoading(false)
+                return data3
+            }
+            // setIsShowModal(true);
+            // setTimeout(() => {
+            //   setLoading(false);
+            //   setIsShowModal(false);
+            //   //navigate("/school/view");
+            // }, 3000);
+            setIsShowModal(true)
+            setTimeout(() => {
+                setLoading(false)
+                setIsShowModal(false)
+                navigate('/branch/list')
+            }, 3000)
+            // toastId.current = toast(data.responseMessage, {
+            //   type: "success",
+            //   autoClose: 1000,
+            // });
+            //setLoading(false);
+            console.log({ data })
+            return data3
+        } catch (e: any) {
+            console.log('api error', errorMessage)
+            // setError((errorMessage as any).response.data.responseMessage)
+            // setLoading(false)
+            // console.log(
+            //     (errorMessage as any).response.data.responseMessage,
+            //     'error in api data'
+            // )
+            // setError(
+            //     (errorMessage as any).response?.data?.responseMessage ||
+            //         'An error occurred'
+            // )
         }
     }
 
@@ -532,6 +590,7 @@ const useBranch = (): IUseBranch => {
             setData('results: ' + data2)
             console.log('data', { data: data2 })
             setLoading(false)
+            store.dispatch(getBranchBySchoolId()) as any
             // navigate("/school");
         } catch (error2: any) {
             console.log('api error', error2)
@@ -543,7 +602,6 @@ const useBranch = (): IUseBranch => {
             )
         }
     }
-
     const getbranchbyid = async (_branchId: number): Promise<any> => {
         try {
             setError('')
@@ -743,6 +801,7 @@ const useBranch = (): IUseBranch => {
         UpdateModal,
         deleteConfirmation,
         setIsShowModal,
+        getallbranchbyschoolid,
     }
 }
 

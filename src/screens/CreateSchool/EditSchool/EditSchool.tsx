@@ -48,16 +48,15 @@ const EditSchool = (): JSX.Element => {
     )
     const { schoolId } = useParams()
 
-    const businessName = validationFinder('BUSINESS_NAME')!
-    const businessNameReg = new RegExp(businessName.pattern)
+    // const businessName = validationFinder('BUSINESS_NAME')!
+    // const businessNameReg = new RegExp(businessName.pattern)
     // const address = validationFinder('ADDRESS')!
     // const addressReg = new RegExp(address.pattern)
     const businessPhoneNumber = validationFinder('PHONE_NUMBER')!
-
     const validationSchema = Yup.object({
-        businessName: Yup.string()
-            .required(businessName.notBlankMsgEn)
-            .matches(businessNameReg, businessName.patternMsgEn),
+        // businessName: Yup.string()
+        //     .required(businessName.notBlankMsgEn)
+        //     .matches(businessNameReg, businessName.patternMsgEn),
         // address: Yup.string()
         //   .required(address.notBlankMsgEn)
         //   .matches(addressReg, address.patternMsgEn),

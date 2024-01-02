@@ -4,14 +4,10 @@ import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { CreateSchoolInitialValues } from '../screens/Home/constants'
 import axios from 'axios'
-import {
-    authorizationToken,
-    create_school_url,
-    edit_school_url,
-} from '../utils/api_urls'
+import { authorizationToken, edit_school_url } from '../utils/api_urls'
 import { useSelector } from 'react-redux'
 import { RootState } from '../redux/store'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { loginDataTypes } from '../redux/features/types'
 import CustomModal from '../components/Modal/CustomModal'
 import { useAppSelector } from '../app/hooks'
@@ -25,6 +21,7 @@ import {
 } from '../components/GlobalStyle'
 import { Col, Row } from 'react-bootstrap'
 import { SchoolSuccessfulModals } from './PopupModalsStyling'
+import { CreateTimeTableInitialValues } from '../screens/TimeTable/constant'
 
 interface IModalComponent {
     modalComponent: JSX.Element
@@ -33,8 +30,8 @@ interface IModalComponent {
 interface IUseSchool {
     loading: boolean
     handleCreateSubmit: (
-        values: CreateSchoolInitialValues,
-        { resetForm }: any
+        values: CreateTimeTableInitialValues,
+        schoolId: number
     ) => Promise<void>
     editSchool: (
         _schoolId: number,
@@ -51,61 +48,53 @@ interface IUseSchool {
     setIsShowModal: (showModal: true) => void
 }
 
-const useCreateSchool = (): IUseSchool => {
+const useTimetable = (): IUseSchool => {
     const [loading, setLoading] = useState(false)
     const [errorMessage, setError] = useState('')
     const [isUploadImgModalVisible, setIsUploadImgVisible] = useState(false)
     const toastId = useRef<any>(null)
-    const { schoolId } = useParams()
-    const { data: logindata } = useAppSelector((state) => state.loginData)
+    // const { schoolId } = useParams()
+    const { data: logindata } = useAppSelector(
+        (state: { loginData: any }) => state.loginData
+    )
     // const { schoolData } = useAppSelector((state) => state.dashboardData)
 
     const navigate = useNavigate()
 
     const [isShowModal, setIsShowModal] = useState(false)
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
 
     const { loginData } = useSelector((state: RootState) => state)
 
     // to create School
     const handleCreateSubmit = async (
-        values: CreateSchoolInitialValues,
-        { resetForm }: any
+        values: CreateTimeTableInitialValues,
+        schoolId: number
     ): Promise<void> => {
-        const userDetails = loginData.data?.userDetails
+        // const userDetails = loginData.data?.userDetails
 
         const payload = {
-            userId: userDetails?.id || '',
-            businessName: values.businessName || '',
-            businessType: values.businessType,
-            address: values.address || '',
-            phoneNumber: values?.businessPhoneNumber || '',
-            rank: values.rank === 1 ? true : false,
-            defaultLanguageId: values.defaultLanguage,
-            defaultCurrencyId: values.defaultCurrency,
-            activities: values.selectedActivities.join(','),
-            facilities: values.selectedFacilities.join(','),
-            description: values.description,
-            stripePublicKey: '',
-            stripeSecretKey: '',
-            gclAccessToken: '',
-            gclClientId: '',
-            gclWebHook: '',
-            gclClientSecret: '',
+            userId: schoolId,
+            title: values.title,
+            isRepeated: values.isRepeated === '1' ? true : false,
+            startDate: values.startDate,
+            endDate: values.endDate,
 
-            ...(schoolId && { schoolId }), // Add schoolId conditionally
+            // ...(schoolId && { schoolId }), // Add schoolId conditionally
         }
 
-        const endpoint = schoolId ? edit_school_url : create_school_url
         try {
             setError('')
             setLoading(true)
-            const { data: data2 } = await axios.post(endpoint, payload, {
-                headers: {
-                    ...authorizationToken(loginData.data as loginDataTypes),
-                },
-            })
+            const { data: data2 } = await axios.post(
+                '/timetable/create',
+                payload,
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
             if (data2.responseCode === '500') {
                 toast(data2.responseMessage, {
                     type: 'error',
@@ -118,7 +107,7 @@ const useCreateSchool = (): IUseSchool => {
             setTimeout(() => {
                 setLoading(false)
                 setIsShowModal(false)
-                navigate('/school/view')
+                // navigate('/school/view')
             }, 3000)
             // toastId.current = toast(data.responseMessage, {
             //   type: "success",
@@ -128,7 +117,7 @@ const useCreateSchool = (): IUseSchool => {
             console.log('data', { data: data2 })
             //setIsUploadImgVisible(true);
             // navigate("/");
-            resetForm()
+            // resetForm()
         } catch (error2: any) {
             console.log('error', { error: error2 })
             setLoading(false)
@@ -438,4 +427,4 @@ const useCreateSchool = (): IUseSchool => {
     }
 }
 
-export default useCreateSchool
+export default useTimetable

@@ -44,7 +44,7 @@ const useInstructor = (): IUseInstructor => {
         values: CreateInstructorInitialValues,
         file: any
     ): Promise<void> => {
-        console.log('values from form:', values, file)
+        console.log('values from form:', values, 'hu', file)
         const Payload = {
             instructorName: values.instructorName,
             emailAddress: values.emailAddress,
@@ -56,7 +56,7 @@ const useInstructor = (): IUseInstructor => {
             activities: values.activities.join(','),
             description: values.description,
         }
-        const datas = JSON.stringify(Payload)
+        // const val= values.File
         try {
             setError('')
             setLoading(true)
@@ -64,9 +64,11 @@ const useInstructor = (): IUseInstructor => {
             const formData = new FormData()
             formData.append(
                 'data',
-                new Blob([datas], { type: 'application/json' })
+                new Blob([JSON.stringify(Payload)], {
+                    type: 'application/json',
+                })
             )
-            formData.append('file', file)
+            formData.append('file', (file as any).file)
 
             console.log('Nada', formData)
 

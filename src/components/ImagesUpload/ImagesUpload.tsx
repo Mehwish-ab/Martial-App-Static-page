@@ -36,7 +36,7 @@ const ImagesUpload: React.FC<{
             <input
                 type="file"
                 multiple
-                accept="image/*, video/*"
+                accept=".jpeg, .jpg, .webp, .png, .tiff, .bmp"
                 onChange={selectImages}
             />
             <AliceCarousel

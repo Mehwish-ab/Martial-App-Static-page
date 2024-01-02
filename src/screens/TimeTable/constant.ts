@@ -1,15 +1,20 @@
 export interface CreateTimeTableInitialValues {
-    instructorName: string
-    emailAddress: string
-    instructorPhoneNumber: string
-    address: string
-    yearsOfExperience: string | number
-    ranking: string | number
-    latestCertification: string | number
-    description: string
-    selectedActivities: string[]
-    selectedFacilities: string[]
-    termCondition: string
+    userId: number
+    title: string
+    isRepeated: string | number
+    startDate: string
+    endDate: string
+    // instructorName: string
+    // emailAddress: string
+    // instructorPhoneNumber: string
+    // address: string
+    // yearsOfExperience: string | number
+    // ranking: string | number
+    // latestCertification: string | number
+    // description: string
+    // selectedActivities: string[]
+    // selectedFacilities: string[]
+    // termCondition: string
     // stripePublishableKey: string;
     // stripeSecretKey: string;
     // cardAccessToken: string;

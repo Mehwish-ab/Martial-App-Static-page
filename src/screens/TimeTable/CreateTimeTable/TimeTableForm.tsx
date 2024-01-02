@@ -1,99 +1,157 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import FormControl from '../../../components/FormControl'
-import { useSelector } from 'react-redux'
+// import { useSelector } from 'react-redux'
 import { Col, Row } from 'react-bootstrap'
-
+import { BELTS_SELECT_OPTIONS } from '../../../screens/Home/constants'
 import DateCalander from '../../../assets/images/dateCalander.svg'
-import { fontFamilyMedium } from '../../../components/GlobalStyle'
+import {
+    fontFamilyMedium,
+    fontFamilyRegular,
+    lightBlue3,
+    pureDark,
+} from '../../../components/GlobalStyle'
 import { FilterTimeTableStyled } from './styles'
-import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
-import { RootState } from '../../../redux/store'
+// import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
+// import { RootState } from '../../../redux/store'
+import CustomButton from '../../../components/CustomButton/CustomButton'
+import useTimetable from '../../../hooks/useTimetable'
+import { Formik } from 'formik'
+import { CreateTimeTableInitialValues } from '../constant'
+import { Form } from 'antd'
+import { useAppSelector } from '../../../app/hooks'
 // import { FormControl } from "react-bootstrap";
 
 const TimeTableForm: React.FC = () => {
-    const { loading } = useSelector((state: RootState) => state.timeTableData)
+    const { data: loginData } = useAppSelector((state) => state.loginData)
 
+    // console.log('user id', loginData?.userDetails.id)
+
+    useEffect(() => {
+        // GetUserid()
+    }, [])
+    // const { loading } = useSelector((state: RootState) => state.timeTableData)
+    const { handleCreateSubmit, Createmodal } = useTimetable()
+    const initialValues: CreateTimeTableInitialValues = {
+        userId: 0,
+        title: '',
+        isRepeated: '',
+        startDate: '',
+        endDate: '',
+    }
+    const onSubmit = async (values: any): Promise<void> => {
+        console.log('im handle submit button')
+        await handleCreateSubmit(values, Number(loginData?.userDetails.id))
+    }
     return (
         <>
-            {loading && <LoadingOverlay message="" />}
+            {Createmodal().modalComponent}
+            {/* {loading && <LoadingOverlay message="" />} */}
             <FilterTimeTableStyled>
-                <h3 className="timetable-heading">Time Table</h3>
-                <Row>
-                    <Col md="4">
-                        <FormControl
-                            control="input"
-                            type="text"
-                            name="title"
-                            label="Title"
-                            padding="10px"
-                            fontFamily={fontFamilyMedium}
-                            fontSize="16px"
-                            max={6}
-                            placeholder="Enter Title Name"
-                        />
-                    </Col>
-                    <Col md="8">
-                        <Row>
-                            <Col md="4">
-                                <FormControl
-                                    control="select"
-                                    type="text"
-                                    name="repeattimetable"
-                                    label="Repeat Time Table"
-                                    padding="7px"
-                                    fontFamily={fontFamilyMedium}
-                                    fontSize="16px"
-                                    max={6}
-                                    placeholder="Yes"
-                                />
-                            </Col>
-                            <Col md="4">
-                                <FormControl
-                                    control="input"
-                                    type="text"
-                                    name="repeattimetable"
-                                    label="Start Date"
-                                    padding="7px"
-                                    fontFamily={fontFamilyMedium}
-                                    fontSize="16px"
-                                    suffix={
-                                        <img
-                                            src={DateCalander as string}
-                                            alt=""
-                                            style={{
-                                                width: '23px',
-                                                height: '23px',
-                                            }}
+                <Formik
+                    initialValues={initialValues}
+                    // validationSchema={validationSchema}
+                    onSubmit={onSubmit}
+                >
+                    {(formik) => {
+                        // console.log('formik values', formik.values)
+
+                        return (
+                            <Form
+                                name="basic"
+                                onFinish={formik.handleSubmit}
+                                autoComplete="off"
+                            >
+                                <h3 className="timetable-heading">
+                                    Time Table
+                                </h3>
+                                <Row>
+                                    <Col md="6">
+                                        <FormControl
+                                            control="input"
+                                            type="text"
+                                            name="title"
+                                            label="Title"
+                                            padding="10px"
+                                            fontFamily={fontFamilyMedium}
+                                            fontSize="16px"
+                                            max={6}
+                                            placeholder="Enter Title Name"
                                         />
-                                    }
-                                    placeholder="Monday, October 27, 2023"
-                                />
-                            </Col>
-                            <Col md="4">
-                                <FormControl
-                                    control="input"
-                                    type="text"
-                                    name="repeattimetable"
-                                    label="End Date"
-                                    padding="7px"
-                                    fontFamily={fontFamilyMedium}
-                                    fontSize="16px"
-                                    suffix={
-                                        <img
-                                            src={DateCalander as string}
-                                            alt=""
-                                            style={{
-                                                width: '23px',
-                                                height: '23px',
-                                            }}
+                                    </Col>
+
+                                    <Col md="6">
+                                        <FormControl
+                                            control="select"
+                                            type="text"
+                                            name="is"
+                                            fontFamily={fontFamilyRegular}
+                                            label={'isRepeated'}
+                                            placeholder={'isRepeated'}
+                                            className={
+                                                formik.errors.isRepeated &&
+                                                formik.touched.isRepeated
+                                                    ? 'is-invalid'
+                                                    : 'customInput'
+                                            }
+                                            options={BELTS_SELECT_OPTIONS}
                                         />
-                                    }
-                                    placeholder="Monday, October 27, 2023"
-                                />
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
+                                    </Col>
+                                    <Col md="6">
+                                        <FormControl
+                                            control="date"
+                                            type="date"
+                                            name="startDate"
+                                            labelFamily={`${fontFamilyMedium}`}
+                                            label="Start Date"
+                                            fontSize="16px"
+                                            suffixIcon={
+                                                <img
+                                                    src={DateCalander as string}
+                                                    alt="calender-icon"
+                                                />
+                                            }
+                                            max={6}
+                                            placeholder="12-05-1989"
+                                        />
+                                    </Col>
+                                    <Col md="6">
+                                        <FormControl
+                                            control="date"
+                                            type="date"
+                                            name="endDate"
+                                            labelFamily={`${fontFamilyMedium}`}
+                                            label="End Date"
+                                            fontSize="16px"
+                                            suffixIcon={
+                                                <img
+                                                    src={DateCalander as string}
+                                                    alt="calender-icon"
+                                                />
+                                            }
+                                            max={6}
+                                            placeholder="12-05-1989"
+                                        />
+                                    </Col>
+                                </Row>
+                                <div className="mt-20 d-flex justify-content-end">
+                                    <CustomButton
+                                        bgcolor={lightBlue3}
+                                        textTransform="Captilize"
+                                        color={pureDark}
+                                        padding="11px 40.50px"
+                                        fontFamily={`${fontFamilyMedium}`}
+                                        width="fit-content"
+                                        type="submit"
+                                        title={'Submit'}
+                                        fontSize="17px"
+                                        // disabled={!formik.isValid}
+                                        // loading={false}
+                                    />
+                                </div>
+                            </Form>
+                        )
+                    }}
+                </Formik>
             </FilterTimeTableStyled>
         </>
     )

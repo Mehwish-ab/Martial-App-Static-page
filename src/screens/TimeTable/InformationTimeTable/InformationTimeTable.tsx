@@ -12,17 +12,11 @@ const InformationTimeTable: React.FC = () => {
     const { loading } = useSelector((state: RootState) => state.timeTableData)
 
     const initialValues: CreateTimeTableInitialValues = {
-        instructorName: '',
-        emailAddress: '',
-        instructorPhoneNumber: '',
-        address: '',
-        yearsOfExperience: '',
-        ranking: '',
-        latestCertification: '',
-        description: '',
-        selectedActivities: [],
-        selectedFacilities: [],
-        termCondition: '',
+        userId: 0,
+        title: '',
+        isRepeated: '',
+        startDate: '',
+        endDate: '',
     }
     return (
         <>

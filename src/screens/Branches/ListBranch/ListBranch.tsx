@@ -127,13 +127,13 @@ const ListBranch = (): JSX.Element => {
             //dataIndex: "profilePicture",
             //key: "profilePicture",
             render: (Dummydatas) => {
-                console.log('images', Dummydatas.profilePicture)
+                console.log('>>images', Dummydatas?.profilePicture)
                 if (Dummydatas.profilePicture === null) {
                     return <img src={defaltimg} width={44} height={44} />
                 } else {
                     return (
                         <img
-                            src={Dummydatas.profilePicture}
+                            src={Dummydatas?.profilePicture}
                             width={44}
                             height={44}
                         />

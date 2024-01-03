@@ -26,15 +26,15 @@ import { CreateBranchInitialValues } from '../constant'
 import useBranch from '../hooks/useBranch'
 import PlacesAutoCompleteInput from '../../../maps/PlacesAutocomplete'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
-import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+// import { useNavigate } from 'react-router-dom'
+// import { useEffect } from 'react'
 
 const CreateBranch = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('branchCreate')
-    const navigate = useNavigate()
-    const { schoolData } = useSelector(
-        (state: RootState) => state.dashboardData
-    )
+    // const navigate = useNavigate()
+    // const { schoolData } = useSelector(
+    //     (state: RootState) => state.dashboardData
+    // )
 
     const {
         statusData: { activities, facilities },
@@ -49,7 +49,6 @@ const CreateBranch = (): JSX.Element => {
         branchPhoneNumber: '',
         defaultLanguage: '',
         defaultCurrency: '',
-        // belts: "",
         rank: '',
         description: '',
 
@@ -151,9 +150,9 @@ const CreateBranch = (): JSX.Element => {
 
         return options
     }
-    useEffect(() => {
-        if (schoolData.schoolId === 0) navigate('/school/create')
-    }, [])
+    // useEffect(() => {
+    //     if (schoolData.schoolId === 0) navigate('/school/create')
+    // }, [])
     const showActivities = (_activities: string[]): string => {
         let activitiesName = ''
         _activities.forEach((activity) => {

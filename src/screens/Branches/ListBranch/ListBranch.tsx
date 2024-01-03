@@ -31,6 +31,9 @@ import defaltimg from '../../../assets/images/create_school_user_profile.svg'
 import useBranch from '../hooks/useBranch'
 
 const ListBranch = (): JSX.Element => {
+    const { schoolData } = useSelector(
+        (state: RootState) => state.dashboardData
+    )
     const {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
@@ -299,7 +302,11 @@ const ListBranch = (): JSX.Element => {
                             />
                         }
                         clicked={() => {
-                            navigate(`/branch/create`)
+                            {
+                                schoolData.schoolId
+                                    ? navigate(`/branch/create`)
+                                    : navigate('/school/create')
+                            }
                         }}
                     />
                 </CustomDiv>

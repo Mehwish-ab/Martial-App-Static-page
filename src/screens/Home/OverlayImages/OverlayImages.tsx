@@ -41,15 +41,17 @@ const OverlayImages = ({
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
+    console.log('>>schoolData', schoolData)
     const { loginData } = useSelector((state: RootState) => state)
 
+    const { schoolId } = useParams()
+    const { branchId } = useParams()
+    const paramId = useParams()
     useEffect(() => {
         setProfileImg(overlayImg)
         setBannerImg(backgroundImg)
     }, [overlayImg, backgroundImg])
-    const { schoolId } = useParams()
-    const { branchId } = useParams()
-
+    console.log('>>id', { paramId })
     const { franchiseId } = useParams()
 
     const { instructorId } = useParams()
@@ -74,6 +76,7 @@ const OverlayImages = ({
         info: string | Blob | File,
         useCase: string
     ): Promise<void> => {
+        console.log('>>Im here')
         try {
             setLoading(true)
 
@@ -81,11 +84,11 @@ const OverlayImages = ({
             formData.append('multiPart', (info as any).file)
 
             const requestData = {
-                id: schoolData.schoolId || branchId || instructorId || '',
+                id: branchId || schoolData.schoolId || instructorId || '',
                 useCase: useCase,
                 // Add any additional parameters needed
             }
-
+            console.log('>>requestData', requestData)
             formData.append(
                 'data',
                 new Blob([JSON.stringify(requestData)], {

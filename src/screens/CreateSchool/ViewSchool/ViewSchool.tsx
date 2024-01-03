@@ -18,17 +18,34 @@ import {
     maastrichtBlue,
 } from '../../../components/GlobalStyle'
 import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
+// import { getBranchBySchoolId } from '../../../redux/features/branch/branchSlice'
+// import { getfranchiseBySchoolId } from '../../../redux/features/franchise/franchiseSlice'
 
 const ViewSchool = (): JSX.Element => {
     const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
-    const { deleteConfirmation, loading, setIsShowModal, deletemodal } =
-        useSchool()
-
+    const {
+        deleteConfirmation,
+        loading,
+        setIsShowModal,
+        deletemodal,
+        WarningModal,
+        setIsShowWarningModal,
+    } = useSchool()
+    const { branchData } = useSelector((state: RootState) => state.branchData)
+    const { franchiseData } = useSelector(
+        (state: RootState) => state.franchiseData
+    )
+    console.log(
+        '>>DATATA',
+        branchData?.data?.length,
+        franchiseData?.data?.length
+    )
     const { data } = useSelector((state: RootState) => state.loginData)
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
+    console.log('>>SchoolData', schoolData)
     const { language, currency } = useSelector(
         (state: RootState) => state.appData.data.dropdowns
     )
@@ -70,6 +87,8 @@ const ViewSchool = (): JSX.Element => {
             return
         }
         store.dispatch(getSchoolByUserId())
+        // store.dispatch(getBranchBySchoolId())
+        // store.dispatch(getfranchiseBySchoolId())
     }, [])
 
     // const handleDeleteClick = async (): Promise<void> => {
@@ -133,6 +152,7 @@ const ViewSchool = (): JSX.Element => {
 
     return (
         <ViewSchoolStyled>
+            {WarningModal().modalComponent}
             {deletemodal().modalComponent}
             {deleteConfirmation(schoolData.schoolId).modalComponent}
 
@@ -280,7 +300,14 @@ const ViewSchool = (): JSX.Element => {
                         title="Delete Account"
                         fontSize="18px"
                         loading={loading}
-                        clicked={() => setIsShowModal(true)}
+                        clicked={() => {
+                            if (
+                                franchiseData?.data[0]?.franchiseId > 0 ||
+                                branchData?.data[0]?.branchId !== 0
+                            ) {
+                                setIsShowWarningModal(true)
+                            } else setIsShowModal(true)
+                        }}
                     />
                 </div>
                 <div>

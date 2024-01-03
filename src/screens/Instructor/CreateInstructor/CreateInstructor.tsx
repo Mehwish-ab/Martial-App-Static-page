@@ -11,7 +11,7 @@ import {
     lightBlue3,
     maastrichtBlue,
 } from '../../../components/GlobalStyle'
-// import ImagesUpload from '../../../components/ImagesUpload/ImagesUpload'
+import ImagesUpload from '../../../components/ImagesUpload/ImagesUpload'
 import CustomPhoneInput from '../../../components/CustomPhoneInput/CustomPhoneInput'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import { CreateSchoolStyled } from '../../CreateSchool/styles'
@@ -23,20 +23,20 @@ import DateCalander from '../../../assets/images/dateCalander.svg'
 import FileSubmit from '../../../assets/icons/ic_fileSubmit.svg'
 import { validationFinder } from '../../../utils/utilities'
 import * as Yup from 'yup'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BELTS_SELECT_OPTIONS } from '../../Home/constants'
 const CreateInstructor = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('instructorCreate')
     const {
         statusData: { activities, facilities },
     } = useSelector((state: RootState) => state.appData.data)
-    // const [selectedFiles, setSelectedFiless] = useState<FileList | null>(null)
+    const [selectedFiles, setSelectedFiless] = useState<FileList | null>(null)
     useEffect(() => {
         console.log('this is create instructor')
     }, [])
-    // const handleImagesUpload = (selectedFiless: any): void => {
-    //     setSelectedFiless(selectedFiless)
-    // }
+    const handleImagesUpload = (selectedFiless: any): void => {
+        setSelectedFiless(selectedFiless)
+    }
     const { loading, handleSubmit } = useInstructor()
 
     const initialValues: CreateInstructorInitialValues = {
@@ -52,15 +52,15 @@ const CreateInstructor = (): JSX.Element => {
         specializations: [],
         termCondition: '',
     }
-    const [file, setFile] = useState<File[]>([])
-    const inputFile = useRef<HTMLInputElement | null>(null)
-    const handleChange = (e: any): void => {
-        const selectedFile = e.target.files && e.target.files[0]
-        if (selectedFile) {
-            setFile(selectedFile)
-            console.log('File state updated:', file)
-        }
-    }
+    // const [file, setFile] = useState<File[]>([])
+    // const inputFile = useRef<HTMLInputElement | null>(null)
+    // const handleChange = (e: any): void => {
+    //     const selectedFile = e.target.files && e.target.files[0]
+    //     if (selectedFile) {
+    //         setFile(selectedFile)
+    //         console.log('File state updated:', file)
+    //     }
+    // }
     const instructorName = validationFinder('BUSINESS_NAME')!
     const franchiseNameReg = new RegExp(instructorName.pattern)
     const address = validationFinder('ADDRESS')!
@@ -102,7 +102,7 @@ const CreateInstructor = (): JSX.Element => {
             .min(1, 'Select at least one specilization'),
     })
     const handleonSubmit = (values: CreateInstructorInitialValues): void => {
-        handleSubmit(values, file)
+        handleSubmit(values, selectedFiles)
         console.log('submitted button pressed')
     }
     return (
@@ -252,29 +252,6 @@ const CreateInstructor = (): JSX.Element => {
                                             </Col>
                                             <Col md="4" className="mt-20">
                                                 <FormControl
-                                                    control="input"
-                                                    type="file"
-                                                    ref={inputFile}
-                                                    style={{ display: 'none' }}
-                                                    name="file"
-                                                    fontFamily={
-                                                        fontFamilyRegular
-                                                    }
-                                                    label="Latest Certification"
-                                                    src={FileSubmit}
-                                                    onChange={handleChange}
-                                                    // suffix={
-                                                    //   <img
-                                                    //     src={FileSubmit}
-                                                    //     alt="Calander"
-                                                    //     width={21}
-                                                    //     height={21}
-                                                    //     />
-                                                    // }
-                                                    padding="10px"
-                                                    placeholder="Pound"
-                                                />
-                                                {/* <FormControl
                                                     control="file"
                                                     type="file"
                                                     name="latestCertification"
@@ -297,7 +274,7 @@ const CreateInstructor = (): JSX.Element => {
                                                     placeholder={getLabelByKey(
                                                         'PlaceholderLatestCertification'
                                                     )}
-                                                /> */}
+                                                />
                                             </Col>
                                         </Row>
                                     </Col>
@@ -403,7 +380,10 @@ const CreateInstructor = (): JSX.Element => {
                                     fontSize="18px"
                                     loading={loading}
                                     clicked={() =>
-                                        handleSubmit(formik.values, file)
+                                        handleSubmit(
+                                            formik.values,
+                                            selectedFiles
+                                        )
                                     }
                                 />
                             </div>

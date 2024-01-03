@@ -40,7 +40,8 @@ const EditFranchise = (): JSX.Element => {
     // const { data: franchiseData } = useSelector(
     //   (state: RootState) => state.franchiseData.franchiseData
     // );
-    const { loading, editFranchise, getFranchisebyid } = useFranchise()
+    const { loading, editFranchise, getFranchisebyid, UpdateModal } =
+        useFranchise()
     const { franchiseId } = useParams()
     // const [franchiseToEdit, setfranchiseToEdit] = useState({});
     // const handleSubmit = () => {};
@@ -50,7 +51,6 @@ const EditFranchise = (): JSX.Element => {
     const [franchiseDatas, setfranchiseDatas] = useState<
         FranchiseDataType | undefined
     >()
-    console.log('>>franchiseDatas'), franchiseDatas
     const franchiseName = validationFinder('BUSINESS_NAME')!
     const franchiseNameReg = new RegExp(franchiseName.pattern)
     const franchisePhoneNumber = validationFinder('PHONE_NUMBER')!
@@ -214,11 +214,7 @@ const EditFranchise = (): JSX.Element => {
 
     return (
         <CreateSchoolStyled>
-            {/* <OverlayImages
-        backgroundImg={franchiseToEdit?.bannerPicture || ""}
-        overlayImg={handleSubmit?.profilePicture || ""}
-        isEditable={true}
-      /> */}
+            {UpdateModal().modalComponent}
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -226,9 +222,6 @@ const EditFranchise = (): JSX.Element => {
                 enableReinitialize
             >
                 {(formik) => {
-                    // console.log(formik.values, "<< Formik");
-                    // console.log(initialValues, "<< initianl Formik");
-
                     return (
                         <Form
                             name="basic"
@@ -247,12 +240,10 @@ const EditFranchise = (): JSX.Element => {
                                             label={getLabelByKey(
                                                 'franchiseName'
                                             )}
-                                            // padding="10px"
                                             fontFamily={fontFamilyRegular}
                                             fontSize="16px"
                                             // prefix={<img src={lock_icon} alt="lock_icon" />}
                                             max={6}
-                                            // border="none"
                                             placeholder={getLabelByKey(
                                                 'franchiseName'
                                             )}
@@ -286,7 +277,7 @@ const EditFranchise = (): JSX.Element => {
                                             options={createOptions(
                                                 businessTypes
                                             )}
-                                            value={
+                                            defaultValue={
                                                 franchiseId
                                                     ? createOptions(
                                                           businessTypes
@@ -299,6 +290,12 @@ const EditFranchise = (): JSX.Element => {
                                                     : undefined
                                             }
                                         />
+                                        {
+                                            console.log(
+                                                'hello',
+                                                initialValues.franchiseType
+                                            ) as any
+                                        }
                                     </Col>
                                     <Col md="4" className="mt-20">
                                         <CustomPhoneInput
@@ -535,10 +532,10 @@ const EditFranchise = (): JSX.Element => {
                                     type="submit"
                                     title={getLabelByKey('primaryButton')}
                                     fontSize="17px"
-                                    clicked={() =>
-                                        handleEditSchool(formik.values)
-                                    }
-                                    // disabled={!formik.isValid}
+                                    // clicked={() =>
+                                    //     handleEditSchool(formik.values)
+                                    // }
+                                    disabled={!formik.isValid}
                                     loading={loading}
                                 />
                             </div>

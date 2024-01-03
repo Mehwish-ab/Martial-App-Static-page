@@ -8,25 +8,59 @@ import { useNavigate } from 'react-router-dom'
 import { loginDataTypes } from '../../../redux/features/types'
 import { CreateFranchiseInitialValues } from '../constant'
 import { FormikHelpers } from 'formik'
+import CustomModal from '../../../components/Modal/CustomModal'
+import { SchoolSuccessfulModals } from '../../../hooks/PopupModalsStyling'
+import ic_success from '../../../assets/images/ic_success.svg'
+import { Row, Col } from 'react-bootstrap'
+import CustomButton from '../../../components/CustomButton/CustomButton'
+import {
+    fontFamilyMedium,
+    lightBlue3,
+    lightColor1,
+    maastrichtBlue,
+} from '../../../components/GlobalStyle'
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const useFranchise = () => {
+interface IModalComponent {
+    modalComponent: JSX.Element
+}
+interface IUseFranchise {
+    loading: boolean
+    handleSubmit: (
+        values: CreateFranchiseInitialValues,
+        { resetForm }: FormikHelpers<CreateFranchiseInitialValues>
+    ) => Promise<void>
+    viewFranchisebyid: (franchiseId: number) => Promise<unknown>
+    editFranchise: (
+        franchiseId: number,
+        values: CreateFranchiseInitialValues
+    ) => Promise<unknown>
+    deleteFranchise: (franchiseId: number) => Promise<void>
+    getFranchisebyid: (franchiseId: number) => Promise<unknown>
+    errorMessage: string
+    Createmodal: () => IModalComponent
+    UpdateModal: () => IModalComponent
+    deletemodal: () => IModalComponent
+    deleteConfirmation: (_id: number) => IModalComponent
+}
+
+const useFranchise = (): IUseFranchise => {
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState('')
-    const toastId = useRef<unknown>(null)
+    const [errorMessage, setError] = useState('')
+    const [isShowModal, setIsShowModal] = useState(false)
+    const [data, setData] = useState<unknown>({})
+    const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
+
     const navigate = useNavigate()
+    const toastId = useRef<any>(null)
+    // const { franchiseId } = useParams()
     const { loginData } = useSelector((state: RootState) => state)
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [isShowModal, setIsShowModal] = useState(false)
-    const [data, setData] = useState<unknown>({})
-
     const handleSubmit = async (
         values: CreateFranchiseInitialValues,
-        { resetForm }: FormikHelpers<CreateFranchiseInitialValues>
+        { resetForm }: any
     ): Promise<void> => {
         console.log('values', values)
         const payload = {
@@ -76,15 +110,13 @@ const useFranchise = () => {
                 setLoading(false)
                 return
             }
-            toastId.current = toast(data4.responseMessage, {
-                type: 'success',
-                autoClose: 1000,
-            })
-            setLoading(false)
-            console.log({ data })
-            navigate('/franchise/list')
+            setIsShowModal(true)
+            setTimeout(() => {
+                setLoading(false)
+                setIsShowModal(false)
+                navigate('/franchise/list')
+            }, 3000)
             resetForm()
-            // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.log({ error })
             setLoading(false)
@@ -120,11 +152,10 @@ const useFranchise = () => {
             console.log('franchise info', data3.results)
             setLoading(false)
             return data3.results
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-shadow
-        } catch (error: any) {
-            console.log('error', error)
+        } catch (error2: any) {
+            console.log('error', error2)
             setLoading(false)
-            setError(error)
+            setError(error2)
         }
     }
 
@@ -175,20 +206,17 @@ const useFranchise = () => {
                 setIsShowModal(false)
                 navigate('/school/view')
             }, 3000)
-
-            console.log({ data })
-            // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
-        } catch (error: any) {
-            console.log({ error })
+        } catch (error2: any) {
+            console.log({ error: error2 })
             setLoading(false)
-            setError(error.response.data.responseMessage)
+            setError(error2.response.data.responseMessage)
             const id = setTimeout(() => {
                 setError('')
             }, 3000)
             if (!setIsShowModal) {
                 clearTimeout(id)
             }
-            toastId.current = toast(error.response.data.errors, {
+            toastId.current = toast(error2.response.data.errors, {
                 type: 'error',
                 autoClose: 1000,
             })
@@ -216,7 +244,6 @@ const useFranchise = () => {
             console.log('franchise info', datas.results)
             setLoading(false)
             return datas.results
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (Error: any) {
             console.log('error', Error)
             setLoading(false)
@@ -227,8 +254,6 @@ const useFranchise = () => {
     const deleteFranchise = async (franchiseId: number): Promise<void> => {
         const url = '/franchise/delete'
         console.log(franchiseId)
-
-        console.log('>> im in deletefranchise button')
 
         try {
             setError('')
@@ -254,25 +279,185 @@ const useFranchise = () => {
             //   type: "success",
             //   autoClose: 1000,
             // });
-            setIsShowModal(true)
+            // setIsShowModal(false)
+            // setTimeout(() => {
+            //     setLoading(false)
+            //     setIsShowModal(false)
+            //     navigate('/franchise/list')
+            // }, 3000)
+            setIsShowModal(false)
+            setIsShowDeleteModal(true)
             setTimeout(() => {
-                setLoading(false)
-                setIsShowModal(false)
-                navigate('/branch/list')
+                setIsShowDeleteModal(false)
+                navigate('/franchise/list')
             }, 3000)
             setData('results: ' + data)
-            console.log('data', { data })
             setLoading(false)
             // navigate("/school");
-            // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
-        } catch (error: any) {
-            console.log('api error', error)
-            setError(error.response.data.responseMessage)
+        } catch (error2: any) {
+            console.log('api error', error2)
+            setError(error2.response.data.responseMessage)
             setLoading(false)
             console.log(
-                error.response.data.responseMessage,
+                error2.response.data.responseMessage,
                 'error in api data'
             )
+        }
+    }
+
+    const Createmodal = (): IModalComponent => {
+        return {
+            modalComponent: (
+                <CustomModal
+                    isModalVisible={isShowModal}
+                    setIsModalVisible={setIsShowModal}
+                    showCloseBtn={true}
+                >
+                    <SchoolSuccessfulModals>
+                        <div className="mainContainer d-flex flex-column align-items-center">
+                            <img
+                                src={ic_success}
+                                alt="Success Icon"
+                                width={79}
+                                height={79}
+                            />
+                            <h3 className="mainContainer-heading text-center">
+                                Complete Profile Successfully!
+                            </h3>
+                            <p className="mainContainer-subText text-center">
+                                Congratulations! Your profile has been
+                                successfully completed, ensuring a seamless
+                                experience within the Marital
+                            </p>
+                        </div>
+                    </SchoolSuccessfulModals>
+                </CustomModal>
+            ),
+        }
+    }
+
+    const UpdateModal = (): IModalComponent => {
+        return {
+            modalComponent: (
+                <CustomModal
+                    isModalVisible={isShowModal}
+                    setIsModalVisible={setIsShowModal}
+                    showCloseBtn={true}
+                >
+                    <SchoolSuccessfulModals>
+                        <div className="mainContainer d-flex flex-column align-items-center">
+                            <img
+                                src={ic_success}
+                                alt="Success Icon"
+                                width={79}
+                                height={79}
+                            />
+                            <h3 className="mainContainer-heading text-center">
+                                Complete Profile Successfully!
+                            </h3>
+                            <p className="mainContainer-subText text-center">
+                                Congratulations! Your profile has been
+                                successfully completed, ensuring a seamless
+                                experience within the Marital
+                            </p>
+                        </div>
+                    </SchoolSuccessfulModals>
+                </CustomModal>
+            ),
+        }
+    }
+
+    const deletemodal = (): IModalComponent => {
+        return {
+            modalComponent: (
+                <CustomModal
+                    isModalVisible={isShowDeleteModal}
+                    setIsModalVisible={setIsShowDeleteModal}
+                    showCloseBtn={true}
+                >
+                    <SchoolSuccessfulModals>
+                        <div className="mainContainer d-flex flex-column align-items-center">
+                            <img
+                                src={ic_success}
+                                alt="Success Icon"
+                                width={188}
+                                height={55}
+                            />
+                            <h3 className="mainContainer-heading text-center">
+                                Successfully Account Removed
+                            </h3>
+                            <p className="mainContainer-subText text-center">
+                                The student Branch has been successfully
+                                removed,and please note that any associated data
+                                will be retained for a period of 30 days before
+                                it is permanently deleted from our system.
+                            </p>
+                        </div>
+                    </SchoolSuccessfulModals>
+                </CustomModal>
+            ),
+        }
+    }
+    const deleteConfirmation = (_id: number): IModalComponent => {
+        const Deleteschool = async (id: number): Promise<void> => {
+            setIsShowModal(false)
+            setIsShowDeleteModal(true)
+            await deleteFranchise(id)
+        }
+        return {
+            modalComponent: (
+                <CustomModal
+                    isModalVisible={isShowModal}
+                    setIsModalVisible={setIsShowModal}
+                    showCloseBtn={true}
+                >
+                    <SchoolSuccessfulModals>
+                        <h3 className="mainContainer-heading text-center">
+                            Want to Remove Account
+                        </h3>
+                        <p className="mainContainer-subText text-center">
+                            Before proceeding with the removal of a student
+                            account, please be aware that once the removal is
+                            confirmed, all access will be permanently revoked.
+                            If the user still holds an active membership, the
+                            account cannot be removed until the membership is
+                            completed or canceled.
+                        </p>
+                        <Row className="mt-20">
+                            <Col md="6">
+                                <CustomButton
+                                    bgcolor={lightColor1}
+                                    textTransform="Captilize"
+                                    color={maastrichtBlue}
+                                    padding="10px 12.5px"
+                                    fontFamily={fontFamilyMedium}
+                                    width="100%"
+                                    type="button"
+                                    title="Cancel"
+                                    fontSize="16px"
+                                    loading={false}
+                                    clicked={() => setIsShowModal(false)}
+                                />
+                            </Col>
+                            <Col md="6">
+                                <CustomButton
+                                    bgcolor={lightBlue3}
+                                    textTransform="Captilize"
+                                    color={maastrichtBlue}
+                                    padding="10px 12.5px"
+                                    fontFamily={fontFamilyMedium}
+                                    width="100%"
+                                    type="submit"
+                                    title="Confirmed"
+                                    fontSize="16px"
+                                    loading={false}
+                                    clicked={() => Deleteschool(_id)}
+                                />
+                            </Col>
+                        </Row>
+                    </SchoolSuccessfulModals>
+                </CustomModal>
+            ),
         }
     }
 
@@ -283,7 +468,11 @@ const useFranchise = () => {
         editFranchise,
         deleteFranchise,
         getFranchisebyid,
-        error,
+        errorMessage,
+        Createmodal,
+        UpdateModal,
+        deletemodal,
+        deleteConfirmation,
     }
 }
 

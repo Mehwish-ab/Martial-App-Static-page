@@ -1,5 +1,38 @@
 {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.formatOnSave": true,
+    "eslint.alwaysShowStatus": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+    },
+    "[javascriptreact]": {
+        "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+    },
+    "[html]": {
+        "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+    },
+    "[css]": {
+        "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+    },
+    "Files.eol": "\n",
     "cSpell.words": [
-        "Paymentinfo"
-    ]
+        "Createmodal",
+        "deletebranch",
+        "deletemodal"
+    ] // Unix
 }

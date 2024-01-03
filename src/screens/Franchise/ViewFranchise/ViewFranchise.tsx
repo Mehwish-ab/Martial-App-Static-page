@@ -9,7 +9,7 @@ import useFranchise from '../hooks/useFranchise'
 import { RootState } from '../../../redux/store'
 // import type { ColumnsType } from 'antd/es/table'
 // import StatusActiveError from '../../../assets/images/activeBtnError.svg'
-// import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
+import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
 // import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 import { FranchiseDataType } from '../../../redux/features/franchise/franchiseSlice'
 import { useEffect, useState } from 'react'
@@ -22,11 +22,42 @@ const ViewFranchise = (): JSX.Element => {
     const { franchiseId } = useParams()
 
     const { getFranchisebyid } = useFranchise()
-    const [franchisedata, setFranchise] = useState<
-        FranchiseDataType | undefined
-    >(undefined)
+    const [franchisedata, setFranchise] = useState<FranchiseDataType | any>(
+        undefined
+    )
     console.log(franchiseId, 'ids')
-
+    const { language, currency } = useSelector(
+        (state: RootState) => state.appData.data.dropdowns
+    )
+    const { activities } = useSelector(
+        (state: RootState) => state.appData.data.statusData
+    )
+    const { facilities } = useSelector(
+        (state: RootState) => state.appData.data.statusData
+    )
+    const { selectedLanguage } = useSelector(
+        (state: RootState) => state?.selectedLanguage
+    )
+    const { businessTypes } = useSelector(
+        (state: RootState) => state.appData.data.dropdowns
+    )
+    const defaultLanguage = language.find(
+        (item: DataTypesWithIdAndMultipleLangLabel) =>
+            +item.id == +franchisedata?.defaultLanguageId
+    )
+    const defaultCurrency = currency.find(
+        (item: DataTypesWithIdAndMultipleLangLabel) =>
+            +item.id == +franchisedata?.defaultCurrencyId
+    )
+    const showBusinessType = (_businessType: number): string => {
+        const index = businessTypes.findIndex((business: any) => {
+            return business.id === _businessType
+        })
+        if (index !== -1) {
+            return (businessTypes[index] as any)[selectedLanguage]
+        }
+        return '--'
+    }
     useEffect(() => {
         const fetchstripe = async (): Promise<unknown> => {
             const data = await getFranchisebyid(Number(franchiseId))
@@ -34,7 +65,7 @@ const ViewFranchise = (): JSX.Element => {
             return data
         }
         fetchstripe()
-    }, [franchiseId, getFranchisebyid])
+    }, [franchiseId])
 
     console.log('School data', schoolData)
     // const location = useLocation()
@@ -165,14 +196,53 @@ const ViewFranchise = (): JSX.Element => {
     //         console.log(+item.id == +Franchise?.defaultCurrencyId)
     // )
     console.log('data', franchisedata)
+    const showActivities = (_activities: string): string => {
+        const activitiesArr = _activities.split(',')
 
+        let activitiesName = ''
+        activitiesArr.map((activity) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                activitiesName =
+                    activitiesName === ''
+                        ? (activities[index] as any)[selectedLanguage]
+                        : `${activitiesName}, ${
+                              (activities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+        if (activitiesName !== '') return activitiesName
+        return '--'
+    }
+    const showFacilities = (_Facilities: string): string => {
+        const activitiesArr = _Facilities.split(',')
+
+        let activitiesName = ''
+        activitiesArr.map((facility) => {
+            const index = facilities.findIndex(
+                (acts: any) => acts.id === facility
+            )
+            if (index !== -1) {
+                activitiesName =
+                    activitiesName === ''
+                        ? (facilities[index] as any)[selectedLanguage]
+                        : `${activitiesName}, ${
+                              (facilities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+
+        if (activitiesName !== '') return activitiesName
+        return '--'
+    }
+    const activitiesToShow = franchisedata?.activities || ''
+    const facilitiesToShow = franchisedata?.facilities || ''
+    const FranchiseTypeToShow = franchisedata?.franchiseType || ''
     return (
         <ViewFranchiseStyled>
             <OverlayImages
-                overlayImg={franchisedata ? franchisedata.bannerPicture : ''}
-                backgroundImg={
-                    franchisedata ? franchisedata.profilePicture : ''
-                }
+                backgroundImg={franchisedata?.bannerPicture || ''}
+                overlayImg={franchisedata?.profilePicture || ''}
                 isEditable={true}
             />
 
@@ -182,8 +252,7 @@ const ViewFranchise = (): JSX.Element => {
                     <Col md="4">
                         <div className="list-item mb-0">
                             <div className="list-item-title">
-                                {/* {getLabelByKey("franchiseName")} */}
-                                School Name
+                                {getLabelByKey('franchiseName')}
                             </div>
                             <div className="list-item-value">
                                 {schoolData.businessName || '--'}
@@ -193,8 +262,7 @@ const ViewFranchise = (): JSX.Element => {
                     <Col md="4">
                         <div className="list-item mb-0">
                             <div className="list-item-title">
-                                {/* {getLabelByKey("franchiseName")} */}
-                                School Address
+                                {getLabelByKey('franchiseName')}
                             </div>
                             <div className="list-item-value">
                                 {schoolData.address || '--'}
@@ -204,11 +272,12 @@ const ViewFranchise = (): JSX.Element => {
                     <Col md="4">
                         <div className="list-item mb-0">
                             <div className="list-item-title">
-                                {/* {getLabelByKey("franchiseName")} */}
-                                School Type
+                                {getLabelByKey('franchiseName')}
                             </div>
                             <div className="list-item-value">
-                                {schoolData.businessType || '--'}
+                                {showBusinessType(
+                                    schoolData.businessType as number
+                                )}
                             </div>
                         </div>
                     </Col>
@@ -233,7 +302,9 @@ const ViewFranchise = (): JSX.Element => {
                                 {getLabelByKey('franchiseType')}
                             </div>
                             <div className="list-item-value">
-                                {franchisedata?.franchiseType || '--'}
+                                {showBusinessType(
+                                    FranchiseTypeToShow as number
+                                )}
                             </div>
                         </div>
                     </Col>
@@ -275,7 +346,11 @@ const ViewFranchise = (): JSX.Element => {
                                         {getLabelByKey('defaultLanguage')}
                                     </div>
                                     <div className="list-item-value">
-                                        {franchisedata?.defaultLanguageId}
+                                        {(defaultLanguage &&
+                                            (defaultLanguage as any)[
+                                                selectedLanguage
+                                            ]) ||
+                                            '--'}
                                     </div>
                                 </div>
                             </Col>
@@ -285,10 +360,11 @@ const ViewFranchise = (): JSX.Element => {
                                         {getLabelByKey('defaultCurrency')}
                                     </div>
                                     <div className="list-item-value">
-                                        {/* {(defaultCurrency &&
-                      (defaultCurrency as any)[selectedLanguage]) ||
-                      "--"} */}
-                                        {franchisedata?.defaultCurrencyId}
+                                        {(defaultCurrency &&
+                                            (defaultCurrency as any)[
+                                                selectedLanguage
+                                            ]) ||
+                                            '--'}
                                     </div>
                                 </div>
                             </Col>
@@ -300,7 +376,7 @@ const ViewFranchise = (): JSX.Element => {
                                 {getLabelByKey('activity')}
                             </div>
                             <div className="list-item-value">
-                                {franchisedata?.activities || '--'}
+                                {showActivities(activitiesToShow)}
                             </div>
                         </div>
                     </Col>
@@ -310,7 +386,7 @@ const ViewFranchise = (): JSX.Element => {
                                 {getLabelByKey('facilities')}
                             </div>
                             <div className="list-item-value">
-                                {franchisedata?.facilities || '--'}
+                                {showFacilities(facilitiesToShow)}
                             </div>
                         </div>
                     </Col>
@@ -333,8 +409,7 @@ const ViewFranchise = (): JSX.Element => {
                     <Col md="3">
                         <div className="list-item mb-0">
                             <div className="list-item-title">
-                                {/* {getLabelByKey("franchiseName")} */}
-                                Plan Name
+                                {getLabelByKey('franchiseName')}
                             </div>
                             <div className="list-item-value">
                                 {'IMAS - Innovative Martial Arts Systems' ||
@@ -359,8 +434,7 @@ const ViewFranchise = (): JSX.Element => {
                     <Col md="3">
                         <div className="list-item mb-0">
                             <div className="list-item-title">
-                                {/* {getLabelByKey("franchiseName")} */}
-                                Payment Schedule
+                                {getLabelByKey('franchiseName')}
                             </div>
                             <div className="list-item-value">
                                 {'Monday, 17th October 2023' ||
@@ -372,8 +446,7 @@ const ViewFranchise = (): JSX.Element => {
                     <Col md="3">
                         <div className="list-item mb-0">
                             <div className="list-item-title">
-                                {/* {getLabelByKey("franchiseName")} */}
-                                Payment Type
+                                {getLabelByKey('franchiseName')}
                             </div>
                             <div className="list-item-value">
                                 {'Auto Renew' ||

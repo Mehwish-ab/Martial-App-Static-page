@@ -144,22 +144,10 @@ const useBranch = (): IUseBranch => {
                 setIsShowModal(false)
                 navigate('/branch/list')
             }, 3000)
-            // toastId.current = toast(data.responseMessage, {
-            //   type: "success",
-            //   autoClose: 1000,
-            // });
-            //setLoading(false);
-            console.log({ data })
-            console.log(userDetails)
-
-            //setIsUploadImgVisible(true);
-            // navigate("/");
             resetForm()
         } catch (e: any) {
             console.error('Error:', e)
-            //console.log({ error });
             setLoading(false)
-            //setError(error.response.data.responseMessage);
             setTimeout(() => {
                 setError('')
             }, 2000)
@@ -193,20 +181,7 @@ const useBranch = (): IUseBranch => {
                 setLoading(false)
                 return data3
             }
-            // setIsShowModal(true);
-            // setTimeout(() => {
-            //   setLoading(false);
-            //   setIsShowModal(false);
-            //   //navigate("/school/view");
-            // }, 3000);
             setData('results: ' + data)
-            console.log('data', data.results.data)
-            // console.log(
-            //   "hello",
-            //   data.map((pic: any) => {
-            //     return pic;
-            //   })
-            // );
             setLoading(false)
             return data.results.data
         } catch (e: any) {
@@ -265,7 +240,6 @@ const useBranch = (): IUseBranch => {
             console.log({ data })
             return data3
         } catch (e: any) {
-            console.log('api error', errorMessage)
             // setError((errorMessage as any).response.data.responseMessage)
             // setLoading(false)
             // console.log(
@@ -285,7 +259,6 @@ const useBranch = (): IUseBranch => {
         schoolid: number
     ): Promise<void> => {
         const userDetails = loginData.data?.userDetails
-        console.log('schooooolll', schoolid, id)
 
         try {
             setError('')
@@ -337,7 +310,6 @@ const useBranch = (): IUseBranch => {
                 setIsShowModal(false)
                 navigate('/branch/list')
             }, 3000)
-            console.log('hi', data.results.data)
 
             // navigate("/school/view");
             console.log('hello', data4)
@@ -542,7 +514,6 @@ const useBranch = (): IUseBranch => {
             setData('results: ' + data2.results)
             console.log('data', { data: data2 })
             setLoading(false)
-            // return values;
         } catch (error2: any) {
             console.log('api error', error2)
             setError(error2.response.data.responseMessage)
@@ -557,8 +528,6 @@ const useBranch = (): IUseBranch => {
     const deletebranch = async (_branchId: number): Promise<void> => {
         const url = '/branch/delete'
         console.log(_branchId)
-
-        console.log('>> im in deletebranch button')
 
         try {
             setError('')
@@ -585,7 +554,7 @@ const useBranch = (): IUseBranch => {
             //   autoClose: 1000,
             // });
             setLoading(false)
-            setIsShowModal(false) // Open the deletemodal
+            setIsShowModal(false)
             setIsShowDeleteModal(true)
             setTimeout(() => {
                 setIsShowDeleteModal(false)
@@ -727,7 +696,7 @@ const useBranch = (): IUseBranch => {
     }
     const deleteConfirmation = (_id: number): IModalComponent => {
         const Deleteschool = async (id: number): Promise<void> => {
-            setIsShowModal(false) // Close any other modals
+            setIsShowModal(false)
             setIsShowDeleteModal(true)
             await deletebranch(id)
         }

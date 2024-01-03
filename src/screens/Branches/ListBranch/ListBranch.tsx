@@ -127,8 +127,6 @@ const ListBranch = (): JSX.Element => {
         },
         {
             title: 'Image',
-            //dataIndex: "profilePicture",
-            //key: "profilePicture",
             render: (Dummydatas) => {
                 console.log('>>images', Dummydatas?.profilePicture)
                 if (Dummydatas.profilePicture === null) {
@@ -136,7 +134,7 @@ const ListBranch = (): JSX.Element => {
                 } else {
                     return (
                         <img
-                            src={Dummydatas?.profilePicture}
+                            src={`https://fistastore.com:444${Dummydatas?.profilePicture}`}
                             width={44}
                             height={44}
                         />

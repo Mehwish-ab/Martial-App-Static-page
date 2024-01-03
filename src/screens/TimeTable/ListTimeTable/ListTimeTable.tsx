@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Dropdown, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { ListTimeTableStyled } from './styles'
@@ -13,10 +13,13 @@ import { useNavigate } from 'react-router-dom'
 import plusIcon from '../../../assets/icons/ic_plus.svg'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../redux/store'
+import store, { RootState } from '../../../redux/store'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
-import { TimeTableDataType } from '../../../redux/features/TimeTable/TimeTableSlice'
-import DummyData from './dummyData.json'
+import {
+    TimeTableDataType,
+    getTimetableByUserId,
+} from '../../../redux/features/TimeTable/TimeTableSlice'
+// import DummyData from './dummyData.json'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
@@ -88,6 +91,15 @@ const RenderTableTitle = (): JSX.Element => {
     )
 }
 const ListTimeTable: React.FC = () => {
+    const { timeTableData } = useSelector(
+        (state: RootState) => state.timeTableData
+    )
+    useEffect(() => {
+        console.log('hi use effect')
+        store.dispatch(getTimetableByUserId())
+    }, [])
+    console.log('timetable', timeTableData)
+
     const navigate = useNavigate()
     const navigation = (
         record: TimeTableDataType,
@@ -128,35 +140,59 @@ const ListTimeTable: React.FC = () => {
         },
         {
             title: 'Title',
-            dataIndex: 'timeTableTitle',
-            key: 'timeTableTitle',
+            dataIndex: 'title',
+            key: 'title',
         },
         {
             title: 'Start Date',
-            dataIndex: 'timeTableStartDate',
-            key: 'timeTableStartDate',
+            dataIndex: 'startDate',
+            key: 'startDate',
         },
         {
             title: 'End Date',
-            dataIndex: 'timeTableEndDate',
-            key: 'timeTableEndDate',
+            dataIndex: 'endDate',
+            key: 'endDate',
         },
         {
             title: 'Type',
-            dataIndex: 'timeTableType',
-            key: 'timeTableType',
+            dataIndex: 'isRepeated',
+            key: 'isRepeated',
+            render: (DummyDataa) => {
+                if (DummyDataa === true) {
+                    return (
+                        <div>
+                            <text>{'Repeat'}</text>
+                        </div>
+                    )
+                } else {
+                    return (
+                        <div>
+                            <text>{'No Repeat'}</text>
+                        </div>
+                    )
+                }
+            },
         },
         {
             title: 'Status',
-            dataIndex: 'timeTableStatus',
-            key: 'timeTableStatus',
+            dataIndex: 'isActive',
+            key: 'isActive',
             render: (DummyDataa) => {
-                return (
-                    <div>
-                        <button>{DummyDataa}</button>
-                        <img src={StatusActiveError as string} alt="image" />
-                    </div>
-                )
+                if (DummyDataa === true) {
+                    return (
+                        <div className={'Active'}>
+                            <button>Active</button>
+                            <img src={StatusActiveError} alt="image" />
+                        </div>
+                    )
+                } else {
+                    return (
+                        <div className={'De-Active'}>
+                            <button>De-Active</button>
+                            <img src={StatusActiveError} alt="image" />
+                        </div>
+                    )
+                }
             },
         },
         {
@@ -209,7 +245,9 @@ const ListTimeTable: React.FC = () => {
             <ListTimeTableStyled>
                 <Table
                     columns={columns}
-                    dataSource={DummyData as unknown as TimeTableDataType[]}
+                    dataSource={timeTableData.data.map((data) => {
+                        return data
+                    })}
                     title={() => <RenderTableTitle />}
                     pagination={{
                         showTotal: (total, range) => (

@@ -27,12 +27,15 @@ interface IModalComponent {
     modalComponent: JSX.Element
 }
 
-interface IUseSchool {
+interface IUseTimetable {
     loading: boolean
     handleCreateSubmit: (
         values: CreateTimeTableInitialValues,
         schoolId: number
-    ) => Promise<void>
+    ) => Promise<any>
+    getTimetableSlot: (timeTableid: number) => Promise<any> 
+    getAllTimetable: (userid: number)=> Promise<any> 
+
     editSchool: (
         _schoolId: number,
         values: CreateSchoolInitialValues
@@ -48,12 +51,11 @@ interface IUseSchool {
     setIsShowModal: (showModal: true) => void
 }
 
-const useTimetable = (): IUseSchool => {
+const useTimetable = (): IUseTimetable => {
     const [loading, setLoading] = useState(false)
     const [errorMessage, setError] = useState('')
     const [isUploadImgModalVisible, setIsUploadImgVisible] = useState(false)
     const toastId = useRef<any>(null)
-    // const { schoolId } = useParams()
     const { data: logindata } = useAppSelector(
         (state: { loginData: any }) => state.loginData
     )
@@ -66,17 +68,17 @@ const useTimetable = (): IUseSchool => {
 
     const { loginData } = useSelector((state: RootState) => state)
 
-    // to create School
+    // to create timetable
     const handleCreateSubmit = async (
         values: CreateTimeTableInitialValues,
         schoolId: number
-    ): Promise<void> => {
+    ): Promise<any> => {
         // const userDetails = loginData.data?.userDetails
 
         const payload = {
             userId: schoolId,
             title: values.title,
-            isRepeated: values.isRepeated === '1' ? true : false,
+            isRepeated: values.isRepeated === 1 ? true : false,
             startDate: values.startDate,
             endDate: values.endDate,
 
@@ -118,6 +120,7 @@ const useTimetable = (): IUseSchool => {
             //setIsUploadImgVisible(true);
             // navigate("/");
             // resetForm()
+            return data2.results
         } catch (error2: any) {
             console.log('error', { error: error2 })
             setLoading(false)
@@ -131,7 +134,114 @@ const useTimetable = (): IUseSchool => {
             })
         }
     }
-
+    //get all timetable slots
+    const getTimetableSlot = async (timeTableid: number): Promise<any> => {
+        const url = '/timetable/slot/getByTimeTableId'
+        console.log('>> im in getTimetableSlot button')
+        try {
+            setError('')
+            setLoading(true)
+            const { data: data3 } = await axios.post(
+                url,
+                { timeTableId: timeTableid },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            if (data3.responseCode === '500') {
+                toast(data3.responseMessage, {
+                    type: 'error',
+                    autoClose: 1000,
+                })
+                setLoading(false)
+                console.log("all slot list", data3);
+                
+                return data3
+            }
+            setLoading(false);
+            setIsShowModal(true);
+            setTimeout(() => {
+              setIsShowModal(false);
+              //navigate("/school/view");
+            }, 3000);
+          
+            // console.log(
+            //   "hello",
+            //   data.map((pic: any) => {
+            //     return pic;
+            //   })
+            // );
+            return data3.results.data
+        } catch (e: any) {
+            console.log('api error', errorMessage)
+            setError((errorMessage as any).response.data.responseMessage)
+            setLoading(false)
+            console.log(
+                (errorMessage as any).response.data.responseMessage,
+                'error in api data'
+            )
+            setError(
+                (errorMessage as any).response?.data?.responseMessage ||
+                    'An error occurred'
+            )
+        }
+    }
+    //get all timetable of user
+     const getAllTimetable = async (userid: number): Promise<any> => {
+        const url = '/timetable/getAll'
+        console.log('>> im in getAllTimetable button')
+        try {
+            setError('')
+            setLoading(true)
+            const { data: data3 } = await axios.post(
+                url,
+                { userId: userid },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            if (data3.responseCode === '500') {
+                toast(data3.responseMessage, {
+                    type: 'error',
+                    autoClose: 1000,
+                })
+                setLoading(false)
+                console.log("add timetable list", data3.results.data);
+                
+                return data3.results.data
+            }
+            setLoading(false);
+            setIsShowModal(true);
+            setTimeout(() => {
+              setIsShowModal(false);
+              //navigate("/school/view");
+            }, 3000);
+          
+            // console.log(
+            //   "hello",
+            //   data.map((pic: any) => {
+            //     return pic;
+            //   })
+            // );
+            return data3
+        } catch (e: any) {
+            console.log('api error', errorMessage)
+            setError((errorMessage as any).response.data.responseMessage)
+            setLoading(false)
+            console.log(
+                (errorMessage as any).response.data.responseMessage,
+                'error in api data'
+            )
+            setError(
+                (errorMessage as any).response?.data?.responseMessage ||
+                    'An error occurred'
+            )
+        }
+    }
     //to edit school
     const editSchool = async (
         _schoolId: number,
@@ -424,6 +534,8 @@ const useTimetable = (): IUseSchool => {
         Createmodal,
         UpdateModal,
         deleteConfirmation,
+        getTimetableSlot,
+        getAllTimetable
     }
 }
 

@@ -1,20 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 import store from '../../store'
-import {
-    base_url,
-    get_branch_by_school_id_url,
-    authorizationToken,
-} from '../../../utils/api_urls'
+import { base_url, authorizationToken } from '../../../utils/api_urls'
 import { loginDataTypes } from '../types'
 
 export interface TimeTableDataType {
     timeTableId: number
-    timeTableTitle: string
-    timeTableStartDate: string
-    timeTableEndDate: string
-    timeTableType: string
-    timeTableStatus: number
+    title: string
+    isRepeated: boolean
+    startDate: string
+    endDate: string
+    isActive: boolean
 }
 
 export interface GetBranchBySchoolResTypes {
@@ -32,7 +28,16 @@ export interface TimeTableDataInitialState {
 
 const initialState: TimeTableDataInitialState = {
     timeTableData: {
-        data: [],
+        data: [
+            {
+                timeTableId: 0,
+                title: '',
+                isRepeated: false,
+                startDate: '',
+                endDate: '',
+                isActive: false,
+            },
+        ],
         currentPage: 0,
         totalItems: 0,
         totalPages: 0,
@@ -41,18 +46,18 @@ const initialState: TimeTableDataInitialState = {
     error: '',
 }
 
-export const getBranchBySchoolId = createAsyncThunk(
-    'instructorData/getBranchBySchoolId',
+export const getTimetableByUserId = createAsyncThunk(
+    'TimetableData/getTimetableByUserId',
     async () => {
         const state = store.getState()
         console.log('state', state)
         try {
             const { data } = await axios.post(
-                `${base_url}${get_branch_by_school_id_url}`,
+                `${base_url}timetable/getAll`,
                 {
-                    schoolId:
-                        state.loginData.data?.schoolId ||
-                        state.dashboardData.schoolData.schoolId,
+                    userId:
+                        state.loginData.data?.userDetails.id ||
+                        state.dashboardData.schoolData.userId,
                 },
                 {
                     headers: {
@@ -78,30 +83,30 @@ export const getBranchBySchoolId = createAsyncThunk(
 )
 
 const timeTableSlice = createSlice({
-    name: 'instructorData',
+    name: 'TimeTableData',
     initialState,
     reducers: {
-        updateInstructor: (state, action) => {
-            const updateInstructor: TimeTableDataType = action.payload
+        updateTimeTable: (state, action) => {
+            const updateTimeTable: TimeTableDataType = action.payload
             const index = state.timeTableData.data.findIndex(
-                (b) => b.timeTableId === updateInstructor.timeTableId
+                (b) => b.timeTableId === updateTimeTable.timeTableId
             )
-            state.timeTableData.data[index] = updateInstructor
+            state.timeTableData.data[index] = updateTimeTable
         },
     },
     extraReducers(builder) {
         builder
-            .addCase(getBranchBySchoolId.pending, (state) => {
+            .addCase(getTimetableByUserId.pending, (state) => {
                 state.timeTableData = initialState.timeTableData
                 state.loading = true
                 state.error = ''
             })
-            .addCase(getBranchBySchoolId.fulfilled, (state, action) => {
+            .addCase(getTimetableByUserId.fulfilled, (state, action) => {
                 state.timeTableData = action.payload
                 state.loading = false
                 state.error = ''
             })
-            .addCase(getBranchBySchoolId.rejected, (state, action) => {
+            .addCase(getTimetableByUserId.rejected, (state, action) => {
                 console.log('action.error', action)
                 state.timeTableData = initialState.timeTableData
                 state.error = action.error.message
@@ -110,6 +115,6 @@ const timeTableSlice = createSlice({
     },
 })
 
-export const { updateInstructor } = timeTableSlice.actions
+export const { updateTimeTable } = timeTableSlice.actions
 
 export default timeTableSlice.reducer

@@ -5,12 +5,12 @@ import { useSelector } from 'react-redux'
 // import { CreateTimeTableInitialValues } from '../constant'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
 import { RootState } from '../../../redux/store'
-import TimeTableForm from './TimeTableForm'
-import TimeTableSheet from './TimeTableSheet'
+//  import TimeTableForm from './TimeTableForm'
+// import TimeTableSheet from './TimeTableSheet'
 
 const CreateTimeTable: React.FC = () => {
     const { loading } = useSelector((state: RootState) => state.timeTableData)
-
+    // const [NewTimetable, setNewtimetable] = useState<any>()
     // const initialValues: CreateTimeTableInitialValues = {
     //     userId: 0,
     //     title: '',
@@ -22,8 +22,8 @@ const CreateTimeTable: React.FC = () => {
         <>
             {loading && <LoadingOverlay message="" />}
 
-            <TimeTableForm />
-            <TimeTableSheet />
+            {/* <TimeTableForm setNewTimetable={setNewtimetable} />
+            <TimeTableSheet setNewTimetable={NewTimetable} /> */}
         </>
     )
 }

@@ -19,11 +19,19 @@ import { Formik } from 'formik'
 import { CreateTimeTableInitialValues } from '../constant'
 import { Form } from 'antd'
 import { useAppSelector } from '../../../app/hooks'
+// import TimeTableSheet from './TimeTableSheet'
+import { useNavigate } from 'react-router-dom'
 // import { FormControl } from "react-bootstrap";
 
-const TimeTableForm: React.FC = () => {
-    const { data: loginData } = useAppSelector((state) => state.loginData)
+interface TimeTableFormProps {
+    setNewTimetable: React.Dispatch<React.SetStateAction<any>>
+}
 
+const TimeTableForm: React.FC<TimeTableFormProps> = ({
+    setNewTimetable,
+}: any) => {
+    const { data: loginData } = useAppSelector((state) => state.loginData)
+    const navigate = useNavigate()
     // console.log('user id', loginData?.userDetails.id)
 
     useEffect(() => {
@@ -38,9 +46,18 @@ const TimeTableForm: React.FC = () => {
         startDate: '',
         endDate: '',
     }
+    // const [NewTTimetable, setNewttimetable] = useState<any>()
+
     const onSubmit = async (values: any): Promise<void> => {
         console.log('im handle submit button')
-        await handleCreateSubmit(values, Number(loginData?.userDetails.id))
+        const data = await handleCreateSubmit(
+            values,
+            Number(loginData?.userDetails.id)
+        )
+        console.log(data.timetableId, 'dataaa')
+        const timeTableId = data?.timeTableId
+        setNewTimetable(data)
+        navigate(`/timetable/slots/${timeTableId}`)
     }
     return (
         <>
@@ -53,7 +70,7 @@ const TimeTableForm: React.FC = () => {
                     onSubmit={onSubmit}
                 >
                     {(formik) => {
-                        // console.log('formik values', formik.values)
+                        console.log('formik values', formik.values)
 
                         return (
                             <Form
@@ -83,7 +100,7 @@ const TimeTableForm: React.FC = () => {
                                         <FormControl
                                             control="select"
                                             type="text"
-                                            name="is"
+                                            name="isRepeated"
                                             fontFamily={fontFamilyRegular}
                                             label={'isRepeated'}
                                             placeholder={'isRepeated'}
@@ -117,6 +134,9 @@ const TimeTableForm: React.FC = () => {
                                     <Col md="6">
                                         <FormControl
                                             control="date"
+                                            disabled={
+                                                formik.values.isRepeated !== 1
+                                            }
                                             type="date"
                                             name="endDate"
                                             labelFamily={`${fontFamilyMedium}`}

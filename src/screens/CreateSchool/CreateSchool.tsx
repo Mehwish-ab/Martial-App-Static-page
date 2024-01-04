@@ -215,7 +215,6 @@ const CreateSchool = (): JSX.Element => {
                                             control="select"
                                             type="text"
                                             name="businessType"
-                                            // prefix={<img src={lock_icon} alt="lock_icon" />}
                                             label={getLabelByKey(
                                                 'businessType'
                                             )}
@@ -308,7 +307,6 @@ const CreateSchool = (): JSX.Element => {
                                                     fontFamily={
                                                         fontFamilyRegular
                                                     }
-                                                    // prefix={<img src={lock_icon} alt="lock_icon" />}
                                                     label={getLabelByKey(
                                                         'belts'
                                                     )}
@@ -334,7 +332,6 @@ const CreateSchool = (): JSX.Element => {
                                                     fontFamily={
                                                         fontFamilyRegular
                                                     }
-                                                    // prefix={<img src={lock_icon} alt="lock_icon" />}
                                                     label={getLabelByKey(
                                                         'defaultLanguage'
                                                     )}
@@ -362,7 +359,6 @@ const CreateSchool = (): JSX.Element => {
                                                     fontFamily={
                                                         fontFamilyRegular
                                                     }
-                                                    // prefix={<img src={lock_icon} alt="lock_icon" />}
                                                     label={getLabelByKey(
                                                         'defaultCurrency'
                                                     )}
@@ -414,7 +410,6 @@ const CreateSchool = (): JSX.Element => {
                                             type="text"
                                             name="description"
                                             fontFamily={fontFamilyRegular}
-                                            // prefix={<img src={lock_icon} alt="lock_icon" />}
                                             label={getLabelByKey('description')}
                                             padding="10px"
                                             placeholder={getLabelByKey(

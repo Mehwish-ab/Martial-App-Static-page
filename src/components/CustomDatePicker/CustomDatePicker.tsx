@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { DatePicker } from 'antd'
 import { Field, ErrorMessage } from 'formik'
-import CustomDatePickerStyle from './style'
+import { CustomDatePickerStyle } from '../CustomDatePicker/style'
 import ErrorMsg from '../ErrorMessage'
 import dateIcon from '../../assets/icons/ic_blog_calender.svg'
 

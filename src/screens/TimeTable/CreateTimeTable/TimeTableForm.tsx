@@ -38,11 +38,12 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
         // GetUserid()
     }, [])
     // const { loading } = useSelector((state: RootState) => state.timeTableData)
-    const { handleCreateSubmit, Createmodal } = useTimetable()
+    const { handleCreateSubmit, Createmodal, loading, setIsShowModal } =
+        useTimetable()
     const initialValues: CreateTimeTableInitialValues = {
         userId: 0,
         title: '',
-        isRepeated: '',
+        isRepeated: 'No',
         startDate: '',
         endDate: '',
     }
@@ -102,8 +103,8 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                             type="text"
                                             name="isRepeated"
                                             fontFamily={fontFamilyRegular}
-                                            label={'isRepeated'}
-                                            placeholder={'isRepeated'}
+                                            label={'Repeat Time Table'}
+                                            placeholder={'No'}
                                             className={
                                                 formik.errors.isRepeated &&
                                                 formik.touched.isRepeated
@@ -165,7 +166,10 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                         title={'Submit'}
                                         fontSize="17px"
                                         // disabled={!formik.isValid}
-                                        // loading={false}
+                                        loading={loading}
+                                        clicked={() => {
+                                            setIsShowModal(true)
+                                        }}
                                     />
                                 </div>
                             </Form>

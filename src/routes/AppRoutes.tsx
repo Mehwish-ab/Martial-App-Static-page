@@ -52,6 +52,7 @@ import { useState } from 'react'
 // import { RootState } from "../redux/store";
 
 function AppRoutes(): JSX.Element {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [NewTimetable, setNewtimetable] = useState<any>()
 
     // const dispatch = useDispatch();
@@ -297,7 +298,7 @@ function AppRoutes(): JSX.Element {
                     path="/timetable/slots/:timeTableId"
                     element={
                         <AppLayout>
-                            <TimeTableSheet setNewTimetable={NewTimetable} />
+                            <TimeTableSheet />
                         </AppLayout>
                     }
                 />

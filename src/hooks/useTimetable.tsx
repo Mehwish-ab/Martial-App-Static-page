@@ -38,7 +38,7 @@ interface IUseTimetable {
     ) => Promise<any>
     getTimetableSlot: (timeTableid: number) => Promise<any> 
     getAllTimetable: (userid: number)=> Promise<any> 
-    getTimetablebyId: (timeTableId: number)=> Promise<any> 
+    getTimetableById: (timeTableId: number)=> Promise<any> 
 
     editSchool: (
         _schoolId: number,
@@ -246,7 +246,7 @@ const useTimetable = (): IUseTimetable => {
             )
         }
     }
-    const getTimetablebyId = async (timeTableid: number): Promise<any> => {
+    const getTimetableById = async (timeTableid: number): Promise<any> => {
         const url = '/timetable/getDetailsById'
         console.log('>> im in getAllTimetable button')
         try {
@@ -651,7 +651,7 @@ const useTimetable = (): IUseTimetable => {
         deleteConfirmation,
         getTimetableSlot,
         getAllTimetable,
-        getTimetablebyId,
+        getTimetableById: getTimetableById,
         CreateSlots,
     }
 }

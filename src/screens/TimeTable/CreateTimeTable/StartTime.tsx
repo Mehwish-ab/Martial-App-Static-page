@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import FormControl from '../../../components/FormControl'
 import { Col } from 'react-bootstrap'
 import Clock from '../../../assets/icons/ic_clock.svg'
@@ -7,53 +7,43 @@ import { FilterTimeTableStyled } from './styles'
 // import useTimetable from '../../../hooks/useTimetable'
 import { Formik } from 'formik'
 import { Form } from 'antd'
-// import { useAppSelector } from '../../../app/hooks'
-// import { useNavigate } from 'react-router-dom'
-import { CreateTimeTableSlotsInitialValues } from '../slotsConstants'
 
 interface TimeTableFormProps {
-    setStartTime: React.Dispatch<React.SetStateAction<any>>
+    rowIndex: number
+    recordIndex: number
+    startTime: string | undefined
+
+    setStartTime: (
+        _recordIndex: number,
+        _key: string,
+        _value: undefined | string | boolean | number,
+        _timeEntryIndex?: number
+    ) => void
 }
 
-const StartTime: React.FC<TimeTableFormProps> = ({ setStartTime }: any) => {
-    // const { data: loginData } = useAppSelector((state) => state.loginData)
-    // const navigate = useNavigate()
+const StartTime: React.FC<TimeTableFormProps> = ({
+    // rowIndex,
+    // recordIndex,
+    startTime,
+    // setStartTime,
+}: TimeTableFormProps) => {
+    const initialValues = {
+        startTime: startTime,
+    }
+    const submit = (value: string | undefined): void => {
+        console.log('checking I am here with value: ', value)
 
-    useEffect(() => {}, [])
-    // setEndTime('values')
-    // const { handleCreateSubmit, Createmodal } = useTimetable()
-    const initialValues: CreateTimeTableSlotsInitialValues = {
-        dayOfWeek: '',
-        timeTableId: 0,
-        startTime: '',
-        endTime: '',
-        startBreak: '',
-        endBreak: '',
+        // setStartTime(recordIndex, 'startTime', value, rowIndex)
     }
-    const submit = (values: any): void => {
-        console.log('This is submit function and the values passed are', values)
-        console.log('Extracted start time from above is', values.startTime)
-        setStartTime(values)
-    }
-    // const submit = (values: any): void => {
-    // setEndTime('hi')
-    // }
-    // const onSubmit = async (values: any): Promise<void> => {
-    //     console.log('im handle submit button')
-    //     const data = await handleCreateSubmit(
-    //         values,
-    //         Number(loginData?.userDetails.id)
-    //     )
-    //     console.log(data.timetableId, 'dataaa')
-    //     const timeTableId = data?.timeTableId
-    //     // setNewTimetable(data)
-    //     navigate(`/timetable/slots/${timeTableId}`)
-    // }
     return (
         <>
-            {/* {Createmodal().modalComponent} */}
             <FilterTimeTableStyled>
-                <Formik initialValues={initialValues} onSubmit={() => {}}>
+                <Formik
+                    initialValues={initialValues}
+                    onSubmit={() => {
+                        console.log('checking on ok press')
+                    }}
+                >
                     {(formik) => {
                         console.log('formik values', formik.values)
                         submit(formik.values.startTime)
@@ -79,9 +69,6 @@ const StartTime: React.FC<TimeTableFormProps> = ({ setStartTime }: any) => {
                                         }
                                         max={6}
                                         placeholder="12-05-1989"
-                                        // onKeyUp={setEndTime(
-                                        //     formik.values.endTime
-                                        // )}
                                     />
                                 </Col>
                             </Form>

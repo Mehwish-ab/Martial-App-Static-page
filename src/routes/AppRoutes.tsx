@@ -19,7 +19,7 @@ import ListInstructor from '../screens/Instructor/ListInstructor/ListInstructor'
 import CreateInstructor from '../screens/Instructor/CreateInstructor/CreateInstructor'
 import InformationInstructor from '../screens/Instructor/InformationInstructor/InformationInstructor'
 import ListTimeTable from '../screens/TimeTable/ListTimeTable/ListTimeTable'
-import CreateTimeTable from '../screens/TimeTable/CreateTimeTable/createTimeTable'
+// import CreateTimeTable from '../screens/TimeTable/CreateTimeTable/createTimeTable'
 import InformationTimeTable from '../screens/TimeTable/InformationTimeTable/InformationTimeTable'
 import ViewSchool from '../screens/CreateSchool/ViewSchool/ViewSchool'
 import CreateMembership from '../screens/Membership/CreateMembership/CreateMembership'
@@ -45,10 +45,15 @@ import Currency from '../screens/CurrencyPage/Currency'
 import UpdateInstructor from '../screens/Instructor/UpdateInstructor/UpdateInstructor'
 import ViewBranch from '../screens/Branches/ViewBranch/ViewBranch'
 import AddPaymentinfo from '../screens/Branches/BranchPayment/AddPaymentinfo'
+import TimeTableForm from '../screens/TimeTable/CreateTimeTable/TimeTableForm'
+import TimeTableSheet from '../screens/TimeTable/CreateTimeTable/TimeTableSheet'
+import { useState } from 'react'
 // import { useDispatch, useSelector } from "react-redux";
 // import { RootState } from "../redux/store";
 
 function AppRoutes(): JSX.Element {
+    const [NewTimetable, setNewtimetable] = useState<any>()
+
     // const dispatch = useDispatch();
     // const handleChange = (value: string) => {
     //   dispatch(setLanguage(value));
@@ -284,7 +289,15 @@ function AppRoutes(): JSX.Element {
                     path="/timetable/create"
                     element={
                         <AppLayout>
-                            <CreateTimeTable />
+                            <TimeTableForm setNewTimetable={setNewtimetable} />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/timetable/slots/:timeTableId"
+                    element={
+                        <AppLayout>
+                            <TimeTableSheet setNewTimetable={NewTimetable} />
                         </AppLayout>
                     }
                 />

@@ -77,6 +77,7 @@ const useInstructor = (): IUseInstructor => {
             )
             // formData.append('file', (file as any).file)
             formData.append('file', values.latestCertification)
+            // formData.append('file', String(values?.latestCertification))
 
             // console.log('Nada', formData)
 

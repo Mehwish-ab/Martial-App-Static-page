@@ -54,3 +54,35 @@ export const ViewSchoolStyled = styled.div`
         }
     }
 `
+export const ViewSchoolTabs = styled.div`
+    .tab {
+        overflow: hidden;
+    }
+
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 16px;
+        font-family: ${fontFamilyRegular};
+        color: ${pureDark2};
+        font-weight: 400;
+    }
+
+    .tab button:hover {
+        font-family: ${fontFamilyMedium};
+    }
+
+    .tab button.active {
+        border-bottom: 2px solid black;
+        font-family: ${fontFamilyMedium};
+    }
+
+    .tabsLink {
+        display: block;
+    }
+`

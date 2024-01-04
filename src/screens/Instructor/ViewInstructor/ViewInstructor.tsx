@@ -17,13 +17,13 @@ const ViewInstructor = (): JSX.Element => {
         agreement: false,
         liability: false,
     })
-    const { getInstructorbyid } = useInstructor()
+    const { getInstructorbyid, setIsShowModal, ImageModal, setImageURL } =
+        useInstructor()
     const [values, setValues] = useState<InstructorDataType | undefined>(
         undefined
     )
     const location = useLocation()
     const instructor: InstructorDataType = location.state?.branch
-    console.log(instructor, 'Nadaaaaaa')
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const getInstructor = async (): Promise<void> => {
         if (instructor) {
@@ -35,7 +35,11 @@ const ViewInstructor = (): JSX.Element => {
         getInstructor()
     }, [getInstructor])
     console.log('getInstructor', values)
-
+    const openModal = (certificationURL: string | undefined): void => {
+        setImageURL(certificationURL || '')
+        setIsShowModal(true)
+        console.log('inside the modal')
+    }
     // TODO: this state will be set after getting response from api
     // setInitialValues({
     //   termCondition: false, agreement: false, liability: false
@@ -44,10 +48,11 @@ const ViewInstructor = (): JSX.Element => {
     //   setInitialValues({
     //     termCondition: false, agreement: false, liability: false
     //   });
-    // };
+    // }
 
     return (
         <ViewInstructorStyled>
+            {ImageModal().modalComponent}
             <OverlayImages
                 overlayImg={instructor?.instructorImage || ''}
                 backgroundImg={instructor?.instructorImage || ''}
@@ -126,7 +131,13 @@ const ViewInstructor = (): JSX.Element => {
                                     <div className="list-item-title">
                                         Latest Certification (Optional)
                                     </div>
-                                    <div className="list-item-value">
+                                    <div
+                                        className="list-item-value "
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={() =>
+                                            openModal(values?.certificationURL)
+                                        }
+                                    >
                                         {values?.certificationURL
                                             ? values.certificationURL
                                             : '--'}

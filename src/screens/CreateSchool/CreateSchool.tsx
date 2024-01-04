@@ -33,17 +33,18 @@ import { useAppSelector } from '../../app/hooks'
 import { getSchoolByUserId } from '../../redux/features/dashboard/dashboardDataSlice'
 
 const CreateSchool = (): JSX.Element => {
-    // const { data } = useSelector((state: RootState) => state.loginData)
-    const { schoolData } = useAppSelector((state) => state.dashboardData)
-    const navigate = useNavigate()
-
-    // console.log('checking schoolData: ', schoolData, data)
-
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
+
     const {
         statusData: { activities, facilities },
         dropdowns: { currency, language, businessTypes },
     } = useSelector((state: RootState) => state.appData.data)
+
+    const { schoolData } = useAppSelector((state) => state.dashboardData)
+    const navigate = useNavigate()
+
+    // const { data } = useSelector((state: RootState) => state.loginData)
+
     const { handleCreateSubmit, loading, Createmodal } = useCreateSchool()
 
     const initialValues: CreateSchoolInitialValues = {
@@ -125,26 +126,10 @@ const CreateSchool = (): JSX.Element => {
     }
     useEffect(() => {
         store.dispatch(getSchoolByUserId())
-        // console.log('ids', schoolData?.schoolId)
         if (schoolData && schoolData.schoolId > 0)
             return navigate('/school/view')
     }, [schoolData])
-    // const showActivities = (_activities: string[]): string => {
-    //     let activitiesName = ''
-    //     _activities.map((activity) => {
-    //         const index = activities.findIndex((act) => act.id === activity)
-    //         if (index !== -1) {
-    //             activitiesName =
-    //                 activitiesName === ''
-    //                     ? (activities[index] as any)[selectedLanguage]
-    //                     : `${activitiesName}, ${
-    //                           (activities[index] as any)[selectedLanguage]
-    //                       }`
-    //         }
-    //     })
-    //     if (activitiesName !== '') return activitiesName
-    //     return getLabelByKey('activity')
-    // }
+
     const showActivities = (_activities: string[]): string => {
         let activitiesName = ''
         _activities.forEach((activity) => {
@@ -164,26 +149,6 @@ const CreateSchool = (): JSX.Element => {
         }
         return activitiesName || getLabelByKey('activity')
     }
-
-    // const showFacilities = (_facilities: string[]): string => {
-    //     let facilitiesName = ''
-    //     _facilities.map((facility) => {
-    //         const index = facilities.findIndex(
-    //             (facts: any) => facts.id === facility
-    //         )
-    //         if (index !== -1) {
-    //             facilitiesName =
-    //                 facilitiesName === ''
-    //                     ? (facilities[index] as any)[selectedLanguage]
-    //                     : `${facilitiesName}, ${
-    //                           (facilities[index] as any)[selectedLanguage]
-    //                       }`
-    //         }
-    //     })
-
-    //     if (facilitiesName !== '') return facilitiesName
-    //     return getLabelByKey('facilities')
-    // }
     const showFacilities = (_facilities: string[]): string => {
         let facilitiesName = ''
         _facilities.forEach((facility) => {
@@ -250,7 +215,6 @@ const CreateSchool = (): JSX.Element => {
                                             control="select"
                                             type="text"
                                             name="businessType"
-                                            // prefix={<img src={lock_icon} alt="lock_icon" />}
                                             label={getLabelByKey(
                                                 'businessType'
                                             )}
@@ -343,7 +307,6 @@ const CreateSchool = (): JSX.Element => {
                                                     fontFamily={
                                                         fontFamilyRegular
                                                     }
-                                                    // prefix={<img src={lock_icon} alt="lock_icon" />}
                                                     label={getLabelByKey(
                                                         'belts'
                                                     )}
@@ -369,7 +332,6 @@ const CreateSchool = (): JSX.Element => {
                                                     fontFamily={
                                                         fontFamilyRegular
                                                     }
-                                                    // prefix={<img src={lock_icon} alt="lock_icon" />}
                                                     label={getLabelByKey(
                                                         'defaultLanguage'
                                                     )}
@@ -397,7 +359,6 @@ const CreateSchool = (): JSX.Element => {
                                                     fontFamily={
                                                         fontFamilyRegular
                                                     }
-                                                    // prefix={<img src={lock_icon} alt="lock_icon" />}
                                                     label={getLabelByKey(
                                                         'defaultCurrency'
                                                     )}
@@ -449,7 +410,6 @@ const CreateSchool = (): JSX.Element => {
                                             type="text"
                                             name="description"
                                             fontFamily={fontFamilyRegular}
-                                            // prefix={<img src={lock_icon} alt="lock_icon" />}
                                             label={getLabelByKey('description')}
                                             padding="10px"
                                             placeholder={getLabelByKey(

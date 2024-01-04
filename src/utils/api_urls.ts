@@ -15,6 +15,7 @@ const domianTestUrl = 'https://maritalschool.innovatelq.com/'
 const isLive = false
 
 // base urls
+export const mediaURL = 'https://fistastore.com:444'
 export const base_url = isLive ? liveBaseUrl : testBaseUrl
 export const live_base_url = isLive ? domianLiveUrl : domianTestUrl
 export const media_base_url = isLive ? liveMediaUrl : testMediaUrl

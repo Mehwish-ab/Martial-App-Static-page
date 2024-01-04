@@ -9,6 +9,7 @@ import { loginDataTypes } from '../redux/features/types'
 import { CreateInstructorInitialValues } from '../../src/screens/Instructor/constant'
 import EnnvisionModal from '../components/CustomModals/EnnvisionModal'
 import CustomModal from '../components/Modal/CustomModal'
+
 interface IUseInstructor {
     loading: boolean
     handleSubmit: (
@@ -19,12 +20,18 @@ interface IUseInstructor {
     deletemodal: () => {
         modalComponent: JSX.Element
     }
+    ImageModal: () => {
+        modalComponent: JSX.Element
+    }
     getInstructorbyid: (instructorId: number) => Promise<any>
     updateInstructor: () => Promise<void>
     errorMessage: string
+    setIsShowModal: (showModal: true) => void
+    setImageURL: (imageURL: any) => void
 }
 
 const useInstructor = (): IUseInstructor => {
+    const [imageURL, setImageURL] = useState(false)
     const [loading, setLoading] = useState(false)
     const [isShowModal, setIsShowModal] = useState(false)
     // const [data, setData] = useState<unknown>({})
@@ -69,15 +76,17 @@ const useInstructor = (): IUseInstructor => {
                 })
             )
             // formData.append('file', (file as any).file)
-            formData.append('file', String(values?.latestCertification))
+            formData.append('file', values.latestCertification)
+            // formData.append('file', String(values?.latestCertification))
 
-            console.log('Nada', formData)
+            // console.log('Nada', formData)
 
             const { data } = await axios.post('/instructor/create', formData, {
                 headers: {
                     ...authorizationToken(loginData.data as loginDataTypes),
                     // ...axios.defaults.headers.post,
-                    'Content-Type': 'application/json',
+                    // 'Content-Type': 'application/json',
+                    'Content-Type': 'multipart/form-data',
                 },
             })
 
@@ -210,6 +219,32 @@ const useInstructor = (): IUseInstructor => {
             ),
         }
     }
+    const ImageModal = (): {
+        modalComponent: JSX.Element
+    } => {
+        return {
+            modalComponent: (
+                <CustomModal
+                    isModalVisible={isShowModal}
+                    setIsModalVisible={setIsShowModal}
+                    showCloseBtn={true}
+                >
+                    <div className="d-flex flex-column align-items-center p-2">
+                        <h6 className="text-center">
+                            Latest Certificate Image
+                        </h6>
+                        <img
+                            src={`https://fistastore.com:444/${imageURL}`}
+                            alt="Success Icon"
+                            width={600}
+                            height={500}
+                        />
+                    </div>
+                </CustomModal>
+            ),
+        }
+    }
+
     return {
         loading,
         handleSubmit,
@@ -218,6 +253,9 @@ const useInstructor = (): IUseInstructor => {
         getInstructorbyid,
         updateInstructor,
         errorMessage,
+        setIsShowModal,
+        setImageURL,
+        ImageModal,
     }
 }
 

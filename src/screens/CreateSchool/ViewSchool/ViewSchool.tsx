@@ -11,6 +11,7 @@ import { useEffect } from 'react'
 // import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import useSchool from '../../../hooks/useCreateSchool'
+import SchoolViewTabs from './SchoolViewTabs'
 
 import {
     lightBlue3,
@@ -18,17 +19,34 @@ import {
     maastrichtBlue,
 } from '../../../components/GlobalStyle'
 import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
+// import { getBranchBySchoolId } from '../../../redux/features/branch/branchSlice'
+// import { getfranchiseBySchoolId } from '../../../redux/features/franchise/franchiseSlice'
 
 const ViewSchool = (): JSX.Element => {
     const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
-    const { deleteConfirmation, loading, setIsShowModal, deletemodal } =
-        useSchool()
-
+    const {
+        deleteConfirmation,
+        loading,
+        setIsShowModal,
+        deletemodal,
+        WarningModal,
+        setIsShowWarningModal,
+    } = useSchool()
+    const { branchData } = useSelector((state: RootState) => state.branchData)
+    const { franchiseData } = useSelector(
+        (state: RootState) => state.franchiseData
+    )
+    console.log(
+        '>>DATATA',
+        branchData?.data?.length,
+        franchiseData?.data?.length
+    )
     const { data } = useSelector((state: RootState) => state.loginData)
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
+    console.log('>>SchoolData', schoolData)
     const { language, currency } = useSelector(
         (state: RootState) => state.appData.data.dropdowns
     )
@@ -70,6 +88,8 @@ const ViewSchool = (): JSX.Element => {
             return
         }
         store.dispatch(getSchoolByUserId())
+        // store.dispatch(getBranchBySchoolId())
+        // store.dispatch(getfranchiseBySchoolId())
     }, [])
 
     // const handleDeleteClick = async (): Promise<void> => {
@@ -121,7 +141,7 @@ const ViewSchool = (): JSX.Element => {
                 activitiesName =
                     activitiesName === ''
                         ? (facilities[index] as any)[selectedLanguage]
-                        : `${activitiesName},${
+                        : `${activitiesName}, ${
                               (facilities[index] as any)[selectedLanguage]
                           }`
             }
@@ -132,173 +152,184 @@ const ViewSchool = (): JSX.Element => {
     }
 
     return (
-        <ViewSchoolStyled>
-            {deletemodal().modalComponent}
-            {deleteConfirmation(schoolData.schoolId).modalComponent}
+        <>
+            <ViewSchoolStyled>
+                {WarningModal().modalComponent}
+                {deletemodal().modalComponent}
+                {deleteConfirmation(schoolData.schoolId).modalComponent}
 
-            <OverlayImages
-                backgroundImg={schoolData.bannerPicture || ''}
-                overlayImg={schoolData.profilePicture || ''}
-                isEditable={true}
-            />
-            <h3>School Informations</h3>
+                <OverlayImages
+                    backgroundImg={schoolData.bannerPicture || ''}
+                    overlayImg={schoolData.profilePicture || ''}
+                    isEditable={true}
+                />
+                <h3>School Informations</h3>
 
-            <Card>
-                <Row>
-                    <Col md="4">
-                        <div className="list-item">
-                            <div className="list-item-title">
-                                {getLabelByKey('businessName')}
-                            </div>
-                            <div className="list-item-value">
-                                {schoolData.businessName || '--'}
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md="4">
-                        <div className="list-item">
-                            <div className="list-item-title">
-                                {getLabelByKey('businessType')}
-                            </div>
-                            <div className="list-item-value">
-                                {showBusinessType(
-                                    schoolData.businessType as number
-                                )}
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md="4">
-                        <div className="list-item">
-                            <div className="list-item-title">
-                                {getLabelByKey('businessPhoneNumber')}
-                            </div>
-                            <div className="list-item-value">
-                                {schoolData.phoneNumber || '--'}
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md="4">
-                        <div className="list-item">
-                            <div className="list-item-title">
-                                {getLabelByKey('address')}
-                            </div>
-                            <div className="list-item-value">
-                                {schoolData.address || '--'}
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md="8">
-                        <Row>
-                            <Col md="4">
-                                <div className="list-item">
-                                    <div className="list-item-title">
-                                        {getLabelByKey('belts')}
-                                    </div>
-                                    <div className="list-item-value">
-                                        {schoolData.rank
-                                            ? 'Yes'
-                                            : schoolData.rank === false
-                                              ? 'No'
-                                              : '--'}
-                                    </div>
+                <Card>
+                    <Row>
+                        <Col md="4">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('businessName')}
                                 </div>
-                            </Col>
-                            <Col md="4">
-                                <div className="list-item">
-                                    <div className="list-item-title">
-                                        {getLabelByKey('defaultLanguage')}
-                                    </div>
-
-                                    <div className="list-item-value">
-                                        {(defaultLanguage &&
-                                            (defaultLanguage as any)[
-                                                selectedLanguage
-                                            ]) ||
-                                            '--'}
-                                    </div>
+                                <div className="list-item-value">
+                                    {schoolData.businessName || '--'}
                                 </div>
-                            </Col>
-                            <Col md="4">
-                                <div className="list-item">
-                                    <div className="list-item-title">
-                                        {getLabelByKey('defaultCurrency')}
-                                    </div>
-                                    <div className="list-item-value">
-                                        {(defaultLanguage &&
-                                            (defaultCurrency as any)[
-                                                selectedLanguage
-                                            ]) ||
-                                            '--'}
-                                    </div>
+                            </div>
+                        </Col>
+                        <Col md="4">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('businessType')}
                                 </div>
-                            </Col>
-                        </Row>
-                    </Col>
+                                <div className="list-item-value">
+                                    {showBusinessType(
+                                        schoolData.businessType as number
+                                    )}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="4">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('businessPhoneNumber')}
+                                </div>
+                                <div className="list-item-value">
+                                    {schoolData.phoneNumber || '--'}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="4">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('address')}
+                                </div>
+                                <div className="list-item-value">
+                                    {schoolData.address || '--'}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="8">
+                            <Row>
+                                <Col md="4">
+                                    <div className="list-item">
+                                        <div className="list-item-title">
+                                            {getLabelByKey('belts')}
+                                        </div>
+                                        <div className="list-item-value">
+                                            {schoolData.rank
+                                                ? 'Yes'
+                                                : schoolData.rank === false
+                                                  ? 'No'
+                                                  : '--'}
+                                        </div>
+                                    </div>
+                                </Col>
+                                <Col md="4">
+                                    <div className="list-item">
+                                        <div className="list-item-title">
+                                            {getLabelByKey('defaultLanguage')}
+                                        </div>
 
-                    <Col md="6">
-                        <div className="list-item">
-                            <div className="list-item-title">
-                                {getLabelByKey('activity')}
+                                        <div className="list-item-value">
+                                            {(defaultLanguage &&
+                                                (defaultLanguage as any)[
+                                                    selectedLanguage
+                                                ]) ||
+                                                '--'}
+                                        </div>
+                                    </div>
+                                </Col>
+                                <Col md="4">
+                                    <div className="list-item">
+                                        <div className="list-item-title">
+                                            {getLabelByKey('defaultCurrency')}
+                                        </div>
+                                        <div className="list-item-value">
+                                            {(defaultLanguage &&
+                                                (defaultCurrency as any)[
+                                                    selectedLanguage
+                                                ]) ||
+                                                '--'}
+                                        </div>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </Col>
+
+                        <Col md="6">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('activity')}
+                                </div>
+                                <div className="list-item-value">
+                                    {showActivities(schoolData.activities)}
+                                </div>
                             </div>
-                            <div className="list-item-value">
-                                {showActivities(schoolData.activities)}
+                        </Col>
+                        <Col md="6">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('facilities')}
+                                </div>
+                                <div className="list-item-value">
+                                    {showFacilities(schoolData.facilities)}
+                                </div>
                             </div>
-                        </div>
-                    </Col>
-                    <Col md="6">
-                        <div className="list-item">
-                            <div className="list-item-title">
-                                {getLabelByKey('facilities')}
+                        </Col>
+                        <Col md="12">
+                            <div className="list-item mb-0">
+                                <div className="list-item-title">
+                                    {getLabelByKey('description')}
+                                </div>
+                                <div className="list-item-value">
+                                    {schoolData.description || '--'}
+                                </div>
                             </div>
-                            <div className="list-item-value">
-                                {showFacilities(schoolData.facilities)}
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md="12">
-                        <div className="list-item mb-0">
-                            <div className="list-item-title">
-                                {getLabelByKey('description')}
-                            </div>
-                            <div className="list-item-value">
-                                {schoolData.description || '--'}
-                            </div>
-                        </div>
-                    </Col>
-                </Row>
-            </Card>
-            <div className="mt-20 mb-3 d-flex justify-content-end gap-3">
-                <div>
-                    <CustomButton
-                        bgcolor={lightBlue3}
-                        textTransform="Capitalize"
-                        color={maastrichtBlue}
-                        padding="11px 40.50px"
-                        fontFamily={`${fontFamilyMedium}`}
-                        width="fit-content"
-                        type="submit"
-                        title="Delete Account"
-                        fontSize="18px"
-                        loading={loading}
-                        clicked={() => setIsShowModal(true)}
-                    />
+                        </Col>
+                    </Row>
+                </Card>
+                <div className="mt-20 mb-3 d-flex justify-content-end gap-3">
+                    <div>
+                        <CustomButton
+                            bgcolor={lightBlue3}
+                            textTransform="Capitalize"
+                            color={maastrichtBlue}
+                            padding="11px 40.50px"
+                            fontFamily={`${fontFamilyMedium}`}
+                            width="fit-content"
+                            type="submit"
+                            title="Delete Account"
+                            fontSize="18px"
+                            loading={loading}
+                            clicked={() => {
+                                if (
+                                    franchiseData?.data[0]?.franchiseId > 0 ||
+                                    branchData?.data[0]?.branchId !== 0
+                                ) {
+                                    setIsShowWarningModal(true)
+                                } else setIsShowModal(true)
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <CustomButton
+                            bgcolor={lightBlue3}
+                            textTransform="Capitalize"
+                            color={maastrichtBlue}
+                            padding="11px 40.50px"
+                            fontFamily={`${fontFamilyMedium}`}
+                            width="fit-content"
+                            type="submit"
+                            title="Edit Account"
+                            fontSize="18px"
+                            clicked={handleUpdateClick}
+                        />
+                    </div>
                 </div>
-                <div>
-                    <CustomButton
-                        bgcolor={lightBlue3}
-                        textTransform="Capitalize"
-                        color={maastrichtBlue}
-                        padding="11px 40.50px"
-                        fontFamily={`${fontFamilyMedium}`}
-                        width="fit-content"
-                        type="submit"
-                        title="Edit Account"
-                        fontSize="18px"
-                        clicked={handleUpdateClick}
-                    />
-                </div>
-            </div>
-        </ViewSchoolStyled>
+            </ViewSchoolStyled>
+            <SchoolViewTabs />
+        </>
     )
 }
 

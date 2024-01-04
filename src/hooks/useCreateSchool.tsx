@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable max-len */
 import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { CreateSchoolInitialValues } from '../screens/Home/constants'
@@ -16,6 +14,7 @@ import { loginDataTypes } from '../redux/features/types'
 import CustomModal from '../components/Modal/CustomModal'
 import { useAppSelector } from '../app/hooks'
 import ic_success from '../assets/images/ic_success.svg'
+import ic_error from '../assets/icons/ic_error.svg'
 import CustomButton from '../components/CustomButton/CustomButton'
 import {
     fontFamilyMedium,
@@ -47,8 +46,10 @@ interface IUseSchool {
     deletemodal: () => IModalComponent
     Createmodal: () => IModalComponent
     UpdateModal: () => IModalComponent
+    WarningModal: () => IModalComponent
     deleteConfirmation: (id: number) => IModalComponent
     setIsShowModal: (showModal: true) => void
+    setIsShowWarningModal: (showModal: true) => void
 }
 
 const useCreateSchool = (): IUseSchool => {
@@ -65,7 +66,7 @@ const useCreateSchool = (): IUseSchool => {
     const [isShowModal, setIsShowModal] = useState(false)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
-
+    const [isShowWarningModal, setIsShowWarningModal] = useState(false)
     const { loginData } = useSelector((state: RootState) => state)
 
     // to create School
@@ -357,6 +358,35 @@ const useCreateSchool = (): IUseSchool => {
         }
     }
 
+    const WarningModal = (): IModalComponent => {
+        return {
+            modalComponent: (
+                <CustomModal
+                    isModalVisible={isShowWarningModal}
+                    setIsModalVisible={setIsShowWarningModal}
+                    showCloseBtn={true}
+                >
+                    <SchoolSuccessfulModals>
+                        <div className="mainContainer d-flex flex-column align-items-center">
+                            <img
+                                src={ic_error}
+                                alt="error Icon"
+                                width={79}
+                                height={79}
+                            />
+                            <h3 className="mainContainer-heading text-center">
+                                Warning!
+                            </h3>
+                            <p className="mainContainer-subText text-center">
+                                Please remove the first Branches and Franchise.
+                            </p>
+                        </div>
+                    </SchoolSuccessfulModals>
+                </CustomModal>
+            ),
+        }
+    }
+
     const deleteConfirmation = (_id: number): IModalComponent => {
         const Deleteschool = async (id: number): Promise<void> => {
             setIsShowModal(false) // Close any other modals
@@ -435,6 +465,8 @@ const useCreateSchool = (): IUseSchool => {
         Createmodal,
         UpdateModal,
         deleteConfirmation,
+        WarningModal,
+        setIsShowWarningModal,
     }
 }
 

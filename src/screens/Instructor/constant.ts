@@ -4,7 +4,7 @@ export interface CreateInstructorInitialValues {
     instructorPhoneNumber: string | number
     address: string
     yearsOfExperience: string | number
-    latestCertification: string | number
+    latestCertification: any
     description: string | number
     activities: string[]
     specializations: string[]

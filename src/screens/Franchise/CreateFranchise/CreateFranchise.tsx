@@ -1,22 +1,17 @@
-// import profileImg from "../../../../assets/images/create_school_user_profile.svg";
-// import banner from "../../../../assets/images/create_school_banner.svg";
 import { ErrorMessage, Formik } from 'formik'
 import { Form } from 'antd'
 
 import { Col, Row } from 'react-bootstrap'
-// import searchIcon from "../../../assets/icons/ic_search.svg";
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { RootState } from '../../../redux/store'
-// import useCreateSchool from "../../../hooks/useCreateSchool";
 import {
     BELTS_SELECT_OPTIONS,
     SelectOptionsDataTypes,
 } from '../../Home/constants'
 import { validationFinder } from '../../../utils/utilities'
 import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
-// import OverlayImages from "../../Home/OverlayImages/OverlayImages";
 import FormControl from '../../../components/FormControl'
 import {
     fontFamilyMedium,
@@ -24,10 +19,8 @@ import {
     lightBlue3,
     maastrichtBlue,
 } from '../../../components/GlobalStyle'
-// import SearchGoogleLocation from "../../../components/Common/SearchGoogleLocation/SearchGoogleLocation";
 import CustomPhoneInput from '../../../components/CustomPhoneInput/CustomPhoneInput'
-// import CheckboxesList from "../../../components/CustomCheckbox/CheckboxesList";
-// import PaymentInformation from "../../../components/Common/PaymentInformation/PaymentInformation";
+
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import { CreateSchoolStyled } from '../../CreateSchool/styles'
 import { CreateFranchiseInitialValues } from '../constant'
@@ -43,7 +36,6 @@ const CreateFranchise = (): JSX.Element => {
         dropdowns: { currency, language, businessTypes },
     } = useSelector((state: RootState) => state.appData.data)
 
-    const { loading, handleSubmit } = useFranchise()
     const initialValues: CreateFranchiseInitialValues = {
         franchiseName: '',
         franchiseType: '',
@@ -71,12 +63,10 @@ const CreateFranchise = (): JSX.Element => {
 
     const franchiseName = validationFinder('BUSINESS_NAME')!
     const franchiseNameReg = new RegExp(franchiseName.pattern)
-    const address = validationFinder('ADDRESS')!
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const addressReg = new RegExp(address.pattern)
+    // const address = validationFinder('ADDRESS')!
+    // const addressReg = new RegExp(address.pattern)
     const franchisePhoneNumber = validationFinder('PHONE_NUMBER')!
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const ranks = validationFinder('Ranks')
+    const { handleSubmit, loading, Createmodal } = useFranchise()
 
     const validationSchema = Yup.object({
         franchiseName: Yup.string()
@@ -90,7 +80,7 @@ const CreateFranchise = (): JSX.Element => {
             franchisePhoneNumber.notBlankMsgEn
         ),
         // belts: Yup.string().required("Please select belts"),
-        ranks: Yup.string().required('Please select ranks'),
+        rank: Yup.string().required('Please select ranks'),
         description: Yup.string().required('Please enter description'),
         defaultLanguage: Yup.string().required(
             'Please select default language'
@@ -153,18 +143,57 @@ const CreateFranchise = (): JSX.Element => {
 
         return options
     }
+    const showActivities = (_activities: string[]): string => {
+        let activitiesName = ''
+        _activities.forEach((activity) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                const activityLabel = (activities[index] as any)[
+                    selectedLanguage
+                ]
+                activitiesName =
+                    activitiesName === ''
+                        ? activityLabel
+                        : `${activitiesName}, ${activityLabel}`
+            }
+        })
+        if (activitiesName.length > 35) {
+            return `${activitiesName.slice(0, 35)}...`
+        }
+        return activitiesName || 'Activities'
+    }
+
+    const showFacilities = (_facilities: string[]): string => {
+        let facilitiesName = ''
+        _facilities.forEach((facility) => {
+            const index = facilities.findIndex(
+                (facts: any) => facts.id === facility
+            )
+            if (index !== -1) {
+                const facilityLabel = (facilities[index] as any)[
+                    selectedLanguage
+                ]
+                facilitiesName =
+                    facilitiesName === ''
+                        ? facilityLabel
+                        : `${facilitiesName}, ${facilityLabel}`
+            }
+        })
+        if (facilitiesName.length > 35) {
+            return `${facilitiesName.slice(0, 35)}...`
+        }
+        return facilitiesName || getLabelByKey('facilities')
+    }
 
     return (
         <CreateSchoolStyled>
-            {/* <OverlayImages backgroundImg={""} overlayImg={""} isEditable={false} /> */}
+            {Createmodal().modalComponent}
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
             >
                 {(formik) => {
-                    console.log('hi', formik.values)
-
                     return (
                         <Form
                             name="basic"
@@ -254,6 +283,8 @@ const CreateFranchise = (): JSX.Element => {
                                                         marginLeft: '3px',
                                                         fontSize: '12px',
                                                         letterSpacing: '1px',
+                                                        fontFamily:
+                                                            fontFamilyRegular,
                                                     }}
                                                 >
                                                     {msg}
@@ -268,7 +299,7 @@ const CreateFranchise = (): JSX.Element => {
                                             placeholder={getLabelByKey(
                                                 'enterCompleteAddress'
                                             )}
-                                            handleChange={(val: any) => {
+                                            handleChange={(val) => {
                                                 formik.setFieldValue(
                                                     'address',
                                                     val
@@ -291,7 +322,7 @@ const CreateFranchise = (): JSX.Element => {
                                                 <FormControl
                                                     control="select"
                                                     type="text"
-                                                    name="ranks"
+                                                    name="rank"
                                                     fontFamily={
                                                         fontFamilyRegular
                                                     }
@@ -303,8 +334,8 @@ const CreateFranchise = (): JSX.Element => {
                                                         'ranking'
                                                     )}
                                                     className={
-                                                        formik.errors.rank &&
-                                                        formik.touched.rank
+                                                        formik?.errors?.rank &&
+                                                        formik?.touched?.rank
                                                             ? 'is-invalid'
                                                             : 'customInput'
                                                     }
@@ -378,6 +409,9 @@ const CreateFranchise = (): JSX.Element => {
                                             label="Activity"
                                             list={activities}
                                             showErrorMsgInList={false}
+                                            placeholder={showActivities(
+                                                formik.values.selectedActivities
+                                            )}
                                         />
                                     </Col>
 
@@ -387,6 +421,9 @@ const CreateFranchise = (): JSX.Element => {
                                             label="Facility"
                                             list={facilities}
                                             showErrorMsgInList={false}
+                                            placeholder={showFacilities(
+                                                formik.values.selectedFacilities
+                                            )}
                                         />
                                     </Col>
 

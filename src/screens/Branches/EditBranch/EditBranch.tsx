@@ -43,7 +43,6 @@ const EditBranch = (): JSX.Element => {
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
-    console.log('Beautiful', schoolData)
     const { editSchool, getbranchbyid, UpdateModal } = useBranch()
     const { branchId } = useParams()
     const location = useLocation()
@@ -84,7 +83,6 @@ const EditBranch = (): JSX.Element => {
     console.log('branchDatas', schoolData)
 
     const handleEditSchool = async (value: any): Promise<void> => {
-        console.log('>>value', value)
         if (!value.selectedActivities[0] || !value.selectedFacilities[0]) {
             return
         }
@@ -220,11 +218,6 @@ const EditBranch = (): JSX.Element => {
     return (
         <CreateSchoolStyled>
             {UpdateModal().modalComponent}
-            {/* <OverlayImages
-                backgroundImg={branchToEdit?.bannerPicture || ''}
-                overlayImg={branchToEdit?.profilePicture || ''}
-                isEditable={true}
-            /> */}
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}

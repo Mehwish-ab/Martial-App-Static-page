@@ -1,23 +1,47 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+
 import { Dropdown, Space, Table } from 'antd'
 import { useNavigate, useParams } from 'react-router-dom'
-import CustomButton from '../../../components/CustomButton/CustomButton'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
-import Clock from '../../../assets/icons/ic_clock.svg'
 import { useSelector } from 'react-redux'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
-// import DummyData from './dummyData.json'
-import {
-    fontFamilyMedium,
-    lightBlue3,
-    pureDark,
-} from '../../../components/GlobalStyle'
 import { CreateTimeTableStyled } from './styles'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
 import { TimeTableDataType } from '../../../redux/features/TimeTable/TimeTableSlice'
 import { RootState } from '../../../redux/store'
 import { ColumnsType } from 'antd/lib/table'
-import { string } from 'yup'
+import StartTime from './StartTime'
+import StartBreak from './StartBreak'
+import EndTime from './Endtime'
+import EndBreak from './EndBreak'
+import useTimetable from '../../../hooks/useTimetable'
+
+const daysOfWeek = [
+    'SUNDAY',
+    'MONDAY',
+    'TUESDAY',
+    'WEDNESDAY',
+    'THURSDAY',
+    'FRIDAY',
+    'SATURDAY',
+]
+
+const calculateDaysDifference = (
+    startDate: string | number | Date,
+    endDate: string | number | Date
+): number => {
+    const start = new Date(startDate)
+    const end = new Date(endDate)
+    if (endDate != null) {
+        const differenceInTime = end.getTime() - start.getTime() + 1
+        const differenceInDays = Math.ceil(
+            differenceInTime / (1000 * 3600 * 24)
+        )
+        return differenceInDays
+    } else {
+        return 1
+    }
+}
 
 const RenderTableTitle = (): JSX.Element => {
     return (
@@ -29,13 +53,68 @@ const RenderTableTitle = (): JSX.Element => {
 interface TimeTableFormProps {
     setNewTimetable: React.Dispatch<React.SetStateAction<any>>
 }
+
+interface TimeEntryProps {
+    startTime: Date | undefined
+    endTime: Date | undefined
+    startBreak: Date | undefined
+    endBreak: Date | undefined
+    dayOfWeek: string
+    timeTableId: 8
+}
+
+interface TableDateSourceProps {
+    key: string
+    date: string
+    dayOfWeek: string
+    timeEntries: TimeEntryProps[]
+}
+
 const TimeTableSheet: React.FC<TimeTableFormProps> = ({
     setNewTimetable,
 }: any) => {
     const { timeTableId } = useParams()
-    console.log('timetable id', timeTableId)
+    const { getTimetablebyId, CreateSlots, Createmodal, setIsShowModal } =
+        useTimetable()
+    const [StartTimee, setStartTime] = useState<any>()
+    const [EndTimee, setEndTime] = useState<any>()
+    const [AllTimetable, setAllTimetable] = useState<any>()
+    const [StartBreakk, setStartBreak] = useState<any>()
+    const [EndBreakk, setEndBreak] = useState<any>()
+    const [dayOfWeekk, setdayOfWeek] = useState<any>()
+    // const [newRowIndex, setNewRowIndex] = useState<number>(0)
+
+    const [tableDataSource, setTableDataSource] = useState<
+        TableDateSourceProps[]
+    >([])
     const navigate = useNavigate()
-    console.log('flower', setNewTimetable)
+
+    // useEffect(() => {
+    //     console.log('use effect')
+    //     const Timetables = async (): Promise<void> => {
+    //         const data = await getTimetablebyId(Number(timeTableId))
+    //         setAllTimetable(data)
+    //         console.log('data', data)
+    //     }
+    //     Timetables()
+    //     getTimetablebyId(Number(timeTableId))
+    //     // const dates = getDaysBetweenDates(
+    //     //     setNewTimetable?.endDate,
+    //     //     setNewTimetable?.startDate
+    //     // )
+    //     // console.log('dates', dates)
+    //     // GetUserid()
+    // }, [getTimetablebyId, timeTableId])
+    useEffect(() => {
+        async function fetchinfo(): Promise<void> {
+            const data = await getTimetablebyId(Number(timeTableId))
+            setAllTimetable(data)
+        }
+        fetchinfo()
+    }, [])
+
+    console.log('Created timeTable', AllTimetable)
+    console.log('timetable id-:', timeTableId)
 
     const navigation = (
         record: TimeTableDataType,
@@ -66,112 +145,79 @@ const TimeTableSheet: React.FC<TimeTableFormProps> = ({
                 })
         }
     }
-    const calculateDaysDifference = (
-        startDate: string | number | Date,
-        endDate: string | number | Date
-    ): any => {
-        const start = new Date(startDate)
-        const end = new Date(endDate)
-        const differenceInTime = end.getTime() - start.getTime()
-        const differenceInDays = Math.ceil(
-            differenceInTime / (1000 * 3600 * 24)
-        )
-        console.log(differenceInDays, 'hatommmmmmm')
 
-        return differenceInDays
-    }
-    const numberOfDays = calculateDaysDifference(
-        setNewTimetable?.startDate,
-        setNewTimetable?.endDate
-    )
-    const dummyRows = Array.from({ length: numberOfDays }, (_, index) => ({
-        key: index.toString(),
-        // Add other properties as needed for each row
-    }))
-    // const daysOfWeek = [
-    //     'Sunday',
-    //     'Monday',
-    //     'Tuesday',
-    //     'Wednesday',
-    //     'Thursday',
-    //     'Friday',
-    //     'Saturday',
-    // ]
-
-    // const dummyRows = Array.from({ length: numberOfDays }, (_, index) => {
-    //     const currentDate = new Date()
-    //     currentDate.setDate(currentDate.getDate() + index);
-    //     const dayOfWeek = daysOfWeek[currentDate.getDay()];
-
-    //     return {
-    //         key: index.toString(),
-    //         dayOfWeek: dayOfWeek,
+    // const dummyRows = Array.from({ length: numberOfDays }, (_, index) => ({
+    //     key: index.toString(),
     //     // Add other properties as needed for each row
-    // };
-    // })
-    const getDaysBetweenDates = (startDate: any, endDate: any): string[] => {
-        const days = []
-        const currentDate = new Date(startDate)
+    // }))
 
-        while (currentDate <= endDate) {
-            days.push(currentDate.toISOString().split('T')[0])
-            currentDate.setDate(currentDate.getDate() + 1)
-        }
-
-        return days
-    }
-    useEffect(() => {
-        const dates = getDaysBetweenDates(
-            setNewTimetable?.endDate,
-            setNewTimetable?.startDate
-        )
-        console.log('dates', dates)
-        // GetUserid()
-    }, [setNewTimetable?.endDate, setNewTimetable?.startDate])
     // const dataSource = DummyData as unknown as TimeTableDataType[]
-    const updatedDataSource = [...dummyRows]
-    const { loading } = useSelector((state: RootState) => state.timeTableData)
+    // const updatedDataSource = [...dates]
 
-    const columns: ColumnsType<TimeTableDataType> = [
+    const { loading } = useSelector((state: RootState) => state.timeTableData)
+    const addNewSlot = (): any => {
+        const currentDate = new Date(setNewTimetable.startDate)
+        currentDate.setDate(currentDate.getDate() + tableDataSource.length)
+
+        const newSlotRow: TableDateSourceProps = {
+            key: currentDate.toISOString(),
+            date: currentDate.toISOString().split('T')[0],
+            dayOfWeek: daysOfWeek[currentDate.getDay()],
+            timeEntries: [
+                {
+                    startTime: undefined,
+                    endTime: undefined,
+                    startBreak: undefined,
+                    endBreak: undefined,
+                    dayOfWeek: daysOfWeek[currentDate.getDay()],
+                    timeTableId: setNewTimetable.timeTableId,
+                },
+            ],
+        }
+        console.log('New slot row:', newSlotRow)
+
+        setTableDataSource((prevDataSource) => [...prevDataSource, newSlotRow])
+        setIsShowModal(true)
+    }
+    const columns: ColumnsType<any> = [
         {
-            title: 'Week Day',
+            title: 'Date',
+            dataIndex: 'createTimeTabledate',
+            key: 'createTimeTabledate',
+            render: (value, record) => {
+                return <div>{record.date}</div>
+            },
+        },
+        {
+            title: 'Day',
             dataIndex: 'createTimeTableWeekDay',
             key: 'createTimeTableWeekDay',
-            render: (startDate) => {
-                const dayName = new Date(startDate).toLocaleDateString(
-                    'en-US',
-                    {
-                        weekday: 'long',
-                    }
-                )
-                console.log(startDate, dayName, 'j')
-
-                return <span>{dayName}</span>
+            render: (value, record) => {
+                setdayOfWeek(record.dayOfWeek)
+                return <div>{record.dayOfWeek}</div>
             },
         },
         {
             title: 'Start Time',
             dataIndex: 'createTimeTableStartDate',
             key: 'createTimeTableStartDate',
-            render: (DummyDataa) => {
-                return (
-                    <div className="timeTableBox border rounded-2 p-2 d-flex justify-content-between align-items-center">
-                        <div>{DummyDataa}</div>
-                        <img src={Clock as string} alt="clock" />
-                    </div>
+            render: (_, record) => {
+                return record.timeEntries.map(
+                    (timeEntry: TimeEntryProps, index: number) => (
+                        <StartTime key={index} setStartTime={setStartTime} />
+                    )
                 )
             },
         },
         {
-            title: 'End Date',
+            title: 'End Time',
             dataIndex: 'createTimeTableEndDate',
             key: 'createTimeTableEndDate',
-            render: (DummyDatas) => {
-                return (
-                    <div className="timeTableBox border rounded-2 p-2 d-flex justify-content-between align-items-center">
-                        <div>{DummyDatas}</div>
-                        <img src={Clock as string} alt="clock" />
-                    </div>
+            render: (_, record) => {
+                return record.timeEntries.map(
+                    (timeEntry: TimeEntryProps, index: number) => (
+                        <EndTime key={index} setEndTime={setEndTime} />
+                    )
                 )
             },
         },
@@ -179,12 +225,11 @@ const TimeTableSheet: React.FC<TimeTableFormProps> = ({
             title: 'Start Break',
             dataIndex: 'createTimeTableStartBreak',
             key: 'createTimeTableStartBreak',
-            render: (DummyDataas) => {
-                return (
-                    <div className="timeTableBox border rounded-2 p-2 d-flex justify-content-between align-items-center">
-                        <div>{DummyDataas}</div>
-                        <img src={Clock as string} alt="clock" />
-                    </div>
+            render: (_, record) => {
+                return record.timeEntries.map(
+                    (timeEntry: TimeEntryProps, index: number) => (
+                        <StartBreak key={index} setStartBreak={setStartBreak} />
+                    )
                 )
             },
         },
@@ -192,12 +237,11 @@ const TimeTableSheet: React.FC<TimeTableFormProps> = ({
             title: 'End Break',
             dataIndex: 'createTimeTableEndBreak',
             key: 'createTimeTableEndBreak',
-            render: (DummyDataass) => {
-                return (
-                    <div className="timeTableBox border rounded-2 p-2 d-flex justify-content-between align-items-center">
-                        <div>{DummyDataass}</div>
-                        <img src={Clock as string} alt="clock" />
-                    </div>
+            render: (_, record) => {
+                return record.timeEntries.map(
+                    (timeEntry: TimeEntryProps, index: number) => (
+                        <EndBreak key={index} setEndBreak={setEndBreak} />
+                    )
                 )
             },
         },
@@ -205,10 +249,10 @@ const TimeTableSheet: React.FC<TimeTableFormProps> = ({
             title: 'Status',
             dataIndex: 'createTimeTableStatus',
             key: 'createTimeTableStatus',
-            render: (DummyDatass) => {
+            render: () => {
                 return (
                     <div>
-                        <button>{DummyDatass}</button>
+                        <button>{'Off'}</button>
                         <img src={StatusActiveError as string} alt="images" />
                     </div>
                 )
@@ -218,10 +262,24 @@ const TimeTableSheet: React.FC<TimeTableFormProps> = ({
             title: 'Slot',
             dataIndex: 'createTimeTableSlot',
             key: 'createTimeTableSlot',
-            render: (Dummydata) => {
+            render: () => {
                 return (
                     <div>
-                        <button>{Dummydata}</button>
+                        <button
+                            onClick={() => {
+                                CreateSlots(
+                                    timeTableId,
+                                    StartTimee,
+                                    EndTimee,
+                                    StartBreakk,
+                                    EndBreakk,
+                                    dayOfWeekk
+                                )
+                                setIsShowModal(true)
+                            }}
+                        >
+                            {'Add'}
+                        </button>
                     </div>
                 )
             },
@@ -246,6 +304,11 @@ const TimeTableSheet: React.FC<TimeTableFormProps> = ({
                         label: 'Subscribe',
                         onClick: () => navigation(record, 'subscribe'),
                     },
+                    {
+                        key: '4',
+                        label: 'Add new Slot',
+                        onClick: addNewSlot,
+                    },
                 ]
                 return (
                     <Space size="middle">
@@ -262,30 +325,62 @@ const TimeTableSheet: React.FC<TimeTableFormProps> = ({
         },
     ]
 
+    useEffect(() => {
+        if (!setNewTimetable) {
+            return
+        }
+        const numberOfDays = calculateDaysDifference(
+            setNewTimetable.startDate,
+            setNewTimetable.endDate
+        )
+        const _tableDataSource: TableDateSourceProps[] = Array.from(
+            { length: numberOfDays },
+            (_, index) => {
+                const currentDate = new Date(setNewTimetable?.startDate)
+                currentDate.setDate(currentDate.getDate() + index)
+                const dayOfWeek = daysOfWeek[currentDate.getDay()]
+
+                return {
+                    key: index.toString(),
+                    date: currentDate.toISOString().split('T')[0],
+                    dayOfWeek: dayOfWeek,
+                    timeEntries: [
+                        {
+                            startTime: undefined,
+                            endTime: undefined,
+                            startBreak: undefined,
+                            endBreak: undefined,
+                            dayOfWeek: dayOfWeek,
+                            timeTableId: setNewTimetable.timeTableId,
+                        },
+                    ],
+                }
+            }
+        )
+
+        console.log('checking tableDataSource: ', _tableDataSource)
+        setTableDataSource(_tableDataSource)
+    }, [setNewTimetable])
+
     return (
         <>
             {loading && <LoadingOverlay message="" />}
+            {/* {console.log(
+                'start time-:',
+                StartTimee,
+                'End time-:',
+                EndTimee,
+                StartBreakk,
+                EndBreakk
+            )} */}
             <CreateTimeTableStyled>
+                {Createmodal().modalComponent}
                 <Table
                     columns={columns}
-                    dataSource={updatedDataSource}
+                    dataSource={tableDataSource}
                     pagination={false}
                     title={() => <RenderTableTitle />}
                 />
-                <div className="mt-20 d-flex justify-content-end">
-                    <CustomButton
-                        bgcolor={lightBlue3}
-                        textTransform="Captilize"
-                        color={pureDark}
-                        padding="11px 40.50px"
-                        fontFamily={`${fontFamilyMedium}`}
-                        width="fit-content"
-                        type="submit"
-                        title="Submit"
-                        fontSize="18px"
-                        loading={loading}
-                    />
-                </div>
             </CreateTimeTableStyled>
         </>
     )

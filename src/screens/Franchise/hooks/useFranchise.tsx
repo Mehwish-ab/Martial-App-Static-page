@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 import { authorizationToken } from '../../../utils/api_urls'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../redux/store'
+import store, { RootState } from '../../../redux/store'
 import { useNavigate } from 'react-router-dom'
 import { loginDataTypes } from '../../../redux/features/types'
 import { CreateFranchiseInitialValues } from '../constant'
@@ -19,6 +19,7 @@ import {
     lightColor1,
     maastrichtBlue,
 } from '../../../components/GlobalStyle'
+import { getBranchBySchoolId } from '../../../redux/features/branch/branchSlice'
 
 interface IModalComponent {
     modalComponent: JSX.Element
@@ -41,6 +42,7 @@ interface IUseFranchise {
     UpdateModal: () => IModalComponent
     deletemodal: () => IModalComponent
     deleteConfirmation: (_id: number) => IModalComponent
+    setIsShowModal: (showModal: true) => void
 }
 
 const useFranchise = (): IUseFranchise => {
@@ -52,7 +54,6 @@ const useFranchise = (): IUseFranchise => {
 
     const navigate = useNavigate()
     const toastId = useRef<any>(null)
-    // const { franchiseId } = useParams()
     const { loginData } = useSelector((state: RootState) => state)
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
@@ -162,7 +163,7 @@ const useFranchise = (): IUseFranchise => {
     const editFranchise = async (
         franchiseId: number,
         values: CreateFranchiseInitialValues
-    ): Promise<unknown> => {
+    ): Promise<void> => {
         const url = '/franchise/edit'
         const userDetails = loginData.data?.userDetails
 
@@ -204,7 +205,7 @@ const useFranchise = (): IUseFranchise => {
             setTimeout(() => {
                 setLoading(false)
                 setIsShowModal(false)
-                navigate('/school/view')
+                navigate('/franchise/list')
             }, 3000)
         } catch (error2: any) {
             console.log({ error: error2 })
@@ -293,6 +294,7 @@ const useFranchise = (): IUseFranchise => {
             }, 3000)
             setData('results: ' + data)
             setLoading(false)
+            store.dispatch(getBranchBySchoolId())
             // navigate("/school");
         } catch (error2: any) {
             console.log('api error', error2)
@@ -353,12 +355,12 @@ const useFranchise = (): IUseFranchise => {
                                 height={79}
                             />
                             <h3 className="mainContainer-heading text-center">
-                                Complete Profile Successfully!
+                                Update Profile Successfully!
                             </h3>
                             <p className="mainContainer-subText text-center">
-                                Congratulations! Your profile has been
-                                successfully completed, ensuring a seamless
-                                experience within the Marital
+                                Congratulations! on updating your profile! Your
+                                changes have been successfully saved, enhancing
+                                your experience within the Marital platform.
                             </p>
                         </div>
                     </SchoolSuccessfulModals>
@@ -473,6 +475,7 @@ const useFranchise = (): IUseFranchise => {
         UpdateModal,
         deletemodal,
         deleteConfirmation,
+        setIsShowModal,
     }
 }
 

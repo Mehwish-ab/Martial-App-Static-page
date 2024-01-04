@@ -378,8 +378,7 @@ const useCreateSchool = (): IUseSchool => {
                                 Warning!
                             </h3>
                             <p className="mainContainer-subText text-center">
-                                Please remove first Branches and Franchise
-                                Please.
+                                Please remove the first Branches and Franchise.
                             </p>
                         </div>
                     </SchoolSuccessfulModals>

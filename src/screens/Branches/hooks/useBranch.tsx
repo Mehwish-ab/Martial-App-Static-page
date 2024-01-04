@@ -650,12 +650,12 @@ const useBranch = (): IUseBranch => {
                                 height={79}
                             />
                             <h3 className="mainContainer-heading text-center">
-                                Complete Profile Successfully!
+                                Update Profile Successfully!
                             </h3>
                             <p className="mainContainer-subText text-center">
-                                Congratulations! Your profile has been
-                                successfully completed, ensuring a seamless
-                                experience within the Marital
+                                Congratulations! on updating your profile! Your
+                                changes have been successfully saved, enhancing
+                                your experience within the Marital platform.
                             </p>
                         </div>
                     </SchoolSuccessfulModals>

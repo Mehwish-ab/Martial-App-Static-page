@@ -1,7 +1,6 @@
 import Input from './CustomInput/CustomInput'
 import Select from './CustomSelect/CustomSelect'
 import Datepicker from './CustomDatePicker/CustomDatePicker'
-import CustomDateTimePicker from './CustomDateTimePicker/Index'
 import Textarea from './CustomTextArea/CustomTextarea'
 // import Checkbox from "./Checkbox";
 import CustomSearchSelect from './CustomSearchSelect'
@@ -11,6 +10,7 @@ import { Checkbox, Radio } from 'antd'
 import CustomFileInput from './CustomFileInput/CustomFileInput'
 import CustomDate from './CustomDatePicker/CustomDate'
 import CustomSelects from './CustomSelect/CustomSelects'
+import CustomTimePicker from './CustomDateTimePicker/Index'
 
 export interface FieldStyleBasicProps {
     padding: string
@@ -58,10 +58,10 @@ const FormControl: React.FC<formControlProps> = (props) => {
             return <Datepicker {...rest} />
         case 'dates':
             return <CustomDate {...rest} />
-        case 'dateTime':
-            return <CustomDateTimePicker {...rest} />
         case 'file':
             return <CustomFileInput {...rest} />
+        case 'TimePicker':
+            return <CustomTimePicker {...rest} />
         default:
             return null
     }

@@ -1,6 +1,6 @@
 import { DatePicker } from 'antd'
 import { ErrorMessage } from 'formik'
-import CustomDatePickerStyle from './style'
+import { CustomDatePickerStyle } from '../CustomDatePicker/style'
 import ErrorMsg from '../ErrorMessage'
 import dateIcon from '../../assets/images/dateCalander.svg'
 import moment from 'moment'

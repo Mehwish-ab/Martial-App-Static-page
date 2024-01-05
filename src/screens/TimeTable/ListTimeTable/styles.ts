@@ -8,6 +8,7 @@ import {
     BallBlue,
     whiteColor,
     AntiFlashWhite,
+    AlizarinCrimson,
     // mainColor,
 } from '../../../components/GlobalStyle'
 
@@ -202,5 +203,35 @@ export const ListTimeTableStyled = styled.div`
             display: inline-block;
             margin: 0px 10px;
         }
+    }
+    .ant-table-tbody > tr > td:nth-child(6) .Active button {
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        padding: 7px 10px;
+        border-radius: 4px;
+        background: rgb(76, 175, 80);
+        width: 90px;
+        height: 30px;
+        color: rgb(255, 255, 255);
+        font-size: 14px;
+        display: block;
+        position: relative;
+        text-align: center;
+    }
+    .ant-table-tbody > tr > td:nth-child(6) .De-Active button {
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        padding: 7px 10px;
+        border-radius: 4px;
+        background: ${AlizarinCrimson};
+        width: 90px;
+        height: 30px;
+        color: rgb(255, 255, 255);
+        font-size: 14px;
+        display: block;
+        position: relative;
+        text-align: center;
     }
 `

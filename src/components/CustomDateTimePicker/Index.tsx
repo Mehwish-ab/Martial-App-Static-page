@@ -1,63 +1,73 @@
-import React from 'react'
-import { DatePicker } from 'antd'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { TimePicker } from 'antd'
 import { Field, ErrorMessage } from 'formik'
-import { CustomDatePickerContainer } from './style'
+import { CustomDatePickerStyle } from '../CustomDatePicker/style'
 import ErrorMsg from '../ErrorMessage'
-import dateIcon from '../../assets/icons/ic_calendar.svg'
-
-const Index = (props: any): JSX.Element => {
+import timeIcon from '../../assets/icons/ic_clock.svg'
+const CustomTimePicker = (props: {
+    [x: string]: any
+    name: any
+    placeholder: any
+    label: any
+    bgColor?: 'white' | undefined
+    border?: '1px solid #c6c6c8;' | undefined
+    padding?: '8px' | undefined
+    fontFamily?: 'EnnVisions' | undefined
+    labelFamily?: 'EnnVisions' | undefined
+    marginBottom?: '10px' | undefined
+    onChange: any
+    showErrorMessage?: true | undefined
+}): JSX.Element => {
     const {
         name,
         placeholder,
         label,
-        // options,
-        // title,
-        defaultValue,
-        // onChange,
+        bgColor = 'white',
+        border = '1px solid #c6c6c8;',
+        padding = '8px',
+        fontFamily = 'EnnVisions',
+        labelFamily = 'EnnVisions',
+        marginBottom = '10px',
+        onChange,
+        showErrorMessage = true,
         ...rest
     } = props
 
-    const onOk = (value: any): void => {
-        console.log('onOk: ', value)
-    }
-
     return (
-        <CustomDatePickerContainer>
+        <CustomDatePickerStyle
+            fontFamily={fontFamily}
+            labelFamily={labelFamily}
+            bgColor={bgColor}
+            border={border}
+            padding={padding}
+        >
             <label htmlFor={name}>{label}</label>
             <Field name={name} id={name} {...rest}>
-                {({ form }: any) => {
-                    return (
-                        // <Form.Item name={name}>
-                        <div>
-                            <DatePicker
-                                showTime
-                                format="MM-DD-YYYY h:mm A"
-                                // onChange={onChange}
-                                name={name}
-                                id={name}
-                                {...rest}
-                                defaultValue={defaultValue}
-                                className="customdatepicker"
-                                onOk={onOk}
-                                placeholder={placeholder}
-                                suffixIcon={
-                                    <img src={dateIcon} alt="date-picker" />
+                {({ form }: any) => (
+                    <div>
+                        <TimePicker
+                            className="customtimepicker"
+                            placeholder={placeholder}
+                            suffixIcon={<img src={timeIcon} alt="time-icon" />}
+                            name={name}
+                            id={name}
+                            {...rest}
+                            onChange={(_, timeString) => {
+                                if (onChange) {
+                                    onChange(timeString)
+                                } else {
+                                    form.setFieldValue(name, timeString)
                                 }
-                                onChange={(val, timeandDate) => {
-                                    form.setFieldValue(
-                                        name,
-                                        timeandDate.toString()
-                                    )
-                                }}
-                            />
-                        </div>
-                        // </Form.Item>
-                    )
-                }}
+                            }}
+                        />
+                    </div>
+                )}
             </Field>
-            <ErrorMessage name={name} component={ErrorMsg} />
-        </CustomDatePickerContainer>
+            {showErrorMessage && (
+                <ErrorMessage name={name} component={ErrorMsg} />
+            )}
+        </CustomDatePickerStyle>
     )
 }
 
-export default Index
+export default CustomTimePicker

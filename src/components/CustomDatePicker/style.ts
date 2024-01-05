@@ -39,4 +39,3 @@ export const CustomDatePickerStyle = styled.div<CustomDateProps>`
         width: 100%;
     }
 `
-export default CustomDatePickerStyle

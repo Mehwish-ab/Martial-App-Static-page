@@ -21,7 +21,8 @@ import {
 import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
 // import { getBranchBySchoolId } from '../../../redux/features/branch/branchSlice'
 // import { getfranchiseBySchoolId } from '../../../redux/features/franchise/franchiseSlice'
-
+const localStorageData = localStorage.getItem('ennvision-admin:token')
+const loginData = JSON.parse(localStorageData as any)
 const ViewSchool = (): JSX.Element => {
     const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
@@ -42,7 +43,7 @@ const ViewSchool = (): JSX.Element => {
         branchData?.data?.length,
         franchiseData?.data?.length
     )
-    const { data } = useSelector((state: RootState) => state.loginData)
+    // const { data } = useSelector((state: RootState) => state.loginData)
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
@@ -83,7 +84,8 @@ const ViewSchool = (): JSX.Element => {
     // }
 
     useEffect(() => {
-        if (!data || data.schoolId === 0) {
+        // if (!data || data.schoolId === 0) {
+        if (!loginData?.schoolId) {
             navigate('/school/create')
             return
         }

@@ -8,6 +8,8 @@ import {
 } from '../../../utils/api_urls'
 import { loginDataTypes } from '../types'
 
+export const localStorageData = localStorage.getItem('ennvision-admin:token')
+const loginData = JSON.parse(localStorageData as any)
 export interface FranchiseDataType {
     franchiseId: number
     schoolId: number
@@ -81,7 +83,8 @@ export const getfranchiseBySchoolId: any = createAsyncThunk(
             const { data } = await axios.post(
                 `${base_url}${get_franchise_by_school_id_url}`,
                 {
-                    schoolId: state.dashboardData.schoolData.schoolId,
+                    // schoolId: state.dashboardData.schoolData.schoolId,
+                    schoolId: loginData?.schoolId,
                 },
                 {
                     headers: {

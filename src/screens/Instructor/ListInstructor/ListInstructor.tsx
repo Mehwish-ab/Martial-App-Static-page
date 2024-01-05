@@ -319,6 +319,7 @@ const ListInstructor: React.FC = () => {
                         return data
                     })}
                     title={() => <RenderTableTitle />}
+                    scroll={{ x: true }}
                     pagination={{
                         showTotal: (total, range) => (
                             <span

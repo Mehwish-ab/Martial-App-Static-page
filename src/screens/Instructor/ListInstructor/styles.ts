@@ -18,6 +18,11 @@ export const ListInstructorStyled = styled.div`
         margin-bottom: 0px;
     }
 
+    .ant-table-content table {
+        width: 100% !important;
+        min-width: 1080px !important;
+    }
+
     .table-heading {
         font-size: 18px;
         font-family: ${fontFamilyMedium};

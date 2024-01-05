@@ -44,7 +44,9 @@ const ListFranchise = (): JSX.Element => {
 
         let activitiesName = ''
         activitiesArr.map((activity) => {
-            const index = activities.findIndex((act) => act.id === activity)
+            const index = activities.findIndex(
+                (act: { id: string }) => act.id === activity
+            )
             if (index !== -1) {
                 activitiesName =
                     activitiesName === ''
@@ -346,6 +348,7 @@ const ListFranchise = (): JSX.Element => {
                             : []
                     }
                     title={() => <RenderTableTitle />}
+                    scroll={{ x: true }}
                     pagination={{
                         showTotal: (total, range) => (
                             <span
@@ -357,8 +360,6 @@ const ListFranchise = (): JSX.Element => {
                     }}
                 />
             </ListFranchiseStyled>
-
-            {/* <CardView /> */}
         </>
     )
 }

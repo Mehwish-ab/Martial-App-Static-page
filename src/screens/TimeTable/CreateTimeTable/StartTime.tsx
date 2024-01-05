@@ -22,18 +22,17 @@ interface TimeTableFormProps {
 }
 
 const StartTime: React.FC<TimeTableFormProps> = ({
-    // rowIndex,
-    // recordIndex,
+    rowIndex,
+    recordIndex,
     startTime,
-    // setStartTime,
+    setStartTime,
 }: TimeTableFormProps) => {
     const initialValues = {
         startTime: startTime,
     }
-    const submit = (value: string | undefined): void => {
-        console.log('checking I am here with value: ', value)
 
-        // setStartTime(recordIndex, 'startTime', value, rowIndex)
+    const onChangeHandler = (value: string): void => {
+        setStartTime(recordIndex, 'startTime', value, rowIndex)
     }
     return (
         <>
@@ -45,8 +44,8 @@ const StartTime: React.FC<TimeTableFormProps> = ({
                     }}
                 >
                     {(formik) => {
-                        console.log('formik values', formik.values)
-                        submit(formik.values.startTime)
+                        // console.log('formik values', formik.values)
+                        // submit(formik.values.startTime)
 
                         return (
                             <Form
@@ -69,6 +68,7 @@ const StartTime: React.FC<TimeTableFormProps> = ({
                                         }
                                         max={6}
                                         placeholder="12-05-1989"
+                                        onChange={onChangeHandler}
                                     />
                                 </Col>
                             </Form>

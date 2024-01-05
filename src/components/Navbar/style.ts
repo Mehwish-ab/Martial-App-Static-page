@@ -27,7 +27,7 @@ export const NavbarStyle = styled.div`
     }
     .profileName {
         display: inline-block;
-        font-size: 16px;
+        font-size: 14px;
         font-style: normal;
         line-height: normal;
         margin-left: 10px;

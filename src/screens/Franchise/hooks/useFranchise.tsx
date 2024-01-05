@@ -20,6 +20,7 @@ import {
     maastrichtBlue,
 } from '../../../components/GlobalStyle'
 import { getBranchBySchoolId } from '../../../redux/features/branch/branchSlice'
+import { getfranchiseBySchoolId } from '../../../redux/features/franchise/franchiseSlice'
 
 interface IModalComponent {
     modalComponent: JSX.Element
@@ -118,6 +119,7 @@ const useFranchise = (): IUseFranchise => {
                 navigate('/franchise/list')
             }, 3000)
             resetForm()
+            store.dispatch(getfranchiseBySchoolId())
         } catch (error: any) {
             console.log({ error })
             setLoading(false)
@@ -295,6 +297,7 @@ const useFranchise = (): IUseFranchise => {
             setData('results: ' + data)
             setLoading(false)
             store.dispatch(getBranchBySchoolId())
+            store.dispatch(getfranchiseBySchoolId())
             // navigate("/school");
         } catch (error2: any) {
             console.log('api error', error2)

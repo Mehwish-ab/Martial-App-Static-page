@@ -29,7 +29,8 @@ import LeftArrow from '../../../assets/images/leftArrow.svg'
 import DateCalander from '../../../assets/images/dateCalander.svg'
 import defaltimg from '../../../assets/images/create_school_user_profile.svg'
 import useBranch from '../hooks/useBranch'
-
+const localStorageData = localStorage.getItem('ennvision-admin:token')
+const loginData = JSON.parse(localStorageData as any)
 const ListBranch = (): JSX.Element => {
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
@@ -301,9 +302,12 @@ const ListBranch = (): JSX.Element => {
                         }
                         clicked={() => {
                             {
-                                schoolData.schoolId
-                                    ? navigate(`/branch/create`)
-                                    : navigate('/school/create')
+                                if (
+                                    schoolData?.schoolId ||
+                                    loginData?.schoolId
+                                ) {
+                                    navigate(`/branch/create`)
+                                } else navigate('/school/create')
                             }
                         }}
                     />

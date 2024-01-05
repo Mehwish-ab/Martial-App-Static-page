@@ -9,6 +9,8 @@ import { useState, useEffect } from 'react'
 import FormControl from '../../../components/FormControl'
 import useInstructor from '../../../hooks/useInstructor'
 import { InstructorDataType } from '../../../redux/features/instructor/instructorSlice'
+import { RootState } from '../../../redux/store'
+import { useSelector } from 'react-redux'
 
 const ViewInstructor = (): JSX.Element => {
     // const { getLabelByKey } = useScreenTranslation("branchCreate");
@@ -23,6 +25,9 @@ const ViewInstructor = (): JSX.Element => {
         undefined
     )
     const location = useLocation()
+    const { selectedLanguage } = useSelector(
+        (state: RootState) => state?.selectedLanguage
+    )
     const instructor: InstructorDataType = location.state?.branch
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const getInstructor = async (): Promise<void> => {
@@ -33,13 +38,63 @@ const ViewInstructor = (): JSX.Element => {
     }
     useEffect(() => {
         getInstructor()
-    }, [getInstructor])
-    console.log('getInstructor', values)
+    }, [])
+
+    const { activities } = useSelector(
+        (state: RootState) => state.appData.data.statusData
+    )
+    const { facilities } = useSelector(
+        (state: RootState) => state.appData.data.statusData
+    )
+
+    console.log('getInstructor', values?.emailAddress, instructor.emailAddress)
     const openModal = (certificationURL: string | undefined): void => {
         setImageURL(certificationURL || '')
         setIsShowModal(true)
         console.log('inside the modal')
     }
+    const showActivities = (_activities: string): string => {
+        const activitiesArr = _activities.split(',')
+
+        let activitiesName = ''
+        activitiesArr.map((activity) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                activitiesName =
+                    activitiesName === ''
+                        ? (activities[index] as any)[selectedLanguage]
+                        : `${activitiesName}, ${
+                              (activities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+        if (activitiesName !== '') return activitiesName
+        return '--'
+    }
+    const activitiesToShow = values?.activities || ''
+    const facilitiesToShow = values?.specializations || ''
+    const showFacilities = (_Facilities: string): string => {
+        const activitiesArr = _Facilities.split(',')
+
+        let activitiesName = ''
+        activitiesArr.map((facility) => {
+            const index = facilities.findIndex(
+                (acts: any) => acts.id === facility
+            )
+            if (index !== -1) {
+                activitiesName =
+                    activitiesName === ''
+                        ? (facilities[index] as any)[selectedLanguage]
+                        : `${activitiesName},${
+                              (facilities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+
+        if (activitiesName !== '') return activitiesName
+        return '--'
+    }
+
     // TODO: this state will be set after getting response from api
     // setInitialValues({
     //   termCondition: false, agreement: false, liability: false
@@ -54,8 +109,8 @@ const ViewInstructor = (): JSX.Element => {
         <ViewInstructorStyled>
             {ImageModal().modalComponent}
             <OverlayImages
-                overlayImg={instructor?.instructorImage || ''}
-                backgroundImg={instructor?.instructorImage || ''}
+                overlayImg={values?.profilePicture || ''}
+                backgroundImg={values?.bannerPicture || ''}
                 isEditable={true}
             />
 
@@ -76,9 +131,7 @@ const ViewInstructor = (): JSX.Element => {
                         <div className="list-item">
                             <div className="list-item-title">Email Address</div>
                             <div className="list-item-value">
-                                {values?.instructorEmailAddress
-                                    ? values.instructorEmailAddress
-                                    : '--'}
+                                {values?.emailAddress}
                             </div>
                         </div>
                     </Col>
@@ -152,9 +205,7 @@ const ViewInstructor = (): JSX.Element => {
                                 Specializations
                             </div>
                             <div className="list-item-value">
-                                {values?.specializations
-                                    ? values.specializations
-                                    : '--'}
+                                {showFacilities(facilitiesToShow)}
                             </div>
                         </div>
                     </Col>
@@ -164,7 +215,7 @@ const ViewInstructor = (): JSX.Element => {
                                 Activities (to Instruct Within)
                             </div>
                             <div className="list-item-value">
-                                {values ? values.activities : '--'}
+                                {showActivities(activitiesToShow)}
                             </div>
                         </div>
                     </Col>

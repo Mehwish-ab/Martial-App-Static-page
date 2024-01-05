@@ -4,7 +4,14 @@ import { Field, ErrorMessage } from 'formik'
 import { CustomDatePickerStyle } from '../CustomDatePicker/style'
 import ErrorMsg from '../ErrorMessage'
 import dateIcon from '../../assets/icons/ic_blog_calender.svg'
+import moment from 'moment'
+moment.locale('en', {
+    week: {
+        dow: 1, // Set the first day of the week to Monday
+    },
+})
 
+const startOfWeekMonday = moment().startOf('week')
 const CustomDatePicker = (props: {
     [x: string]: any
     name: any
@@ -34,11 +41,13 @@ const CustomDatePicker = (props: {
         labelFamily = 'EnnVisions',
         marginBottom = '10px',
         onChange,
+        begin,
         showErroMessage = true,
         ...rest
     } = props
-
-    console.log({ marginBottom, showErroMessage })
+    // const startOfWeekMonday = moment().startOf('isoWeek') // 'isoWeek' starts from Monday
+    // console.log({ marginBottom, showErroMessage })
+    console.log('>> placeholder', placeholder)
     return (
         <CustomDatePickerStyle
             fontFamily={fontFamily}
@@ -51,16 +60,16 @@ const CustomDatePicker = (props: {
             <Field name={name} id={name} {...rest}>
                 {({ form }: any) => {
                     return (
-                        // <Form.Item name={name}>
                         <div>
                             <DatePicker
                                 className="customdatepicker"
-                                placeholder={placeholder}
+                                // placeholder={placeholder}
                                 suffixIcon={
                                     <img src={dateIcon} alt="calender-icon" />
                                 }
                                 name={name}
                                 id={name}
+                                format="DD-MM-YYYY"
                                 {...rest}
                                 onChange={(_, dateString) => {
                                     if (onChange) {
@@ -69,9 +78,10 @@ const CustomDatePicker = (props: {
                                         form.setFieldValue(name, dateString)
                                     }
                                 }}
+                                // Set the start of the week to Monday
+                                defaultValue={begin || startOfWeekMonday}
                             />
                         </div>
-                        // </Form.Item>
                     )
                 }}
             </Field>

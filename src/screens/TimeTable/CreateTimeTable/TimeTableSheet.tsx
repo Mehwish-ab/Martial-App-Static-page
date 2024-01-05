@@ -83,6 +83,8 @@ const TimeTableSheet: React.FC = () => {
         useTimetable()
     const [StartTimee] = useState<any>()
     const [EndTimee, setEndTime] = useState<any>()
+    const [day, setDay] = useState<any>()
+
     const [allTimeTableDetail, setAllTimeTableDetail] =
         useState<TableDetailProps>()
     const [StartBreakk, setStartBreak] = useState<any>()
@@ -115,37 +117,6 @@ const TimeTableSheet: React.FC = () => {
         )
         updatedTableDateSource[_recordIndex].timeEntries[_key] = _value
         setTableDataSource(updatedTableDateSource)
-    }
-
-    const addNewSlot = (): any => {
-        if (!allTimeTableDetail) {
-            return
-        }
-        const currentDate = new Date(allTimeTableDetail.startDate)
-        currentDate.setDate(currentDate.getDate() + tableDataSource.length)
-
-        const newSlotRow: TableDateSourceProps = {
-            key: currentDate.toISOString(),
-            date: currentDate.toISOString().split('T')[0],
-            dayOfWeek: daysOfWeek[currentDate.getDay()],
-
-            timeEntries: [
-                {
-                    startTime: undefined,
-                    endTime: undefined,
-                    startBreak: undefined,
-                    endBreak: undefined,
-                    dayOfWeek: daysOfWeek[currentDate.getDay()],
-                    timeTableId: allTimeTableDetail.timeTableId,
-                    isActive: allTimeTableDetail.isActive,
-                    isRepeated: allTimeTableDetail.isRepeated,
-                },
-            ],
-        }
-        console.log('New slot row:', newSlotRow)
-
-        setTableDataSource((prevDataSource) => [...prevDataSource, newSlotRow])
-        setIsShowModal(true)
     }
 
     const navigation = (
@@ -192,7 +163,12 @@ const TimeTableSheet: React.FC = () => {
             dataIndex: 'createTimeTableWeekDay',
             key: 'createTimeTableWeekDay',
             render: (value, record) => {
-                return <div>{record.dayOfWeek}</div>
+                return (
+                    <div>
+                        {record.dayOfWeek}
+                        {setDay(record.dayOfWeek)}
+                    </div>
+                )
             },
         },
         {
@@ -279,7 +255,7 @@ const TimeTableSheet: React.FC = () => {
                                     EndTimee,
                                     StartBreakk,
                                     EndBreakk,
-                                    ''
+                                    day
                                 )
                                 setIsShowModal(true)
                             }}
@@ -313,7 +289,7 @@ const TimeTableSheet: React.FC = () => {
                     {
                         key: '4',
                         label: 'Add new Slot',
-                        onClick: addNewSlot,
+                        onClick: () => {},
                     },
                 ]
                 return (

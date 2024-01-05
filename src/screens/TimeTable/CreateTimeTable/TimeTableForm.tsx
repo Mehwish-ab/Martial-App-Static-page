@@ -10,6 +10,7 @@ import {
     lightBlue3,
     pureDark,
 } from '../../../components/GlobalStyle'
+import moment from 'moment'
 import { FilterTimeTableStyled } from './styles'
 // import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
 // import { RootState } from '../../../redux/store'
@@ -32,6 +33,9 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
 }: any) => {
     const { data: loginData } = useAppSelector((state) => state.loginData)
     const navigate = useNavigate()
+
+    // const [dateFormat, setDateFormat] = useState<string>()
+
     // console.log('user id', loginData?.userDetails.id)
 
     useEffect(() => {
@@ -49,12 +53,37 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
     }
     // const [NewTTimetable, setNewttimetable] = useState<any>()
 
+    const ShowTime = (date: string): string => {
+        console.log('date ', date)
+
+        if (!date) {
+            return '' // Handle case where date is undefined or null
+        }
+
+        const formattedDate = moment(date).format('DD/MM/YYYY')
+        console.log('formattedDate', formattedDate)
+
+        return formattedDate
+    }
     const onSubmit = async (values: any): Promise<void> => {
+        const backendFormattedDate = moment(
+            values.endDate,
+            'DD-MM-YYYY'
+        ).format('YYYY-MM-DD')
+        const backendFormattedstartDate = moment(
+            values.startDate,
+            'DD-MM-YYYY'
+        ).format('YYYY-MM-DD')
         console.log('im handle submit button')
         const data = await handleCreateSubmit(
-            values,
+            {
+                ...values,
+                startDate: backendFormattedstartDate,
+                endDate: backendFormattedDate,
+            },
             Number(loginData?.userDetails.id)
         )
+
         console.log(data.timetableId, 'dataaa')
         const timeTableId = data?.timeTableId
         setNewTimetable(data)
@@ -129,7 +158,9 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                                 />
                                             }
                                             max={6}
-                                            placeholder="12-05-1989"
+                                            placeholder={moment(
+                                                formik.values.startDate
+                                            ).format('DD/MM/YYYY')}
                                         />
                                     </Col>
                                     <Col md="6">
@@ -149,8 +180,14 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                                     alt="calender-icon"
                                                 />
                                             }
+                                            // Value={ShowTime(
+                                            //     formik.values.endDate
+                                            // )}
                                             max={6}
-                                            placeholder="12-05-1989"
+                                            placeholder={ShowTime(
+                                                formik.values.endDate
+                                            )}
+                                            // placeholder={dateFormat}
                                         />
                                     </Col>
                                 </Row>

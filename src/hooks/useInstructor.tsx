@@ -24,7 +24,11 @@ interface IUseInstructor {
         modalComponent: JSX.Element
     }
     getInstructorbyid: (instructorId: number) => Promise<any>
-    updateInstructor: () => Promise<void>
+    updateInstructor: (
+        id: number,
+        values: CreateInstructorInitialValues,
+        file: any
+    ) => Promise<void>
     errorMessage: string
     setIsShowModal: (showModal: true) => void
     setImageURL: (imageURL: any) => void
@@ -194,7 +198,75 @@ const useInstructor = (): IUseInstructor => {
             setError(error2)
         }
     }
-    const updateInstructor = async (): Promise<void> => {}
+    const updateInstructor = async (
+        id: number,
+        values: CreateInstructorInitialValues,
+        file: any
+    ): Promise<void> => {
+        console.log('values from form:', values, 'hu', file)
+        const Payload = {
+            instructorId: id,
+            instructorName: values.instructorName,
+            emailAddress: values.emailAddress,
+            phoneNumber: values.instructorPhoneNumber,
+            address: values?.address || '',
+            experience: values.yearsOfExperience,
+            rankId: values.rankId,
+            specializations: values.specializations.join(','),
+            activities: values.activities.join(','),
+            description: values.description,
+        }
+        // const val= values.File
+        try {
+            setError('')
+            setLoading(true)
+
+            const formData = new FormData()
+            formData.append(
+                'data',
+                new Blob([JSON.stringify(Payload)], {
+                    type: 'application/json',
+                })
+            )
+            formData.append('file', values.latestCertification)
+
+            const { data } = await axios.post('/instructor/edit', formData, {
+                headers: {
+                    ...authorizationToken(loginData.data as loginDataTypes),
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
+
+            if (data.responseCode === '500') {
+                toast(data.responseMessage, {
+                    type: 'error',
+                    autoClose: 1000,
+                })
+                setLoading(false)
+                return
+            }
+
+            setIsShowModal(true)
+            setTimeout(() => {
+                setLoading(false)
+                setIsShowModal(false)
+                navigate('/instructor/list')
+            }, 3000)
+
+            console.log({ data })
+        } catch (error2: any) {
+            console.error('Error:', error2.response.data.error)
+            setLoading(false)
+            setError(error2.message || 'An error occurred')
+            setTimeout(() => {
+                setError('')
+            }, 2000)
+            toastId.current = toast(error2.message || 'An error occurred', {
+                type: 'error',
+                autoClose: 1000,
+            })
+        }
+    }
 
     const deletemodal = (): {
         modalComponent: JSX.Element

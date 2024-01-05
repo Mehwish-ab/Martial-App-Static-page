@@ -148,7 +148,7 @@ const ListFranchise = (): JSX.Element => {
             // ),
             render: (Dummydatas) => {
                 console.log('>>images', Dummydatas?.profilePicture)
-                if (Dummydatas.profilePicture === null) {
+                if (Dummydatas?.profilePicture === null) {
                     return <img src={defaltimg} width={44} height={44} />
                 } else {
                     return (

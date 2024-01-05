@@ -12,16 +12,18 @@ export interface InstructorDataType {
     instructorId: number
     instructorImage: number
     instructorName: string
-    instructorEmailAddress: string
+    emailAddress: string
     phoneNumber: number
     address: string
     experience: string
     rankId: string
     certificationURL: string
-    specializations: number | string
-    activities: number | string
+    specializations: string
+    activities: string
     description: number | string
     instructorStatusId: number
+    profilePicture: string | null | undefined
+    bannerPicture: string | null | undefined
 }
 
 export interface GetInstructorBySchoolResTypes {
@@ -44,16 +46,18 @@ const initialState: InstructorDataInitialState = {
                 instructorId: 0,
                 instructorImage: 0,
                 instructorName: '',
-                instructorEmailAddress: '',
+                emailAddress: '',
                 phoneNumber: 0,
                 address: '',
                 experience: '',
                 rankId: '',
                 certificationURL: '',
-                specializations: 0,
-                activities: 0,
+                specializations: '',
+                activities: '',
                 description: 0,
                 instructorStatusId: 0,
+                bannerPicture: '',
+                profilePicture: '',
             },
         ],
         currentPage: 0,

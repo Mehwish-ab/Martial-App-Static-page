@@ -71,7 +71,6 @@ const CustomDatePicker = (props: {
                                 id={name}
                                 format="DD-MM-YYYY"
                                 {...rest}
-                                format="DD-MM-YYYY" // Set the desired date format
                                 onChange={(_, dateString) => {
                                     if (onChange) {
                                         onChange(dateString)

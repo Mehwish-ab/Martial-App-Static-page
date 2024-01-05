@@ -57,7 +57,7 @@ const CustomDate = (props: Props): JSX.Element => {
                     suffixIcon={<img src={dateIcon} alt="calender-icon" />}
                     name={name}
                     id={name}
-                    value={value ? moment(value, 'YYYY-MM-DD') : null}
+                    value={value ? moment(value, 'DD-MM-YYYY') : null}
                     {...rest}
                     onChange={(_, dateString) => {
                         onChange(dateString)

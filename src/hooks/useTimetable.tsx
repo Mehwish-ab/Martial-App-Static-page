@@ -23,8 +23,37 @@ import { Col, Row } from 'react-bootstrap'
 import { SchoolSuccessfulModals } from './PopupModalsStyling'
 import { CreateTimeTableInitialValues } from '../screens/TimeTable/constant'
 
+interface CommonResponseProps {
+    responseCode: number
+    responseMessage: string
+    execTime: number
+    errors: null | unknown
+}
+
+interface CreateTimeSheetSlotProps extends CommonResponseProps{
+    results: {
+        slotId: number
+        dayOfWeek: string
+        startTime: string
+        endTime: string
+        startBreak: string
+        endBreak: string
+        isActive: boolean
+    }
+}
+
+
 interface IModalComponent {
     modalComponent: JSX.Element
+}
+
+interface CreateSlotsProps {
+    timeTableId: number
+    startTime: string
+    endTime: string
+    startBreak: string
+    endBreak: string
+    dayOfWeek: string
 }
 
 interface IUseTimetable {
@@ -33,9 +62,7 @@ interface IUseTimetable {
         values: CreateTimeTableInitialValues,
         schoolId: number
     ) => Promise<any>
-    CreateSlots: (
-        timeTableId: any,StartTimee: any,EndTimee: any,StartBreakk: any,EndBreakk: any,dayOfWeekk: any
-    ) => Promise<any>
+    createSlots: (props: CreateSlotsProps) => Promise<any>
     getTimetableSlot: (timeTableid: number) => Promise<any> 
     getAllTimetable: (userid: number)=> Promise<any> 
     getTimetableById: (timeTableId: number)=> Promise<any> 
@@ -298,20 +325,18 @@ const useTimetable = (): IUseTimetable => {
         }
     }
 
-    const CreateSlots = async (
-        timeTableIds: any,StartTimee: any,EndTimee: any,StartBreakk: any,EndBreakk: any,dayOfWeekk: any
+    const createSlots = async (
+        params: CreateSlotsProps
     ): Promise<any> => {
-        // const userDetails = loginData.data?.userDetails
 
                  const payload = {
-  dayOfWeek: dayOfWeekk,timeTableId:timeTableIds ,startTime: StartTimee,endTime: EndTimee,startBreak: StartBreakk, endBreak: EndBreakk
-
-        }
+                    ...params
+                }
 
         try {
             setError('')
             setLoading(true)
-            const { data: data2 } = await axios.post(
+            const createTimeSlotResponse: CreateTimeSheetSlotProps = await axios.post(
                 '/timetable/slot/create',
                 payload,
                 {
@@ -320,8 +345,8 @@ const useTimetable = (): IUseTimetable => {
                     },
                 }
             )
-            if (data2.responseCode === '500') {
-                toast(data2.responseMessage, {
+            if (createTimeSlotResponse.responseCode === 500) {
+                toast(createTimeSlotResponse.responseMessage, {
                     type: 'error',
                     autoClose: 1000,
                 })
@@ -339,11 +364,11 @@ const useTimetable = (): IUseTimetable => {
             //   autoClose: 1000,
             // });
             //setLoading(false);
-            console.log('slots added', { data: data2 })
+            console.log('slots added', {createTimeSlotResponse })
             //setIsUploadImgVisible(true);
             // navigate("/");
             // resetForm()
-            return data2.results
+            return createTimeSlotResponse.results
         } catch (error2: any) {
             console.log('error', { error: error2 })
             setLoading(false)
@@ -652,7 +677,7 @@ const useTimetable = (): IUseTimetable => {
         getTimetableSlot,
         getAllTimetable,
         getTimetableById: getTimetableById,
-        CreateSlots,
+        createSlots
     }
 }
 

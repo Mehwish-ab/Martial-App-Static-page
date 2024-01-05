@@ -15,7 +15,7 @@ import StartBreak from './StartBreak'
 import EndTime from './Endtime'
 import EndBreak from './EndBreak'
 import useTimetable from '../../../hooks/useTimetable'
-
+import { cloneDeep } from 'lodash'
 interface TimeEntryProps {
     startTime: string | undefined
     endTime: string | undefined
@@ -79,15 +79,10 @@ const RenderTableTitle = (): JSX.Element => {
 }
 const TimeTableSheet: React.FC = () => {
     const { timeTableId } = useParams()
-    const { getTimetableById, CreateSlots, Createmodal, setIsShowModal } =
+    const { getTimetableById, createSlots, Createmodal, setIsShowModal } =
         useTimetable()
-    const [StartTimee] = useState<any>()
-    const [EndTimee, setEndTime] = useState<any>()
     const [allTimeTableDetail, setAllTimeTableDetail] =
         useState<TableDetailProps>()
-    const [StartBreakk, setStartBreak] = useState<any>()
-    const [EndBreakk, setEndBreak] = useState<any>()
-    // const [newRowIndex, setNewRowIndex] = useState<number>(0)
 
     const [tableDataSource, setTableDataSource] = useState<
         TableDateSourceProps[]
@@ -102,7 +97,11 @@ const TimeTableSheet: React.FC = () => {
         _value: undefined | string | boolean | number,
         _timeEntryIndex?: number
     ): void => {
-        if (!_timeEntryIndex) {
+        console.log('checking tableDataSource: ', tableDataSource)
+
+        if (_timeEntryIndex === undefined) {
+            console.log('checking i am into if')
+
             const updatedTableDateSource = JSON.parse(
                 JSON.stringify(tableDataSource)
             )
@@ -110,42 +109,43 @@ const TimeTableSheet: React.FC = () => {
             setTableDataSource(updatedTableDateSource)
             return
         }
-        const updatedTableDateSource = JSON.parse(
-            JSON.stringify(tableDataSource)
+        const updatedTableDateSource: TableDateSourceProps[] =
+            cloneDeep(tableDataSource)
+        console.log(
+            'checking before updatedTableDateSource: ',
+            updatedTableDateSource
         )
-        updatedTableDateSource[_recordIndex].timeEntries[_key] = _value
+
+        updatedTableDateSource[_recordIndex].timeEntries[_timeEntryIndex] = {
+            ...updatedTableDateSource[_recordIndex].timeEntries[
+                _timeEntryIndex
+            ],
+            [_key]: _value,
+        }
+        console.log('checking updatedTableDateSource: ', updatedTableDateSource)
+
         setTableDataSource(updatedTableDateSource)
     }
 
-    const addNewSlot = (): any => {
-        if (!allTimeTableDetail) {
-            return
-        }
+    const addNewSlot = (_recordIndex: number): void => {
+        if (!allTimeTableDetail) return
         const currentDate = new Date(allTimeTableDetail.startDate)
-        currentDate.setDate(currentDate.getDate() + tableDataSource.length)
-
-        const newSlotRow: TableDateSourceProps = {
-            key: currentDate.toISOString(),
-            date: currentDate.toISOString().split('T')[0],
-            dayOfWeek: daysOfWeek[currentDate.getDay()],
-
-            timeEntries: [
-                {
-                    startTime: undefined,
-                    endTime: undefined,
-                    startBreak: undefined,
-                    endBreak: undefined,
-                    dayOfWeek: daysOfWeek[currentDate.getDay()],
-                    timeTableId: allTimeTableDetail.timeTableId,
-                    isActive: allTimeTableDetail.isActive,
-                    isRepeated: allTimeTableDetail.isRepeated,
-                },
-            ],
-        }
-        console.log('New slot row:', newSlotRow)
-
-        setTableDataSource((prevDataSource) => [...prevDataSource, newSlotRow])
-        setIsShowModal(true)
+        currentDate.setDate(currentDate.getDate() + _recordIndex)
+        const dayOfWeek = daysOfWeek[currentDate.getDay()]
+        const updatedTableDateSource: TableDateSourceProps[] =
+            cloneDeep(tableDataSource)
+        updatedTableDateSource[_recordIndex].timeEntries.push({
+            startTime: undefined,
+            endTime: undefined,
+            startBreak: undefined,
+            endBreak: undefined,
+            dayOfWeek: dayOfWeek,
+            timeTableId:
+                updatedTableDateSource[_recordIndex].timeEntries[0].timeTableId,
+            isActive: allTimeTableDetail.isActive,
+            isRepeated: allTimeTableDetail.isRepeated,
+        })
+        setTableDataSource(updatedTableDateSource)
     }
 
     const navigation = (
@@ -217,10 +217,16 @@ const TimeTableSheet: React.FC = () => {
             title: 'End Time',
             dataIndex: 'createTimeTableEndDate',
             key: 'createTimeTableEndDate',
-            render: (_, record) => {
+            render: (_, record, recordIndex) => {
                 return record.timeEntries.map(
-                    (timeEntry: TimeEntryProps, index: number) => (
-                        <EndTime key={index} setEndTime={setEndTime} />
+                    (timeEntry: TimeEntryProps, rowIndex: number) => (
+                        <EndTime
+                            key={`${recordIndex}-${rowIndex}`}
+                            recordIndex={recordIndex}
+                            rowIndex={rowIndex}
+                            endTime={timeEntry.endTime}
+                            setStartTime={handleUpdateTableDataSource}
+                        />
                     )
                 )
             },
@@ -229,10 +235,16 @@ const TimeTableSheet: React.FC = () => {
             title: 'Start Break',
             dataIndex: 'createTimeTableStartBreak',
             key: 'createTimeTableStartBreak',
-            render: (_, record) => {
+            render: (_, record, recordIndex) => {
                 return record.timeEntries.map(
-                    (timeEntry: TimeEntryProps, index: number) => (
-                        <StartBreak key={index} setStartBreak={setStartBreak} />
+                    (timeEntry: TimeEntryProps, rowIndex: number) => (
+                        <StartBreak
+                            key={`${recordIndex}-${rowIndex}`}
+                            recordIndex={recordIndex}
+                            rowIndex={rowIndex}
+                            startBreak={timeEntry.startBreak}
+                            setStartTime={handleUpdateTableDataSource}
+                        />
                     )
                 )
             },
@@ -241,10 +253,16 @@ const TimeTableSheet: React.FC = () => {
             title: 'End Break',
             dataIndex: 'createTimeTableEndBreak',
             key: 'createTimeTableEndBreak',
-            render: (_, record) => {
+            render: (_, record, recordIndex) => {
                 return record.timeEntries.map(
-                    (timeEntry: TimeEntryProps, index: number) => (
-                        <EndBreak key={index} setEndBreak={setEndBreak} />
+                    (timeEntry: TimeEntryProps, rowIndex: number) => (
+                        <EndBreak
+                            key={`${recordIndex}-${rowIndex}`}
+                            recordIndex={recordIndex}
+                            rowIndex={rowIndex}
+                            endBreak={timeEntry.endBreak}
+                            setStartTime={handleUpdateTableDataSource}
+                        />
                     )
                 )
             },
@@ -268,32 +286,45 @@ const TimeTableSheet: React.FC = () => {
             title: 'Slot',
             dataIndex: 'createTimeTableSlot',
             key: 'createTimeTableSlot',
-            render: () => {
-                return (
-                    <div>
-                        <button
-                            onClick={() => {
-                                CreateSlots(
-                                    timeTableId,
-                                    StartTimee,
-                                    EndTimee,
-                                    StartBreakk,
-                                    EndBreakk,
-                                    ''
-                                )
-                                setIsShowModal(true)
-                            }}
-                        >
-                            {'Add'}
-                        </button>
-                    </div>
+            render: (_, record, recordIndex) => {
+                return record.timeEntries.map(
+                    (timeEntry: TimeEntryProps, rowIndex: number) => (
+                        <div key={`${recordIndex}-${rowIndex}`}>
+                            <button
+                                onClick={() => {
+                                    if (
+                                        !timeEntry.timeTableId ||
+                                        !timeEntry.startTime ||
+                                        !timeEntry.endTime ||
+                                        !timeEntry.startBreak ||
+                                        !timeEntry.endBreak ||
+                                        !timeEntry.dayOfWeek
+                                    ) {
+                                        alert('Please fill out the time slot')
+                                        return
+                                    }
+                                    createSlots({
+                                        timeTableId: timeEntry.timeTableId,
+                                        startTime: timeEntry.startTime || '',
+                                        endTime: timeEntry.endTime || '',
+                                        startBreak: timeEntry.startBreak || '',
+                                        endBreak: timeEntry.endBreak || '',
+                                        dayOfWeek: timeEntry.dayOfWeek || '',
+                                    })
+                                    setIsShowModal(true)
+                                }}
+                            >
+                                {'Add'}
+                            </button>
+                        </div>
+                    )
                 )
             },
         },
         {
             title: 'Actions',
             key: 'timeTableAction',
-            render: (_, record) => {
+            render: (_, record, recordIndex) => {
                 const items = [
                     {
                         key: '1',
@@ -313,19 +344,21 @@ const TimeTableSheet: React.FC = () => {
                     {
                         key: '4',
                         label: 'Add new Slot',
-                        onClick: addNewSlot,
+                        onClick: () => addNewSlot(recordIndex),
                     },
                 ]
-                return (
-                    <Space size="middle">
-                        <Dropdown menu={{ items }}>
-                            <img
-                                src={actionMenuTogglerIcon as string}
-                                alt="action menu"
-                                style={{ cursor: 'pointer' }}
-                            />
-                        </Dropdown>
-                    </Space>
+                return record.timeEntries.map(
+                    (timeEntry: TimeEntryProps, rowIndex: number) => (
+                        <Space key={`${recordIndex}-${rowIndex}`} size="middle">
+                            <Dropdown menu={{ items }}>
+                                <img
+                                    src={actionMenuTogglerIcon as string}
+                                    alt="action menu"
+                                    style={{ cursor: 'pointer' }}
+                                />
+                            </Dropdown>
+                        </Space>
+                    )
                 )
             },
         },

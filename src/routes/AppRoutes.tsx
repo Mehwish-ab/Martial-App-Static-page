@@ -44,7 +44,7 @@ import Language from '../screens/LanguagePage/Language'
 import Currency from '../screens/CurrencyPage/Currency'
 import UpdateInstructor from '../screens/Instructor/UpdateInstructor/UpdateInstructor'
 import ViewBranch from '../screens/Branches/ViewBranch/ViewBranch'
-import AddPaymentinfo from '../screens/Branches/BranchPayment/AddPaymentinfo'
+import AddPaymentInfo from '../screens/Branches/BranchPayment/AddPaymentinfo'
 import TimeTableForm from '../screens/TimeTable/CreateTimeTable/TimeTableForm'
 import TimeTableSheet from '../screens/TimeTable/CreateTimeTable/TimeTableSheet'
 import { useState } from 'react'
@@ -186,7 +186,7 @@ function AppRoutes(): JSX.Element {
                     element={
                         <AppLayout>
                             {/* <AddPaymentBranch /> */}
-                            <AddPaymentinfo />
+                            <AddPaymentInfo />
                         </AppLayout>
                     }
                 />

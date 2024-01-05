@@ -117,13 +117,17 @@ const useTimetable = (): IUseTimetable => {
         schoolId: number
     ): Promise<any> => {
         // const userDetails = loginData.data?.userDetails
-
+        let valu = null
+        // const userDetails = loginData.data?.userDetails
+        if (values.endDate === 'Invalid date')
+             valu = null
+        else valu=values.endDate
         const payload = {
             userId: schoolId,
             title: values.title,
             isRepeated: values.isRepeated === 1 ? true : false,
             startDate: values.startDate,
-            endDate: values.endDate,
+            endDate: valu,
 
             // ...(schoolId && { schoolId }), // Add schoolId conditionally
         }

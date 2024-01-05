@@ -67,7 +67,7 @@ const StartTime: React.FC<TimeTableFormProps> = ({
                                             />
                                         }
                                         max={6}
-                                        placeholder="12-05-1989"
+                                        placeholder="00:00:00"
                                         onChange={onChangeHandler}
                                     />
                                 </Col>

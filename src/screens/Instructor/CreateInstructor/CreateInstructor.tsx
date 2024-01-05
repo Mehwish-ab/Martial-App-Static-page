@@ -105,6 +105,50 @@ const CreateInstructor = (): JSX.Element => {
         handleSubmit(values, selectedFiles)
         console.log('submitted button pressed')
     }
+    const { selectedLanguage } = useSelector(
+        (state: RootState) => state.selectedLanguage
+    )
+
+    const showActivities = (_activities: string[]): string => {
+        let activitiesName = ''
+        _activities.forEach((activity) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                const activityLabel = (activities[index] as any)[
+                    selectedLanguage
+                ]
+                activitiesName =
+                    activitiesName === ''
+                        ? activityLabel
+                        : `${activitiesName}, ${activityLabel}`
+            }
+        })
+        if (activitiesName.length > 35) {
+            return `${activitiesName.slice(0, 35)}...`
+        }
+        return activitiesName || 'Activities'
+    }
+    const showFacilities = (_facilities: string[]): string => {
+        let facilitiesName = ''
+        _facilities.forEach((facility) => {
+            const index = facilities.findIndex(
+                (facts: any) => facts.id === facility
+            )
+            if (index !== -1) {
+                const facilityLabel = (facilities[index] as any)[
+                    selectedLanguage
+                ]
+                facilitiesName =
+                    facilitiesName === ''
+                        ? facilityLabel
+                        : `${facilitiesName}, ${facilityLabel}`
+            }
+        })
+        if (facilitiesName.length > 35) {
+            return `${facilitiesName.slice(0, 35)}...`
+        }
+        return facilitiesName || 'Specilizations'
+    }
     return (
         <CreateSchoolStyled>
             <Formik
@@ -286,6 +330,9 @@ const CreateInstructor = (): JSX.Element => {
                                             )}
                                             list={facilities}
                                             showErrorMsgInList={false}
+                                            placeholder={showFacilities(
+                                                formik.values.specializations
+                                            )}
                                         />
                                     </Col>
 
@@ -295,6 +342,9 @@ const CreateInstructor = (): JSX.Element => {
                                             label={getLabelByKey('activities')}
                                             list={activities}
                                             showErrorMsgInList={false}
+                                            placeholder={showActivities(
+                                                formik.values.activities
+                                            )}
                                         />
                                     </Col>
 

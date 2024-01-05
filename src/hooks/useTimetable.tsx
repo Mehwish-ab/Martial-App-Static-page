@@ -62,10 +62,24 @@ interface IUseTimetable {
         values: CreateTimeTableInitialValues,
         schoolId: number
     ) => Promise<any>
+
     createSlots: (props: CreateSlotsProps) => Promise<any>
     getTimetableSlot: (timeTableid: number) => Promise<any> 
     getAllTimetable: (userid: number)=> Promise<any> 
     getTimetableById: (timeTableId: number)=> Promise<any> 
+
+//     CreateSlots: (
+//         timeTableId: any,
+//         StartTimee: any,
+//         EndTimee: any,
+//         StartBreakk: any,
+//         EndBreakk: any,
+//         dayOfWeekk: any
+//     ) => Promise<any>
+//     getTimetableSlot: (timeTableid: number) => Promise<any>
+//     getAllTimetable: (userid: number) => Promise<any>
+//     getTimetableById: (timeTableId: number) => Promise<any>
+
 
     editSchool: (
         _schoolId: number,
@@ -187,17 +201,17 @@ const useTimetable = (): IUseTimetable => {
                     autoClose: 1000,
                 })
                 setLoading(false)
-                console.log("all slot list", data3);
-                
+                console.log('all slot list', data3)
+
                 return data3.results
             }
-            setLoading(false);
-            setIsShowModal(true);
+            setLoading(false)
+            setIsShowModal(true)
             setTimeout(() => {
-                setIsShowModal(false);
+                setIsShowModal(false)
                 //navigate("/school/view");
-            }, 3000);
-          
+            }, 3000)
+
             // console.log(
             //   "hello",
             //   data.map((pic: any) => {
@@ -215,7 +229,7 @@ const useTimetable = (): IUseTimetable => {
             )
             setError(
                 (errorMessage as any).response?.data?.responseMessage ||
-                'An error occurred'
+                    'An error occurred'
             )
         }
     }
@@ -241,17 +255,17 @@ const useTimetable = (): IUseTimetable => {
                     autoClose: 1000,
                 })
                 setLoading(false)
-                console.log("add timetable list", data3.results.data);
-                
+                console.log('add timetable list', data3.results.data)
+
                 return data3.results.data
             }
-            setLoading(false);
-            setIsShowModal(true);
+            setLoading(false)
+            setIsShowModal(true)
             setTimeout(() => {
-                setIsShowModal(false);
+                setIsShowModal(false)
                 //navigate("/school/view");
-            }, 3000);
-          
+            }, 3000)
+
             // console.log(
             //   "hello",
             //   data.map((pic: any) => {
@@ -269,7 +283,7 @@ const useTimetable = (): IUseTimetable => {
             )
             setError(
                 (errorMessage as any).response?.data?.responseMessage ||
-                'An error occurred'
+                    'An error occurred'
             )
         }
     }
@@ -280,7 +294,8 @@ const useTimetable = (): IUseTimetable => {
             setError('')
             setLoading(true)
             const { data: data3 } = await axios.post(
-                url, { timeTableId: timeTableid },
+                url,
+                { timeTableId: timeTableid },
                 {
                     headers: {
                         ...authorizationToken(loginData.data as loginDataTypes),
@@ -293,16 +308,16 @@ const useTimetable = (): IUseTimetable => {
                     autoClose: 1000,
                 })
                 setLoading(false)
-                console.log("add timetable list", data3.results.data);
-                
+                console.log('add timetable list', data3.results.data)
+
                 return data3
             }
-            setLoading(false);
+            setLoading(false)
             setTimeout(() => {
-                setIsShowModal(false);
+                setIsShowModal(false)
                 //navigate("/school/view");
-            }, 3000);
-          
+            }, 3000)
+
             // console.log(
             //   "hello",
             //   data.map((pic: any) => {
@@ -320,18 +335,39 @@ const useTimetable = (): IUseTimetable => {
             )
             setError(
                 (errorMessage as any).response?.data?.responseMessage ||
-                'An error occurred'
+                    'An error occurred'
             )
         }
     }
 
+
     const createSlots = async (
         params: CreateSlotsProps
+
+    //const CreateSlots = async (
+     //   timeTableIds: any,
+    //    StartTimee: any,
+   //     EndTimee: any,
+  //      StartBreakk: any,
+ //       EndBreakk: any,
+//        dayOfWeekk: any
+//>>>>>>> main
     ): Promise<any> => {
+
 
                  const payload = {
                     ...params
                 }
+
+//        const payload = {
+ //           dayOfWeek: dayOfWeekk,
+  //          timeTableId: timeTableIds,
+   //         startTime: StartTimee,
+    //        endTime: EndTimee,
+     //       startBreak: StartBreakk,
+      //      endBreak: EndBreakk,
+       // }
+
 
         try {
             setError('')

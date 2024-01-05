@@ -144,6 +144,34 @@ const ListInstructor: React.FC = () => {
         deleteInstructor(record)
         store.dispatch(getInstructorByUserId())
     }
+    const {
+        statusData: { facilities },
+    } = useSelector((state: RootState) => state.appData.data)
+    const { selectedLanguage } = useSelector(
+        (state: RootState) => state.selectedLanguage
+    )
+    const showSpecializations = (_Specializations: string): string => {
+        const SpecializationArr = _Specializations.split(',')
+
+        let SpecializationName = ''
+        SpecializationArr.map((specilizations) => {
+            const index = facilities.findIndex(
+                (spec) => spec.id === specilizations
+            )
+            if (index !== -1) {
+                SpecializationName =
+                    SpecializationName === ''
+                        ? (facilities[index] as any)[selectedLanguage]
+                        : `${SpecializationName}, ${
+                              (facilities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+        if (SpecializationName.length > 35) {
+            return `${SpecializationName.slice(0, 35)}...`
+        }
+        return SpecializationName
+    }
     const columns: ColumnsType<InstructorDataType> = [
         {
             title: getLabelByKey('Id'),
@@ -170,9 +198,7 @@ const ListInstructor: React.FC = () => {
             render: (DummyData) => {
                 return (
                     <p className="sub-title">
-                        {DummyData?.length > 33
-                            ? `${DummyData.slice(0, 38)}...`
-                            : DummyData}
+                        {showSpecializations(DummyData)}
                     </p>
                 )
             },

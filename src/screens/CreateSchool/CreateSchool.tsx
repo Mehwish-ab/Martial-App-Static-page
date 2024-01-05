@@ -32,6 +32,8 @@ import { useNavigate } from 'react-router-dom'
 import { useAppSelector } from '../../app/hooks'
 import { getSchoolByUserId } from '../../redux/features/dashboard/dashboardDataSlice'
 
+const localStorageData = localStorage.getItem('ennvision-admin:token')
+const loginData = JSON.parse(localStorageData as any)
 const CreateSchool = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
 
@@ -126,8 +128,10 @@ const CreateSchool = (): JSX.Element => {
     }
     useEffect(() => {
         store.dispatch(getSchoolByUserId())
-        if (schoolData && schoolData.schoolId > 0)
+        // if (schoolData && schoolData?.schoolId > 0) {
+        if (loginData?.schoolId) {
             return navigate('/school/view')
+        }
     }, [schoolData])
 
     const showActivities = (_activities: string[]): string => {

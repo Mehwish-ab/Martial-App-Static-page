@@ -12,6 +12,7 @@ import { RootState } from '../../../redux/store'
 import FormControl from '../../../components/FormControl'
 import {
     fontFamilyMedium,
+    fontFamilyRegular,
     lightBlue3,
     pureDark,
     pureDark2,
@@ -26,9 +27,12 @@ import useInstructor from '../../../hooks/useInstructor'
 import { useParams } from 'react-router-dom'
 import { InstructorDataType } from '../../../redux/features/instructor/instructorSlice'
 import { BELTS_SELECT_OPTIONS } from '../../Home/constants'
+import ImagesUpload from '../../../components/ImagesUpload/ImagesUpload'
 
 const UpdateeInstructor = (): JSX.Element => {
     const { instructorId } = useParams()
+    const [selectedFiles, setSelectedFiless] = useState<FileList | null>(null)
+
     const { getLabelByKey } = useScreenTranslation('instructorCreate')
     const {
         statusData: { activities, facilities },
@@ -38,8 +42,11 @@ const UpdateeInstructor = (): JSX.Element => {
         InstructorDataType | undefined
     >()
 
-    const handleupdate = async (): Promise<void> => {
-        await updateInstructor()
+    const handleupdate = async (values: any): Promise<void> => {
+        await updateInstructor(Number(instructorId), values, selectedFiles)
+    }
+    const handleImagesUpload = (selectedFiless: any): void => {
+        setSelectedFiless(selectedFiless)
     }
 
     useEffect(() => {
@@ -49,7 +56,7 @@ const UpdateeInstructor = (): JSX.Element => {
             setinstructorData(data)
         }
         fetchstripe()
-    }, [getInstructorbyid, instructorId])
+    }, [])
 
     const initialValues: CreateInstructorInitialValues = {
         instructorName: instructorData?.instructorName || '--',
@@ -57,7 +64,7 @@ const UpdateeInstructor = (): JSX.Element => {
         instructorPhoneNumber: instructorData
             ? instructorData?.phoneNumber
             : '--',
-        address: instructorData ? instructorData.address : '--',
+        address: instructorData ? instructorData.emailAddress : '--',
         yearsOfExperience: instructorData?.experience || '--',
         rankId: Number(instructorData?.rankId) || 0, // or a default value
         latestCertification: instructorData?.certificationURL || '--',
@@ -223,7 +230,7 @@ const UpdateeInstructor = (): JSX.Element => {
                                                 <FormControl
                                                     control="input"
                                                     type="number"
-                                                    name="yearsOfExperience"
+                                                    name="experience"
                                                     fontFamily={
                                                         fontFamilyMedium
                                                     }
@@ -276,15 +283,28 @@ const UpdateeInstructor = (): JSX.Element => {
                                                 className="mt-20 d-inline-block ps-3"
                                             >
                                                 <FormControl
-                                                    control="input"
-                                                    type="upload"
+                                                    control="file"
+                                                    type="file"
                                                     name="latestCertification"
                                                     fontFamily={
-                                                        fontFamilyMedium
+                                                        fontFamilyRegular
                                                     }
-                                                    label="Latest Certification"
+                                                    label={getLabelByKey(
+                                                        'latestCertification'
+                                                    )}
+                                                    // src={FileSubmit}
+                                                    // onChange={handleChange}
+                                                    suffix={
+                                                        <ImagesUpload
+                                                            onImagesSelect={
+                                                                handleImagesUpload
+                                                            }
+                                                        />
+                                                    }
                                                     padding="10px"
-                                                    placeholder="Pound"
+                                                    placeholder={getLabelByKey(
+                                                        'PlaceholderLatestCertification'
+                                                    )}
                                                 />
                                             </Col>
                                         </Col>

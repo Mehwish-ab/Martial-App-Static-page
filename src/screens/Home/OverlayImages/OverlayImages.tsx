@@ -59,19 +59,24 @@ const OverlayImages = ({
 
     const useCaseOfBanner = branchId
         ? 'BRANCH_BANNER_IMAGE'
-        : schoolData.schoolId
-          ? 'SCHOOL_BANNER_IMAGE'
-          : instructorId
-            ? 'INSTRUCTOR_BANNER_IMAGE'
-            : ''
+        : instructorId
+          ? 'INSTRUCTOR_BANNER_IMAGE'
+          : franchiseId
+            ? 'FRANCHISE_BANNER_IMAGE'
+            : schoolData.schoolId
+              ? 'SCHOOL_BANNER_IMAGE'
+              : ''
 
     const useCaseOfProfile = branchId
         ? 'BRANCH_PROFILE_IMAGE'
-        : schoolData.schoolId
-          ? 'SCHOOL_PROFILE_PICTURE'
-          : instructorId
-            ? 'INSTRUCTOR_PROFILE_IMAGE'
-            : ''
+        : instructorId
+          ? 'INSTRUCTOR_PROFILE_IMAGE'
+          : franchiseId
+            ? 'FRANCHISE_PROFILE_IMAGE'
+            : schoolData.schoolId
+              ? 'SCHOOL_PROFILE_PICTURE'
+              : ''
+
     const uploadImage = async (
         info: string | Blob | File,
         useCase: string
@@ -84,7 +89,11 @@ const OverlayImages = ({
             formData.append('multiPart', (info as any).file)
 
             const requestData = {
-                id: branchId || schoolData.schoolId || instructorId || '',
+                id:
+                    branchId ||
+                    franchiseId ||
+                    instructorId ||
+                    schoolData.schoolId,
                 useCase: useCase,
                 // Add any additional parameters needed
             }
@@ -109,14 +118,17 @@ const OverlayImages = ({
             if (data && data.responseCode === 200) {
                 if (
                     useCase === 'BRANCH_BANNER_IMAGE' ||
+                    useCase === 'FRANCHISE_BANNER_IMAGE' ||
+                    useCase === 'INSTRUCTOR_BANNER_IMAGE' ||
                     useCase === 'SCHOOL_BANNER_IMAGE'
                 ) {
                     setBannerImg(data.results.url)
                     console.log('image', data.results.url)
                 } else if (
-                    useCase === 'BRANCH_PROFILE_IMAGE' ||
-                    useCase === 'SCHOOL_PROFILE_PICTURE' ||
-                    useCase === 'FRANCHISE_PROFILE_PICTURE'
+                    useCase === 'BRANCH_PROFILE_PICTURE' ||
+                    useCase === 'FRANCHISE_PROFILE_IMAGE' ||
+                    useCase === 'INSTRUCTOR_PROFILE_IMAGE' ||
+                    useCase === 'SCHOOL_PROFILE_PICTURE'
                 ) {
                     setProfileImg(data.results.url)
                     console.log('image', data.results.url)

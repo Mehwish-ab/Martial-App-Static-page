@@ -8,7 +8,8 @@ import {
     authorizationToken,
 } from '../../../utils/api_urls'
 import { loginDataTypes } from '../types'
-
+const localStorageData = localStorage.getItem('ennvision-admin:token')
+const loginData = JSON.parse(localStorageData as any)
 export interface BranchDataType {
     branchId: number
     schoolId: number
@@ -96,14 +97,14 @@ export const getBranchBySchoolId = createAsyncThunk(
     'branchData/getBranchBySchoolId',
     async () => {
         const state = store.getState()
-        console.log('state', state)
         try {
             const { data } = await axios.post(
                 `${base_url}${get_branch_by_school_id_url}`,
                 {
                     schoolId:
-                        state.loginData.data?.schoolId ||
-                        state.dashboardData.schoolData.schoolId,
+                        // state.loginData?.data?.schoolIdl ||
+                        // state.dashboardData?.schoolData?.schoolId,
+                        loginData?.schoolId,
                 },
                 {
                     headers: {

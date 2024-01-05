@@ -16,7 +16,7 @@ import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.
 import { useSelector } from 'react-redux'
 import store, { RootState } from '../../../redux/store'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
-import { getBranchBySchoolId } from '../../../redux/features/branch/branchSlice'
+// import { getBranchBySchoolId } from '../../../redux/features/branch/branchSlice'
 import defaltimg from '../../../assets/images/create_school_user_profile.svg'
 import {
     FranchiseDataType,
@@ -150,7 +150,7 @@ const ListFranchise = (): JSX.Element => {
             // ),
             render: (Dummydatas) => {
                 console.log('>>images', Dummydatas?.profilePicture)
-                if (Dummydatas.profilePicture === null) {
+                if (Dummydatas?.profilePicture === null) {
                     return <img src={defaltimg} width={44} height={44} />
                 } else {
                     return (
@@ -331,7 +331,7 @@ const ListFranchise = (): JSX.Element => {
     }
 
     useEffect(() => {
-        store.dispatch(getBranchBySchoolId())
+        store.dispatch(getfranchiseBySchoolId())
     }, [])
 
     return (

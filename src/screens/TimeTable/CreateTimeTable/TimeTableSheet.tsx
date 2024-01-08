@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 
 import { Dropdown, Space, Table } from 'antd'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import { useSelector } from 'react-redux'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 import { CreateTimeTableStyled } from './styles'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
-import { TimeTableDataType } from '../../../redux/features/TimeTable/TimeTableSlice'
+// import { TimeTableDataType } from '../../../redux/features/TimeTable/TimeTableSlice'
 import { RootState } from '../../../redux/store'
 import { ColumnsType } from 'antd/lib/table'
 import StartTime from './StartTime'
@@ -17,6 +17,7 @@ import EndBreak from './EndBreak'
 import useTimetable from '../../../hooks/useTimetable'
 import { cloneDeep } from 'lodash'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
+import moment from 'moment'
 interface TimeEntryProps {
     startTime: string | undefined
     endTime: string | undefined
@@ -90,7 +91,7 @@ const TimeTableSheet: React.FC = () => {
     const [tableDataSource, setTableDataSource] = useState<
         TableDateSourceProps[]
     >([])
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
     const { loading } = useSelector((state: RootState) => state.timeTableData)
 
@@ -132,6 +133,7 @@ const TimeTableSheet: React.FC = () => {
 
     const addNewSlot = (_recordIndex: number): void => {
         if (!allTimeTableDetail) return
+
         const currentDate = new Date(allTimeTableDetail.startDate)
         currentDate.setDate(currentDate.getDate() + _recordIndex)
         const dayOfWeek = daysOfWeek[currentDate.getDay()]
@@ -151,35 +153,35 @@ const TimeTableSheet: React.FC = () => {
         setTableDataSource(updatedTableDateSource)
     }
 
-    const navigation = (
-        record: TimeTableDataType,
-        redirectTo: string
-    ): void => {
-        switch (redirectTo) {
-            case 'edit':
-                navigate(`/timetable/edit/${record.timeTableId}`, {
-                    state: {
-                        branchToEdit: record as TimeTableDataType,
-                    },
-                })
-                break
+    // const navigation = (
+    //     record: TimeTableDataType,
+    //     redirectTo: string
+    // ): void => {
+    //     switch (redirectTo) {
+    //         case 'edit':
+    //             navigate(`/timetable/edit/${record.timeTableId}`, {
+    //                 state: {
+    //                     branchToEdit: record as TimeTableDataType,
+    //                 },
+    //             })
+    //             break
 
-            case 'view':
-                navigate(`/timetable/view/${record.timeTableId}`, {
-                    state: {
-                        branch: record as TimeTableDataType,
-                    },
-                })
-                break
+    //         case 'view':
+    //             navigate(`/timetable/view/${record.timeTableId}`, {
+    //                 state: {
+    //                     branch: record as TimeTableDataType,
+    //                 },
+    //             })
+    //             break
 
-            case 'subscribe':
-                navigate(`/timetable/subscribe/${record.timeTableId}`, {
-                    state: {
-                        branch: record as TimeTableDataType,
-                    },
-                })
-        }
-    }
+    //         case 'subscribe':
+    //             navigate(`/timetable/subscribe/${record.timeTableId}`, {
+    //                 state: {
+    //                     branch: record as TimeTableDataType,
+    //                 },
+    //             })
+    //     }
+    // }
 
     const columns: ColumnsType<any> = [
         {
@@ -309,10 +311,26 @@ const TimeTableSheet: React.FC = () => {
                                     }
                                     createSlots({
                                         timeTableId: timeEntry.timeTableId,
-                                        startTime: timeEntry.startTime || '',
-                                        endTime: timeEntry.endTime || '',
-                                        startBreak: timeEntry.startBreak || '',
-                                        endBreak: timeEntry.endBreak || '',
+                                        startTime:
+                                            moment(
+                                                timeEntry.startTime,
+                                                'hh:mm A'
+                                            ).format('HH:mm:ss') || '',
+                                        endTime:
+                                            moment(
+                                                timeEntry.endTime,
+                                                'hh:mm A'
+                                            ).format('HH:mm:ss') || '',
+                                        startBreak:
+                                            moment(
+                                                timeEntry.startBreak,
+                                                'hh:mm A'
+                                            ).format('HH:mm:ss') || '',
+                                        endBreak:
+                                            moment(
+                                                timeEntry.endBreak,
+                                                'hh:mm A'
+                                            ).format('HH:mm:ss') || '',
                                         dayOfWeek: timeEntry.dayOfWeek || '',
                                     })
                                     setIsShowModal(true)
@@ -353,21 +371,11 @@ const TimeTableSheet: React.FC = () => {
                 const items = [
                     {
                         key: '1',
-                        label: 'View',
-                        onClick: () => navigation(record, 'view'),
+                        label: 'Duplicate',
+                        onClick: () => {},
                     },
                     {
                         key: '2',
-                        label: 'Edit',
-                        onClick: () => navigation(record, 'edit'),
-                    },
-                    {
-                        key: '3',
-                        label: 'Subscribe',
-                        onClick: () => navigation(record, 'subscribe'),
-                    },
-                    {
-                        key: '4',
                         label: 'Add new Slot',
                         // improving-screens
                         onClick: () => addNewSlot(recordIndex),

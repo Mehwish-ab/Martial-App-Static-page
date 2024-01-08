@@ -24,6 +24,7 @@ import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
 import DateCalander from '../../../assets/images/dateCalander.svg'
+import moment from 'moment'
 const RenderTableTitle = (): JSX.Element => {
     const navigate = useNavigate()
 
@@ -147,11 +148,33 @@ const ListTimeTable: React.FC = () => {
             title: 'Start Date',
             dataIndex: 'startDate',
             key: 'startDate',
+            render: (startDate) => {
+                return (
+                    <div className="list-item mb-0">
+                        <div className="list-item-value ms-2">
+                            {moment(moment(startDate, 'YYYY-MM-DD')).format(
+                                'dddd, MMM DD, YYYY'
+                            )}
+                        </div>
+                    </div>
+                )
+            },
         },
         {
             title: 'End Date',
             dataIndex: 'endDate',
             key: 'endDate',
+            render: (endDate) => {
+                return (
+                    <div className="list-item mb-0">
+                        <div className="list-item-value ms-2">
+                            {moment(moment(endDate, 'YYYY-MM-DD')).format(
+                                'dddd, MMM DD, YYYY'
+                            )}
+                        </div>
+                    </div>
+                )
+            },
         },
         {
             title: 'Type',

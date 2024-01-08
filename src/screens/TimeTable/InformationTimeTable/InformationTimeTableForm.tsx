@@ -1,13 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { InformationTimeTableFormStyle } from './styles'
-interface TimeTableFormProps {
-    allTimeTableDetail: React.Dispatch<React.SetStateAction<any>>
-}
+import { useParams } from 'react-router-dom'
+import useTimetable from '../../../hooks/useTimetable'
 
-const InformationTimeTableForm: React.FC<TimeTableFormProps> = ({
-    allTimeTableDetail,
-}: any) => {
+const InformationTimeTableForm: React.FC = () => {
+    const { timeTableId } = useParams()
+    const [allTimeTableDetail, setAllTimeTableDetail] = useState<any>()
+
+    const { getTimetableById } = useTimetable()
+    useEffect(() => {
+        async function fetchTimeTableById(): Promise<void> {
+            const response = await getTimetableById(Number(timeTableId))
+            console.log('checking response: ', response)
+            if (response.results) {
+                setAllTimeTableDetail(response.results)
+            }
+        }
+        fetchTimeTableById()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [timeTableId])
+
     return (
         <>
             <InformationTimeTableFormStyle>

@@ -11,6 +11,7 @@ export interface TimeTableDataType {
     startDate: string
     endDate: string
     isActive: boolean
+    showDayOfWeek?: boolean
 }
 
 export interface GetBranchBySchoolResTypes {

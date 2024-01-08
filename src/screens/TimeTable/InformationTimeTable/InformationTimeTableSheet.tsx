@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Dropdown, Space, Table } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
@@ -10,6 +10,7 @@ import { TimeTableDataType } from '../../../redux/features/TimeTable/TimeTableSl
 import { RootState } from '../../../redux/store'
 import { ColumnsType } from 'antd/lib/table'
 import { InformationTimeTableStyle } from './styles'
+import useTimetable from '../../../hooks/useTimetable'
 const RenderTableTitle = (): JSX.Element => {
     return (
         <>
@@ -17,8 +18,31 @@ const RenderTableTitle = (): JSX.Element => {
         </>
     )
 }
-const InformationTimeTableSheet: React.FC = () => {
+interface TimeTableFormProps {
+    allTimeTableDetails: React.Dispatch<React.SetStateAction<any>>
+}
+
+const InformationTimeTableSheet: React.FC<TimeTableFormProps> = ({
+    allTimeTableDetail,
+}: any) => {
     const navigate = useNavigate()
+    const { getTimetableSlot } = useTimetable()
+    const [allSlotDetail, setAllSlotDetail] = useState<any>()
+
+    useEffect(() => {
+        async function fetchTimeTableById(): Promise<void> {
+            const response = await getTimetableSlot(
+                allTimeTableDetail?.timeTableId
+            )
+            console.log('checking response: ', response)
+            if (response.results) {
+                setAllSlotDetail(response.results)
+            }
+        }
+        fetchTimeTableById()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+    console.log('j', allSlotDetail)
 
     const { loading } = useSelector((state: RootState) => state.timeTableData)
     const navigation = (

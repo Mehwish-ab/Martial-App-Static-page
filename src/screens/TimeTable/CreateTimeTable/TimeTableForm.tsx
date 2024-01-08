@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import FormControl from '../../../components/FormControl'
-// import { useSelector } from 'react-redux'
 import { Col, Row } from 'react-bootstrap'
 import { BELTS_SELECT_OPTIONS } from '../../../screens/Home/constants'
 import DateCalander from '../../../assets/images/dateCalander.svg'
@@ -12,17 +11,14 @@ import {
 } from '../../../components/GlobalStyle'
 import moment from 'moment'
 import { FilterTimeTableStyled } from './styles'
-// import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
-// import { RootState } from '../../../redux/store'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import useTimetable from '../../../hooks/useTimetable'
 import { Formik } from 'formik'
 import { CreateTimeTableInitialValues } from '../constant'
 import { Form } from 'antd'
 import { useAppSelector } from '../../../app/hooks'
-// import TimeTableSheet from './TimeTableSheet'
 import { useNavigate } from 'react-router-dom'
-// import { FormControl } from "react-bootstrap";
+import * as Yup from 'yup'
 
 interface TimeTableFormProps {
     setNewTimetable: React.Dispatch<React.SetStateAction<any>>
@@ -34,41 +30,32 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
     const { data: loginData } = useAppSelector((state) => state.loginData)
     const navigate = useNavigate()
 
-    // const [dateFormat, setDateFormat] = useState<string>()
-
-    // console.log('user id', loginData?.userDetails.id)
-
-    useEffect(() => {
-        // GetUserid()
-    }, [])
-    // const { loading } = useSelector((state: RootState) => state.timeTableData)
+    useEffect(() => {}, [])
     const { handleCreateSubmit, Createmodal, loading, setIsShowModal } =
         useTimetable()
     const initialValues: CreateTimeTableInitialValues = {
         userId: 0,
         title: '',
-        isRepeated: 'No',
+        isRepeated: 2,
         startDate: '',
         endDate: '',
     }
-    // const [NewTTimetable, setNewttimetable] = useState<any>()
+    const validationSchema = Yup.object({
+        title: Yup.string().required('Please Enter Valid Name'),
+        isRepeated: Yup.string().required('Please  select repeated or not'),
+        startDate: Yup.string().required('Please select Start Time'),
+        endDate: Yup.string()
+            .typeError('You must specify a number')
+            .when('isRepeated', {
+                is: '1',
+                then: Yup.string().required('Please select End Time'),
+                otherwise: Yup.string().notRequired(),
+            }),
+    })
 
-    const ShowTime = (date: string): string => {
-        console.log('date ', date)
-
-        if (!date) {
-            return '' // Handle case where date is undefined or null
-        }
-
-        const formattedDate = moment(date).format('DD/MM/YYYY')
-        console.log('formattedDate', formattedDate)
-
-        return formattedDate
-    }
     const onSubmit = async (values: any): Promise<void> => {
         const backendFormattedDate = moment(
-            values.endDate,
-            'DD-MM-YYYY'
+            moment(values.endDate, 'DD-MM-YYYY')
         ).format('YYYY-MM-DD')
         const backendFormattedstartDate = moment(
             values.startDate,
@@ -87,16 +74,17 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
         console.log(data.timetableId, 'dataaa')
         const timeTableId = data?.timeTableId
         setNewTimetable(data)
+        setIsShowModal(true)
         navigate(`/timetable/slots/${timeTableId}`)
     }
+
     return (
         <>
             {Createmodal().modalComponent}
-            {/* {loading && <LoadingOverlay message="" />} */}
             <FilterTimeTableStyled>
                 <Formik
                     initialValues={initialValues}
-                    // validationSchema={validationSchema}
+                    validationSchema={validationSchema}
                     onSubmit={onSubmit}
                 >
                     {(formik) => {
@@ -142,7 +130,12 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                                     ? 'is-invalid'
                                                     : 'customInput'
                                             }
-                                            options={BELTS_SELECT_OPTIONS}
+                                            options={BELTS_SELECT_OPTIONS.map(
+                                                (option) => ({
+                                                    label: option.label,
+                                                    value: option.value.toString(), // Convert the value to string
+                                                })
+                                            )}
                                         />
                                     </Col>
                                     <Col md="6" className="mt-20">
@@ -161,16 +154,13 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                                 />
                                             }
                                             max={6}
-                                            placeholder={moment(
-                                                formik.values.startDate
-                                            ).format('DD/MM/YYYY')}
                                         />
                                     </Col>
                                     <Col md="6" className="mt-20">
                                         <FormControl
                                             control="date"
                                             disabled={
-                                                formik.values.isRepeated !== 1
+                                                formik.values.isRepeated === 2
                                             }
                                             type="date"
                                             name="endDate"
@@ -184,14 +174,13 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                                     alt="calender-icon"
                                                 />
                                             }
-                                            // Value={ShowTime(
-                                            //     formik.values.endDate
-                                            // )}
+                                            // value={
+                                            //     formik.values.isRepeated !== 1
+                                            //         ? formik.values.endDate ===
+                                            //           null
+                                            //         : formik.values.endDate
+                                            // }
                                             max={6}
-                                            placeholder={ShowTime(
-                                                formik.values.endDate
-                                            )}
-                                            // placeholder={dateFormat}
                                         />
                                     </Col>
                                 </Row>
@@ -205,12 +194,12 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                         width="fit-content"
                                         type="submit"
                                         title={'Submit'}
-                                        fontSize="17px"
-                                        // disabled={!formik.isValid}
+                                        // fontSize="17px"
+                                        // disabled={
+                                        //     !formik.isValid ||
+                                        //     formik.values.isRepeated === 'Yes'
+                                        // }
                                         loading={loading}
-                                        clicked={() => {
-                                            setIsShowModal(true)
-                                        }}
                                     />
                                 </div>
                             </Form>

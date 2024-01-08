@@ -200,6 +200,11 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                         fontFamily={`${fontFamilyMedium}`}
                                         width="fit-content"
                                         type="submit"
+                                        // fontSize="17px"
+                                        // disabled={
+                                        //     !formik.isValid ||
+                                        //     formik.values.isRepeated === 'Yes'
+                                        // }
                                         // title={getLabelByKey(
                                         //     'addTimeTableSlide'
                                         // )}

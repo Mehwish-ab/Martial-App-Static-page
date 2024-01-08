@@ -97,7 +97,6 @@ const OverlayImages = ({
                 useCase: useCase,
                 // Add any additional parameters needed
             }
-            console.log('>>requestData', requestData)
             formData.append(
                 'data',
                 new Blob([JSON.stringify(requestData)], {

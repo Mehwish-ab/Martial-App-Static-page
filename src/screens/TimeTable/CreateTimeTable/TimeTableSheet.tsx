@@ -81,13 +81,13 @@ const TimeTableSheet: React.FC = () => {
     const { timeTableId } = useParams()
     const { getTimetableById, createSlots, Createmodal, setIsShowModal } =
         useTimetable()
-// <<<<<<< improving-screens
-// =======
-//     const [StartTimee] = useState<any>()
-//     const [EndTimee, setEndTime] = useState<any>()
-//     const [day, setDay] = useState<any>()
+    // <<<<<<< improving-screens
+    // =======
+    //     const [StartTimee] = useState<any>()
+    //     const [EndTimee, setEndTime] = useState<any>()
+    //     const [day, setDay] = useState<any>()
 
-// >>>>>>> main
+    // >>>>>>> main
     const [allTimeTableDetail, setAllTimeTableDetail] =
         useState<TableDetailProps>()
 
@@ -122,7 +122,6 @@ const TimeTableSheet: React.FC = () => {
             'checking before updatedTableDateSource: ',
             updatedTableDateSource
         )
-<!-- <<<<<<< improving-screens -->
 
         updatedTableDateSource[_recordIndex].timeEntries[_timeEntryIndex] = {
             ...updatedTableDateSource[_recordIndex].timeEntries[
@@ -153,9 +152,9 @@ const TimeTableSheet: React.FC = () => {
             isActive: allTimeTableDetail.isActive,
             isRepeated: allTimeTableDetail.isRepeated,
         })
-// =======
-//         updatedTableDateSource[_recordIndex].timeEntries[_key] = _value
-// >>>>>>> main
+        // =======
+        //         updatedTableDateSource[_recordIndex].timeEntries[_key] = _value
+        // >>>>>>> main
         setTableDataSource(updatedTableDateSource)
     }
 
@@ -203,12 +202,7 @@ const TimeTableSheet: React.FC = () => {
             dataIndex: 'createTimeTableWeekDay',
             key: 'createTimeTableWeekDay',
             render: (value, record) => {
-                return (
-                    <div>
-                        {record.dayOfWeek}
-                        {setDay(record.dayOfWeek)}
-                    </div>
-                )
+                return <div>{record.dayOfWeek}</div>
             },
         },
         {
@@ -302,7 +296,7 @@ const TimeTableSheet: React.FC = () => {
             title: 'Slot',
             dataIndex: 'createTimeTableSlot',
             key: 'createTimeTableSlot',
-//improving-screens
+            //improving-screens
             render: (_, record, recordIndex) => {
                 return record.timeEntries.map(
                     (timeEntry: TimeEntryProps, rowIndex: number) => (
@@ -335,27 +329,27 @@ const TimeTableSheet: React.FC = () => {
                             </button>
                         </div>
                     )
-// 
-//             render: () => {
-//                 return (
-//                     <div>
-//                         <button
-//                             onClick={() => {
-//                                 CreateSlots(
-//                                     timeTableId,
-//                                     StartTimee,
-//                                     EndTimee,
-//                                     StartBreakk,
-//                                     EndBreakk,
-//                                     day
-//                                 )
-//                                 setIsShowModal(true)
-//                             }}
-//                         >
-//                             {'Add'}
-//                         </button>
-//                     </div>
-// 
+                    //
+                    //             render: () => {
+                    //                 return (
+                    //                     <div>
+                    //                         <button
+                    //                             onClick={() => {
+                    //                                 CreateSlots(
+                    //                                     timeTableId,
+                    //                                     StartTimee,
+                    //                                     EndTimee,
+                    //                                     StartBreakk,
+                    //                                     EndBreakk,
+                    //                                     day
+                    //                                 )
+                    //                                 setIsShowModal(true)
+                    //                             }}
+                    //                         >
+                    //                             {'Add'}
+                    //                         </button>
+                    //                     </div>
+                    //
                 )
             },
         },
@@ -382,9 +376,8 @@ const TimeTableSheet: React.FC = () => {
                     {
                         key: '4',
                         label: 'Add new Slot',
-// improving-screens
+                        // improving-screens
                         onClick: () => addNewSlot(recordIndex),
-                        onClick: () => {},
                     },
                 ]
                 return record.timeEntries.map(

@@ -15,7 +15,7 @@ import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.
 import useBranch from '../hooks/useBranch'
 import { useEffect, useState } from 'react'
 
-const AddPaymentinfo: React.FC = () => {
+const AddPaymentInfo: React.FC = () => {
     console.log('hello naddda')
     const navigate = useNavigate()
     const { branchId } = useParams()
@@ -416,4 +416,4 @@ const AddPaymentinfo: React.FC = () => {
     )
 }
 
-export default AddPaymentinfo
+export default AddPaymentInfo

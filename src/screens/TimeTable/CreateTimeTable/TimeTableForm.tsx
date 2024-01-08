@@ -112,25 +112,27 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                     Time Table
                                 </h3>
                                 <Row>
-                                    <Col md="6">
+                                    <Col md="6" className="mt-20">
                                         <FormControl
                                             control="input"
                                             type="text"
                                             name="title"
                                             label="Title"
                                             padding="10px"
-                                            fontFamily={fontFamilyMedium}
+                                            labelFamily={`${fontFamilyMedium}`}
+                                            fontFamily={fontFamilyRegular}
                                             fontSize="16px"
                                             max={6}
                                             placeholder="Enter Title Name"
                                         />
                                     </Col>
 
-                                    <Col md="6">
+                                    <Col md="6" className="mt-20">
                                         <FormControl
                                             control="select"
                                             type="text"
                                             name="isRepeated"
+                                            labelFamily={`${fontFamilyMedium}`}
                                             fontFamily={fontFamilyRegular}
                                             label={'Repeat Time Table'}
                                             placeholder={'No'}
@@ -143,12 +145,13 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                             options={BELTS_SELECT_OPTIONS}
                                         />
                                     </Col>
-                                    <Col md="6">
+                                    <Col md="6" className="mt-20">
                                         <FormControl
                                             control="date"
                                             type="date"
                                             name="startDate"
-                                            labelFamily={`${fontFamilyMedium}`}
+                                            labelFamily={fontFamilyMedium}
+                                            fontFamily={fontFamilyRegular}
                                             label="Start Date"
                                             fontSize="16px"
                                             suffixIcon={
@@ -163,7 +166,7 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                             ).format('DD/MM/YYYY')}
                                         />
                                     </Col>
-                                    <Col md="6">
+                                    <Col md="6" className="mt-20">
                                         <FormControl
                                             control="date"
                                             disabled={
@@ -171,7 +174,8 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                             }
                                             type="date"
                                             name="endDate"
-                                            labelFamily={`${fontFamilyMedium}`}
+                                            labelFamily={fontFamilyMedium}
+                                            fontFamily={fontFamilyRegular}
                                             label="End Date"
                                             fontSize="16px"
                                             suffixIcon={

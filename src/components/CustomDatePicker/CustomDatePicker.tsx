@@ -47,7 +47,7 @@ const CustomDatePicker = (props: {
     } = props
     // const startOfWeekMonday = moment().startOf('isoWeek') // 'isoWeek' starts from Monday
     // console.log({ marginBottom, showErroMessage })
-    console.log('>> placeholder', placeholder)
+    // console.log('>> placeholder', placeholder)
     return (
         <CustomDatePickerStyle
             fontFamily={fontFamily}
@@ -78,8 +78,7 @@ const CustomDatePicker = (props: {
                                         form.setFieldValue(name, dateString)
                                     }
                                 }}
-                                // Set the start of the week to Monday
-                                defaultValue={begin || startOfWeekMonday}
+                                // defaultValue={begin || startOfWeekMonday}
                             />
                         </div>
                     )

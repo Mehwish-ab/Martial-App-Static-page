@@ -119,9 +119,8 @@ const useTimetable = (): IUseTimetable => {
         // const userDetails = loginData.data?.userDetails
         let valu = null
         // const userDetails = loginData.data?.userDetails
-        if (values.endDate === 'Invalid date')
-             valu = null
-        else valu=values.endDate
+        if (values.endDate === 'Invalid date') valu = null
+        else valu = values.endDate
         const payload = {
             userId: schoolId,
             title: values.title,

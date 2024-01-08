@@ -1,8 +1,13 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { InformationTimeTableFormStyle } from './styles'
+interface TimeTableFormProps {
+    allTimeTableDetail: React.Dispatch<React.SetStateAction<any>>
+}
 
-const InformationTimeTableForm: React.FC = () => {
+const InformationTimeTableForm: React.FC<TimeTableFormProps> = ({
+    allTimeTableDetail,
+}: any) => {
     return (
         <>
             <InformationTimeTableFormStyle>
@@ -12,7 +17,9 @@ const InformationTimeTableForm: React.FC = () => {
                         <div className="list-item">
                             <div className="list-item-title">Title</div>
                             <div className="list-item-value">
-                                Karate Classes Schudle
+                                {allTimeTableDetail
+                                    ? allTimeTableDetail.title
+                                    : '--'}
                             </div>
                         </div>
                     </Col>
@@ -23,7 +30,13 @@ const InformationTimeTableForm: React.FC = () => {
                                     <div className="list-item-title">
                                         Repeat Time Table
                                     </div>
-                                    <div className="list-item-value">Yes</div>
+                                    <div className="list-item-value">
+                                        {' '}
+                                        {allTimeTableDetail?.isRepeated ===
+                                        false
+                                            ? 'No'
+                                            : 'Yes'}
+                                    </div>
                                 </div>
                             </Col>
                             <Col md="4">
@@ -32,7 +45,9 @@ const InformationTimeTableForm: React.FC = () => {
                                         Start Date
                                     </div>
                                     <div className="list-item-value">
-                                        Monday, October 27, 2023
+                                        {allTimeTableDetail
+                                            ? allTimeTableDetail.startDate
+                                            : '--'}
                                     </div>
                                 </div>
                             </Col>
@@ -42,7 +57,9 @@ const InformationTimeTableForm: React.FC = () => {
                                         End Date
                                     </div>
                                     <div className="list-item-value">
-                                        Monday, October 27, 2023
+                                        {allTimeTableDetail
+                                            ? allTimeTableDetail.endDate
+                                            : '--'}
                                     </div>
                                 </div>
                             </Col>

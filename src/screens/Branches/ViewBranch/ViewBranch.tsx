@@ -8,7 +8,7 @@ import { RootState } from '../../../redux/store'
 import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
 // import AddPaymentBranch from '../AddPaymentBranch/AddPaymentBranch'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
-import AddPaymentinfo from '../BranchPayment/AddPaymentinfo'
+import AddPaymentInfo from '../BranchPayment/AddPaymentinfo'
 import { useEffect, useState } from 'react'
 import useBranch from '../hooks/useBranch'
 const ViewBranch = (): JSX.Element => {
@@ -242,7 +242,7 @@ const ViewBranch = (): JSX.Element => {
             </Card>
             {loading && <LoadingOverlay message="" />}
 
-            <AddPaymentinfo />
+            <AddPaymentInfo />
         </ViewBranchStyled>
     )
 }

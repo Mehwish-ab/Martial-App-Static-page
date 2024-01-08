@@ -145,7 +145,7 @@ export const FilterTimeTableStyled = styled.div`
         line-height: normal;
     }
 
-    .ant-form-horizontal {
+    .ant-input-affix-wrapper {
         height: 50px;
         padding-top: 0;
         padding-bottom: 0;

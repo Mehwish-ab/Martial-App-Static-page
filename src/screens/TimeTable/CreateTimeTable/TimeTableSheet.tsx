@@ -16,6 +16,7 @@ import EndTime from './Endtime'
 import EndBreak from './EndBreak'
 import useTimetable from '../../../hooks/useTimetable'
 import { cloneDeep } from 'lodash'
+import useScreenTranslation from '../../../hooks/useScreenTranslation'
 interface TimeEntryProps {
     startTime: string | undefined
     endTime: string | undefined
@@ -71,9 +72,12 @@ const calculateDaysDifference = (
 }
 
 const RenderTableTitle = (): JSX.Element => {
+    const { getLabelByKey } = useScreenTranslation('createTImeTable')
     return (
         <>
-            <h3 className="tableHeading">Session Timings by Day</h3>
+            <h3 className="tableHeading">
+                {getLabelByKey('sessionTimingsByDay')}
+            </h3>
         </>
     )
 }
@@ -81,16 +85,8 @@ const TimeTableSheet: React.FC = () => {
     const { timeTableId } = useParams()
     const { getTimetableById, createSlots, Createmodal, setIsShowModal } =
         useTimetable()
-    // <<<<<<< improving-screens
-    // =======
-    //     const [StartTimee] = useState<any>()
-    //     const [EndTimee, setEndTime] = useState<any>()
-    //     const [day, setDay] = useState<any>()
-
-    // >>>>>>> main
     const [allTimeTableDetail, setAllTimeTableDetail] =
         useState<TableDetailProps>()
-
     const [tableDataSource, setTableDataSource] = useState<
         TableDateSourceProps[]
     >([])
@@ -152,9 +148,6 @@ const TimeTableSheet: React.FC = () => {
             isActive: allTimeTableDetail.isActive,
             isRepeated: allTimeTableDetail.isRepeated,
         })
-        // =======
-        //         updatedTableDateSource[_recordIndex].timeEntries[_key] = _value
-        // >>>>>>> main
         setTableDataSource(updatedTableDateSource)
     }
 
@@ -463,14 +456,6 @@ const TimeTableSheet: React.FC = () => {
     return (
         <>
             {loading && <LoadingOverlay message="" />}
-            {/* {console.log(
-                'start time-:',
-                StartTimee,
-                'End time-:',
-                EndTimee,
-                StartBreakk,
-                EndBreakk
-            )} */}
             <CreateTimeTableStyled>
                 {Createmodal().modalComponent}
                 <Table
@@ -478,6 +463,7 @@ const TimeTableSheet: React.FC = () => {
                     dataSource={tableDataSource}
                     pagination={false}
                     title={() => <RenderTableTitle />}
+                    scroll={{ x: true }}
                 />
             </CreateTimeTableStyled>
         </>

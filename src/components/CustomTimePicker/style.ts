@@ -7,7 +7,6 @@ export const CustomDatePickerContainer = styled.div`
     label {
         font-size: 13px;
         text-transform: capitalize;
-
         display: block;
         margin-bottom: 10px;
     }

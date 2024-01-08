@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 import FormControl from '../../../components/FormControl'
+// import { useSelector } from 'react-redux'
+import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { Col, Row } from 'react-bootstrap'
 import { BELTS_SELECT_OPTIONS } from '../../../screens/Home/constants'
 import DateCalander from '../../../assets/images/dateCalander.svg'
@@ -23,10 +25,10 @@ import * as Yup from 'yup'
 interface TimeTableFormProps {
     setNewTimetable: React.Dispatch<React.SetStateAction<any>>
 }
-
 const TimeTableForm: React.FC<TimeTableFormProps> = ({
     setNewTimetable,
 }: any) => {
+    const { getLabelByKey } = useScreenTranslation('createTImeTable')
     const { data: loginData } = useAppSelector((state) => state.loginData)
     const navigate = useNavigate()
 
@@ -97,7 +99,7 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                 autoComplete="off"
                             >
                                 <h3 className="timetable-heading">
-                                    Time Table
+                                    {getLabelByKey('titleScreen')}
                                 </h3>
                                 <Row>
                                     <Col md="6" className="mt-20">
@@ -105,16 +107,17 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                             control="input"
                                             type="text"
                                             name="title"
-                                            label="Title"
+                                            label={getLabelByKey('title')}
                                             padding="10px"
                                             labelFamily={`${fontFamilyMedium}`}
                                             fontFamily={fontFamilyRegular}
                                             fontSize="16px"
                                             max={6}
-                                            placeholder="Enter Title Name"
+                                            placeholder={getLabelByKey(
+                                                'titlePlaceholder'
+                                            )}
                                         />
                                     </Col>
-
                                     <Col md="6" className="mt-20">
                                         <FormControl
                                             control="select"
@@ -122,8 +125,12 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                             name="isRepeated"
                                             labelFamily={`${fontFamilyMedium}`}
                                             fontFamily={fontFamilyRegular}
-                                            label={'Repeat Time Table'}
-                                            placeholder={'No'}
+                                            label={getLabelByKey(
+                                                'repeatTimeTable'
+                                            )}
+                                            placeholder={getLabelByKey(
+                                                'repeatTimeTable'
+                                            )}
                                             className={
                                                 formik.errors.isRepeated &&
                                                 formik.touched.isRepeated
@@ -145,7 +152,7 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                             name="startDate"
                                             labelFamily={fontFamilyMedium}
                                             fontFamily={fontFamilyRegular}
-                                            label="Start Date"
+                                            label={getLabelByKey('startDate')}
                                             fontSize="16px"
                                             suffixIcon={
                                                 <img
@@ -193,12 +200,17 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                         fontFamily={`${fontFamilyMedium}`}
                                         width="fit-content"
                                         type="submit"
-                                        title={'Submit'}
                                         // fontSize="17px"
                                         // disabled={
                                         //     !formik.isValid ||
                                         //     formik.values.isRepeated === 'Yes'
                                         // }
+                                        // title={getLabelByKey(
+                                        //     'addTimeTableSlide'
+                                        // )}
+                                        title="Add Time Table Slide"
+                                        fontSize="17px"
+                                        // disabled={!formik.isValid}
                                         loading={loading}
                                     />
                                 </div>

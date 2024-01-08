@@ -135,10 +135,6 @@ padding-bottom: 20px;
 `
 
 export const FilterTimeTableStyled = styled.div`
-    background-color: #fff;
-    padding: 16px;
-    border-radius: 10px;
-
     .timetable-heading {
         font-family: ${fontFamilyMedium};
         color: ${pureDark2};

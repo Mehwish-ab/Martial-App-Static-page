@@ -245,9 +245,11 @@ const ListTimeTable: React.FC = () => {
             <ListTimeTableStyled>
                 <Table
                     columns={columns}
-                    dataSource={timeTableData.data.map((data) => {
-                        return data
-                    })}
+                    dataSource={
+                        timeTableData?.data[0].timeTableId !== 0
+                            ? timeTableData.data
+                            : []
+                    }
                     title={() => <RenderTableTitle />}
                     scroll={{ x: true }}
                     pagination={{

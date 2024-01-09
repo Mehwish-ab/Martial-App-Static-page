@@ -145,14 +145,9 @@ export const FilterTimeTableStyled = styled.div`
         line-height: normal;
     }
 
-    .ant-input-affix-wrapper {
-        height: 50px;
-        padding-top: 0;
-        padding-bottom: 0;
-        border-radius: 10px;
-        input {
-            height: 48px;
-            background-color: transparent;
-        }
+    .ant-picker.customtimepicker {
+        height: 40px;
+        border-radius: 5px;
+        border: 1px solid #e0e0e0;
     }
 `

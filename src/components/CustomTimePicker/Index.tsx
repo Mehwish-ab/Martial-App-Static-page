@@ -28,7 +28,7 @@ const Index = (props: any): JSX.Element => {
                 {({ form }: any) => {
                     return (
                         // <Form.Item name={name}>
-                        <div>
+                        <>
                             <TimePicker
                                 format="h:mm A"
                                 defaultValue={defaultValue}
@@ -45,7 +45,7 @@ const Index = (props: any): JSX.Element => {
                                     )
                                 }}
                             />
-                        </div>
+                        </>
                         // </Form.Item>
                     )
                 }}

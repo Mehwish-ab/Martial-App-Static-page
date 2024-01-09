@@ -50,7 +50,7 @@ const CustomTimePicker = (props: {
                             placeholder={placeholder}
                             suffixIcon={<img src={timeIcon} alt="time-icon" />}
                             name={name}
-                            // format="hh:mm A" // 12-hour time format with AM/PM
+                            format="hh:mm A" // 12-hour time format with AM/PM
                             id={name}
                             {...rest}
                             onChange={(_, timeString) => {

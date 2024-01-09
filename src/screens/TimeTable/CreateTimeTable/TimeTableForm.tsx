@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import FormControl from '../../../components/FormControl'
-// import { useSelector } from 'react-redux'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { Col, Row } from 'react-bootstrap'
 import { BELTS_SELECT_OPTIONS } from '../../../screens/Home/constants'
@@ -29,22 +28,28 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
     setNewTimetable,
 }: any) => {
     const { getLabelByKey } = useScreenTranslation('createTImeTable')
+
     const { data: loginData } = useAppSelector((state) => state.loginData)
+
     const navigate = useNavigate()
 
     useEffect(() => {}, [])
     const { handleCreateSubmit, Createmodal, loading, setIsShowModal } =
         useTimetable()
+
     const initialValues: CreateTimeTableInitialValues = {
         userId: 0,
         title: '',
-        isRepeated: 2,
+        isRepeated: 0,
         startDate: '',
         endDate: '',
     }
+
     const validationSchema = Yup.object({
         title: Yup.string().required('Please Enter Valid Name'),
-        isRepeated: Yup.string().required('Please  select repeated or not'),
+        isRepeated: Yup.string()
+            .oneOf(['1', '2'], 'Please select repeated or not')
+            .required('Please select repeated or not'),
         startDate: Yup.string().required('Please select Start Time'),
         endDate: Yup.string()
             .typeError('You must specify a number')
@@ -56,6 +61,9 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
     })
 
     const onSubmit = async (values: any): Promise<void> => {
+        if (values.isRepeated === '2') {
+            values.endDate = null
+        }
         const backendFormattedDate = moment(
             moment(values.endDate, 'DD-MM-YYYY')
         ).format('YYYY-MM-DD')
@@ -63,7 +71,6 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
             values.startDate,
             'DD-MM-YYYY'
         ).format('YYYY-MM-DD')
-        console.log('im handle submit button')
         const data = await handleCreateSubmit(
             {
                 ...values,
@@ -90,8 +97,6 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                     onSubmit={onSubmit}
                 >
                     {(formik) => {
-                        console.log('formik values', formik.values)
-
                         return (
                             <Form
                                 name="basic"
@@ -123,7 +128,6 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                             control="select"
                                             type="text"
                                             name="isRepeated"
-                                            labelFamily={`${fontFamilyMedium}`}
                                             fontFamily={fontFamilyRegular}
                                             label={getLabelByKey(
                                                 'repeatTimeTable'
@@ -137,12 +141,7 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                                     ? 'is-invalid'
                                                     : 'customInput'
                                             }
-                                            options={BELTS_SELECT_OPTIONS.map(
-                                                (option) => ({
-                                                    label: option.label,
-                                                    value: option.value.toString(), // Convert the value to string
-                                                })
-                                            )}
+                                            options={BELTS_SELECT_OPTIONS}
                                         />
                                     </Col>
                                     <Col md="6" className="mt-20">
@@ -167,7 +166,7 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                         <FormControl
                                             control="date"
                                             disabled={
-                                                formik.values.isRepeated === 2
+                                                formik.values.isRepeated !== 1
                                             }
                                             type="date"
                                             name="endDate"
@@ -181,12 +180,6 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                                     alt="calender-icon"
                                                 />
                                             }
-                                            // value={
-                                            //     formik.values.isRepeated !== 1
-                                            //         ? formik.values.endDate ===
-                                            //           null
-                                            //         : formik.values.endDate
-                                            // }
                                             max={6}
                                         />
                                     </Col>
@@ -200,14 +193,6 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                         fontFamily={`${fontFamilyMedium}`}
                                         width="fit-content"
                                         type="submit"
-                                        // fontSize="17px"
-                                        // disabled={
-                                        //     !formik.isValid ||
-                                        //     formik.values.isRepeated === 'Yes'
-                                        // }
-                                        // title={getLabelByKey(
-                                        //     'addTimeTableSlide'
-                                        // )}
                                         title="Add Time Table Slide"
                                         fontSize="17px"
                                         loading={loading}

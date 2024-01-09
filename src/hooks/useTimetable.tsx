@@ -222,12 +222,9 @@ const useTimetable = (): IUseTimetable => {
             return data3.results.data
         } catch (e: any) {
             console.log('api error', errorMessage)
-            setError((errorMessage as any).response.data.responseMessage)
+            setError(errorMessage as any)
             setLoading(false)
-            console.log(
-                (errorMessage as any).response.data.responseMessage,
-                'error in api data'
-            )
+            console.log(errorMessage as any, 'error in api data')
             setError(
                 (errorMessage as any).response?.data?.responseMessage ||
                     'An error occurred'
@@ -369,6 +366,8 @@ const useTimetable = (): IUseTimetable => {
         try {
             setError('')
             setLoading(true)
+            console.log('payload', payload)
+
             const createTimeSlotResponse: CreateTimeSheetSlotProps =
                 await axios.post('/timetable/slot/create', payload, {
                     headers: {

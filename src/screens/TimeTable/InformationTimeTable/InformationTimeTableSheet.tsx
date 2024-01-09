@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { Dropdown, Space, Table } from 'antd'
-import { useNavigate } from 'react-router-dom'
-import StatusActiveError from '../../../assets/images/activeBtnError.svg'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
-import DummyData from './dummyData.json'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
 import { TimeTableDataType } from '../../../redux/features/TimeTable/TimeTableSlice'
 import { RootState } from '../../../redux/store'
 import { ColumnsType } from 'antd/lib/table'
 import { InformationTimeTableStyle } from './styles'
 import useTimetable from '../../../hooks/useTimetable'
+import StatusActiveError from '../../../assets/images/activeBtnError.svg'
+import moment from 'moment'
+
 const RenderTableTitle = (): JSX.Element => {
     return (
         <>
@@ -18,33 +19,33 @@ const RenderTableTitle = (): JSX.Element => {
         </>
     )
 }
-interface TimeTableFormProps {
-    allTimeTableDetails: React.Dispatch<React.SetStateAction<any>>
-}
 
-const InformationTimeTableSheet: React.FC<TimeTableFormProps> = ({
-    allTimeTableDetail,
-}: any) => {
+const InformationTimeTableSheet: React.FC = () => {
     const navigate = useNavigate()
     const { getTimetableSlot } = useTimetable()
-    const [allSlotDetail, setAllSlotDetail] = useState<any>()
+    const [allSlotDetail, setAllSlotDetail] = useState<any>([])
+    const { timeTableId } = useParams()
+    console.log('id', timeTableId)
 
     useEffect(() => {
-        async function fetchTimeTableById(): Promise<void> {
-            const response = await getTimetableSlot(
-                allTimeTableDetail?.timeTableId
-            )
-            console.log('checking response: ', response)
-            if (response.results) {
-                setAllSlotDetail(response.results)
+        async function fetchTimeTableSlots(): Promise<void> {
+            try {
+                const data = await getTimetableSlot(Number(timeTableId))
+
+                if (data) {
+                    console.log(data, ' results')
+
+                    setAllSlotDetail(data)
+                }
+            } catch (error) {
+                console.error('Error fetching timetable slots:', error)
             }
         }
-        fetchTimeTableById()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        fetchTimeTableSlots()
     }, [])
-    console.log('j', allSlotDetail)
 
     const { loading } = useSelector((state: RootState) => state.timeTableData)
+
     const navigation = (
         record: TimeTableDataType,
         redirectTo: string
@@ -75,45 +76,67 @@ const InformationTimeTableSheet: React.FC<TimeTableFormProps> = ({
         }
     }
 
+    const Slots = Object.values(allSlotDetail).flatMap((dayArray: any) =>
+        dayArray.map((item: any, index: number) => ({
+            ...item,
+            dayOfWeek: item.dayOfWeek.toUpperCase(),
+            showDayOfWeek:
+                dayArray.findIndex(
+                    (d: any) => d.dayOfWeek === item.dayOfWeek
+                ) === index,
+        }))
+    )
+
     const columns: ColumnsType<TimeTableDataType> = [
         {
             title: 'Week Day',
-            dataIndex: 'createTimeTableWeekDay',
-            key: 'createTimeTableWeekDay',
+            dataIndex: 'dayOfWeek',
+            key: 'dayOfWeek',
+            render: (dayOfWeek, record) => {
+                return record.showDayOfWeek && dayOfWeek
+            },
         },
         {
             title: 'Start Time',
-            dataIndex: 'createTimeTableStartDate',
-            key: 'createTimeTableStartDate',
-            render: (DummyDataa) => {
+            dataIndex: 'startTime',
+            key: 'startTime',
+            render: (startTime) => {
                 return (
                     <div className="list-item mb-0">
-                        <div className="list-item-value ms-2">{DummyDataa}</div>
+                        <div className="list-item-value ms-2">
+                            {moment(startTime, 'HH:mm:ss').format('hh:mm A') ||
+                                ''}
+                        </div>
                     </div>
                 )
             },
         },
         {
             title: 'End Date',
-            dataIndex: 'createTimeTableEndDate',
-            key: 'createTimeTableEndDate',
-            render: (DummyDatas) => {
+            dataIndex: 'endTime',
+            key: 'endTime',
+            render: (endTime) => {
                 return (
                     <div className="list-item mb-0">
-                        <div className="list-item-value ms-2">{DummyDatas}</div>
+                        <div className="list-item-value ms-2">
+                            {moment(endTime, 'HH:mm:ss').format('hh:mm A') ||
+                                ''}
+                        </div>
                     </div>
                 )
             },
         },
         {
             title: 'Start Break',
-            dataIndex: 'createTimeTableStartBreak',
-            key: 'createTimeTableStartBreak',
-            render: (DummyDataas) => {
+            dataIndex: 'startBreak',
+            key: 'startBreak',
+            render: (startBreak) => {
                 return (
                     <div className="list-item mb-0">
                         <div className="list-item-value ms-2">
-                            {DummyDataas}
+                            {' '}
+                            {moment(startBreak, 'HH:mm:ss').format('hh:mm A') ||
+                                ''}
                         </div>
                     </div>
                 )
@@ -121,13 +144,14 @@ const InformationTimeTableSheet: React.FC<TimeTableFormProps> = ({
         },
         {
             title: 'End Break',
-            dataIndex: 'createTimeTableEndBreak',
-            key: 'createTimeTableEndBreak',
-            render: (DummyDatass) => {
+            dataIndex: 'endBreak',
+            key: 'endBreak',
+            render: (endBreak) => {
                 return (
                     <div className="list-item mb-0">
                         <div className="list-item-value ms-2">
-                            {DummyDatass}
+                            {moment(endBreak, 'HH:mm:ss').format('hh:mm A') ||
+                                ''}
                         </div>
                     </div>
                 )
@@ -135,15 +159,24 @@ const InformationTimeTableSheet: React.FC<TimeTableFormProps> = ({
         },
         {
             title: 'Status',
-            dataIndex: 'createTimeTableStatus',
-            key: 'createTimeTableStatus',
-            render: (DummyDataass) => {
-                return (
-                    <div>
-                        <button>{DummyDataass}</button>
-                        <img src={StatusActiveError as string} alt="images" />
-                    </div>
-                )
+            dataIndex: 'isActive',
+            key: 'isActive',
+            render: (DummyDataa) => {
+                if (DummyDataa === true) {
+                    return (
+                        <div className={'Active'}>
+                            <button>Active</button>
+                            <img src={StatusActiveError} alt="image" />
+                        </div>
+                    )
+                } else {
+                    return (
+                        <div className={'De-Active'}>
+                            <button>De-Active</button>
+                            <img src={StatusActiveError} alt="image" />
+                        </div>
+                    )
+                }
             },
         },
         {
@@ -182,14 +215,16 @@ const InformationTimeTableSheet: React.FC<TimeTableFormProps> = ({
         },
     ]
 
-    console.log('DummyData', DummyData)
+    console.log('DummyData', allSlotDetail)
+    console.log('after', Slots)
+
     return (
         <>
             {loading && <LoadingOverlay message="" />}
             <InformationTimeTableStyle>
                 <Table
                     columns={columns}
-                    dataSource={DummyData as unknown as TimeTableDataType[]}
+                    dataSource={Slots}
                     title={() => <RenderTableTitle />}
                     scroll={{ x: true }}
                     pagination={false}
@@ -198,4 +233,5 @@ const InformationTimeTableSheet: React.FC<TimeTableFormProps> = ({
         </>
     )
 }
+
 export default InformationTimeTableSheet

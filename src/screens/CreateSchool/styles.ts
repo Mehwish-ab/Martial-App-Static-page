@@ -86,4 +86,15 @@ export const CreateSchoolStyled = styled.div`
             cursor: pointer;
         }
     }
+
+    label {
+        span {
+            color: #4f4f4f;
+            font-family: ${fontFamilyRegular};
+            font-size: 10px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+    }
 `

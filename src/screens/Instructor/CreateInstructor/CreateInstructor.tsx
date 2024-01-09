@@ -27,6 +27,8 @@ import { useEffect, useState } from 'react'
 import { BELTS_SELECT_OPTIONS } from '../../Home/constants'
 const CreateInstructor = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('instructorCreate')
+    const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
+
     const {
         statusData: { activities, facilities },
     } = useSelector((state: RootState) => state.appData.data)
@@ -315,9 +317,18 @@ const CreateInstructor = (): JSX.Element => {
                                                     fontFamily={
                                                         fontFamilyRegular
                                                     }
-                                                    label={getLabelByKey(
-                                                        'latestCertification'
-                                                    )}
+                                                    label={
+                                                        <>
+                                                            {getLabelByKey(
+                                                                'latestCertification'
+                                                            )}{' '}
+                                                            <span>
+                                                                {getLabelByKey(
+                                                                    'optional'
+                                                                )}
+                                                            </span>
+                                                        </>
+                                                    }
                                                     src={FileSubmit}
                                                     // onChange={handleChange}
                                                     suffix={
@@ -343,21 +354,48 @@ const CreateInstructor = (): JSX.Element => {
                                             )}
                                             list={facilities}
                                             showErrorMsgInList={false}
-                                            placeholder={showFacilities(
+                                            placeholder={
                                                 formik.values.specializations
-                                            )}
+                                                    .length > 0
+                                                    ? showFacilities(
+                                                          formik.values
+                                                              .specializations
+                                                      )
+                                                    : getLabelByKey(
+                                                          'placeholderSpecializations'
+                                                      )
+                                            }
                                         />
                                     </Col>
 
                                     <Col md="6">
                                         <CheckboxesSelect
                                             name="activities"
-                                            label={getLabelByKey('activities')}
+                                            label={
+                                                <>
+                                                    {getLabelByKey(
+                                                        'activities'
+                                                    )}{' '}
+                                                    <span>
+                                                        {getLabelByKey(
+                                                            'toInstructWithin'
+                                                        )}
+                                                    </span>
+                                                </>
+                                            }
                                             list={activities}
                                             showErrorMsgInList={false}
-                                            placeholder={showActivities(
+                                            placeholder={
                                                 formik.values.activities
-                                            )}
+                                                    .length > 0
+                                                    ? showActivities(
+                                                          formik.values
+                                                              .activities
+                                                      )
+                                                    : getLabelByKey(
+                                                          'placeholderActivities'
+                                                      )
+                                            }
                                         />
                                     </Col>
 
@@ -378,51 +416,56 @@ const CreateInstructor = (): JSX.Element => {
                                         />
                                     </div>
                                     <label htmlFor="termCondition">
-                                        <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
+                                        <form className="mt-10 d-flex align-items-center justify-content-start column-gap-2">
                                             <FormControl
                                                 control="checkbox"
                                                 type="checkbox"
-                                                id="rememberMe"
-                                                name="rememberMe"
+                                                id="termsAndConditions"
+                                                name="termsAndConditions"
                                             />
                                             <p
-                                                className="ms-3 mb-0"
-                                                id="termCondition"
+                                                className="ms-2 mb-0"
+                                                id="termsAndConditions"
                                             >
-                                                Terms and conditions
+                                                {getLegalLabelByKey(
+                                                    'termsAndConditions'
+                                                )}
                                             </p>
                                         </form>
                                     </label>
                                     <label htmlFor="agreement">
-                                        <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
+                                        <form className="mt-10 d-flex align-items-center justify-content-start column-gap-2">
                                             <FormControl
                                                 control="checkbox"
                                                 type="checkbox"
-                                                id="rememberMe"
-                                                name="rememberMe"
+                                                id="AgreementGuidelines"
+                                                name="AgreementGuidelines"
                                             />
                                             <p
-                                                className="ms-3 mb-0"
-                                                id="agreement"
+                                                className="ms-2 mb-0"
+                                                id="AgreementGuidelines"
                                             >
-                                                Agreement to follow the apps
-                                                guidelines and policies
+                                                {getLegalLabelByKey(
+                                                    'AgreementGuidelines'
+                                                )}
                                             </p>
                                         </form>
                                     </label>
                                     <label htmlFor="liability">
-                                        <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
+                                        <form className="mt-10 d-flex align-items-center justify-content-start column-gap-2">
                                             <FormControl
                                                 control="checkbox"
                                                 type="checkbox"
-                                                id="rememberMe"
-                                                name="rememberMe"
+                                                id="liabilityWaivers"
+                                                name="liabilityWaivers"
                                             />
                                             <p
-                                                className="ms-3 mb-0"
-                                                id="liability"
+                                                className="ms-2 mb-0"
+                                                id="liabilityWaivers"
                                             >
-                                                Liability waivers
+                                                {getLegalLabelByKey(
+                                                    'liabilityWaivers'
+                                                )}
                                             </p>
                                         </form>
                                     </label>

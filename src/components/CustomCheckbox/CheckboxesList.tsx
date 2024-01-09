@@ -7,7 +7,7 @@ import Errormsg from '../ErrorMessage'
 
 export type CheckboxesListProps = {
     name: string
-    label: string
+    label: string | JSX.Element
     showErrorMsgInList: boolean
     list: DataTypesWithIdAndMultipleLangLabel[]
     placeholder?: string
@@ -26,10 +26,7 @@ const CheckboxesList = ({
     return (
         <CustomCheckboxListStyled>
             {label && (
-                <label
-                    htmlFor=""
-                    style={{ marginBottom: 10, display: 'block' }}
-                >
+                <label htmlFor="" style={{ marginBottom: 7, display: 'block' }}>
                     {label}
                 </label>
             )}

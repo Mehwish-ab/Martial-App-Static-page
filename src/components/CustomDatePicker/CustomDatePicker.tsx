@@ -69,7 +69,7 @@ const CustomDatePicker = (props: {
                                 }
                                 name={name}
                                 id={name}
-                                format="DD-MM-YYYY"
+                                format="dddd, MMM DD, YYYY"
                                 {...rest}
                                 onChange={(_, dateString) => {
                                     if (onChange) {

@@ -65,11 +65,11 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
             values.endDate = null
         }
         const backendFormattedDate = moment(
-            moment(values.endDate, 'DD-MM-YYYY')
+            moment(values.endDate, 'dddd, MMM DD, YYYY')
         ).format('YYYY-MM-DD')
         const backendFormattedstartDate = moment(
             values.startDate,
-            'DD-MM-YYYY'
+            'dddd, MMM DD, YYYY'
         ).format('YYYY-MM-DD')
         const data = await handleCreateSubmit(
             {

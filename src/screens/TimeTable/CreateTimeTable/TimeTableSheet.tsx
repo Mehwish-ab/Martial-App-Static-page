@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 
 import { Dropdown, Space, Table } from 'antd'
 import { useParams } from 'react-router-dom'
-import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import { useSelector } from 'react-redux'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 import { CreateTimeTableStyled } from './styles'
@@ -185,14 +184,6 @@ const TimeTableSheet: React.FC = () => {
 
     const columns: ColumnsType<any> = [
         {
-            title: 'Date',
-            dataIndex: 'createTimeTabledate',
-            key: 'createTimeTabledate',
-            render: (value, record) => {
-                return <div>{record.date}</div>
-            },
-        },
-        {
             title: 'Day',
             dataIndex: 'createTimeTableWeekDay',
             key: 'createTimeTableWeekDay',
@@ -269,21 +260,6 @@ const TimeTableSheet: React.FC = () => {
                             setStartTime={handleUpdateTableDataSource}
                         />
                     )
-                )
-            },
-        },
-        {
-            title: 'Status',
-            dataIndex: 'createTimeTableStatus',
-            key: 'createTimeTableStatus',
-            render: (_, record) => {
-                return (
-                    <div>
-                        <button>
-                            {record.isActivate ? 'Activated' : 'Off'}
-                        </button>
-                        <img src={StatusActiveError as string} alt="images" />
-                    </div>
                 )
             },
         },

@@ -37,7 +37,7 @@ const CreateInstructor = (): JSX.Element => {
     const handleImagesUpload = (selectedFiless: any): void => {
         setSelectedFiless(selectedFiless)
     }
-    const { loading, handleSubmit } = useInstructor()
+    const { loading, handleSubmit, Createmodal } = useInstructor()
 
     const initialValues: CreateInstructorInitialValues = {
         instructorName: '',
@@ -101,10 +101,10 @@ const CreateInstructor = (): JSX.Element => {
             .of(Yup.string().required('Select an specilization'))
             .min(1, 'Select at least one specilization'),
     })
-    const handleonSubmit = (values: CreateInstructorInitialValues): void => {
-        handleSubmit(values, selectedFiles)
-        console.log('submitted button pressed')
-    }
+    // const handleonSubmit = (values: CreateInstructorInitialValues): void => {
+    //     handleSubmit(values, selectedFiles)
+    //     console.log('submitted button pressed')
+    // }
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
@@ -151,10 +151,11 @@ const CreateInstructor = (): JSX.Element => {
     }
     return (
         <CreateSchoolStyled>
+            {Createmodal().modalComponent}
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
-                onSubmit={handleonSubmit}
+                onSubmit={handleSubmit}
             >
                 {(formik) => {
                     console.log(formik.values)

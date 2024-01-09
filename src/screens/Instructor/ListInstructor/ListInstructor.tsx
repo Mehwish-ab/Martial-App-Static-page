@@ -310,6 +310,7 @@ const ListInstructor: React.FC = () => {
     return (
         <>
             {deletemodal().modalComponent}
+            {/* {deleteConfirmation(_Id).modalComponent} */}
 
             {loading && <LoadingOverlay message="" />}
             <ListInstructorStyled>

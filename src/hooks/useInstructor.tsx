@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import axios from 'axios'
@@ -7,9 +8,22 @@ import { RootState } from '../redux/store'
 import { useNavigate } from 'react-router-dom'
 import { loginDataTypes } from '../redux/features/types'
 import { CreateInstructorInitialValues } from '../../src/screens/Instructor/constant'
-import EnnvisionModal from '../components/CustomModals/EnnvisionModal'
 import CustomModal from '../components/Modal/CustomModal'
+import { SchoolSuccessfulModals } from './PopupModalsStyling'
+import ic_success from '../assets/images/ic_success.svg'
+import { Col, Row } from 'react-bootstrap'
 
+import CustomButton from '../components/CustomButton/CustomButton'
+import {
+    fontFamilyMedium,
+    lightBlue3,
+    lightColor1,
+    maastrichtBlue,
+} from '../components/GlobalStyle'
+
+interface IModalComponent {
+    modalComponent: JSX.Element
+}
 interface IUseInstructor {
     loading: boolean
     handleSubmit: (
@@ -17,12 +31,6 @@ interface IUseInstructor {
         file: any
     ) => Promise<void>
     deleteInstructor: (instructorId: number) => Promise<void>
-    deletemodal: () => {
-        modalComponent: JSX.Element
-    }
-    ImageModal: () => {
-        modalComponent: JSX.Element
-    }
     getInstructorbyid: (instructorId: number) => Promise<any>
     updateInstructor: (
         id: number,
@@ -32,6 +40,11 @@ interface IUseInstructor {
     errorMessage: string
     setIsShowModal: (showModal: true) => void
     setImageURL: (imageURL: any) => void
+    ImageModal: () => IModalComponent
+    Createmodal: () => IModalComponent
+    UpdateModal: () => IModalComponent
+    deletemodal: () => IModalComponent
+    deleteConfirmation: (_id: number) => IModalComponent
 }
 
 const useInstructor = (): IUseInstructor => {
@@ -41,6 +54,7 @@ const useInstructor = (): IUseInstructor => {
     // const [data, setData] = useState<unknown>({})
     const [errorMessage, setError] = useState('')
     const toastId = useRef<any>(null)
+    const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
 
     const navigate = useNavigate()
     const { loginData } = useSelector((state: RootState) => state)
@@ -82,8 +96,6 @@ const useInstructor = (): IUseInstructor => {
             // formData.append('file', (file as any).file)
             formData.append('file', values.latestCertification)
             // formData.append('file', String(values?.latestCertification))
-
-            // console.log('Nada', formData)
 
             const { data } = await axios.post('/instructor/create', formData, {
                 headers: {
@@ -246,9 +258,9 @@ const useInstructor = (): IUseInstructor => {
                 return
             }
 
+            setLoading(false)
             setIsShowModal(true)
             setTimeout(() => {
-                setLoading(false)
                 setIsShowModal(false)
                 navigate('/instructor/list')
             }, 3000)
@@ -260,7 +272,7 @@ const useInstructor = (): IUseInstructor => {
             setError(error2.message || 'An error occurred')
             setTimeout(() => {
                 setError('')
-            }, 2000)
+            }, 3000)
             toastId.current = toast(error2.message || 'An error occurred', {
                 type: 'error',
                 autoClose: 1000,
@@ -268,9 +280,7 @@ const useInstructor = (): IUseInstructor => {
         }
     }
 
-    const deletemodal = (): {
-        modalComponent: JSX.Element
-    } => {
+    const Createmodal = (): IModalComponent => {
         return {
             modalComponent: (
                 <CustomModal
@@ -278,19 +288,157 @@ const useInstructor = (): IUseInstructor => {
                     setIsModalVisible={setIsShowModal}
                     showCloseBtn={true}
                 >
-                    {' '}
-                    <EnnvisionModal
-                        doTask={() => {
-                            // navigate("/school/view");
-                            setIsShowModal(false)
-                        }}
-                        title="Successfully Account Instructor"
-                        description="The Instructor class has been successfully removed, and please note that any associated data will be retained for a period of 30 days before it is permanently deleted from our system."
-                    />
+                    <SchoolSuccessfulModals>
+                        <div className="mainContainer d-flex flex-column align-items-center">
+                            <img
+                                src={ic_success}
+                                alt="Success Icon"
+                                width={79}
+                                height={79}
+                            />
+                            <h3 className="mainContainer-heading text-center">
+                                Complete Profile Successfully!
+                            </h3>
+                            <p className="mainContainer-subText text-center">
+                                Congratulations! Your profile has been
+                                successfully completed, ensuring a seamless
+                                experience within the Marital
+                            </p>
+                        </div>
+                    </SchoolSuccessfulModals>
                 </CustomModal>
             ),
         }
     }
+
+    const UpdateModal = (): IModalComponent => {
+        return {
+            modalComponent: (
+                <CustomModal
+                    isModalVisible={isShowModal}
+                    setIsModalVisible={setIsShowModal}
+                    showCloseBtn={true}
+                >
+                    <SchoolSuccessfulModals>
+                        <div className="mainContainer d-flex flex-column align-items-center">
+                            <img
+                                src={ic_success}
+                                alt="Success Icon"
+                                width={79}
+                                height={79}
+                            />
+                            <h3 className="mainContainer-heading text-center">
+                                Update Profile Successfully!
+                            </h3>
+                            <p className="mainContainer-subText text-center">
+                                Congratulations! on updating your profile! Your
+                                changes have been successfully saved, enhancing
+                                your experience within the Marital platform.
+                            </p>
+                        </div>
+                    </SchoolSuccessfulModals>
+                </CustomModal>
+            ),
+        }
+    }
+
+    const deleteConfirmation = (_id: number): IModalComponent => {
+        const Deleteschool = async (id: number): Promise<void> => {
+            setIsShowModal(false) // Close any other modals
+            setIsShowDeleteModal(true)
+            await deleteInstructor(id)
+        }
+        return {
+            modalComponent: (
+                <CustomModal
+                    isModalVisible={isShowModal}
+                    setIsModalVisible={setIsShowModal}
+                    showCloseBtn={true}
+                >
+                    <SchoolSuccessfulModals>
+                        <div className="mainContainer">
+                            <h3 className="mainContainer-heading text-center">
+                                Want to Remove Account
+                            </h3>
+                            <p className="mainContainer-subText text-center">
+                                Before proceeding with the removal of a student
+                                account, please be aware that once the removal
+                                is confirmed, all access will be permanently
+                                revoked. If the user still holds an active
+                                membership, the account cannot be removed until
+                                the membership is completed or canceled.
+                            </p>
+                            <Row className="mt-20">
+                                <Col md="6">
+                                    <CustomButton
+                                        bgcolor={lightColor1}
+                                        textTransform="Captilize"
+                                        color={maastrichtBlue}
+                                        padding="10px 12.5px"
+                                        fontFamily={fontFamilyMedium}
+                                        width="100%"
+                                        type="button"
+                                        title="Cancel"
+                                        fontSize="16px"
+                                        loading={false}
+                                        clicked={() => setIsShowModal(false)}
+                                    />
+                                </Col>
+                                <Col md="6">
+                                    <CustomButton
+                                        bgcolor={lightBlue3}
+                                        textTransform="Captilize"
+                                        color={maastrichtBlue}
+                                        padding="10px 12.5px"
+                                        fontFamily={fontFamilyMedium}
+                                        width="100%"
+                                        type="submit"
+                                        title="Confirmed"
+                                        fontSize="16px"
+                                        loading={false}
+                                        clicked={() => Deleteschool(_id)}
+                                    />
+                                </Col>
+                            </Row>
+                        </div>
+                    </SchoolSuccessfulModals>
+                </CustomModal>
+            ),
+        }
+    }
+
+    const deletemodal = (): IModalComponent => {
+        return {
+            modalComponent: (
+                <CustomModal
+                    isModalVisible={isShowDeleteModal}
+                    setIsModalVisible={setIsShowDeleteModal}
+                    showCloseBtn={true}
+                >
+                    <SchoolSuccessfulModals>
+                        <div className="mainContainer d-flex flex-column align-items-center">
+                            <img
+                                src={ic_success}
+                                alt="Success Icon"
+                                width={79}
+                                height={79}
+                            />
+                            <h3 className="mainContainer-heading text-center">
+                                Successfully Account Removed
+                            </h3>
+                            <p className="mainContainer-subText text-center">
+                                The student class has been successfully removed,
+                                and please note that any associated data will be
+                                retained for a period of 30 days before it is
+                                permanently deleted from our system.
+                            </p>
+                        </div>
+                    </SchoolSuccessfulModals>
+                </CustomModal>
+            ),
+        }
+    }
+
     const ImageModal = (): {
         modalComponent: JSX.Element
     } => {
@@ -302,9 +450,6 @@ const useInstructor = (): IUseInstructor => {
                     showCloseBtn={true}
                 >
                     <div className="d-flex flex-column align-items-center p-2">
-                        <h6 className="text-center">
-                            Latest Certificate Image
-                        </h6>
                         <img
                             src={`https://fistastore.com:444/${imageURL}`}
                             alt="Success Icon"
@@ -321,13 +466,16 @@ const useInstructor = (): IUseInstructor => {
         loading,
         handleSubmit,
         deleteInstructor,
-        deletemodal,
         getInstructorbyid,
         updateInstructor,
         errorMessage,
         setIsShowModal,
         setImageURL,
         ImageModal,
+        Createmodal,
+        UpdateModal,
+        deleteConfirmation,
+        deletemodal,
     }
 }
 

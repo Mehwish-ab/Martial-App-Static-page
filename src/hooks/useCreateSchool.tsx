@@ -64,7 +64,6 @@ const useCreateSchool = (): IUseSchool => {
     const navigate = useNavigate()
 
     const [isShowModal, setIsShowModal] = useState(false)
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
     const [isShowWarningModal, setIsShowWarningModal] = useState(false)
     const { loginData } = useSelector((state: RootState) => state)

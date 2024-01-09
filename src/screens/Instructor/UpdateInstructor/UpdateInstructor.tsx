@@ -37,7 +37,8 @@ const UpdateeInstructor = (): JSX.Element => {
     const {
         statusData: { activities, facilities },
     } = useSelector((state: RootState) => state.appData.data)
-    const { loading, getInstructorbyid, updateInstructor } = useInstructor()
+    const { loading, getInstructorbyid, updateInstructor, UpdateModal } =
+        useInstructor()
     const [instructorData, setinstructorData] = useState<
         InstructorDataType | undefined
     >()
@@ -122,6 +123,7 @@ const UpdateeInstructor = (): JSX.Element => {
 
     return (
         <>
+            {UpdateModal().modalComponent}
             <CreateSchoolStyled>
                 <Formik
                     initialValues={initialValues}
@@ -151,7 +153,7 @@ const UpdateeInstructor = (): JSX.Element => {
                                                 name="instructorName"
                                                 label="Instructor Name"
                                                 padding="10px"
-                                                fontFamily={fontFamilyMedium}
+                                                fontFamily={fontFamilyRegular}
                                                 fontSize="16px"
                                                 max={6}
                                                 className={
@@ -169,8 +171,8 @@ const UpdateeInstructor = (): JSX.Element => {
                                             <FormControl
                                                 control="input"
                                                 type="email"
-                                                name="address"
-                                                fontFamily={fontFamilyMedium}
+                                                name="emailAddress"
+                                                fontFamily={fontFamilyRegular}
                                                 label="Email Address"
                                                 padding="10px"
                                                 placeholder="Email address"
@@ -232,7 +234,7 @@ const UpdateeInstructor = (): JSX.Element => {
                                                     type="number"
                                                     name="experience"
                                                     fontFamily={
-                                                        fontFamilyMedium
+                                                        fontFamilyRegular
                                                     }
                                                     label="Years Of Experience"
                                                     padding="10px"
@@ -248,7 +250,7 @@ const UpdateeInstructor = (): JSX.Element => {
                                                     type="text"
                                                     name="rankId"
                                                     fontFamily={
-                                                        fontFamilyMedium
+                                                        fontFamilyRegular
                                                     }
                                                     label={'Ranking'}
                                                     value={
@@ -332,7 +334,7 @@ const UpdateeInstructor = (): JSX.Element => {
                                                 control="textarea"
                                                 type="text"
                                                 name="description"
-                                                fontFamily={fontFamilyMedium}
+                                                fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'description'
                                                 )}

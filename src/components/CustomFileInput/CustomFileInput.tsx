@@ -14,7 +14,7 @@ const CustomFileInput: React.FC<customFileInputProps> = ({
     label,
     labelFamily = 'EnnVisions',
     name,
-    labelFont = '14px',
+    labelFont = '16px',
 }) => {
     return (
         <CustomFileInputStyle labelFamily={labelFamily} labelFont={labelFont}>

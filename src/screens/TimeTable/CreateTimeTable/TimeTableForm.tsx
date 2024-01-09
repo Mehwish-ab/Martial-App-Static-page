@@ -210,12 +210,6 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                         // )}
                                         title="Add Time Table Slide"
                                         fontSize="17px"
-                                        // disabled={!formik.isValid}
-                                        // fontSize="17px"
-                                        // disabled={
-                                        //     !formik.isValid ||
-                                        //     formik.values.isRepeated === 'Yes'
-                                        // }
                                         loading={loading}
                                     />
                                 </div>

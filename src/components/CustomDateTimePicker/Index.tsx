@@ -41,7 +41,7 @@ const CustomTimePicker = (props: {
             border={border}
             padding={padding}
         >
-            <label htmlFor={name}>{label}</label>
+            {label && <label htmlFor={name}>{label}</label>}
             <Field name={name} id={name} {...rest}>
                 {({ form }: any) => (
                     <div>

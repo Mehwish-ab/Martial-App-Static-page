@@ -3,6 +3,7 @@ import { Col, Row } from 'react-bootstrap'
 import { InformationTimeTableFormStyle } from './styles'
 import { useParams } from 'react-router-dom'
 import useTimetable from '../../../hooks/useTimetable'
+import moment from 'moment'
 
 const InformationTimeTableForm: React.FC = () => {
     const { timeTableId } = useParams()
@@ -58,9 +59,12 @@ const InformationTimeTableForm: React.FC = () => {
                                         Start Date
                                     </div>
                                     <div className="list-item-value">
-                                        {allTimeTableDetail
-                                            ? allTimeTableDetail.startDate
-                                            : '--'}
+                                        {moment(
+                                            moment(
+                                                allTimeTableDetail?.startDate,
+                                                'YYYY-MM-DD'
+                                            )
+                                        ).format('dddd, MMM DD, YYYY')}
                                     </div>
                                 </div>
                             </Col>
@@ -70,9 +74,12 @@ const InformationTimeTableForm: React.FC = () => {
                                         End Date
                                     </div>
                                     <div className="list-item-value">
-                                        {allTimeTableDetail
-                                            ? allTimeTableDetail.endDate
-                                            : '--'}
+                                        {moment(
+                                            moment(
+                                                allTimeTableDetail.endDate,
+                                                'YYYY-MM-DD'
+                                            )
+                                        ).format('dddd, MMM DD, YYYY')}
                                     </div>
                                 </div>
                             </Col>

@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import {
+    AlizarinCrimson,
     AntiFlashWhite,
     BallBlue,
     darkGery,
@@ -108,7 +109,7 @@ export const ListFranchiseStyled = styled.div`
         position: relative;
         width: 107px;
     }
-    .ant-table-tbody > tr > td:nth-child(7) button {
+    .ant-table-tbody > tr > td:nth-child(7) .Active button {
         font-style: normal;
         font-weight: 400;
         line-height: normal;
@@ -119,6 +120,21 @@ export const ListFranchiseStyled = styled.div`
         height: 30px;
         color: rgb(255, 255, 255) !important;
         font-size: 14px !important;
+        display: block;
+        position: relative;
+        text-align: center;
+    }
+    .ant-table-tbody > tr > td:nth-child(7) .De-Active button {
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        padding: 7px 10px;
+        border-radius: 4px;
+        background: ${AlizarinCrimson};
+        width: 90px;
+        height: 30px;
+        color: rgb(255, 255, 255);
+        font-size: 14px;
         display: block;
         position: relative;
         text-align: center;

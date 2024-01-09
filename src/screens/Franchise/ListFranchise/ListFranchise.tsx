@@ -33,7 +33,8 @@ const ListFranchise = (): JSX.Element => {
     const {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
-    const { deletemodal, setIsShowModal, deleteConfirmation } = useFranchise()
+    const { deletemodal, setIsShowModal, deleteConfirmation, FranchiseStatus } =
+        useFranchise()
     const [Id, setId] = useState(0)
     const navigate = useNavigate()
     const { selectedLanguage } = useSelector(
@@ -197,15 +198,38 @@ const ListFranchise = (): JSX.Element => {
             title: 'Status',
             dataIndex: 'franchiseStatusId',
             key: 'franchiseStatusId',
-            render: (DummyData) => {
-                console.log('d', DummyData)
+            render: (isActive, index) => {
+                console.log('Status', isActive, index)
 
-                return (
-                    <div>
-                        <button>{'Active'}</button>
-                        <img src={StatusActiveError as string} alt="image" />
-                    </div>
-                )
+                if (index?.franchiseStatusId === 1) {
+                    return (
+                        <div className={'Active'}>
+                            <button
+                                onClick={() => {
+                                    {
+                                        FranchiseStatus(index.franchiseId, 2)
+                                    }
+                                }}
+                            >
+                                Active
+                            </button>
+                            <img src={StatusActiveError} alt="image" />
+                        </div>
+                    )
+                } else {
+                    return (
+                        <div className={'De-Active'}>
+                            <button
+                                onClick={() => {
+                                    FranchiseStatus(index.franchiseId, 1)
+                                }}
+                            >
+                                De-Active
+                            </button>
+                            <img src={StatusActiveError} alt="image" />
+                        </div>
+                    )
+                }
             },
         },
         {

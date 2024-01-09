@@ -46,6 +46,7 @@ interface IUseInstructor {
     UpdateModal: () => IModalComponent
     deletemodal: () => IModalComponent
     deleteConfirmation: (_id: number) => IModalComponent
+    InstructorStatus: (instructorid: number, statusid: number) => Promise<any>
 }
 
 const useInstructor = (): IUseInstructor => {
@@ -160,14 +161,12 @@ const useInstructor = (): IUseInstructor => {
                 setLoading(false)
                 return
             }
-            // toastId.current = toast(data.responseMessage, {
-            //   type: "success",
-            //   autoClose: 1000,
-            // });
-            setIsShowModal(true)
+            setLoading(false)
+            setIsShowModal(false)
+            setIsShowDeleteModal(true)
             setTimeout(() => {
-                setLoading(false)
-                setIsShowModal(false)
+                setIsShowDeleteModal(false)
+
                 navigate('/instructor/list')
             }, 3000)
             store.dispatch(getInstructorByUserId())
@@ -283,6 +282,62 @@ const useInstructor = (): IUseInstructor => {
         }
     }
 
+    const InstructorStatus = async (
+        instructorid: number,
+        statusid: number
+    ): Promise<any> => {
+        try {
+            setError('')
+            setLoading(true)
+            const { data: data2 } = await axios.post(
+                '/instructor/updateStatus',
+                { instructorId: instructorid, instructorStatusId: statusid },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            if (data2.responseCode === '500') {
+                toast(data2.responseMessage, {
+                    type: 'error',
+                    autoClose: 1000,
+                })
+                setLoading(false)
+                return
+            }
+
+            setTimeout(() => {
+                setLoading(false)
+                // navigate('/school/view')
+            }, 3000)
+            console.log('done changing', data2)
+            store.dispatch(getInstructorByUserId())
+
+            // toastId.current = toast(data.responseMessage, {
+            //   type: "success",
+            //   autoClose: 1000,
+            // });
+            //setLoading(false);
+            console.log('data', { data: data2 })
+            //setIsUploadImgVisible(true);
+            // navigate("/");
+            // resetForm()
+            return data2.results
+        } catch (error2: any) {
+            console.log('error', { error: error2 })
+            setLoading(false)
+            setError(error2.response.data.responseMessage)
+            setTimeout(() => {
+                setError('')
+            }, 2000)
+            toastId.current = toast(error2.message, {
+                type: 'error',
+                autoClose: 1000,
+            })
+        }
+    }
+
     const Createmodal = (): IModalComponent => {
         return {
             modalComponent: (
@@ -346,7 +401,7 @@ const useInstructor = (): IUseInstructor => {
     }
 
     const deleteConfirmation = (_id: number): IModalComponent => {
-        const Deleteschool = async (id: number): Promise<void> => {
+        const deleteInstructos = async (id: number): Promise<void> => {
             setIsShowModal(false) // Close any other modals
             setIsShowDeleteModal(true)
             await deleteInstructor(id)
@@ -399,7 +454,7 @@ const useInstructor = (): IUseInstructor => {
                                         title="Confirmed"
                                         fontSize="16px"
                                         loading={false}
-                                        clicked={() => Deleteschool(_id)}
+                                        clicked={() => deleteInstructos(_id)}
                                     />
                                 </Col>
                             </Row>
@@ -479,6 +534,7 @@ const useInstructor = (): IUseInstructor => {
         UpdateModal,
         deleteConfirmation,
         deletemodal,
+        InstructorStatus,
     }
 }
 

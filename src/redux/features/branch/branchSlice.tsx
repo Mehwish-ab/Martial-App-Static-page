@@ -34,7 +34,7 @@ export interface BranchDataType {
     gclClientSecret: string
     bannerPicture: string | null | undefined
     profilePicture: string | null | undefined
-    status: string
+    branchStatusId: number
     paymentMethod: string
     accountNumber: string
     countryName: string
@@ -78,7 +78,7 @@ const initialState: BranchDataInitialState = {
                 gclClientSecret: '',
                 bannerPicture: '',
                 profilePicture: '',
-                status: '',
+                branchStatusId: 0,
                 paymentMethod: '',
                 accountNumber: '',
                 countryName: '',

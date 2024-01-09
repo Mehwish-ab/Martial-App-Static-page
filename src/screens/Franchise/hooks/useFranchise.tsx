@@ -19,7 +19,6 @@ import {
     lightColor1,
     maastrichtBlue,
 } from '../../../components/GlobalStyle'
-import { getBranchBySchoolId } from '../../../redux/features/branch/branchSlice'
 import { getfranchiseBySchoolId } from '../../../redux/features/franchise/franchiseSlice'
 
 interface IModalComponent {
@@ -38,6 +37,8 @@ interface IUseFranchise {
     ) => Promise<unknown>
     deleteFranchise: (franchiseId: number) => Promise<void>
     getFranchisebyid: (franchiseId: number) => Promise<unknown>
+    FranchiseStatus: (timeTableid: number, statusid: number) => Promise<any>
+
     errorMessage: string
     Createmodal: () => IModalComponent
     UpdateModal: () => IModalComponent
@@ -254,6 +255,62 @@ const useFranchise = (): IUseFranchise => {
         }
     }
 
+    const FranchiseStatus = async (
+        franchiseid: number,
+        statusid: number
+    ): Promise<any> => {
+        try {
+            setError('')
+            setLoading(true)
+            const { data: data2 } = await axios.post(
+                '/franchise/updateStatus',
+                { franchiseId: franchiseid, statusId: statusid },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            if (data2.responseCode === '500') {
+                toast(data2.responseMessage, {
+                    type: 'error',
+                    autoClose: 1000,
+                })
+                setLoading(false)
+                return
+            }
+
+            setTimeout(() => {
+                setLoading(false)
+                // navigate('/school/view')
+            }, 3000)
+            console.log('done changing', data2)
+            store.dispatch(getfranchiseBySchoolId())
+
+            // toastId.current = toast(data.responseMessage, {
+            //   type: "success",
+            //   autoClose: 1000,
+            // });
+            //setLoading(false);
+            console.log('data', { data: data2 })
+            //setIsUploadImgVisible(true);
+            // navigate("/");
+            // resetForm()
+            return data2.results
+        } catch (error2: any) {
+            console.log('error', { error: error2 })
+            setLoading(false)
+            setError(error2.response.data.responseMessage)
+            setTimeout(() => {
+                setError('')
+            }, 2000)
+            toastId.current = toast(error2.message, {
+                type: 'error',
+                autoClose: 1000,
+            })
+        }
+    }
+
     const deleteFranchise = async (franchiseId: number): Promise<void> => {
         const url = '/franchise/delete'
         console.log(franchiseId)
@@ -296,7 +353,6 @@ const useFranchise = (): IUseFranchise => {
             }, 3000)
             setData('results: ' + data)
             setLoading(false)
-            store.dispatch(getBranchBySchoolId())
             store.dispatch(getfranchiseBySchoolId())
             // navigate("/school");
         } catch (error2: any) {
@@ -479,6 +535,7 @@ const useFranchise = (): IUseFranchise => {
         deletemodal,
         deleteConfirmation,
         setIsShowModal,
+        FranchiseStatus,
     }
 }
 

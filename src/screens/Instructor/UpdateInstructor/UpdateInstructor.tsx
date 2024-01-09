@@ -61,11 +61,11 @@ const UpdateeInstructor = (): JSX.Element => {
 
     const initialValues: CreateInstructorInitialValues = {
         instructorName: instructorData?.instructorName || '--',
-        emailAddress: '--',
+        emailAddress: instructorData?.emailAddress || '--',
         instructorPhoneNumber: instructorData
             ? instructorData?.phoneNumber
             : '--',
-        address: instructorData ? instructorData.emailAddress : '--',
+        address: instructorData ? instructorData.address : '--',
         yearsOfExperience: instructorData?.experience || '--',
         rankId: Number(instructorData?.rankId) || 0, // or a default value
         latestCertification: instructorData?.certificationURL || '--',
@@ -120,7 +120,51 @@ const UpdateeInstructor = (): JSX.Element => {
     //         .of(Yup.string().required('Select an activity'))
     //         .min(1, 'Select at least one facility'),
     // })
+    const { selectedLanguage } = useSelector(
+        (state: RootState) => state.selectedLanguage
+    )
+    const showActivities = (_activities: string[]): string => {
+        console.log('_activities', _activities)
 
+        let activitiesName = ''
+        _activities?.map((activity: string) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                activitiesName =
+                    activitiesName === ''
+                        ? (activities[index] as any)[selectedLanguage]
+                        : `${activitiesName} ${
+                              (activities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+        if (activitiesName.length > 40) {
+            return `${activitiesName.slice(0, 40)}...`
+        }
+        return activitiesName || getLabelByKey('activity')
+    }
+
+    const showFacilities = (_facilities: string[]): string => {
+        let facilitiesName = ''
+        _facilities?.map((facility) => {
+            const index = facilities.findIndex(
+                (facts: any) => facts.id === facility
+            )
+            if (index !== -1) {
+                facilitiesName =
+                    facilitiesName === ''
+                        ? (facilities[index] as any)[selectedLanguage]
+                        : `${facilitiesName}, ${
+                              (facilities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+
+        if (facilitiesName.length > 40) {
+            return `${facilitiesName.slice(0, 40)}...`
+        }
+        return facilitiesName || getLabelByKey('facilities')
+    }
     return (
         <>
             {UpdateModal().modalComponent}
@@ -176,6 +220,9 @@ const UpdateeInstructor = (): JSX.Element => {
                                                 label="Email Address"
                                                 padding="10px"
                                                 placeholder="Email address"
+                                                value={String(
+                                                    formik.values.emailAddress
+                                                )}
                                             />
                                         </Col>
                                         <Col md="4" className="mt-20">
@@ -232,7 +279,7 @@ const UpdateeInstructor = (): JSX.Element => {
                                                 <FormControl
                                                     control="input"
                                                     type="number"
-                                                    name="experience"
+                                                    name="yearsOfExperience"
                                                     fontFamily={
                                                         fontFamilyRegular
                                                     }
@@ -317,6 +364,10 @@ const UpdateeInstructor = (): JSX.Element => {
                                                 label="Specializations"
                                                 list={facilities}
                                                 showErrorMsgInList={false}
+                                                placeholder={showFacilities(
+                                                    formik.values
+                                                        .specializations
+                                                )}
                                             />
                                         </Col>
 
@@ -326,6 +377,9 @@ const UpdateeInstructor = (): JSX.Element => {
                                                 label="Activities"
                                                 list={activities}
                                                 showErrorMsgInList={false}
+                                                placeholder={showActivities(
+                                                    formik.values.activities
+                                                )}
                                             />
                                         </Col>
 

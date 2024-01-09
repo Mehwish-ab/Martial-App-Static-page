@@ -54,15 +54,6 @@ const CreateInstructor = (): JSX.Element => {
         specializations: [],
         termCondition: '',
     }
-    // const [file, setFile] = useState<File[]>([])
-    // const inputFile = useRef<HTMLInputElement | null>(null)
-    // const handleChange = (e: any): void => {
-    //     const selectedFile = e.target.files && e.target.files[0]
-    //     if (selectedFile) {
-    //         setFile(selectedFile)
-    //         console.log('File state updated:', file)
-    //     }
-    // }
     const instructorName = validationFinder('BUSINESS_NAME')!
     const franchiseNameReg = new RegExp(instructorName.pattern)
     const address = validationFinder('ADDRESS')!
@@ -89,21 +80,34 @@ const CreateInstructor = (): JSX.Element => {
         yearsOfExperience: Yup.string().required(
             'Please select years Of Experience'
         ),
-        latestCertification: Yup.mixed()
-            .required('Please add your latest Certificates')
-            .test(
-                'fileFormat',
-                'Only PNG and JPEG images are allowed',
-                (value) => {
-                    if (!value) {
-                        return true // File is not required, so validation passes
-                    }
-
-                    const allowedFormats = ['image/png', 'image/jpeg']
-
-                    return allowedFormats.includes(value.type)
+        latestCertification: Yup.mixed().test(
+            'fileFormat',
+            'Only PNG and JPEG images are allowed',
+            function (value) {
+                if (value === undefined) {
+                    return true // Validation passes for undefined values
                 }
-            ),
+
+                const allowedFormats = ['image/png', 'image/jpeg']
+
+                return allowedFormats.includes(value.type)
+            }
+        ),
+        // latestCertification: Yup.mixed()
+        //     .required('Please add your latest Certificates')
+        //     .test(
+        //         'fileFormat',
+        //         'Only PNG and JPEG images are allowed',
+        //         (value) => {
+        //             if (!value) {
+        //                 return true // File is not required, so validation passes
+        //             }
+
+        //             const allowedFormats = ['image/png', 'image/jpeg']
+
+        //             return allowedFormats.includes(value.type)
+        //         }
+        //     ),
 
         defaultCurrency: Yup.string().required(
             'Please select default currency'
@@ -134,7 +138,7 @@ const CreateInstructor = (): JSX.Element => {
                 activitiesName =
                     activitiesName === ''
                         ? activityLabel
-                        : `${activitiesName}, ${activityLabel}`
+                        : `${activitiesName} ${activityLabel}`
             }
         })
         if (activitiesName.length > 35) {
@@ -155,7 +159,7 @@ const CreateInstructor = (): JSX.Element => {
                 facilitiesName =
                     facilitiesName === ''
                         ? facilityLabel
-                        : `${facilitiesName}, ${facilityLabel}`
+                        : `${facilitiesName} ${facilityLabel}`
             }
         })
         if (facilitiesName.length > 35) {
@@ -475,6 +479,7 @@ const CreateInstructor = (): JSX.Element => {
                             <div className="mt-20 d-flex justify-content-end">
                                 <CustomButton
                                     bgcolor={lightBlue3}
+                                    // disabled={!formik.isValid}
                                     textTransform="Captilize"
                                     color={maastrichtBlue}
                                     padding="11px 40.50px"

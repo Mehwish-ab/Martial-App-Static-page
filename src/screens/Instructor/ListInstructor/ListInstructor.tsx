@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Dropdown, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { ListInstructorStyled } from './styles'
@@ -130,7 +130,12 @@ const ListInstructor: React.FC = () => {
         }
     }
 
-    const { deleteInstructor, deletemodal } = useInstructor()
+    const {
+        deletemodal,
+        deleteConfirmation,
+        setIsShowModal,
+        InstructorStatus,
+    } = useInstructor()
     const { instructorData, loading } = useSelector(
         (state: RootState) => state.instructorData
     )
@@ -139,11 +144,8 @@ const ListInstructor: React.FC = () => {
     useEffect(() => {
         store.dispatch(getInstructorByUserId())
     }, [])
+    const [Id, setId] = useState(0)
 
-    const handleDelete = (record: number): void => {
-        deleteInstructor(record)
-        // store.dispatch(getInstructorByUserId())
-    }
     const {
         statusData: { facilities },
     } = useSelector((state: RootState) => state.appData.data)
@@ -244,14 +246,47 @@ const ListInstructor: React.FC = () => {
             title: getLabelByKey('status'),
             dataIndex: 'instructorStatus',
             key: 'instructorStatus',
-            render: () => {
-                return (
-                    <div>
-                        <button>Active</button>
-                        <img src={StatusActiveError as string} alt="image" />
-                    </div>
-                )
+            render: (isActive, index) => {
+                console.log('Status', isActive, index)
+
+                if (index?.instructorStatusId === 1) {
+                    return (
+                        <div className={'Active'}>
+                            <button
+                                onClick={() => {
+                                    {
+                                        InstructorStatus(index.instructorId, 2)
+                                    }
+                                }}
+                            >
+                                Active
+                            </button>
+                            <img src={StatusActiveError} alt="image" />
+                        </div>
+                    )
+                } else {
+                    return (
+                        <div className={'De-Active'}>
+                            <button
+                                onClick={() => {
+                                    InstructorStatus(index.instructorId, 1)
+                                }}
+                            >
+                                De-Active
+                            </button>
+                            <img src={StatusActiveError} alt="image" />
+                        </div>
+                    )
+                }
             },
+            // render: () => {
+            //     return (
+            //         <div>
+            //             <button>Active</button>
+            //             <img src={StatusActiveError as string} alt="image" />
+            //         </div>
+            //     )
+            // },
         },
         {
             title: getLabelByKey('actions'),
@@ -271,11 +306,10 @@ const ListInstructor: React.FC = () => {
                     {
                         key: '4',
                         label: 'Delete',
-                        onClick: () =>
-                            //navigation(record, "delete"),
-                            {
-                                handleDelete(record.instructorId)
-                            },
+                        onClick: () => {
+                            setId(record.instructorId)
+                            setIsShowModal(true)
+                        },
                     },
                     // {
                     //   key: "3",
@@ -310,7 +344,7 @@ const ListInstructor: React.FC = () => {
     return (
         <>
             {deletemodal().modalComponent}
-            {/* {deleteConfirmation(_Id).modalComponent} */}
+            {deleteConfirmation(Id).modalComponent}
 
             {loading && <LoadingOverlay message="" />}
             <ListInstructorStyled>

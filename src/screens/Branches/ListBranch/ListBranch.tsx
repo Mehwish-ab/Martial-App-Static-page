@@ -40,7 +40,8 @@ const ListBranch = (): JSX.Element => {
     } = useSelector((state: RootState) => state.appData.data)
     // const { getLabelByKey } = useScreenTranslation("BranchList");
     const navigate = useNavigate()
-    const { deletemodal, deleteConfirmation, setIsShowModal } = useBranch()
+    const { deletemodal, deleteConfirmation, setIsShowModal, BranchStatus } =
+        useBranch()
     const [Id, setId] = useState(0)
 
     // const [branch, setbranch] = useState()
@@ -177,24 +178,38 @@ const ListBranch = (): JSX.Element => {
             title: 'Status',
             dataIndex: 'status',
             key: 'Status',
-            render: () => {
-                return (
-                    <div>
-                        <button>
-                            {/* {branchData.data.map((d) => {
-                if (d.status === "active") {
-                  return "Active";
-                } else {
-                  console.log(d.status);
+            render: (isActive, index) => {
+                console.log('Status', isActive, index)
 
-                  return "Deactive";
+                if (index?.branchStatusId === 1) {
+                    return (
+                        <div className={'Active'}>
+                            <button
+                                onClick={() => {
+                                    {
+                                        BranchStatus(index.branchId, 2)
+                                    }
+                                }}
+                            >
+                                Active
+                            </button>
+                            <img src={StatusActiveError} alt="image" />
+                        </div>
+                    )
+                } else {
+                    return (
+                        <div className={'De-Active'}>
+                            <button
+                                onClick={() => {
+                                    BranchStatus(index.branchId, 1)
+                                }}
+                            >
+                                De-Active
+                            </button>
+                            <img src={StatusActiveError} alt="image" />
+                        </div>
+                    )
                 }
-              })} */}
-                            {'Active'}
-                        </button>
-                        <img src={StatusActiveError} alt="image" />
-                    </div>
-                )
             },
         },
         {

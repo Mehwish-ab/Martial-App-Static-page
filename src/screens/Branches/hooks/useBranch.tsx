@@ -53,7 +53,7 @@ interface IUseBranch {
     get_cash: (businessUC: any, id: number) => Promise<any>
     getbranchbyid: (_branchId: number) => Promise<any>
     getallbranchbyschoolid: (schoolId: number) => Promise<any>
-
+    BranchStatus: (timeTableid: number, statusid: number) => Promise<any>
     deletebranch: (_branchId: number) => Promise<void>
     deletePayment: (paymentMethod: string, id: number) => Promise<void>
     deletemodal: () => IModalComponent
@@ -158,6 +158,61 @@ const useBranch = (): IUseBranch => {
         }
     }
 
+    const BranchStatus = async (
+        branchid: number,
+        statusid: number
+    ): Promise<any> => {
+        try {
+            setError('')
+            setLoading(true)
+            const { data: data2 } = await axios.post(
+                '/branch/updateStatus',
+                { branchId: branchid, statusId: statusid },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            if (data2.responseCode === '500') {
+                toast(data2.responseMessage, {
+                    type: 'error',
+                    autoClose: 1000,
+                })
+                setLoading(false)
+                return
+            }
+
+            setTimeout(() => {
+                setLoading(false)
+                // navigate('/school/view')
+            }, 3000)
+            console.log('done changing', data2)
+            store.dispatch(getBranchBySchoolId())
+
+            // toastId.current = toast(data.responseMessage, {
+            //   type: "success",
+            //   autoClose: 1000,
+            // });
+            //setLoading(false);
+            console.log('data', { data: data2 })
+            //setIsUploadImgVisible(true);
+            // navigate("/");
+            // resetForm()
+            return data2.results
+        } catch (error2: any) {
+            console.log('error', { error: error2 })
+            setLoading(false)
+            setError(error2.response.data.responseMessage)
+            setTimeout(() => {
+                setError('')
+            }, 2000)
+            toastId.current = toast(error2.message, {
+                type: 'error',
+                autoClose: 1000,
+            })
+        }
+    }
     const getallbranch = async (schoolid: number): Promise<any> => {
         const url = get_branch_by_school_id_url
         console.log('>> im in getall branch button')
@@ -759,6 +814,7 @@ const useBranch = (): IUseBranch => {
     return {
         loading,
         handleSubmit,
+        BranchStatus,
         editSchool,
         getallbranch,
         errorMessage,

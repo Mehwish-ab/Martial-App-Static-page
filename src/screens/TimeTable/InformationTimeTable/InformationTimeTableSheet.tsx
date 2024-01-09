@@ -165,14 +165,14 @@ const InformationTimeTableSheet: React.FC = () => {
                 if (DummyDataa === true) {
                     return (
                         <div className={'Active'}>
-                            <button>Active</button>
+                            <button>ON</button>
                             <img src={StatusActiveError} alt="image" />
                         </div>
                     )
                 } else {
                     return (
                         <div className={'De-Active'}>
-                            <button>De-Active</button>
+                            <button>OFF</button>
                             <img src={StatusActiveError} alt="image" />
                         </div>
                     )

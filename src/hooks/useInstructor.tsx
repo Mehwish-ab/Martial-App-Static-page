@@ -3,12 +3,13 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 import { authorizationToken } from '../utils/api_urls'
 import { useSelector } from 'react-redux'
-import { RootState } from '../redux/store'
+import store, { RootState } from '../redux/store'
 import { useNavigate } from 'react-router-dom'
 import { loginDataTypes } from '../redux/features/types'
 import { CreateInstructorInitialValues } from '../../src/screens/Instructor/constant'
 import EnnvisionModal from '../components/CustomModals/EnnvisionModal'
 import CustomModal from '../components/Modal/CustomModal'
+import { getInstructorByUserId } from '../redux/features/instructor/instructorSlice'
 
 interface IUseInstructor {
     loading: boolean
@@ -157,6 +158,8 @@ const useInstructor = (): IUseInstructor => {
                 setIsShowModal(false)
                 navigate('/instructor/list')
             }, 3000)
+            store.dispatch(getInstructorByUserId())
+
             // setData('results: ' + data.results)
             console.log('data', { data })
             setLoading(false)

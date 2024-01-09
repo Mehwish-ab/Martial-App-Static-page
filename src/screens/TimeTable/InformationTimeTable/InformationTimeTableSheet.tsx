@@ -215,9 +215,6 @@ const InformationTimeTableSheet: React.FC = () => {
         },
     ]
 
-    console.log('DummyData', allSlotDetail)
-    console.log('after', Slots)
-
     return (
         <>
             {loading && <LoadingOverlay message="" />}

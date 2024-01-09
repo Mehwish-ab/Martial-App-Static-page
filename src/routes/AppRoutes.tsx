@@ -48,6 +48,7 @@ import AddPaymentInfo from '../screens/Branches/BranchPayment/AddPaymentinfo'
 import TimeTableForm from '../screens/TimeTable/CreateTimeTable/TimeTableForm'
 import TimeTableSheet from '../screens/TimeTable/CreateTimeTable/TimeTableSheet'
 import { useState } from 'react'
+import EditTimeTable from '../screens/TimeTable/EditTimeTable/EditTimeTable'
 // import { useDispatch, useSelector } from "react-redux";
 // import { RootState } from "../redux/store";
 
@@ -307,6 +308,14 @@ function AppRoutes(): JSX.Element {
                     element={
                         <AppLayout>
                             <InformationTimeTable />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/timetable/edit/:timeTableId"
+                    element={
+                        <AppLayout>
+                            <EditTimeTable />
                         </AppLayout>
                     }
                 />

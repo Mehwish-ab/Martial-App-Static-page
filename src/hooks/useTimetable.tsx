@@ -12,6 +12,7 @@ import { loginDataTypes } from '../redux/features/types'
 import CustomModal from '../components/Modal/CustomModal'
 import { useAppSelector } from '../app/hooks'
 import ic_success from '../assets/images/ic_success.svg'
+import ic_error from '../assets/icons/ic_error.svg'
 import CustomButton from '../components/CustomButton/CustomButton'
 import {
     fontFamilyMedium,
@@ -83,21 +84,26 @@ interface IUseTimetable {
         _schoolId: number,
         values: CreateSchoolInitialValues
     ) => Promise<void>
-    deleteSchool: (userId: number) => Promise<void>
+    TimeTableStatus: (timeTableid: number, isactive: boolean) => Promise<any>
+    deleteTimeTable: (timeTableid: number) => Promise<void>
     errorMessage: string
     isUploadImgModalVisible: boolean
     setIsUploadImgVisible: (param: boolean) => void
     deletemodal: () => IModalComponent
     Createmodal: () => IModalComponent
     UpdateModal: () => IModalComponent
+    WarningModal: () => IModalComponent
     deleteConfirmation: (id: number) => IModalComponent
     setIsShowModal: (showModal: true) => void
+    setIsShowWarningModal: (showModal: true) => void
 }
 
 const useTimetable = (): IUseTimetable => {
     const [loading, setLoading] = useState(false)
     const [errorMessage, setError] = useState('')
     const [isUploadImgModalVisible, setIsUploadImgVisible] = useState(false)
+    const [isShowWarningModal, setIsShowWarningModal] = useState(false)
+
     const toastId = useRef<any>(null)
     const { data: logindata } = useAppSelector(
         (state: { loginData: any }) => state.loginData
@@ -152,6 +158,61 @@ const useTimetable = (): IUseTimetable => {
                 return
             }
             setIsShowModal(false)
+
+            setTimeout(() => {
+                setLoading(false)
+                // navigate('/school/view')
+            }, 3000)
+            // toastId.current = toast(data.responseMessage, {
+            //   type: "success",
+            //   autoClose: 1000,
+            // });
+            //setLoading(false);
+            console.log('data', { data: data2 })
+            //setIsUploadImgVisible(true);
+            // navigate("/");
+            // resetForm()
+            return data2.results
+        } catch (error2: any) {
+            console.log('error', { error: error2 })
+            setLoading(false)
+            setError(error2.response.data.responseMessage)
+            setTimeout(() => {
+                setError('')
+            }, 2000)
+            toastId.current = toast(error2.message, {
+                type: 'error',
+                autoClose: 1000,
+            })
+        }
+    }
+
+    //update timeTable Status
+    const TimeTableStatus = async (
+        timeTableid: number,
+        isactive: boolean
+    ): Promise<any> => {
+        try {
+            setError('')
+            setLoading(true)
+            const { data: data2 } = await axios.post(
+                '/timetable/updateStatus',
+                { timeTableId: timeTableid, isActive: isactive },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            if (data2.responseCode === '500') {
+                toast(data2.responseMessage, {
+                    type: 'error',
+                    autoClose: 1000,
+                })
+                setLoading(false)
+                return
+            }
+            setIsShowModal(true)
 
             setTimeout(() => {
                 setLoading(false)
@@ -510,8 +571,8 @@ const useTimetable = (): IUseTimetable => {
     }
 
     //to delete school
-    const deleteSchool = async (userId: number): Promise<void> => {
-        const url = '/school/delete'
+    const deleteTimeTable = async (timeTableid: number): Promise<void> => {
+        const url = '/timetable/delete'
 
         try {
             setError('')
@@ -519,14 +580,14 @@ const useTimetable = (): IUseTimetable => {
 
             const { data: data2 } = await axios.post(
                 url,
-                { schoolId: userId },
+                { timeTableId: timeTableid },
                 {
                     headers: {
                         ...authorizationToken(logindata!),
                     },
                 }
             )
-            if (data2.responseCode === '500') {
+            if (data2.responseCode === 500) {
                 toast(data2.responseMessage, {
                     type: 'error',
                     autoClose: 1000,
@@ -560,6 +621,11 @@ const useTimetable = (): IUseTimetable => {
                 error2.response.data.responseMessage,
                 'error in api data'
             )
+            setIsShowWarningModal(true)
+
+            setTimeout(() => {
+                setIsShowWarningModal(false)
+            }, 3000)
         }
     }
 
@@ -624,12 +690,40 @@ const useTimetable = (): IUseTimetable => {
             ),
         }
     }
+    const WarningModal = (): IModalComponent => {
+        return {
+            modalComponent: (
+                <CustomModal
+                    isModalVisible={isShowWarningModal}
+                    setIsModalVisible={setIsShowWarningModal}
+                    showCloseBtn={true}
+                >
+                    <SchoolSuccessfulModals>
+                        <div className="mainContainer d-flex flex-column align-items-center">
+                            <img
+                                src={ic_error}
+                                alt="error Icon"
+                                width={79}
+                                height={79}
+                            />
+                            <h3 className="mainContainer-heading text-center">
+                                Warning!
+                            </h3>
+                            <p className="mainContainer-subText text-center">
+                                Please remove the first Branches and Franchise.
+                            </p>
+                        </div>
+                    </SchoolSuccessfulModals>
+                </CustomModal>
+            ),
+        }
+    }
 
     const deleteConfirmation = (_id: number): IModalComponent => {
         const Deleteschool = async (id: number): Promise<void> => {
             setIsShowModal(false) // Close any other modals
-            setIsShowDeleteModal(true)
-            await deleteSchool(id)
+            // setIsShowDeleteModal(true)
+            await deleteTimeTable(id)
         }
         return {
             modalComponent: (
@@ -695,7 +789,7 @@ const useTimetable = (): IUseTimetable => {
         setIsShowModal,
         handleCreateSubmit,
         editSchool,
-        deleteSchool,
+        deleteTimeTable,
         errorMessage,
         isUploadImgModalVisible,
         setIsUploadImgVisible,
@@ -705,8 +799,11 @@ const useTimetable = (): IUseTimetable => {
         deleteConfirmation,
         getTimetableSlot,
         getAllTimetable,
+        WarningModal,
         getTimetableById: getTimetableById,
         createSlots,
+        setIsShowWarningModal,
+        TimeTableStatus,
     }
 }
 

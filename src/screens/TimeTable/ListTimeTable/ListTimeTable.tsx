@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Dropdown, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { ListTimeTableStyled } from './styles'
@@ -14,7 +14,7 @@ import plusIcon from '../../../assets/icons/ic_plus.svg'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 import { useSelector } from 'react-redux'
 import store, { RootState } from '../../../redux/store'
-import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
+// import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
 import {
     TimeTableDataType,
     getTimetableByUserId,
@@ -25,6 +25,7 @@ import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
 import DateCalander from '../../../assets/images/dateCalander.svg'
 import moment from 'moment'
+import useTimetable from '../../../hooks/useTimetable'
 const RenderTableTitle = (): JSX.Element => {
     const navigate = useNavigate()
 
@@ -95,6 +96,14 @@ const ListTimeTable: React.FC = () => {
     const { timeTableData } = useSelector(
         (state: RootState) => state.timeTableData
     )
+    const [Id, setId] = useState(0)
+    const {
+        deletemodal,
+        deleteConfirmation,
+        setIsShowModal,
+        WarningModal,
+        TimeTableStatus,
+    } = useTimetable()
     useEffect(() => {
         console.log('hi use effect')
         store.dispatch(getTimetableByUserId())
@@ -131,7 +140,7 @@ const ListTimeTable: React.FC = () => {
                 })
         }
     }
-    const { loading } = useSelector((state: RootState) => state.timeTableData)
+    // const { loading } = useSelector((state: RootState) => state.timeTableData)
 
     const columns: ColumnsType<TimeTableDataType> = [
         {
@@ -180,8 +189,8 @@ const ListTimeTable: React.FC = () => {
             title: 'Type',
             dataIndex: 'isRepeated',
             key: 'isRepeated',
-            render: (DummyDataa) => {
-                if (DummyDataa === true) {
+            render: (isRepeated) => {
+                if (isRepeated === true) {
                     return (
                         <div>
                             <text>{'Repeat'}</text>
@@ -200,18 +209,39 @@ const ListTimeTable: React.FC = () => {
             title: 'Status',
             dataIndex: 'isActive',
             key: 'isActive',
-            render: (DummyDataa) => {
-                if (DummyDataa === true) {
+            render: (isActive, index) => {
+                console.log('dummy', isActive, index)
+
+                if (isActive === true) {
                     return (
                         <div className={'Active'}>
-                            <button>Active</button>
+                            <button
+                                onClick={() => {
+                                    {
+                                        TimeTableStatus(
+                                            index.timeTableId,
+                                            false
+                                        )
+                                        store.dispatch(getTimetableByUserId())
+                                    }
+                                }}
+                            >
+                                Active
+                            </button>
                             <img src={StatusActiveError} alt="image" />
                         </div>
                     )
                 } else {
                     return (
                         <div className={'De-Active'}>
-                            <button>De-Active</button>
+                            <button
+                                onClick={() => {
+                                    TimeTableStatus(index.timeTableId, true)
+                                    store.dispatch(getTimetableByUserId())
+                                }}
+                            >
+                                De-Active
+                            </button>
                             <img src={StatusActiveError} alt="image" />
                         </div>
                     )
@@ -237,6 +267,14 @@ const ListTimeTable: React.FC = () => {
                         key: '3',
                         label: 'Subscribe',
                         onClick: () => navigation(record, 'subscribe'),
+                    },
+                    {
+                        key: '4',
+                        label: 'Delete',
+                        onClick: () => {
+                            setId(record.timeTableId)
+                            setIsShowModal(true)
+                        },
                     },
                 ]
                 return (
@@ -264,7 +302,10 @@ const ListTimeTable: React.FC = () => {
 
     return (
         <>
-            {loading && <LoadingOverlay message="" />}
+            {deletemodal().modalComponent}
+            {WarningModal().modalComponent}
+            {deleteConfirmation(Id).modalComponent}
+            {/* {loading && <LoadingOverlay message="" />} */}
             <ListTimeTableStyled>
                 <Table
                     columns={columns}

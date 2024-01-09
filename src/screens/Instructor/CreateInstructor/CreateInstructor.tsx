@@ -87,9 +87,21 @@ const CreateInstructor = (): JSX.Element => {
         yearsOfExperience: Yup.string().required(
             'Please select years Of Experience'
         ),
-        latestCertification: Yup.string().required(
-            'Please add your latest Certificates'
-        ),
+        latestCertification: Yup.mixed()
+            .required('Please add your latest Certificates')
+            .test(
+                'fileFormat',
+                'Only PNG and JPEG images are allowed',
+                (value) => {
+                    if (!value) {
+                        return true // File is not required, so validation passes
+                    }
+
+                    const allowedFormats = ['image/png', 'image/jpeg']
+
+                    return allowedFormats.includes(value.type)
+                }
+            ),
 
         defaultCurrency: Yup.string().required(
             'Please select default currency'

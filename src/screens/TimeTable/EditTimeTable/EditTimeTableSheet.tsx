@@ -1,30 +1,93 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
+
 import { Dropdown, Space, Table } from 'antd'
-import { useNavigate, useParams } from 'react-router-dom'
+
+import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
+import { CreateTimeTableStyled } from './styles'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
-import { TimeTableDataType } from '../../../redux/features/TimeTable/TimeTableSlice'
+// import { TimeTableDataType } from '../../../redux/features/TimeTable/TimeTableSlice'
 import { RootState } from '../../../redux/store'
 import { ColumnsType } from 'antd/lib/table'
-import { InformationTimeTableStyle } from './styles'
+import StartTime from './StartTime'
+import StartBreak from './StartBreak'
+import EndTime from './Endtime'
+import EndBreak from './EndBreak'
 import useTimetable from '../../../hooks/useTimetable'
-import StatusActiveError from '../../../assets/images/activeBtnError.svg'
-import moment from 'moment'
+import { cloneDeep } from 'lodash'
+import useScreenTranslation from '../../../hooks/useScreenTranslation'
+// import moment from 'moment'
+interface TimeEntryProps {
+    startTime: string | undefined
+    endTime: string | undefined
+    startBreak: string | undefined
+    endBreak: string | undefined
+    dayOfWeek: string
+    timeTableId: number
+    isActive: boolean
+    isRepeated: boolean
+}
+
+interface TableDateSourceProps {
+    key: string
+    date: string
+    dayOfWeek: string
+    timeEntries: TimeEntryProps[]
+}
+
+interface TableDetailProps {
+    endDate: string
+    isActive: boolean
+    isRepeated: boolean
+    startDate: string
+    timeTableId: number
+    title: string
+    timeEntries: TimeEntryProps[] // Add this line to include timeEntries
+}
+
+const daysOfWeek = [
+    'SUNDAY',
+    'MONDAY',
+    'TUESDAY',
+    'WEDNESDAY',
+    'THURSDAY',
+    'FRIDAY',
+    'SATURDAY',
+]
+
+// const calculateDaysDifference = (
+//     startDate: string | number | Date,
+//     endDate: string | number | Date
+// ): number => {
+//     const start = new Date(startDate)
+//     const end = new Date(endDate)
+//     if (endDate != null) {
+//         const differenceInTime = end.getTime() - start.getTime() + 1
+//         const differenceInDays = Math.ceil(
+//             differenceInTime / (1000 * 3600 * 24)
+//         )
+//         return differenceInDays
+//     } else {
+//         return 1
+//     }
+// }
 
 const RenderTableTitle = (): JSX.Element => {
+    const { getLabelByKey } = useScreenTranslation('createTImeTable')
     return (
         <>
-            <h3 className="timetable-heading">Session Timings by Day</h3>
+            <h3 className="tableHeading">
+                {getLabelByKey('sessionTimingsByDay')}
+            </h3>
         </>
     )
 }
-
 const EditTimeTableSheet: React.FC = () => {
-    const navigate = useNavigate()
-    const { getTimetableSlot } = useTimetable()
-    const [allSlotDetail, setAllSlotDetail] = useState<any>([])
     const { timeTableId } = useParams()
+    const { getTimetableSlot } = useTimetable()
+
+    const [allSlotDetail, setAllSlotDetail] = useState<any>()
     console.log('id', timeTableId)
 
     useEffect(() => {
@@ -35,7 +98,19 @@ const EditTimeTableSheet: React.FC = () => {
                 if (data) {
                     console.log(data, ' results')
 
-                    setAllSlotDetail(data)
+                    const Slots = Object.values(data || {}).flatMap(
+                        (dayArray: any) =>
+                            dayArray.map((item: any, index: number) => ({
+                                ...item,
+                                dayOfWeek: item.dayOfWeek.toUpperCase(),
+                                showDayOfWeek:
+                                    dayArray.findIndex(
+                                        (d: any) =>
+                                            d.dayOfWeek === item.dayOfWeek
+                                    ) === index,
+                            }))
+                    )
+                    setAllSlotDetail(Slots)
                 }
             } catch (error) {
                 console.error('Error fetching timetable slots:', error)
@@ -44,192 +119,321 @@ const EditTimeTableSheet: React.FC = () => {
         fetchTimeTableSlots()
     }, [])
 
+    const { getTimetableById, Createmodal } = useTimetable()
+    const [allTimeTableDetail, setAllTimeTableDetail] =
+        useState<TableDetailProps>()
+    const [tableDataSource, setTableDataSource] = useState<
+        TableDateSourceProps[]
+    >([])
+
     const { loading } = useSelector((state: RootState) => state.timeTableData)
 
-    const navigation = (
-        record: TimeTableDataType,
-        redirectTo: string
+    const handleUpdateTableDataSource = (
+        _recordIndex: number,
+        _key: string,
+        _value: undefined | string | boolean | number,
+        _timeEntryIndex?: number
     ): void => {
-        switch (redirectTo) {
-            case 'edit':
-                navigate(`/timetable/edit/${record.timeTableId}`, {
-                    state: {
-                        branchToEdit: record as TimeTableDataType,
-                    },
-                })
-                break
+        console.log('checking tableDataSource: ', tableDataSource)
 
-            case 'view':
-                navigate(`/timetable/view/${record.timeTableId}`, {
-                    state: {
-                        branch: record as TimeTableDataType,
-                    },
-                })
-                break
+        if (_timeEntryIndex === undefined) {
+            console.log('checking i am into if')
 
-            case 'subscribe':
-                navigate(`/timetable/subscribe/${record.timeTableId}`, {
-                    state: {
-                        branch: record as TimeTableDataType,
-                    },
-                })
+            const updatedTableDateSource = JSON.parse(
+                JSON.stringify(tableDataSource)
+            )
+            updatedTableDateSource[_recordIndex][_key] = _value
+            setTableDataSource(updatedTableDateSource)
+            return
         }
+        ///////////////////////////////////////////////////////////////////
+        const updatedTableDateSource: TableDateSourceProps[] =
+            cloneDeep(tableDataSource)
+        console.log(
+            'checking before updatedTableDateSource: ',
+            updatedTableDateSource
+        )
+
+        updatedTableDateSource[_recordIndex].timeEntries[_timeEntryIndex] = {
+            ...updatedTableDateSource[_recordIndex].timeEntries[
+                _timeEntryIndex
+            ],
+            [_key]: _value,
+        }
+        console.log('checking updatedTableDateSource: ', updatedTableDateSource)
+
+        setTableDataSource(updatedTableDateSource)
     }
 
-    const Slots = Object.values(allSlotDetail).flatMap((dayArray: any) =>
-        dayArray.map((item: any, index: number) => ({
-            ...item,
-            dayOfWeek: item.dayOfWeek.toUpperCase(),
-            showDayOfWeek:
-                dayArray.findIndex(
-                    (d: any) => d.dayOfWeek === item.dayOfWeek
-                ) === index,
-        }))
-    )
+    const addNewSlot = (_recordIndex: number): void => {
+        if (!allTimeTableDetail) return
 
-    const columns: ColumnsType<TimeTableDataType> = [
+        const currentDate = new Date(allTimeTableDetail.startDate)
+        currentDate.setDate(currentDate.getDate() + _recordIndex)
+        const dayOfWeek = daysOfWeek[currentDate.getDay()]
+        const updatedTableDateSource: TableDateSourceProps[] =
+            cloneDeep(tableDataSource)
+        updatedTableDateSource[_recordIndex].timeEntries.push({
+            startTime: undefined,
+            endTime: undefined,
+            startBreak: undefined,
+            endBreak: undefined,
+            dayOfWeek: dayOfWeek,
+            timeTableId:
+                updatedTableDateSource[_recordIndex].timeEntries[0].timeTableId,
+            isActive: allTimeTableDetail.isActive,
+            isRepeated: allTimeTableDetail.isRepeated,
+        })
+        setTableDataSource(updatedTableDateSource)
+    }
+
+    const columns: ColumnsType<any> = [
         {
-            title: 'Week Day',
-            dataIndex: 'dayOfWeek',
-            key: 'dayOfWeek',
-            render: (dayOfWeek, record) => {
-                return record.showDayOfWeek && dayOfWeek
+            title: 'Day',
+            dataIndex: 'createTimeTableWeekDay',
+            key: 'createTimeTableWeekDay',
+            render: (value, record) => {
+                return <div>{record.dayOfWeek}</div>
             },
         },
         {
             title: 'Start Time',
-            dataIndex: 'startTime',
-            key: 'startTime',
-            render: (startTime) => {
-                return (
-                    <div className="list-item mb-0">
-                        <div className="list-item-value ms-2">
-                            {moment(startTime, 'HH:mm:ss').format('hh:mm A') ||
-                                ''}
-                        </div>
-                    </div>
+            dataIndex: 'createTimeTableStartDate',
+            key: 'createTimeTableStartDate',
+            render: (_, record, recordIndex) => {
+                return record.timeEntries.map(
+                    (timeEntry: TimeEntryProps, rowIndex: number) => (
+                        <StartTime
+                            key={`${recordIndex}-${rowIndex}`}
+                            recordIndex={recordIndex}
+                            rowIndex={rowIndex}
+                            startTime={timeEntry.startTime}
+                            setStartTime={handleUpdateTableDataSource}
+                            SendData={allSlotDetail?.startTime}
+                        />
+                    )
                 )
             },
         },
         {
-            title: 'End Date',
-            dataIndex: 'endTime',
-            key: 'endTime',
-            render: (endTime) => {
-                return (
-                    <div className="list-item mb-0">
-                        <div className="list-item-value ms-2">
-                            {moment(endTime, 'HH:mm:ss').format('hh:mm A') ||
-                                ''}
-                        </div>
-                    </div>
+            title: 'End Time',
+            dataIndex: 'createTimeTableEndDate',
+            key: 'createTimeTableEndDate',
+            render: (_, record, recordIndex) => {
+                return record.timeEntries.map(
+                    (timeEntry: TimeEntryProps, rowIndex: number) => (
+                        <EndTime
+                            key={`${recordIndex}-${rowIndex}`}
+                            recordIndex={recordIndex}
+                            rowIndex={rowIndex}
+                            endTime={timeEntry.endTime}
+                            setStartTime={handleUpdateTableDataSource}
+                            SendData={allSlotDetail?.endTime}
+                        />
+                    )
                 )
             },
         },
         {
             title: 'Start Break',
-            dataIndex: 'startBreak',
-            key: 'startBreak',
-            render: (startBreak) => {
-                return (
-                    <div className="list-item mb-0">
-                        <div className="list-item-value ms-2">
-                            {' '}
-                            {moment(startBreak, 'HH:mm:ss').format('hh:mm A') ||
-                                ''}
-                        </div>
-                    </div>
+            dataIndex: 'createTimeTableStartBreak',
+            key: 'createTimeTableStartBreak',
+            render: (_, record, recordIndex) => {
+                return record.timeEntries.map(
+                    (timeEntry: TimeEntryProps, rowIndex: number) => (
+                        <StartBreak
+                            key={`${recordIndex}-${rowIndex}`}
+                            recordIndex={recordIndex}
+                            rowIndex={rowIndex}
+                            startBreak={timeEntry.startBreak}
+                            setStartTime={handleUpdateTableDataSource}
+                            SendData={allSlotDetail?.startBreak}
+                        />
+                    )
                 )
             },
         },
         {
             title: 'End Break',
-            dataIndex: 'endBreak',
-            key: 'endBreak',
-            render: (endBreak) => {
-                return (
-                    <div className="list-item mb-0">
-                        <div className="list-item-value ms-2">
-                            {moment(endBreak, 'HH:mm:ss').format('hh:mm A') ||
-                                ''}
-                        </div>
-                    </div>
+            dataIndex: 'createTimeTableEndBreak',
+            key: 'createTimeTableEndBreak',
+            render: (_, record, recordIndex) => {
+                return record.timeEntries.map(
+                    (timeEntry: TimeEntryProps, rowIndex: number) => (
+                        <EndBreak
+                            key={`${recordIndex}-${rowIndex}`}
+                            recordIndex={recordIndex}
+                            rowIndex={rowIndex}
+                            endBreak={timeEntry.endBreak}
+                            setStartTime={handleUpdateTableDataSource}
+                            SendData={allSlotDetail?.endBreak}
+                        />
+                    )
                 )
             },
         },
         {
-            title: 'Status',
-            dataIndex: 'isActive',
-            key: 'isActive',
-            render: (DummyDataa) => {
-                if (DummyDataa === true) {
-                    return (
-                        <div className={'Active'}>
-                            <button>Active</button>
-                            <img src={StatusActiveError} alt="image" />
+            title: 'Slot',
+            dataIndex: 'createTimeTableSlot',
+            key: 'createTimeTableSlot',
+            //improving-screens
+            render: (_, record, recordIndex) => {
+                return record.timeEntries.map(
+                    (timeEntry: TimeEntryProps, rowIndex: number) => (
+                        <div key={`${recordIndex}-${rowIndex}`}>
+                            <button
+                                onClick={() => {
+                                    if (
+                                        !timeEntry.timeTableId ||
+                                        !timeEntry.startTime ||
+                                        !timeEntry.endTime ||
+                                        !timeEntry.startBreak ||
+                                        !timeEntry.endBreak ||
+                                        !timeEntry.dayOfWeek
+                                    ) {
+                                        alert('Please fill out the time slot')
+                                        return
+                                    }
+                                    // createSlots({
+                                    //     timeTableId: timeEntry.timeTableId,
+                                    //     startTime:
+                                    //         moment(
+                                    //             timeEntry.startTime,
+                                    //             'hh:mm A'
+                                    //         ).format('HH:mm:ss') || '',
+                                    //     endTime:
+                                    //         moment(
+                                    //             timeEntry.endTime,
+                                    //             'hh:mm A'
+                                    //         ).format('HH:mm:ss') || '',
+                                    //     startBreak:
+                                    //         moment(
+                                    //             timeEntry.startBreak,
+                                    //             'hh:mm A'
+                                    //         ).format('HH:mm:ss') || '',
+                                    //     endBreak:
+                                    //         moment(
+                                    //             timeEntry.endBreak,
+                                    //             'hh:mm A'
+                                    //         ).format('HH:mm:ss') || '',
+                                    //     dayOfWeek: timeEntry.dayOfWeek || '',
+                                    // })
+                                    // setIsShowModal(true)
+                                }}
+                            >
+                                {'Add'}
+                            </button>
                         </div>
                     )
-                } else {
-                    return (
-                        <div className={'De-Active'}>
-                            <button>De-Active</button>
-                            <img src={StatusActiveError} alt="image" />
-                        </div>
-                    )
-                }
+                )
             },
         },
         {
             title: 'Actions',
             key: 'timeTableAction',
-            render: (_, record) => {
+            render: (_, record, recordIndex) => {
                 const items = [
                     {
                         key: '1',
-                        label: 'View',
-                        onClick: () => navigation(record, 'view'),
+                        label: 'Duplicate',
+                        onClick: () => {},
                     },
                     {
                         key: '2',
-                        label: 'Edit',
-                        onClick: () => navigation(record, 'edit'),
-                    },
-                    {
-                        key: '3',
-                        label: 'Subscribe',
-                        onClick: () => navigation(record, 'subscribe'),
+                        label: 'Add new Slot',
+                        // improving-screens
+                        onClick: () => addNewSlot(recordIndex),
                     },
                 ]
-                return (
-                    <Space size="middle">
-                        <Dropdown menu={{ items }}>
-                            <img
-                                src={actionMenuTogglerIcon as string}
-                                alt="action menu"
-                                style={{ cursor: 'pointer' }}
-                            />
-                        </Dropdown>
-                    </Space>
+                return record.timeEntries.map(
+                    (timeEntry: TimeEntryProps, rowIndex: number) => (
+                        <Space key={`${recordIndex}-${rowIndex}`} size="middle">
+                            <Dropdown menu={{ items }}>
+                                <img
+                                    src={actionMenuTogglerIcon as string}
+                                    alt="action menu"
+                                    style={{ cursor: 'pointer' }}
+                                />
+                            </Dropdown>
+                        </Space>
+                    )
                 )
             },
         },
     ]
 
-    console.log('DummyData', allSlotDetail)
-    console.log('after', Slots)
+    useEffect(() => {
+        async function fetchTimeTableById(): Promise<void> {
+            const response = await getTimetableById(Number(timeTableId))
+            console.log('checking response: ', response)
+            if (response.results) {
+                setAllTimeTableDetail(response.results)
+            }
+        }
+        fetchTimeTableById()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [timeTableId])
+
+    useEffect(() => {
+        if (!allTimeTableDetail) {
+            return
+        }
+        // const numberOfDays = calculateDaysDifference(
+        //     allTimeTableDetail.startDate,
+        //     allTimeTableDetail.endDate
+        // )
+        const _tableDataSource: TableDateSourceProps[] = Array.from(
+            { length: 1 },
+            (_, index) => {
+                const currentDate = new Date(allTimeTableDetail.startDate)
+                currentDate.setDate(currentDate.getDate() + index)
+                const dayOfWeek = daysOfWeek[currentDate.getDay()]
+
+                return {
+                    key: index.toString(),
+                    date: currentDate.toISOString().split('T')[0],
+                    dayOfWeek: dayOfWeek,
+
+                    timeEntries: [
+                        {
+                            startTime: undefined,
+                            endTime: undefined,
+                            startBreak: undefined,
+                            endBreak: undefined,
+                            dayOfWeek: dayOfWeek,
+                            timeTableId: allTimeTableDetail.timeTableId,
+                            isActive: allTimeTableDetail.isActive,
+                            isRepeated: allTimeTableDetail.isRepeated,
+                        },
+                    ],
+                }
+            }
+        )
+
+        setTableDataSource(_tableDataSource)
+        console.log(
+            'checking tableDataSource: ',
+            _tableDataSource,
+            tableDataSource
+        )
+    }, [allTimeTableDetail])
+    // Modify the useEffect block where you initialize _tableDataSource
+
+    console.log(allSlotDetail, tableDataSource, ' allSlotDetail')
 
     return (
         <>
             {loading && <LoadingOverlay message="" />}
-            <InformationTimeTableStyle>
+            <CreateTimeTableStyled>
+                {Createmodal().modalComponent}
                 <Table
                     columns={columns}
-                    dataSource={Slots}
+                    dataSource={tableDataSource}
+                    pagination={false}
                     title={() => <RenderTableTitle />}
                     scroll={{ x: true }}
-                    pagination={false}
                 />
-            </InformationTimeTableStyle>
+            </CreateTimeTableStyled>
         </>
     )
 }

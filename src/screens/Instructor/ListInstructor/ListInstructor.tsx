@@ -142,7 +142,7 @@ const ListInstructor: React.FC = () => {
 
     const handleDelete = (record: number): void => {
         deleteInstructor(record)
-        store.dispatch(getInstructorByUserId())
+        // store.dispatch(getInstructorByUserId())
     }
     const {
         statusData: { facilities },

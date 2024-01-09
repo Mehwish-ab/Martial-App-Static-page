@@ -132,6 +132,28 @@ padding-bottom: 20px;
     background-color: #fff;
   }
 }
+
+.ant-table-row-level-0 .ant-table-cell > div{
+  margin: 10px 0px 0px;
+  height: 50px;
+}
+.ant-table-row-level-0 .ant-table-cell:last-child{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+   > div {
+    height: 50px;
+    margin: 10px 0px 0px;
+  }
+}
+.ant-table-row-level-0 .ant-table-cell:first-child > div{
+  padding-top: 10px;
+}
+
+.ant-table-row-level-0 .ant-table-cell:nth-child(6) > div{
+  padding-top: 5px;
+}
+
 `
 
 export const FilterTimeTableStyled = styled.div`

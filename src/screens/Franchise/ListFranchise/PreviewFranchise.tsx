@@ -162,6 +162,7 @@ const PreviewFranchise = (): JSX.Element => {
                             ? franchiseData?.data
                             : []
                     }
+                    scroll={{ x: true }}
                     pagination={{
                         showTotal: (total, range) => (
                             <span

@@ -8,7 +8,8 @@ import NavigationMenu from '../NavigationMenu/NavigationMenu'
 import CustomButton from '../CustomButton/CustomButton'
 import notificationIcon from '../../assets/icons/ic_notitfication.svg'
 import profileIcon from '../../assets/icons/ic_profile_avatar.svg'
-const NavbarSmallScreen = () => {
+
+const NavbarSmallScreen = (): JSX.Element => {
     const [drawerVisible, setDrawerVisible] = useState(false)
 
     return (

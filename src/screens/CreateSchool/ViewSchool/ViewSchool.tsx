@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux'
 import store, { RootState } from '../../../redux/store'
 import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
 import { useEffect } from 'react'
-// import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import useSchool from '../../../hooks/useCreateSchool'
 import SchoolViewTabs from './SchoolViewTabs'
@@ -19,21 +18,12 @@ import {
     maastrichtBlue,
 } from '../../../components/GlobalStyle'
 import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
-// import { getBranchBySchoolId } from '../../../redux/features/branch/branchSlice'
-// import { getfranchiseBySchoolId } from '../../../redux/features/franchise/franchiseSlice'
 const localStorageData = localStorage.getItem('ennvision-admin:token')
 const loginData = JSON.parse(localStorageData as any)
 const ViewSchool = (): JSX.Element => {
     const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
-    const {
-        deleteConfirmation,
-        loading,
-        setIsShowModal,
-        deletemodal,
-        WarningModal,
-        setIsShowWarningModal,
-    } = useSchool()
+    const { deleteConfirmation, deletemodal, WarningModal } = useSchool()
     const { branchData } = useSelector((state: RootState) => state.branchData)
     const { franchiseData } = useSelector(
         (state: RootState) => state.franchiseData
@@ -292,7 +282,7 @@ const ViewSchool = (): JSX.Element => {
                     </Row>
                 </Card>
                 <div className="mt-20 mb-3 d-flex justify-content-end gap-3">
-                    <div>
+                    {/* <div>
                         <CustomButton
                             bgcolor={lightBlue3}
                             textTransform="Capitalize"
@@ -313,7 +303,7 @@ const ViewSchool = (): JSX.Element => {
                                 } else setIsShowModal(true)
                             }}
                         />
-                    </div>
+                    </div> */}
                     <div>
                         <CustomButton
                             bgcolor={lightBlue3}

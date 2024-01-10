@@ -6,7 +6,7 @@ import { Col, Row } from 'react-bootstrap'
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
 import useScreenTranslation from '../../hooks/useScreenTranslation'
-import store, { RootState } from '../../redux/store'
+import { RootState } from '../../redux/store'
 import useCreateSchool from '../../hooks/useCreateSchool'
 import {
     BELTS_SELECT_OPTIONS,
@@ -30,7 +30,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 // import { getSchoolByUserId } from '../../redux/features/dashboard/dashboardDataSlice'
 import { useAppSelector } from '../../app/hooks'
-import { getSchoolByUserId } from '../../redux/features/dashboard/dashboardDataSlice'
+// import { getSchoolByUserId } from '../../redux/features/dashboard/dashboardDataSlice'
 
 const localStorageData = localStorage.getItem('ennvision-admin:token')
 const loginData = JSON.parse(localStorageData as any)
@@ -127,9 +127,9 @@ const CreateSchool = (): JSX.Element => {
         return options
     }
     useEffect(() => {
-        store.dispatch(getSchoolByUserId())
+        // store.dispatch(getSchoolByUserId())
         // if (schoolData && schoolData?.schoolId > 0) {
-        if (loginData?.schoolId) {
+        if (schoolData && loginData?.schoolId) {
             return navigate('/school/view')
         }
     }, [schoolData])

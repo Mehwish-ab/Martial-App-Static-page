@@ -26,7 +26,11 @@ const CheckboxesSelect = ({
                     />
                 }
                 overlayClassName="bg-white checkboxes-overlay"
-                overlayStyle={{ border: '1px solid #d9d9d9', padding: 16 }}
+                overlayStyle={{
+                    border: '1px solid #d9d9d9',
+                    padding: 16,
+                    zIndex: 2,
+                }}
                 trigger={['click']}
             >
                 <CheckboxSelectTriggerStyled>

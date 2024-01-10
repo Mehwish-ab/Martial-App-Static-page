@@ -316,7 +316,7 @@ button {
     background-color: transparent;
     transition: all 0.3s;
     justify-content: center;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #E0E0E0;
     border-right: none;
     margin-right: 0;
 }
@@ -331,7 +331,7 @@ button {
     height: 52px;
     padding: 0 11px 0 0;
     background-color: transparent;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #E0E0E0;
     border-left: none;
     outline: 0;
     transition: all 0.3s linear;

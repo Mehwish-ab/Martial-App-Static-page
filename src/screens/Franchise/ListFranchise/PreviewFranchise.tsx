@@ -20,7 +20,7 @@ const PreviewFranchise = (): JSX.Element => {
     const {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
-    const { deletemodal, deleteConfirmation } = useFranchise()
+    const { deletemodal, deleteConfirmation, FranchiseStatus } = useFranchise()
     const [Id] = useState(0)
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
@@ -86,7 +86,7 @@ const PreviewFranchise = (): JSX.Element => {
             // ),
             render: (Dummydatas) => {
                 console.log('>>images', Dummydatas?.profilePicture)
-                if (Dummydatas.profilePicture === null) {
+                if (Dummydatas?.profilePicture === null) {
                     return <img src={defaltimg} width={44} height={44} />
                 } else {
                     return (
@@ -133,15 +133,38 @@ const PreviewFranchise = (): JSX.Element => {
             title: 'Status',
             dataIndex: 'franchiseStatusId',
             key: 'franchiseStatusId',
-            render: (DummyData) => {
-                console.log('d', DummyData)
+            render: (isActive, index) => {
+                console.log('Status', isActive, index)
 
-                return (
-                    <div>
-                        <button>{'Active'}</button>
-                        <img src={StatusActiveError as string} alt="image" />
-                    </div>
-                )
+                if (index?.franchiseStatusId === 1) {
+                    return (
+                        <div className={'Active'}>
+                            <button
+                                onClick={() => {
+                                    {
+                                        FranchiseStatus(index.franchiseId, 2)
+                                    }
+                                }}
+                            >
+                                Active
+                            </button>
+                            <img src={StatusActiveError} alt="image" />
+                        </div>
+                    )
+                } else {
+                    return (
+                        <div className={'De-Active'}>
+                            <button
+                                onClick={() => {
+                                    FranchiseStatus(index.franchiseId, 1)
+                                }}
+                            >
+                                De-Active
+                            </button>
+                            <img src={StatusActiveError} alt="image" />
+                        </div>
+                    )
+                }
             },
         },
     ]

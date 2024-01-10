@@ -6,6 +6,8 @@ import {
     darkGery,
     fontFamilyMedium,
     fontFamilyRegular,
+    mediaDeviceMax,
+    mediaDeviceMin,
     pureDark2,
     whiteColor,
 } from '../../../components/GlobalStyle'
@@ -34,9 +36,16 @@ export const ListFranchiseStyled = styled.div`
         }
     }
 
-    .ant-table-content table {
-        width: 100% !important;
-        min-width: 1080px !important;
+    @media screen and ${mediaDeviceMin.tabletL} {
+        .ant-table-content table {
+            width: 100% !important;
+        }
+    }
+    @media screen and ${mediaDeviceMax.tabletL} {
+        .ant-table-content table {
+            width: 100% !important;
+            min-width: 1080px !important;
+        }
     }
 
     .ant-table-tbody > tr > .ant-table-cell,

@@ -10,20 +10,22 @@ type MenuItem = Required<MenuProps>['items'][number]
 const menuLinks: any = {
     dashboard: '/',
     createSchool: '/school/create',
+    classes: '/class/list',
+    timeTable: '/timetable/list',
+    transactionsHistory: '/transaction-history/list',
+    listInstructor: '/instructor/list',
     listBranch: '/branch/list',
     listFranchise: '/franchise/list',
-    listInstructor: '/instructor/list',
     membership: '/membership/list',
     payment: '/payment',
-    timeTable: '/timetable/list',
     rules: '/rules/list',
-    transactionsHistory: '/transaction-history/list',
-    classes: '/class/list',
     helpAndSupport: '/help-support',
     booking: '',
     language: '/language',
     qrCode: '/qr-code',
     setting: '/settings',
+    user: '',
+    attendance: '',
 }
 
 const menuLinksKeys: any = {
@@ -46,6 +48,8 @@ const menuLinksKeys: any = {
     helpAndSupport: 'helpAndSupport',
     customerServices: 'customerServices',
     reports: 'reports',
+    user: 'user',
+    attendance: 'attendance',
     qrCode: 'qrCode',
 }
 
@@ -85,6 +89,83 @@ const NavigationMenu = (): JSX.Element => {
             ),
         },
         {
+            key: menuLinksKeys.classes,
+            label: getLabel(
+                'Classes',
+                menuLinks.classes,
+                menuLinksKeys.classes
+            ),
+        },
+        {
+            key: menuLinksKeys.timeTable,
+            label: getLabel(
+                'TimeTable',
+                menuLinks.timeTable,
+                menuLinksKeys.timeTable
+            ),
+        },
+        {
+            key: menuLinksKeys.membership,
+            label: getLabel(
+                'Memberships',
+                menuLinks.membership,
+                menuLinksKeys.membership
+            ),
+        },
+        {
+            key: menuLinksKeys.transactionsHistory,
+            label: getLabel(
+                'Transactions History',
+                menuLinks.transactionsHistory,
+                menuLinksKeys.transactionsHistory
+            ),
+            children: childListOfBooking,
+        },
+        {
+            key: menuLinksKeys.listInstructor,
+            label: getLabel(
+                'Instructors',
+                menuLinks.listInstructor,
+                menuLinksKeys.listInstructor
+            ),
+        },
+        {
+            key: menuLinksKeys.notification,
+            label: getLabel(
+                'Notifications',
+                menuLinks.notification,
+                menuLinksKeys.notification
+            ),
+        },
+        {
+            key: menuLinksKeys.reports,
+            label: getLabel(
+                'Reports',
+                menuLinks.reports,
+                menuLinksKeys.reports
+            ),
+        },
+        {
+            key: menuLinksKeys.attendance,
+            label: getLabel(
+                'Attendance ',
+                menuLinks.attendance,
+                menuLinksKeys.attendance
+            ),
+        },
+        {
+            key: menuLinksKeys.user,
+            label: getLabel('User', menuLinks.user, menuLinksKeys.user),
+        },
+        {
+            key: menuLinksKeys.qrCode,
+            label: getLabel('QR Code', menuLinks.qrCode, menuLinksKeys.qrCode),
+        },
+        {
+            key: menuLinksKeys.rules,
+            label: getLabel('Rules', menuLinks.rules, menuLinksKeys.rules),
+        },
+        {
             key: menuLinksKeys.listBranch,
             label: getLabel(
                 'Branches',
@@ -99,59 +180,6 @@ const NavigationMenu = (): JSX.Element => {
                 menuLinks.listFranchise,
                 menuLinksKeys.listFranchise
             ),
-        },
-        {
-            key: menuLinksKeys.listInstructor,
-            label: getLabel(
-                'Instructors',
-                menuLinks.listInstructor,
-                menuLinksKeys.listInstructor
-            ),
-        },
-        {
-            key: menuLinksKeys.timeTable,
-            label: getLabel(
-                'TimeTable',
-                menuLinks.timeTable,
-                menuLinksKeys.timeTable
-            ),
-        },
-        {
-            key: menuLinksKeys.classes,
-            label: getLabel(
-                'Classes',
-                menuLinks.classes,
-                menuLinksKeys.classes
-            ),
-        },
-        {
-            key: menuLinksKeys.membership,
-            label: getLabel(
-                'Memberships',
-                menuLinks.membership,
-                menuLinksKeys.membership
-            ),
-        },
-        {
-            key: menuLinksKeys.rules,
-            label: getLabel('Rules', menuLinks.rules, menuLinksKeys.rules),
-        },
-        {
-            key: menuLinksKeys.notification,
-            label: getLabel(
-                'Notifications',
-                menuLinks.notification,
-                menuLinksKeys.notification
-            ),
-        },
-        {
-            key: menuLinksKeys.transactionsHistory,
-            label: getLabel(
-                'Transactions History',
-                menuLinks.transactionsHistory,
-                menuLinksKeys.transactionsHistory
-            ),
-            children: childListOfBooking,
         },
         {
             key: menuLinksKeys.setting,
@@ -185,18 +213,6 @@ const NavigationMenu = (): JSX.Element => {
                 menuLinks.customerServices,
                 menuLinksKeys.customerServices
             ),
-        },
-        {
-            key: menuLinksKeys.reports,
-            label: getLabel(
-                'Reports',
-                menuLinks.reports,
-                menuLinksKeys.reports
-            ),
-        },
-        {
-            key: menuLinksKeys.qrCode,
-            label: getLabel('QR Code', menuLinks.qrCode, menuLinksKeys.qrCode),
         },
     ]
 

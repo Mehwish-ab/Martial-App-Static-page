@@ -2,7 +2,6 @@ import { Card } from 'antd'
 import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import { ViewInstructorStyled } from './styles'
 import { useLocation } from 'react-router-dom'
-// import useScreenTranslation from "../../../hooks/useScreenTranslation";
 import { Col, Row } from 'react-bootstrap'
 import { Formik } from 'formik'
 import { useState, useEffect } from 'react'
@@ -11,9 +10,11 @@ import useInstructor from '../../../hooks/useInstructor'
 import { InstructorDataType } from '../../../redux/features/instructor/instructorSlice'
 import { RootState } from '../../../redux/store'
 import { useSelector } from 'react-redux'
+import useScreenTranslation from '../../../hooks/useScreenTranslation'
 
 const ViewInstructor = (): JSX.Element => {
-    // const { getLabelByKey } = useScreenTranslation("branchCreate");
+    const { getLabelByKey } = useScreenTranslation('instructorInformation')
+    const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
     const [initialValues] = useState({
         termCondition: false,
         agreement: false,
@@ -114,13 +115,13 @@ const ViewInstructor = (): JSX.Element => {
                 isEditable={true}
             />
 
-            <h3 className="ms-4">Instructor Information</h3>
+            <h3 className="ms-4">{getLabelByKey('title')}</h3>
             <Card>
                 <Row>
                     <Col md="4">
                         <div className="list-item">
                             <div className="list-item-title">
-                                Instructor Name
+                                {getLabelByKey('instructorName')}
                             </div>
                             <div className="list-item-value">
                                 {values?.instructorName}
@@ -129,6 +130,7 @@ const ViewInstructor = (): JSX.Element => {
                     </Col>
                     <Col md="4">
                         <div className="list-item">
+                            {/* <div className="list-item-title">{getLabelByKey('emailAddress')}</div> */}
                             <div className="list-item-title">Email Address</div>
                             <div className="list-item-value">
                                 {values?.emailAddress}
@@ -138,7 +140,7 @@ const ViewInstructor = (): JSX.Element => {
                     <Col md="4">
                         <div className="list-item">
                             <div className="list-item-title">
-                                Instructor Mobile Number
+                                {getLabelByKey('instructorMobileNumber')}
                             </div>
                             <div className="list-item-value">
                                 {values?.phoneNumber}
@@ -148,7 +150,9 @@ const ViewInstructor = (): JSX.Element => {
 
                     <Col md="4">
                         <div className="list-item">
-                            <div className="list-item-title">Address</div>
+                            <div className="list-item-title">
+                                {getLabelByKey('address')}
+                            </div>
                             <div className="list-item-value">
                                 {values?.address}
                             </div>
@@ -159,7 +163,7 @@ const ViewInstructor = (): JSX.Element => {
                             <Col md="4">
                                 <div className="list-item">
                                     <div className="list-item-title">
-                                        Years of experience
+                                        {getLabelByKey('yearsOfExperience')}
                                     </div>
                                     <div className="list-item-value">
                                         {values?.experience}
@@ -169,10 +173,9 @@ const ViewInstructor = (): JSX.Element => {
                             <Col md="4">
                                 <div className="list-item">
                                     <div className="list-item-title">
-                                        Ranking
+                                        {getLabelByKey('ranking')}
                                     </div>
                                     <div className="list-item-value">
-                                        {/* {values ? values.rankId : "--"} */}
                                         {Number(values?.rankId) === 1
                                             ? 'Yes'
                                             : 'No'}
@@ -182,18 +185,22 @@ const ViewInstructor = (): JSX.Element => {
                             <Col md="4">
                                 <div className="list-item">
                                     <div className="list-item-title">
-                                        Latest Certification (Optional)
+                                        {/* {getLabelByKey('latestCertification')} */}
+                                        Latest Certification
                                     </div>
-                                    <div
-                                        className="list-item-value "
-                                        style={{ cursor: 'pointer' }}
-                                        onClick={() =>
-                                            openModal(values?.certificationURL)
-                                        }
-                                    >
-                                        {values?.certificationURL
-                                            ? values.certificationURL
-                                            : '--'}
+                                    <div className="list-item-value ">
+                                        <span
+                                            className="certificateLink"
+                                            onClick={() =>
+                                                openModal(
+                                                    values?.certificationURL
+                                                )
+                                            }
+                                        >
+                                            {values?.certificationURL
+                                                ? 'Certificate'
+                                                : '--'}
+                                        </span>
                                     </div>
                                 </div>
                             </Col>
@@ -202,7 +209,7 @@ const ViewInstructor = (): JSX.Element => {
                     <Col md="6">
                         <div className="list-item">
                             <div className="list-item-title">
-                                Specializations
+                                {getLabelByKey('specialisations')}
                             </div>
                             <div className="list-item-value">
                                 {showFacilities(facilitiesToShow)}
@@ -212,7 +219,8 @@ const ViewInstructor = (): JSX.Element => {
                     <Col md="6">
                         <div className="list-item">
                             <div className="list-item-title">
-                                Activities (to Instruct Within)
+                                {/* {getLabelByKey('activities')} */}
+                                Activities
                             </div>
                             <div className="list-item-value">
                                 {showActivities(activitiesToShow)}
@@ -221,7 +229,9 @@ const ViewInstructor = (): JSX.Element => {
                     </Col>
                     <Col md="12">
                         <div className="list-item mb-0">
-                            <div className="list-item-title">Description</div>
+                            <div className="list-item-title">
+                                {getLabelByKey('description')}
+                            </div>
                             <div className="list-item-value">
                                 {values ? values.description : '--'}
                             </div>
@@ -240,12 +250,15 @@ const ViewInstructor = (): JSX.Element => {
                                 <FormControl
                                     control="checkbox"
                                     type="checkbox"
-                                    id="rememberMe"
-                                    name="rememberMe"
+                                    id="termsAndConditions"
+                                    name="termsAndConditions"
                                     checked
                                 />
-                                <p className="checkBoxPara" id="termCondition">
-                                    Terms and conditions
+                                <p
+                                    className="checkBoxPara"
+                                    id="termsAndConditions"
+                                >
+                                    {getLegalLabelByKey('termsAndConditions')}
                                 </p>
                             </form>
                         </label>
@@ -254,13 +267,15 @@ const ViewInstructor = (): JSX.Element => {
                                 <FormControl
                                     control="checkbox"
                                     type="checkbox"
-                                    id="rememberMe"
-                                    name="rememberMe"
+                                    id="AgreementGuidelines"
+                                    name="AgreementGuidelines"
                                     checked
                                 />
-                                <p className="checkBoxPara" id="agreement">
-                                    Agreement to follow the apps guidelines and
-                                    policies
+                                <p
+                                    className="checkBoxPara"
+                                    id="AgreementGuidelines"
+                                >
+                                    {getLegalLabelByKey('AgreementGuidelines')}
                                 </p>
                             </form>
                         </label>
@@ -269,12 +284,15 @@ const ViewInstructor = (): JSX.Element => {
                                 <FormControl
                                     control="checkbox"
                                     type="checkbox"
-                                    id="rememberMe"
-                                    name="rememberMe"
+                                    id="liabilityWaivers"
+                                    name="liabilityWaivers"
                                     checked
                                 />
-                                <p className="checkBoxPara" id="liability">
-                                    Liability waivers
+                                <p
+                                    className="checkBoxPara"
+                                    id="liabilityWaivers"
+                                >
+                                    {getLegalLabelByKey('liabilityWaivers')}
                                 </p>
                             </form>
                         </label>

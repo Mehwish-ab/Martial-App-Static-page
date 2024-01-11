@@ -93,22 +93,6 @@ const CreateInstructor = (): JSX.Element => {
                 return allowedFormats.includes(value.type)
             }
         ),
-        // latestCertification: Yup.mixed()
-        //     .required('Please add your latest Certificates')
-        //     .test(
-        //         'fileFormat',
-        //         'Only PNG and JPEG images are allowed',
-        //         (value) => {
-        //             if (!value) {
-        //                 return true // File is not required, so validation passes
-        //             }
-
-        //             const allowedFormats = ['image/png', 'image/jpeg']
-
-        //             return allowedFormats.includes(value.type)
-        //         }
-        //     ),
-
         defaultCurrency: Yup.string().required(
             'Please select default currency'
         ),
@@ -119,10 +103,6 @@ const CreateInstructor = (): JSX.Element => {
             .of(Yup.string().required('Select an specilization'))
             .min(1, 'Select at least one specilization'),
     })
-    // const handleonSubmit = (values: CreateInstructorInitialValues): void => {
-    //     handleSubmit(values, selectedFiles)
-    //     console.log('submitted button pressed')
-    // }
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )

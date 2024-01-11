@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import {
+    darkBlue,
     fontFamilyMedium,
     fontFamilyRegular,
     lightDark2,
@@ -59,5 +60,15 @@ export const ViewInstructorStyled = styled.div`
                 }
             }
         }
+    }
+    .certificateLink {
+        color: ${darkBlue};
+        cursor: pointer;
+        font-family: ${fontFamilyRegular};
+        font-size: 14px;
+        font-weight: 500;
+    }
+    .certificateLink:hover {
+        color: ${pureDark2};
     }
 `

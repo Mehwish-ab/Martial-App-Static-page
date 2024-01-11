@@ -6,6 +6,8 @@ import {
     darkGery,
     fontFamilyMedium,
     fontFamilyRegular,
+    mediaDeviceMax,
+    mediaDeviceMin,
     pureDark2,
     whiteColor,
     // mainColor,
@@ -19,9 +21,16 @@ export const ListInstructorStyled = styled.div`
         margin-bottom: 0px;
     }
 
-    .ant-table-content table {
-        width: 100% !important;
-        min-width: 1080px !important;
+    @media screen and ${mediaDeviceMin.tabletL} {
+        .ant-table-content table {
+            width: 100% !important;
+        }
+    }
+    @media screen and ${mediaDeviceMax.tabletL} {
+        .ant-table-content table {
+            width: 100% !important;
+            min-width: 1080px !important;
+        }
     }
 
     .table-heading {

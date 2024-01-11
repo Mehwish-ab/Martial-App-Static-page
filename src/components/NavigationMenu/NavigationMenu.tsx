@@ -89,6 +89,10 @@ const NavigationMenu = (): JSX.Element => {
             ),
         },
         {
+            key: menuLinksKeys.user,
+            label: getLabel('Users', menuLinks.user, menuLinksKeys.user),
+        },
+        {
             key: menuLinksKeys.classes,
             label: getLabel(
                 'Classes',
@@ -152,10 +156,6 @@ const NavigationMenu = (): JSX.Element => {
                 menuLinks.attendance,
                 menuLinksKeys.attendance
             ),
-        },
-        {
-            key: menuLinksKeys.user,
-            label: getLabel('User', menuLinks.user, menuLinksKeys.user),
         },
         {
             key: menuLinksKeys.qrCode,

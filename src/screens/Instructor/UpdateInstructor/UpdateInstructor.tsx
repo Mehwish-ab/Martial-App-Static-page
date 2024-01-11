@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { Field, Formik } from 'formik'
+import { Formik } from 'formik'
 import { Form } from 'antd'
 
 import { Col, Row } from 'react-bootstrap'
@@ -15,7 +15,6 @@ import {
     fontFamilyRegular,
     lightBlue3,
     pureDark,
-    pureDark2,
 } from '../../../components/GlobalStyle'
 import CustomPhoneInput from '../../../components/CustomPhoneInput/CustomPhoneInput'
 import CustomButton from '../../../components/CustomButton/CustomButton'
@@ -33,7 +32,8 @@ const UpdateeInstructor = (): JSX.Element => {
     const { instructorId } = useParams()
     const [selectedFiles, setSelectedFiless] = useState<FileList | null>(null)
 
-    const { getLabelByKey } = useScreenTranslation('instructorCreate')
+    const { getLabelByKey } = useScreenTranslation('instructorUpdate')
+    const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
     const {
         statusData: { activities, facilities },
     } = useSelector((state: RootState) => state.appData.data)
@@ -141,7 +141,7 @@ const UpdateeInstructor = (): JSX.Element => {
         if (activitiesName.length > 40) {
             return `${activitiesName.slice(0, 40)}...`
         }
-        return activitiesName || getLabelByKey('activity')
+        return activitiesName || getLabelByKey('activitiesPlaceholder')
     }
 
     const showFacilities = (_facilities: string[]): string => {
@@ -163,7 +163,7 @@ const UpdateeInstructor = (): JSX.Element => {
         if (facilitiesName.length > 40) {
             return `${facilitiesName.slice(0, 40)}...`
         }
-        return facilitiesName || getLabelByKey('facilities')
+        return facilitiesName || getLabelByKey('specializationsPlaceholder')
     }
     return (
         <>
@@ -186,16 +186,16 @@ const UpdateeInstructor = (): JSX.Element => {
                                 autoComplete="off"
                             >
                                 <div className="bg-white form">
-                                    <h3 style={{ color: pureDark2 }}>
-                                        Instructor Information
-                                    </h3>
+                                    <h3>{getLabelByKey('title')}</h3>
                                     <Row>
                                         <Col md="4" className="mt-20">
                                             <FormControl
                                                 control="input"
                                                 type="text"
                                                 name="instructorName"
-                                                label="Instructor Name"
+                                                label={getLabelByKey(
+                                                    'instructorName'
+                                                )}
                                                 padding="10px"
                                                 fontFamily={fontFamilyRegular}
                                                 fontSize="16px"
@@ -208,7 +208,9 @@ const UpdateeInstructor = (): JSX.Element => {
                                                         ? 'is-invalid'
                                                         : 'customInput'
                                                 }
-                                                placeholder="Instructor Name"
+                                                placeholder={getLabelByKey(
+                                                    'instructorNamePlaceholder'
+                                                )}
                                             />
                                         </Col>
                                         <Col md="4" className="mt-20">
@@ -217,9 +219,13 @@ const UpdateeInstructor = (): JSX.Element => {
                                                 type="email"
                                                 name="emailAddress"
                                                 fontFamily={fontFamilyRegular}
-                                                label="Email Address"
+                                                label={getLabelByKey(
+                                                    'emailAddress'
+                                                )}
                                                 padding="10px"
-                                                placeholder="Email address"
+                                                placeholder={getLabelByKey(
+                                                    'emailAddressPlaceholder'
+                                                )}
                                                 value={String(
                                                     formik.values.emailAddress
                                                 )}
@@ -227,14 +233,16 @@ const UpdateeInstructor = (): JSX.Element => {
                                         </Col>
                                         <Col md="4" className="mt-20">
                                             <CustomPhoneInput
-                                                label="Instructor Phone Number"
-                                                name="instructorPhoneNumber"
+                                                label={getLabelByKey(
+                                                    'instructorMobileNumber'
+                                                )}
+                                                name="instructorMobileNumber"
                                                 value={String(
                                                     formik.values
                                                         .instructorPhoneNumber
                                                 )}
                                                 placeholder={getLabelByKey(
-                                                    'instructorPhoneNumber'
+                                                    'instructorMobileNumber'
                                                 )}
                                                 limitMaxLength={true}
                                                 handleOnChange={(e: string) => {
@@ -248,9 +256,11 @@ const UpdateeInstructor = (): JSX.Element => {
 
                                         <Col md="4" className="mt-20">
                                             <PlacesAutoCompleteInput
-                                                label={getLabelByKey('address')}
+                                                label={getLabelByKey(
+                                                    'completeAddress'
+                                                )}
                                                 placeholder={getLabelByKey(
-                                                    'enterCompleteAddress'
+                                                    'completeAddressPlaceholder'
                                                 )}
                                                 handleChange={(
                                                     val: unknown
@@ -272,114 +282,155 @@ const UpdateeInstructor = (): JSX.Element => {
                                             />
                                         </Col>
                                         <Col md="8">
-                                            <Col
-                                                md="4"
-                                                className="mt-20 d-inline-block"
-                                            >
-                                                <FormControl
-                                                    control="input"
-                                                    type="number"
-                                                    name="yearsOfExperience"
-                                                    fontFamily={
-                                                        fontFamilyRegular
-                                                    }
-                                                    label="Years Of Experience"
-                                                    padding="10px"
-                                                    placeholder="Years Of Experience"
-                                                />
-                                            </Col>
-                                            <Col
-                                                md="4"
-                                                className="mt-20 d-inline-block ps-3"
-                                            >
-                                                <FormControl
-                                                    control="select"
-                                                    type="text"
-                                                    name="rankId"
-                                                    fontFamily={
-                                                        fontFamilyRegular
-                                                    }
-                                                    label={'Ranking'}
-                                                    value={
-                                                        formik.values.rankId ===
-                                                        1
-                                                            ? 'Yes'
-                                                            : 'No'
-                                                    }
-                                                    padding="10px"
-                                                    placeholder={'Rankings'}
-                                                    className={
-                                                        formik.errors.rankId &&
-                                                        formik.touched.rankId
-                                                            ? 'is-invalid'
-                                                            : 'customInput'
-                                                    }
-                                                    options={
-                                                        BELTS_SELECT_OPTIONS
-                                                    }
-                                                    // defaultValue={
-                                                    //   // formik.values.rank === 1 ? "Yes" : "No"
-                                                    //   formik.values
-                                                    //     ? BELTS_SELECT_OPTIONS.find(
-                                                    //         (item) => item.value === formik.values.rankId
-                                                    //       )?.label
-                                                    //     : undefined
-                                                    // }
-                                                />
-                                            </Col>
-                                            <Col
-                                                md="4"
-                                                className="mt-20 d-inline-block ps-3"
-                                            >
-                                                <FormControl
-                                                    control="file"
-                                                    type="file"
-                                                    name="latestCertification"
-                                                    fontFamily={
-                                                        fontFamilyRegular
-                                                    }
-                                                    label={getLabelByKey(
-                                                        'latestCertification'
-                                                    )}
-                                                    // src={FileSubmit}
-                                                    // onChange={handleChange}
-                                                    suffix={
-                                                        <ImagesUpload
-                                                            onImagesSelect={
-                                                                handleImagesUpload
-                                                            }
-                                                        />
-                                                    }
-                                                    padding="10px"
-                                                    placeholder={getLabelByKey(
-                                                        'PlaceholderLatestCertification'
-                                                    )}
-                                                />
-                                            </Col>
+                                            <Row>
+                                                <Col md="4" className="mt-20">
+                                                    <FormControl
+                                                        control="input"
+                                                        type="number"
+                                                        name="yearsOfExperience"
+                                                        fontFamily={
+                                                            fontFamilyRegular
+                                                        }
+                                                        label={getLabelByKey(
+                                                            'yearsOfExperience'
+                                                        )}
+                                                        padding="10px"
+                                                        placeholder={getLabelByKey(
+                                                            'yearsOfExperiencePlaceholder'
+                                                        )}
+                                                    />
+                                                </Col>
+                                                <Col md="4" className="mt-20">
+                                                    <FormControl
+                                                        control="select"
+                                                        type="text"
+                                                        name="rankId"
+                                                        fontFamily={
+                                                            fontFamilyRegular
+                                                        }
+                                                        label={getLabelByKey(
+                                                            'ranking'
+                                                        )}
+                                                        value={
+                                                            formik.values
+                                                                .rankId === 1
+                                                                ? 'Yes'
+                                                                : 'No'
+                                                        }
+                                                        padding="10px"
+                                                        placeholder={getLabelByKey(
+                                                            'rankingPlaceholder'
+                                                        )}
+                                                        className={
+                                                            formik.errors
+                                                                .rankId &&
+                                                            formik.touched
+                                                                .rankId
+                                                                ? 'is-invalid'
+                                                                : 'customInput'
+                                                        }
+                                                        options={
+                                                            BELTS_SELECT_OPTIONS
+                                                        }
+                                                        // defaultValue={
+                                                        //   // formik.values.rank === 1 ? "Yes" : "No"
+                                                        //   formik.values
+                                                        //     ? BELTS_SELECT_OPTIONS.find(
+                                                        //         (item) => item.value === formik.values.rankId
+                                                        //       )?.label
+                                                        //     : undefined
+                                                        // }
+                                                    />
+                                                </Col>
+                                                <Col md="4" className="mt-20">
+                                                    <FormControl
+                                                        control="file"
+                                                        type="file"
+                                                        name="latestCertification"
+                                                        fontFamily={
+                                                            fontFamilyRegular
+                                                        }
+                                                        label={
+                                                            <>
+                                                                {getLabelByKey(
+                                                                    'latestCertification'
+                                                                )}{' '}
+                                                                <span>
+                                                                    {getLabelByKey(
+                                                                        'optional'
+                                                                    )}
+                                                                </span>
+                                                            </>
+                                                        }
+                                                        // src={FileSubmit}
+                                                        // onChange={handleChange}
+                                                        suffix={
+                                                            <ImagesUpload
+                                                                onImagesSelect={
+                                                                    handleImagesUpload
+                                                                }
+                                                            />
+                                                        }
+                                                        padding="10px"
+                                                        placeholder={getLabelByKey(
+                                                            'latestCertificationPlaceholder'
+                                                        )}
+                                                    />
+                                                </Col>
+                                            </Row>
                                         </Col>
 
                                         <Col md="6">
                                             <CheckboxesSelect
                                                 name="specializations"
-                                                label="Specializations"
+                                                label={getLabelByKey(
+                                                    'specializations'
+                                                )}
                                                 list={facilities}
                                                 showErrorMsgInList={false}
-                                                placeholder={showFacilities(
+                                                placeholder={
                                                     formik.values
                                                         .specializations
-                                                )}
+                                                        .length > 0
+                                                        ? showFacilities(
+                                                              formik.values
+                                                                  .specializations
+                                                          )
+                                                        : getLabelByKey(
+                                                              'specializationsPlaceholder'
+                                                          )
+                                                }
                                             />
                                         </Col>
 
                                         <Col md="6">
                                             <CheckboxesSelect
                                                 name="activities"
-                                                label="Activities"
+                                                label={
+                                                    <>
+                                                        {getLabelByKey(
+                                                            'activities'
+                                                        )}{' '}
+                                                        <span>
+                                                            {getLabelByKey(
+                                                                'toInstructWithin'
+                                                            )}
+                                                        </span>
+                                                    </>
+                                                }
                                                 list={activities}
                                                 showErrorMsgInList={false}
-                                                placeholder={showActivities(
+                                                placeholder={
                                                     formik.values.activities
-                                                )}
+                                                        .length > 0
+                                                        ? showActivities(
+                                                              formik.values
+                                                                  .activities
+                                                          )
+                                                        : getLabelByKey(
+                                                              'activitiesPlaceholder'
+                                                          )
+                                                }
                                             />
                                         </Col>
 
@@ -390,61 +441,66 @@ const UpdateeInstructor = (): JSX.Element => {
                                                 name="description"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
-                                                    'description'
+                                                    'biographyOrIntroduction'
                                                 )}
                                                 padding="10px"
                                                 placeholder={getLabelByKey(
-                                                    'description'
+                                                    'biographyOrIntroductionPlace'
                                                 )}
                                                 height="200px"
                                             />
                                         </div>
                                         <label htmlFor="termCondition">
-                                            <form className="mt-3 d-flex align-content-start justify-content-start">
-                                                <Field
+                                            <form className="mt-10 d-flex align-items-center justify-content-start column-gap-2">
+                                                <FormControl
                                                     control="checkbox"
                                                     type="checkbox"
-                                                    name="termCondition"
-                                                    id="termCondition"
+                                                    id="AgreementGuidelines"
+                                                    name="AgreementGuidelines"
                                                 />
                                                 <p
-                                                    className="ms-3 mb-0"
-                                                    id="termCondition"
+                                                    className="ms-2 mb-0"
+                                                    id="termsAndConditions"
                                                 >
-                                                    Terms and conditions
+                                                    {getLegalLabelByKey(
+                                                        'termsAndConditions'
+                                                    )}
                                                 </p>
                                             </form>
                                         </label>
                                         <label htmlFor="agreement">
-                                            <form className="mt-2 d-flex align-content-start justify-content-start">
-                                                <Field
+                                            <form className="mt-10 d-flex align-items-center justify-content-start column-gap-2">
+                                                <FormControl
                                                     control="checkbox"
                                                     type="checkbox"
-                                                    name="agreement"
-                                                    id="agreement"
+                                                    id="AgreementGuidelines"
+                                                    name="AgreementGuidelines"
                                                 />
                                                 <p
-                                                    className="ms-3 mb-0"
-                                                    id="agreement"
+                                                    className="ms-2 mb-0"
+                                                    id="AgreementGuidelines"
                                                 >
-                                                    Agreement to follow the apps
-                                                    guidelines and policies
+                                                    {getLegalLabelByKey(
+                                                        'AgreementGuidelines'
+                                                    )}
                                                 </p>
                                             </form>
                                         </label>
                                         <label htmlFor="liability">
-                                            <form className="mt-2 d-flex align-content-start justify-content-start">
-                                                <Field
+                                            <form className="mt-10 d-flex align-items-center justify-content-start column-gap-2">
+                                                <FormControl
                                                     control="checkbox"
                                                     type="checkbox"
-                                                    name="liability"
-                                                    id="liability"
+                                                    id="AgreementGuidelines"
+                                                    name="AgreementGuidelines"
                                                 />
                                                 <p
-                                                    className="ms-3 mb-0"
+                                                    className="ms-2 mb-0"
                                                     id="liability"
                                                 >
-                                                    Liability waivers
+                                                    {getLegalLabelByKey(
+                                                        'liabilityWaivers'
+                                                    )}
                                                 </p>
                                             </form>
                                         </label>

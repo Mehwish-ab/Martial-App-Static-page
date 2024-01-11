@@ -21,9 +21,11 @@ import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
 import DateCalander from '../../../assets/images/dateCalander.svg'
+import useScreenTranslation from '../../../hooks/useScreenTranslation'
 
 const ListClass = (): JSX.Element => {
     const navigate = useNavigate()
+    const { getLabelByKey } = useScreenTranslation('classesList')
     const { loading } = useSelector((state: RootState) => state.branchData)
     const navigation = (record: ClassDataType, redirectTo: string): void => {
         switch (redirectTo) {
@@ -55,7 +57,7 @@ const ListClass = (): JSX.Element => {
     const RenderTableTitle = (): JSX.Element => {
         return (
             <div className="d-flex justify-content-between align-items-center">
-                <h3 className="table-heading">Classes</h3>
+                <h3 className="table-heading">{getLabelByKey('title')}</h3>
                 <CustomDiv>
                     <div className="instructorDateSection">
                         <div className="mainarrow">
@@ -121,38 +123,38 @@ const ListClass = (): JSX.Element => {
 
     const columns: ColumnsType<ClassDataType> = [
         {
-            title: 'Id',
+            title: getLabelByKey('id'),
             dataIndex: 'ClassId',
             key: 'ClassId',
         },
         {
-            title: 'Title',
+            title: getLabelByKey('classTitle'),
             dataIndex: 'ClassTitle',
             key: 'ClassTitle',
         },
         {
-            title: 'Instructor',
+            title: getLabelByKey('instructor'),
             dataIndex: 'ClassInstructor',
             key: 'ClassInstructor',
         },
         {
-            title: 'Start Date',
+            title: getLabelByKey('startDate'),
             dataIndex: 'ClassStartDate',
             key: 'ClassStartDate',
         },
         {
-            title: 'End Date',
+            title: getLabelByKey('endDate'),
             dataIndex: 'ClassEndDate',
             key: 'ClassEndDate',
         },
         {
-            title: 'Fee',
+            title: getLabelByKey('fees'),
             dataIndex: 'ClassFee',
             key: 'ClassFee',
         },
 
         {
-            title: 'Status',
+            title: getLabelByKey('status'),
             dataIndex: 'ClassStatus',
             key: 'ClassStatus',
             render: (DummyDatas) => {
@@ -165,7 +167,7 @@ const ListClass = (): JSX.Element => {
             },
         },
         {
-            title: 'Actions',
+            title: getLabelByKey('actions'),
             key: 'ClassAction',
             render: (_, record) => {
                 const items = [

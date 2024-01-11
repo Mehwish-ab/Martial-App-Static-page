@@ -7,6 +7,8 @@ import {
     whiteColor,
     BallBlue,
     AntiFlashWhite,
+    mediaDeviceMin,
+    mediaDeviceMax,
 } from '../../../components/GlobalStyle'
 
 export const ListClassStyled = styled.div`
@@ -22,6 +24,19 @@ export const ListClassStyled = styled.div`
         font-weight: 500;
         line-height: normal;
     }
+
+    @media screen and ${mediaDeviceMin.tabletL} {
+        .ant-table-content table {
+            width: 100% !important;
+        }
+    }
+    @media screen and ${mediaDeviceMax.tabletL} {
+        .ant-table-content table {
+            width: 100% !important;
+            min-width: 1080px !important;
+        }
+    }
+
     .ant-table-thead > tr > th {
         background: transparent;
         border-bottom: none;

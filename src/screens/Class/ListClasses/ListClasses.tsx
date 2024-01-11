@@ -214,6 +214,7 @@ const ListClass = (): JSX.Element => {
                         })) as any
                     }
                     title={() => <RenderTableTitle />}
+                    scroll={{ x: true }}
                     pagination={{
                         showTotal: (total, range) => (
                             <span

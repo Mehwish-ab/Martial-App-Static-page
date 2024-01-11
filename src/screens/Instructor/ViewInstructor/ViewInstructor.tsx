@@ -185,8 +185,9 @@ const ViewInstructor = (): JSX.Element => {
                             <Col md="4">
                                 <div className="list-item">
                                     <div className="list-item-title">
-                                        {/* {getLabelByKey('latestCertification')} */}
-                                        Latest Certification
+                                        {getLabelByKey(
+                                            'latestCertificationOptional'
+                                        )}
                                     </div>
                                     <div className="list-item-value ">
                                         <span
@@ -219,8 +220,8 @@ const ViewInstructor = (): JSX.Element => {
                     <Col md="6">
                         <div className="list-item">
                             <div className="list-item-title">
-                                {/* {getLabelByKey('activities')} */}
-                                Activities
+                                {getLabelByKey('activities')}{' '}
+                                {getLabelByKey('toInstructWithin')}
                             </div>
                             <div className="list-item-value">
                                 {showActivities(activitiesToShow)}

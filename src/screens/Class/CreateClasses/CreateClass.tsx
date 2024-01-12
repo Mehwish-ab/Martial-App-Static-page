@@ -11,7 +11,6 @@ import {
     lightBlue3,
     pureDark,
 } from '../../../components/GlobalStyle'
-import FileSubmit from '../../../assets/icons/ic_fileSubmit.svg'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import { CreateClassStyled } from './styles'
 import { CreateClassInitialValues } from '../constant'
@@ -19,17 +18,18 @@ import dollar from '../../../assets/images/$.svg'
 // import EnnvisionModal from '../../../components/CustomModals/EnnvisionModal'
 // import CustomModal from '../../../components/Modal/CustomModal'
 // import { useNavigate } from 'react-router-dom'
-// import OverlayImages from '../../Home/OverlayImages/OverlayImages'
+import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import { RootState } from '../../../redux/store'
 import useClass from '../../../hooks/useClass'
-import ImagesUpload from '../../../components/ImagesUpload/ImagesUpload'
 import { useState } from 'react'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
+import useScreenTranslation from '../../../hooks/useScreenTranslation'
 
 const CreateClass = (): JSX.Element => {
     const {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
+    const { getLabelByKey } = useScreenTranslation('createClasses')
 
     // const [isShowModal, setIsShowModal] = useState(false)
     // const navigate = useNavigate()
@@ -37,7 +37,6 @@ const CreateClass = (): JSX.Element => {
     // const [bannerImage, setBannerImage] = useState(null); // State to manage banner image
     const { ClassData } = useSelector((state: RootState) => state.ClassData)
     const { handleCreateSubmit, loading } = useClass()
-    console.log('asdf', ClassData.data)
 
     const initialValues: CreateClassInitialValues = {
         title: '',
@@ -46,8 +45,8 @@ const CreateClass = (): JSX.Element => {
         instructorId: [],
         fee: '',
         activities: [],
-        capacity: 0,
-        minimumStudent: 0,
+        capacity: '',
+        minimumStudent: '',
         bookingStartDate: '',
         bookingEndDate: '',
         qrCodeStartDate: '',
@@ -68,6 +67,7 @@ const CreateClass = (): JSX.Element => {
         id: 0,
     }
     const [selectedFiles, setSelectedFiless] = useState<FileList | null>(null)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const handleImagesUpload = (selectedFiless: FileList | null): void => {
         setSelectedFiless(selectedFiless)
     }
@@ -95,13 +95,12 @@ const CreateClass = (): JSX.Element => {
         if (activitiesName.length > 35) {
             return `${activitiesName.slice(0, 35)}...`
         }
-        return activitiesName
+        return activitiesName || getLabelByKey('activitiesPlaceholder')
     }
     return (
         <CreateClassStyled>
             <Formik initialValues={initialValues} onSubmit={submit}>
                 {(formik) => {
-                    console.log('checking formik', formik.values)
                     return (
                         <Form
                             name="basic"
@@ -118,14 +117,18 @@ const CreateClass = (): JSX.Element => {
                                                     control="input"
                                                     type="text"
                                                     name="title"
-                                                    label="Title"
+                                                    label={getLabelByKey(
+                                                        'title'
+                                                    )}
                                                     padding="10px"
                                                     fontFamily={
                                                         fontFamilyRegular
                                                     }
                                                     fontSize="16px"
                                                     max={6}
-                                                    placeholder="Title"
+                                                    placeholder={getLabelByKey(
+                                                        'titlePlaceholder'
+                                                    )}
                                                 />
                                             </Col>
 
@@ -142,9 +145,13 @@ const CreateClass = (): JSX.Element => {
                                                             fontFamily={
                                                                 fontFamilyRegular
                                                             }
-                                                            label="Start Date"
+                                                            label={getLabelByKey(
+                                                                'startDate'
+                                                            )}
                                                             padding="10px"
-                                                            placeholder="Start Date"
+                                                            placeholder={getLabelByKey(
+                                                                'startDatePlaceholder'
+                                                            )}
                                                             suffix={
                                                                 <img
                                                                     src={
@@ -169,9 +176,13 @@ const CreateClass = (): JSX.Element => {
                                                             fontFamily={
                                                                 fontFamilyRegular
                                                             }
-                                                            label="End Date"
+                                                            label={getLabelByKey(
+                                                                'endDate'
+                                                            )}
                                                             padding="10px"
-                                                            placeholder="End Date"
+                                                            placeholder={getLabelByKey(
+                                                                'endDatePlaceholder'
+                                                            )}
                                                             suffix={
                                                                 <img
                                                                     src={
@@ -197,14 +208,18 @@ const CreateClass = (): JSX.Element => {
                                                             control="select"
                                                             type="text"
                                                             name="instructorId"
-                                                            label="Instructors"
+                                                            label={getLabelByKey(
+                                                                'instructors'
+                                                            )}
                                                             padding="7px"
                                                             fontFamily={
                                                                 fontFamilyRegular
                                                             }
                                                             fontSize="16px"
                                                             max={6}
-                                                            placeholder="Select Instructors"
+                                                            placeholder={getLabelByKey(
+                                                                'InstructorsPlaceholder'
+                                                            )}
                                                         />
                                                     </Col>
                                                     <Col
@@ -218,9 +233,13 @@ const CreateClass = (): JSX.Element => {
                                                             fontFamily={
                                                                 fontFamilyRegular
                                                             }
-                                                            label="Class Fees"
+                                                            label={getLabelByKey(
+                                                                'classFees'
+                                                            )}
                                                             padding="10px"
-                                                            placeholder="Class Fees"
+                                                            placeholder={getLabelByKey(
+                                                                'classFeesPlaceholder'
+                                                            )}
                                                             suffix={
                                                                 <img
                                                                     src={dollar}
@@ -238,7 +257,9 @@ const CreateClass = (): JSX.Element => {
                                             <Col md="12" className="mt-20">
                                                 <CheckboxesSelect
                                                     name="activities"
-                                                    label="Activity"
+                                                    label={getLabelByKey(
+                                                        'activities'
+                                                    )}
                                                     list={activities}
                                                     showErrorMsgInList={false}
                                                     placeholder={showActivities(
@@ -251,33 +272,11 @@ const CreateClass = (): JSX.Element => {
                                         <Col md="6">
                                             <Col md="12" className="mt-20">
                                                 <p className="bannerTitle ">
-                                                    Select Banner Image
+                                                    {getLabelByKey(
+                                                        'selectBannerImage'
+                                                    )}
                                                 </p>
-                                                <FormControl
-                                                    control="input"
-                                                    type="ImagesUpload"
-                                                    name="latestCertification"
-                                                    fontFamily={
-                                                        fontFamilyRegular
-                                                    }
-                                                    label={
-                                                        'latestCertification'
-                                                    }
-                                                    src={FileSubmit}
-                                                    // onChange={handleChange}
-                                                    suffix={
-                                                        <ImagesUpload
-                                                            onImagesSelect={
-                                                                handleImagesUpload
-                                                            }
-                                                        />
-                                                    }
-                                                    padding="10px"
-                                                    placeholder={
-                                                        'PlaceholderLatestCertification'
-                                                    }
-                                                />
-                                                {/* <OverlayImages
+                                                <OverlayImages
                                                     backgroundImg={
                                                         ClassData.bannerPicture ||
                                                         ''
@@ -287,7 +286,7 @@ const CreateClass = (): JSX.Element => {
                                                         ''
                                                     }
                                                     isEditable={true}
-                                                /> */}
+                                                />
                                             </Col>
                                         </Col>
                                     </Row>
@@ -298,9 +297,13 @@ const CreateClass = (): JSX.Element => {
                                             type="text"
                                             name="capacity"
                                             fontFamily={fontFamilyRegular}
-                                            label="Class Capacity"
+                                            label={getLabelByKey(
+                                                'classCapacity'
+                                            )}
                                             padding="10px"
-                                            placeholder="Enter Capacity of Classroom"
+                                            placeholder={getLabelByKey(
+                                                'classCapacityPlaceholder'
+                                            )}
                                         />
                                     </Col>
 
@@ -310,9 +313,13 @@ const CreateClass = (): JSX.Element => {
                                             type="text"
                                             name="minimumStudent"
                                             fontFamily={fontFamilyRegular}
-                                            label="Minimum Student"
+                                            label={getLabelByKey(
+                                                'minimumStudent'
+                                            )}
                                             padding="10px"
-                                            placeholder="Enter Minimum Student Required for Class"
+                                            placeholder={getLabelByKey(
+                                                'minimumStudentPlaceholder'
+                                            )}
                                         />
                                     </Col>
                                     <Col md="3" className="mt-20">
@@ -321,9 +328,13 @@ const CreateClass = (): JSX.Element => {
                                             type="text"
                                             name="bookingStartDate"
                                             fontFamily={fontFamilyRegular}
-                                            label="Start Booking"
+                                            label={getLabelByKey(
+                                                'startBooking'
+                                            )}
                                             padding="10px"
-                                            placeholder="Monday, October 27, 2023"
+                                            placeholder={getLabelByKey(
+                                                'startBookingPlaceholder'
+                                            )}
                                             suffix={
                                                 <img
                                                     src={DateCalander}
@@ -341,9 +352,11 @@ const CreateClass = (): JSX.Element => {
                                             type="text"
                                             name="bookingEndDate"
                                             fontFamily={fontFamilyRegular}
-                                            label="End Booking"
+                                            label={getLabelByKey('endBooking')}
                                             padding="10px"
-                                            placeholder="Monday, October 27, 2023"
+                                            placeholder={getLabelByKey(
+                                                'endBookingPlaceholder'
+                                            )}
                                             suffix={
                                                 <img
                                                     src={DateCalander}
@@ -361,9 +374,13 @@ const CreateClass = (): JSX.Element => {
                                             type="text"
                                             name="qrCodeStartDate"
                                             fontFamily={fontFamilyRegular}
-                                            label="QR Code Attendance Start"
+                                            label={getLabelByKey(
+                                                'qrCodeAttendanceStart'
+                                            )}
                                             padding="10px"
-                                            placeholder="QR Code Attendance Start"
+                                            placeholder={getLabelByKey(
+                                                'qrCodeAttendanceStartPlaceholder'
+                                            )}
                                             suffix={
                                                 <img
                                                     src={DateCalander}
@@ -381,9 +398,13 @@ const CreateClass = (): JSX.Element => {
                                             type="text"
                                             name="qrCodeEndDate"
                                             fontFamily={fontFamilyRegular}
-                                            label="QR Code Attendance End"
+                                            label={getLabelByKey(
+                                                'qrCodeAttendanceEnd'
+                                            )}
                                             padding="10px"
-                                            placeholder="QR Code Attendance End"
+                                            placeholder={getLabelByKey(
+                                                'qrCodeAttendanceEndPlaceholder'
+                                            )}
                                             suffix={
                                                 <img
                                                     src={DateCalander}
@@ -401,12 +422,16 @@ const CreateClass = (): JSX.Element => {
                                             control="select"
                                             type="text"
                                             name="allowStudentCancel"
-                                            label="Allow to Student Cancel"
+                                            label={getLabelByKey(
+                                                'allowToStudentCancel'
+                                            )}
                                             padding="7px"
                                             fontFamily={fontFamilyRegular}
                                             fontSize="16px"
                                             max={6}
-                                            placeholder="Allow to Student Cancel"
+                                            placeholder={getLabelByKey(
+                                                'allowToStudentCancelPlaceholder'
+                                            )}
                                         />
                                     </Col>
 
@@ -416,9 +441,13 @@ const CreateClass = (): JSX.Element => {
                                             type="text"
                                             name="refundDate"
                                             fontFamily={fontFamilyRegular}
-                                            label="Refund Fees Date"
+                                            label={getLabelByKey(
+                                                'refundFeesDate'
+                                            )}
                                             padding="10px"
-                                            placeholder="Refund Fees Date"
+                                            placeholder={getLabelByKey(
+                                                'refundFeesDatePlacholder'
+                                            )}
                                             suffix={
                                                 <img
                                                     src={DateCalander}
@@ -437,9 +466,13 @@ const CreateClass = (): JSX.Element => {
                                             type="text"
                                             name="bookingCancelStartDate"
                                             fontFamily={fontFamilyRegular}
-                                            label="Booking Cancellation Start"
+                                            label={getLabelByKey(
+                                                'bookingCancellationStart'
+                                            )}
                                             padding="10px"
-                                            placeholder="Booking Cancellation Start"
+                                            placeholder={getLabelByKey(
+                                                'bookingCancellationStartPlaceholder'
+                                            )}
                                             suffix={
                                                 <img
                                                     src={DateCalander}
@@ -458,9 +491,13 @@ const CreateClass = (): JSX.Element => {
                                             type="text"
                                             name="bookingCancelEndDate"
                                             fontFamily={fontFamilyRegular}
-                                            label="Booking Cancellation End"
+                                            label={getLabelByKey(
+                                                'bookingCancellationEnd'
+                                            )}
                                             padding="10px"
-                                            placeholder="Booking Cancellation End"
+                                            placeholder={getLabelByKey(
+                                                'bookingCancellationEndPlaceholder'
+                                            )}
                                             suffix={
                                                 <img
                                                     src={DateCalander}

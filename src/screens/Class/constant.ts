@@ -7,7 +7,7 @@ export interface CreateClassInitialValues {
     instructorId: string[]
     fee: string | number
     activities: string[]
-    capacity: number
+    capacity: number | string
     minimumStudent: number | string
     bookingStartDate: string
     bookingEndDate: string

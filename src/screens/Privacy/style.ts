@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import {
     fontFamilyMedium,
     fontFamilyRegular,
+    mediaDeviceMax,
     pureDark2,
     tertiaryGrey24,
 } from '../../components/GlobalStyle'
@@ -38,5 +39,11 @@ export const PrivacyStyling = styled.div`
     span {
         font-family: ${fontFamilyMedium};
         font-weight: 500;
+    }
+    @media screen and ${mediaDeviceMax.mobileBS} {
+        padding: 20px 10px;
+        h3 {
+            font-size: 16px;
+        }
     }
 `

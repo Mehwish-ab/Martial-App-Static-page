@@ -96,8 +96,7 @@ const ForgetPassword = (): JSX.Element => {
     // const onFormSubmit =
     return (
         <>
-            <Head title="forget-password" />
-
+            <Head title="Forget-Password" />
             <ForgetPasswordStyle>
                 <div className="forget-password-container overflow-auto">
                     <div className="forget-password-container-card">

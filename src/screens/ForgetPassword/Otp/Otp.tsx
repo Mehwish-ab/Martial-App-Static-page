@@ -42,7 +42,7 @@ const Otp: React.FC = () => {
             .required('Otp is required!'),
     })
 
-    const initialTimer = { minutes: 0, seconds: 10 }
+    const initialTimer = { minutes: 2, seconds: 0 }
     const [timer, setTimer] = useState(initialTimer)
     const [timerExpired, setTimerExpired] = useState(false)
     const [showButton, setShowButton] = useState(false)
@@ -110,7 +110,7 @@ const Otp: React.FC = () => {
     }
     return (
         <>
-            <Head title="Veriﬁcation one time pin" />
+            <Head title="Veriﬁcation One Time Pin" />
 
             <ForgetPasswordStyle>
                 <div>

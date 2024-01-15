@@ -93,7 +93,6 @@ const ForgotPassword = (): JSX.Element => {
             }
         }
     }, [selectedLanguage])
-    // const onFormSubmit =
     return (
         <>
             <Head title="Forgot-Password" />

@@ -279,7 +279,7 @@ export const LoginStyle = styled.div`
     }
 
     .logo {
-        height: 80px;
+        height: 110px;
         width: 300px;
         margin-bottom: 10px;
     }

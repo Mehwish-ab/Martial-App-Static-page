@@ -28,7 +28,7 @@ import MessageModal from '../../components/Common/MessageModal/MessageModal'
 import { setLoginData } from '../../redux/features/loginDataSlice'
 import useOauthLogin from '../../hooks/useOauthLogin'
 import { getSchoolByUserId } from '../../redux/features/dashboard/dashboardDataSlice'
-import logo from '../../assets/icons/ic_logo.svg'
+import logo from '../../assets/icons/ic_logo_login.svg'
 
 // initial values types
 type loginValuesType = {

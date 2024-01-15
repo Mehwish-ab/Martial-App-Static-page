@@ -30,6 +30,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 // import { getSchoolByUserId } from '../../redux/features/dashboard/dashboardDataSlice'
 import { useAppSelector } from '../../app/hooks'
+import Head from '../../components/Head/Head'
 // import { getSchoolByUserId } from '../../redux/features/dashboard/dashboardDataSlice'
 
 const localStorageData = localStorage.getItem('ennvision-admin:token')
@@ -175,283 +176,298 @@ const CreateSchool = (): JSX.Element => {
         return facilitiesName || getLabelByKey('facilities')
     }
     return (
-        <CreateSchoolStyled>
-            {Createmodal().modalComponent}
-            <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={handleCreateSubmit}
-            >
-                {(formik) => {
-                    return (
-                        <Form
-                            name="basic"
-                            onFinish={formik.handleSubmit}
-                            autoComplete="off"
-                        >
-                            <div className="bg-white form">
-                                <h3>School Information</h3>
+        <>
+            <Head title="Create School" />
+            <CreateSchoolStyled>
+                {Createmodal().modalComponent}
+                <Formik
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                    onSubmit={handleCreateSubmit}
+                >
+                    {(formik) => {
+                        return (
+                            <Form
+                                name="basic"
+                                onFinish={formik.handleSubmit}
+                                autoComplete="off"
+                            >
+                                <div className="bg-white form">
+                                    <h3>{getLabelByKey('title')}</h3>
 
-                                <Row>
-                                    <Col md="4" className="mt-20">
-                                        <FormControl
-                                            control="input"
-                                            type="text"
-                                            name="businessName"
-                                            label={getLabelByKey(
-                                                'businessName'
-                                            )}
-                                            fontSize="16px"
-                                            max={6}
-                                            placeholder={getLabelByKey(
-                                                'businessNamePlaceholder'
-                                            )}
-                                            className={
-                                                formik.errors.businessName &&
-                                                formik.touched.businessName
-                                                    ? 'is-invalid'
-                                                    : 'customInput'
-                                            }
-                                        />
-                                    </Col>
-                                    <Col md="4" className="mt-20">
-                                        <FormControl
-                                            control="select"
-                                            type="text"
-                                            name="businessType"
-                                            label={getLabelByKey(
-                                                'businessType'
-                                            )}
-                                            placeholder={getLabelByKey(
-                                                'businessTypePlaceholder'
-                                            )}
-                                            className={
-                                                formik.errors.businessType &&
-                                                formik.touched.businessType
-                                                    ? 'is-invalid'
-                                                    : 'customInput'
-                                            }
-                                            options={createOptions(
-                                                businessTypes
-                                            )}
-                                        />
-                                    </Col>
-                                    <Col md="4" className="mt-20">
-                                        <CustomPhoneInput
-                                            label={getLabelByKey(
-                                                'businessPhoneNumber'
-                                            )}
-                                            name="businessPhoneNumber"
-                                            value={
-                                                formik.values
-                                                    .businessPhoneNumber
-                                            }
-                                            placeholder={getLabelByKey(
-                                                'businessPhoneNumber'
-                                            )}
-                                            limitMaxLength={true}
-                                            handleOnChange={(e: string) => {
-                                                formik.setFieldValue(
-                                                    'businessPhoneNumber',
-                                                    e
-                                                )
-                                            }}
-                                        />
-                                        <ErrorMessage
-                                            name={'businessPhoneNumber'}
-                                        >
-                                            {(msg) => (
-                                                <div
-                                                    className="error-message is-invalid"
-                                                    style={{
-                                                        color: 'red',
-                                                        textAlign: 'right',
-                                                        marginLeft: '3px',
-                                                        fontSize: '12px',
-                                                        letterSpacing: '1px',
-                                                        fontFamily:
-                                                            fontFamilyRegular,
-                                                    }}
-                                                >
-                                                    {msg}
-                                                </div>
-                                            )}
-                                        </ErrorMessage>
-                                    </Col>
-                                    <Col md="4" className="mt-20">
-                                        <PlacesAutoCompleteInput
-                                            label={getLabelByKey('address')}
-                                            placeholder={getLabelByKey(
-                                                'enterCompleteAddress'
-                                            )}
-                                            handleChange={(val) => {
-                                                formik.setFieldValue(
-                                                    'address',
-                                                    val
-                                                )
-                                            }}
-                                            className={
-                                                formik.errors.address &&
-                                                formik.touched.address
-                                                    ? 'is-invalid'
-                                                    : 'customInput'
-                                            }
-                                            formik={formik}
-                                            name="address"
-                                            value={formik.values.address}
-                                        />
-                                    </Col>
-                                    <Col md="8">
-                                        <Row>
-                                            <Col md="4" className="mt-20">
-                                                <FormControl
-                                                    control="select"
-                                                    type="text"
-                                                    name="rank"
-                                                    fontFamily={
-                                                        fontFamilyRegular
-                                                    }
-                                                    label={getLabelByKey(
-                                                        'belts'
-                                                    )}
-                                                    placeholder={getLabelByKey(
-                                                        'beltsPlaceholder'
-                                                    )}
-                                                    className={
-                                                        formik.errors.rank &&
-                                                        formik.touched.rank
-                                                            ? 'is-invalid'
-                                                            : 'customInput'
-                                                    }
-                                                    options={
-                                                        BELTS_SELECT_OPTIONS
-                                                    }
-                                                />
-                                            </Col>
-                                            <Col md="4" className="mt-20">
-                                                <FormControl
-                                                    control="select"
-                                                    type="text"
-                                                    name="defaultLanguage"
-                                                    fontFamily={
-                                                        fontFamilyRegular
-                                                    }
-                                                    label={getLabelByKey(
-                                                        'defaultLanguage'
-                                                    )}
-                                                    placeholder={getLabelByKey(
-                                                        'defaultLanguage'
-                                                    )}
-                                                    className={
-                                                        formik.errors
-                                                            .defaultLanguage &&
-                                                        formik.touched
-                                                            .defaultLanguage
-                                                            ? 'is-invalid'
-                                                            : 'customInput'
-                                                    }
-                                                    options={createOptions(
-                                                        language
-                                                    )}
-                                                />
-                                            </Col>
-                                            <Col md="4" className="mt-20">
-                                                <FormControl
-                                                    control="select"
-                                                    type="text"
-                                                    name="defaultCurrency"
-                                                    fontFamily={
-                                                        fontFamilyRegular
-                                                    }
-                                                    label={getLabelByKey(
-                                                        'defaultCurrency'
-                                                    )}
-                                                    placeholder={getLabelByKey(
-                                                        'defaultCurrency'
-                                                    )}
-                                                    className={
-                                                        formik.errors
-                                                            .defaultCurrency &&
-                                                        formik.touched
-                                                            .defaultCurrency
-                                                            ? 'is-invalid'
-                                                            : 'customInput'
-                                                    }
-                                                    options={createOptions(
-                                                        currency
-                                                    )}
-                                                />
-                                            </Col>
-                                        </Row>
-                                    </Col>
-                                    <Col md="6" className="">
-                                        <CheckboxesSelect
-                                            list={activities}
-                                            name="selectedActivities"
-                                            label={getLabelByKey('activity')}
-                                            showErrorMsgInList={false}
-                                            placeholder={showActivities(
-                                                formik.values.selectedActivities
-                                            )}
-                                        />
-                                    </Col>
+                                    <Row>
+                                        <Col md="4" className="mt-20">
+                                            <FormControl
+                                                control="input"
+                                                type="text"
+                                                name="businessName"
+                                                label={getLabelByKey(
+                                                    'businessName'
+                                                )}
+                                                fontSize="16px"
+                                                max={6}
+                                                placeholder={getLabelByKey(
+                                                    'businessNamePlaceholder'
+                                                )}
+                                                className={
+                                                    formik.errors
+                                                        .businessName &&
+                                                    formik.touched.businessName
+                                                        ? 'is-invalid'
+                                                        : 'customInput'
+                                                }
+                                            />
+                                        </Col>
+                                        <Col md="4" className="mt-20">
+                                            <FormControl
+                                                control="select"
+                                                type="text"
+                                                name="businessType"
+                                                label={getLabelByKey(
+                                                    'businessType'
+                                                )}
+                                                placeholder={getLabelByKey(
+                                                    'businessTypePlaceholder'
+                                                )}
+                                                className={
+                                                    formik.errors
+                                                        .businessType &&
+                                                    formik.touched.businessType
+                                                        ? 'is-invalid'
+                                                        : 'customInput'
+                                                }
+                                                options={createOptions(
+                                                    businessTypes
+                                                )}
+                                            />
+                                        </Col>
+                                        <Col md="4" className="mt-20">
+                                            <CustomPhoneInput
+                                                label={getLabelByKey(
+                                                    'businessPhoneNumber'
+                                                )}
+                                                name="businessPhoneNumber"
+                                                value={
+                                                    formik.values
+                                                        .businessPhoneNumber
+                                                }
+                                                placeholder={getLabelByKey(
+                                                    'businessPhoneNumber'
+                                                )}
+                                                limitMaxLength={true}
+                                                handleOnChange={(e: string) => {
+                                                    formik.setFieldValue(
+                                                        'businessPhoneNumber',
+                                                        e
+                                                    )
+                                                }}
+                                            />
+                                            <ErrorMessage
+                                                name={'businessPhoneNumber'}
+                                            >
+                                                {(msg) => (
+                                                    <div
+                                                        className="error-message is-invalid"
+                                                        style={{
+                                                            color: 'red',
+                                                            textAlign: 'right',
+                                                            marginLeft: '3px',
+                                                            fontSize: '12px',
+                                                            letterSpacing:
+                                                                '1px',
+                                                            fontFamily:
+                                                                fontFamilyRegular,
+                                                        }}
+                                                    >
+                                                        {msg}
+                                                    </div>
+                                                )}
+                                            </ErrorMessage>
+                                        </Col>
+                                        <Col md="4" className="mt-20">
+                                            <PlacesAutoCompleteInput
+                                                label={getLabelByKey('address')}
+                                                placeholder={getLabelByKey(
+                                                    'enterCompleteAddress'
+                                                )}
+                                                handleChange={(val) => {
+                                                    formik.setFieldValue(
+                                                        'address',
+                                                        val
+                                                    )
+                                                }}
+                                                className={
+                                                    formik.errors.address &&
+                                                    formik.touched.address
+                                                        ? 'is-invalid'
+                                                        : 'customInput'
+                                                }
+                                                formik={formik}
+                                                name="address"
+                                                value={formik.values.address}
+                                            />
+                                        </Col>
+                                        <Col md="8">
+                                            <Row>
+                                                <Col md="4" className="mt-20">
+                                                    <FormControl
+                                                        control="select"
+                                                        type="text"
+                                                        name="rank"
+                                                        fontFamily={
+                                                            fontFamilyRegular
+                                                        }
+                                                        label={getLabelByKey(
+                                                            'belts'
+                                                        )}
+                                                        placeholder={getLabelByKey(
+                                                            'beltsPlaceholder'
+                                                        )}
+                                                        className={
+                                                            formik.errors
+                                                                .rank &&
+                                                            formik.touched.rank
+                                                                ? 'is-invalid'
+                                                                : 'customInput'
+                                                        }
+                                                        options={
+                                                            BELTS_SELECT_OPTIONS
+                                                        }
+                                                    />
+                                                </Col>
+                                                <Col md="4" className="mt-20">
+                                                    <FormControl
+                                                        control="select"
+                                                        type="text"
+                                                        name="defaultLanguage"
+                                                        fontFamily={
+                                                            fontFamilyRegular
+                                                        }
+                                                        label={getLabelByKey(
+                                                            'defaultLanguage'
+                                                        )}
+                                                        placeholder={getLabelByKey(
+                                                            'defaultLanguage'
+                                                        )}
+                                                        className={
+                                                            formik.errors
+                                                                .defaultLanguage &&
+                                                            formik.touched
+                                                                .defaultLanguage
+                                                                ? 'is-invalid'
+                                                                : 'customInput'
+                                                        }
+                                                        options={createOptions(
+                                                            language
+                                                        )}
+                                                    />
+                                                </Col>
+                                                <Col md="4" className="mt-20">
+                                                    <FormControl
+                                                        control="select"
+                                                        type="text"
+                                                        name="defaultCurrency"
+                                                        fontFamily={
+                                                            fontFamilyRegular
+                                                        }
+                                                        label={getLabelByKey(
+                                                            'defaultCurrency'
+                                                        )}
+                                                        placeholder={getLabelByKey(
+                                                            'defaultCurrency'
+                                                        )}
+                                                        className={
+                                                            formik.errors
+                                                                .defaultCurrency &&
+                                                            formik.touched
+                                                                .defaultCurrency
+                                                                ? 'is-invalid'
+                                                                : 'customInput'
+                                                        }
+                                                        options={createOptions(
+                                                            currency
+                                                        )}
+                                                    />
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                        <Col md="6" className="">
+                                            <CheckboxesSelect
+                                                list={activities}
+                                                name="selectedActivities"
+                                                label={getLabelByKey(
+                                                    'activity'
+                                                )}
+                                                showErrorMsgInList={false}
+                                                placeholder={showActivities(
+                                                    formik.values
+                                                        .selectedActivities
+                                                )}
+                                            />
+                                        </Col>
 
-                                    <Col md="6" className="">
-                                        <CheckboxesSelect
-                                            name="selectedFacilities"
-                                            label={getLabelByKey('facilities')}
-                                            placeholder={showFacilities(
-                                                formik.values.selectedFacilities
-                                            )}
-                                            list={facilities}
-                                            showErrorMsgInList={false}
-                                        />
-                                    </Col>
+                                        <Col md="6" className="">
+                                            <CheckboxesSelect
+                                                name="selectedFacilities"
+                                                label={getLabelByKey(
+                                                    'facilities'
+                                                )}
+                                                placeholder={showFacilities(
+                                                    formik.values
+                                                        .selectedFacilities
+                                                )}
+                                                list={facilities}
+                                                showErrorMsgInList={false}
+                                            />
+                                        </Col>
 
-                                    <div className="mt-20">
-                                        <FormControl
-                                            control="textarea"
-                                            type="text"
-                                            name="description"
-                                            fontFamily={fontFamilyRegular}
-                                            label={getLabelByKey('description')}
-                                            padding="10px"
-                                            placeholder={getLabelByKey(
-                                                'enterDescription'
-                                            )}
-                                            className={
-                                                formik.errors.description &&
-                                                formik.touched.description
-                                                    ? 'is-invalid'
-                                                    : 'customInput'
-                                            }
-                                            height="200px"
-                                        />
-                                    </div>
-                                </Row>
-                            </div>
-                            {/* <PaymentInformation formik={formik} /> */}
-                            {/* <PaymentInfoTable formik={formik} /> */}
+                                        <div className="mt-20">
+                                            <FormControl
+                                                control="textarea"
+                                                type="text"
+                                                name="description"
+                                                fontFamily={fontFamilyRegular}
+                                                label={getLabelByKey(
+                                                    'description'
+                                                )}
+                                                padding="10px"
+                                                placeholder={getLabelByKey(
+                                                    'enterDescription'
+                                                )}
+                                                className={
+                                                    formik.errors.description &&
+                                                    formik.touched.description
+                                                        ? 'is-invalid'
+                                                        : 'customInput'
+                                                }
+                                                height="200px"
+                                            />
+                                        </div>
+                                    </Row>
+                                </div>
+                                {/* <PaymentInformation formik={formik} /> */}
+                                {/* <PaymentInfoTable formik={formik} /> */}
 
-                            <div className="mt-20 d-flex justify-content-end">
-                                <CustomButton
-                                    bgcolor={lightBlue3}
-                                    textTransform="Captilize"
-                                    color={maastrichtBlue}
-                                    padding="11px 40.50px"
-                                    fontFamily={`${fontFamilyMedium}`}
-                                    width="fit-content"
-                                    type="submit"
-                                    title={getLabelByKey('primaryButton')}
-                                    fontSize="18px"
-                                    loading={loading}
-                                />
-                            </div>
-                        </Form>
-                    )
-                }}
-            </Formik>
-        </CreateSchoolStyled>
+                                <div className="mt-20 d-flex justify-content-end">
+                                    <CustomButton
+                                        bgcolor={lightBlue3}
+                                        textTransform="Captilize"
+                                        color={maastrichtBlue}
+                                        padding="11px 40.50px"
+                                        fontFamily={`${fontFamilyMedium}`}
+                                        width="fit-content"
+                                        type="submit"
+                                        title={getLabelByKey('primaryButton')}
+                                        fontSize="18px"
+                                        loading={loading}
+                                    />
+                                </div>
+                            </Form>
+                        )
+                    }}
+                </Formik>
+            </CreateSchoolStyled>
+        </>
     )
 }
 

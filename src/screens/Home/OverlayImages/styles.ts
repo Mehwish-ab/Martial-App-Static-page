@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { whiteColor } from '../../../components/GlobalStyle'
+import { mediaDeviceMax, whiteColor } from '../../../components/GlobalStyle'
 
 export const OverlayImagesStyled = styled.div`
     .image_section {
@@ -10,6 +10,8 @@ export const OverlayImagesStyled = styled.div`
     .bannerImg {
         height: 280px;
         position: relative;
+        border-radius: 10px;
+
         > img {
             width: 100%;
             height: 100%;
@@ -44,19 +46,19 @@ export const OverlayImagesStyled = styled.div`
     .profileImg {
         > .img {
             position: absolute;
-            bottom: 34px;
+            bottom: 21px;
             left: 21px;
             width: 170px;
             height: 170px;
             display: block;
             z-index: 0;
-            border-radius: 15px;
-            border: 1px solid #fafafa;
+            // border: 1px solid #fafafa;
+            // border-radius: 15px;
 
             > img {
                 width: 100%;
                 height: 100%;
-                object-fit: cover;
+                // object-fit: cover;
                 border-radius: 15px;
             }
             .ant-btn-icon-only {
@@ -77,6 +79,23 @@ export const OverlayImagesStyled = styled.div`
                 bottom: 8px;
                 right: 9px;
             }
+        }
+    }
+
+    @media screen and ${mediaDeviceMax.mobileBS} {
+        .image_section {
+            margin-bottom: 90px;
+        }
+        .profileImg > .img {
+            width: 120px;
+            height: 120px;
+            bottom: -60px;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+        .bannerImg {
+            height: 200px;
         }
     }
 `

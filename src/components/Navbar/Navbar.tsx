@@ -49,6 +49,8 @@ function Navbar(): JSX.Element {
     // }, [selectedLanguage])
     const { data: loginData } = useAppSelector((state) => state.loginData)
 
+    console.log({ loginData })
+
     const { searchText, setSearchText } = useGlobalContext()
     const searchRef = useRef<InputRef>(null)
     const { schoolId } = useSelector(
@@ -153,6 +155,7 @@ function Navbar(): JSX.Element {
                             <Badge
                                 dot
                                 color="green"
+                                className="profile-area-badge"
                                 style={{
                                     width: '12px',
                                     height: '12px',

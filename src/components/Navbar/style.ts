@@ -34,6 +34,7 @@ export const NavbarStyle = styled.div`
         font-family: ${fontFamilyRegular};
         color: ${pureDark2};
         @media screen and ${mediaDeviceMax.mobileM} {
+            width: 100%;
             margin-left: 6px;
         }
     }
@@ -90,6 +91,11 @@ export const NavbarStyle = styled.div`
                         height: 50px !important;
                     }
                 }
+            }
+        }
+        @media screen and ${mediaDeviceMax.mobileM} {
+            .profile-area-badge {
+                display: none;
             }
         }
     }

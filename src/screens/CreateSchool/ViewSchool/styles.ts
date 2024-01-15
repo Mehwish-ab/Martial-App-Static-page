@@ -16,11 +16,15 @@ export const ViewSchoolStyled = styled.div`
         padding-left: 20px;
         font-family: ${fontFamilyMedium};
     }
+    @media screen and ${mediaDeviceMax.mobileBS} {
+        .gZsrvq {
+            width: 100%;
+        }
+    }
 
     .ant-card.ant-card-bordered {
-        border-radius: 20px !important;
-        border-radius: 10px;
-        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        border: 1px solid ${tertiaryGrey24};
 
         .list-item {
             border-bottom: 1px solid ${tertiaryGrey24};

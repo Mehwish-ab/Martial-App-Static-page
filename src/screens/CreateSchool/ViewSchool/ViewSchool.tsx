@@ -304,20 +304,18 @@ const ViewSchool = (): JSX.Element => {
                             }}
                         />
                     </div> */}
-                    <div>
-                        <CustomButton
-                            bgcolor={lightBlue3}
-                            textTransform="Capitalize"
-                            color={maastrichtBlue}
-                            padding="11px 40.50px"
-                            fontFamily={`${fontFamilyMedium}`}
-                            width="fit-content"
-                            type="submit"
-                            title="Edit Account"
-                            fontSize="18px"
-                            clicked={handleUpdateClick}
-                        />
-                    </div>
+                    <CustomButton
+                        bgcolor={lightBlue3}
+                        textTransform="Capitalize"
+                        color={maastrichtBlue}
+                        padding="11px 40.50px"
+                        fontFamily={`${fontFamilyMedium}`}
+                        width="fit-content"
+                        type="submit"
+                        title="Edit Account"
+                        fontSize="18px"
+                        clicked={handleUpdateClick}
+                    />
                 </div>
             </ViewSchoolStyled>
             <SchoolViewTabs />

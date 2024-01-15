@@ -20,6 +20,14 @@ export const CreateSchoolStyled = styled.div`
     .form {
         padding: 20px;
         border-radius: 20px;
+        @media screen and ${mediaDeviceMax.mobileBS} {
+            padding: 20px 5px;
+        }
+    }
+    @media screen and ${mediaDeviceMax.mobileBS} {
+        .bVkyTH {
+            width: 100% !important;
+        }
     }
     .mt-20 {
         .row {

@@ -18,6 +18,7 @@ import {
     maastrichtBlue,
 } from '../../../components/GlobalStyle'
 import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
+import Head from '../../../components/Head/Head'
 const localStorageData = localStorage.getItem('ennvision-admin:token')
 const loginData = JSON.parse(localStorageData as any)
 const ViewSchool = (): JSX.Element => {
@@ -145,6 +146,8 @@ const ViewSchool = (): JSX.Element => {
 
     return (
         <>
+            <Head title="School Information" />
+
             <ViewSchoolStyled>
                 {WarningModal().modalComponent}
                 {deletemodal().modalComponent}
@@ -191,7 +194,8 @@ const ViewSchool = (): JSX.Element => {
                                 </div>
                             </div>
                         </Col>
-                        <Col md="4">
+
+                        <Col md="12">
                             <div className="list-item">
                                 <div className="list-item-title">
                                     {getLabelByKey('address')}
@@ -201,7 +205,7 @@ const ViewSchool = (): JSX.Element => {
                                 </div>
                             </div>
                         </Col>
-                        <Col md="8">
+                        <Col md="12">
                             <Row>
                                 <Col md="4">
                                     <div className="list-item">

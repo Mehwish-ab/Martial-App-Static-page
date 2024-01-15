@@ -9,6 +9,9 @@ import {
 } from '../../../components/GlobalStyle'
 
 export const ViewSchoolStyled = styled.div`
+    .ant-card-body {
+        padding: 20px;
+    }
     h3 {
         margin: 16px 0;
         color: ${pureDark2};

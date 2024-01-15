@@ -279,9 +279,9 @@ export const LoginStyle = styled.div`
     }
 
     .logo {
-        height: 60px;
-        width: 155px;
-        margin-bottom: 20px;
+        height: 80px;
+        width: 300px;
+        margin-bottom: 10px;
     }
 
     @media screen and (max-width: 425px) {
@@ -294,6 +294,11 @@ export const LoginStyle = styled.div`
                     }
                 }
             }
+        }
+    }
+    @media screen and (max-width: 425px) {
+        .subtitle {
+            width: 90% !important;
         }
     }
 `

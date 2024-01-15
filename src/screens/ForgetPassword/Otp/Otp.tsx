@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Head from '../../../components/Head/Head'
 import ForgetPasswordStyle from '../style'
 import { Field, FieldProps, Formik } from 'formik'
@@ -42,44 +42,72 @@ const Otp: React.FC = () => {
             .required('Otp is required!'),
     })
 
-    const initialTimer = { minutes: 2, seconds: 0 }
-    const [timer] = useState(initialTimer)
+    const initialTimer = { minutes: 0, seconds: 10 }
+    const [timer, setTimer] = useState(initialTimer)
+    const [timerExpired, setTimerExpired] = useState(false)
+    const [showButton, setShowButton] = useState(false)
 
     const { handleSubmit, loading } = useVerifyOtp()
-    // useEffect(() => {
-    //   const interval = setInterval(() => {
-    //     if (timer.seconds === 0) {
-    //       if (timer.minutes === 0) {
-    //         // Handle OTP expiration here
-    //         console.log("OTP has expired");
-    //         setTimer(initialTimer); // Reset timer to 2 minutes
-    //       } else {
-    //         setTimer({ minutes: timer.minutes - 1, seconds: 59 });
-    //       }
-    //     } else {
-    //       setTimer({ minutes: timer.minutes, seconds: timer.seconds - 1 });
-    //     }
-    //   }, 1000);
-    //   return () => clearInterval(interval);
-    // }, [timer]);
+    const { minutes, seconds } = timer
+
+    useEffect(() => {
+        if (!timerExpired) {
+            const interval = setInterval(() => {
+                if (seconds === 0) {
+                    if (minutes === 0) {
+                        // Handle OTP expiration here
+                        console.log('OTP has expired')
+                        setTimerExpired(true)
+                        setShowButton(true)
+                        clearInterval(interval) // Stop the interval
+                    } else {
+                        setTimer({ minutes: minutes - 1, seconds: 59 })
+                    }
+                } else {
+                    setTimer({ minutes, seconds: seconds - 1 })
+                }
+            }, 1000)
+
+            return () => clearInterval(interval)
+        }
+    }, [minutes, seconds, timerExpired])
 
     const formatTimer = (): string => {
-        const { minutes, seconds } = timer
         let timerText = ''
-        if (minutes > 0) {
-            timerText += `The OTP will expire in ${minutes} minute${
-                minutes > 1 ? 's' : ''
-            }`
-        }
-        if (seconds > 0) {
+
+        if (!timerExpired) {
             if (minutes > 0) {
-                timerText += ' and '
+                timerText += `${getLabelByKey(
+                    'expireMessageOne'
+                )} ${minutes} ${getLabelByKey('expireMessageTwo')}${
+                    minutes > 1 ? `${getLabelByKey('expireMessageThree')}` : ''
+                }`
+
+                if (seconds > 0) {
+                    timerText += ` ${getLabelByKey(
+                        'expireMessageFour'
+                    )} ${seconds} ${getLabelByKey('expireMessageFive')}${
+                        seconds > 1
+                            ? `${getLabelByKey('expireMessageThree')}`
+                            : ''
+                    }`
+                }
+            } else if (seconds > 0) {
+                timerText += `${getLabelByKey(
+                    'expireMessageOne'
+                )} ${seconds} ${getLabelByKey('expireMessageFive')}${
+                    seconds > 1 ? `${getLabelByKey('expireMessageThree')}` : ''
+                }`
             }
-            timerText += `${seconds} second${seconds > 1 ? 's' : ''}`
+        } else {
+            timerText = `${getLabelByKey('expireMessage')}`
         }
+
         return timerText
     }
-
+    const handleButtonAction = (): void => {
+        console.log('Button clicked after OTP expiration')
+    }
     return (
         <>
             <Head title="Veriﬁcation one time pin" />
@@ -189,9 +217,20 @@ const Otp: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <p className="text-center forget-password-OTPtext">
-                        {formatTimer()}
-                    </p>
+                    <div>
+                        <p className="text-center forget-password-OTPtext">
+                            {formatTimer()}{' '}
+                            {timerExpired && showButton && (
+                                <a
+                                    href=""
+                                    className="expired-button-container"
+                                    onClick={handleButtonAction}
+                                >
+                                    {getLabelByKey('resendOtp')}
+                                </a>
+                            )}
+                        </p>
+                    </div>
                 </div>
             </ForgetPasswordStyle>
         </>

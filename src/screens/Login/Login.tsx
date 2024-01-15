@@ -28,6 +28,8 @@ import MessageModal from '../../components/Common/MessageModal/MessageModal'
 import { setLoginData } from '../../redux/features/loginDataSlice'
 import useOauthLogin from '../../hooks/useOauthLogin'
 import { getSchoolByUserId } from '../../redux/features/dashboard/dashboardDataSlice'
+import logo from '../../assets/icons/ic_logo.svg'
+
 // initial values types
 type loginValuesType = {
     emailAddress: string
@@ -118,6 +120,9 @@ const Login = (): JSX.Element => {
             <LoginStyle>
                 <div className="login-container overflow-auto">
                     <div className="login-container-card">
+                        <div className="logo text-center">
+                            <img src={logo} alt="logo" />
+                        </div>
                         <h6 className="text-center title">
                             {getLabelByKey(SCREEN_LABEL_KEYS.title)}
                         </h6>

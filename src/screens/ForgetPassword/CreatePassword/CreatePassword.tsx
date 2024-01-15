@@ -4,7 +4,6 @@ import Head from '../../../components/Head/Head'
 import { Formik } from 'formik'
 import { Form } from 'antd'
 import FormControl from '../../../components/FormControl'
-import { useNavigate } from 'react-router-dom'
 import { fontFamilyMedium, pureDark } from '../../../components/GlobalStyle'
 import { validationFinder } from '../../../utils/utilities'
 import * as Yup from 'yup'
@@ -14,14 +13,12 @@ import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { PASSWORD_SCREEN_LABEL_KEYS } from '../constants'
 // import { useSelector } from "react-redux";
 // import { RootState } from "../../../redux/store";
-import CloseBtn from '../../../assets/icons/ic_back.svg'
 
 export interface createNewPasswordValuesType {
     password: string
     confirmPassword?: string
 }
 const CreatePassword: React.FC = () => {
-    const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('restPassword')
     // const { selectedLanguage } = useSelector(
     //   (state: RootState) => state.selectedLanguage
@@ -51,12 +48,6 @@ const CreatePassword: React.FC = () => {
                 <div className="forget-password-container overflow-auto">
                     <div className="forget-password-container-card">
                         <div className="forget-password-container-card-inner position-relative ">
-                            <img
-                                src={CloseBtn}
-                                alt=""
-                                className="closeButtonIcon"
-                                onClick={() => navigate('/login')}
-                            />
                             <h6 className="create-title text-center mt-20">
                                 {getLabelByKey(
                                     PASSWORD_SCREEN_LABEL_KEYS.title

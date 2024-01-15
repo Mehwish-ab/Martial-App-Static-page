@@ -102,7 +102,8 @@ export const ForgetPasswordStyle = styled.div`
 
             .create-password-text {
                 color: ${lightDark3};
-                font-size: 14px;
+                font-family: ${fontFamilyRegular};
+                font-size: 16px;
                 font-style: normal;
                 font-weight: 400;
                 line-height: normal;

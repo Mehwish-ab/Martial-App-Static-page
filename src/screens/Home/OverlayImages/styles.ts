@@ -8,7 +8,7 @@ export const OverlayImagesStyled = styled.div`
     }
 
     .bannerImg {
-        height: 280px;
+        height: 300px;
         position: relative;
         border-radius: 10px;
 

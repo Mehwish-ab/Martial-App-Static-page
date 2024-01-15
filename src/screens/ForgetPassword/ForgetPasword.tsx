@@ -7,7 +7,7 @@ import {
     lightBlue3,
     pureDark2,
 } from '../../components/GlobalStyle'
-import ForgetPasswordStyle from './style'
+import ForgotPasswordStyle from './style'
 import Head from '../../components/Head/Head'
 import { validationFinder } from '../../utils/utilities'
 import Errormsg from '../../components/ErrorMessage'
@@ -96,8 +96,8 @@ const ForgotPassword = (): JSX.Element => {
     // const onFormSubmit =
     return (
         <>
-            <Head title="Forget-Password" />
-            <ForgetPasswordStyle>
+            <Head title="Forgot-Password" />
+            <ForgotPasswordStyle>
                 <div className="forget-password-container overflow-auto">
                     <div className="forget-password-container-card">
                         <div className="forget-password-container-card-inner position-relative ">
@@ -194,7 +194,7 @@ const ForgotPassword = (): JSX.Element => {
                         </div>
                     </div>
                 </div>
-            </ForgetPasswordStyle>
+            </ForgotPasswordStyle>
         </>
     )
 }

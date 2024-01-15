@@ -96,8 +96,11 @@ const PreviewBranch = (): JSX.Element => {
             title: 'Name',
             dataIndex: 'branchName',
             key: 'branchName',
-            // render: (text) => <a>{text}</a>,
+            // render: (text) => (
+            //     <p>{text.length > 10 ? `${text.slice(0, 10)}...` : text}</p>
+            // ),
         },
+
         {
             title: 'Type',
             dataIndex: 'branchType',
@@ -191,7 +194,7 @@ const PreviewBranch = (): JSX.Element => {
                             ? branchData.data
                             : []
                     }
-                    scroll={{ x: true }}
+                    // scroll={{ x: true }}
                     pagination={{
                         showTotal: (total, range) => (
                             <span

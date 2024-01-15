@@ -36,17 +36,17 @@ export const ListFranchiseStyled = styled.div`
         }
     }
 
-    @media screen and ${mediaDeviceMin.tabletL} {
-        .ant-table-content table {
-            width: 100% !important;
-        }
-    }
-    @media screen and ${mediaDeviceMax.tabletL} {
-        .ant-table-content table {
-            width: 100% !important;
-            min-width: 1080px !important;
-        }
-    }
+    // @media screen and ${mediaDeviceMin.tabletL} {
+    //     .ant-table-content table {
+    //         width: 100% !important;
+    //     }
+    // }
+    // @media screen and ${mediaDeviceMax.tabletL} {
+    //     .ant-table-content table {
+    //         width: 100% !important;
+    //         min-width: 1080px !important;
+    //     }
+    // }
 
     .ant-table-tbody > tr > .ant-table-cell,
     .ant-table-tbody > tr > .ant-table-cell a {
@@ -164,6 +164,37 @@ export const ListFranchiseStyled = styled.div`
         text-align: center;
     }
 
+    @media screen and ${mediaDeviceMax.tabletL} {
+        .ant-table-thead > tr > th:nth-child(6),
+        .ant-table-tbody > tr > td:nth-child(6) {
+            display: none;
+        }
+        .ant-table-thead > tr > th:nth-child(3),
+        .ant-table-thead > tr > th:nth-child(4),
+        .ant-table-thead > tr > th:nth-child(5),
+        .ant-table-thead > tr > th:nth-child(6) {
+            width: 16.6%;
+        }
+    }
+    @media screen and ${mediaDeviceMax.mobileBS} {
+        .ant-table-thead > tr > th:nth-child(5),
+        .ant-table-tbody > tr > td:nth-child(5) {
+            display: none;
+        }
+    }
+    @media screen and ${mediaDeviceMax.mobileL} {
+        .ant-table-thead > tr > th:nth-child(4),
+        .ant-table-tbody > tr > td:nth-child(4) {
+            display: none;
+        }
+    }
+    @media screen and ${mediaDeviceMax.mobileM} {
+        .ant-table-thead > tr > th:nth-child(7),
+        .ant-table-tbody > tr > td:nth-child(7) {
+            display: none;
+        }
+    }
+
     // pagination
     .ant-pagination {
         margin-top: 45px;
@@ -188,7 +219,7 @@ export const ListFranchiseStyled = styled.div`
         border: none;
     }
     .ant-pagination-prev .ant-pagination-item-link span:before {
-        content: 'prev';
+        content: 'Prev';
         font-family: ${fontFamilyMedium};
         font-size: 14px;
         font-style: normal;
@@ -197,7 +228,7 @@ export const ListFranchiseStyled = styled.div`
         display: block;
     }
     .ant-pagination-next .ant-pagination-item-link span:before {
-        content: 'next';
+        content: 'Next';
         font-family: ${fontFamilyMedium};
         font-size: 14px;
         font-style: normal;

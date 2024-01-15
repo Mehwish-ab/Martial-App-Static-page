@@ -312,7 +312,7 @@ const useCreateSchool = (): IUseSchool => {
                                 height={79}
                             />
                             <h3 className="mainContainer-heading text-center">
-                                Complete Profile Successfully!
+                                Complete Successfully!
                             </h3>
                             <p className="mainContainer-subText text-center">
                                 Congratulations! Your profile has been
@@ -343,7 +343,7 @@ const useCreateSchool = (): IUseSchool => {
                                 height={79}
                             />
                             <h3 className="mainContainer-heading text-center">
-                                Update Profile Successfully!
+                                Update Successfully!
                             </h3>
                             <p className="mainContainer-subText text-center">
                                 Congratulations! on updating your profile! Your

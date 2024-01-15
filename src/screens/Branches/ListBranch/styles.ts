@@ -7,14 +7,13 @@ import {
     fontFamilyMedium,
     fontFamilyRegular,
     mediaDeviceMax,
-    mediaDeviceMin,
     pureDark2,
     whiteColor,
 } from '../../../components/GlobalStyle'
 
 export const ListBranchStyled = styled.div`
     background-color: #fff;
-    padding: 16px;
+    padding: 16px 0px;
     border-radius: 20px;
 
     .table-heading {
@@ -33,18 +32,6 @@ export const ListBranchStyled = styled.div`
         font-size: 16px;
         &::before {
             display: none !important;
-        }
-    }
-
-    @media screen and ${mediaDeviceMin.tabletL} {
-        .ant-table-content table {
-            width: 100% !important;
-        }
-    }
-    @media screen and ${mediaDeviceMax.tabletL} {
-        .ant-table-content table {
-            width: 100% !important;
-            min-width: 1080px !important;
         }
     }
 
@@ -80,14 +67,7 @@ export const ListBranchStyled = styled.div`
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    .ant-table-thead > tr > th:nth-child(3),
-    .ant-table-tbody > tr > td:nth-child(3),
-    .ant-table-thead > tr > th:nth-child(5),
-    .ant-table-tbody > tr > td:nth-child(5),
-    .ant-table-thead > tr > th:nth-child(6),
-    .ant-table-tbody > tr > td:nth-child(6) {
-        width: 20% !important;
-    }
+
     .ant-table-thead > tr > th:nth-child(7),
     .ant-table-tbody > tr > td:nth-child(7),
     .ant-table-thead > tr > th:nth-child(8),
@@ -161,6 +141,37 @@ export const ListBranchStyled = styled.div`
     }
     .ant-dropdown-trigger {
         text-align: center;
+    }
+
+    @media screen and ${mediaDeviceMax.tabletL} {
+        .ant-table-thead > tr > th:nth-child(6),
+        .ant-table-tbody > tr > td:nth-child(6) {
+            display: none;
+        }
+        .ant-table-thead > tr > th:nth-child(3),
+        .ant-table-thead > tr > th:nth-child(4),
+        .ant-table-thead > tr > th:nth-child(5),
+        .ant-table-thead > tr > th:nth-child(6) {
+            width: 16.6%;
+        }
+    }
+    @media screen and ${mediaDeviceMax.mobileBS} {
+        .ant-table-thead > tr > th:nth-child(5),
+        .ant-table-tbody > tr > td:nth-child(5) {
+            display: none;
+        }
+    }
+    @media screen and ${mediaDeviceMax.mobileL} {
+        .ant-table-thead > tr > th:nth-child(4),
+        .ant-table-tbody > tr > td:nth-child(4) {
+            display: none;
+        }
+    }
+    @media screen and ${mediaDeviceMax.mobileM} {
+        .ant-table-thead > tr > th:nth-child(7),
+        .ant-table-tbody > tr > td:nth-child(7) {
+            display: none;
+        }
     }
 
     // pagination

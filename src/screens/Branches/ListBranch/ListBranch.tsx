@@ -148,7 +148,9 @@ const ListBranch = (): JSX.Element => {
             title: 'Name',
             dataIndex: 'branchName',
             key: 'branchName',
-            // render: (text) => <a>{text}</a>,
+            render: (text) => (
+                <p>{text.length > 10 ? `${text.slice(0, 10)}...` : text}</p>
+            ),
         },
         {
             title: 'Type',

@@ -27,7 +27,7 @@ export type forgetPasswordInitialTypes = {
     phoneNumber: string
 }
 
-const ForgetPassword = (): JSX.Element => {
+const ForgotPassword = (): JSX.Element => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { loading, handleSubmit, error } = useGenerateOtp()
     const { getLabelByKey } = useScreenTranslation('forgotPassword')
@@ -199,4 +199,4 @@ const ForgetPassword = (): JSX.Element => {
     )
 }
 
-export default ForgetPassword
+export default ForgotPassword

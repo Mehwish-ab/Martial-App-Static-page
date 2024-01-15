@@ -213,7 +213,7 @@ const Login = (): JSX.Element => {
                                                             className="forget_password mb-0 text-end cursor-pointer"
                                                             onClick={() =>
                                                                 navigate(
-                                                                    '/forget-password',
+                                                                    '/forgot-password',
                                                                     {
                                                                         state: {
                                                                             userCase:

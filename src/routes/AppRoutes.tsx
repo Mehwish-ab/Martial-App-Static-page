@@ -85,7 +85,7 @@ function AppRoutes(): JSX.Element {
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<CreateUser />} />
-                <Route path="/forget-password" element={<ForgetPassword />} />
+                <Route path="/forgot-password" element={<ForgetPassword />} />
                 <Route path="/register/verify-otp" element={<Otp />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privay" element={<Privacy />} />

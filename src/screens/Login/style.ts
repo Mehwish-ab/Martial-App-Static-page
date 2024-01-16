@@ -279,9 +279,13 @@ export const LoginStyle = styled.div`
     }
 
     .logo {
-        height: 110px;
+        height: 70px;
         width: 300px;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+        img {
+            height: 100%;
+            width: 100%;
+        }
     }
 
     @media screen and (max-width: 425px) {

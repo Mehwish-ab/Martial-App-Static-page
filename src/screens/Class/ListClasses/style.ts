@@ -111,8 +111,10 @@ export const ListClassStyled = styled.div`
         margin-top: 45px;
     }
     .ant-pagination li:first-child {
-        position: absolute;
-        left: 0;
+        @media screen and ${mediaDeviceMin.mobileBS} {
+            position: absolute;
+            left: 0;
+        }
     }
     .ant-pagination .ant-pagination-options {
         display: none;
@@ -130,7 +132,7 @@ export const ListClassStyled = styled.div`
         border: none;
     }
     .ant-pagination-prev .ant-pagination-item-link span:before {
-        content: 'prev';
+        content: 'Prev';
         font-family: ${fontFamilyMedium};
         font-size: 14px;
         font-style: normal;
@@ -139,7 +141,7 @@ export const ListClassStyled = styled.div`
         display: block;
     }
     .ant-pagination-next .ant-pagination-item-link span:before {
-        content: 'next';
+        content: 'Next';
         font-family: ${fontFamilyMedium};
         font-size: 14px;
         font-style: normal;

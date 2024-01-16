@@ -7,6 +7,7 @@ import {
     fontFamilyMedium,
     fontFamilyRegular,
     mediaDeviceMax,
+    mediaDeviceMin,
     pureDark2,
     whiteColor,
 } from '../../../components/GlobalStyle'
@@ -179,8 +180,10 @@ export const ListBranchStyled = styled.div`
         margin-top: 45px;
     }
     .ant-pagination li:first-child {
-        position: absolute;
-        left: 0;
+        @media screen and ${mediaDeviceMin.mobileBS} {
+            position: absolute;
+            left: 0;
+        }
     }
     .ant-pagination .ant-pagination-options {
         display: none !important;

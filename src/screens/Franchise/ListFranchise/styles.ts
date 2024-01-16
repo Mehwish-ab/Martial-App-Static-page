@@ -200,8 +200,10 @@ export const ListFranchiseStyled = styled.div`
         margin-top: 45px;
     }
     .ant-pagination li:first-child {
-        position: absolute;
-        left: 0;
+        @media screen and ${mediaDeviceMin.mobileBS} {
+            position: absolute;
+            left: 0;
+        }
     }
     .ant-pagination .ant-pagination-options {
         display: none !important;

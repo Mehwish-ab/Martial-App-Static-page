@@ -10,22 +10,21 @@ import {
     AntiFlashWhite,
     AlizarinCrimson,
     mediaDeviceMin,
+    mediaDeviceMax,
     // mainColor,
 } from '../../../components/GlobalStyle'
 
 export const ListTimeTableStyled = styled.div`
-    background-color: #fff;
-    padding: 16px;
-    border-radius: 20px;
+    .ant-table {
+        background-color: #fff;
+        border-radius: 12px;
+        &-title {
+            padding: 10px;
+        }
+    }
     p {
         margin-bottom: 0px;
     }
-
-    .ant-table-content table {
-        width: 100% !important;
-        min-width: 1080px !important;
-    }
-
     .table-heading {
         font-size: 18px;
         font-family: ${fontFamilyMedium};
@@ -88,6 +87,7 @@ export const ListTimeTableStyled = styled.div`
     .ant-table-tbody > tr > td:nth-child(6),
     .ant-table-tbody > tr > td:nth-child(6) div {
         position: relative;
+        width: 95px;
     }
     .ant-table-tbody > tr > td:nth-child(6) button {
         font-style: normal;
@@ -106,8 +106,8 @@ export const ListTimeTableStyled = styled.div`
     }
     .ant-table-tbody > tr > td:nth-child(6) img {
         position: absolute;
-        left: 80px;
-        top: -5px;
+        right: -3px;
+        top: -7px;
     }
     .ant-table-thead > tr > th:nth-child(7),
     .ant-table-tbody > tr > td:nth-child(7) {
@@ -120,16 +120,44 @@ export const ListTimeTableStyled = styled.div`
         background-color: #fff;
     }
 
-    .dateRange {
-        font-size: 15px;
-        font-style: normal;
+    .ant-table-tbody > tr > td {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
-    .dateToday {
-        font-size: 15px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: normal;
+    @media screen and (max-width: 1120px) {
+        .ant-table-tbody > tr > td:nth-child(4),
+        .ant-table-thead > tr > th:nth-child(4) {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 700px) {
+        .ant-table-tbody > tr > td:nth-child(5),
+        .ant-table-thead > tr > th:nth-child(5) {
+            display: none;
+        }
+    }
+    @media screen and (max-width: 620px) {
+        .ant-table-tbody > tr > td:nth-child(3),
+        .ant-table-thead > tr > th:nth-child(3) {
+            display: none;
+        }
+    }
+    @media screen and (max-width: 430px) {
+        .ant-table-tbody > tr > td:nth-child(6),
+        .ant-table-thead > tr > th:nth-child(6) {
+            display: none;
+        }
+    }
+
+    @media screen and ${mediaDeviceMax.mobileS} {
+        .ant-table-tbody > tr > td,
+        .ant-table-thead > tr > th {
+            padding-left: 8px !important;
+            padding-right: 8px !important;
+        }
     }
 
     // pagination
@@ -159,7 +187,7 @@ export const ListTimeTableStyled = styled.div`
         border: none;
     }
     .ant-pagination-prev .ant-pagination-item-link span:before {
-        content: 'prev';
+        content: 'Prev';
         font-family: ${fontFamilyMedium};
         font-size: 14px;
         font-style: normal;
@@ -168,7 +196,7 @@ export const ListTimeTableStyled = styled.div`
         display: block;
     }
     .ant-pagination-next .ant-pagination-item-link span:before {
-        content: 'next';
+        content: 'Next';
         font-family: ${fontFamilyMedium};
         font-size: 14px;
         font-style: normal;

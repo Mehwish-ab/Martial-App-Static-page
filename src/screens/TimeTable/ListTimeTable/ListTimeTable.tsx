@@ -30,22 +30,82 @@ const RenderTableTitle = (): JSX.Element => {
     const navigate = useNavigate()
 
     return (
-        <div className="d-flex justify-content-between">
-            <h3 className="table-heading">Time Table</h3>
-            <CustomDiv>
-                <div className="instructorDateSection">
-                    <div className="mainarrow">
-                        <div className="arrowright">
+        // <div className="d-flex justify-content-between">
+        //     <h3 className="table-heading">Time Table</h3>
+        //     <CustomDiv>
+        //         <div className="instructorDateSection">
+        //             <div className="mainarrow">
+        //                 <div className="arrowright">
+        //                     <img
+        //                         src={LeftArrow as string}
+        //                         alt="Date"
+        //                         width={18}
+        //                         height={12}
+        //                     />
+        //                 </div>
+        //                 <div className="arrowleft">
+        //                     <img
+        //                         src={RightArrow as string}
+        //                         alt="Date"
+        //                         width={18}
+        //                         height={12}
+        //                     />
+        //                 </div>
+        //             </div>
+        //             <div className="dateRange">
+        //                 <p>
+        //                     <span>Mon,</span> Sep 11, 2023 - <span>Thu,</span>{' '}
+        //                     Sep 21, 2023
+        //                 </p>
+        //                 <img
+        //                     src={DateCalander as string}
+        //                     alt="Calander"
+        //                     width={21}
+        //                     height={21}
+        //                 />
+        //             </div>
+        //             <div className="dateToday">Today</div>
+        //         </div>
+        //         <CustomButton
+        //             bgcolor={tertiaryBlue2}
+        //             textTransform="Captilize"
+        //             color={pureDark}
+        //             padding="6.5px 0px"
+        //             fontFamily={`${fontFamilyMedium}`}
+        //             width="40px"
+        //             type="submit"
+        //             title=""
+        //             fontSize="17px"
+        //             icon={
+        //                 <img
+        //                     src={plusIcon as string}
+        //                     alt="edit icon"
+        //                     width={17}
+        //                     height={17}
+        //                 />
+        //             }
+        //             clicked={() => {
+        //                 navigate(`/timetable/create`)
+        //             }}
+        //         />
+        //     </CustomDiv>
+        // </div>
+        <CustomDiv>
+            <div className="mainWrapper">
+                <h3 className="table-heading">Time Table</h3>
+                <div className="FilterMainContainer">
+                    <div className="arrowsMain">
+                        <div className="arrowRight">
                             <img
-                                src={LeftArrow as string}
+                                src={LeftArrow}
                                 alt="Date"
                                 width={18}
                                 height={12}
                             />
                         </div>
-                        <div className="arrowleft">
+                        <div className="arrowLeft">
                             <img
-                                src={RightArrow as string}
+                                src={RightArrow}
                                 alt="Date"
                                 width={18}
                                 height={12}
@@ -54,42 +114,48 @@ const RenderTableTitle = (): JSX.Element => {
                     </div>
                     <div className="dateRange">
                         <p>
+                            {' '}
                             <span>Mon,</span> Sep 11, 2023 - <span>Thu,</span>{' '}
                             Sep 21, 2023
                         </p>
                         <img
-                            src={DateCalander as string}
-                            alt="Calander"
+                            src={DateCalander}
+                            alt="calander"
                             width={21}
                             height={21}
                         />
                     </div>
-                    <div className="dateToday">Today</div>
-                </div>
-                <CustomButton
-                    bgcolor={tertiaryBlue2}
-                    textTransform="Captilize"
-                    color={pureDark}
-                    padding="6.5px 0px"
-                    fontFamily={`${fontFamilyMedium}`}
-                    width="40px"
-                    type="submit"
-                    title=""
-                    fontSize="17px"
-                    icon={
-                        <img
-                            src={plusIcon as string}
-                            alt="edit icon"
-                            width={17}
-                            height={17}
+                    <div className="todayPlusContainer">
+                        <div className="dateToday">
+                            <p>Today</p>
+                        </div>
+                        <CustomButton
+                            bgcolor={tertiaryBlue2}
+                            textTransform="Captilize"
+                            color={pureDark}
+                            padding="6.5px 0px"
+                            fontFamily={`${fontFamilyMedium}`}
+                            width="40px"
+                            type="submit"
+                            title=""
+                            fontSize="17px"
+                            // loading={loading}
+                            icon={
+                                <img
+                                    src={plusIcon}
+                                    alt="edit icon"
+                                    width={17}
+                                    height={17}
+                                />
+                            }
+                            clicked={() => {
+                                navigate(`/class/create`)
+                            }}
                         />
-                    }
-                    clicked={() => {
-                        navigate(`/timetable/create`)
-                    }}
-                />
-            </CustomDiv>
-        </div>
+                    </div>
+                </div>
+            </div>
+        </CustomDiv>
     )
 }
 const ListTimeTable: React.FC = () => {
@@ -306,6 +372,7 @@ const ListTimeTable: React.FC = () => {
             {WarningModal().modalComponent}
             {deleteConfirmation(Id).modalComponent}
             {/* {loading && <LoadingOverlay message="" />} */}
+            <RenderTableTitle />
             <ListTimeTableStyled>
                 <Table
                     columns={columns}
@@ -314,8 +381,7 @@ const ListTimeTable: React.FC = () => {
                             ? timeTableData.data
                             : []
                     }
-                    title={() => <RenderTableTitle />}
-                    scroll={{ x: true }}
+                    // scroll={{ x: true }}
                     pagination={{
                         showTotal: (total, range) => (
                             <span

@@ -61,6 +61,22 @@ export const ViewSchoolStyled = styled.div`
             }
         }
     }
+    @media screen and ${mediaDeviceMax.mobileBS} {
+        .image_section {
+            margin-bottom: 90px;
+        }
+        .profileImg > .img {
+            width: 120px;
+            height: 120px;
+            bottom: -60px;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+        .bannerImg {
+            height: 200px;
+        }
+    }
 `
 export const ViewSchoolTabs = styled.div`
     .tab {

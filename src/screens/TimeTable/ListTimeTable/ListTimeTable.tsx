@@ -149,7 +149,7 @@ const RenderTableTitle = (): JSX.Element => {
                                 />
                             }
                             clicked={() => {
-                                navigate(`/class/create`)
+                                navigate(`/timetable/create`)
                             }}
                         />
                     </div>

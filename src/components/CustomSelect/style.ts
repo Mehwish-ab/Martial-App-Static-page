@@ -78,7 +78,6 @@ export const CustomSelectStyle = styled.div<CustomSelectProps>`
     }
 
     @media screen and (${mediaDeviceMax.laptop}) {
-      padding: 7px !important;
       font-size: 14px !important;
     }
   }

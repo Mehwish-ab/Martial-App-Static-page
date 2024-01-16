@@ -11,8 +11,8 @@ import {
 export const CreateClassStyled = styled.div`
     margin-bottom: 20px;
     .form {
-        padding: 20px;
-        border-radius: 20px;
+        padding: 16px;
+        border-radius: 12px;
         h3 {
             font-size: 18px;
             font-family: ${fontFamilyMedium};
@@ -28,6 +28,20 @@ export const CreateClassStyled = styled.div`
             @media screen and ${mediaDeviceMax.tablet} {
                 gap: 20px;
             }
+        }
+    }
+
+    div > label {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        span {
+            color: #4f4f4f;
+            font-family: ${fontFamilyRegular};
+            font-size: 10px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
         }
     }
 
@@ -62,6 +76,7 @@ export const CreateClassStyled = styled.div`
         font-weight: 400;
         line-height: normal;
         font-family: ${fontFamilyRegular};
+        white-space: pre-wrap;
     }
 
     .payment_card {
@@ -79,10 +94,6 @@ export const CreateClassStyled = styled.div`
     .ant-input {
         input::placeholder {
             color: ${lightDark2} !important;
-        }
-
-        @media screen and (${mediaDeviceMax.laptop}) {
-            padding: 10px !important;
         }
     }
 

@@ -12,9 +12,13 @@ import {
 } from '../../../components/GlobalStyle'
 
 export const ListClassStyled = styled.div`
-    background-color: #fff;
-    padding: 16px;
-    border-radius: 20px;
+    .ant-table {
+        background-color: #fff;
+        border-radius: 12px;
+        &-title {
+            padding: 10px;
+        }
+    }
 
     .table-heading {
         font-size: 18px;
@@ -25,17 +29,17 @@ export const ListClassStyled = styled.div`
         line-height: normal;
     }
 
-    @media screen and ${mediaDeviceMin.tabletL} {
-        .ant-table-content table {
-            width: 100% !important;
-        }
-    }
-    @media screen and ${mediaDeviceMax.tabletL} {
-        .ant-table-content table {
-            width: 100% !important;
-            min-width: 1080px !important;
-        }
-    }
+    // @media screen and ${mediaDeviceMin.tabletL} {
+    //     .ant-table-content table {
+    //         width: 100% !important;
+    //     }
+    // }
+    // @media screen and ${mediaDeviceMax.tabletL} {
+    //     .ant-table-content table {
+    //         width: 100% !important;
+    //         min-width: 1080px !important;
+    //     }
+    // }
 
     .ant-table-thead > tr > th {
         background: transparent;
@@ -72,7 +76,7 @@ export const ListClassStyled = styled.div`
 
     .ant-table-tbody > tr > td:nth-child(7) div {
         position: relative;
-        width: 116px;
+        width: 95px;
     }
     .ant-table-tbody > tr > td:nth-child(7) button {
         font-style: normal;
@@ -91,8 +95,8 @@ export const ListClassStyled = styled.div`
     }
     .ant-table-tbody > tr > td:nth-child(7) img {
         position: absolute;
-        right: 17px;
-        top: -5px;
+        right: -3px;
+        top: -7px;
     }
     .ant-table-tbody > tr:nth-child(odd) td {
         background-color: #fafafa;
@@ -104,6 +108,58 @@ export const ListClassStyled = styled.div`
     .ant-table-tbody > tr > td:nth-child(8),
     .ant-table-thead > tr > th:nth-child(8) {
         text-align: center;
+    }
+
+    .ant-table-tbody > tr > td:nth-child(7),
+    .ant-table-thead > tr > th:nth-child(7) {
+        padding-right: 0px;
+        padding-left: 0px;
+        width: fit-content;
+    }
+
+    .ant-table-tbody > tr > td {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    @media screen and (max-width: 1230px) {
+        .ant-table-tbody > tr > td:nth-child(5),
+        .ant-table-thead > tr > th:nth-child(5) {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 1050px) {
+        .ant-table-tbody > tr > td:nth-child(4),
+        .ant-table-thead > tr > th:nth-child(4) {
+            display: none;
+        }
+    }
+    @media screen and ${mediaDeviceMax.tabletS} {
+        .ant-table-tbody > tr > td:nth-child(3),
+        .ant-table-thead > tr > th:nth-child(3) {
+            display: none;
+        }
+    }
+    @media screen and (max-width: 500px) {
+        .ant-table-tbody > tr > td:nth-child(6),
+        .ant-table-thead > tr > th:nth-child(6) {
+            display: none;
+        }
+    }
+    @media screen and ${mediaDeviceMax.mobileL} {
+        .ant-table-tbody > tr > td:nth-child(7),
+        .ant-table-thead > tr > th:nth-child(7) {
+            display: none;
+        }
+    }
+    @media screen and ${mediaDeviceMax.mobileS} {
+        .ant-table-tbody > tr > td,
+        .ant-table-thead > tr > th {
+            padding-left: 8px !important;
+            padding-right: 8px !important;
+        }
     }
 
     // pagination

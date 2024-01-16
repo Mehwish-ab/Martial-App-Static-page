@@ -22,6 +22,7 @@ import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
 import DateCalander from '../../../assets/images/dateCalander.svg'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
+import Head from '../../../components/Head/Head'
 
 const ListClass = (): JSX.Element => {
     const navigate = useNavigate()
@@ -56,12 +57,12 @@ const ListClass = (): JSX.Element => {
 
     const RenderTableTitle = (): JSX.Element => {
         return (
-            <div className="d-flex justify-content-between align-items-center">
-                <h3 className="table-heading">{getLabelByKey('title')}</h3>
-                <CustomDiv>
-                    <div className="instructorDateSection">
-                        <div className="mainarrow">
-                            <div className="arrowright">
+            <CustomDiv>
+                <div className="mainWrapper">
+                    <h3 className="table-heading">{getLabelByKey('title')}</h3>
+                    <div className="FilterMainContainer">
+                        <div className="arrowsMain">
+                            <div className="arrowRight">
                                 <img
                                     src={LeftArrow}
                                     alt="Date"
@@ -69,7 +70,7 @@ const ListClass = (): JSX.Element => {
                                     height={12}
                                 />
                             </div>
-                            <div className="arrowleft">
+                            <div className="arrowLeft">
                                 <img
                                     src={RightArrow}
                                     alt="Date"
@@ -91,33 +92,37 @@ const ListClass = (): JSX.Element => {
                                 height={21}
                             />
                         </div>
-                        <p className="dateToday">Today</p>
-                    </div>
-                    <CustomButton
-                        bgcolor={tertiaryBlue2}
-                        textTransform="Captilize"
-                        color={pureDark}
-                        padding="6.5px 0px"
-                        fontFamily={`${fontFamilyMedium}`}
-                        width="40px"
-                        type="submit"
-                        title=""
-                        fontSize="17px"
-                        // loading={loading}
-                        icon={
-                            <img
-                                src={plusIcon}
-                                alt="edit icon"
-                                width={17}
-                                height={17}
+                        <div className="todayPlusContainer">
+                            <div className="dateToday">
+                                <p>Today</p>
+                            </div>
+                            <CustomButton
+                                bgcolor={tertiaryBlue2}
+                                textTransform="Captilize"
+                                color={pureDark}
+                                padding="6.5px 0px"
+                                fontFamily={`${fontFamilyMedium}`}
+                                width="40px"
+                                type="submit"
+                                title=""
+                                fontSize="17px"
+                                // loading={loading}
+                                icon={
+                                    <img
+                                        src={plusIcon}
+                                        alt="edit icon"
+                                        width={17}
+                                        height={17}
+                                    />
+                                }
+                                clicked={() => {
+                                    navigate(`/class/create`)
+                                }}
                             />
-                        }
-                        clicked={() => {
-                            navigate(`/class/create`)
-                        }}
-                    />
-                </CustomDiv>
-            </div>
+                        </div>
+                    </div>
+                </div>
+            </CustomDiv>
         )
     }
 
@@ -203,7 +208,9 @@ const ListClass = (): JSX.Element => {
     ]
     return (
         <>
+            <Head title="Classes List" />
             {loading && <LoadingOverlay message="" />}
+            <RenderTableTitle />
             <ListClassStyled>
                 <Table
                     columns={columns}
@@ -213,8 +220,7 @@ const ListClass = (): JSX.Element => {
                             key: item.ClassId,
                         })) as any
                     }
-                    title={() => <RenderTableTitle />}
-                    scroll={{ x: true }}
+                    // scroll={{ x: true }}
                     pagination={{
                         showTotal: (total, range) => (
                             <span

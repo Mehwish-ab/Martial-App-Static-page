@@ -202,7 +202,7 @@ export const ListBranchStyled = styled.div`
         border: none;
     }
     .ant-pagination-prev .ant-pagination-item-link span:before {
-        content: 'prev';
+        content: 'Prev';
         font-family: ${fontFamilyMedium};
         font-size: 14px;
         font-style: normal;
@@ -211,7 +211,7 @@ export const ListBranchStyled = styled.div`
         display: block;
     }
     .ant-pagination-next .ant-pagination-item-link span:before {
-        content: 'next';
+        content: 'Next';
         font-family: ${fontFamilyMedium};
         font-size: 14px;
         font-style: normal;

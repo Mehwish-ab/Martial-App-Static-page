@@ -95,11 +95,12 @@ export const ListMembershipStyled = styled.div`
     // pagination
     .ant-pagination {
         margin-top: 45px;
+        padding: 0px 10px;
     }
     .ant-pagination li:first-child {
         @media screen and ${mediaDeviceMin.mobileBS} {
             position: absolute;
-            left: 0;
+            left: 10px;
         }
     }
     .ant-pagination .ant-pagination-options {

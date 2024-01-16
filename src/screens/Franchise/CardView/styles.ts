@@ -135,7 +135,7 @@ export const CardViewStyled = styled.div`
     .ant-pagination li:first-child {
         @media screen and ${mediaDeviceMin.mobileBS} {
             position: absolute;
-            left: 0;
+            left: 10px;
         }
     }
     .ant-pagination .ant-pagination-options {

@@ -161,8 +161,8 @@ const CreateClass = (): JSX.Element => {
                                                                 className="mt-20"
                                                             >
                                                                 <FormControl
-                                                                    control="input"
-                                                                    type="text"
+                                                                    control="date"
+                                                                    type="date"
                                                                     name="StartDate"
                                                                     fontFamily={
                                                                         fontFamilyRegular
@@ -196,8 +196,8 @@ const CreateClass = (): JSX.Element => {
                                                                 className="mt-20"
                                                             >
                                                                 <FormControl
-                                                                    control="input"
-                                                                    type="text"
+                                                                    control="date"
+                                                                    type="date"
                                                                     name="endDate"
                                                                     fontFamily={
                                                                         fontFamilyRegular
@@ -365,8 +365,8 @@ const CreateClass = (): JSX.Element => {
                                         </Col>
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="input"
-                                                type="text"
+                                                control="date"
+                                                type="date"
                                                 name="startBooking"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
@@ -376,21 +376,12 @@ const CreateClass = (): JSX.Element => {
                                                 placeholder={getLabelByKey(
                                                     'startBookingPlaceholder'
                                                 )}
-                                                suffix={
-                                                    <img
-                                                        src={DateCalander}
-                                                        alt=""
-                                                        width={25}
-                                                        height={25}
-                                                        //onClick={(type = "date")}
-                                                    />
-                                                }
                                             />
                                         </Col>
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="input"
-                                                type="text"
+                                                control="date"
+                                                type="date"
                                                 name="endBooking"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
@@ -400,21 +391,12 @@ const CreateClass = (): JSX.Element => {
                                                 placeholder={getLabelByKey(
                                                     'endBookingPlaceholder'
                                                 )}
-                                                suffix={
-                                                    <img
-                                                        src={DateCalander}
-                                                        alt=""
-                                                        width={25}
-                                                        height={25}
-                                                        //onClick={(type = "date")}
-                                                    />
-                                                }
                                             />
                                         </Col>
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="input"
-                                                type="text"
+                                                control="date"
+                                                type="date"
                                                 name="qrCodeAttendanceStart"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
@@ -424,21 +406,12 @@ const CreateClass = (): JSX.Element => {
                                                 placeholder={getLabelByKey(
                                                     'qrCodeAttendanceStartPlaceholder'
                                                 )}
-                                                suffix={
-                                                    <img
-                                                        src={DateCalander}
-                                                        alt=""
-                                                        width={25}
-                                                        height={25}
-                                                        //onClick={(type = "date")}
-                                                    />
-                                                }
                                             />
                                         </Col>
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="input"
-                                                type="text"
+                                                control="date"
+                                                type="date"
                                                 name="qrCodeAttendanceEnd"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
@@ -448,15 +421,6 @@ const CreateClass = (): JSX.Element => {
                                                 placeholder={getLabelByKey(
                                                     'qrCodeAttendanceEndPlaceholder'
                                                 )}
-                                                suffix={
-                                                    <img
-                                                        src={DateCalander}
-                                                        alt=""
-                                                        width={25}
-                                                        height={25}
-                                                        //onClick={(type = "date")}
-                                                    />
-                                                }
                                             />
                                         </Col>
 
@@ -480,8 +444,8 @@ const CreateClass = (): JSX.Element => {
 
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="input"
-                                                type="text"
+                                                control="date"
+                                                type="date"
                                                 name="refundFeesDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
@@ -491,22 +455,13 @@ const CreateClass = (): JSX.Element => {
                                                 placeholder={getLabelByKey(
                                                     'refundFeesDatePlacholder'
                                                 )}
-                                                suffix={
-                                                    <img
-                                                        src={DateCalander}
-                                                        alt=""
-                                                        width={25}
-                                                        height={25}
-                                                        //onClick={(type = "date")}
-                                                    />
-                                                }
                                             />
                                         </Col>
 
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="input"
-                                                type="text"
+                                                control="date"
+                                                type="date"
                                                 name="bookingCancellationStart"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
@@ -516,22 +471,13 @@ const CreateClass = (): JSX.Element => {
                                                 placeholder={getLabelByKey(
                                                     'bookingCancellationStartPlaceholder'
                                                 )}
-                                                suffix={
-                                                    <img
-                                                        src={DateCalander}
-                                                        alt=""
-                                                        width={25}
-                                                        height={25}
-                                                        //onClick={(type = "date")}
-                                                    />
-                                                }
                                             />
                                         </Col>
 
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="input"
-                                                type="text"
+                                                control="date"
+                                                type="date"
                                                 name="bookingCancellationEnd"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
@@ -541,15 +487,6 @@ const CreateClass = (): JSX.Element => {
                                                 placeholder={getLabelByKey(
                                                     'bookingCancellationEndPlaceholder'
                                                 )}
-                                                suffix={
-                                                    <img
-                                                        src={DateCalander}
-                                                        alt=""
-                                                        width={25}
-                                                        height={25}
-                                                        //onClick={(type = "date")}
-                                                    />
-                                                }
                                             />
                                         </Col>
 

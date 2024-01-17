@@ -1,6 +1,6 @@
 import Input from './CustomInput/CustomInput'
 import Select from './CustomSelect/CustomSelect'
-import Datepicker from './CustomDatePicker/CustomDatePicker'
+import DatePicker from './CustomDatePicker/CustomDatePicker'
 import Textarea from './CustomTextArea/CustomTextarea'
 // import Checkbox from "./Checkbox";
 import CustomSearchSelect from './CustomSearchSelect'
@@ -55,7 +55,7 @@ const FormControl: React.FC<formControlProps> = (props) => {
         case 'radio':
             return <Radio {...rest} />
         case 'date':
-            return <Datepicker {...rest} />
+            return <DatePicker {...rest} />
         case 'dates':
             return <CustomDate {...rest} />
         case 'file':

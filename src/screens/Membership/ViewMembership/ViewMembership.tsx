@@ -9,7 +9,7 @@ import { RootState } from '../../../redux/store'
 import FormControl from '../../../components/FormControl'
 
 const ViewMembership = (): JSX.Element => {
-    const { getLabelByKey } = useScreenTranslation('detailClasses')
+    const { getLabelByKey } = useScreenTranslation('detailMembership')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
     const { ClassData } = useSelector((state: RootState) => state.ClassData)
 
@@ -17,7 +17,7 @@ const ViewMembership = (): JSX.Element => {
         <>
             <Head title="Membership Information" />
             <ViewClassStyle>
-                <h3>{getLabelByKey('mainTitle')}</h3>
+                <h3 className="mt-0">{getLabelByKey('titleScreen')}</h3>
                 <Card className="mb-5">
                     <Row>
                         <Col md="12">
@@ -58,29 +58,7 @@ const ViewMembership = (): JSX.Element => {
                                             <div className="list-item">
                                                 <div className="list-item-title">
                                                     {getLabelByKey(
-                                                        'instructors'
-                                                    )}
-                                                </div>
-                                                <div className="list-item-value">
-                                                    --
-                                                </div>
-                                            </div>
-                                        </Col>
-                                        <Col md="6">
-                                            <div className="list-item">
-                                                <div className="list-item-title">
-                                                    {getLabelByKey('classFees')}
-                                                </div>
-                                                <div className="list-item-value">
-                                                    --
-                                                </div>
-                                            </div>
-                                        </Col>
-                                        <Col md="12">
-                                            <div className="list-item">
-                                                <div className="list-item-title">
-                                                    {getLabelByKey(
-                                                        'activities'
+                                                        'visibility'
                                                     )}
                                                 </div>
                                                 <div className="list-item-value">
@@ -92,7 +70,19 @@ const ViewMembership = (): JSX.Element => {
                                             <div className="list-item">
                                                 <div className="list-item-title">
                                                     {getLabelByKey(
-                                                        'classCapacity'
+                                                        'subscriptionType'
+                                                    )}
+                                                </div>
+                                                <div className="list-item-value">
+                                                    --
+                                                </div>
+                                            </div>
+                                        </Col>
+                                        <Col md="6">
+                                            <div className="list-item">
+                                                <div className="list-item-title">
+                                                    {getLabelByKey(
+                                                        'membershipFees'
                                                     )}
                                                 </div>
                                                 <div className="list-item-value">
@@ -111,6 +101,13 @@ const ViewMembership = (): JSX.Element => {
                                                     --
                                                 </div>
                                             </div>
+                                        </Col>
+                                        <Col md="6">
+                                            <h3>
+                                                {getLabelByKey(
+                                                    'subscriptionPlan'
+                                                )}
+                                            </h3>
                                         </Col>
                                     </Row>
                                 </Col>
@@ -139,7 +136,7 @@ const ViewMembership = (): JSX.Element => {
                         <Col md="4">
                             <div className="list-item">
                                 <div className="list-item-title">
-                                    {getLabelByKey('startBooking')}
+                                    {getLabelByKey('dailySubscriptionFees')}
                                 </div>
                                 <div className="list-item-value">--</div>
                             </div>
@@ -147,7 +144,7 @@ const ViewMembership = (): JSX.Element => {
                         <Col md="4">
                             <div className="list-item">
                                 <div className="list-item-title">
-                                    {getLabelByKey('endBooking')}
+                                    {getLabelByKey('weeklySubscriptionFees')}
                                 </div>
                                 <div className="list-item-value">--</div>
                             </div>
@@ -155,7 +152,7 @@ const ViewMembership = (): JSX.Element => {
                         <Col md="4">
                             <div className="list-item">
                                 <div className="list-item-title">
-                                    {getLabelByKey('qrCodeAttendanceStart')}
+                                    {getLabelByKey('monthlySubscriptionFees')}
                                 </div>
                                 <div className="list-item-value">--</div>
                             </div>
@@ -163,7 +160,7 @@ const ViewMembership = (): JSX.Element => {
                         <Col md="4">
                             <div className="list-item">
                                 <div className="list-item-title">
-                                    {getLabelByKey('qrCodeAttendanceEnd')}
+                                    {getLabelByKey('annuallySubscriptionFees')}
                                 </div>
                                 <div className="list-item-value">--</div>
                             </div>

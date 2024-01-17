@@ -21,6 +21,7 @@ import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
 import DateCalander from '../../../assets/images/dateCalander.svg'
+import Head from '../../../components/Head/Head'
 
 const RenderTableTitle = (): JSX.Element => {
     const navigate = useNavigate()
@@ -226,6 +227,7 @@ const ListMembership: React.FC = () => {
 
     return (
         <>
+            <Head title="Membership List" />
             {loading && <LoadingOverlay message="" />}
             <RenderTableTitle />
             <ListMembershipStyled>

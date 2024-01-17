@@ -112,189 +112,189 @@ const CreateClass = (): JSX.Element => {
                                 autoComplete="off"
                             >
                                 <div className="bg-white form">
-                                    <h3>{getLabelByKey('classTitle')}</h3>
+                                    <h3>{getLabelByKey('mainTitle')}</h3>
                                     <Row>
-                                        <Row>
-                                            <Col md="6">
-                                                <Col md="12" className="mt-20">
-                                                    <FormControl
-                                                        control="input"
-                                                        type="text"
-                                                        name="title"
-                                                        label={getLabelByKey(
-                                                            'title'
-                                                        )}
-                                                        padding="8px 10px"
-                                                        fontFamily={
-                                                            fontFamilyRegular
-                                                        }
-                                                        fontSize="16px"
-                                                        max={6}
-                                                        placeholder={getLabelByKey(
-                                                            'titlePlaceholder'
-                                                        )}
-                                                    />
+                                        <Col md="12">
+                                            <Row>
+                                                <Col md="6">
+                                                    <Col
+                                                        md="12"
+                                                        className="mt-20"
+                                                    >
+                                                        <FormControl
+                                                            control="input"
+                                                            type="text"
+                                                            name="title"
+                                                            label={getLabelByKey(
+                                                                'title'
+                                                            )}
+                                                            padding="8px 10px"
+                                                            fontFamily={
+                                                                fontFamilyRegular
+                                                            }
+                                                            fontSize="16px"
+                                                            max={6}
+                                                            placeholder={getLabelByKey(
+                                                                'titlePlaceholder'
+                                                            )}
+                                                        />
+                                                    </Col>
+                                                    <Col md="12">
+                                                        <Row>
+                                                            <Col
+                                                                md="6"
+                                                                className="mt-20"
+                                                            >
+                                                                <FormControl
+                                                                    control="input"
+                                                                    type="text"
+                                                                    name="startDate"
+                                                                    fontFamily={
+                                                                        fontFamilyRegular
+                                                                    }
+                                                                    label={getLabelByKey(
+                                                                        'startDate'
+                                                                    )}
+                                                                    padding="8px 10px"
+                                                                    placeholder={getLabelByKey(
+                                                                        'startDatePlaceholder'
+                                                                    )}
+                                                                    suffix={
+                                                                        <img
+                                                                            src={
+                                                                                DateCalander
+                                                                            }
+                                                                            alt=""
+                                                                            width={
+                                                                                25
+                                                                            }
+                                                                            height={
+                                                                                25
+                                                                            }
+                                                                            //onClick={(type = "date")}
+                                                                        />
+                                                                    }
+                                                                />
+                                                            </Col>
+                                                            <Col
+                                                                md="6"
+                                                                className="mt-20"
+                                                            >
+                                                                <FormControl
+                                                                    control="input"
+                                                                    type="text"
+                                                                    name="endDate"
+                                                                    fontFamily={
+                                                                        fontFamilyRegular
+                                                                    }
+                                                                    label={getLabelByKey(
+                                                                        'endDate'
+                                                                    )}
+                                                                    padding="8px 10px"
+                                                                    placeholder={getLabelByKey(
+                                                                        'endDatePlaceholder'
+                                                                    )}
+                                                                    suffix={
+                                                                        <img
+                                                                            src={
+                                                                                DateCalander
+                                                                            }
+                                                                            alt=""
+                                                                            width={
+                                                                                25
+                                                                            }
+                                                                            height={
+                                                                                25
+                                                                            }
+                                                                            //onClick={(type = "date")}
+                                                                        />
+                                                                    }
+                                                                />
+                                                            </Col>
+                                                            <Col
+                                                                md="6"
+                                                                className="mt-20"
+                                                            >
+                                                                <FormControl
+                                                                    control="select"
+                                                                    type="text"
+                                                                    name="instructorId"
+                                                                    label={getLabelByKey(
+                                                                        'instructors'
+                                                                    )}
+                                                                    padding="8px 10px"
+                                                                    fontFamily={
+                                                                        fontFamilyRegular
+                                                                    }
+                                                                    fontSize="16px"
+                                                                    max={6}
+                                                                    placeholder={getLabelByKey(
+                                                                        'InstructorsPlaceholder'
+                                                                    )}
+                                                                />
+                                                            </Col>
+                                                            <Col
+                                                                md="6"
+                                                                className="mt-20"
+                                                            >
+                                                                <FormControl
+                                                                    control="input"
+                                                                    type="text"
+                                                                    name="fee"
+                                                                    fontFamily={
+                                                                        fontFamilyRegular
+                                                                    }
+                                                                    label={getLabelByKey(
+                                                                        'classFees'
+                                                                    )}
+                                                                    padding="8px 10px"
+                                                                    placeholder={getLabelByKey(
+                                                                        'classFeesPlaceholder'
+                                                                    )}
+                                                                    suffix={
+                                                                        <img
+                                                                            src={
+                                                                                dollar
+                                                                            }
+                                                                            alt=""
+                                                                            width={
+                                                                                13
+                                                                            }
+                                                                            height={
+                                                                                27
+                                                                            }
+                                                                            //onClick={(type = "date")}
+                                                                        />
+                                                                    }
+                                                                />
+                                                            </Col>
+                                                        </Row>
+                                                    </Col>
+                                                    <Col
+                                                        md="12"
+                                                        className="mt-20"
+                                                    >
+                                                        <CheckboxesSelect
+                                                            name="activities"
+                                                            label={getLabelByKey(
+                                                                'activities'
+                                                            )}
+                                                            list={activities}
+                                                            showErrorMsgInList={
+                                                                false
+                                                            }
+                                                            placeholder={showActivities(
+                                                                formik.values
+                                                                    .activities
+                                                            )}
+                                                        />
+                                                    </Col>
                                                 </Col>
 
-                                                <Col md="12">
-                                                    <Row>
-                                                        <Col
-                                                            md="6"
-                                                            className="mt-20"
-                                                        >
-                                                            <FormControl
-                                                                control="input"
-                                                                type="text"
-                                                                name="startDate"
-                                                                fontFamily={
-                                                                    fontFamilyRegular
-                                                                }
-                                                                label={getLabelByKey(
-                                                                    'startDate'
-                                                                )}
-                                                                padding="8px 10px"
-                                                                placeholder={getLabelByKey(
-                                                                    'startDatePlaceholder'
-                                                                )}
-                                                                suffix={
-                                                                    <img
-                                                                        src={
-                                                                            DateCalander
-                                                                        }
-                                                                        alt=""
-                                                                        width={
-                                                                            25
-                                                                        }
-                                                                        height={
-                                                                            25
-                                                                        }
-                                                                        //onClick={(type = "date")}
-                                                                    />
-                                                                }
-                                                            />
-                                                        </Col>
-                                                        <Col
-                                                            md="6"
-                                                            className="mt-20"
-                                                        >
-                                                            <FormControl
-                                                                control="input"
-                                                                type="text"
-                                                                name="endDate"
-                                                                fontFamily={
-                                                                    fontFamilyRegular
-                                                                }
-                                                                label={getLabelByKey(
-                                                                    'endDate'
-                                                                )}
-                                                                padding="8px 10px"
-                                                                placeholder={getLabelByKey(
-                                                                    'endDatePlaceholder'
-                                                                )}
-                                                                suffix={
-                                                                    <img
-                                                                        src={
-                                                                            DateCalander
-                                                                        }
-                                                                        alt=""
-                                                                        width={
-                                                                            25
-                                                                        }
-                                                                        height={
-                                                                            25
-                                                                        }
-                                                                        //onClick={(type = "date")}
-                                                                    />
-                                                                }
-                                                            />
-                                                        </Col>
-                                                    </Row>
-                                                </Col>
-                                                <Col md="12">
-                                                    <Row>
-                                                        <Col
-                                                            md="6"
-                                                            className="mt-20"
-                                                        >
-                                                            <FormControl
-                                                                control="select"
-                                                                type="text"
-                                                                name="instructorId"
-                                                                label={getLabelByKey(
-                                                                    'instructors'
-                                                                )}
-                                                                padding="8px 10px"
-                                                                fontFamily={
-                                                                    fontFamilyRegular
-                                                                }
-                                                                fontSize="16px"
-                                                                max={6}
-                                                                placeholder={getLabelByKey(
-                                                                    'InstructorsPlaceholder'
-                                                                )}
-                                                            />
-                                                        </Col>
-                                                        <Col
-                                                            md="6"
-                                                            className="mt-20"
-                                                        >
-                                                            <FormControl
-                                                                control="input"
-                                                                type="text"
-                                                                name="fee"
-                                                                fontFamily={
-                                                                    fontFamilyRegular
-                                                                }
-                                                                label={getLabelByKey(
-                                                                    'classFees'
-                                                                )}
-                                                                padding="8px 10px"
-                                                                placeholder={getLabelByKey(
-                                                                    'classFeesPlaceholder'
-                                                                )}
-                                                                suffix={
-                                                                    <img
-                                                                        src={
-                                                                            dollar
-                                                                        }
-                                                                        alt=""
-                                                                        width={
-                                                                            13
-                                                                        }
-                                                                        height={
-                                                                            27
-                                                                        }
-                                                                        //onClick={(type = "date")}
-                                                                    />
-                                                                }
-                                                            />
-                                                        </Col>
-                                                    </Row>
-                                                </Col>
-
-                                                <Col md="12" className="mt-20">
-                                                    <CheckboxesSelect
-                                                        name="activities"
-                                                        label={getLabelByKey(
-                                                            'activities'
-                                                        )}
-                                                        list={activities}
-                                                        showErrorMsgInList={
-                                                            false
-                                                        }
-                                                        placeholder={showActivities(
-                                                            formik.values
-                                                                .activities
-                                                        )}
-                                                    />
-                                                </Col>
-                                            </Col>
-
-                                            <Col md="6">
-                                                <Col md="12" className="mt-20">
+                                                <Col md="6" className="mt-20">
                                                     <p className="bannerTitle ">
                                                         {getLabelByKey(
-                                                            'selectBannerImage'
+                                                            'bannerImage'
                                                         )}
                                                     </p>
                                                     <OverlayImages
@@ -309,9 +309,8 @@ const CreateClass = (): JSX.Element => {
                                                         isEditable={true}
                                                     />
                                                 </Col>
-                                            </Col>
-                                        </Row>
-
+                                            </Row>
+                                        </Col>
                                         <Col md="3" className="mt-20">
                                             <FormControl
                                                 control="input"
@@ -321,7 +320,7 @@ const CreateClass = (): JSX.Element => {
                                                 label={getLabelByKey(
                                                     'classCapacity'
                                                 )}
-                                                padding="10px"
+                                                padding="8px 10px"
                                                 placeholder={getLabelByKey(
                                                     'classCapacityPlaceholder'
                                                 )}

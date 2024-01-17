@@ -111,4 +111,8 @@ export const CreateClassStyled = styled.div`
             background-color: transparent;
         }
     }
+
+    .iGXrnw {
+        margin-top: 0px !important;
+    }
 `

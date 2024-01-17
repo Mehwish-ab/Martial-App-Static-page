@@ -39,14 +39,14 @@ const ListClass = (): JSX.Element => {
                 break
 
             case 'view':
-                navigate(`/Class/view/${record.ClassId}`, {
+                navigate(`/class/view`, {
                     state: {
                         branch: record as ClassDataType,
                     },
                 })
                 break
 
-            case 'subscribe':
+            case 'delete':
                 navigate(`/Class/subscribe/${record.ClassId}`, {
                     state: {
                         branch: record as ClassDataType,
@@ -188,8 +188,8 @@ const ListClass = (): JSX.Element => {
                     },
                     {
                         key: '3',
-                        label: 'Subscribe',
-                        onClick: () => navigation(record, 'subscribe'),
+                        label: 'Delete',
+                        onClick: () => navigation(record, 'delete'),
                     },
                 ]
                 return (

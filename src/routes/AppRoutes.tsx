@@ -49,6 +49,7 @@ import TimeTableForm from '../screens/TimeTable/CreateTimeTable/TimeTableForm'
 import TimeTableSheet from '../screens/TimeTable/CreateTimeTable/TimeTableSheet'
 import { useState } from 'react'
 import EditTimeTable from '../screens/TimeTable/EditTimeTable/EditTimeTable'
+import ViewClass from '../screens/Class/ViewClass/ViewClass'
 // import { useDispatch, useSelector } from "react-redux";
 // import { RootState } from "../redux/store";
 
@@ -88,7 +89,7 @@ function AppRoutes(): JSX.Element {
                 <Route path="/forgot-password" element={<ForgetPassword />} />
                 <Route path="/register/verify-otp" element={<Otp />} />
                 <Route path="/terms" element={<Terms />} />
-                <Route path="/privay" element={<Privacy />} />
+                <Route path="/privacy" element={<Privacy />} />
                 <Route
                     path="/register/create-new-password"
                     element={<CreatePassword />}
@@ -364,6 +365,14 @@ function AppRoutes(): JSX.Element {
                     element={
                         <AppLayout>
                             <ListClass />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/class/view"
+                    element={
+                        <AppLayout>
+                            <ViewClass />
                         </AppLayout>
                     }
                 />

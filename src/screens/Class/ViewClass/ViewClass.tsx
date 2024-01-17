@@ -15,7 +15,7 @@ const ViewClass = (): JSX.Element => {
 
     return (
         <>
-            <Head title="View Class" />
+            <Head title="Class Information" />
             <ViewClassStyle>
                 <h3>{getLabelByKey('mainTitle')}</h3>
                 <Card className="mb-5">

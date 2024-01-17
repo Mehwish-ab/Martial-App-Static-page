@@ -9,10 +9,6 @@ import { RootState } from '../../../redux/store'
 import FormControl from '../../../components/FormControl'
 
 const ViewClass = (): JSX.Element => {
-    const {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        statusData: { activities },
-    } = useSelector((state: RootState) => state.appData.data)
     const { getLabelByKey } = useScreenTranslation('detailClasses')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
     const { ClassData } = useSelector((state: RootState) => state.ClassData)

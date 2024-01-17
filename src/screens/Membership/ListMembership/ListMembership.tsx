@@ -102,8 +102,8 @@ const ListMembership: React.FC = () => {
         redirectTo: string
     ): void => {
         switch (redirectTo) {
-            case 'edit':
-                navigate(`/Membership/edit/${record.MembershipId}`, {
+            case 'update':
+                navigate(`/membership/update`, {
                     state: {
                         branchToEdit: record as MembershipDataType,
                     },
@@ -186,8 +186,8 @@ const ListMembership: React.FC = () => {
                     },
                     {
                         key: '2',
-                        label: 'Edit',
-                        onClick: () => navigation(record, 'edit'),
+                        label: 'Update',
+                        onClick: () => navigation(record, 'update'),
                     },
                     {
                         key: '3',

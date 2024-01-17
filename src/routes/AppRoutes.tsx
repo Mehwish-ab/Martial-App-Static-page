@@ -22,6 +22,7 @@ import ListTimeTable from '../screens/TimeTable/ListTimeTable/ListTimeTable'
 // import CreateTimeTable from '../screens/TimeTable/CreateTimeTable/createTimeTable'
 import InformationTimeTable from '../screens/TimeTable/InformationTimeTable/InformationTimeTable'
 import ViewSchool from '../screens/CreateSchool/ViewSchool/ViewSchool'
+import MembershipCardView from '../screens/Membership/MembershipCards/MembershipCardView'
 import CreateMembership from '../screens/Membership/CreateMembership/CreateMembership'
 import ListMembership from '../screens/Membership/ListMembership/ListMembership'
 import ListClass from '../screens/Class/ListClasses/ListClasses'
@@ -49,7 +50,7 @@ import TimeTableSheet from '../screens/TimeTable/CreateTimeTable/TimeTableSheet'
 import { useState } from 'react'
 import EditTimeTable from '../screens/TimeTable/EditTimeTable/EditTimeTable'
 import ViewClass from '../screens/Class/ViewClass/ViewClass'
-import MembershipCardView from '../screens/Membership/MembershipCards/MembershipCardView'
+import UpdateMembership from '../screens/Membership/UpdateMembership/UpdateMembership'
 // import { useDispatch, useSelector } from "react-redux";
 // import { RootState } from "../redux/store";
 
@@ -333,6 +334,14 @@ function AppRoutes(): JSX.Element {
                     element={
                         <AppLayout>
                             <ListMembership />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/membership/update"
+                    element={
+                        <AppLayout>
+                            <UpdateMembership />
                         </AppLayout>
                     }
                 />

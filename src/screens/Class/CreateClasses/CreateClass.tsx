@@ -207,34 +207,23 @@ const CreateClass = (): JSX.Element => {
                                                                 className="mt-20"
                                                             >
                                                                 <FormControl
-                                                                    control="input"
+                                                                    control="select"
                                                                     type="text"
-                                                                    name="fee"
+                                                                    name="instructorId"
+                                                                    // label={getLabelByKey(
+                                                                    //     'instructors'
+                                                                    // )}
+                                                                    label="TimeTable"
+                                                                    padding="8px 10px"
                                                                     fontFamily={
                                                                         fontFamilyRegular
                                                                     }
-                                                                    label={getLabelByKey(
-                                                                        'classFees'
-                                                                    )}
-                                                                    padding="8px 10px"
-                                                                    placeholder={getLabelByKey(
-                                                                        'classFeesPlaceholder'
-                                                                    )}
-                                                                    suffix={
-                                                                        <img
-                                                                            src={
-                                                                                dollar
-                                                                            }
-                                                                            alt=""
-                                                                            width={
-                                                                                13
-                                                                            }
-                                                                            height={
-                                                                                27
-                                                                            }
-                                                                            //onClick={(type = "date")}
-                                                                        />
-                                                                    }
+                                                                    fontSize="16px"
+                                                                    max={6}
+                                                                    // placeholder={getLabelByKey(
+                                                                    //     'InstructorsPlaceholder'
+                                                                    // )}
+                                                                    placeholder="Select TimeTable"
                                                                 />
                                                             </Col>
                                                         </Row>
@@ -280,7 +269,31 @@ const CreateClass = (): JSX.Element => {
                                                 </Col>
                                             </Row>
                                         </Col>
-                                        <Col md="3" className="mt-20">
+                                        <Col md="2" className="mt-20">
+                                            <FormControl
+                                                control="input"
+                                                type="text"
+                                                name="fee"
+                                                fontFamily={fontFamilyRegular}
+                                                label={getLabelByKey(
+                                                    'classFees'
+                                                )}
+                                                padding="8px 10px"
+                                                placeholder={getLabelByKey(
+                                                    'classFeesPlaceholder'
+                                                )}
+                                                suffix={
+                                                    <img
+                                                        src={dollar}
+                                                        alt=""
+                                                        width={13}
+                                                        height={27}
+                                                        //onClick={(type = "date")}
+                                                    />
+                                                }
+                                            />
+                                        </Col>
+                                        <Col md="2" className="mt-20">
                                             <FormControl
                                                 control="input"
                                                 type="text"
@@ -296,7 +309,7 @@ const CreateClass = (): JSX.Element => {
                                             />
                                         </Col>
 
-                                        <Col md="3" className="mt-20">
+                                        <Col md="2" className="mt-20">
                                             <FormControl
                                                 control="input"
                                                 type="text"

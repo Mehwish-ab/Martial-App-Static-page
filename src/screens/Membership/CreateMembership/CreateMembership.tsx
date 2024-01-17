@@ -607,7 +607,7 @@ const CreateMembership = (): JSX.Element => {
                                         fontFamily={`${fontFamilyMedium}`}
                                         width="fit-content"
                                         type="submit"
-                                        title="Submit"
+                                        title="Next"
                                         fontSize="18px"
                                         loading={isLoading}
                                     />

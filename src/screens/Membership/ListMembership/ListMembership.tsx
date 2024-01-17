@@ -120,7 +120,7 @@ const ListMembership: React.FC = () => {
                 break
 
             case 'school':
-                navigate(`/membership/school-profile`, {
+                navigate(`/membership/classes`, {
                     state: {
                         branch: record as MembershipDataType,
                     },
@@ -199,11 +199,11 @@ const ListMembership: React.FC = () => {
                     },
                     {
                         key: '3',
-                        label: 'School',
+                        label: 'Classes',
                         onClick: () => navigation(record, 'school'),
                     },
                     {
-                        key: '3',
+                        key: '4',
                         label: 'Delete',
                         onClick: () => navigation(record, 'delete'),
                     },

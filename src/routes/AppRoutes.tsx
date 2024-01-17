@@ -355,7 +355,7 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/membership/school-profile"
+                    path="/membership/classes"
                     element={
                         <AppLayout>
                             <MembershipCardView />

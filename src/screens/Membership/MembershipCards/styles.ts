@@ -10,7 +10,7 @@ import {
     whiteColor,
 } from '../../../components/GlobalStyle'
 
-export const CardViewStyled = styled.div`
+export const MembershipCardViewStyled = styled.div`
   background: #fff;
   padding: 20px;
   border-radius: 10px;

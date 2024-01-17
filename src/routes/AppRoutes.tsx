@@ -32,7 +32,6 @@ import AddPaymentSchool from '../screens/CreateSchool/AddPaymentSchool/AddPaymen
 import AddPaymentFranchise from '../screens/Franchise/AddPaymentFranchise/AddPaymentFranchise'
 import SchoolFranchise from '../screens/Franchise/SchoolFranchise/SchoolFranchise'
 // import AddPaymentBranch from '../screens/Branches/AddPaymentBranch/AddPaymentBranch'
-import ProfileMembership from '../screens/Membership/ProfileMembership/ProfileMembership'
 import ListTransactionHistort from '../screens/TransactionHistory/ListTransactionHistory/ListTransactionHistory'
 import ListRules from '../screens/Rules/ListRules/ListRules'
 import MainSettingPage from '../screens/SettingsPage/MainSettingPage/MainSettingPage'
@@ -50,6 +49,7 @@ import TimeTableSheet from '../screens/TimeTable/CreateTimeTable/TimeTableSheet'
 import { useState } from 'react'
 import EditTimeTable from '../screens/TimeTable/EditTimeTable/EditTimeTable'
 import ViewClass from '../screens/Class/ViewClass/ViewClass'
+import MembershipCardView from '../screens/Membership/MembershipCards/MembershipCardView'
 // import { useDispatch, useSelector } from "react-redux";
 // import { RootState } from "../redux/store";
 
@@ -340,7 +340,7 @@ function AppRoutes(): JSX.Element {
                     path="/membership/school-profile"
                     element={
                         <AppLayout>
-                            <ProfileMembership />
+                            <MembershipCardView />
                         </AppLayout>
                     }
                 />

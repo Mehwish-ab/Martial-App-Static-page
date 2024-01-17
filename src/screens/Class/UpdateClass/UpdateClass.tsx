@@ -23,6 +23,7 @@ import { RootState } from '../../../redux/store'
 import Head from '../../../components/Head/Head'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
+import useClass from '../../../hooks/useClass'
 
 const CreateClass = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('updateClasses')
@@ -32,6 +33,8 @@ const CreateClass = (): JSX.Element => {
     const navigate = useNavigate()
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isLoading, setIsLoading] = useState(false)
+    const { UpdateModal } = useClass()
+
     const {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
@@ -102,21 +105,8 @@ const CreateClass = (): JSX.Element => {
     return (
         <>
             <Head title="Update Class" />
+            {UpdateModal().modalComponent}
             <CreateClassStyled>
-                {/* <CustomModal
-                isModalVisible={isShowModal}
-                setIsModalVisible={setIsShowModal}
-                showCloseBtn={false}
-            >
-                <EnnvisionModal
-                    doTask={() => {
-                        navigate('/branch/list')
-                        setIsShowModal(false)
-                    }}
-                    title="Membership Created Successfully!"
-                    description="Congratulations! Your Membership has been successfully Created, ensuring a seamless experience within the Marital "
-                />
-            </CustomModal> */}
                 <Formik initialValues={initialValues} onSubmit={onSubmit}>
                     {(formik) => {
                         return (

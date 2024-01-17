@@ -75,31 +75,32 @@ const UpdateMembership = (): JSX.Element => {
     return (
         <>
             <Head title="Create Membership" />
+
+            <CustomModal
+                isModalVisible={isShowModal}
+                setIsModalVisible={setIsShowModal}
+                showCloseBtn={true}
+            >
+                <SchoolSuccessfulModals>
+                    <div className="mainContainer d-flex flex-column align-items-center">
+                        <img
+                            src={ic_success}
+                            alt="Success Icon"
+                            width={79}
+                            height={79}
+                        />
+                        <h3 className="mainContainer-heading text-center">
+                            Update Successfully!
+                        </h3>
+                        <p className="mainContainer-subText text-center">
+                            Congratulations! on updating your profile! Your
+                            changes have been successfully saved, enhancing your
+                            experience within the Marital platform.
+                        </p>
+                    </div>
+                </SchoolSuccessfulModals>
+            </CustomModal>
             <CreateClassStyled>
-                <CustomModal
-                    isModalVisible={isShowModal}
-                    setIsModalVisible={setIsShowModal}
-                    showCloseBtn={true}
-                >
-                    <SchoolSuccessfulModals>
-                        <div className="mainContainer d-flex flex-column align-items-center">
-                            <img
-                                src={ic_success}
-                                alt="Success Icon"
-                                width={79}
-                                height={79}
-                            />
-                            <h3 className="mainContainer-heading text-center">
-                                Update Successfully!
-                            </h3>
-                            <p className="mainContainer-subText text-center">
-                                Congratulations! on updating your profile! Your
-                                changes have been successfully saved, enhancing
-                                your experience within the Marital platform.
-                            </p>
-                        </div>
-                    </SchoolSuccessfulModals>
-                </CustomModal>
                 <Formik initialValues={initialValues} onSubmit={onSubmit}>
                     {(formik) => {
                         return (

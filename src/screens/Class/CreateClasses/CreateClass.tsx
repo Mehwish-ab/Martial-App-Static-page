@@ -37,7 +37,7 @@ const CreateClass = (): JSX.Element => {
     // const [isLoading, setIsLoading] = useState(false)
     // const [bannerImage, setBannerImage] = useState(null); // State to manage banner image
     const { ClassData } = useSelector((state: RootState) => state.ClassData)
-    const { handleCreateSubmit, loading } = useClass()
+    const { handleCreateSubmit, loading, Createmodal } = useClass()
 
     const initialValues: CreateClassInitialValues = {
         title: '',
@@ -101,6 +101,7 @@ const CreateClass = (): JSX.Element => {
     return (
         <>
             <Head title="Create Class" />
+            {Createmodal().modalComponent}
             <CreateClassStyled>
                 <Formik initialValues={initialValues} onSubmit={submit}>
                     {(formik) => {

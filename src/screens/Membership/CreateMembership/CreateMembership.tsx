@@ -75,31 +75,31 @@ const CreateMembership = (): JSX.Element => {
     return (
         <>
             <Head title="Create Membership" />
+            <CustomModal
+                isModalVisible={isShowModal}
+                setIsModalVisible={setIsShowModal}
+                showCloseBtn={true}
+            >
+                <SchoolSuccessfulModals>
+                    <div className="mainContainer d-flex flex-column align-items-center">
+                        <img
+                            src={ic_success}
+                            alt="Success Icon"
+                            width={79}
+                            height={79}
+                        />
+                        <h3 className="mainContainer-heading text-center">
+                            Complete Successfully!
+                        </h3>
+                        <p className="mainContainer-subText text-center">
+                            Congratulations! Your profile has been successfully
+                            completed, ensuring a seamless experience within the
+                            Marital
+                        </p>
+                    </div>
+                </SchoolSuccessfulModals>
+            </CustomModal>
             <CreateClassStyled>
-                <CustomModal
-                    isModalVisible={isShowModal}
-                    setIsModalVisible={setIsShowModal}
-                    showCloseBtn={true}
-                >
-                    <SchoolSuccessfulModals>
-                        <div className="mainContainer d-flex flex-column align-items-center">
-                            <img
-                                src={ic_success}
-                                alt="Success Icon"
-                                width={79}
-                                height={79}
-                            />
-                            <h3 className="mainContainer-heading text-center">
-                                Complete Successfully!
-                            </h3>
-                            <p className="mainContainer-subText text-center">
-                                Congratulations! Your profile has been
-                                successfully completed, ensuring a seamless
-                                experience within the Marital
-                            </p>
-                        </div>
-                    </SchoolSuccessfulModals>
-                </CustomModal>
                 <Formik initialValues={initialValues} onSubmit={onSubmit}>
                     {(formik) => {
                         return (

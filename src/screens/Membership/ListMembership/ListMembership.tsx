@@ -111,7 +111,7 @@ const ListMembership: React.FC = () => {
                 break
 
             case 'view':
-                navigate(`/Membership/view/${record.MembershipId}`, {
+                navigate(`/Membership/information`, {
                     state: {
                         branch: record as MembershipDataType,
                     },
@@ -120,6 +120,13 @@ const ListMembership: React.FC = () => {
 
             case 'school':
                 navigate(`/membership/school-profile`, {
+                    state: {
+                        branch: record as MembershipDataType,
+                    },
+                })
+                break
+            case 'delete':
+                navigate(`/`, {
                     state: {
                         branch: record as MembershipDataType,
                     },
@@ -193,6 +200,11 @@ const ListMembership: React.FC = () => {
                         key: '3',
                         label: 'School',
                         onClick: () => navigation(record, 'school'),
+                    },
+                    {
+                        key: '3',
+                        label: 'Delete',
+                        onClick: () => navigation(record, 'delete'),
                     },
                 ]
                 return (

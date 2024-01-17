@@ -51,6 +51,7 @@ import { useState } from 'react'
 import EditTimeTable from '../screens/TimeTable/EditTimeTable/EditTimeTable'
 import ViewClass from '../screens/Class/ViewClass/ViewClass'
 import UpdateMembership from '../screens/Membership/UpdateMembership/UpdateMembership'
+import ViewMembership from '../screens/Membership/ViewMembership/ViewMembership'
 // import { useDispatch, useSelector } from "react-redux";
 // import { RootState } from "../redux/store";
 
@@ -342,6 +343,14 @@ function AppRoutes(): JSX.Element {
                     element={
                         <AppLayout>
                             <UpdateMembership />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/membership/information"
+                    element={
+                        <AppLayout>
+                            <ViewMembership />
                         </AppLayout>
                     }
                 />

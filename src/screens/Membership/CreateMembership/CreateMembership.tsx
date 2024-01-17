@@ -30,7 +30,7 @@ import Head from '../../../components/Head/Head'
 
 const CreateMembership = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('createMembership')
-    // const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
+    const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
     const [isLoading, setIsLoading] = useState(false)
     const [isShowModal, setIsShowModal] = useState(false)
     const navigate = useNavigate()
@@ -314,7 +314,7 @@ const CreateMembership = (): JSX.Element => {
                                                 label={getLabelByKey(
                                                     'dailySubscriptionFees'
                                                 )}
-                                                padding="10px"
+                                                padding="8px 10px"
                                                 placeholder={getLabelByKey(
                                                     'dailySubscriptionFeesPlaceholder'
                                                 )}
@@ -337,7 +337,7 @@ const CreateMembership = (): JSX.Element => {
                                                 label={getLabelByKey(
                                                     'weeklySubscriptionFees'
                                                 )}
-                                                padding="10px"
+                                                padding="8px 10px"
                                                 placeholder={getLabelByKey(
                                                     'weeklySubscriptionFeesPlaceholder'
                                                 )}
@@ -360,7 +360,7 @@ const CreateMembership = (): JSX.Element => {
                                                 label={getLabelByKey(
                                                     'monthlySubscriptionFees'
                                                 )}
-                                                padding="10px"
+                                                padding="8px 10px"
                                                 placeholder={getLabelByKey(
                                                     'monthlySubscriptionFeesPlaceholder'
                                                 )}
@@ -383,7 +383,7 @@ const CreateMembership = (): JSX.Element => {
                                                 label={getLabelByKey(
                                                     'annuallySubscriptionFees'
                                                 )}
-                                                padding="10px"
+                                                padding="8px 10px"
                                                 placeholder={getLabelByKey(
                                                     'annuallySubscriptionFeesPlaceholder'
                                                 )}
@@ -425,7 +425,7 @@ const CreateMembership = (): JSX.Element => {
                                                 label={getLabelByKey(
                                                     'refundFeesDate'
                                                 )}
-                                                padding="10px"
+                                                padding="8px 10px"
                                                 placeholder={getLabelByKey(
                                                     'refundFeesDatePlaceholder'
                                                 )}
@@ -439,9 +439,9 @@ const CreateMembership = (): JSX.Element => {
                                                 name="bookingCancellationStart "
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
-                                                    'bookingCancellationEnd'
+                                                    'bookingCancellationStart'
                                                 )}
-                                                padding="10px"
+                                                padding="8px 10px"
                                                 placeholder={getLabelByKey(
                                                     'bookingCancellationStartDate'
                                                 )}
@@ -452,14 +452,14 @@ const CreateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="date"
                                                 type="date"
-                                                name="BookingCancellationEnd "
+                                                name="bookingCancellationEnd "
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
-                                                    'minimumStudent'
+                                                    'bookingCancellationEnd'
                                                 )}
-                                                padding="10px"
+                                                padding="8px 10px"
                                                 placeholder={getLabelByKey(
-                                                    'minimumStudent'
+                                                    'bookingCancellationEndPlaceholder'
                                                 )}
                                             />
                                         </Col>
@@ -468,14 +468,23 @@ const CreateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="input"
                                                 type="text"
-                                                name="Cancellation Charge"
+                                                name="cancellationCharge"
                                                 fontFamily={fontFamilyRegular}
-                                                label={getLabelByKey(
-                                                    'minimumStudent'
-                                                )}
-                                                padding="10px"
+                                                label={
+                                                    <>
+                                                        {getLabelByKey(
+                                                            'cancellationCharge'
+                                                        )}{' '}
+                                                        <span>
+                                                            {getLabelByKey(
+                                                                'ifStudentCancel'
+                                                            )}
+                                                        </span>
+                                                    </>
+                                                }
+                                                padding="8px 10px"
                                                 placeholder={getLabelByKey(
-                                                    'minimumStudent'
+                                                    'cancellationChargePlaceholder'
                                                 )}
                                                 suffix={
                                                     <img
@@ -492,15 +501,24 @@ const CreateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="select"
                                                 type="text"
-                                                name="Accommodate"
-                                                label={getLabelByKey(
-                                                    'minimumStudent'
-                                                )}
+                                                name="accommodate"
+                                                label={
+                                                    <>
+                                                        {getLabelByKey(
+                                                            'accommodate'
+                                                        )}{' '}
+                                                        <span>
+                                                            {getLabelByKey(
+                                                                'ifSchoolCancel'
+                                                            )}
+                                                        </span>
+                                                    </>
+                                                }
                                                 fontFamily={fontFamilyRegular}
                                                 fontSize="16px"
                                                 max={6}
                                                 placeholder={getLabelByKey(
-                                                    'minimumStudent'
+                                                    'selectAccommodationOptions'
                                                 )}
                                             />
                                         </Col>
@@ -512,62 +530,67 @@ const CreateMembership = (): JSX.Element => {
                                                 name="description"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
-                                                    'minimumStudent'
+                                                    'descriptionAndFeatures'
                                                 )}
-                                                padding="10px"
+                                                padding="8px 10px"
                                                 placeholder={getLabelByKey(
-                                                    'minimumStudent'
+                                                    'descriptionAndFeaturesPlaceholder'
                                                 )}
                                                 height="200px"
                                             />
                                         </Col>
 
-                                        <label htmlFor="termCondition">
+                                        <label htmlFor="termsAndConditions">
                                             <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
                                                 <FormControl
                                                     control="checkbox"
                                                     type="checkbox"
-                                                    id="rememberMe"
-                                                    name="rememberMe"
+                                                    id="termsAndConditions"
+                                                    name="termsAndConditions"
                                                 />
                                                 <p
                                                     className="checkBoxPara"
-                                                    id="termCondition"
+                                                    id="termsAndConditions"
                                                 >
-                                                    Terms and conditions
+                                                    {getLegalLabelByKey(
+                                                        'termsAndConditions'
+                                                    )}
                                                 </p>
                                             </form>
                                         </label>
-                                        <label htmlFor="agreement">
+                                        <label htmlFor="AgreementGuidelines">
                                             <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
                                                 <FormControl
                                                     control="checkbox"
                                                     type="checkbox"
-                                                    id="rememberMe"
-                                                    name="rememberMe"
+                                                    id="AgreementGuidelines"
+                                                    name="AgreementGuidelines"
                                                 />
                                                 <p
                                                     className="checkBoxPara"
-                                                    id="agreement"
+                                                    id="AgreementGuidelines"
                                                 >
-                                                    Agreement to follow the apps
-                                                    guidelines and policies
+                                                    {getLegalLabelByKey(
+                                                        'AgreementGuidelines'
+                                                    )}
                                                 </p>
                                             </form>
                                         </label>
-                                        <label htmlFor="liability">
+                                        <label htmlFor="liabilityWaivers">
                                             <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
                                                 <FormControl
                                                     control="checkbox"
                                                     type="checkbox"
-                                                    id="rememberMe"
-                                                    name="rememberMe"
+                                                    id="liabilityWaivers"
+                                                    name="liabilityWaivers"
                                                 />
                                                 <p
                                                     className="checkBoxPara"
-                                                    id="liability"
+                                                    id="liabilityWaivers"
                                                 >
-                                                    Liability waivers
+                                                    {getLegalLabelByKey(
+                                                        'liabilityWaivers'
+                                                    )}
                                                 </p>
                                             </form>
                                         </label>
@@ -584,7 +607,7 @@ const CreateMembership = (): JSX.Element => {
                                         fontFamily={`${fontFamilyMedium}`}
                                         width="fit-content"
                                         type="submit"
-                                        title="Next"
+                                        title="Submit"
                                         fontSize="18px"
                                         loading={isLoading}
                                     />

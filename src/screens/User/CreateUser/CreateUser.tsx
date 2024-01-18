@@ -211,20 +211,6 @@ const RegisterUser = (): JSX.Element => {
     return (
         <>
             <Head title="Register" />
-            {/* <CustomModal
-        isModalVisible={isShowModal}
-        setIsModalVisible={setIsShowModal}
-        showCloseBtn={false}
-      >
-        <EnnvisionModal
-          doTask={() => {
-            navigate("/login");
-            setIsShowModal(false);
-          }}
-          title="Account Created Successfully!"
-          description="Thank You For Joining Us And We're Excited To Have You On Board"
-        />
-      </CustomModal> */}
             <CreateUserStyle>
                 <div className="inner-container">
                     <div className="inner-container-card">

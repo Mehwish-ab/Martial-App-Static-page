@@ -26,139 +26,89 @@ import LeftArrow from '../../../assets/images/leftArrow.svg'
 import DateCalander from '../../../assets/images/dateCalander.svg'
 import moment from 'moment'
 import useTimetable from '../../../hooks/useTimetable'
+import Head from '../../../components/Head/Head'
+import useScreenTranslation from '../../../hooks/useScreenTranslation'
 const RenderTableTitle = (): JSX.Element => {
     const navigate = useNavigate()
+    const { getLabelByKey } = useScreenTranslation('timeTableList')
 
     return (
-        // <div className="d-flex justify-content-between">
-        //     <h3 className="table-heading">Time Table</h3>
-        //     <CustomDiv>
-        //         <div className="instructorDateSection">
-        //             <div className="mainarrow">
-        //                 <div className="arrowright">
-        //                     <img
-        //                         src={LeftArrow as string}
-        //                         alt="Date"
-        //                         width={18}
-        //                         height={12}
-        //                     />
-        //                 </div>
-        //                 <div className="arrowleft">
-        //                     <img
-        //                         src={RightArrow as string}
-        //                         alt="Date"
-        //                         width={18}
-        //                         height={12}
-        //                     />
-        //                 </div>
-        //             </div>
-        //             <div className="dateRange">
-        //                 <p>
-        //                     <span>Mon,</span> Sep 11, 2023 - <span>Thu,</span>{' '}
-        //                     Sep 21, 2023
-        //                 </p>
-        //                 <img
-        //                     src={DateCalander as string}
-        //                     alt="Calander"
-        //                     width={21}
-        //                     height={21}
-        //                 />
-        //             </div>
-        //             <div className="dateToday">Today</div>
-        //         </div>
-        //         <CustomButton
-        //             bgcolor={tertiaryBlue2}
-        //             textTransform="Captilize"
-        //             color={pureDark}
-        //             padding="6.5px 0px"
-        //             fontFamily={`${fontFamilyMedium}`}
-        //             width="40px"
-        //             type="submit"
-        //             title=""
-        //             fontSize="17px"
-        //             icon={
-        //                 <img
-        //                     src={plusIcon as string}
-        //                     alt="edit icon"
-        //                     width={17}
-        //                     height={17}
-        //                 />
-        //             }
-        //             clicked={() => {
-        //                 navigate(`/timetable/create`)
-        //             }}
-        //         />
-        //     </CustomDiv>
-        // </div>
-        <CustomDiv>
-            <div className="mainWrapper">
-                <h3 className="table-heading">Time Table</h3>
-                <div className="FilterMainContainer">
-                    <div className="arrowsMain">
-                        <div className="arrowRight">
-                            <img
-                                src={LeftArrow}
-                                alt="Date"
-                                width={18}
-                                height={12}
-                            />
-                        </div>
-                        <div className="arrowLeft">
-                            <img
-                                src={RightArrow}
-                                alt="Date"
-                                width={18}
-                                height={12}
-                            />
-                        </div>
-                    </div>
-                    <div className="dateRange">
-                        <p>
-                            {' '}
-                            <span>Mon,</span> Sep 11, 2023 - <span>Thu,</span>{' '}
-                            Sep 21, 2023
-                        </p>
-                        <img
-                            src={DateCalander}
-                            alt="calander"
-                            width={21}
-                            height={21}
-                        />
-                    </div>
-                    <div className="todayPlusContainer">
-                        <div className="dateToday">
-                            <p>Today</p>
-                        </div>
-                        <CustomButton
-                            bgcolor={tertiaryBlue2}
-                            textTransform="Captilize"
-                            color={pureDark}
-                            padding="6.5px 0px"
-                            fontFamily={`${fontFamilyMedium}`}
-                            width="40px"
-                            type="submit"
-                            title=""
-                            fontSize="17px"
-                            // loading={loading}
-                            icon={
+        <>
+            <Head title="TimeTable List" />
+            <CustomDiv>
+                <div className="mainWrapper">
+                    <h3 className="table-heading">
+                        {getLabelByKey('screenTitle')}
+                    </h3>
+                    <div className="FilterMainContainer">
+                        <div className="arrowsMain">
+                            <div className="arrowRight">
                                 <img
-                                    src={plusIcon}
-                                    alt="edit icon"
-                                    width={17}
-                                    height={17}
+                                    src={LeftArrow}
+                                    alt="Date"
+                                    width={18}
+                                    height={12}
                                 />
-                            }
-                            clicked={() => {
-                                navigate(`/timetable/create`)
-                            }}
-                        />
+                            </div>
+                            <div className="arrowLeft">
+                                <img
+                                    src={RightArrow}
+                                    alt="Date"
+                                    width={18}
+                                    height={12}
+                                />
+                            </div>
+                        </div>
+                        <div className="dateRange">
+                            <p>
+                                {' '}
+                                <span>Mon,</span> Sep 11, 2023 -{' '}
+                                <span>Thu,</span> Sep 21, 2023
+                            </p>
+                            <img
+                                src={DateCalander}
+                                alt="calander"
+                                width={21}
+                                height={21}
+                            />
+                        </div>
+                        <div className="todayPlusContainer">
+                            <div className="dateToday">
+                                <p>Today</p>
+                            </div>
+                            <CustomButton
+                                bgcolor={tertiaryBlue2}
+                                textTransform="Captilize"
+                                color={pureDark}
+                                padding="6.5px 0px"
+                                fontFamily={`${fontFamilyMedium}`}
+                                width="40px"
+                                type="submit"
+                                title=""
+                                fontSize="17px"
+                                // loading={loading}
+                                icon={
+                                    <img
+                                        src={plusIcon}
+                                        alt="edit icon"
+                                        width={17}
+                                        height={17}
+                                    />
+                                }
+                                clicked={() => {
+                                    navigate(`/timetable/create`)
+                                }}
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
-        </CustomDiv>
+            </CustomDiv>
+        </>
     )
 }
 const ListTimeTable: React.FC = () => {
+    const { getLabelByKey } = useScreenTranslation('timeTableList')
+
     const { timeTableData } = useSelector(
         (state: RootState) => state.timeTableData
     )
@@ -177,6 +127,7 @@ const ListTimeTable: React.FC = () => {
     console.log('timetable', timeTableData)
 
     const navigate = useNavigate()
+
     const navigation = (
         record: TimeTableDataType,
         redirectTo: string
@@ -210,17 +161,17 @@ const ListTimeTable: React.FC = () => {
 
     const columns: ColumnsType<TimeTableDataType> = [
         {
-            title: 'Id',
+            title: getLabelByKey('id'),
             dataIndex: 'timeTableId',
             key: 'timeTableId',
         },
         {
-            title: 'Title',
+            title: getLabelByKey('title'),
             dataIndex: 'title',
             key: 'title',
         },
         {
-            title: 'Start Date',
+            title: getLabelByKey('startDate'),
             dataIndex: 'startDate',
             key: 'startDate',
             render: (startDate) => {
@@ -236,7 +187,7 @@ const ListTimeTable: React.FC = () => {
             },
         },
         {
-            title: 'End Date',
+            title: getLabelByKey('endDate'),
             dataIndex: 'endDate',
             key: 'endDate',
             render: (endDate) => {
@@ -252,7 +203,7 @@ const ListTimeTable: React.FC = () => {
             },
         },
         {
-            title: 'Type',
+            title: getLabelByKey('type'),
             dataIndex: 'isRepeated',
             key: 'isRepeated',
             render: (isRepeated) => {
@@ -272,7 +223,7 @@ const ListTimeTable: React.FC = () => {
             },
         },
         {
-            title: 'Status',
+            title: getLabelByKey('status'),
             dataIndex: 'isActive',
             key: 'isActive',
             render: (isActive, index) => {
@@ -315,7 +266,7 @@ const ListTimeTable: React.FC = () => {
             },
         },
         {
-            title: 'Actions',
+            title: getLabelByKey('actions'),
             key: 'timeTableAction',
             render: (_, record) => {
                 const items = [
@@ -357,14 +308,6 @@ const ListTimeTable: React.FC = () => {
             },
         },
     ]
-
-    // const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
-
-    // const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    //     console.log('selectedRowKeys changed: ', newSelectedRowKeys)
-    //     setSelectedRowKeys(newSelectedRowKeys)
-    // }
-    // const rowSelection = { selectedRowKeys, onChange: onSelectChange }
 
     return (
         <>

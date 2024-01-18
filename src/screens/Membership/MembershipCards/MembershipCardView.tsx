@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React from 'react'
-import { CardViewStyled } from './styles'
+import { MembershipCardViewStyled } from './styles'
 import { Dropdown } from 'antd'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 import { useNavigate } from 'react-router-dom'
@@ -20,7 +20,7 @@ import DateCalander from '../../../assets/images/dateCalander.svg'
 import FilterIcon from '../../../assets/icons/ic_filter.svg'
 import { CustomDiv } from './CustomDiv'
 
-const CardView = (): JSX.Element => {
+const MembershipCardView = (): JSX.Element => {
     const navigate = useNavigate()
 
     const items = [
@@ -69,7 +69,7 @@ const CardView = (): JSX.Element => {
     // }
 
     return (
-        <CardViewStyled>
+        <MembershipCardViewStyled>
             <div className="mb-20 d-flex justify-content-between align-items-center">
                 <h3 className="table-heading">Class</h3>
                 <CustomDiv>
@@ -272,8 +272,8 @@ const CardView = (): JSX.Element => {
                     </li>
                 </ul>
             </div>
-        </CardViewStyled>
+        </MembershipCardViewStyled>
     )
 }
 
-export default CardView
+export default MembershipCardView

@@ -78,7 +78,7 @@ const TermsAndConditions: React.FC<termsAndConditionsProps> = ({
 
                         {getLabelByKey('legalNoteAnd')}
 
-                        <Link className="underline ms-1 me-1" to="/privay">
+                        <Link className="underline ms-1 me-1" to="/privacy">
                             {getLabelByKey('legalNotePolicy')}
                         </Link>
                     </span>

@@ -1,9 +1,17 @@
-// import { useState } from 'react'
+import { useState } from 'react'
+
 import { Formik } from 'formik'
 import { Form } from 'antd'
+
 import { Col, Row } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
+import { RootState } from '../../../redux/store'
+import { useNavigate } from 'react-router-dom'
+
 import FormControl from '../../../components/FormControl'
+import doller from '../../../assets/images/$.svg'
+import ic_success from '../../../assets/images/ic_success.svg'
+
 import {
     fontFamilyMedium,
     fontFamilyRegular,
@@ -11,99 +19,89 @@ import {
     pureDark,
 } from '../../../components/GlobalStyle'
 import CustomButton from '../../../components/CustomButton/CustomButton'
-import { CreateClassStyled } from './styles'
-import { CreateClassInitialValues } from '../constant'
-import dollar from '../../../assets/images/$.svg'
-// import EnnvisionModal from '../../../components/CustomModals/EnnvisionModal'
-// import CustomModal from '../../../components/Modal/CustomModal'
-// import { useNavigate } from 'react-router-dom'
+import { CreateClassStyled } from '../../Class/CreateClasses/styles'
+import { CreateMembershipInitialValues } from '../constant'
+import CustomModal from '../../../components/Modal/CustomModal'
 import OverlayImages from '../../Home/OverlayImages/OverlayImages'
-import { RootState } from '../../../redux/store'
-import useClass from '../../../hooks/useClass'
-import { useState } from 'react'
-import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
+import { SchoolSuccessfulModals } from '../../../hooks/PopupModalsStyling'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
+import dollar from '../../../assets/images/$.svg'
 import Head from '../../../components/Head/Head'
 
-const CreateClass = (): JSX.Element => {
-    const {
-        statusData: { activities },
-    } = useSelector((state: RootState) => state.appData.data)
-    const { getLabelByKey } = useScreenTranslation('createClasses')
+const UpdateMembership = (): JSX.Element => {
+    const { getLabelByKey } = useScreenTranslation('updateMembership')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
+    const [isLoading, setIsLoading] = useState(false)
+    const [isShowModal, setIsShowModal] = useState(false)
+    const navigate = useNavigate()
+    const { MembershipData } = useSelector(
+        (state: RootState) => state.MembershipData
+    )
 
-    // const [isShowModal, setIsShowModal] = useState(false)
-    // const navigate = useNavigate()
-    // const [isLoading, setIsLoading] = useState(false)
-    // const [bannerImage, setBannerImage] = useState(null); // State to manage banner image
-    const { ClassData } = useSelector((state: RootState) => state.ClassData)
-    const { handleCreateSubmit, loading, Createmodal } = useClass()
-
-    const initialValues: CreateClassInitialValues = {
-        title: '',
-        startDate: '',
-        endDate: '',
-        instructorId: [],
-        fee: '',
-        activities: [],
-        capacity: '',
-        minimumStudent: '',
-        bookingStartDate: '',
-        bookingEndDate: '',
-        qrCodeStartDate: '',
-        qrCodeEndDate: '',
-        allowStudentCancel: '',
-        refundDate: '',
-        bookingCancelStartDate: '',
-        bookingCancelEndDate: '',
-        cancellationCharges: '',
-        accommodation: '',
-        description: '',
+    const initialValues: CreateMembershipInitialValues = {
+        MembershipTitle: '',
+        MembershipStartDate: '',
+        MembershipEndDate: '',
+        Visibility: [],
+        MembershipSubscriptionType: [],
+        MembershipFee: '',
+        MinimumStudents: '',
+        DailySubscriptionFees: '',
+        WeeklySubscriptionFees: '',
+        MonthlySubscriptionFees: '',
+        AnnuallySubscriptionFees: '',
+        AllowToStudentCancle: '',
+        RefundFeeDate: '',
+        BookingCancellationStart: '',
+        BookingCancellationEnd: '',
+        CancellationCharges: '',
+        Accommodate: '',
+        Description: '',
         Agreement: '',
         termCondition: '',
         Liabilitywaivers: '',
-        bannerPicture: '',
-        profilePicture: '',
-        useCase: '',
-        id: 0,
     }
-    const [selectedFiles, setSelectedFiless] = useState<FileList | null>(null)
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const handleImagesUpload = (selectedFiless: FileList | null): void => {
-        setSelectedFiless(selectedFiless)
-    }
-    const submit = async (values: any): Promise<void> => {
-        console.log(values)
-        await handleCreateSubmit(values, selectedFiles)
-    }
-    const { selectedLanguage } = useSelector(
-        (state: RootState) => state.selectedLanguage
-    )
-    const showActivities = (_activities: string[]): string => {
-        let activitiesName = ''
-        _activities.forEach((activity) => {
-            const index = activities.findIndex((act) => act.id === activity)
-            if (index !== -1) {
-                const activityLabel = (activities[index] as any)[
-                    selectedLanguage
-                ]
-                activitiesName =
-                    activitiesName === ''
-                        ? activityLabel
-                        : `${activitiesName}, ${activityLabel}`
-            }
-        })
-        if (activitiesName.length > 35) {
-            return `${activitiesName.slice(0, 35)}...`
-        }
-        return activitiesName || getLabelByKey('activitiesPlaceholder')
+
+    const onSubmit = async (): Promise<void> => {
+        try {
+            setIsShowModal(true)
+            setTimeout(() => {
+                setIsShowModal(false)
+                navigate('/membership/list')
+            }, 3000)
+            setIsLoading(false)
+        } catch (error: unknown) {}
     }
     return (
         <>
-            <Head title="Create Class" />
-            {Createmodal().modalComponent}
+            <Head title="Create Membership" />
+
+            <CustomModal
+                isModalVisible={isShowModal}
+                setIsModalVisible={setIsShowModal}
+                showCloseBtn={true}
+            >
+                <SchoolSuccessfulModals>
+                    <div className="mainContainer d-flex flex-column align-items-center">
+                        <img
+                            src={ic_success}
+                            alt="Success Icon"
+                            width={79}
+                            height={79}
+                        />
+                        <h3 className="mainContainer-heading text-center">
+                            Update Successfully!
+                        </h3>
+                        <p className="mainContainer-subText text-center">
+                            Congratulations! on updating your profile! Your
+                            changes have been successfully saved, enhancing your
+                            experience within the Marital platform.
+                        </p>
+                    </div>
+                </SchoolSuccessfulModals>
+            </CustomModal>
             <CreateClassStyled>
-                <Formik initialValues={initialValues} onSubmit={submit}>
+                <Formik initialValues={initialValues} onSubmit={onSubmit}>
                     {(formik) => {
                         return (
                             <Form
@@ -112,7 +110,7 @@ const CreateClass = (): JSX.Element => {
                                 autoComplete="off"
                             >
                                 <div className="bg-white form">
-                                    <h3>{getLabelByKey('mainTitle')}</h3>
+                                    <h3>{getLabelByKey('titleScreen')}</h3>
                                     <Row>
                                         <Col md="12">
                                             <Row>
@@ -188,9 +186,9 @@ const CreateClass = (): JSX.Element => {
                                                                 <FormControl
                                                                     control="select"
                                                                     type="text"
-                                                                    name="instructorId"
+                                                                    name="visibility"
                                                                     label={getLabelByKey(
-                                                                        'instructors'
+                                                                        'visibility'
                                                                     )}
                                                                     padding="8px 10px"
                                                                     fontFamily={
@@ -199,7 +197,7 @@ const CreateClass = (): JSX.Element => {
                                                                     fontSize="16px"
                                                                     max={6}
                                                                     placeholder={getLabelByKey(
-                                                                        'InstructorsPlaceholder'
+                                                                        'visibilityPlacehor'
                                                                     )}
                                                                 />
                                                             </Col>
@@ -210,179 +208,194 @@ const CreateClass = (): JSX.Element => {
                                                                 <FormControl
                                                                     control="select"
                                                                     type="text"
-                                                                    name="instructorId"
-                                                                    // label={getLabelByKey(
-                                                                    //     'instructors'
-                                                                    // )}
-                                                                    label="TimeTable"
+                                                                    name="subscriptionType"
+                                                                    label={getLabelByKey(
+                                                                        'subscriptionType'
+                                                                    )}
                                                                     padding="8px 10px"
                                                                     fontFamily={
                                                                         fontFamilyRegular
                                                                     }
                                                                     fontSize="16px"
                                                                     max={6}
-                                                                    // placeholder={getLabelByKey(
-                                                                    //     'InstructorsPlaceholder'
-                                                                    // )}
-                                                                    placeholder="Select TimeTable"
+                                                                    placeholder={getLabelByKey(
+                                                                        'subscriptionTypePlaceholder'
+                                                                    )}
+                                                                />
+                                                            </Col>
+                                                            <Col
+                                                                md="6"
+                                                                className="mt-20"
+                                                            >
+                                                                <FormControl
+                                                                    control="input"
+                                                                    type="text"
+                                                                    name="membershipFees"
+                                                                    fontFamily={
+                                                                        fontFamilyRegular
+                                                                    }
+                                                                    label={getLabelByKey(
+                                                                        'membershipFees'
+                                                                    )}
+                                                                    padding="8px 10px"
+                                                                    placeholder={getLabelByKey(
+                                                                        'membershipFeesPlaceholder'
+                                                                    )}
+                                                                    suffix={
+                                                                        <img
+                                                                            src={
+                                                                                dollar
+                                                                            }
+                                                                            alt=""
+                                                                            width={
+                                                                                13
+                                                                            }
+                                                                            height={
+                                                                                27
+                                                                            }
+                                                                            //onClick={(type = "date")}
+                                                                        />
+                                                                    }
+                                                                />
+                                                            </Col>
+                                                            <Col
+                                                                md="6"
+                                                                className="mt-20"
+                                                            >
+                                                                <FormControl
+                                                                    control="input"
+                                                                    type="text"
+                                                                    name="minimumStudent"
+                                                                    fontFamily={
+                                                                        fontFamilyRegular
+                                                                    }
+                                                                    label={getLabelByKey(
+                                                                        'minimumStudent'
+                                                                    )}
+                                                                    padding="8px 10px"
+                                                                    placeholder={getLabelByKey(
+                                                                        'minimumStudentPlaceholder'
+                                                                    )}
                                                                 />
                                                             </Col>
                                                         </Row>
                                                     </Col>
+                                                </Col>
+                                                <Col md="6">
                                                     <Col
                                                         md="12"
                                                         className="mt-20"
                                                     >
-                                                        <CheckboxesSelect
-                                                            name="activities"
-                                                            label={getLabelByKey(
-                                                                'activities'
-                                                            )}
-                                                            list={activities}
-                                                            showErrorMsgInList={
-                                                                false
+                                                        <p className="bannerTitle ">
+                                                            Select Banner Image
+                                                        </p>
+                                                        <OverlayImages
+                                                            backgroundImg={
+                                                                MembershipData?.MemberShipPicture ||
+                                                                ''
                                                             }
-                                                            placeholder={showActivities(
-                                                                formik.values
-                                                                    .activities
-                                                            )}
+                                                            overlayImg={false}
+                                                            isEditable={true}
                                                         />
                                                     </Col>
                                                 </Col>
-
-                                                <Col md="6" className="mt-20">
-                                                    <p className="bannerTitle ">
-                                                        {getLabelByKey(
-                                                            'bannerImage'
-                                                        )}
-                                                    </p>
-                                                    <OverlayImages
-                                                        backgroundImg={
-                                                            ClassData.bannerPicture ||
-                                                            ''
-                                                        }
-                                                        overlayImg={
-                                                            ClassData.profilePicture ||
-                                                            ''
-                                                        }
-                                                        isEditable={true}
-                                                    />
-                                                </Col>
                                             </Row>
                                         </Col>
-                                        <Col md="2" className="mt-20">
+                                    </Row>
+                                    <Row>
+                                        <h3 className="mt-20">
+                                            {getLabelByKey('subscriptionPlan')}
+                                        </h3>
+                                        <Col md="3" className="mt-20">
                                             <FormControl
                                                 control="input"
                                                 type="text"
-                                                name="fee"
+                                                name="dailySubscriptionFees"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
-                                                    'classFees'
+                                                    'dailySubscriptionFees'
                                                 )}
                                                 padding="8px 10px"
                                                 placeholder={getLabelByKey(
-                                                    'classFeesPlaceholder'
+                                                    'dailySubscriptionFeesPlaceholder'
                                                 )}
                                                 suffix={
                                                     <img
-                                                        src={dollar}
+                                                        src={doller as string}
                                                         alt=""
                                                         width={13}
                                                         height={27}
-                                                        //onClick={(type = "date")}
                                                     />
                                                 }
                                             />
                                         </Col>
-                                        <Col md="2" className="mt-20">
+                                        <Col md="3" className="mt-20">
                                             <FormControl
                                                 control="input"
                                                 type="text"
-                                                name="capacity"
+                                                name="weeklySubscriptionFees"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
-                                                    'classCapacity'
+                                                    'weeklySubscriptionFees'
                                                 )}
                                                 padding="8px 10px"
                                                 placeholder={getLabelByKey(
-                                                    'classCapacityPlaceholder'
+                                                    'weeklySubscriptionFeesPlaceholder'
                                                 )}
+                                                suffix={
+                                                    <img
+                                                        src={doller as string}
+                                                        alt=""
+                                                        width={13}
+                                                        height={27}
+                                                    />
+                                                }
                                             />
                                         </Col>
-
-                                        <Col md="2" className="mt-20">
+                                        <Col md="3" className="mt-20">
                                             <FormControl
                                                 control="input"
                                                 type="text"
-                                                name="minimumStudent"
+                                                name="monthlySubscriptionFees"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
-                                                    'minimumStudent'
+                                                    'monthlySubscriptionFees'
                                                 )}
                                                 padding="8px 10px"
                                                 placeholder={getLabelByKey(
-                                                    'minimumStudentPlaceholder'
+                                                    'monthlySubscriptionFeesPlaceholder'
                                                 )}
+                                                suffix={
+                                                    <img
+                                                        src={doller as string}
+                                                        alt=""
+                                                        width={13}
+                                                        height={27}
+                                                    />
+                                                }
                                             />
                                         </Col>
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="date"
-                                                type="date"
-                                                name="bookingStartDate"
+                                                control="input"
+                                                type="text"
+                                                name="annuallySubscriptionFees"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
-                                                    'startBooking'
+                                                    'annuallySubscriptionFees'
                                                 )}
                                                 padding="8px 10px"
                                                 placeholder={getLabelByKey(
-                                                    'startBookingPlaceholder'
+                                                    'annuallySubscriptionFeesPlaceholder'
                                                 )}
-                                            />
-                                        </Col>
-                                        <Col md="3" className="mt-20">
-                                            <FormControl
-                                                control="date"
-                                                type="date"
-                                                name="bookingEndDate"
-                                                fontFamily={fontFamilyRegular}
-                                                label={getLabelByKey(
-                                                    'endBooking'
-                                                )}
-                                                padding="8px 10px"
-                                                placeholder={getLabelByKey(
-                                                    'endBookingPlaceholder'
-                                                )}
-                                            />
-                                        </Col>
-                                        <Col md="3" className="mt-20">
-                                            <FormControl
-                                                control="date"
-                                                type="date"
-                                                name="qrCodeStartDate"
-                                                fontFamily={fontFamilyRegular}
-                                                label={getLabelByKey(
-                                                    'qrCodeAttendanceStart'
-                                                )}
-                                                padding="8px 10px"
-                                                placeholder={getLabelByKey(
-                                                    'qrCodeAttendanceStartPlaceholder'
-                                                )}
-                                            />
-                                        </Col>
-                                        <Col md="3" className="mt-20">
-                                            <FormControl
-                                                control="date"
-                                                type="date"
-                                                name="qrCodeEndDate"
-                                                fontFamily={fontFamilyRegular}
-                                                label={getLabelByKey(
-                                                    'qrCodeAttendanceEnd'
-                                                )}
-                                                padding="8px 10px"
-                                                placeholder={getLabelByKey(
-                                                    'qrCodeAttendanceEndPlaceholder'
-                                                )}
+                                                suffix={
+                                                    <img
+                                                        src={doller as string}
+                                                        alt=""
+                                                        width={13}
+                                                        height={27}
+                                                    />
+                                                }
                                             />
                                         </Col>
 
@@ -390,11 +403,11 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="select"
                                                 type="text"
-                                                name="allowStudentCancel"
+                                                name="allowToStudentCancel "
                                                 label={getLabelByKey(
                                                     'allowToStudentCancel'
                                                 )}
-                                                padding="8px 10px"
+                                                padding="7px"
                                                 fontFamily={fontFamilyRegular}
                                                 fontSize="16px"
                                                 max={6}
@@ -408,14 +421,14 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="date"
                                                 type="date"
-                                                name="refundDate"
+                                                name="refundFeesDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'refundFeesDate'
                                                 )}
                                                 padding="8px 10px"
                                                 placeholder={getLabelByKey(
-                                                    'refundFeesDatePlacholder'
+                                                    'refundFeesDatePlaceholder'
                                                 )}
                                             />
                                         </Col>
@@ -424,14 +437,14 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="date"
                                                 type="date"
-                                                name="bookingCancelStartDate"
+                                                name="bookingCancellationStart "
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'bookingCancellationStart'
                                                 )}
                                                 padding="8px 10px"
                                                 placeholder={getLabelByKey(
-                                                    'bookingCancellationStartPlaceholder'
+                                                    'bookingCancellationStartDate'
                                                 )}
                                             />
                                         </Col>
@@ -440,7 +453,7 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="date"
                                                 type="date"
-                                                name="bookingCancelEndDate"
+                                                name="bookingCancellationEnd "
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'bookingCancellationEnd'
@@ -456,7 +469,7 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="input"
                                                 type="text"
-                                                name="cancellationCharges"
+                                                name="cancellationCharge"
                                                 fontFamily={fontFamilyRegular}
                                                 label={
                                                     <>
@@ -476,21 +489,20 @@ const CreateClass = (): JSX.Element => {
                                                 )}
                                                 suffix={
                                                     <img
-                                                        src={dollar}
+                                                        src={doller as string}
                                                         alt=""
                                                         width={13}
                                                         height={27}
-                                                        //onClick={(type = "date")}
                                                     />
                                                 }
                                             />
                                         </Col>
 
-                                        <Col md="3" className=" fill mt-20 ">
+                                        <Col md="3" className="mt-20">
                                             <FormControl
                                                 control="select"
                                                 type="text"
-                                                name="accommodation"
+                                                name="accommodate"
                                                 label={
                                                     <>
                                                         {getLabelByKey(
@@ -504,8 +516,7 @@ const CreateClass = (): JSX.Element => {
                                                     </>
                                                 }
                                                 fontFamily={fontFamilyRegular}
-                                                padding="8px 10px"
-                                                fontSize="15px"
+                                                fontSize="16px"
                                                 max={6}
                                                 placeholder={getLabelByKey(
                                                     'selectAccommodationOptions'
@@ -597,10 +608,9 @@ const CreateClass = (): JSX.Element => {
                                         fontFamily={`${fontFamilyMedium}`}
                                         width="fit-content"
                                         type="submit"
-                                        title={getLabelByKey('primaryButton')}
+                                        title="Update"
                                         fontSize="18px"
-                                        loading={loading}
-                                        clicked={() => submit(formik.values)}
+                                        loading={isLoading}
                                     />
                                 </div>
                             </Form>
@@ -612,4 +622,4 @@ const CreateClass = (): JSX.Element => {
     )
 }
 
-export default CreateClass
+export default UpdateMembership

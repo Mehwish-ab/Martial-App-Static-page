@@ -5,6 +5,7 @@ import {
     fontFamilyMedium,
     fontFamilyRegular,
     lightDark2,
+    mediaDeviceMin,
     pureDark2,
     whiteColor,
 } from '../../../components/GlobalStyle'
@@ -132,8 +133,10 @@ export const CardViewStyled = styled.div`
         margin-top: 20px;
     }
     .ant-pagination li:first-child {
-        position: absolute;
-        left: 0;
+        @media screen and ${mediaDeviceMin.mobileBS} {
+            position: absolute;
+            left: 10px;
+        }
     }
     .ant-pagination .ant-pagination-options {
         display: none !important;

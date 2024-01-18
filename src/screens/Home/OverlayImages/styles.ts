@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { mediaDeviceMax, whiteColor } from '../../../components/GlobalStyle'
+import { whiteColor } from '../../../components/GlobalStyle'
 
 export const OverlayImagesStyled = styled.div`
     .image_section {
@@ -79,23 +79,6 @@ export const OverlayImagesStyled = styled.div`
                 bottom: 8px;
                 right: 9px;
             }
-        }
-    }
-
-    @media screen and ${mediaDeviceMax.mobileBS} {
-        .image_section {
-            margin-bottom: 90px;
-        }
-        .profileImg > .img {
-            width: 120px;
-            height: 120px;
-            bottom: -60px;
-            left: 0;
-            right: 0;
-            margin: auto;
-        }
-        .bannerImg {
-            height: 200px;
         }
     }
 `

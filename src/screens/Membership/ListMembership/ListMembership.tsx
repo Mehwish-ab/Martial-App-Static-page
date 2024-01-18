@@ -21,73 +21,78 @@ import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
 import DateCalander from '../../../assets/images/dateCalander.svg'
+import Head from '../../../components/Head/Head'
 
 const RenderTableTitle = (): JSX.Element => {
     const navigate = useNavigate()
 
     return (
-        <>
-            <div className="d-flex justify-content-between">
+        <CustomDiv>
+            <div className="mainWrapper">
                 <h3 className="table-heading">Membership</h3>
-                <CustomDiv>
-                    <div className="instructorDateSection">
-                        <div className="mainarrow">
-                            <div className="arrowright">
-                                <img
-                                    src={LeftArrow as string}
-                                    alt="Date"
-                                    width={18}
-                                    height={12}
-                                />
-                            </div>
-                            <div className="arrowleft">
-                                <img
-                                    src={RightArrow as string}
-                                    alt="Date"
-                                    width={18}
-                                    height={12}
-                                />
-                            </div>
-                        </div>
-                        <div className="dateRange">
-                            <p>
-                                <span>Mon,</span> Sep 11, 2023 -{' '}
-                                <span>Thu,</span> Sep 21, 2023
-                            </p>
+                <div className="FilterMainContainer">
+                    <div className="arrowsMain">
+                        <div className="arrowRight">
                             <img
-                                src={DateCalander as string}
-                                alt="Calander"
-                                width={21}
-                                height={21}
+                                src={LeftArrow}
+                                alt="Date"
+                                width={18}
+                                height={12}
                             />
                         </div>
-                        <div className="dateToday">Today</div>
+                        <div className="arrowLeft">
+                            <img
+                                src={RightArrow}
+                                alt="Date"
+                                width={18}
+                                height={12}
+                            />
+                        </div>
                     </div>
-                    <CustomButton
-                        bgcolor={tertiaryBlue2}
-                        textTransform="Captilize"
-                        color={pureDark}
-                        padding="6.5px 0px"
-                        fontFamily={`${fontFamilyMedium}`}
-                        width="40px"
-                        type="submit"
-                        title=""
-                        fontSize="17px"
-                        icon={
-                            <img
-                                src={plusIcon as string}
-                                alt="edit icon"
-                                width={17}
-                                height={17}
-                            />
-                        }
-                        clicked={() => {
-                            navigate(`/membership/create`)
-                        }}
-                    />
-                </CustomDiv>
+                    <div className="dateRange">
+                        <p>
+                            {' '}
+                            <span>Mon,</span> Sep 11, 2023 - <span>Thu,</span>{' '}
+                            Sep 21, 2023
+                        </p>
+                        <img
+                            src={DateCalander}
+                            alt="calander"
+                            width={21}
+                            height={21}
+                        />
+                    </div>
+                    <div className="todayPlusContainer">
+                        <div className="dateToday">
+                            <p>Today</p>
+                        </div>
+                        <CustomButton
+                            bgcolor={tertiaryBlue2}
+                            textTransform="Captilize"
+                            color={pureDark}
+                            padding="6.5px 0px"
+                            fontFamily={`${fontFamilyMedium}`}
+                            width="40px"
+                            type="submit"
+                            title=""
+                            fontSize="17px"
+                            // loading={loading}
+                            icon={
+                                <img
+                                    src={plusIcon}
+                                    alt="edit icon"
+                                    width={17}
+                                    height={17}
+                                />
+                            }
+                            clicked={() => {
+                                navigate(`/membership/create`)
+                            }}
+                        />
+                    </div>
+                </div>
             </div>
-        </>
+        </CustomDiv>
     )
 }
 
@@ -98,8 +103,8 @@ const ListMembership: React.FC = () => {
         redirectTo: string
     ): void => {
         switch (redirectTo) {
-            case 'edit':
-                navigate(`/Membership/edit/${record.MembershipId}`, {
+            case 'update':
+                navigate(`/membership/update`, {
                     state: {
                         branchToEdit: record as MembershipDataType,
                     },
@@ -107,7 +112,7 @@ const ListMembership: React.FC = () => {
                 break
 
             case 'view':
-                navigate(`/Membership/view/${record.MembershipId}`, {
+                navigate(`/Membership/information`, {
                     state: {
                         branch: record as MembershipDataType,
                     },
@@ -115,7 +120,14 @@ const ListMembership: React.FC = () => {
                 break
 
             case 'school':
-                navigate(`/membership/school-profile`, {
+                navigate(`/membership/classes`, {
+                    state: {
+                        branch: record as MembershipDataType,
+                    },
+                })
+                break
+            case 'delete':
+                navigate(`/`, {
                     state: {
                         branch: record as MembershipDataType,
                     },
@@ -182,13 +194,18 @@ const ListMembership: React.FC = () => {
                     },
                     {
                         key: '2',
-                        label: 'Edit',
-                        onClick: () => navigation(record, 'edit'),
+                        label: 'Update',
+                        onClick: () => navigation(record, 'update'),
                     },
                     {
                         key: '3',
-                        label: 'School',
+                        label: 'Classes',
                         onClick: () => navigation(record, 'school'),
+                    },
+                    {
+                        key: '4',
+                        label: 'Delete',
+                        onClick: () => navigation(record, 'delete'),
                     },
                 ]
                 return (
@@ -210,7 +227,9 @@ const ListMembership: React.FC = () => {
 
     return (
         <>
+            <Head title="Membership List" />
             {loading && <LoadingOverlay message="" />}
+            <RenderTableTitle />
             <ListMembershipStyled>
                 <Table
                     columns={columns}
@@ -220,7 +239,6 @@ const ListMembership: React.FC = () => {
                             key: item.MembershipId,
                         })) as unknown as MembershipDataType[]
                     }
-                    title={() => <RenderTableTitle />}
                     pagination={{
                         showTotal: (total, range) => (
                             <span

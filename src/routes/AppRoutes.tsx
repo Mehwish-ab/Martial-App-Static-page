@@ -22,6 +22,7 @@ import ListTimeTable from '../screens/TimeTable/ListTimeTable/ListTimeTable'
 // import CreateTimeTable from '../screens/TimeTable/CreateTimeTable/createTimeTable'
 import InformationTimeTable from '../screens/TimeTable/InformationTimeTable/InformationTimeTable'
 import ViewSchool from '../screens/CreateSchool/ViewSchool/ViewSchool'
+import MembershipCardView from '../screens/Membership/MembershipCards/MembershipCardView'
 import CreateMembership from '../screens/Membership/CreateMembership/CreateMembership'
 import ListMembership from '../screens/Membership/ListMembership/ListMembership'
 import ListClass from '../screens/Class/ListClasses/ListClasses'
@@ -32,7 +33,6 @@ import AddPaymentSchool from '../screens/CreateSchool/AddPaymentSchool/AddPaymen
 import AddPaymentFranchise from '../screens/Franchise/AddPaymentFranchise/AddPaymentFranchise'
 import SchoolFranchise from '../screens/Franchise/SchoolFranchise/SchoolFranchise'
 // import AddPaymentBranch from '../screens/Branches/AddPaymentBranch/AddPaymentBranch'
-import ProfileMembership from '../screens/Membership/ProfileMembership/ProfileMembership'
 import ListTransactionHistort from '../screens/TransactionHistory/ListTransactionHistory/ListTransactionHistory'
 import ListRules from '../screens/Rules/ListRules/ListRules'
 import MainSettingPage from '../screens/SettingsPage/MainSettingPage/MainSettingPage'
@@ -49,6 +49,9 @@ import TimeTableForm from '../screens/TimeTable/CreateTimeTable/TimeTableForm'
 import TimeTableSheet from '../screens/TimeTable/CreateTimeTable/TimeTableSheet'
 import { useState } from 'react'
 import EditTimeTable from '../screens/TimeTable/EditTimeTable/EditTimeTable'
+import ViewClass from '../screens/Class/ViewClass/ViewClass'
+import UpdateMembership from '../screens/Membership/UpdateMembership/UpdateMembership'
+import ViewMembership from '../screens/Membership/ViewMembership/ViewMembership'
 // import { useDispatch, useSelector } from "react-redux";
 // import { RootState } from "../redux/store";
 
@@ -88,7 +91,7 @@ function AppRoutes(): JSX.Element {
                 <Route path="/forgot-password" element={<ForgetPassword />} />
                 <Route path="/register/verify-otp" element={<Otp />} />
                 <Route path="/terms" element={<Terms />} />
-                <Route path="/privay" element={<Privacy />} />
+                <Route path="/privacy" element={<Privacy />} />
                 <Route
                     path="/register/create-new-password"
                     element={<CreatePassword />}
@@ -336,10 +339,26 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/membership/school-profile"
+                    path="/membership/update"
                     element={
                         <AppLayout>
-                            <ProfileMembership />
+                            <UpdateMembership />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/membership/information"
+                    element={
+                        <AppLayout>
+                            <ViewMembership />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/membership/classes"
+                    element={
+                        <AppLayout>
+                            <MembershipCardView />
                         </AppLayout>
                     }
                 />
@@ -364,6 +383,14 @@ function AppRoutes(): JSX.Element {
                     element={
                         <AppLayout>
                             <ListClass />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/class/view"
+                    element={
+                        <AppLayout>
+                            <ViewClass />
                         </AppLayout>
                     }
                 />

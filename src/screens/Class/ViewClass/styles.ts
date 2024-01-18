@@ -1,14 +1,14 @@
 import styled from 'styled-components'
 import {
     fontFamilyMedium,
-    fontFamilyRegular,
-    lightDark2,
-    mediaDeviceMax,
     pureDark2,
+    lightDark2,
+    fontFamilyRegular,
+    mediaDeviceMax,
     tertiaryGrey24,
 } from '../../../components/GlobalStyle'
 
-export const ViewSchoolStyled = styled.div`
+export const ViewClassStyle = styled.div`
     .ant-card-body {
         padding: 20px;
     }
@@ -23,6 +23,30 @@ export const ViewSchoolStyled = styled.div`
         .gZsrvq {
             width: 100%;
         }
+    }
+
+    .bannerImg {
+        height: 345px;
+    }
+
+    .bannerImg .changeBannerImgButton {
+        position: absolute;
+        top: 298px;
+        right: 10px;
+    }
+
+    .profileImg {
+        display: none;
+    }
+
+    .checkBoxPara {
+        margin-bottom: 0;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        font-family: ${fontFamilyRegular};
+        white-space: pre-wrap;
     }
 
     .ant-card.ant-card-bordered {
@@ -45,6 +69,15 @@ export const ViewSchoolStyled = styled.div`
                 @media screen and ${mediaDeviceMax.laptop} {
                     font-size: 12px;
                 }
+
+                span {
+                    color: #4f4f4f;
+                    font-family: ${fontFamilyRegular};
+                    font-size: 10px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: normal;
+                }
             }
 
             &-value {
@@ -60,53 +93,5 @@ export const ViewSchoolStyled = styled.div`
                 }
             }
         }
-    }
-    @media screen and ${mediaDeviceMax.mobileBS} {
-        .image_section {
-            margin-bottom: 90px;
-        }
-        .profileImg > .img {
-            width: 120px;
-            height: 120px;
-            bottom: -60px;
-            left: 0;
-            right: 0;
-            margin: auto;
-        }
-        .bannerImg {
-            height: 200px;
-        }
-    }
-`
-export const ViewSchoolTabs = styled.div`
-    .tab {
-        overflow: hidden;
-    }
-
-    .tab button {
-        background-color: inherit;
-        float: left;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        padding: 14px 16px;
-        transition: 0.3s;
-        font-size: 16px;
-        font-family: ${fontFamilyRegular};
-        color: ${pureDark2};
-        font-weight: 400;
-    }
-
-    .tab button:hover {
-        font-family: ${fontFamilyMedium};
-    }
-
-    .tab button.active {
-        border-bottom: 2px solid black;
-        font-family: ${fontFamilyMedium};
-    }
-
-    .tabsLink {
-        display: block;
     }
 `

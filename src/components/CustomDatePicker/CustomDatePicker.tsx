@@ -3,8 +3,9 @@ import { DatePicker } from 'antd'
 import { Field, ErrorMessage } from 'formik'
 import { CustomDatePickerStyle } from '../CustomDatePicker/style'
 import ErrorMsg from '../ErrorMessage'
-import dateIcon from '../../assets/icons/ic_blog_calender.svg'
+import dateIcon from '../../assets/images/dateCalander.svg'
 import moment from 'moment'
+import { fontFamilyRegular, tertiaryGrey24 } from '../GlobalStyle'
 moment.locale('en', {
     week: {
         dow: 1, // Set the first day of the week to Monday
@@ -34,11 +35,11 @@ const CustomDatePicker = (props: {
         label,
         // options,
         bgColor = 'white',
-        border = '1px solid #c6c6c8;',
-        padding = '8px',
+        border = `1px solid ${tertiaryGrey24}`,
+        padding = '8px 10px',
         // title,
-        fontFamily = 'EnnVisions',
-        labelFamily = 'EnnVisions',
+        fontFamily = fontFamilyRegular,
+        labelFamily = fontFamilyRegular,
         marginBottom = '10px',
         onChange,
         begin,
@@ -62,13 +63,13 @@ const CustomDatePicker = (props: {
                     return (
                         <div>
                             <DatePicker
-                                className="customdatepicker"
-                                // placeholder={placeholder}
+                                className="customDatePicker"
+                                placeholder={placeholder}
                                 suffixIcon={
                                     <img src={dateIcon} alt="calender-icon" />
                                 }
                                 name={name}
-                                id={name}
+                                // id={name}
                                 format="dddd, MMM DD, YYYY"
                                 {...rest}
                                 onChange={(_, dateString) => {

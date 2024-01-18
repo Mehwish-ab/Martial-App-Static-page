@@ -7,6 +7,7 @@ import {
     fontFamilyMedium,
     fontFamilyRegular,
     mediaDeviceMax,
+    mediaDeviceMin,
     pureDark2,
     whiteColor,
 } from '../../../components/GlobalStyle'
@@ -177,10 +178,13 @@ export const ListBranchStyled = styled.div`
     // pagination
     .ant-pagination {
         margin-top: 45px;
+        padding: 0px 10px;
     }
     .ant-pagination li:first-child {
-        position: absolute;
-        left: 0;
+        @media screen and ${mediaDeviceMin.mobileBS} {
+            position: absolute;
+            left: 10px;
+        }
     }
     .ant-pagination .ant-pagination-options {
         display: none !important;
@@ -198,7 +202,7 @@ export const ListBranchStyled = styled.div`
         border: none;
     }
     .ant-pagination-prev .ant-pagination-item-link span:before {
-        content: 'prev';
+        content: 'Prev';
         font-family: ${fontFamilyMedium};
         font-size: 14px;
         font-style: normal;
@@ -207,7 +211,7 @@ export const ListBranchStyled = styled.div`
         display: block;
     }
     .ant-pagination-next .ant-pagination-item-link span:before {
-        content: 'next';
+        content: 'Next';
         font-family: ${fontFamilyMedium};
         font-size: 14px;
         font-style: normal;

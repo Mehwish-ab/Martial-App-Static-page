@@ -54,8 +54,10 @@ const useOauthLogin = (): IUseOauthLogin => {
                 setLoading(false)
                 return
             }
+            console.log('oauth_signin_url', { data })
             localStorage.setItem(auth_token_key, JSON.stringify(data.results))
             dispatch(setLoginData(data.results))
+
             toast(
                 <MessageModal
                     message="Login Successfully"

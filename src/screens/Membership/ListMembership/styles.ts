@@ -7,12 +7,18 @@ import {
     whiteColor,
     BallBlue,
     AntiFlashWhite,
+    mediaDeviceMin,
+    mediaDeviceMax,
 } from '../../../components/GlobalStyle'
 
 export const ListMembershipStyled = styled.div`
-    background-color: #fff;
-    padding: 16px;
-    border-radius: 20px;
+    .ant-table {
+        background-color: #fff;
+        border-radius: 12px;
+        &-title {
+            padding: 10px;
+        }
+    }
 
     .table-heading {
         font-size: 18px;
@@ -57,7 +63,7 @@ export const ListMembershipStyled = styled.div`
 
     .ant-table-tbody > tr > td:nth-child(7) div {
         position: relative;
-        width: 116px;
+        width: 95px;
     }
     .ant-table-tbody > tr > td:nth-child(7) button {
         font-style: normal;
@@ -76,8 +82,8 @@ export const ListMembershipStyled = styled.div`
     }
     .ant-table-tbody > tr > td:nth-child(7) img {
         position: absolute;
-        right: 17px;
-        top: -5px;
+        right: -3px;
+        top: -7px;
     }
     .ant-table-tbody > tr:nth-child(odd) td {
         background-color: #fafafa;
@@ -91,13 +97,63 @@ export const ListMembershipStyled = styled.div`
         text-align: center;
     }
 
+    .ant-table-tbody > tr > td {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    @media screen and (max-width: 1120px) {
+        .ant-table-tbody > tr > td:nth-child(5),
+        .ant-table-thead > tr > th:nth-child(5) {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 668px) {
+        .ant-table-tbody > tr > td:nth-child(4),
+        .ant-table-thead > tr > th:nth-child(4) {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 580px) {
+        .ant-table-tbody > tr > td:nth-child(7),
+        .ant-table-thead > tr > th:nth-child(7) {
+            display: none;
+        }
+    }
+    @media screen and (max-width: 460px) {
+        .ant-table-tbody > tr > td:nth-child(3),
+        .ant-table-thead > tr > th:nth-child(3) {
+            display: none;
+        }
+    }
+    @media screen and (max-width: 380px) {
+        .ant-table-tbody > tr > td:nth-child(6),
+        .ant-table-thead > tr > th:nth-child(6) {
+            display: none;
+        }
+    }
+
+    @media screen and ${mediaDeviceMax.mobileS} {
+        .ant-table-tbody > tr > td,
+        .ant-table-thead > tr > th {
+            padding-left: 8px !important;
+            padding-right: 8px !important;
+        }
+    }
+
     // pagination
     .ant-pagination {
         margin-top: 45px;
+        padding: 0px 10px;
     }
     .ant-pagination li:first-child {
-        position: absolute;
-        left: 0;
+        @media screen and ${mediaDeviceMin.mobileBS} {
+            position: absolute;
+            left: 10px;
+        }
     }
     .ant-pagination .ant-pagination-options {
         display: none;
@@ -115,7 +171,7 @@ export const ListMembershipStyled = styled.div`
         border: none;
     }
     .ant-pagination-prev .ant-pagination-item-link span:before {
-        content: 'prev';
+        content: 'Prev';
         font-family: ${fontFamilyMedium};
         font-size: 14px;
         font-style: normal;
@@ -124,7 +180,7 @@ export const ListMembershipStyled = styled.div`
         display: block;
     }
     .ant-pagination-next .ant-pagination-item-link span:before {
-        content: 'next';
+        content: 'Next';
         font-family: ${fontFamilyMedium};
         font-size: 14px;
         font-style: normal;

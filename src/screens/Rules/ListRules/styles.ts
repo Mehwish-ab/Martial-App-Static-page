@@ -7,6 +7,7 @@ import {
     whiteColor,
     BallBlue,
     AntiFlashWhite,
+    mediaDeviceMin,
 } from '../../../components/GlobalStyle'
 
 export const ListRulesStyled = styled.div`
@@ -135,10 +136,13 @@ export const ListRulesStyled = styled.div`
     // pagination
     .ant-pagination {
         margin-top: 45px;
+        padding: 0px 10px;
     }
     .ant-pagination li:first-child {
-        position: absolute;
-        left: 0;
+        @media screen and ${mediaDeviceMin.mobileBS} {
+            position: absolute;
+            left: 10px;
+        }
     }
     .ant-pagination .ant-pagination-options {
         display: none;

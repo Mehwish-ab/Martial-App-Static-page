@@ -14,6 +14,7 @@ const Wrapper = styled.div`
     margin-top: 20px;
 
     .social-auth-btn {
+        height: 52px;
         padding: 17px;
         border-radius: 10px;
         border: 1px solid #eaeaea;

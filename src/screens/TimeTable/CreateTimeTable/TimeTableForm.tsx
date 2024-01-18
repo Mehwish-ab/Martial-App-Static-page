@@ -3,7 +3,6 @@ import FormControl from '../../../components/FormControl'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { Col, Row } from 'react-bootstrap'
 import { BELTS_SELECT_OPTIONS } from '../../../screens/Home/constants'
-import DateCalander from '../../../assets/images/dateCalander.svg'
 import {
     fontFamilyMedium,
     fontFamilyRegular,
@@ -20,6 +19,7 @@ import { Form } from 'antd'
 import { useAppSelector } from '../../../app/hooks'
 import { useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
+import Head from '../../../components/Head/Head'
 
 interface TimeTableFormProps {
     setNewTimetable: React.Dispatch<React.SetStateAction<any>>
@@ -89,6 +89,7 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
 
     return (
         <>
+            <Head title="TimeTable Form" />
             {Createmodal().modalComponent}
             <FilterTimeTableStyled>
                 <Formik
@@ -114,7 +115,7 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                             name="title"
                                             label={getLabelByKey('title')}
                                             padding="10px"
-                                            labelFamily={`${fontFamilyMedium}`}
+                                            labelFamily={`${fontFamilyRegular}`}
                                             fontFamily={fontFamilyRegular}
                                             fontSize="16px"
                                             max={6}
@@ -133,7 +134,7 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                                 'repeatTimeTable'
                                             )}
                                             placeholder={getLabelByKey(
-                                                'repeatTimeTable'
+                                                'repeatTimeTablePlaceholder'
                                             )}
                                             className={
                                                 formik.errors.isRepeated &&
@@ -149,17 +150,13 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                             control="date"
                                             type="date"
                                             name="startDate"
-                                            labelFamily={fontFamilyMedium}
+                                            labelFamily={fontFamilyRegular}
                                             fontFamily={fontFamilyRegular}
                                             label={getLabelByKey('startDate')}
                                             fontSize="16px"
-                                            suffixIcon={
-                                                <img
-                                                    src={DateCalander as string}
-                                                    alt="calender-icon"
-                                                />
-                                            }
-                                            max={6}
+                                            placeholder={getLabelByKey(
+                                                'startDatePlaceholder'
+                                            )}
                                         />
                                     </Col>
                                     <Col md="6" className="mt-20">
@@ -170,17 +167,13 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                             }
                                             type="date"
                                             name="endDate"
-                                            labelFamily={fontFamilyMedium}
+                                            labelFamily={fontFamilyRegular}
                                             fontFamily={fontFamilyRegular}
-                                            label="End Date"
+                                            label={getLabelByKey('endDate')}
                                             fontSize="16px"
-                                            suffixIcon={
-                                                <img
-                                                    src={DateCalander as string}
-                                                    alt="calender-icon"
-                                                />
-                                            }
-                                            max={6}
+                                            placeholder={getLabelByKey(
+                                                'endDatePlaceholder'
+                                            )}
                                         />
                                     </Col>
                                 </Row>
@@ -193,7 +186,9 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                         fontFamily={`${fontFamilyMedium}`}
                                         width="fit-content"
                                         type="submit"
-                                        title="Add Time Table Slide"
+                                        title={getLabelByKey(
+                                            'addTimeTableSlide'
+                                        )}
                                         fontSize="17px"
                                         loading={loading}
                                     />

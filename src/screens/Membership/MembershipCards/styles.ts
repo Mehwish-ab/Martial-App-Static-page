@@ -164,84 +164,88 @@ export const MembershipCardViewStyled = styled.div`
 
 
   // pagination
-  .ant-pagination{
-    margin-top: 20px;
+  .ant-pagination {
+      margin-top: 45px;
+      padding: 0px 10px;
   }
-  .ant-pagination li:first-child{
-    @media screen and ${mediaDeviceMin.mobileBS} {
-      position: absolute;
-      left: 0;
+  .ant-pagination li:first-child {
+      @media screen and ${mediaDeviceMin.mobileBS} {
+          position: absolute;
+          left: 10px;
+      }
   }
+  .ant-pagination .ant-pagination-options {
+      display: none;
+      opacity: 0;
+      visibility: hidden;
+      visibility: hidden;
+      z-index: -1;
   }
-  .ant-pagination .ant-pagination-options{
-    display: none !important;
-    opacity: 0;
-    visibility: hidden;
-    visibility: hidden;
-    z-index: -1;
+  .ant-pagination-prev .ant-pagination-item-link span,
+  .ant-pagination-next .ant-pagination-item-link span {
+      position: relative;
   }
-  .ant-pagination-prev .ant-pagination-item-link span, .ant-pagination-next .ant-pagination-item-link span{
-    position: relative;
+  .ant-pagination-prev .ant-pagination-item-link,
+  .ant-pagination-next .ant-pagination-item-link {
+      border: none;
   }
-  .ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link  {
-    border: none
+  .ant-pagination-prev .ant-pagination-item-link span:before {
+      content: 'Prev';
+      font-family: ${fontFamilyMedium};
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      display: block;
   }
-  .ant-pagination-prev .ant-pagination-item-link span:before{
-    content: 'prev';
-    font-family: ${fontFamilyMedium};
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    display: block;
+  .ant-pagination-next .ant-pagination-item-link span:before {
+      content: 'Next';
+      font-family: ${fontFamilyMedium};
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      display: block;
   }
-  .ant-pagination-next .ant-pagination-item-link span:before{
-    content: 'next';
-    font-family: ${fontFamilyMedium};
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    display: block;
-  }
-  .ant-pagination-prev  .ant-pagination-item-link span svg, .ant-pagination-next  .ant-pagination-item-link span svg{ 
-    display: none;
+  .ant-pagination-prev .ant-pagination-item-link span svg,
+  .ant-pagination-next .ant-pagination-item-link span svg {
+      display: none;
   }
   .ant-pagination-item {
-    width: 32px !important;
-    height: 32px !important;
-    border-radius: 8px;
-    border: 1px solid ${AntiFlashWhite};
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid ${AntiFlashWhite};
   }
   .ant-pagination-item a {
-    border-radius: 8px;
-    background: ${whiteColor};
-    line-height: normal;
-    padding: 7px 0px 8px 0px;
-  }
-  .ant-pagination-item-active a{
-    border-radius: 8px;
-    background: ${BallBlue};
-    color: ${whiteColor};
-    line-height: normal;
-    padding: 7px 0px 8px 0px;
-  }
-  .ant-pagination-total-text{
-    color: #333;
-    font-family: ${fontFamilyMedium};
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    display: inline-block;
-    > span > span{
-      width: 47px;
-      padding: 7px 31px 8px 9px;
       border-radius: 8px;
-      border: 1px solid #F1F1F1;
+      background: ${whiteColor};
+      line-height: normal;
+      padding: 7px 0px 8px 0px;
+  }
+  .ant-pagination-item-active a {
+      border-radius: 8px;
+      background: ${BallBlue};
+      color: ${whiteColor};
+      line-height: normal;
+      padding: 7px 0px 8px 0px;
+  }
+  .ant-pagination-total-text {
+      color: #333;
+      font-family: ${fontFamilyMedium};
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
       display: inline-block;
-      margin: 0px 5px;
-    }
+      > span > span {
+          width: 47px;
+          padding: 7px 31px 8px 9px;
+          border-radius: 8px;
+          border: 1px solid #f1f1f1;
+          display: inline-block;
+          margin: 0px 10px;
+      }
   }
 
 `

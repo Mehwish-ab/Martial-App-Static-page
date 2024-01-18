@@ -593,7 +593,6 @@ const CreateClass = (): JSX.Element => {
                                         textTransform="Captilize"
                                         color={pureDark}
                                         padding="11px 40.50px"
-                                        margin="30px 0px"
                                         fontFamily={`${fontFamilyMedium}`}
                                         width="fit-content"
                                         type="submit"

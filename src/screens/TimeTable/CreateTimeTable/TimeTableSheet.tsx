@@ -17,6 +17,7 @@ import useTimetable from '../../../hooks/useTimetable'
 import { cloneDeep } from 'lodash'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import moment from 'moment'
+import Head from '../../../components/Head/Head'
 interface TimeEntryProps {
     startTime: string | undefined
     endTime: string | undefined
@@ -439,14 +440,15 @@ const TimeTableSheet: React.FC = () => {
 
     return (
         <>
+            <Head title="TimeTable Slots" />
             {loading && <LoadingOverlay message="" />}
             <CreateTimeTableStyled>
                 {Createmodal().modalComponent}
                 <Table
+                    title={() => <RenderTableTitle />}
                     columns={columns}
                     dataSource={tableDataSource}
                     pagination={false}
-                    title={() => <RenderTableTitle />}
                     scroll={{ x: true }}
                 />
             </CreateTimeTableStyled>

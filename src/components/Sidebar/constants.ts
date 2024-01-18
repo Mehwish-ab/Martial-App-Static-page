@@ -20,13 +20,13 @@ export const childListOfSetting: MenuItem[] = [
     },
 ]
 
-export const childListOfBooking: MenuItem[] = [
-    {
-        key: 'current',
-        label: 'Current',
-    },
-    {
-        key: 'previous',
-        label: 'Previous',
-    },
-]
+// export const childListOfBooking: MenuItem[] = [
+//     {
+//         key: 'current',
+//         label: 'Current',
+//     },
+//     {
+//         key: 'previous',
+//         label: 'Previous',
+//     },
+// ]

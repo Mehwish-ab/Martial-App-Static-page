@@ -25,6 +25,7 @@ import { validationFinder } from '../../../utils/utilities'
 import * as Yup from 'yup'
 import { useEffect, useState } from 'react'
 import { BELTS_SELECT_OPTIONS } from '../../Home/constants'
+import Head from '../../../components/Head/Head'
 const CreateInstructor = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('instructorCreate')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
@@ -118,7 +119,7 @@ const CreateInstructor = (): JSX.Element => {
                 activitiesName =
                     activitiesName === ''
                         ? activityLabel
-                        : `${activitiesName} ${activityLabel}`
+                        : `${activitiesName}, ${activityLabel}`
             }
         })
         if (activitiesName.length > 35) {
@@ -139,7 +140,7 @@ const CreateInstructor = (): JSX.Element => {
                 facilitiesName =
                     facilitiesName === ''
                         ? facilityLabel
-                        : `${facilitiesName} ${facilityLabel}`
+                        : `${facilitiesName}, ${facilityLabel}`
             }
         })
         if (facilitiesName.length > 35) {
@@ -149,6 +150,7 @@ const CreateInstructor = (): JSX.Element => {
     }
     return (
         <CreateSchoolStyled>
+            <Head title="Instructor Create" />
             {Createmodal().modalComponent}
             <Formik
                 initialValues={initialValues}
@@ -202,7 +204,7 @@ const CreateInstructor = (): JSX.Element => {
                                     <Col md="4" className="mt-20">
                                         <CustomPhoneInput
                                             label={getLabelByKey(
-                                                'placeholderInstructorName'
+                                                'instructorMobileNumber'
                                             )}
                                             name="instructorPhoneNumber"
                                             value={String(
@@ -250,7 +252,7 @@ const CreateInstructor = (): JSX.Element => {
                                             <Col md="4" className="mt-20">
                                                 <FormControl
                                                     control="input"
-                                                    type="text"
+                                                    type="number"
                                                     name="yearsOfExperience"
                                                     fontFamily={
                                                         fontFamilyRegular
@@ -463,7 +465,6 @@ const CreateInstructor = (): JSX.Element => {
                                     textTransform="Captilize"
                                     color={maastrichtBlue}
                                     padding="11px 40.50px"
-                                    margin="30px 0px"
                                     fontFamily={`${fontFamilyMedium}`}
                                     width="fit-content"
                                     type="submit"

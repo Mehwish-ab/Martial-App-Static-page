@@ -57,7 +57,7 @@ const InstructorCardView = (): JSX.Element => {
             <InstructorCardViewStyled className="mt-20">
                 <h3 className="table-heading mb-20 ms-4">Instructor Class</h3>
                 <div className="mainContainer">
-                    <div className="custom_card_list d-flex flex-wrap">
+                    <div className="custom_card_list d-flex flex-wrap justify-content-center">
                         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => {
                             return (
                                 <div className="custom_card" key={item}>

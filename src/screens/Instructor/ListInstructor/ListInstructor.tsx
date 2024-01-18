@@ -27,6 +27,7 @@ import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
 import DateCalander from '../../../assets/images/dateCalander.svg'
 import useInstructor from '../../../hooks/useInstructor'
+import BlueBelt from '../../../assets/icons/BlueBelt.svg'
 
 const RenderTableTitle = (): JSX.Element => {
     const navigate = useNavigate()
@@ -175,8 +176,8 @@ const ListInstructor: React.FC = () => {
                           }`
             }
         })
-        if (SpecializationName.length > 35) {
-            return `${SpecializationName.slice(0, 35)}...`
+        if (SpecializationName.length > 26) {
+            return `${SpecializationName.slice(0, 26)}...`
         }
         return SpecializationName
     }
@@ -217,22 +218,8 @@ const ListInstructor: React.FC = () => {
             key: 'rankId',
             render: () => {
                 return (
-                    <div
-                        className="progress"
-                        style={{
-                            background: '#386BB4',
-                            borderRadius: '4px',
-                            border: '1px solid #231F20',
-                        }}
-                    >
-                        <div
-                            className="progress-bar"
-                            role="progressbar"
-                            style={{ width: '40%', background: '#231F20' }}
-                            aria-valuenow={40}
-                            aria-valuemin={10}
-                            aria-valuemax={100}
-                        ></div>
+                    <div className="blueBeltContainer">
+                        <img src={BlueBelt} alt="belt" />
                     </div>
                 )
             },

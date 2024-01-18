@@ -9,7 +9,7 @@ const CustomFileInputStyle = styled.div<CustomFileInputStyleProps>`
     label {
         font-family: ${(props) => props.labelFamily};
         font-size: ${(props) => props.labelFont};
-        margin-bottom: 7px;
+        // margin-bottom: 7px;
         color: ${pureDark2};
         text-transform: capitalize;
         span {
@@ -25,9 +25,19 @@ const CustomFileInputStyle = styled.div<CustomFileInputStyleProps>`
         height: 50px;
         border-radius: 8px;
         padding: 10px;
+        padding-right: 24px;
     }
     input[type='file']:focus {
         outline: none;
+    }
+
+    .mainUploadContainer {
+        position: relative;
+    }
+    .uploadImg {
+        position: absolute;
+        top: 14px;
+        right: 8px;
     }
 `
 export default CustomFileInputStyle

@@ -8,6 +8,7 @@ import { Col, Row } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { RootState } from '../../../redux/store'
+import DateCalander from '../../../assets/images/dateCalander.svg'
 
 import FormControl from '../../../components/FormControl'
 import {
@@ -133,7 +134,7 @@ const UpdateeInstructor = (): JSX.Element => {
                 activitiesName =
                     activitiesName === ''
                         ? (activities[index] as any)[selectedLanguage]
-                        : `${activitiesName} ${
+                        : `${activitiesName}, ${
                               (activities[index] as any)[selectedLanguage]
                           }`
             }
@@ -295,6 +296,16 @@ const UpdateeInstructor = (): JSX.Element => {
                                                             'yearsOfExperience'
                                                         )}
                                                         padding="10px"
+                                                        suffix={
+                                                            <img
+                                                                src={
+                                                                    DateCalander as string
+                                                                }
+                                                                alt="Calander"
+                                                                width={21}
+                                                                height={21}
+                                                            />
+                                                        }
                                                         placeholder={getLabelByKey(
                                                             'yearsOfExperiencePlaceholder'
                                                         )}
@@ -512,7 +523,7 @@ const UpdateeInstructor = (): JSX.Element => {
                                         bgcolor={lightBlue3}
                                         textTransform="Captilize"
                                         color={pureDark}
-                                        padding="12px 100px"
+                                        padding="11px 40.50px"
                                         margin="30px 0px"
                                         fontFamily={`${fontFamilyMedium}`}
                                         width="fit-content"

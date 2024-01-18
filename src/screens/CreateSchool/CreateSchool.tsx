@@ -48,6 +48,8 @@ const CreateSchool = (): JSX.Element => {
 
     // const { data } = useSelector((state: RootState) => state.loginData)
 
+    console.log('checking schoolData: ', schoolData)
+
     const { handleCreateSubmit, loading, Createmodal } = useCreateSchool()
 
     const initialValues: CreateSchoolInitialValues = {
@@ -130,10 +132,13 @@ const CreateSchool = (): JSX.Element => {
     useEffect(() => {
         // store.dispatch(getSchoolByUserId())
         // if (schoolData && schoolData?.schoolId > 0) {
+        console.log('checking loginData: ', loginData)
+
         if (schoolData && loginData?.schoolId) {
             return navigate('/school/view')
         }
-    }, [schoolData])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [schoolData, loginData])
 
     const showActivities = (_activities: string[]): string => {
         let activitiesName = ''

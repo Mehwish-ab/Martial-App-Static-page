@@ -75,6 +75,19 @@ const Login = (): JSX.Element => {
     // login handle submit
     console.log(initialValues)
     const handleSubmit = async (values: loginValuesType): Promise<void> => {
+        if (!terms) {
+            toast(
+                <MessageModal
+                    message="Error"
+                    description="Terms and Policy's Acceptance required!"
+                    type="Error"
+                />,
+                {
+                    autoClose: 1000,
+                }
+            )
+            return
+        }
         try {
             setloading(true)
             const {

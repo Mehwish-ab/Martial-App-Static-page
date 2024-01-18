@@ -181,23 +181,23 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                             />
                                         </Col>
                                     </Row>
+                                    <div className="mt-20 d-flex justify-content-end">
+                                        <CustomButton
+                                            bgcolor={lightBlue3}
+                                            textTransform="Captilize"
+                                            color={pureDark}
+                                            padding="11px 40.50px"
+                                            fontFamily={`${fontFamilyMedium}`}
+                                            width="fit-content"
+                                            type="submit"
+                                            title={getLabelByKey(
+                                                'addTimeTableSlide'
+                                            )}
+                                            fontSize="17px"
+                                            loading={loading}
+                                        />
+                                    </div>
                                 </Form>
-                                <div className="mt-20 d-flex justify-content-end">
-                                    <CustomButton
-                                        bgcolor={lightBlue3}
-                                        textTransform="Captilize"
-                                        color={pureDark}
-                                        padding="11px 40.50px"
-                                        fontFamily={`${fontFamilyMedium}`}
-                                        width="fit-content"
-                                        type="submit"
-                                        title={getLabelByKey(
-                                            'addTimeTableSlide'
-                                        )}
-                                        fontSize="17px"
-                                        loading={loading}
-                                    />
-                                </div>
                             </>
                         )
                     }}

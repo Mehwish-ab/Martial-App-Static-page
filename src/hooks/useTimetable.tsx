@@ -401,29 +401,10 @@ const useTimetable = (): IUseTimetable => {
 
     const createSlots = async (
         params: CreateSlotsProps
-
-        //const CreateSlots = async (
-        //   timeTableIds: any,
-        //    StartTimee: any,
-        //     EndTimee: any,
-        //      StartBreakk: any,
-        //       EndBreakk: any,
-        //        dayOfWeekk: any
-        //>>>>>>> main
     ): Promise<any> => {
         const payload = {
             ...params,
         }
-
-        //        const payload = {
-        //           dayOfWeek: dayOfWeekk,
-        //          timeTableId: timeTableIds,
-        //         startTime: StartTimee,
-        //        endTime: EndTimee,
-        //       startBreak: StartBreakk,
-        //      endBreak: EndBreakk,
-        // }
-
         try {
             setError('')
             setLoading(true)

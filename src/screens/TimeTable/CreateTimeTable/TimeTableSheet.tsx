@@ -14,7 +14,7 @@ import StartBreak from './StartBreak'
 import EndTime from './Endtime'
 import EndBreak from './EndBreak'
 import useTimetable from '../../../hooks/useTimetable'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, values } from 'lodash'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import moment from 'moment'
 import Head from '../../../components/Head/Head'
@@ -26,13 +26,13 @@ interface TimeEntryProps {
     dayOfWeek: string
     timeTableId: number
     isActive: boolean
-    isRepeated: boolean
 }
 
 interface TableDateSourceProps {
     key: string
     date: string
     dayOfWeek: string
+    isRepeated: boolean
     timeEntries: TimeEntryProps[]
 }
 
@@ -43,6 +43,7 @@ interface TableDetailProps {
     startDate: string
     timeTableId: number
     title: string
+    timeEntries: TimeEntryProps[]
 }
 
 const daysOfWeek = [
@@ -84,15 +85,18 @@ const RenderTableTitle = (): JSX.Element => {
 }
 const TimeTableSheet: React.FC = () => {
     const { timeTableId } = useParams()
-    const { getTimetableById, createSlots, Createmodal, setIsShowModal } =
-        useTimetable()
+    const {
+        getTimetableById,
+        createSlots,
+        Createmodal,
+        setIsShowModal,
+        getTimetableSlot,
+    } = useTimetable()
     const [allTimeTableDetail, setAllTimeTableDetail] =
         useState<TableDetailProps>()
     const [tableDataSource, setTableDataSource] = useState<
         TableDateSourceProps[]
     >([])
-    // const navigate = useNavigate()
-
     const { loading } = useSelector((state: RootState) => state.timeTableData)
 
     const handleUpdateTableDataSource = (
@@ -101,8 +105,6 @@ const TimeTableSheet: React.FC = () => {
         _value: undefined | string | boolean | number,
         _timeEntryIndex?: number
     ): void => {
-        console.log('checking tableDataSource: ', tableDataSource)
-
         if (_timeEntryIndex === undefined) {
             console.log('checking i am into if')
 
@@ -148,40 +150,11 @@ const TimeTableSheet: React.FC = () => {
             timeTableId:
                 updatedTableDateSource[_recordIndex].timeEntries[0].timeTableId,
             isActive: allTimeTableDetail.isActive,
-            isRepeated: allTimeTableDetail.isRepeated,
         })
         setTableDataSource(updatedTableDateSource)
     }
 
-    // const navigation = (
-    //     record: TimeTableDataType,
-    //     redirectTo: string
-    // ): void => {
-    //     switch (redirectTo) {
-    //         case 'edit':
-    //             navigate(`/timetable/edit/${record.timeTableId}`, {
-    //                 state: {
-    //                     branchToEdit: record as TimeTableDataType,
-    //                 },
-    //             })
-    //             break
-
-    //         case 'view':
-    //             navigate(`/timetable/view/${record.timeTableId}`, {
-    //                 state: {
-    //                     branch: record as TimeTableDataType,
-    //                 },
-    //             })
-    //             break
-
-    //         case 'subscribe':
-    //             navigate(`/timetable/subscribe/${record.timeTableId}`, {
-    //                 state: {
-    //                     branch: record as TimeTableDataType,
-    //                 },
-    //             })
-    //     }
-    // }
+    const createTImeSlotHandler = (): void => {}
 
     const columns: ColumnsType<any> = [
         {
@@ -197,6 +170,8 @@ const TimeTableSheet: React.FC = () => {
             dataIndex: 'createTimeTableStartDate',
             key: 'createTimeTableStartDate',
             render: (_, record, recordIndex) => {
+                console.log('checking record.timeEntries: ', record.timeEntries)
+
                 return record.timeEntries.map(
                     (timeEntry: TimeEntryProps, rowIndex: number) => (
                         <StartTime
@@ -317,27 +292,6 @@ const TimeTableSheet: React.FC = () => {
                             </button>
                         </div>
                     )
-                    //
-                    //             render: () => {
-                    //                 return (
-                    //                     <div>
-                    //                         <button
-                    //                             onClick={() => {
-                    //                                 CreateSlots(
-                    //                                     timeTableId,
-                    //                                     StartTimee,
-                    //                                     EndTimee,
-                    //                                     StartBreakk,
-                    //                                     EndBreakk,
-                    //                                     day
-                    //                                 )
-                    //                                 setIsShowModal(true)
-                    //                             }}
-                    //                         >
-                    //                             {'Add'}
-                    //                         </button>
-                    //                     </div>
-                    //
                 )
             },
         },
@@ -375,26 +329,53 @@ const TimeTableSheet: React.FC = () => {
         },
     ]
 
-    console.log('Created timeTable', allTimeTableDetail)
-    console.log('timetable id-:', timeTableId)
-
-    // const dummyRows = Array.from({ length: numberOfDays }, (_, index) => ({
-    //     key: index.toString(),
-    //     // Add other properties as needed for each row
-    // }))
-
-    // const dataSource = DummyData as unknown as TimeTableDataType[]
-    // const updatedDataSource = [...dates]
-
     useEffect(() => {
+        console.log('checking i am here')
+
         async function fetchTimeTableById(): Promise<void> {
-            const response = await getTimetableById(Number(timeTableId))
-            console.log('checking response: ', response)
-            if (response.results) {
-                setAllTimeTableDetail(response.results)
+            const timeTableRes = await getTimetableById(Number(timeTableId))
+            console.log('checking response: ', timeTableRes)
+
+            if (timeTableRes.results) {
+                const _timeTableDetail: TableDetailProps = timeTableRes.results
+                const timeTableSlotsRes: TimeEntryProps[] =
+                    await getTimetableSlot(_timeTableDetail.timeTableId)
+                console.log('checking timeTableSlotsRes: ', timeTableSlotsRes)
+                if (Object.keys(timeTableSlotsRes).length) {
+                    const _timeEntries: TimeEntryProps[] = []
+                    Object.entries(timeTableSlotsRes).forEach(
+                        (_entryArr: any) => {
+                            const _values: TimeEntryProps[] =
+                                _entryArr[1] as TimeEntryProps[]
+                            _values.forEach((_timeEntryObj) => {
+                                const updatedTimeSheetEntry: TimeEntryProps = {
+                                    ..._timeEntryObj,
+                                    startTime: moment(
+                                        _timeEntryObj.startTime,
+                                        'HH:mm:ss'
+                                    ).format('hh:mm A'),
+                                }
+                                _timeEntries.push(updatedTimeSheetEntry)
+                            })
+                        }
+                    )
+                    console.log('checking _timeEntries: ', _timeEntries)
+
+                    setAllTimeTableDetail({
+                        ..._timeTableDetail,
+                        timeEntries: _timeEntries,
+                    })
+                } else {
+                    setAllTimeTableDetail({
+                        ..._timeTableDetail,
+                        timeEntries: [],
+                    })
+                }
             }
         }
-        fetchTimeTableById()
+        if (timeTableId && !allTimeTableDetail?.timeTableId) {
+            fetchTimeTableById()
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [timeTableId])
 
@@ -412,24 +393,25 @@ const TimeTableSheet: React.FC = () => {
                 const currentDate = new Date(allTimeTableDetail.startDate)
                 currentDate.setDate(currentDate.getDate() + index)
                 const dayOfWeek = daysOfWeek[currentDate.getDay()]
-
+                const _timeEntries = allTimeTableDetail.timeEntries.length
+                    ? [...allTimeTableDetail.timeEntries]
+                    : [
+                          {
+                              startTime: undefined,
+                              endTime: undefined,
+                              startBreak: undefined,
+                              endBreak: undefined,
+                              dayOfWeek: dayOfWeek,
+                              timeTableId: allTimeTableDetail.timeTableId,
+                              isActive: allTimeTableDetail.isActive,
+                          },
+                      ]
                 return {
                     key: index.toString(),
                     date: currentDate.toISOString().split('T')[0],
                     dayOfWeek: dayOfWeek,
-
-                    timeEntries: [
-                        {
-                            startTime: undefined,
-                            endTime: undefined,
-                            startBreak: undefined,
-                            endBreak: undefined,
-                            dayOfWeek: dayOfWeek,
-                            timeTableId: allTimeTableDetail.timeTableId,
-                            isActive: allTimeTableDetail.isActive,
-                            isRepeated: allTimeTableDetail.isRepeated,
-                        },
-                    ],
+                    isRepeated: allTimeTableDetail.isRepeated,
+                    timeEntries: _timeEntries,
                 }
             }
         )
@@ -437,6 +419,8 @@ const TimeTableSheet: React.FC = () => {
         console.log('checking tableDataSource: ', _tableDataSource)
         setTableDataSource(_tableDataSource)
     }, [allTimeTableDetail])
+
+    console.log('checking tableDataSource: ', tableDataSource)
 
     return (
         <>

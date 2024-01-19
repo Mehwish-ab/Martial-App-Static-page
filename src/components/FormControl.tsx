@@ -11,7 +11,7 @@ import CustomFileInput from './CustomFileInput/CustomFileInput'
 import CustomDate from './CustomDatePicker/CustomDate'
 import CustomSelects from './CustomSelect/CustomSelects'
 import CustomTimePicker from './CustomDateTimePicker/Index'
-
+import CustomTimePickerNew from './CustomTimePicker/CustomTimePicker'
 export interface FieldStyleBasicProps {
     padding: string
     bgColor: string
@@ -32,6 +32,7 @@ type formControlProps = {
         | 'date'
         | 'file'
         | 'dateTime'
+        | 'timePicker'
 } & React.ComponentProps<any>
 const FormControl: React.FC<formControlProps> = (props) => {
     const { control, ...rest } = props
@@ -62,6 +63,8 @@ const FormControl: React.FC<formControlProps> = (props) => {
             return <CustomFileInput {...rest} />
         case 'TimePicker':
             return <CustomTimePicker {...rest} />
+        case 'timePicker':
+            return <CustomTimePickerNew {...rest} />
         default:
             return null
     }

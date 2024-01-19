@@ -52,6 +52,7 @@ import EditTimeTable from '../screens/TimeTable/EditTimeTable/EditTimeTable'
 import ViewClass from '../screens/Class/ViewClass/ViewClass'
 import UpdateMembership from '../screens/Membership/UpdateMembership/UpdateMembership'
 import ViewMembership from '../screens/Membership/ViewMembership/ViewMembership'
+import NewTimeTable from '../screens/TimeTable/NewTimeTableCreate/NewTimeTableCreate'
 // import { useDispatch, useSelector } from "react-redux";
 // import { RootState } from "../redux/store";
 
@@ -447,6 +448,14 @@ function AppRoutes(): JSX.Element {
                     element={
                         <AppLayout>
                             <Currency />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/NewTimeTable"
+                    element={
+                        <AppLayout>
+                            <NewTimeTable />
                         </AppLayout>
                     }
                 />

@@ -34,6 +34,7 @@ export const ListTimeTableStyled = styled.div`
         line-height: normal;
     }
     .ant-table-thead > tr > th {
+        height: 53px;
         background: transparent !important;
         border-bottom: none !important;
         color: ${pureDark2};

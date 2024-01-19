@@ -4,7 +4,7 @@ import { Dropdown, Space, Table } from 'antd'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
-import { CreateTimeTableStyled } from './styles'
+import { CreateTimeTableStyled, HeaderStyling } from './styles'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
 // import { TimeTableDataType } from '../../../redux/features/TimeTable/TimeTableSlice'
 import { RootState } from '../../../redux/store'
@@ -76,11 +76,11 @@ const calculateDaysDifference = (
 const RenderTableTitle = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('createTImeTable')
     return (
-        <>
+        <HeaderStyling>
             <h3 className="tableHeading">
                 {getLabelByKey('sessionTimingsByDay')}
             </h3>
-        </>
+        </HeaderStyling>
     )
 }
 const TimeTableSheet: React.FC = () => {
@@ -425,11 +425,11 @@ const TimeTableSheet: React.FC = () => {
     return (
         <>
             <Head title="TimeTable Slots" />
+            {Createmodal().modalComponent}
             {loading && <LoadingOverlay message="" />}
+            <RenderTableTitle />
             <CreateTimeTableStyled>
-                {Createmodal().modalComponent}
                 <Table
-                    title={() => <RenderTableTitle />}
                     columns={columns}
                     dataSource={tableDataSource}
                     pagination={false}

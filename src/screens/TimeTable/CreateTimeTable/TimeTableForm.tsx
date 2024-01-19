@@ -101,6 +101,7 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                         return (
                             <>
                                 <Form
+                                    className="formPageMainContainer"
                                     name="basic"
                                     onFinish={formik.handleSubmit}
                                     autoComplete="off"

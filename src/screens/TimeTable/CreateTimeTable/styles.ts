@@ -8,11 +8,15 @@ import {
 } from '../../../components/GlobalStyle'
 
 export const CreateTimeTableStyled = styled.div`
-margin-top: 20px;
-background-color: #fff;
-border-radius: 10px;
-padding-bottom: 20px;
-
+margin: 20px 0px;
+.ant-table {
+  background-color: #fff;
+  border-radius: 12px;
+  padding-bottom: 16px;
+  &-title {
+      padding: 10px;
+  }
+}
   .tableHeading {
     font-size: 18px;
     font-family: ${fontFamilyMedium};
@@ -23,6 +27,7 @@ padding-bottom: 20px;
   }
 
   .ant-table-thead > tr > th {
+    height: 53px;
     background: transparent !important;
     border-bottom: none !important;
     color: ${darkBlue};
@@ -70,14 +75,7 @@ padding-bottom: 20px;
     color: ${pureDark2};    
   }
  
-  .ant-table-tbody > tr > td:nth-child(2){
-    div:nth-child(odd){
-      background-color: #FAFAFA;
-    }
-    div:nth-child(even){
-      background-color: #fff;
-    }
-  }
+
  
   .ant-table-tbody > tr > td:nth-child(6),
   .ant-table-tbody > tr > td:nth-child(6) div{
@@ -140,6 +138,8 @@ padding-bottom: 20px;
 .ant-table-row-level-0 .ant-table-cell:last-child{
   display: flex;
   flex-direction: column;
+  align-items: center;
+  padding-right: 30px;
   height: 100%;
    > div {
     height: 50px;
@@ -155,9 +155,8 @@ padding-bottom: 20px;
 }
 
 `
-
 export const FilterTimeTableStyled = styled.div`
-    .ant-form {
+    .formPageMainContainer {
         padding: 16px;
         background-color: #fff;
         border-radius: 12px;
@@ -176,5 +175,16 @@ export const FilterTimeTableStyled = styled.div`
         height: 40px;
         border-radius: 5px;
         border: 1px solid #e0e0e0;
+    }
+`
+export const HeaderStyling = styled.div`
+    .tableHeading {
+        font-size: 18px;
+        font-family: ${fontFamilyMedium};
+        color: ${pureDark2};
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        margin: 0px;
     }
 `

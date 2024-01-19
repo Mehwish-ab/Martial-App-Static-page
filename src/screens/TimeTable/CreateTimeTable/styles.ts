@@ -26,6 +26,8 @@ margin: 20px 0px;
     line-height: normal;
   }
 
+
+
   .ant-table-thead > tr > th {
     height: 53px;
     background: transparent !important;
@@ -52,7 +54,7 @@ margin: 20px 0px;
     color: ${pureDark2};
   }
   .ant-table-thead > tr > th:first-child {
-    padding-left: 20px;
+    padding-left: 10px;
     width: 10%;
   }
   .ant-table-tbody > tr > td:first-child {
@@ -62,7 +64,7 @@ margin: 20px 0px;
     line-height: normal;
     color: ${pureDark2};
     font-family: ${fontFamilyMedium};
-    padding-left: 20px;
+    padding-left: 10px;
     width: 10%;
   }
 
@@ -135,11 +137,15 @@ margin: 20px 0px;
   margin: 10px 0px 0px;
   height: 50px;
 }
+.ant-table-container table>thead>tr:first-child th:last-child{
+  text-align: center;
+}
+
 .ant-table-row-level-0 .ant-table-cell:last-child{
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-right: 30px;
+  padding-right: 10px;
   height: 100%;
    > div {
     height: 50px;

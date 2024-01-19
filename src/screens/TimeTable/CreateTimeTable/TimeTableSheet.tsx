@@ -153,12 +153,11 @@ const TimeTableSheet: React.FC = () => {
         })
         setTableDataSource(updatedTableDateSource)
     }
-
-    const createTImeSlotHandler = (): void => {}
+    const { getLabelByKey } = useScreenTranslation('createTImeTable')
 
     const columns: ColumnsType<any> = [
         {
-            title: 'Day',
+            title: getLabelByKey('weekDay'),
             dataIndex: 'createTimeTableWeekDay',
             key: 'createTimeTableWeekDay',
             render: (value, record) => {
@@ -166,7 +165,7 @@ const TimeTableSheet: React.FC = () => {
             },
         },
         {
-            title: 'Start Time',
+            title: getLabelByKey('startTime'),
             dataIndex: 'createTimeTableStartDate',
             key: 'createTimeTableStartDate',
             render: (_, record, recordIndex) => {
@@ -186,7 +185,7 @@ const TimeTableSheet: React.FC = () => {
             },
         },
         {
-            title: 'End Time',
+            title: getLabelByKey('endTime'),
             dataIndex: 'createTimeTableEndDate',
             key: 'createTimeTableEndDate',
             render: (_, record, recordIndex) => {
@@ -204,7 +203,7 @@ const TimeTableSheet: React.FC = () => {
             },
         },
         {
-            title: 'Start Break',
+            title: getLabelByKey('startBreak'),
             dataIndex: 'createTimeTableStartBreak',
             key: 'createTimeTableStartBreak',
             render: (_, record, recordIndex) => {
@@ -222,7 +221,7 @@ const TimeTableSheet: React.FC = () => {
             },
         },
         {
-            title: 'End Break',
+            title: getLabelByKey('endBreak'),
             dataIndex: 'createTimeTableEndBreak',
             key: 'createTimeTableEndBreak',
             render: (_, record, recordIndex) => {
@@ -240,7 +239,7 @@ const TimeTableSheet: React.FC = () => {
             },
         },
         {
-            title: 'Slot',
+            title: getLabelByKey('slot'),
             dataIndex: 'createTimeTableSlot',
             key: 'createTimeTableSlot',
             //improving-screens
@@ -296,7 +295,7 @@ const TimeTableSheet: React.FC = () => {
             },
         },
         {
-            title: 'Actions',
+            title: getLabelByKey('actions'),
             key: 'timeTableAction',
             render: (_, record, recordIndex) => {
                 const items = [

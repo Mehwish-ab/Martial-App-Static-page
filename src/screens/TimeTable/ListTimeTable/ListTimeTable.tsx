@@ -164,6 +164,8 @@ const ListTimeTable: React.FC = () => {
             title: getLabelByKey('id'),
             dataIndex: 'timeTableId',
             key: 'timeTableId',
+            defaultSortOrder: 'descend',
+            sorter: (a, b) => a.timeTableId - b.timeTableId,
         },
         {
             title: getLabelByKey('title'),

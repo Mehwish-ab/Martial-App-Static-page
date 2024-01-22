@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Dropdown, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { ListClassStyled } from './style'
@@ -13,25 +13,36 @@ import { useNavigate } from 'react-router-dom'
 import plusIcon from '../../../assets/icons/ic_plus.svg'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../redux/store'
+import store, { RootState } from '../../../redux/store'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
-import { ClassDataType } from '../../../redux/features/CLasses/ClassSlice'
-import DummyData from './dummyData.json'
+import {
+    ClassDataType,
+    getBranchBySchoolId,
+} from '../../../redux/features/CLasses/ClassSlice'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
 import DateCalander from '../../../assets/images/dateCalander.svg'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import Head from '../../../components/Head/Head'
+import useClass from '../../../hooks/useClass'
+import moment from 'moment'
 
 const ListClass = (): JSX.Element => {
+    const { ClassData } = useSelector((state: RootState) => state.ClassData)
     const navigate = useNavigate()
+    const { ClassStatus } = useClass()
     const { getLabelByKey } = useScreenTranslation('classesList')
-    const { loading } = useSelector((state: RootState) => state.branchData)
+    useEffect(() => {
+        console.log('hi use effect')
+        store.dispatch(getBranchBySchoolId())
+    }, [])
+    console.log('timetable', ClassData)
+    const { loading } = useSelector((state: RootState) => state.ClassData)
     const navigation = (record: ClassDataType, redirectTo: string): void => {
         switch (redirectTo) {
             case 'update':
-                navigate(`/class/update/${record.ClassId}`, {
+                navigate(`/class/update/${record.classId}`, {
                     state: {
                         branchToEdit: record as ClassDataType,
                     },
@@ -39,7 +50,7 @@ const ListClass = (): JSX.Element => {
                 break
 
             case 'view':
-                navigate(`/class/view`, {
+                navigate(`/class/view/${record.classId}`, {
                     state: {
                         branch: record as ClassDataType,
                     },
@@ -47,7 +58,7 @@ const ListClass = (): JSX.Element => {
                 break
 
             case 'delete':
-                navigate(`/Class/subscribe/${record.ClassId}`, {
+                navigate(`/Class/subscribe/${record.classId}`, {
                     state: {
                         branch: record as ClassDataType,
                     },
@@ -129,46 +140,87 @@ const ListClass = (): JSX.Element => {
     const columns: ColumnsType<ClassDataType> = [
         {
             title: getLabelByKey('id'),
-            dataIndex: 'ClassId',
-            key: 'ClassId',
+            dataIndex: 'classId',
+            key: 'classId',
         },
         {
             title: getLabelByKey('classTitle'),
-            dataIndex: 'ClassTitle',
+            dataIndex: 'title',
             key: 'ClassTitle',
         },
         {
             title: getLabelByKey('instructor'),
-            dataIndex: 'ClassInstructor',
-            key: 'ClassInstructor',
+            dataIndex: 'instructorId',
+            key: 'instructorId',
         },
         {
             title: getLabelByKey('startDate'),
-            dataIndex: 'ClassStartDate',
-            key: 'ClassStartDate',
+            dataIndex: 'startDate',
+            key: 'startDate',
+            render: (startDate) => {
+                return (
+                    <div className="list-item mb-0">
+                        {moment(moment(startDate, 'YYYY-MM-DD')).format(
+                            'dddd, MMM DD, YYYY'
+                        )}
+                    </div>
+                )
+            },
         },
         {
             title: getLabelByKey('endDate'),
-            dataIndex: 'ClassEndDate',
-            key: 'ClassEndDate',
+            dataIndex: 'endDate',
+            key: 'endDate',
+            render: (endDate) => {
+                return (
+                    <div>
+                        {moment(moment(endDate, 'YYYY-MM-DD')).format(
+                            'dddd, MMM DD, YYYY'
+                        )}
+                    </div>
+                )
+            },
         },
         {
             title: getLabelByKey('fees'),
-            dataIndex: 'ClassFee',
-            key: 'ClassFee',
+            dataIndex: 'fee',
+            key: 'fee',
         },
 
         {
             title: getLabelByKey('status'),
-            dataIndex: 'ClassStatus',
-            key: 'ClassStatus',
-            render: (DummyDatas) => {
-                return (
-                    <div>
-                        <button>{DummyDatas}</button>
-                        <img src={StatusActiveError} alt="images" />
-                    </div>
-                )
+            dataIndex: 'classStatusId',
+            key: 'classStatusId',
+            render: (isActive, index) => {
+                if (index?.classStatusId === 1) {
+                    return (
+                        <div className={'Active'}>
+                            <button
+                                onClick={() => {
+                                    {
+                                        ClassStatus(index.classId, 2)
+                                    }
+                                }}
+                            >
+                                Active
+                            </button>
+                            <img src={StatusActiveError} alt="image" />
+                        </div>
+                    )
+                } else {
+                    return (
+                        <div className={'De-Active'}>
+                            <button
+                                onClick={() => {
+                                    ClassStatus(index.classId, 1)
+                                }}
+                            >
+                                De-Active
+                            </button>
+                            <img src={StatusActiveError} alt="image" />
+                        </div>
+                    )
+                }
             },
         },
         {
@@ -217,10 +269,7 @@ const ListClass = (): JSX.Element => {
                 <Table
                     columns={columns}
                     dataSource={
-                        DummyData.map((item) => ({
-                            ...item,
-                            key: item.ClassId,
-                        })) as any
+                        ClassData?.data[0].id !== 0 ? ClassData.data : []
                     }
                     // scroll={{ x: true }}
                     pagination={{

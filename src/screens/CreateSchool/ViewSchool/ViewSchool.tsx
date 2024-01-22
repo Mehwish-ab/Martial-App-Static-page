@@ -141,7 +141,9 @@ const ViewSchool = (): JSX.Element => {
         if (activitiesName !== '') return activitiesName
         return '--'
     }
-
+    useEffect(() => {
+        store.dispatch(getSchoolByUserId())
+    }, [])
     return (
         <>
             <Head title="School Information" />

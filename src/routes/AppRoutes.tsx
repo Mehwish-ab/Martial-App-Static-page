@@ -372,7 +372,7 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/class/update/:id"
+                    path="/class/update/:classId"
                     element={
                         <AppLayout>
                             <UpdateClass />
@@ -388,7 +388,7 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/class/view"
+                    path="/class/view/:classId"
                     element={
                         <AppLayout>
                             <ViewClass />

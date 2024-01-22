@@ -72,17 +72,14 @@ const UpdateeInstructor = (): JSX.Element => {
         latestCertification: instructorData?.certificationURL || '--',
         description: instructorData ? instructorData.description : '--',
         activities: instructorData
-            ? String(instructorData?.activities)
-                  .split('')
-                  .map(String)
+            ? instructorData?.activities?.split(',').map(String)
             : [],
         specializations: instructorData
-            ? String(instructorData?.specializations)
-                  .split('')
-                  .map(String)
+            ? instructorData?.specializations?.split(',').map(String)
             : [],
         termCondition: '',
     }
+    console.log('nada', instructorData?.activities)
 
     // const franchiseName = validationFinder('BUSINESS_NAME')!
     // const franchiseNameReg = new RegExp(franchiseName.pattern)
@@ -128,7 +125,7 @@ const UpdateeInstructor = (): JSX.Element => {
         console.log('_activities', _activities)
 
         let activitiesName = ''
-        _activities?.map((activity: string) => {
+        _activities.map((activity) => {
             const index = activities.findIndex((act) => act.id === activity)
             if (index !== -1) {
                 activitiesName =
@@ -417,31 +414,12 @@ const UpdateeInstructor = (): JSX.Element => {
                                         <Col md="6">
                                             <CheckboxesSelect
                                                 name="activities"
-                                                label={
-                                                    <>
-                                                        {getLabelByKey(
-                                                            'activities'
-                                                        )}{' '}
-                                                        <span>
-                                                            {getLabelByKey(
-                                                                'toInstructWithin'
-                                                            )}
-                                                        </span>
-                                                    </>
-                                                }
+                                                label="Activities"
                                                 list={activities}
                                                 showErrorMsgInList={false}
-                                                placeholder={
+                                                placeholder={showActivities(
                                                     formik.values.activities
-                                                        .length > 0
-                                                        ? showActivities(
-                                                              formik.values
-                                                                  .activities
-                                                          )
-                                                        : getLabelByKey(
-                                                              'activitiesPlaceholder'
-                                                          )
-                                                }
+                                                )}
                                             />
                                         </Col>
 

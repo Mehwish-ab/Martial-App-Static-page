@@ -18,12 +18,14 @@ import dollar from '../../../assets/images/$.svg'
 // import CustomModal from '../../../components/Modal/CustomModal'
 // import { useNavigate } from 'react-router-dom'
 import OverlayImages from '../../Home/OverlayImages/OverlayImages'
-import { RootState } from '../../../redux/store'
+import store, { RootState } from '../../../redux/store'
 import useClass from '../../../hooks/useClass'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import Head from '../../../components/Head/Head'
+import { getInstructorByUserId } from '../../../redux/features/instructor/instructorSlice'
+import { getTimetableByUserId } from '../../../redux/features/TimeTable/TimeTableSlice'
 
 const CreateClass = (): JSX.Element => {
     const {
@@ -31,6 +33,20 @@ const CreateClass = (): JSX.Element => {
     } = useSelector((state: RootState) => state.appData.data)
     const { getLabelByKey } = useScreenTranslation('createClasses')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
+    const { instructorData } = useSelector(
+        (state: RootState) => state.instructorData
+    )
+    const { timeTableData } = useSelector(
+        (state: RootState) => state.timeTableData
+    )
+
+    console.log('timetable', timeTableData)
+    console.log('<<instructordata', instructorData)
+    useEffect(() => {
+        store.dispatch(getInstructorByUserId())
+        store.dispatch(getTimetableByUserId())
+    }, [])
+    // console.log();
 
     // const [isShowModal, setIsShowModal] = useState(false)
     // const navigate = useNavigate()
@@ -46,7 +62,7 @@ const CreateClass = (): JSX.Element => {
         instructorId: [],
         fee: '',
         activities: [],
-        capacity: '',
+        capacity: 0,
         minimumStudent: '',
         bookingStartDate: '',
         bookingEndDate: '',
@@ -66,6 +82,7 @@ const CreateClass = (): JSX.Element => {
         profilePicture: '',
         useCase: '',
         id: 0,
+        timeTableId: 0,
     }
     const [selectedFiles, setSelectedFiless] = useState<FileList | null>(null)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -73,7 +90,7 @@ const CreateClass = (): JSX.Element => {
         setSelectedFiless(selectedFiless)
     }
     const submit = async (values: any): Promise<void> => {
-        console.log(values)
+        console.log('bbb', values)
         await handleCreateSubmit(values, selectedFiles)
     }
     const { selectedLanguage } = useSelector(
@@ -105,6 +122,8 @@ const CreateClass = (): JSX.Element => {
             <CreateClassStyled>
                 <Formik initialValues={initialValues} onSubmit={submit}>
                     {(formik) => {
+                        console.log('firmik', formik.values)
+
                         return (
                             <Form
                                 name="basic"
@@ -201,7 +220,30 @@ const CreateClass = (): JSX.Element => {
                                                                     placeholder={getLabelByKey(
                                                                         'InstructorsPlaceholder'
                                                                     )}
-                                                                />
+                                                                >
+                                                                    <option
+                                                                        value=""
+                                                                        label="Select an Instructor"
+                                                                    />
+                                                                    {instructorData.data.map(
+                                                                        (
+                                                                            instructor
+                                                                        ) => (
+                                                                            <option
+                                                                                key={
+                                                                                    instructor.instructorId
+                                                                                }
+                                                                                value={
+                                                                                    instructor.instructorId
+                                                                                }
+                                                                            >
+                                                                                {
+                                                                                    instructor.instructorName
+                                                                                }
+                                                                            </option>
+                                                                        )
+                                                                    )}
+                                                                </FormControl>
                                                             </Col>
                                                             <Col
                                                                 md="6"
@@ -210,7 +252,7 @@ const CreateClass = (): JSX.Element => {
                                                                 <FormControl
                                                                     control="select"
                                                                     type="text"
-                                                                    name="instructorId"
+                                                                    name="timeTableId"
                                                                     // label={getLabelByKey(
                                                                     //     'instructors'
                                                                     // )}
@@ -225,7 +267,30 @@ const CreateClass = (): JSX.Element => {
                                                                     //     'InstructorsPlaceholder'
                                                                     // )}
                                                                     placeholder="Select TimeTable"
-                                                                />
+                                                                >
+                                                                    <option
+                                                                        value=""
+                                                                        label="Select an Instructor"
+                                                                    />
+                                                                    {timeTableData.data.map(
+                                                                        (
+                                                                            timetable
+                                                                        ) => (
+                                                                            <option
+                                                                                key={
+                                                                                    timetable.timeTableId
+                                                                                }
+                                                                                value={
+                                                                                    timetable.timeTableId
+                                                                                }
+                                                                            >
+                                                                                {
+                                                                                    timetable.title
+                                                                                }
+                                                                            </option>
+                                                                        )
+                                                                    )}
+                                                                </FormControl>
                                                             </Col>
                                                         </Row>
                                                     </Col>
@@ -388,8 +453,8 @@ const CreateClass = (): JSX.Element => {
 
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="select"
-                                                type="text"
+                                                control="date"
+                                                type="date"
                                                 name="allowStudentCancel"
                                                 label={getLabelByKey(
                                                     'allowToStudentCancel'

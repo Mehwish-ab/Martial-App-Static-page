@@ -133,7 +133,7 @@ const ViewMembership = (): JSX.Element => {
                                 </Col>
                             </Row>
                         </Col>
-                        <Col md="4">
+                        <Col md="3">
                             <div className="list-item">
                                 <div className="list-item-title">
                                     {getLabelByKey('dailySubscriptionFees')}
@@ -141,7 +141,7 @@ const ViewMembership = (): JSX.Element => {
                                 <div className="list-item-value">--</div>
                             </div>
                         </Col>
-                        <Col md="4">
+                        <Col md="3">
                             <div className="list-item">
                                 <div className="list-item-title">
                                     {getLabelByKey('weeklySubscriptionFees')}
@@ -149,7 +149,7 @@ const ViewMembership = (): JSX.Element => {
                                 <div className="list-item-value">--</div>
                             </div>
                         </Col>
-                        <Col md="4">
+                        <Col md="3">
                             <div className="list-item">
                                 <div className="list-item-title">
                                     {getLabelByKey('monthlySubscriptionFees')}
@@ -157,7 +157,7 @@ const ViewMembership = (): JSX.Element => {
                                 <div className="list-item-value">--</div>
                             </div>
                         </Col>
-                        <Col md="4">
+                        <Col md="3">
                             <div className="list-item">
                                 <div className="list-item-title">
                                     {getLabelByKey('annuallySubscriptionFees')}

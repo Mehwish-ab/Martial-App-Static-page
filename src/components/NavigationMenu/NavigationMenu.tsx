@@ -1,7 +1,7 @@
 import { Menu, MenuProps } from 'antd'
 import { useLocation, useNavigate } from 'react-router-dom'
 import logo from '../../assets/icons/ic_logo.svg'
-import { childListOfBooking, childListOfSetting } from '../Sidebar/constants'
+import { childListOfSetting } from '../Sidebar/constants'
 // import { SidebarStyle } from "../Sidebar/style";
 import { NavigationMenuStyled } from './styles'
 import { useEffect, useState } from 'react'
@@ -117,21 +117,30 @@ const NavigationMenu = (): JSX.Element => {
             ),
         },
         {
-            key: menuLinksKeys.transactionsHistory,
-            label: getLabel(
-                'Transactions History',
-                menuLinks.transactionsHistory,
-                menuLinksKeys.transactionsHistory
-            ),
-            children: childListOfBooking,
-        },
-        {
             key: menuLinksKeys.listInstructor,
             label: getLabel(
                 'Instructors',
                 menuLinks.listInstructor,
                 menuLinksKeys.listInstructor
             ),
+        },
+        {
+            key: menuLinksKeys.transactionsHistory,
+            label: getLabel(
+                'Transactions History',
+                menuLinks.transactionsHistory,
+                menuLinksKeys.transactionsHistory
+            ),
+            // children: childListOfBooking,
+        },
+        {
+            key: menuLinksKeys.subscriptionHistory,
+            label: getLabel(
+                'Subscription History',
+                menuLinks.subscriptionHistory,
+                menuLinksKeys.subscriptionHistory
+            ),
+            // children: childListOfBooking,
         },
         {
             key: menuLinksKeys.notification,

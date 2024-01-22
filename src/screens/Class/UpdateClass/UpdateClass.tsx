@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import { Form } from 'antd'
 import { Col, Row } from 'react-bootstrap'
@@ -17,57 +17,65 @@ import { CreateClassInitialValues } from '../constant'
 import dollar from '../../../assets/images/$.svg'
 // import EnnvisionModal from '../../../components/CustomModals/EnnvisionModal'
 // import CustomModal from '../../../components/Modal/CustomModal'
-import { useNavigate } from 'react-router-dom'
 import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import { RootState } from '../../../redux/store'
 import Head from '../../../components/Head/Head'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
 import useClass from '../../../hooks/useClass'
+import { useParams } from 'react-router-dom'
+import { ClassDataType } from '../../../redux/features/CLasses/ClassSlice'
 
 const CreateClass = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('updateClasses')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [isShowModal, setIsShowModal] = useState(false)
-    const navigate = useNavigate()
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [isLoading, setIsLoading] = useState(false)
-    const { UpdateModal } = useClass()
+    const { classId } = useParams()
 
+    const { getClassbyid, loading } = useClass()
     const {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
-    const { ClassData } = useSelector((state: RootState) => state.ClassData)
+    const [values, setValues] = useState<any>()
+    const getClass = async (): Promise<void> => {
+        const data = await getClassbyid(Number(classId))
+        setValues(data)
+    }
+    useEffect(() => {
+        getClass()
+    }, [])
+    console.log('class', values)
 
-    const initialValues: CreateClassInitialValues = {
-        title: '',
-        startDate: '',
-        endDate: '',
-        instructorId: [],
-        fee: '',
-        activities: [],
-        capacity: '',
-        minimumStudent: '',
-        bookingStartDate: '',
-        bookingEndDate: '',
-        qrCodeStartDate: '',
-        qrCodeEndDate: '',
-        allowStudentCancel: '',
-        refundDate: '',
-        bookingCancelStartDate: '',
-        bookingCancelEndDate: '',
-        cancellationCharges: '',
-        accommodation: '',
-        description: '',
+    const vla: CreateClassInitialValues = {
+        title: values?.title,
+        startDate: values?.startDate,
+        endDate: values?.endDate || '--',
+        instructorId: values?.instructorId,
+        fee: values?.fee,
+        activities: values ? values.activities?.split(',').map(String) : [],
+        capacity: values?.capacity,
+        minimumStudent: values?.minimumStudent,
+        bookingStartDate: values?.bookingStartDate,
+        bookingEndDate: values?.bookingEndDate,
+        qrCodeStartDate: values?.qrCodeStartDate,
+        qrCodeEndDate: values?.qrCodeEndDate,
+        allowStudentCancel: values?.allowStudentCancel,
+        refundDate: values?.refundDate,
+        bookingCancelStartDate: values?.bookingCancelStartDate,
+        bookingCancelEndDate: values?.bookingCancelEndDate,
+        cancellationCharges: values?.cancellationCharges,
+        accommodation: values?.accommodation,
+        description: values?.description,
         Agreement: '',
         termCondition: '',
         Liabilitywaivers: '',
         bannerPicture: '',
         profilePicture: '',
-        useCase: '',
+        useCase: values?.useCase,
         id: 0,
+        timeTableId: values?.timeTableId,
     }
+    console.log('initial', vla)
+
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
@@ -93,21 +101,25 @@ const CreateClass = (): JSX.Element => {
     }
 
     const onSubmit = async (): Promise<void> => {
-        try {
-            setIsShowModal(true)
-            setTimeout(() => {
-                setIsShowModal(false)
-                navigate('/membership/list')
-            }, 3000)
-            setIsLoading(false)
-        } catch (error: any) {}
+        // try {
+        //     setIsShowModal(true)
+        //     setTimeout(() => {
+        //         setIsShowModal(false)
+        //         navigate('/membership/list')
+        //     }, 3000)
+        //     setIsLoading(false)
+        // } catch (error: any) {}
     }
     return (
         <>
             <Head title="Update Class" />
-            {UpdateModal().modalComponent}
+            {/* {UpdateModal().modalComponent} */}
             <CreateClassStyled>
-                <Formik initialValues={initialValues} onSubmit={onSubmit}>
+                <Formik
+                    initialValues={vla}
+                    onSubmit={onSubmit}
+                    enableReinitialize
+                >
                     {(formik) => {
                         return (
                             <Form
@@ -141,6 +153,10 @@ const CreateClass = (): JSX.Element => {
                                                             placeholder={getLabelByKey(
                                                                 'titlePlaceholder'
                                                             )}
+                                                            // defaultValue={
+                                                            //     formik.values
+                                                            //         .title
+                                                            // }
                                                         />
                                                     </Col>
 
@@ -150,10 +166,10 @@ const CreateClass = (): JSX.Element => {
                                                                 md="6"
                                                                 className="mt-20"
                                                             >
-                                                                <FormControl
+                                                                {/* <FormControl
                                                                     control="date"
                                                                     type="date"
-                                                                    name="StartDate"
+                                                                    name="startDate"
                                                                     fontFamily={
                                                                         fontFamilyRegular
                                                                     }
@@ -164,6 +180,11 @@ const CreateClass = (): JSX.Element => {
                                                                     placeholder={getLabelByKey(
                                                                         'startDatePlaceholder'
                                                                     )}
+                                                                    defaultValue={
+                                                                        formik
+                                                                            .values
+                                                                            .startDate
+                                                                    }
                                                                     suffix={
                                                                         <img
                                                                             src={
@@ -179,6 +200,24 @@ const CreateClass = (): JSX.Element => {
                                                                             //onClick={(type = "date")}
                                                                         />
                                                                     }
+                                                                /> */}
+                                                                <FormControl
+                                                                    control="date"
+                                                                    type="date"
+                                                                    name="startDate"
+                                                                    labelFamily={
+                                                                        fontFamilyRegular
+                                                                    }
+                                                                    fontFamily={
+                                                                        fontFamilyRegular
+                                                                    }
+                                                                    label={getLabelByKey(
+                                                                        'startDate'
+                                                                    )}
+                                                                    fontSize="16px"
+                                                                    placeholder={getLabelByKey(
+                                                                        'startDatePlaceholder'
+                                                                    )}
                                                                 />
                                                             </Col>
                                                             <Col
@@ -223,7 +262,7 @@ const CreateClass = (): JSX.Element => {
                                                                 <FormControl
                                                                     control="select"
                                                                     type="text"
-                                                                    name="instructors"
+                                                                    name="instructorId"
                                                                     label={getLabelByKey(
                                                                         'instructors'
                                                                     )}
@@ -245,7 +284,7 @@ const CreateClass = (): JSX.Element => {
                                                                 <FormControl
                                                                     control="select"
                                                                     type="text"
-                                                                    name="instructorId"
+                                                                    name="timeTableId"
                                                                     // label={getLabelByKey(
                                                                     //     'instructors'
                                                                     // )}
@@ -297,11 +336,11 @@ const CreateClass = (): JSX.Element => {
                                                         </p>
                                                         <OverlayImages
                                                             backgroundImg={
-                                                                ClassData.bannerPicture ||
+                                                                values?.bannerPicture ||
                                                                 ''
                                                             }
                                                             overlayImg={
-                                                                ClassData.profilePicture ||
+                                                                values?.profilePicture ||
                                                                 ''
                                                             }
                                                             isEditable={true}
@@ -314,7 +353,7 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="input"
                                                 type="text"
-                                                name="classFees"
+                                                name="fee"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'classFees'
@@ -338,7 +377,7 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="input"
                                                 type="text"
-                                                name="classCapacity"
+                                                name="capacity"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'classCapacity'
@@ -369,7 +408,7 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="date"
                                                 type="date"
-                                                name="startBooking"
+                                                name="bookingStartDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'startBooking'
@@ -384,7 +423,7 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="date"
                                                 type="date"
-                                                name="endBooking"
+                                                name="bookingEndDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'endBooking'
@@ -399,7 +438,7 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="date"
                                                 type="date"
-                                                name="qrCodeAttendanceStart"
+                                                name="qrCodeStartDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'qrCodeAttendanceStart'
@@ -414,7 +453,7 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="date"
                                                 type="date"
-                                                name="qrCodeAttendanceEnd"
+                                                name="qrCodeEndDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'qrCodeAttendanceEnd'
@@ -430,7 +469,7 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="select"
                                                 type="text"
-                                                name="allowToStudentCancel"
+                                                name="allowStudentCancel"
                                                 label={getLabelByKey(
                                                     'allowToStudentCancel'
                                                 )}
@@ -448,7 +487,7 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="date"
                                                 type="date"
-                                                name="refundFeesDate"
+                                                name="refundDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'refundFeesDate'
@@ -464,7 +503,7 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="date"
                                                 type="date"
-                                                name="bookingCancellationStart"
+                                                name="bookingCancelStartDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'bookingCancellationStart'
@@ -480,7 +519,7 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="date"
                                                 type="date"
-                                                name="bookingCancellationEnd"
+                                                name="bookingCancelEndDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'bookingCancellationEnd'
@@ -496,7 +535,7 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="input"
                                                 type="text"
-                                                name="cancellationCharge"
+                                                name="cancellationCharges"
                                                 fontFamily={fontFamilyRegular}
                                                 label={
                                                     <>
@@ -530,7 +569,7 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="select"
                                                 type="text"
-                                                name="accommodate"
+                                                name="accommodation"
                                                 label={
                                                     <>
                                                         {getLabelByKey(
@@ -557,7 +596,7 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="textarea"
                                                 type="text"
-                                                name="descriptionAndFeatures"
+                                                name="description"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'descriptionAndFeatures'

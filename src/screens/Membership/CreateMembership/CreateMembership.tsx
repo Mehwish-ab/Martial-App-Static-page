@@ -67,14 +67,14 @@ const CreateMembership = (): JSX.Element => {
             setIsShowModal(true)
             setTimeout(() => {
                 setIsShowModal(false)
-                navigate('/membership/list')
+                navigate('/membership/classes')
             }, 3000)
             setIsLoading(false)
         } catch (error: unknown) {}
     }
     return (
         <>
-            <Head title="Create Membership" />
+            <Head title="Membership Create" />
             <CustomModal
                 isModalVisible={isShowModal}
                 setIsModalVisible={setIsShowModal}
@@ -286,7 +286,9 @@ const CreateMembership = (): JSX.Element => {
                                                         className="mt-20"
                                                     >
                                                         <p className="bannerTitle ">
-                                                            Select Banner Image
+                                                            {getLabelByKey(
+                                                                'bannerImage'
+                                                            )}
                                                         </p>
                                                         <OverlayImages
                                                             backgroundImg={
@@ -607,7 +609,7 @@ const CreateMembership = (): JSX.Element => {
                                         fontFamily={`${fontFamilyMedium}`}
                                         width="fit-content"
                                         type="submit"
-                                        title="Next"
+                                        title={getLabelByKey('primaryButton')}
                                         fontSize="18px"
                                         loading={isLoading}
                                     />

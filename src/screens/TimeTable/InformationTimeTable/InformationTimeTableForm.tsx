@@ -76,7 +76,7 @@ const InformationTimeTableForm: React.FC = () => {
                                     <div className="list-item-value">
                                         {moment(
                                             moment(
-                                                allTimeTableDetail.endDate,
+                                                allTimeTableDetail?.endDate,
                                                 'YYYY-MM-DD'
                                             )
                                         ).format('dddd, MMM DD, YYYY')}

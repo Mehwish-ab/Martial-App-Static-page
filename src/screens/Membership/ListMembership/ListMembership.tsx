@@ -22,14 +22,18 @@ import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
 import DateCalander from '../../../assets/images/dateCalander.svg'
 import Head from '../../../components/Head/Head'
+import useScreenTranslation from '../../../hooks/useScreenTranslation'
 
 const RenderTableTitle = (): JSX.Element => {
     const navigate = useNavigate()
+    const { getLabelByKey } = useScreenTranslation('membershipList')
 
     return (
         <CustomDiv>
             <div className="mainWrapper">
-                <h3 className="table-heading">Membership</h3>
+                <h3 className="table-heading">
+                    {getLabelByKey('titleScreen')}
+                </h3>
                 <div className="FilterMainContainer">
                     <div className="arrowsMain">
                         <div className="arrowRight">
@@ -98,6 +102,8 @@ const RenderTableTitle = (): JSX.Element => {
 
 const ListMembership: React.FC = () => {
     const navigate = useNavigate()
+    const { getLabelByKey } = useScreenTranslation('membershipList')
+
     const navigation = (
         record: MembershipDataType,
         redirectTo: string
@@ -139,38 +145,38 @@ const ListMembership: React.FC = () => {
 
     const columns: ColumnsType<MembershipDataType> = [
         {
-            title: 'Id',
+            title: getLabelByKey('id'),
             dataIndex: 'MembershipId',
             key: 'MembershipId',
         },
         {
-            title: 'Membership Title',
+            title: getLabelByKey('membershipTitle'),
             dataIndex: 'MembershipTitle',
             key: 'MembershipTitle',
         },
         {
-            title: 'Type',
+            title: getLabelByKey('type'),
             dataIndex: 'MembershipType',
             key: 'MembershipType',
         },
         {
-            title: 'Visibility',
+            title: getLabelByKey('visibility'),
             dataIndex: 'MembershipVisibility',
             key: 'MembershipVisibility',
         },
         {
-            title: 'Expires',
+            title: getLabelByKey('expires'),
             dataIndex: 'MembershipExpires',
             key: 'MembershipExpires',
         },
         {
-            title: 'Price',
+            title: getLabelByKey('price'),
             dataIndex: 'MembershipPrice',
             key: 'MembershipPrice',
         },
 
         {
-            title: 'Status',
+            title: getLabelByKey('status'),
             dataIndex: 'MembershipStatus',
             key: 'MembershipStatus',
             render: (DummyDatas) => {
@@ -183,7 +189,7 @@ const ListMembership: React.FC = () => {
             },
         },
         {
-            title: 'Actions',
+            title: getLabelByKey('actions'),
             key: 'MembershipAction',
             render: (_, record) => {
                 const items = [

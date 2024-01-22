@@ -3,6 +3,7 @@ import { Input } from 'antd'
 import { ErrorMessage, Field } from 'formik'
 import CustomFileInputStyle from './style'
 import Errormsg from '../ErrorMessage'
+import FileUpload from '../../assets/icons/ic_fileSubmit.svg'
 
 type customFileInputProps = {
     name: string
@@ -19,25 +20,36 @@ const CustomFileInput: React.FC<customFileInputProps> = ({
     return (
         <CustomFileInputStyle labelFamily={labelFamily} labelFont={labelFont}>
             <label htmlFor="file">{label}</label>
-
             <Field name={name} id={name}>
                 {({ field, form, meta }: any) => {
                     return (
-                        <Input
-                            className="customdatepicker"
-                            placeholder={name}
-                            name={name}
-                            type="file"
-                            id={name}
-                            onChange={(event: any) => {
-                                const selectedFile = event.target.files[0]
-                                form.setFieldValue(name, selectedFile)
-                                console.log(
-                                    `Selected File for ${name}:`,
-                                    selectedFile
-                                )
-                            }}
-                        />
+                        <>
+                            <div className="mainUploadContainer">
+                                <Input
+                                    className="customdatepicker"
+                                    placeholder={name}
+                                    name={name}
+                                    type="file"
+                                    id={name}
+                                    onChange={(event: any) => {
+                                        const selectedFile =
+                                            event.target.files[0]
+                                        form.setFieldValue(name, selectedFile)
+                                        console.log(
+                                            `Selected File for ${name}:`,
+                                            selectedFile
+                                        )
+                                    }}
+                                />
+                                <img
+                                    className="uploadImg"
+                                    src={FileUpload as string}
+                                    alt="Calander"
+                                    width={21}
+                                    height={21}
+                                />
+                            </div>
+                        </>
                     )
                 }}
             </Field>

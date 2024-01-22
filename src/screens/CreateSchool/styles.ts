@@ -95,7 +95,10 @@ export const CreateSchoolStyled = styled.div`
         }
     }
 
-    label {
+    div > label {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         span {
             color: #4f4f4f;
             font-family: ${fontFamilyRegular};

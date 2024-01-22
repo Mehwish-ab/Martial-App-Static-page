@@ -19,8 +19,6 @@ import {
 } from '../../../components/GlobalStyle'
 import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
 import Head from '../../../components/Head/Head'
-const localStorageData = localStorage.getItem('ennvision-admin:token')
-const loginData = JSON.parse(localStorageData as any)
 const ViewSchool = (): JSX.Element => {
     const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
@@ -75,14 +73,14 @@ const ViewSchool = (): JSX.Element => {
     // }
 
     useEffect(() => {
-        // if (!data || data.schoolId === 0) {
+        const localStorageData = localStorage.getItem('ennvision-admin:token')
+        const loginData = JSON.parse(localStorageData as any)
         if (!loginData?.schoolId) {
             navigate('/school/create')
             return
         }
-        store.dispatch(getSchoolByUserId())
-        // store.dispatch(getBranchBySchoolId())
-        // store.dispatch(getfranchiseBySchoolId())
+        if (!schoolData || !schoolData.schoolId)
+            store.dispatch(getSchoolByUserId())
     }, [])
 
     // const handleDeleteClick = async (): Promise<void> => {
@@ -143,7 +141,9 @@ const ViewSchool = (): JSX.Element => {
         if (activitiesName !== '') return activitiesName
         return '--'
     }
-
+    useEffect(() => {
+        store.dispatch(getSchoolByUserId())
+    }, [])
     return (
         <>
             <Head title="School Information" />

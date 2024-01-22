@@ -12,7 +12,7 @@ export const PlacesAutocompleteStyle = styled.div`
         font-size: 16px;
         color: ${pureDark2};
         font-weight: 400;
-        margin-bottom: 7px;
+        // margin-bottom: 7px;
     }
     input {
         width: 100%;

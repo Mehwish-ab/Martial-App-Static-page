@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { TimePicker } from 'antd'
 import { Field, ErrorMessage } from 'formik'
-import { CustomDatePickerStyle } from '../CustomDatePicker/style'
+import { CustomTimePickerStyle } from './style'
 import ErrorMsg from '../ErrorMessage'
 import timeIcon from '../../assets/icons/ic_clock.svg'
-import moment from 'moment'
-const CustomTimePicker = (props: {
+const CustomTimePickerNew = (props: {
     [x: string]: any
     name: any
     placeholder: any
@@ -35,7 +33,7 @@ const CustomTimePicker = (props: {
     } = props
 
     return (
-        <CustomDatePickerStyle
+        <CustomTimePickerStyle
             fontFamily={fontFamily}
             labelFamily={labelFamily}
             bgColor={bgColor}
@@ -45,31 +43,37 @@ const CustomTimePicker = (props: {
             {label && <label htmlFor={name}>{label}</label>}
             <Field name={name} id={name} {...rest}>
                 {({ form }: any) => (
-                    <div>
-                        <TimePicker
-                            className="customtimepicker"
-                            placeholder={placeholder}
-                            suffixIcon={<img src={timeIcon} alt="time-icon" />}
-                            name={name}
-                            format="hh:mm A" // 12-hour time format with AM/PM
-                            id={name}
-                            {...rest}
-                            onChange={(_, timeString) => {
-                                if (onChange) {
-                                    onChange(timeString)
-                                } else {
-                                    form.setFieldValue(name, timeString)
-                                }
-                            }}
-                        />
-                    </div>
+                    <TimePicker
+                        className="customTimePicker"
+                        placeholder={placeholder}
+                        allowClear={false}
+                        suffixIcon={
+                            <img
+                                src={timeIcon}
+                                alt="time-icon"
+                                width={19}
+                                height={19}
+                            />
+                        }
+                        name={name}
+                        format="hh:mm A"
+                        id={name}
+                        {...rest}
+                        onChange={(_, timeString) => {
+                            if (onChange) {
+                                onChange(timeString)
+                            } else {
+                                form.setFieldValue(name, timeString)
+                            }
+                        }}
+                    />
                 )}
             </Field>
             {showErrorMessage && (
                 <ErrorMessage name={name} component={ErrorMsg} />
             )}
-        </CustomDatePickerStyle>
+        </CustomTimePickerStyle>
     )
 }
 
-export default CustomTimePicker
+export default CustomTimePickerNew

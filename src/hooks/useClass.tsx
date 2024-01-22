@@ -4,7 +4,7 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 import { authorizationToken, edit_school_url } from '../utils/api_urls'
 import { useSelector } from 'react-redux'
-import { RootState } from '../redux/store'
+import store, { RootState } from '../redux/store'
 import { useNavigate, useParams } from 'react-router-dom'
 import { loginDataTypes } from '../redux/features/types'
 
@@ -22,6 +22,7 @@ import { SchoolSuccessfulModals } from './PopupModalsStyling'
 import CustomModal from '../components/Modal/CustomModal'
 import ic_error from '../assets/icons/ic_error.svg'
 import ic_success from '../assets/images/ic_success.svg'
+import { getBranchBySchoolId } from '../redux/features/CLasses/ClassSlice'
 
 interface IModalComponent {
     modalComponent: JSX.Element
@@ -38,6 +39,8 @@ interface IUseClass {
     deletemodal: () => IModalComponent
     Createmodal: () => IModalComponent
     UpdateModal: () => IModalComponent
+    ClassStatus: (classid: number, classStatusid: number) => Promise<any>
+    getClassbyid: (classid: number) => Promise<any>
     deleteConfirmation: (id: number) => IModalComponent
 }
 
@@ -47,7 +50,7 @@ const useClass = (): IUseClass => {
     const [isUploadImgModalVisible, setIsUploadImgVisible] = useState(false)
     const toastId = useRef<any>(null)
     const { schoolId } = useParams()
-    const [data, setData] = useState<unknown>({})
+    // const [data, setData] = useState<unknown>({})
     // const { data: logindata } = useAppSelector((state) => state.loginData)
     const [isShowWarningModal, setIsShowWarningModal] = useState(false)
     const [isShowModal, setIsShowModal] = useState(false)
@@ -135,7 +138,7 @@ const useClass = (): IUseClass => {
             //   autoClose: 1000,
             // });
             //setLoading(false);
-            console.log('data', { data })
+            console.log('data', { data1 })
             //setIsUploadImgVisible(true);
             // navigate("/");
             // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -152,7 +155,61 @@ const useClass = (): IUseClass => {
             })
         }
     }
+    const ClassStatus = async (
+        classid: number,
+        classStatusid: number
+    ): Promise<any> => {
+        try {
+            setError('')
+            setLoading(true)
+            const { data: data2 } = await axios.post(
+                '/classes/updateStatus',
+                { classId: classid, classStatusId: classStatusid },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            if (data2.responseCode === '500') {
+                toast(data2.responseMessage, {
+                    type: 'error',
+                    autoClose: 1000,
+                })
+                setLoading(false)
+                return
+            }
 
+            setTimeout(() => {
+                setLoading(false)
+                // navigate('/school/view')
+            }, 3000)
+            console.log('done changing', data2)
+            store.dispatch(getBranchBySchoolId())
+
+            // toastId.current = toast(data.responseMessage, {
+            //   type: "success",
+            //   autoClose: 1000,
+            // });
+            //setLoading(false);
+            console.log('data', { data: data2 })
+            //setIsUploadImgVisible(true);
+            // navigate("/");
+            // resetForm()
+            return data2.results
+        } catch (error2: any) {
+            console.log('error', { error: error2 })
+            setLoading(false)
+            setError(error2.response.data.responseMessage)
+            setTimeout(() => {
+                setError('')
+            }, 2000)
+            toastId.current = toast(error2.message, {
+                type: 'error',
+                autoClose: 1000,
+            })
+        }
+    }
     const Createmodal = (): IModalComponent => {
         return {
             modalComponent: (
@@ -340,6 +397,33 @@ const useClass = (): IUseClass => {
             ),
         }
     }
+    const getClassbyid = async (classid: number): Promise<any> => {
+        try {
+            setError('')
+            setLoading(true)
+            const { data } = await axios.post(
+                '/classes/getDetailsById',
+                { classId: classid },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+
+            if (data.responseCode === '500') {
+                setLoading(false)
+                return
+            }
+            console.log('Instructor info', data.results)
+            setLoading(false)
+            return data.results
+        } catch (error2: any) {
+            console.log('error', error2)
+            setLoading(false)
+            setError(error2)
+        }
+    }
 
     return {
         loading,
@@ -351,6 +435,8 @@ const useClass = (): IUseClass => {
         Createmodal,
         UpdateModal,
         deleteConfirmation,
+        ClassStatus,
+        getClassbyid,
     }
 }
 

@@ -74,7 +74,7 @@ const UpdateMembership = (): JSX.Element => {
     }
     return (
         <>
-            <Head title="Create Membership" />
+            <Head title="Membership Update" />
 
             <CustomModal
                 isModalVisible={isShowModal}
@@ -287,7 +287,9 @@ const UpdateMembership = (): JSX.Element => {
                                                         className="mt-20"
                                                     >
                                                         <p className="bannerTitle ">
-                                                            Select Banner Image
+                                                            {getLabelByKey(
+                                                                'bannerImage'
+                                                            )}
                                                         </p>
                                                         <OverlayImages
                                                             backgroundImg={
@@ -608,7 +610,7 @@ const UpdateMembership = (): JSX.Element => {
                                         fontFamily={`${fontFamilyMedium}`}
                                         width="fit-content"
                                         type="submit"
-                                        title="Update"
+                                        title={getLabelByKey('primaryButton')}
                                         fontSize="18px"
                                         loading={isLoading}
                                     />

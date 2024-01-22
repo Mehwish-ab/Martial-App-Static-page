@@ -7,6 +7,7 @@ import { FilterTimeTableStyled } from './styles'
 // import useTimetable from '../../../hooks/useTimetable'
 import { Formik } from 'formik'
 import { Form } from 'antd'
+import moment from 'moment'
 
 interface TimeTableFormProps {
     rowIndex: number

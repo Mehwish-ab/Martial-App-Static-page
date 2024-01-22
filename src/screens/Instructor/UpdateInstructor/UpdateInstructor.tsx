@@ -8,6 +8,7 @@ import { Col, Row } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { RootState } from '../../../redux/store'
+import DateCalander from '../../../assets/images/dateCalander.svg'
 
 import FormControl from '../../../components/FormControl'
 import {
@@ -71,17 +72,14 @@ const UpdateeInstructor = (): JSX.Element => {
         latestCertification: instructorData?.certificationURL || '--',
         description: instructorData ? instructorData.description : '--',
         activities: instructorData
-            ? String(instructorData?.activities)
-                  .split('')
-                  .map(String)
+            ? instructorData?.activities?.split(',').map(String)
             : [],
         specializations: instructorData
-            ? String(instructorData?.specializations)
-                  .split('')
-                  .map(String)
+            ? instructorData?.specializations?.split(',').map(String)
             : [],
         termCondition: '',
     }
+    console.log('nada', instructorData?.activities)
 
     // const franchiseName = validationFinder('BUSINESS_NAME')!
     // const franchiseNameReg = new RegExp(franchiseName.pattern)
@@ -127,13 +125,13 @@ const UpdateeInstructor = (): JSX.Element => {
         console.log('_activities', _activities)
 
         let activitiesName = ''
-        _activities?.map((activity: string) => {
+        _activities.map((activity) => {
             const index = activities.findIndex((act) => act.id === activity)
             if (index !== -1) {
                 activitiesName =
                     activitiesName === ''
                         ? (activities[index] as any)[selectedLanguage]
-                        : `${activitiesName} ${
+                        : `${activitiesName}, ${
                               (activities[index] as any)[selectedLanguage]
                           }`
             }
@@ -295,6 +293,16 @@ const UpdateeInstructor = (): JSX.Element => {
                                                             'yearsOfExperience'
                                                         )}
                                                         padding="10px"
+                                                        suffix={
+                                                            <img
+                                                                src={
+                                                                    DateCalander as string
+                                                                }
+                                                                alt="Calander"
+                                                                width={21}
+                                                                height={21}
+                                                            />
+                                                        }
                                                         placeholder={getLabelByKey(
                                                             'yearsOfExperiencePlaceholder'
                                                         )}
@@ -406,31 +414,12 @@ const UpdateeInstructor = (): JSX.Element => {
                                         <Col md="6">
                                             <CheckboxesSelect
                                                 name="activities"
-                                                label={
-                                                    <>
-                                                        {getLabelByKey(
-                                                            'activities'
-                                                        )}{' '}
-                                                        <span>
-                                                            {getLabelByKey(
-                                                                'toInstructWithin'
-                                                            )}
-                                                        </span>
-                                                    </>
-                                                }
+                                                label="Activities"
                                                 list={activities}
                                                 showErrorMsgInList={false}
-                                                placeholder={
+                                                placeholder={showActivities(
                                                     formik.values.activities
-                                                        .length > 0
-                                                        ? showActivities(
-                                                              formik.values
-                                                                  .activities
-                                                          )
-                                                        : getLabelByKey(
-                                                              'activitiesPlaceholder'
-                                                          )
-                                                }
+                                                )}
                                             />
                                         </Col>
 
@@ -512,7 +501,7 @@ const UpdateeInstructor = (): JSX.Element => {
                                         bgcolor={lightBlue3}
                                         textTransform="Captilize"
                                         color={pureDark}
-                                        padding="12px 100px"
+                                        padding="11px 40.50px"
                                         margin="30px 0px"
                                         fontFamily={`${fontFamilyMedium}`}
                                         width="fit-content"

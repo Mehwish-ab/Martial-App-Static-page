@@ -3,7 +3,6 @@ import FormControl from '../../../components/FormControl'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { Col, Row } from 'react-bootstrap'
 import { BELTS_SELECT_OPTIONS } from '../../../screens/Home/constants'
-import DateCalander from '../../../assets/images/dateCalander.svg'
 import {
     fontFamilyMedium,
     fontFamilyRegular,
@@ -20,6 +19,7 @@ import { Form } from 'antd'
 import { useAppSelector } from '../../../app/hooks'
 import { useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
+import Head from '../../../components/Head/Head'
 
 interface TimeTableFormProps {
     setNewTimetable: React.Dispatch<React.SetStateAction<any>>
@@ -89,6 +89,7 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
 
     return (
         <>
+            <Head title="TimeTable Form" />
             {Createmodal().modalComponent}
             <FilterTimeTableStyled>
                 <Formik
@@ -98,107 +99,107 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                 >
                     {(formik) => {
                         return (
-                            <Form
-                                name="basic"
-                                onFinish={formik.handleSubmit}
-                                autoComplete="off"
-                            >
-                                <h3 className="timetable-heading">
-                                    {getLabelByKey('titleScreen')}
-                                </h3>
-                                <Row>
-                                    <Col md="6" className="mt-20">
-                                        <FormControl
-                                            control="input"
-                                            type="text"
-                                            name="title"
-                                            label={getLabelByKey('title')}
-                                            padding="10px"
-                                            labelFamily={`${fontFamilyMedium}`}
-                                            fontFamily={fontFamilyRegular}
-                                            fontSize="16px"
-                                            max={6}
-                                            placeholder={getLabelByKey(
-                                                'titlePlaceholder'
+                            <>
+                                <Form
+                                    className="formPageMainContainer"
+                                    name="basic"
+                                    onFinish={formik.handleSubmit}
+                                    autoComplete="off"
+                                >
+                                    <h3 className="timetable-heading">
+                                        {getLabelByKey('titleScreen')}
+                                    </h3>
+                                    <Row>
+                                        <Col md="6" className="mt-20">
+                                            <FormControl
+                                                control="input"
+                                                type="text"
+                                                name="title"
+                                                label={getLabelByKey('title')}
+                                                padding="10px"
+                                                labelFamily={`${fontFamilyRegular}`}
+                                                fontFamily={fontFamilyRegular}
+                                                fontSize="16px"
+                                                max={6}
+                                                placeholder={getLabelByKey(
+                                                    'titlePlaceholder'
+                                                )}
+                                            />
+                                        </Col>
+                                        <Col md="6" className="mt-20">
+                                            <FormControl
+                                                control="select"
+                                                type="text"
+                                                name="isRepeated"
+                                                fontFamily={fontFamilyRegular}
+                                                label={getLabelByKey(
+                                                    'repeatTimeTable'
+                                                )}
+                                                placeholder={getLabelByKey(
+                                                    'repeatTimeTablePlaceholder'
+                                                )}
+                                                className={
+                                                    formik.errors.isRepeated &&
+                                                    formik.touched.isRepeated
+                                                        ? 'is-invalid'
+                                                        : 'customInput'
+                                                }
+                                                options={BELTS_SELECT_OPTIONS}
+                                            />
+                                        </Col>
+                                        <Col md="6" className="mt-20">
+                                            <FormControl
+                                                control="date"
+                                                type="date"
+                                                name="startDate"
+                                                labelFamily={fontFamilyRegular}
+                                                fontFamily={fontFamilyRegular}
+                                                label={getLabelByKey(
+                                                    'startDate'
+                                                )}
+                                                fontSize="16px"
+                                                placeholder={getLabelByKey(
+                                                    'startDatePlaceholder'
+                                                )}
+                                            />
+                                        </Col>
+                                        <Col md="6" className="mt-20">
+                                            <FormControl
+                                                control="date"
+                                                disabled={
+                                                    formik.values.isRepeated !==
+                                                    1
+                                                }
+                                                type="date"
+                                                name="endDate"
+                                                labelFamily={fontFamilyRegular}
+                                                fontFamily={fontFamilyRegular}
+                                                label={getLabelByKey('endDate')}
+                                                fontSize="16px"
+                                                placeholder={getLabelByKey(
+                                                    'endDatePlaceholder'
+                                                )}
+                                            />
+                                        </Col>
+                                    </Row>
+                                    <div className="mt-20 d-flex justify-content-end">
+                                        <CustomButton
+                                            bgcolor={lightBlue3}
+                                            textTransform="Captilize"
+                                            color={pureDark}
+                                            padding="11px 40.50px"
+                                            fontFamily={`${fontFamilyMedium}`}
+                                            width="fit-content"
+                                            type="submit"
+                                            title={getLabelByKey(
+                                                'addTimeTableSlide'
                                             )}
+                                            fontSize="17px"
+                                            loading={loading}
                                         />
-                                    </Col>
-                                    <Col md="6" className="mt-20">
-                                        <FormControl
-                                            control="select"
-                                            type="text"
-                                            name="isRepeated"
-                                            fontFamily={fontFamilyRegular}
-                                            label={getLabelByKey(
-                                                'repeatTimeTable'
-                                            )}
-                                            placeholder={getLabelByKey(
-                                                'repeatTimeTable'
-                                            )}
-                                            className={
-                                                formik.errors.isRepeated &&
-                                                formik.touched.isRepeated
-                                                    ? 'is-invalid'
-                                                    : 'customInput'
-                                            }
-                                            options={BELTS_SELECT_OPTIONS}
-                                        />
-                                    </Col>
-                                    <Col md="6" className="mt-20">
-                                        <FormControl
-                                            control="date"
-                                            type="date"
-                                            name="startDate"
-                                            labelFamily={fontFamilyMedium}
-                                            fontFamily={fontFamilyRegular}
-                                            label={getLabelByKey('startDate')}
-                                            fontSize="16px"
-                                            suffixIcon={
-                                                <img
-                                                    src={DateCalander as string}
-                                                    alt="calender-icon"
-                                                />
-                                            }
-                                            max={6}
-                                        />
-                                    </Col>
-                                    <Col md="6" className="mt-20">
-                                        <FormControl
-                                            control="date"
-                                            disabled={
-                                                formik.values.isRepeated !== 1
-                                            }
-                                            type="date"
-                                            name="endDate"
-                                            labelFamily={fontFamilyMedium}
-                                            fontFamily={fontFamilyRegular}
-                                            label="End Date"
-                                            fontSize="16px"
-                                            suffixIcon={
-                                                <img
-                                                    src={DateCalander as string}
-                                                    alt="calender-icon"
-                                                />
-                                            }
-                                            max={6}
-                                        />
-                                    </Col>
-                                </Row>
-                                <div className="mt-20 d-flex justify-content-end">
-                                    <CustomButton
-                                        bgcolor={lightBlue3}
-                                        textTransform="Captilize"
-                                        color={pureDark}
-                                        padding="11px 40.50px"
-                                        fontFamily={`${fontFamilyMedium}`}
-                                        width="fit-content"
-                                        type="submit"
-                                        title="Add Time Table Slide"
-                                        fontSize="17px"
-                                        loading={loading}
-                                    />
-                                </div>
-                            </Form>
+                                    </div>
+                                </Form>
+                            </>
                         )
                     }}
                 </Formik>

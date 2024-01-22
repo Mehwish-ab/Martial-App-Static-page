@@ -14,23 +14,20 @@ import {
 } from '../../../components/GlobalStyle'
 
 export const ListInstructorStyled = styled.div`
-    background-color: #fff;
-    padding: 16px;
-    border-radius: 10px;
+    .ant-table {
+        background-color: #fff;
+        border-radius: 12px;
+        &-title {
+            padding: 10px;
+        }
+    }
     p {
         margin-bottom: 0px;
     }
 
-    @media screen and ${mediaDeviceMin.tabletL} {
-        .ant-table-content table {
-            width: 100% !important;
-        }
-    }
-    @media screen and ${mediaDeviceMax.tabletL} {
-        .ant-table-content table {
-            width: 100% !important;
-            min-width: 1080px !important;
-        }
+    .blueBeltContainer {
+        width: 159px;
+        height: 18.84px;
     }
 
     .table-heading {
@@ -56,8 +53,13 @@ export const ListInstructorStyled = styled.div`
         }
     }
 
+    .ant-table-thead > tr > th {
+        height: 53px;
+    }
+
     .ant-table-tbody > tr > .ant-table-cell,
     .ant-table-tbody > tr > .ant-table-cell a {
+        height: 53px;
         font-family: ${fontFamilyRegular};
         font-size: 14px;
         color: ${darkGery};
@@ -83,7 +85,9 @@ export const ListInstructorStyled = styled.div`
     }
     .ant-table-thead > tr > th:nth-child(3),
     .ant-table-thead > tr > td:nth-child(3) {
-        width: 15%;
+        width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
     }
     .ant-table-thead > tr > th:nth-child(6),
     .ant-table-tbody > tr > td:nth-child(6) {
@@ -95,8 +99,8 @@ export const ListInstructorStyled = styled.div`
     }
     .ant-table-thead > tr > th:nth-child(6),
     .ant-table-tbody > tr > td:nth-child(6) {
-        width: 12%;
-        padding-left: 30px;
+        width: 10%;
+        text-align: center;
     }
 
     .ant-table-thead > tr > th:nth-child(7),
@@ -105,7 +109,7 @@ export const ListInstructorStyled = styled.div`
     }
     .ant-table-thead > tr > th:nth-child(4),
     .ant-table-tbody > tr > td:nth-child(4) {
-        width: 23%;
+        width: 17%;
     }
     .ant-table-thead > tr > th:nth-child(8),
     .ant-table-tbody > tr > td:nth-child(8) {
@@ -113,14 +117,13 @@ export const ListInstructorStyled = styled.div`
     }
 
     .ant-table-tbody > tr > td:nth-child(2),
-    .ant-table-tbody > tr > th:nth-child(3),
     .ant-table-tbody > tr > td:nth-child(3) {
         text-align: left;
     }
 
     .ant-table-tbody > tr > td:nth-child(8) div {
         position: relative;
-        width: 116px;
+        width: 95px;
     }
     .ant-table-tbody > tr > td:nth-child(8) .Active button {
         font-style: normal;
@@ -154,8 +157,8 @@ export const ListInstructorStyled = styled.div`
     }
     .ant-table-tbody > tr > td:nth-child(8) img {
         position: absolute;
-        right: 17px;
-        top: -5px;
+        right: -3px;
+        top: -7px;
     }
     .ant-table-thead > tr > th:nth-child(9),
     .ant-table-tbody > tr > td:nth-child(9) {
@@ -166,6 +169,40 @@ export const ListInstructorStyled = styled.div`
     }
     .ant-table-tbody > tr:nth-child(even) td {
         background-color: #fff;
+    }
+
+    @media screen and ${mediaDeviceMax.tabletL} {
+    }
+
+    @media screen and (max-width: 1380px) {
+        .ant-table-thead > tr > th:nth-child(4),
+        .ant-table-tbody > tr > td:nth-child(4) {
+            display: none;
+        }
+    }
+    @media screen and (max-width: 1120px) {
+        .ant-table-thead > tr > th:nth-child(7),
+        .ant-table-tbody > tr > td:nth-child(7) {
+            display: none;
+        }
+    }
+    @media screen and (max-width: 768px) {
+        .ant-table-thead > tr > th:nth-child(6),
+        .ant-table-tbody > tr > td:nth-child(6) {
+            display: none;
+        }
+    }
+    @media screen and (max-width: 630px) {
+        .ant-table-thead > tr > th:nth-child(5),
+        .ant-table-tbody > tr > td:nth-child(5) {
+            display: none;
+        }
+    }
+    @media screen and (max-width: 450px) {
+        .ant-table-thead > tr > th:nth-child(8),
+        .ant-table-tbody > tr > td:nth-child(8) {
+            display: none;
+        }
     }
 
     // pagination

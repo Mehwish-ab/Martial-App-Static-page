@@ -158,7 +158,8 @@ const CreateInstructor = (): JSX.Element => {
                 onSubmit={handleSubmit}
             >
                 {(formik) => {
-                    console.log(formik.values)
+                    console.log('formik values', formik.values)
+                    console.log(' values', initialValues)
 
                     return (
                         <Form
@@ -471,12 +472,12 @@ const CreateInstructor = (): JSX.Element => {
                                     title={getLabelByKey('primaryButton')}
                                     fontSize="18px"
                                     loading={loading}
-                                    clicked={() =>
-                                        handleSubmit(
-                                            formik.values,
-                                            selectedFiles
-                                        )
-                                    }
+                                    // clicked={() =>
+                                    //     handleSubmit(
+                                    //         formik.values,
+                                    //         selectedFiles
+                                    //     )
+                                    // }
                                 />
                             </div>
                         </Form>

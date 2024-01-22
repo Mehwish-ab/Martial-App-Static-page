@@ -3,11 +3,12 @@ export interface CreateClassInitialValues {
     id: number
     title: string
     startDate: string
+    timeTableId: number
     endDate: string
     instructorId: string[]
     fee: string | number
     activities: string[]
-    capacity: number | string
+    capacity: number
     minimumStudent: number | string
     bookingStartDate: string
     bookingEndDate: string

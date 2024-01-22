@@ -321,11 +321,9 @@ const ListTimeTable: React.FC = () => {
             <ListTimeTableStyled>
                 <Table
                     columns={columns}
-                    dataSource={
-                        timeTableData?.data[0].timeTableId !== 0
-                            ? timeTableData.data
-                            : []
-                    }
+                    dataSource={timeTableData.data.map((data) => {
+                        return data
+                    })}
                     // scroll={{ x: true }}
                     pagination={{
                         showTotal: (total, range) => (

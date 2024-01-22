@@ -41,7 +41,7 @@ const OverlayImages = ({
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
-    console.log('>>schoolData', schoolData)
+    // console.log('>>schoolData', schoolData)
     const { loginData } = useSelector((state: RootState) => state)
 
     const { schoolId } = useParams()
@@ -51,11 +51,11 @@ const OverlayImages = ({
         setProfileImg(overlayImg)
         setBannerImg(backgroundImg)
     }, [overlayImg, backgroundImg])
-    console.log('>>id', { paramId })
+    // console.log('>>id', { paramId })
     const { franchiseId } = useParams()
 
     const { instructorId } = useParams()
-    console.log('checking pages', schoolId, branchId, franchiseId, instructorId)
+    // console.log('checking pages', schoolId, branchId, franchiseId, instructorId)
 
     const useCaseOfBanner = branchId
         ? 'BRANCH_BANNER_IMAGE'

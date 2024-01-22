@@ -399,9 +399,7 @@ const useTimetable = (): IUseTimetable => {
         }
     }
 
-    const createSlots = async (
-        params: CreateSlotsProps
-    ): Promise<any> => {
+    const createSlots = async (params: CreateSlotsProps): Promise<any> => {
         const payload = {
             ...params,
         }

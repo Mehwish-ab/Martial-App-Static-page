@@ -17,64 +17,126 @@ import { CreateClassInitialValues } from '../constant'
 import dollar from '../../../assets/images/$.svg'
 // import EnnvisionModal from '../../../components/CustomModals/EnnvisionModal'
 // import CustomModal from '../../../components/Modal/CustomModal'
-import OverlayImages from '../../Home/OverlayImages/OverlayImages'
-import { RootState } from '../../../redux/store'
+import Images from '../../Home/OverlayImages/images'
+import store, { RootState } from '../../../redux/store'
 import Head from '../../../components/Head/Head'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
 import useClass from '../../../hooks/useClass'
 import { useParams } from 'react-router-dom'
 import { ClassDataType } from '../../../redux/features/CLasses/ClassSlice'
+import moment from 'moment'
+import { getTimetableByUserId } from '../../../redux/features/TimeTable/TimeTableSlice'
+import { getInstructorByUserId } from '../../../redux/features/instructor/instructorSlice'
+import useTimetable from '../../../hooks/useTimetable'
+import useInstructor from '../../../hooks/useInstructor'
 
-const CreateClass = (): JSX.Element => {
+const UpdateClass = (): JSX.Element => {
+    const { handleUpdate } = useClass()
     const { getLabelByKey } = useScreenTranslation('updateClasses')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
     const { classId } = useParams()
+    const { loginData } = useSelector((state: RootState) => state)
+    console.log('login data', loginData.data?.schoolId)
 
     const { getClassbyid, loading } = useClass()
     const {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
     const [values, setValues] = useState<any>()
-    const getClass = async (): Promise<void> => {
-        const data = await getClassbyid(Number(classId))
-        setValues(data)
-    }
+    const [timetable, setTimetable] = useState<any>(undefined)
+    const [instructor, setinstructor] = useState<any>(undefined)
+    const { getTimetableById } = useTimetable()
+    const { getInstructorbyid } = useInstructor()
     useEffect(() => {
-        getClass()
-    }, [])
-    console.log('class', values)
+        const fetchData = async (): Promise<void> => {
+            try {
+                const data = await getClassbyid(Number(classId))
+                setValues(data)
+                console.log('Nadda', data.instructorId)
 
+                if (data) {
+                    const datas = await getInstructorbyid(data?.instructorId)
+                    setinstructor(datas)
+                    const dataa = await getTimetableById(data?.timeTableId)
+                    setTimetable(dataa)
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error)
+            }
+        }
+
+        fetchData()
+    }, [])
+    const [bannerImage, setBannerImage] = useState<File | null>(null)
+    const [profileImage, setProfileImage] = useState<File | null>(null)
+
+    const handleSaveBanner = (file: File): void => {
+        setBannerImage(file)
+        // You can perform additional actions here if needed
+    }
+
+    const handleSaveProfile = (file: File): void => {
+        setProfileImage(file)
+        // You can perform additional actions here if needed
+    }
     const vla: CreateClassInitialValues = {
         title: values?.title,
-        startDate: values?.startDate,
-        endDate: values?.endDate || '--',
+        startDate: moment(values?.startDate, 'YYYY-MM-DD').format(
+            'MMM-DD-YYYY'
+        ),
+        endDate: moment(values?.endDate, 'YYYY-MM-DD').format(
+            'dddd, MMM DD, YYYY'
+        ),
         instructorId: values?.instructorId,
         fee: values?.fee,
         activities: values ? values.activities?.split(',').map(String) : [],
         capacity: values?.capacity,
         minimumStudent: values?.minimumStudent,
-        bookingStartDate: values?.bookingStartDate,
-        bookingEndDate: values?.bookingEndDate,
-        qrCodeStartDate: values?.qrCodeStartDate,
-        qrCodeEndDate: values?.qrCodeEndDate,
-        allowStudentCancel: values?.allowStudentCancel,
-        refundDate: values?.refundDate,
-        bookingCancelStartDate: values?.bookingCancelStartDate,
-        bookingCancelEndDate: values?.bookingCancelEndDate,
+        bookingStartDate: moment(values?.bookingStartDate, 'YYYY-MM-DD').format(
+            'dddd, MMM DD, YYYY'
+        ),
+        bookingEndDate: moment(values?.bookingEndDate, 'YYYY-MM-DD').format(
+            'dddd, MMM DD, YYYY'
+        ),
+        qrCodeStartDate: moment(values?.qrCodeStartDate, 'YYYY-MM-DD').format(
+            'dddd, MMM DD, YYYY'
+        ),
+        qrCodeEndDate: moment(values?.qrCodeEndDate, 'YYYY-MM-DD').format(
+            'dddd, MMM DD, YYYY'
+        ),
+        allowStudentCancel: moment(
+            values?.allowStudentCancel,
+            'YYYY-MM-DD'
+        ).format('dddd, MMM DD, YYYY'),
+        refundDate: moment(values?.refundDate, 'YYYY-MM-DD').format(
+            'dddd, MMM DD, YYYY'
+        ),
+        bookingCancelStartDate: moment(
+            values?.bookingCancelStartDate,
+            'YYYY-MM-DD'
+        ).format('dddd, MMM DD, YYYY'),
+        bookingCancelEndDate: moment(
+            values?.bookingCancelEndDate,
+            'YYYY-MM-DD'
+        ).format('dddd, MMM DD, YYYY'),
         cancellationCharges: values?.cancellationCharges,
         accommodation: values?.accommodation,
         description: values?.description,
         Agreement: '',
         termCondition: '',
         Liabilitywaivers: '',
-        bannerPicture: '',
-        profilePicture: '',
-        useCase: values?.useCase,
-        id: 0,
+        bannerPicture: values?.bannerPicture,
+        useCase: 'SCHOOL',
+        id: Number(loginData.data?.schoolId),
         timeTableId: values?.timeTableId,
     }
-    console.log('initial', vla)
+    console.log('values?.startDate:', values?.startDate)
+    const formattedStartDate = moment(values?.startDate, 'YYYY-MM-DD').format(
+        'MM-DD-YYYY'
+    )
+    console.log('formattedStartDate:', formattedStartDate)
+    console.log('initial', vla.bannerPicture)
 
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
@@ -99,8 +161,72 @@ const CreateClass = (): JSX.Element => {
         }
         return activitiesName || getLabelByKey('activitiesPlaceholder')
     }
-
-    const onSubmit = async (): Promise<void> => {
+    const { instructorData } = useSelector(
+        (state: RootState) => state.instructorData
+    )
+    const { timeTableData } = useSelector(
+        (state: RootState) => state.timeTableData
+    )
+    useEffect(() => {
+        store.dispatch(getInstructorByUserId())
+        store.dispatch(getTimetableByUserId())
+    }, [])
+    const onSubmit = async (valuess: any): Promise<void> => {
+        const start = moment(valuess.startDate, 'dddd, MMM DD, YYYY').format(
+            'YYYY-MM-DD'
+        )
+        const end = moment(valuess.endDate, 'dddd, MMM DD, YYYY').format(
+            'YYYY-MM-DD'
+        )
+        const bookingstart = moment(
+            valuess.bookingStartDate,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD')
+        const bookingEnd = moment(
+            valuess.bookingEndDate,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD')
+        const qrCodeStart = moment(
+            valuess.qrCodeStartDate,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD')
+        const qrCodeEnd = moment(
+            valuess.qrCodeEndDate,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD')
+        const studentCancel = moment(
+            valuess.allowStudentCancel,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD')
+        const refundfee = moment(
+            valuess.refundDate,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD')
+        const bookingCancleStart = moment(
+            valuess.bookingCancelStartDate,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD')
+        const bookingCancleEnd = moment(
+            valuess.bookingCancelEndDate,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD')
+        handleUpdate(
+            Number(classId),
+            {
+                ...valuess,
+                startDate: start,
+                endDate: end,
+                bookingStartDate: bookingstart,
+                bookingEndDate: bookingEnd,
+                qrCodeStartDate: qrCodeStart,
+                qrCodeEndDate: qrCodeEnd,
+                allowStudentCancel: studentCancel,
+                refundDate: refundfee,
+                bookingCancelStartDate: bookingCancleStart,
+                bookingCancelEndDate: bookingCancleEnd,
+            },
+            bannerImage
+        )
         // try {
         //     setIsShowModal(true)
         //     setTimeout(() => {
@@ -121,6 +247,8 @@ const CreateClass = (): JSX.Element => {
                     enableReinitialize
                 >
                     {(formik) => {
+                        // console.log('firmik valuse', formik.values)
+
                         return (
                             <Form
                                 name="basic"
@@ -275,7 +403,36 @@ const CreateClass = (): JSX.Element => {
                                                                     placeholder={getLabelByKey(
                                                                         'InstructorsPlaceholder'
                                                                     )}
-                                                                />
+                                                                    value={
+                                                                        formik
+                                                                            .values
+                                                                            .instructorId
+                                                                    } // Set value to the selected instructor ID
+                                                                >
+                                                                    {' '}
+                                                                    <option
+                                                                        value=""
+                                                                        label="Select an Instructor"
+                                                                    />
+                                                                    {instructorData.data.map(
+                                                                        (
+                                                                            instructors
+                                                                        ) => (
+                                                                            <option
+                                                                                key={
+                                                                                    instructors.instructorId
+                                                                                }
+                                                                                value={
+                                                                                    instructors.instructorId
+                                                                                }
+                                                                            >
+                                                                                {
+                                                                                    instructors.instructorName
+                                                                                }
+                                                                            </option>
+                                                                        )
+                                                                    )}
+                                                                </FormControl>
                                                             </Col>
                                                             <Col
                                                                 md="6"
@@ -299,7 +456,36 @@ const CreateClass = (): JSX.Element => {
                                                                     //     'InstructorsPlaceholder'
                                                                     // )}
                                                                     placeholder="Select TimeTable"
-                                                                />
+                                                                    value={
+                                                                        formik
+                                                                            .values
+                                                                            .timeTableId
+                                                                    }
+                                                                >
+                                                                    {' '}
+                                                                    <option
+                                                                        value=""
+                                                                        label="Select an Instructor"
+                                                                    />
+                                                                    {timeTableData.data.map(
+                                                                        (
+                                                                            timetables
+                                                                        ) => (
+                                                                            <option
+                                                                                key={
+                                                                                    timetables.timeTableId
+                                                                                }
+                                                                                value={
+                                                                                    timetables.timeTableId
+                                                                                }
+                                                                            >
+                                                                                {
+                                                                                    timetables.title
+                                                                                }
+                                                                            </option>
+                                                                        )
+                                                                    )}
+                                                                </FormControl>
                                                             </Col>
                                                         </Row>
                                                     </Col>
@@ -334,18 +520,42 @@ const CreateClass = (): JSX.Element => {
                                                                 'bannerImage'
                                                             )}
                                                         </p>
-                                                        <OverlayImages
-                                                            backgroundImg={
-                                                                values?.bannerPicture ||
-                                                                ''
-                                                            }
-                                                            overlayImg={
-                                                                values?.profilePicture ||
-                                                                ''
+                                                        <Images
+                                                            onSaveBanner={
+                                                                handleSaveBanner
                                                             }
                                                             isEditable={true}
+                                                            defaultImage={`https://fistastore.com:444/${vla.bannerPicture}`} // Pass existing banner picture as default image
                                                         />
                                                     </Col>
+
+                                                    {/* <Col
+                                                        md="12"
+                                                        className="mt-20"
+                                                    >
+                                                        <p className="bannerTitle ">
+                                                            {getLabelByKey(
+                                                                'bannerImage'
+                                                            )}
+                                                        </p>
+                                                        {vla.bannerPicture ? (
+                                                            // If vla.bannerPicture has a value, display the existing image
+                                                            <img
+                                                                src={`https://fistastore.com:444/${vla.bannerPicture}`}
+                                                                alt="Banner"
+                                                            />
+                                                        ) : (
+                                                            // If vla.bannerPicture is null or undefined, display the Images component
+                                                            <Images
+                                                                onSaveBanner={
+                                                                    handleSaveBanner
+                                                                }
+                                                                isEditable={
+                                                                    true
+                                                                } // Set isEditable to true or false based on your requirement
+                                                            />
+                                                        )}
+                                                    </Col> */}
                                                 </Col>
                                             </Row>
                                         </Col>
@@ -467,8 +677,8 @@ const CreateClass = (): JSX.Element => {
 
                                         <Col md="3" className=" fill mt-20 ">
                                             <FormControl
-                                                control="select"
-                                                type="text"
+                                                control="date"
+                                                type="date"
                                                 name="allowStudentCancel"
                                                 label={getLabelByKey(
                                                     'allowToStudentCancel'
@@ -690,4 +900,4 @@ const CreateClass = (): JSX.Element => {
     )
 }
 
-export default CreateClass
+export default UpdateClass

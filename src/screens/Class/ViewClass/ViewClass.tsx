@@ -3,7 +3,7 @@ import { ViewClassStyle } from './styles'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import Head from '../../../components/Head/Head'
 import { Card } from 'antd'
-import OverlayImages from '../../Home/OverlayImages/OverlayImages'
+import Images from '../../Home/OverlayImages/images'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
 import FormControl from '../../../components/FormControl'
@@ -12,6 +12,7 @@ import useClass from '../../../hooks/useClass'
 import { useEffect, useState } from 'react'
 import useTimetable from '../../../hooks/useTimetable'
 import useInstructor from '../../../hooks/useInstructor'
+import moment from 'moment'
 
 const ViewClass = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('detailClasses')
@@ -30,36 +31,29 @@ const ViewClass = (): JSX.Element => {
     const [values, setValues] = useState<any>(undefined)
     const [timetable, setTimetable] = useState<any>(undefined)
     const [instructor, setinstructor] = useState<any>(undefined)
-    const instructorId = values?.instructorId
-    const timetableId = values?.timeTableId
-
-    const getClass = async (): Promise<void> => {
-        const data = await getClassbyid(Number(classId))
-        setValues(data)
-    }
-    const gettinstructor = async (): Promise<void> => {
-        const data = await getInstructorbyid(instructorId)
-        setinstructor(data)
-    }
-    const gettimetable = async (): Promise<void> => {
-        const data = await getTimetableById(timetableId)
-        setTimetable(data)
-    }
     useEffect(() => {
-        getClass()
+        const fetchData = async (): Promise<void> => {
+            try {
+                // Assuming getClass, getInstructorbyid, and getTimetableById are asynchronous functions
+                const data = await getClassbyid(Number(classId))
+                setValues(data)
+                if (data) {
+                    const datas = await getInstructorbyid(data?.instructorId)
+                    setinstructor(datas)
+                    const dataa = await getTimetableById(data?.timeTableId)
+                    setTimetable(dataa)
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error)
+            }
+        }
+
+        fetchData()
     }, [])
 
-    useEffect(() => {
-        gettimetable()
-    }, [2000])
-
-    useEffect(() => {
-        gettinstructor()
-    }, [2000])
     console.log('Class details', instructor)
     const showActivities = (_activities: string): string => {
         const activitiesArr = _activities.split(',')
-
         let activitiesName = ''
         activitiesArr.map((activity) => {
             const index = activities.findIndex((act) => act.id === activity)
@@ -104,7 +98,14 @@ const ViewClass = (): JSX.Element => {
                                                     {getLabelByKey('startDate')}
                                                 </div>
                                                 <div className="list-item-value">
-                                                    {values?.startDate}
+                                                    {moment(
+                                                        moment(
+                                                            values?.startDate,
+                                                            'YYYY-MM-DD'
+                                                        )
+                                                    ).format(
+                                                        'dddd, MMM DD, YYYY'
+                                                    )}
                                                 </div>
                                             </div>
                                         </Col>
@@ -114,7 +115,14 @@ const ViewClass = (): JSX.Element => {
                                                     {getLabelByKey('endDate')}
                                                 </div>
                                                 <div className="list-item-value">
-                                                    {values?.endDate}
+                                                    {moment(
+                                                        moment(
+                                                            values?.endDate,
+                                                            'YYYY-MM-DD'
+                                                        )
+                                                    ).format(
+                                                        'dddd, MMM DD, YYYY'
+                                                    )}{' '}
                                                 </div>
                                             </div>
                                         </Col>
@@ -192,14 +200,13 @@ const ViewClass = (): JSX.Element => {
                                             {getLabelByKey('bannerImage')}
                                         </div>
                                         <div className="list-item-value">
-                                            <OverlayImages
-                                                backgroundImg={
-                                                    values?.bannerPicture || ''
-                                                }
-                                                overlayImg={
-                                                    values?.bannerPicture || ''
-                                                }
-                                                isEditable={true}
+                                            <Images
+                                                // onSaveBanner={null}
+                                                isEditable={false}
+                                                defaultImage={`https://fistastore.com:444/${values?.bannerPicture}`} // Pass existing banner picture as default image
+                                                onSaveBanner={(
+                                                    file: File
+                                                ) => {}}
                                             />
                                         </div>
                                     </div>
@@ -222,8 +229,12 @@ const ViewClass = (): JSX.Element => {
                                     {getLabelByKey('startBooking')}
                                 </div>
                                 <div className="list-item-value">
-                                    {' '}
-                                    {values ? values.bookingStartDate : '--'}
+                                    {moment(
+                                        moment(
+                                            values?.bookingStartDate,
+                                            'YYYY-MM-DD'
+                                        )
+                                    ).format('dddd, MMM DD, YYYY')}
                                 </div>
                             </div>
                         </Col>
@@ -233,8 +244,12 @@ const ViewClass = (): JSX.Element => {
                                     {getLabelByKey('endBooking')}
                                 </div>
                                 <div className="list-item-value">
-                                    {' '}
-                                    {values ? values.bookingEndDate : '--'}
+                                    {moment(
+                                        moment(
+                                            values?.bookingEndDate,
+                                            'YYYY-MM-DD'
+                                        )
+                                    ).format('dddd, MMM DD, YYYY')}
                                 </div>
                             </div>
                         </Col>
@@ -244,8 +259,12 @@ const ViewClass = (): JSX.Element => {
                                     {getLabelByKey('qrCodeAttendanceStart')}
                                 </div>
                                 <div className="list-item-value">
-                                    {' '}
-                                    {values ? values.qrCodeStartDate : '--'}
+                                    {moment(
+                                        moment(
+                                            values?.qrCodeStartDate,
+                                            'YYYY-MM-DD'
+                                        )
+                                    ).format('dddd, MMM DD, YYYY')}
                                 </div>
                             </div>
                         </Col>
@@ -255,8 +274,12 @@ const ViewClass = (): JSX.Element => {
                                     {getLabelByKey('qrCodeAttendanceEnd')}
                                 </div>
                                 <div className="list-item-value">
-                                    {' '}
-                                    {values ? values.qrCodeEndDate : '--'}
+                                    {moment(
+                                        moment(
+                                            values?.qrCodeEndDate,
+                                            'YYYY-MM-DD'
+                                        )
+                                    ).format('dddd, MMM DD, YYYY')}
                                 </div>
                             </div>
                         </Col>
@@ -266,7 +289,12 @@ const ViewClass = (): JSX.Element => {
                                     {getLabelByKey('allowToStudentCancel')}
                                 </div>
                                 <div className="list-item-value">
-                                    {values ? values.allowStudentCancel : '--'}
+                                    {moment(
+                                        moment(
+                                            values?.allowStudentCancel,
+                                            'YYYY-MM-DD'
+                                        )
+                                    ).format('dddd, MMM DD, YYYY')}
                                 </div>
                             </div>
                         </Col>
@@ -276,8 +304,9 @@ const ViewClass = (): JSX.Element => {
                                     {getLabelByKey('refundFeesDate')}
                                 </div>
                                 <div className="list-item-value">
-                                    {' '}
-                                    {values ? values.refundDate : '--'}
+                                    {moment(
+                                        moment(values?.refundDate, 'YYYY-MM-DD')
+                                    ).format('dddd, MMM DD, YYYY')}
                                 </div>
                             </div>
                         </Col>
@@ -287,10 +316,12 @@ const ViewClass = (): JSX.Element => {
                                     {getLabelByKey('bookingCancellationStart')}
                                 </div>
                                 <div className="list-item-value">
-                                    {' '}
-                                    {values
-                                        ? values.bookingCancelStartDate
-                                        : '--'}
+                                    {moment(
+                                        moment(
+                                            values?.bookingCancelStartDate,
+                                            'YYYY-MM-DD'
+                                        )
+                                    ).format('dddd, MMM DD, YYYY')}
                                 </div>
                             </div>
                         </Col>
@@ -300,10 +331,12 @@ const ViewClass = (): JSX.Element => {
                                     {getLabelByKey('bookingCancellationEnd')}
                                 </div>
                                 <div className="list-item-value">
-                                    {' '}
-                                    {values
-                                        ? values.bookingCancelEndDate
-                                        : '--'}
+                                    {moment(
+                                        moment(
+                                            values?.bookingCancelEndDate,
+                                            'YYYY-MM-DD'
+                                        )
+                                    ).format('dddd, MMM DD, YYYY')}
                                 </div>
                             </div>
                         </Col>
@@ -365,6 +398,7 @@ const ViewClass = (): JSX.Element => {
                                     type="checkbox"
                                     id="termsAndConditions"
                                     name="termsAndConditions"
+                                    checked
                                 />
                                 <p
                                     className="checkBoxPara"
@@ -381,6 +415,7 @@ const ViewClass = (): JSX.Element => {
                                     type="checkbox"
                                     id="AgreementGuidelines"
                                     name="AgreementGuidelines"
+                                    checked
                                 />
                                 <p
                                     className="checkBoxPara"
@@ -397,6 +432,7 @@ const ViewClass = (): JSX.Element => {
                                     type="checkbox"
                                     id="liabilityWaivers"
                                     name="liabilityWaivers"
+                                    checked
                                 />
                                 <p
                                     className="checkBoxPara"

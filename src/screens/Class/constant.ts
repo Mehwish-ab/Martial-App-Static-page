@@ -8,7 +8,7 @@ export interface CreateClassInitialValues {
     instructorId: string[]
     fee: string | number
     activities: string[]
-    capacity: number
+    capacity: number | string
     minimumStudent: number | string
     bookingStartDate: string
     bookingEndDate: string
@@ -24,6 +24,6 @@ export interface CreateClassInitialValues {
     Agreement: string
     termCondition: string
     Liabilitywaivers: string
-    bannerPicture: string | null | undefined
-    profilePicture: string | null | undefined
+    bannerPicture: any
+    // profilePicture: string | null | undefined
 }

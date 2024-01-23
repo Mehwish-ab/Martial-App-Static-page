@@ -6,7 +6,7 @@ import { CreateSchoolInitialValues } from '../screens/Home/constants'
 import axios from 'axios'
 import { authorizationToken, edit_school_url } from '../utils/api_urls'
 import { useSelector } from 'react-redux'
-import { RootState } from '../redux/store'
+import store, { RootState } from '../redux/store'
 import { useNavigate } from 'react-router-dom'
 import { loginDataTypes } from '../redux/features/types'
 import CustomModal from '../components/Modal/CustomModal'
@@ -23,6 +23,7 @@ import {
 import { Col, Row } from 'react-bootstrap'
 import { SchoolSuccessfulModals } from './PopupModalsStyling'
 import { CreateTimeTableInitialValues } from '../screens/TimeTable/constant'
+import { getTimetableByUserId } from '../redux/features/TimeTable/TimeTableSlice'
 
 interface CommonResponseProps {
     responseCode: number
@@ -212,10 +213,12 @@ const useTimetable = (): IUseTimetable => {
                 setLoading(false)
                 return
             }
-            setIsShowModal(true)
+            // setIsShowModal(true)
 
             setTimeout(() => {
                 setLoading(false)
+                store.dispatch(getTimetableByUserId())
+
                 // navigate('/school/view')
             }, 3000)
             // toastId.current = toast(data.responseMessage, {

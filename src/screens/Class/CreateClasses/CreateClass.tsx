@@ -8,12 +8,17 @@ import {
     fontFamilyMedium,
     fontFamilyRegular,
     lightBlue3,
+    primaryColor,
     pureDark,
 } from '../../../components/GlobalStyle'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import { CreateClassStyled } from './styles'
 import { CreateClassInitialValues } from '../constant'
 import dollar from '../../../assets/images/$.svg'
+// import EnnvisionModal from '../../../components/CustomModals/EnnvisionModal'
+// import CustomModal from '../../../components/Modal/CustomModal'
+// import { useNavigate } from 'react-router-dom'
+import Images from '../../Home/OverlayImages/images'
 import store, { RootState } from '../../../redux/store'
 import useClass from '../../../hooks/useClass'
 import { useEffect, useState } from 'react'
@@ -22,6 +27,9 @@ import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import Head from '../../../components/Head/Head'
 import { getInstructorByUserId } from '../../../redux/features/instructor/instructorSlice'
 import { getTimetableByUserId } from '../../../redux/features/TimeTable/TimeTableSlice'
+import EnnvisionModal from '../../../components/CustomModals/EnnvisionModal'
+import moment from 'moment'
+// import PreviewImagesUpload from '../../../components/ImagesUpload/PreviewImageUpload'
 
 const CreateClass = (): JSX.Element => {
     const {
@@ -35,9 +43,6 @@ const CreateClass = (): JSX.Element => {
     const { timeTableData } = useSelector(
         (state: RootState) => state.timeTableData
     )
-
-    console.log('timetable', timeTableData)
-    console.log('<<instructordata', instructorData)
     useEffect(() => {
         store.dispatch(getInstructorByUserId())
         store.dispatch(getTimetableByUserId())
@@ -58,7 +63,7 @@ const CreateClass = (): JSX.Element => {
         instructorId: [],
         fee: '',
         activities: [],
-        capacity: 0,
+        capacity: '',
         minimumStudent: '',
         bookingStartDate: '',
         bookingEndDate: '',
@@ -75,19 +80,94 @@ const CreateClass = (): JSX.Element => {
         termCondition: '',
         Liabilitywaivers: '',
         bannerPicture: '',
-        profilePicture: '',
         useCase: '',
         id: 0,
         timeTableId: 0,
     }
     const [selectedFiles, setSelectedFiless] = useState<FileList | null>(null)
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { loginData } = useSelector((state: RootState) => state)
+    console.log('login data', loginData)
+
     const handleImagesUpload = (selectedFiless: FileList | null): void => {
         setSelectedFiless(selectedFiless)
     }
+    const [bannerImage, setBannerImage] = useState<File | null>(null)
+    const [profileImage, setProfileImage] = useState<File | null>(null)
+
+    const handleSaveBanner = (file: File): void => {
+        setBannerImage(file)
+        // You can perform additional actions here if needed
+    }
+
+    const handleSaveProfile = (file: File): void => {
+        setProfileImage(file)
+        // You can perform additional actions here if needed
+    }
     const submit = async (values: any): Promise<void> => {
         console.log('bbb', values)
-        await handleCreateSubmit(values, selectedFiles)
+        const schoolid = loginData.data?.schoolId
+        const start = moment(values.startDate, 'dddd, MMM DD, YYYY').format(
+            'YYYY-MM-DD'
+        )
+        const end = moment(values.endDate, 'dddd, MMM DD, YYYY').format(
+            'YYYY-MM-DD'
+        )
+        const bookingstart = moment(
+            values.bookingStartDate,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD')
+        const bookingEnd = moment(
+            values.bookingEndDate,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD')
+        const qrCodeStart = moment(
+            values.qrCodeStartDate,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD')
+        const qrCodeEnd = moment(
+            values.qrCodeEndDate,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD')
+        const studentCancel = moment(
+            values.allowStudentCancel,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD')
+        const refundfee = moment(
+            values.refundDate,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD')
+        const bookingCancleStart = moment(
+            values.bookingCancelStartDate,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD')
+        const bookingCancleEnd = moment(
+            values.bookingCancelEndDate,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD')
+        console.log('image', bannerImage, profileImage)
+
+        await handleCreateSubmit(
+            {
+                ...values,
+                id: schoolid,
+                startDate: start,
+                endDate: end,
+                bookingStartDate: bookingstart,
+                bookingEndDate: bookingEnd,
+                qrCodeStartDate: qrCodeStart,
+                qrCodeEndDate: qrCodeEnd,
+                allowStudentCancel: studentCancel,
+                refundDate: refundfee,
+                bookingCancelStartDate: bookingCancleStart,
+                bookingCancelEndDate: bookingCancleEnd,
+            },
+            bannerImage
+        )
+    }
+
+    const handleImagesSelect = (files: FileList | null): void => {
+        // Handle the selected files, for example, you can store them in state
+        console.log('Selected Files:', files)
     }
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
@@ -317,17 +397,13 @@ const CreateClass = (): JSX.Element => {
                                                             'bannerImage'
                                                         )}
                                                     </p>
-                                                    {/* <OverlayImages
-                                                        backgroundImg={
-                                                            ClassData.bannerPicture ||
-                                                            ''
+                                                    <Images
+                                                        onSaveBanner={
+                                                            handleSaveBanner
                                                         }
-                                                        overlayImg={
-                                                            ClassData.profilePicture ||
-                                                            ''
-                                                        }
-                                                        isEditable={true}
-                                                    /> */}
+                                                        isEditable={true} // Set isEditable to true or false based on your requirement
+                                                        defaultImage={null}
+                                                    />
                                                 </Col>
                                             </Row>
                                         </Col>
@@ -660,7 +736,6 @@ const CreateClass = (): JSX.Element => {
                                         title={getLabelByKey('primaryButton')}
                                         fontSize="18px"
                                         loading={loading}
-                                        clicked={() => submit(formik.values)}
                                     />
                                 </div>
                             </Form>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Dropdown, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { ListClassStyled } from './style'
@@ -34,7 +34,10 @@ import { Form, Formik } from 'formik'
 const ListClass = (): JSX.Element => {
     const { ClassData } = useSelector((state: RootState) => state.ClassData)
     const navigate = useNavigate()
-    const { ClassStatus } = useClass()
+    const { ClassStatus, deletemodal, deleteConfirmation, setIsShowModal } =
+        useClass()
+    const [Id, setId] = useState(0)
+
     const { getLabelByKey } = useScreenTranslation('classesList')
     useEffect(() => {
         console.log('hi use effect')
@@ -273,7 +276,10 @@ const ListClass = (): JSX.Element => {
                     {
                         key: '3',
                         label: 'Delete',
-                        onClick: () => navigation(record, 'delete'),
+                        onClick: () => {
+                            setId(record.classId)
+                            setIsShowModal(true)
+                        },
                     },
                 ]
                 return (
@@ -293,8 +299,8 @@ const ListClass = (): JSX.Element => {
     return (
         <>
             <Head title="Classes List" />
-            {/* {deletemodal().modalComponent}
-            {deleteConfirmation(Id).modalComponent} */}
+            {deletemodal().modalComponent}
+            {deleteConfirmation(Id).modalComponent}
             {loading && <LoadingOverlay message="" />}
             <RenderTableTitle />
             <ListClassStyled>

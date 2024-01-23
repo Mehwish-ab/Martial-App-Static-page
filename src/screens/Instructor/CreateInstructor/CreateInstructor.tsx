@@ -81,19 +81,19 @@ const CreateInstructor = (): JSX.Element => {
         yearsOfExperience: Yup.string().required(
             'Please select years Of Experience'
         ),
-        latestCertification: Yup.mixed().test(
-            'fileFormat',
-            'Only PNG and JPEG images are allowed',
-            function (value) {
-                if (value === undefined) {
-                    return true // Validation passes for undefined values
-                }
+        // latestCertification: Yup.mixed().test(
+        //     'fileFormat',
+        //     'Only PNG and JPEG images are allowed',
+        //     function (value) {
+        //         if (value === undefined) {
+        //             return true // Validation passes for undefined values
+        //         }
 
-                const allowedFormats = ['image/png', 'image/jpeg']
+        //         const allowedFormats = ['image/png', 'image/jpeg']
 
-                return allowedFormats.includes(value.type)
-            }
-        ),
+        //         return allowedFormats.includes(value.type)
+        //     }
+        // ),
         defaultCurrency: Yup.string().required(
             'Please select default currency'
         ),
@@ -472,12 +472,12 @@ const CreateInstructor = (): JSX.Element => {
                                     title={getLabelByKey('primaryButton')}
                                     fontSize="18px"
                                     loading={loading}
-                                    // clicked={() =>
-                                    //     handleSubmit(
-                                    //         formik.values,
-                                    //         selectedFiles
-                                    //     )
-                                    // }
+                                    clicked={() =>
+                                        handleSubmit(
+                                            formik.values,
+                                            selectedFiles
+                                        )
+                                    }
                                 />
                             </div>
                         </Form>

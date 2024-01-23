@@ -28,6 +28,7 @@ import moment from 'moment'
 import useTimetable from '../../../hooks/useTimetable'
 import Head from '../../../components/Head/Head'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
+import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
 const RenderTableTitle = (): JSX.Element => {
     const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('timeTableList')
@@ -119,6 +120,7 @@ const ListTimeTable: React.FC = () => {
         setIsShowModal,
         WarningModal,
         TimeTableStatus,
+        loading,
     } = useTimetable()
     useEffect(() => {
         console.log('hi use effect')
@@ -241,7 +243,6 @@ const ListTimeTable: React.FC = () => {
                                             index.timeTableId,
                                             false
                                         )
-                                        store.dispatch(getTimetableByUserId())
                                     }
                                 }}
                             >
@@ -256,7 +257,6 @@ const ListTimeTable: React.FC = () => {
                             <button
                                 onClick={() => {
                                     TimeTableStatus(index.timeTableId, true)
-                                    store.dispatch(getTimetableByUserId())
                                 }}
                             >
                                 De-Active
@@ -316,14 +316,19 @@ const ListTimeTable: React.FC = () => {
             {deletemodal().modalComponent}
             {WarningModal().modalComponent}
             {deleteConfirmation(Id).modalComponent}
-            {/* {loading && <LoadingOverlay message="" />} */}
+            {loading && <LoadingOverlay message="" />}
             <RenderTableTitle />
             <ListTimeTableStyled>
                 <Table
                     columns={columns}
-                    dataSource={timeTableData.data.map((data) => {
-                        return data
-                    })}
+                    // dataSource={timeTableData.data.map((data) => {
+                    //     return data
+                    // })}
+                    dataSource={
+                        timeTableData?.data[0].timeTableId !== 0
+                            ? timeTableData.data
+                            : []
+                    }
                     // scroll={{ x: true }}
                     pagination={{
                         showTotal: (total, range) => (

@@ -14,7 +14,6 @@ import CustomButton from '../../../components/CustomButton/CustomButton'
 import { CreateClassStyled } from './styles'
 import { CreateClassInitialValues } from '../constant'
 import dollar from '../../../assets/images/$.svg'
-import OverlayImages from '../ImageBanner'
 import store, { RootState } from '../../../redux/store'
 import useClass from '../../../hooks/useClass'
 import { useEffect, useState } from 'react'
@@ -318,7 +317,7 @@ const CreateClass = (): JSX.Element => {
                                                             'bannerImage'
                                                         )}
                                                     </p>
-                                                    <OverlayImages
+                                                    {/* <OverlayImages
                                                         backgroundImg={
                                                             ClassData.bannerPicture ||
                                                             ''
@@ -328,7 +327,7 @@ const CreateClass = (): JSX.Element => {
                                                             ''
                                                         }
                                                         isEditable={true}
-                                                    />
+                                                    /> */}
                                                 </Col>
                                             </Row>
                                         </Col>

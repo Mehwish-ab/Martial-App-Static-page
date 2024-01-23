@@ -29,7 +29,7 @@ import { getInstructorByUserId } from '../../../redux/features/instructor/instru
 import { getTimetableByUserId } from '../../../redux/features/TimeTable/TimeTableSlice'
 import EnnvisionModal from '../../../components/CustomModals/EnnvisionModal'
 import moment from 'moment'
-import PreviewImagesUpload from '../../../components/ImagesUpload/PreviewImageUpload'
+// import PreviewImagesUpload from '../../../components/ImagesUpload/PreviewImageUpload'
 
 const CreateClass = (): JSX.Element => {
     const {

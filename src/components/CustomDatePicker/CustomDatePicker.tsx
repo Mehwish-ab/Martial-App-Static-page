@@ -8,7 +8,7 @@ import moment from 'moment'
 import { fontFamilyRegular, tertiaryGrey24 } from '../GlobalStyle'
 moment.locale('en', {
     week: {
-        dow: 1, // Set the first day of the week to Monday
+        dow: 1,
     },
 })
 
@@ -49,6 +49,7 @@ const CustomDatePicker = (props: {
     // const startOfWeekMonday = moment().startOf('isoWeek') // 'isoWeek' starts from Monday
     // console.log({ marginBottom, showErroMessage })
     // console.log('>> placeholder', placeholder)
+
     return (
         <CustomDatePickerStyle
             fontFamily={fontFamily}
@@ -79,6 +80,7 @@ const CustomDatePicker = (props: {
                                         form.setFieldValue(name, dateString)
                                     }
                                 }}
+
                                 // defaultValue={begin || startOfWeekMonday}
                             />
                         </div>

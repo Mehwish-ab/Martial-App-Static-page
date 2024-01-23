@@ -12,6 +12,7 @@ import CustomDate from './CustomDatePicker/CustomDate'
 import CustomSelects from './CustomSelect/CustomSelects'
 import CustomTimePicker from './CustomDateTimePicker/Index'
 import CustomTimePickerNew from './CustomTimePicker/CustomTimePicker'
+import CustomDateRangePicker from './CustomDateRangePicker/CustomDateRangePicker'
 export interface FieldStyleBasicProps {
     padding: string
     bgColor: string
@@ -33,6 +34,7 @@ type formControlProps = {
         | 'file'
         | 'dateTime'
         | 'timePicker'
+        | 'startEndDate'
 } & React.ComponentProps<any>
 const FormControl: React.FC<formControlProps> = (props) => {
     const { control, ...rest } = props
@@ -65,6 +67,8 @@ const FormControl: React.FC<formControlProps> = (props) => {
             return <CustomTimePicker {...rest} />
         case 'timePicker':
             return <CustomTimePickerNew {...rest} />
+        case 'startEndDate':
+            return <CustomDateRangePicker {...rest} />
         default:
             return null
     }

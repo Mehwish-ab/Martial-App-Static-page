@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { DatePicker } from 'formik-antd'
 import { Field, ErrorMessage } from 'formik'
 import { CustomDatePickerStyle } from '../CustomDatePicker/style'
 import ErrorMsg from '../ErrorMessage'
 import dateIcon from '../../assets/images/dateCalander.svg'
 import moment from 'moment'
 import { fontFamilyRegular, tertiaryGrey24 } from '../GlobalStyle'
+import { DatePicker } from 'formik-antd'
 moment.locale('en', {
     week: {
         dow: 1,
@@ -66,6 +65,7 @@ const CustomDatePicker = (props: {
                             <DatePicker
                                 className="customDatePicker"
                                 placeholder={placeholder}
+                                allowClear={false}
                                 suffixIcon={
                                     <img src={dateIcon} alt="calender-icon" />
                                 }

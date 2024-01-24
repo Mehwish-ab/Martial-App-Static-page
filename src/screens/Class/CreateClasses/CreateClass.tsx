@@ -8,16 +8,12 @@ import {
     fontFamilyMedium,
     fontFamilyRegular,
     lightBlue3,
-    primaryColor,
     pureDark,
 } from '../../../components/GlobalStyle'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import { CreateClassStyled } from './styles'
 import { CreateClassInitialValues } from '../constant'
 import dollar from '../../../assets/images/$.svg'
-// import EnnvisionModal from '../../../components/CustomModals/EnnvisionModal'
-// import CustomModal from '../../../components/Modal/CustomModal'
-// import { useNavigate } from 'react-router-dom'
 import Images from '../../Home/OverlayImages/images'
 import store, { RootState } from '../../../redux/store'
 import useClass from '../../../hooks/useClass'
@@ -27,7 +23,6 @@ import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import Head from '../../../components/Head/Head'
 import { getInstructorByUserId } from '../../../redux/features/instructor/instructorSlice'
 import { getTimetableByUserId } from '../../../redux/features/TimeTable/TimeTableSlice'
-import EnnvisionModal from '../../../components/CustomModals/EnnvisionModal'
 import moment from 'moment'
 import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
 import { SelectOptionsDataTypes } from '../../Home/constants'
@@ -38,7 +33,7 @@ const CreateClass = (): JSX.Element => {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
     const {
-        dropdowns: { schoolAccommodation, businessTypes, language },
+        dropdowns: { schoolAccommodation, businessTypes },
     } = useSelector((state: RootState) => state.appData.data)
     console.log('schoolAccommodation', schoolAccommodation, businessTypes)
 
@@ -128,26 +123,32 @@ const CreateClass = (): JSX.Element => {
 
         return options
     }
-    const showFacilities = (_facilities: string[]): string => {
-        let facilitiesName = ''
-        _facilities.forEach((facility) => {
-            const index = schoolAccommodation.findIndex(
-                (facts: any) => facts.id === facility
-            )
-            if (index !== -1) {
-                const facilityLabel = (schoolAccommodation[index] as any)[
+    const showAccommodation = (_accommodate: string[]): string => {
+        const AccommodateName = _accommodate.reduce(
+            (a: string, accommodate_id: string) => {
+                const index = schoolAccommodation.findIndex(
+                    (facts: any) => facts.id === +accommodate_id
+                )
+
+                console.log(index, schoolAccommodation, accommodate_id)
+
+                if (index === -1) {
+                    return a
+                }
+
+                const accommodateLabel = (schoolAccommodation[index] as any)[
                     selectedLanguage
                 ]
-                facilitiesName =
-                    facilitiesName === ''
-                        ? facilityLabel
-                        : `${facilitiesName}, ${facilityLabel}`
-            }
-        })
-        if (facilitiesName.length > 35) {
-            return `${facilitiesName.slice(0, 35)}...`
+                return `${a} ${accommodateLabel},`
+            },
+            ''
+        )
+
+        if (AccommodateName.length > 35) {
+            return `${AccommodateName.slice(0, 35)}...`
         }
-        return facilitiesName || getLabelByKey('selectAccommodationOptions')
+
+        return AccommodateName || getLabelByKey('selectAccommodationOptions')
     }
     const submit = async (values: any): Promise<void> => {
         console.log('bbb', values)
@@ -235,6 +236,7 @@ const CreateClass = (): JSX.Element => {
         }
         return activitiesName || getLabelByKey('activitiesPlaceholder')
     }
+
     return (
         <>
             <Head title="Create Class" />
@@ -341,10 +343,6 @@ const CreateClass = (): JSX.Element => {
                                                                         'InstructorsPlaceholder'
                                                                     )}
                                                                 >
-                                                                    <option
-                                                                        value=""
-                                                                        label="Select an Instructor"
-                                                                    />
                                                                     {instructorData.data.map(
                                                                         (
                                                                             instructor
@@ -388,10 +386,6 @@ const CreateClass = (): JSX.Element => {
                                                                     // )}
                                                                     placeholder="Select TimeTable"
                                                                 >
-                                                                    <option
-                                                                        value=""
-                                                                        label="Select an Instructor"
-                                                                    />
                                                                     {timeTableData.data.map(
                                                                         (
                                                                             timetable
@@ -667,19 +661,20 @@ const CreateClass = (): JSX.Element => {
                                             />
                                         </Col>
 
-                                        <Col md="3" className="  ">
+                                        <Col md="3">
                                             <CheckboxesSelect
-                                                list={schoolAccommodation}
                                                 name="accommodation"
                                                 label={getLabelByKey(
                                                     'accommodate'
                                                 )}
-                                                placeholder={getLabelByKey(
-                                                    'selectAccommodationOptions'
+                                                list={schoolAccommodation}
+                                                showErrorMsgInList={false}
+                                                placeholder={showAccommodation(
+                                                    formik.values.accommodation
                                                 )}
-                                                showErrorMsgInList={false} // options={createOptions(
-                                                //     schoolAccommodation
-                                                // )}
+                                                // value={
+                                                //     formik.values.accommodation
+                                                // }
                                             />
                                         </Col>
 

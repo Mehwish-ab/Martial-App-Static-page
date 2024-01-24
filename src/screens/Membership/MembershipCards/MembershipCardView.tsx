@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React from 'react'
+import React, { useEffect } from 'react'
 import { MembershipCardViewStyled } from './styles'
 import { Dropdown } from 'antd'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
@@ -21,10 +21,18 @@ import FilterIcon from '../../../assets/icons/ic_filter.svg'
 import { CustomDiv } from './CustomDiv'
 import Head from '../../../components/Head/Head'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
+import { useSelector } from 'react-redux'
+import store, { RootState } from '../../../redux/store'
+import { getBranchBySchoolId } from '../../../redux/features/CLasses/ClassSlice'
 
 const MembershipCardView = (): JSX.Element => {
     const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('updateMembershipClass')
+    const { ClassData } = useSelector((state: RootState) => state.ClassData)
+    useEffect(() => {
+        store.dispatch(getBranchBySchoolId())
+    }, [])
+    console.log('classes', ClassData)
 
     const items = [
         {
@@ -117,55 +125,58 @@ const MembershipCardView = (): JSX.Element => {
                     </div>
                 </CustomDiv>
                 <div className="custom_card_list d-flex flex-wrap justify-content-center">
-                    {[1].map((item) => {
-                        return (
-                            <div className="custom_card" key={item}>
-                                <div
-                                    className="custom_card_placeholder_img"
+                    {ClassData.data.map((classItem) => (
+                        <div className="custom_card" key={classItem.classId}>
+                            {/* ... (your existing JSX for each class item) */}
+                            <div
+                                className="custom_card_placeholder_img"
+                                id="cardImg"
+                            >
+                                {/* // {if (classItem.bannerPicture){
+                            //        <img
+                            //         src={`https://fistastore.com:444${classItem.bannerPicture}`}
+                            //         alt="CardImg"
+                            //         id="cardImg"
+                            //     />  
+                            //     } */}
+                                {/* // else{ */}
+                                <img
+                                    src={placeHolderImage}
+                                    alt="CardImg"
                                     id="cardImg"
-                                >
-                                    <img
-                                        src={placeHolderImage}
-                                        alt="CardImg"
-                                        id="cardImg"
-                                    />
-                                    <FormControl
-                                        control="checkbox"
-                                        type="checkbox"
-                                        id="cardImg"
-                                        name="cardImg"
-                                        className="custom_card_checkbox"
-                                    />
-                                </div>
-                                <div className="custom_card_body d-flex align-items-center">
-                                    <div className="card_body_inner ">
-                                        <div className="cardBody_title d-flex justify-content-between align-items-center ">
-                                            <h6 className="mb-0">Jiu Jitsu</h6>
-                                            <p className="mb-0">12/30</p>
-                                        </div>
-                                        <div className="cardBody_time d-flex justify-content-between align-items-center">
-                                            <p className="mb-0">
-                                                Mon 21 Aug 2023
-                                            </p>
-                                            <p className="mb-0">
-                                                07:00 PM - 08:30 PM
-                                            </p>
-                                        </div>
-                                        memberShipPlanId{' '}
+                                />
+                                {/* // }} */}
+
+                                <FormControl
+                                    control="checkbox"
+                                    type="checkbox"
+                                    id="cardImg"
+                                    name="cardImg"
+                                    className="custom_card_checkbox"
+                                />
+                            </div>
+                            <div className="custom_card_body d-flex align-items-center">
+                                <div className="card_body_inner ">
+                                    <div className="cardBody_title d-flex justify-content-between align-items-center ">
+                                        <h6 className="mb-0">
+                                            {classItem.title}
+                                        </h6>
                                     </div>
-                                    <Dropdown menu={{ items }}>
-                                        <img
-                                            src={
-                                                actionMenuTogglerIcon as string
-                                            }
-                                            alt="action menu"
-                                            style={{ cursor: 'pointer' }}
-                                        />
-                                    </Dropdown>
+                                    <div className="cardBody_time d-flex justify-content-between align-items-center">
+                                        <p className="mb-0">
+                                            {classItem.startDate}
+                                        </p>
+                                        {/* Add the relevant data here */}
+                                        <p className="mb-0">
+                                            {classItem.fee}
+                                            {/* Add the relevant data here */}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        )
-                    })}
+                            {/* ... (your existing JSX for each class item) */}
+                        </div>
+                    ))}
                 </div>
                 <div className="mt-20 d-flex justify-content-end">
                     <CustomButton

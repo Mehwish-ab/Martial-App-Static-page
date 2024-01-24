@@ -19,7 +19,7 @@ export interface CreateClassInitialValues {
     bookingCancelStartDate: string
     bookingCancelEndDate: string
     cancellationCharges: string
-    accommodation: string
+    accommodation: string[]
     description: string
     Agreement: string
     termCondition: string

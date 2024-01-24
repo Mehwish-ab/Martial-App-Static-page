@@ -51,7 +51,6 @@ const ViewClass = (): JSX.Element => {
         fetchData()
     }, [])
 
-    console.log('Class details', instructor)
     const showActivities = (_activities: string): string => {
         const activitiesArr = _activities.split(',')
         let activitiesName = ''
@@ -203,7 +202,9 @@ const ViewClass = (): JSX.Element => {
                                             <Images
                                                 // onSaveBanner={null}
                                                 isEditable={false}
-                                                defaultImage={`${values?.bannerPicture}`} // Pass existing banner picture as default image
+                                                defaultImage={
+                                                    values?.bannerPicture
+                                                } // Pass existing banner picture as default image
                                                 onSaveBanner={(
                                                     file: File
                                                 ) => {}}

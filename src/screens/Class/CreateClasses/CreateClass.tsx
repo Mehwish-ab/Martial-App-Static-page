@@ -410,7 +410,7 @@ const CreateClass = (): JSX.Element => {
                                         <Col md="2" className="mt-20">
                                             <FormControl
                                                 control="input"
-                                                type="text"
+                                                type="number"
                                                 name="fee"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
@@ -434,7 +434,7 @@ const CreateClass = (): JSX.Element => {
                                         <Col md="2" className="mt-20">
                                             <FormControl
                                                 control="input"
-                                                type="text"
+                                                type="number"
                                                 name="capacity"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
@@ -450,7 +450,7 @@ const CreateClass = (): JSX.Element => {
                                         <Col md="2" className="mt-20">
                                             <FormControl
                                                 control="input"
-                                                type="text"
+                                                type="number"
                                                 name="minimumStudent"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
@@ -592,7 +592,7 @@ const CreateClass = (): JSX.Element => {
                                         <Col md="3" className="mt-20">
                                             <FormControl
                                                 control="input"
-                                                type="text"
+                                                type="number"
                                                 name="cancellationCharges"
                                                 fontFamily={fontFamilyRegular}
                                                 label={

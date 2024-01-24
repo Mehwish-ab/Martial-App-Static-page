@@ -1,23 +1,23 @@
 export interface CreateMembershipInitialValues {
-    MembershipTitle: string
-    MembershipStartDate: string
-    MembershipEndDate: string
-    Visibility: string[]
-    MembershipSubscriptionType: string[]
-    MembershipFee: string | number
-    MinimumStudents: string | number
-    DailySubscriptionFees: string
-    WeeklySubscriptionFees: string
-    MonthlySubscriptionFees: string
-    AnnuallySubscriptionFees: string
-    AllowToStudentCancle: string
-    RefundFeeDate: string
-    BookingCancellationStart: string
-    BookingCancellationEnd: string
-    CancellationCharges: string
-    Accommodate: string
-    Description: string
-    Agreement: string
-    termCondition: string
-    Liabilitywaivers: string
+    classIds: number | string
+    useCase: string
+    id: number | string
+    title: string
+    startDate: string
+    endDate: string
+    visibility: number | string
+    subscriptionType: number | string
+    membershipFee: string
+    minimumStudent: number | string
+    dailySubsFee: string
+    weeklySubsFee: string
+    monthlySubsFee: string
+    annuallySubsFee: string
+    allowStudentCancel: string
+    refundDate: string
+    bookingCancelStartDate: string
+    bookingCancelEndDate: string
+    cancellationCharges: string
+    accommodation: string
+    description: string
 }

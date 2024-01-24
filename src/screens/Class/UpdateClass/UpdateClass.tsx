@@ -39,7 +39,7 @@ const UpdateClass = (): JSX.Element => {
     const { loginData } = useSelector((state: RootState) => state)
     console.log('login data', loginData.data?.schoolId)
 
-    const { getClassbyid, loading } = useClass()
+    const { getClassbyid, loading, UpdateModal } = useClass()
     const {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
@@ -83,7 +83,7 @@ const UpdateClass = (): JSX.Element => {
     const vla: CreateClassInitialValues = {
         title: values?.title,
         startDate: moment(values?.startDate, 'YYYY-MM-DD').format(
-            'MMM-DD-YYYY'
+            'dddd, MMM DD, YYYY'
         ),
         endDate: moment(values?.endDate, 'YYYY-MM-DD').format(
             'dddd, MMM DD, YYYY'
@@ -210,6 +210,11 @@ const UpdateClass = (): JSX.Element => {
             valuess.bookingCancelEndDate,
             'dddd, MMM DD, YYYY'
         ).format('YYYY-MM-DD')
+        const bannerImageToSend =
+            bannerImage ||
+            new File([''], vla.bannerPicture, { type: 'image/jpeg' })
+        console.log('image', bannerImageToSend, vla.bannerPicture, bannerImage)
+
         handleUpdate(
             Number(classId),
             {
@@ -225,7 +230,7 @@ const UpdateClass = (): JSX.Element => {
                 bookingCancelStartDate: bookingCancleStart,
                 bookingCancelEndDate: bookingCancleEnd,
             },
-            bannerImage
+            bannerImageToSend
         )
         // try {
         //     setIsShowModal(true)
@@ -239,8 +244,9 @@ const UpdateClass = (): JSX.Element => {
     return (
         <>
             <Head title="Update Class" />
-            {/* {UpdateModal().modalComponent} */}
             <CreateClassStyled>
+                {UpdateModal().modalComponent}
+
                 <Formik
                     initialValues={vla}
                     onSubmit={onSubmit}
@@ -525,7 +531,7 @@ const UpdateClass = (): JSX.Element => {
                                                                 handleSaveBanner
                                                             }
                                                             isEditable={true}
-                                                            defaultImage={`https://fistastore.com:444/${vla.bannerPicture}`} // Pass existing banner picture as default image
+                                                            defaultImage={`https://fistastore.com:444/${formik.values.bannerPicture}`} // Pass existing banner picture as default image
                                                         />
                                                     </Col>
 
@@ -888,7 +894,7 @@ const UpdateClass = (): JSX.Element => {
                                         type="submit"
                                         title={getLabelByKey('primaryButton')}
                                         fontSize="18px"
-                                        loading={false}
+                                        loading={loading}
                                     />
                                 </div>
                             </Form>

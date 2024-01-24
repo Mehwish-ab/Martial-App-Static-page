@@ -28,6 +28,7 @@
     "date-fns-tz": "^2.0.0",
     "discord-oauth2": "^2.11.0",
     "formik": "^2.2.9",
+    "formik-antd": "^2.0.4",
     "gapi-script": "^1.2.0",
     "lodash": "^4.17.21",
     "react": "^18.2.0",

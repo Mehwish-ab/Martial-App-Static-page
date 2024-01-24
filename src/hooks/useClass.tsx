@@ -100,7 +100,7 @@ const useClass = (): IUseClass => {
 
             ...(schoolId && { schoolId }), // Add schoolId conditionally
         }
-        console.log('payload', payload)
+        console.log('payload', payload, 'file', file)
 
         // const endpoint = schoolId ? edit_school_url : create_school_url
         const datas = JSON.stringify(payload)

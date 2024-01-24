@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { DatePicker } from 'antd'
+import { DatePicker } from 'formik-antd'
 import { Field, ErrorMessage } from 'formik'
 import { CustomDatePickerStyle } from '../CustomDatePicker/style'
 import ErrorMsg from '../ErrorMessage'

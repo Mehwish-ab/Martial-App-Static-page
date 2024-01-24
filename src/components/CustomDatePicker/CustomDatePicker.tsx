@@ -2,9 +2,11 @@ import { Field, ErrorMessage } from 'formik'
 import { CustomDatePickerStyle } from '../CustomDatePicker/style'
 import ErrorMsg from '../ErrorMessage'
 import dateIcon from '../../assets/images/dateCalander.svg'
-import moment from 'moment'
+import moment, { Moment } from 'moment' // Import Moment type from moment library
 import { fontFamilyRegular, tertiaryGrey24 } from '../GlobalStyle'
 import { DatePicker } from 'formik-antd'
+import { RangePickerProps } from 'rc-picker/lib/RangePicker'
+
 moment.locale('en', {
     week: {
         dow: 1,
@@ -12,6 +14,7 @@ moment.locale('en', {
 })
 
 const startOfWeekMonday = moment().startOf('week')
+
 const CustomDatePicker = (props: {
     [x: string]: any
     name: any
@@ -45,9 +48,14 @@ const CustomDatePicker = (props: {
         showErroMessage = true,
         ...rest
     } = props
-    // const startOfWeekMonday = moment().startOf('isoWeek') // 'isoWeek' starts from Monday
-    // console.log({ marginBottom, showErroMessage })
-    // console.log('>> placeholder', placeholder)
+
+    const disabledDate: RangePickerProps<Moment>['disabledDate'] = (
+        current
+    ) => {
+        // Use Moment type for current parameter
+        // Can not select days before today and today
+        return current && current < moment().startOf('day')
+    }
 
     return (
         <CustomDatePickerStyle
@@ -59,33 +67,30 @@ const CustomDatePicker = (props: {
         >
             <label htmlFor={name}>{label}</label>
             <Field name={name} id={name} {...rest}>
-                {({ form }: any) => {
-                    return (
-                        <div>
-                            <DatePicker
-                                className="customDatePicker"
-                                placeholder={placeholder}
-                                allowClear={false}
-                                suffixIcon={
-                                    <img src={dateIcon} alt="calender-icon" />
+                {({ form }: any) => (
+                    <div>
+                        <DatePicker
+                            className="customDatePicker"
+                            placeholder={placeholder}
+                            allowClear={false}
+                            suffixIcon={
+                                <img src={dateIcon} alt="calender-icon" />
+                            }
+                            name={name}
+                            format="dddd, MMM DD, YYYY"
+                            {...rest}
+                            disabledDate={disabledDate}
+                            onChange={(_, dateString) => {
+                                if (onChange) {
+                                    onChange(dateString)
+                                } else {
+                                    form.setFieldValue(name, dateString)
                                 }
-                                name={name}
-                                // id={name}
-                                format="dddd, MMM DD, YYYY"
-                                {...rest}
-                                onChange={(_, dateString) => {
-                                    if (onChange) {
-                                        onChange(dateString)
-                                    } else {
-                                        form.setFieldValue(name, dateString)
-                                    }
-                                }}
-
-                                // defaultValue={begin || startOfWeekMonday}
-                            />
-                        </div>
-                    )
-                }}
+                            }}
+                            // defaultValue={begin || startOfWeekMonday}
+                        />
+                    </div>
+                )}
             </Field>
             {showErroMessage && (
                 <ErrorMessage name={name} component={ErrorMsg} />

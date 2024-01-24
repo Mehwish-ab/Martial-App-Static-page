@@ -203,7 +203,7 @@ const ViewClass = (): JSX.Element => {
                                             <Images
                                                 // onSaveBanner={null}
                                                 isEditable={false}
-                                                defaultImage={`https://fistastore.com:444/${values?.bannerPicture}`} // Pass existing banner picture as default image
+                                                defaultImage={`${values?.bannerPicture}`} // Pass existing banner picture as default image
                                                 onSaveBanner={(
                                                     file: File
                                                 ) => {}}

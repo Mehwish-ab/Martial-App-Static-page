@@ -27,11 +27,11 @@ const ViewSchool = (): JSX.Element => {
     const { franchiseData } = useSelector(
         (state: RootState) => state.franchiseData
     )
-    console.log(
-        '>>DATATA',
-        branchData?.data?.length,
-        franchiseData?.data?.length
-    )
+    // console.log(
+    //     '>>DATATA',
+    //     branchData?.data?.length,
+    //     franchiseData?.data?.length
+    // )
     // const { data } = useSelector((state: RootState) => state.loginData)
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData

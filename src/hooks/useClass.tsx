@@ -117,6 +117,7 @@ const useClass = (): IUseClass => {
             // .formData.append('file', (file as any).file)
             formData.append('file', file)
             // formData.append('file', String(values?.latestCertification))
+            console.log('formdata', formData)
 
             const { data: data1 } = await axios.post(
                 '/classes/create',
@@ -197,10 +198,7 @@ const useClass = (): IUseClass => {
 
             ...(schoolId && { schoolId }), // Add schoolId conditionally
         }
-        console.log('payload', payload, file)
-
-        // const endpoint = schoolId ? edit_school_url : create_school_url
-        const datas = JSON.stringify(payload)
+        console.log('payload', payload, 'file', file)
         try {
             setError('')
             setLoading(true)
@@ -211,10 +209,8 @@ const useClass = (): IUseClass => {
                     type: 'application/json',
                 })
             )
-            // .formData.append('file', (file as any).file)
             formData.append('file', file)
-            // formData.append('file', String(values?.latestCertification))
-
+            console.log('formdata', formData)
             const { data: data1 } = await axios.post(
                 '/classes/edit',
                 formData,
@@ -233,10 +229,11 @@ const useClass = (): IUseClass => {
                 setLoading(false)
                 return
             }
+            setLoading(false)
             setIsShowModal(true)
             setTimeout(() => {
-                setLoading(false)
                 setIsShowModal(false)
+
                 navigate('/class/list')
             }, 3000)
             // toastId.current = toast(data.responseMessage, {

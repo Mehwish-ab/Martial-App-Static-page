@@ -117,7 +117,7 @@ const MembershipCardView = (): JSX.Element => {
                     </div>
                 </CustomDiv>
                 <div className="custom_card_list d-flex flex-wrap justify-content-center">
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => {
+                    {[1].map((item) => {
                         return (
                             <div className="custom_card" key={item}>
                                 <div
@@ -151,6 +151,7 @@ const MembershipCardView = (): JSX.Element => {
                                                 07:00 PM - 08:30 PM
                                             </p>
                                         </div>
+                                        memberShipPlanId{' '}
                                     </div>
                                     <Dropdown menu={{ items }}>
                                         <img

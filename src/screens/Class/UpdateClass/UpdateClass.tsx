@@ -15,8 +15,6 @@ import CustomButton from '../../../components/CustomButton/CustomButton'
 import { CreateClassStyled } from '../CreateClasses/styles'
 import { CreateClassInitialValues } from '../constant'
 import dollar from '../../../assets/images/$.svg'
-// import EnnvisionModal from '../../../components/CustomModals/EnnvisionModal'
-// import CustomModal from '../../../components/Modal/CustomModal'
 import Images from '../../Home/OverlayImages/images'
 import store, { RootState } from '../../../redux/store'
 import Head from '../../../components/Head/Head'
@@ -24,7 +22,6 @@ import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
 import useClass from '../../../hooks/useClass'
 import { useParams } from 'react-router-dom'
-import { ClassDataType } from '../../../redux/features/CLasses/ClassSlice'
 import moment from 'moment'
 import { getTimetableByUserId } from '../../../redux/features/TimeTable/TimeTableSlice'
 import { getInstructorByUserId } from '../../../redux/features/instructor/instructorSlice'
@@ -32,14 +29,13 @@ import useTimetable from '../../../hooks/useTimetable'
 import useInstructor from '../../../hooks/useInstructor'
 
 const UpdateClass = (): JSX.Element => {
-    const { handleUpdate } = useClass()
     const { getLabelByKey } = useScreenTranslation('updateClasses')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
     const { classId } = useParams()
     const { loginData } = useSelector((state: RootState) => state)
     console.log('login data', loginData.data?.schoolId)
 
-    const { getClassbyid, loading, UpdateModal } = useClass()
+    const { getClassbyid, loading, UpdateModal, handleUpdate } = useClass()
     const {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
@@ -69,18 +65,12 @@ const UpdateClass = (): JSX.Element => {
         fetchData()
     }, [])
     const [bannerImage, setBannerImage] = useState<File | null>(null)
-    const [profileImage, setProfileImage] = useState<File | null>(null)
 
     const handleSaveBanner = (file: File): void => {
         setBannerImage(file)
-        // You can perform additional actions here if needed
     }
 
-    const handleSaveProfile = (file: File): void => {
-        setProfileImage(file)
-        // You can perform additional actions here if needed
-    }
-    const vla: CreateClassInitialValues = {
+    const InitialValues: CreateClassInitialValues = {
         title: values?.title,
         startDate: moment(values?.startDate, 'YYYY-MM-DD').format(
             'dddd, MMM DD, YYYY'
@@ -131,12 +121,8 @@ const UpdateClass = (): JSX.Element => {
         id: Number(loginData.data?.schoolId),
         timeTableId: values?.timeTableId,
     }
-    console.log('values?.startDate:', values?.startDate)
-    const formattedStartDate = moment(values?.startDate, 'YYYY-MM-DD').format(
-        'MM-DD-YYYY'
-    )
-    console.log('formattedStartDate:', formattedStartDate)
-    console.log('initial', vla.bannerPicture)
+
+    console.log('initial picture', InitialValues.bannerPicture)
 
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
@@ -210,10 +196,19 @@ const UpdateClass = (): JSX.Element => {
             valuess.bookingCancelEndDate,
             'dddd, MMM DD, YYYY'
         ).format('YYYY-MM-DD')
-        const bannerImageToSend =
-            bannerImage ||
-            new File([''], vla.bannerPicture, { type: 'image/jpeg' })
-        console.log('image', bannerImageToSend, vla.bannerPicture, bannerImage)
+        const bannerImageToSend = bannerImage
+            ? bannerImage
+            : InitialValues.bannerPicture
+
+        // const bannerImageToSend =
+        //     bannerImage ||
+        //     new File([''], InitialValues.bannerPicture, { type: 'image/jpeg' })
+        console.log(
+            'image',
+            bannerImageToSend,
+            InitialValues.bannerPicture,
+            bannerImage
+        )
 
         handleUpdate(
             Number(classId),
@@ -232,14 +227,6 @@ const UpdateClass = (): JSX.Element => {
             },
             bannerImageToSend
         )
-        // try {
-        //     setIsShowModal(true)
-        //     setTimeout(() => {
-        //         setIsShowModal(false)
-        //         navigate('/membership/list')
-        //     }, 3000)
-        //     setIsLoading(false)
-        // } catch (error: any) {}
     }
     return (
         <>
@@ -248,7 +235,7 @@ const UpdateClass = (): JSX.Element => {
                 {UpdateModal().modalComponent}
 
                 <Formik
-                    initialValues={vla}
+                    initialValues={InitialValues}
                     onSubmit={onSubmit}
                     enableReinitialize
                 >
@@ -531,7 +518,10 @@ const UpdateClass = (): JSX.Element => {
                                                                 handleSaveBanner
                                                             }
                                                             isEditable={true}
-                                                            defaultImage={`https://fistastore.com:444/${formik.values.bannerPicture}`} // Pass existing banner picture as default image
+                                                            defaultImage={
+                                                                formik.values
+                                                                    .bannerPicture
+                                                            } // Pass existing banner picture as default image
                                                         />
                                                     </Col>
 

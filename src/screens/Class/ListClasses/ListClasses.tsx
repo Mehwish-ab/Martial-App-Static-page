@@ -40,10 +40,8 @@ const ListClass = (): JSX.Element => {
 
     const { getLabelByKey } = useScreenTranslation('classesList')
     useEffect(() => {
-        console.log('hi use effect')
         store.dispatch(getBranchBySchoolId())
     }, [])
-    console.log('timetable', ClassData)
     const { loading } = useSelector((state: RootState) => state.ClassData)
     const navigation = (record: ClassDataType, redirectTo: string): void => {
         switch (redirectTo) {

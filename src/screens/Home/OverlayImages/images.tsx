@@ -16,11 +16,25 @@ const OverlayImages = ({
     isEditable,
     defaultImage,
 }: OverlayImagesProps): JSX.Element => {
-    const [bannerImg, setBannerImg] = useState<string | null>(defaultImage)
+    // let img: any = null
+    // if (defaultImage !== null) {
+    //     img = `https://fistastore.com:444${defaultImage}`
+    // } else {
+    //     img = DefaultBannerImage
+    // }
+
+    const [bannerImg, setBannerImg] = useState<string | null>(
+        DefaultBannerImage
+    )
     const [loading, setLoading] = useState(false)
+    console.log('imges', bannerImg)
 
     useEffect(() => {
-        setBannerImg(defaultImage)
+        if (defaultImage != null) {
+            setBannerImg(`https://fistastore.com:444${defaultImage}`)
+        } else {
+            setBannerImg(DefaultBannerImage)
+        }
     }, [defaultImage])
 
     const BannerImgUploadProps = {

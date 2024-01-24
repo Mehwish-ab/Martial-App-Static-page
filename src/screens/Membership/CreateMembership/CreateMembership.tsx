@@ -27,6 +27,7 @@ import { SchoolSuccessfulModals } from '../../../hooks/PopupModalsStyling'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import dollar from '../../../assets/images/$.svg'
 import Head from '../../../components/Head/Head'
+import { VISIBILITY_SELECT_OPTIONS } from '../../Home/constants'
 
 const CreateMembership = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('createMembership')
@@ -39,27 +40,27 @@ const CreateMembership = (): JSX.Element => {
     )
 
     const initialValues: CreateMembershipInitialValues = {
-        MembershipTitle: '',
-        MembershipStartDate: '',
-        MembershipEndDate: '',
-        Visibility: [],
-        MembershipSubscriptionType: [],
-        MembershipFee: '',
-        MinimumStudents: '',
-        DailySubscriptionFees: '',
-        WeeklySubscriptionFees: '',
-        MonthlySubscriptionFees: '',
-        AnnuallySubscriptionFees: '',
-        AllowToStudentCancle: '',
-        RefundFeeDate: '',
-        BookingCancellationStart: '',
-        BookingCancellationEnd: '',
-        CancellationCharges: '',
-        Accommodate: '',
-        Description: '',
-        Agreement: '',
-        termCondition: '',
-        Liabilitywaivers: '',
+        classIds: '',
+        useCase: '',
+        id: '',
+        title: '',
+        startDate: '',
+        endDate: '',
+        visibility: '',
+        subscriptionType: '',
+        membershipFee: '',
+        minimumStudent: '',
+        dailySubsFee: '',
+        weeklySubsFee: '',
+        monthlySubsFee: '',
+        annuallySubsFee: '',
+        allowStudentCancel: '',
+        refundDate: '',
+        bookingCancelStartDate: '',
+        bookingCancelEndDate: '',
+        cancellationCharges: '',
+        accommodation: '',
+        description: '',
     }
 
     const onSubmit = async (): Promise<void> => {
@@ -102,6 +103,8 @@ const CreateMembership = (): JSX.Element => {
             <CreateClassStyled>
                 <Formik initialValues={initialValues} onSubmit={onSubmit}>
                     {(formik) => {
+                        console.log('formik values', formik.values)
+
                         return (
                             <Form
                                 name="basic"
@@ -198,6 +201,9 @@ const CreateMembership = (): JSX.Element => {
                                                                     placeholder={getLabelByKey(
                                                                         'visibilityPlacehor'
                                                                     )}
+                                                                    options={
+                                                                        VISIBILITY_SELECT_OPTIONS
+                                                                    }
                                                                 />
                                                             </Col>
                                                             <Col
@@ -229,7 +235,7 @@ const CreateMembership = (): JSX.Element => {
                                                                 <FormControl
                                                                     control="input"
                                                                     type="text"
-                                                                    name="membershipFees"
+                                                                    name="membershipFee"
                                                                     fontFamily={
                                                                         fontFamilyRegular
                                                                     }
@@ -311,7 +317,7 @@ const CreateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="input"
                                                 type="text"
-                                                name="dailySubscriptionFees"
+                                                name="dailySubsFee"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'dailySubscriptionFees'
@@ -334,7 +340,7 @@ const CreateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="input"
                                                 type="text"
-                                                name="weeklySubscriptionFees"
+                                                name="weeklySubsFee"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'weeklySubscriptionFees'
@@ -357,7 +363,7 @@ const CreateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="input"
                                                 type="text"
-                                                name="monthlySubscriptionFees"
+                                                name="monthlySubsFee"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'monthlySubscriptionFees'
@@ -380,7 +386,7 @@ const CreateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="input"
                                                 type="text"
-                                                name="annuallySubscriptionFees"
+                                                name="annuallySubsFee"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'annuallySubscriptionFees'
@@ -402,9 +408,9 @@ const CreateMembership = (): JSX.Element => {
 
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="select"
+                                                control="date"
                                                 type="text"
-                                                name="allowToStudentCancel "
+                                                name="allowStudentCancel "
                                                 label={getLabelByKey(
                                                     'allowToStudentCancel'
                                                 )}
@@ -422,7 +428,7 @@ const CreateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="date"
                                                 type="date"
-                                                name="refundFeesDate"
+                                                name="refundDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'refundFeesDate'
@@ -438,7 +444,7 @@ const CreateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="date"
                                                 type="date"
-                                                name="bookingCancellationStart "
+                                                name="bookingCancelStartDate "
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'bookingCancellationStart'
@@ -454,7 +460,7 @@ const CreateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="date"
                                                 type="date"
-                                                name="bookingCancellationEnd "
+                                                name="bookingCancelEndDate "
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'bookingCancellationEnd'
@@ -470,7 +476,7 @@ const CreateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="input"
                                                 type="text"
-                                                name="cancellationCharge"
+                                                name="cancellationCharges"
                                                 fontFamily={fontFamilyRegular}
                                                 label={
                                                     <>
@@ -503,7 +509,7 @@ const CreateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="select"
                                                 type="text"
-                                                name="accommodate"
+                                                name="accommodation"
                                                 label={
                                                     <>
                                                         {getLabelByKey(

@@ -389,6 +389,7 @@ export interface DropdownDataTypes {
     currency: DataTypesWithIdAndMultipleLangLabel[]
     businessTypes: DataTypesWithIdAndMultipleLangLabel[]
     countryName: DataTypesWithIdAndMultipleLangLabel[]
+    schoolAccommodation: DataTypesWithIdAndMultipleLangLabel[]
 }
 
 export interface StatusDataTypes {

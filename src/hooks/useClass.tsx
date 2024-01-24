@@ -195,6 +195,7 @@ const useClass = (): IUseClass => {
             accommodation: '1,2,4',
             description: values.description || '',
             timeTableId: values.timeTableId,
+            bannerPicture: file,
 
             ...(schoolId && { schoolId }), // Add schoolId conditionally
         }
@@ -205,11 +206,13 @@ const useClass = (): IUseClass => {
             const formData = new FormData()
             formData.append(
                 'data',
-                new Blob([JSON.stringify(payload)], {
-                    type: 'application/json',
-                })
+                new Blob(
+                    [JSON.stringify({ ...payload, bannerPicture: file })],
+                    {
+                        type: 'application/json',
+                    }
+                )
             )
-            formData.append('file', file)
             console.log('formdata', formData)
             const { data: data1 } = await axios.post(
                 '/classes/edit',

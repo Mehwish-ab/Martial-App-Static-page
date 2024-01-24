@@ -29,12 +29,19 @@ import { getInstructorByUserId } from '../../../redux/features/instructor/instru
 import { getTimetableByUserId } from '../../../redux/features/TimeTable/TimeTableSlice'
 import EnnvisionModal from '../../../components/CustomModals/EnnvisionModal'
 import moment from 'moment'
+import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
+import { SelectOptionsDataTypes } from '../../Home/constants'
 // import PreviewImagesUpload from '../../../components/ImagesUpload/PreviewImageUpload'
 
 const CreateClass = (): JSX.Element => {
     const {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
+    const {
+        dropdowns: { schoolAccommodation, businessTypes, language },
+    } = useSelector((state: RootState) => state.appData.data)
+    console.log('schoolAccommodation', schoolAccommodation, businessTypes)
+
     const { getLabelByKey } = useScreenTranslation('createClasses')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
     const { instructorData } = useSelector(
@@ -74,7 +81,7 @@ const CreateClass = (): JSX.Element => {
         bookingCancelStartDate: '',
         bookingCancelEndDate: '',
         cancellationCharges: '',
-        accommodation: '',
+        accommodation: [],
         description: '',
         Agreement: '',
         termCondition: '',
@@ -102,6 +109,45 @@ const CreateClass = (): JSX.Element => {
     const handleSaveProfile = (file: File): void => {
         setProfileImage(file)
         // You can perform additional actions here if needed
+    }
+    const { selectedLanguage } = useSelector(
+        (state: RootState) => state.selectedLanguage
+    )
+    const createOptions = (
+        list: DataTypesWithIdAndMultipleLangLabel[]
+    ): SelectOptionsDataTypes[] => {
+        const options: SelectOptionsDataTypes[] = []
+        list?.forEach((item) => {
+            const obj = {
+                label: (item as any)[selectedLanguage],
+                value: item.id,
+            }
+
+            options.push(obj)
+        })
+
+        return options
+    }
+    const showFacilities = (_facilities: string[]): string => {
+        let facilitiesName = ''
+        _facilities.forEach((facility) => {
+            const index = schoolAccommodation.findIndex(
+                (facts: any) => facts.id === facility
+            )
+            if (index !== -1) {
+                const facilityLabel = (schoolAccommodation[index] as any)[
+                    selectedLanguage
+                ]
+                facilitiesName =
+                    facilitiesName === ''
+                        ? facilityLabel
+                        : `${facilitiesName}, ${facilityLabel}`
+            }
+        })
+        if (facilitiesName.length > 35) {
+            return `${facilitiesName.slice(0, 35)}...`
+        }
+        return facilitiesName || getLabelByKey('selectAccommodationOptions')
     }
     const submit = async (values: any): Promise<void> => {
         console.log('bbb', values)
@@ -169,9 +215,7 @@ const CreateClass = (): JSX.Element => {
         // Handle the selected files, for example, you can store them in state
         console.log('Selected Files:', files)
     }
-    const { selectedLanguage } = useSelector(
-        (state: RootState) => state.selectedLanguage
-    )
+
     const showActivities = (_activities: string[]): string => {
         let activitiesName = ''
         _activities.forEach((activity) => {
@@ -623,30 +667,19 @@ const CreateClass = (): JSX.Element => {
                                             />
                                         </Col>
 
-                                        <Col md="3" className=" fill mt-20 ">
-                                            <FormControl
-                                                control="select"
-                                                type="text"
+                                        <Col md="3" className="  ">
+                                            <CheckboxesSelect
+                                                list={schoolAccommodation}
                                                 name="accommodation"
-                                                label={
-                                                    <>
-                                                        {getLabelByKey(
-                                                            'accommodate'
-                                                        )}{' '}
-                                                        <span>
-                                                            {getLabelByKey(
-                                                                'ifSchoolCancel'
-                                                            )}
-                                                        </span>
-                                                    </>
-                                                }
-                                                fontFamily={fontFamilyRegular}
-                                                padding="8px 10px"
-                                                fontSize="15px"
-                                                max={6}
+                                                label={getLabelByKey(
+                                                    'accommodate'
+                                                )}
                                                 placeholder={getLabelByKey(
                                                     'selectAccommodationOptions'
                                                 )}
+                                                showErrorMsgInList={false} // options={createOptions(
+                                                //     schoolAccommodation
+                                                // )}
                                             />
                                         </Col>
 

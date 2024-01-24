@@ -9,15 +9,28 @@ import {
 import { loginDataTypes } from '../types'
 
 export interface MembershipDataType {
-    MembershipId: number
-    MembershipTitle: string
-    MembershipVisibility: string
-    MembershipExpires: string
-    MembershipPrice: number
-    MembershipStatus: string
-    MemberShipPicture: string | null | undefined
+    classIds: number
+    useCase: string
+    id: number
+    title: string
+    startDate: string
+    endDate: string
+    visibility: number
+    subscriptionType: number
+    membershipFee: string
+    minimumStudent: number
+    dailySubsFee: string
+    weeklySubsFee: string
+    monthlySubsFee: string
+    annuallySubsFee: string
+    allowStudentCancel: string
+    refundDate: string
+    bookingCancelStartDate: string
+    bookingCancelEndDate: string
+    cancellationCharges: string
+    accommodation: string
+    description: string
 }
-
 export interface GetBranchBySchoolResTypes {
     data: MembershipDataType[]
     totalItems: number
@@ -34,7 +47,31 @@ export interface MembershipDataInitialState {
 
 const initialState: MembershipDataInitialState = {
     MembershipData: {
-        data: [],
+        data: [
+            {
+                classIds: 0,
+                useCase: '',
+                id: 0,
+                title: '',
+                startDate: '',
+                endDate: '',
+                visibility: 0,
+                subscriptionType: 0,
+                membershipFee: '',
+                minimumStudent: 0,
+                dailySubsFee: '',
+                weeklySubsFee: '',
+                monthlySubsFee: '',
+                annuallySubsFee: '',
+                allowStudentCancel: '',
+                refundDate: '',
+                bookingCancelStartDate: '',
+                bookingCancelEndDate: '',
+                cancellationCharges: '',
+                accommodation: '',
+                description: '',
+            },
+        ],
         currentPage: 0,
         totalItems: 0,
         totalPages: 0,
@@ -44,14 +81,14 @@ const initialState: MembershipDataInitialState = {
     error: '',
 }
 
-export const getBranchBySchoolId = createAsyncThunk(
-    'instructorData/getBranchBySchoolId',
+export const getMembershipById = createAsyncThunk(
+    'membershipData/getMembershipById',
     async () => {
         const state = store.getState()
         console.log('state', state)
         try {
             const { data } = await axios.post(
-                `${base_url}${get_branch_by_school_id_url}`,
+                `${base_url}/classes/membershipPlan/getDetailsById`,
                 {
                     schoolId:
                         state.loginData.data?.schoolId ||
@@ -81,30 +118,30 @@ export const getBranchBySchoolId = createAsyncThunk(
 )
 
 const MembershipSlice = createSlice({
-    name: 'instructorData',
+    name: 'membershipData',
     initialState,
     reducers: {
-        updateInstructor: (state, action) => {
-            const updateInstructor: MembershipDataType = action.payload
+        updateMembership: (state, action) => {
+            const updateMembership: MembershipDataType = action.payload
             const index = state.MembershipData.data.findIndex(
-                (b) => b.MembershipId === updateInstructor.MembershipId
+                (b) => b.id === updateMembership.id
             )
-            state.MembershipData.data[index] = updateInstructor
+            state.MembershipData.data[index] = updateMembership
         },
     },
     extraReducers(builder) {
         builder
-            .addCase(getBranchBySchoolId.pending, (state) => {
+            .addCase(getMembershipById.pending, (state) => {
                 state.MembershipData = initialState.MembershipData
                 state.loading = true
                 state.error = ''
             })
-            .addCase(getBranchBySchoolId.fulfilled, (state, action) => {
+            .addCase(getMembershipById.fulfilled, (state, action) => {
                 state.MembershipData = action.payload
                 state.loading = false
                 state.error = ''
             })
-            .addCase(getBranchBySchoolId.rejected, (state, action) => {
+            .addCase(getMembershipById.rejected, (state, action) => {
                 console.log('action.error', action)
                 state.MembershipData = initialState.MembershipData
                 state.error = action.error.message
@@ -113,6 +150,6 @@ const MembershipSlice = createSlice({
     },
 })
 
-export const { updateInstructor } = MembershipSlice.actions
+export const { updateMembership } = MembershipSlice.actions
 
 export default MembershipSlice.reducer

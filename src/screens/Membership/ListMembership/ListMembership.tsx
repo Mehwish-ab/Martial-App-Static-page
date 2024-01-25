@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Dropdown, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { ListMembershipStyled } from './styles'
@@ -13,20 +13,29 @@ import { useNavigate } from 'react-router-dom'
 import plusIcon from '../../../assets/icons/ic_plus.svg'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../redux/store'
+import store, { RootState } from '../../../redux/store'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
-import { MembershipDataType } from '../../../redux/features/Membership/MembershipSlice'
+import {
+    MembershipDataType,
+    getMembershipById,
+} from '../../../redux/features/Membership/MembershipSlice'
 import DummyData from './dummyData.json'
-import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
-import DateCalander from '../../../assets/images/dateCalander.svg'
+import DateCalendar from '../../../assets/images/dateCalander.svg'
 import Head from '../../../components/Head/Head'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 
 const RenderTableTitle = (): JSX.Element => {
     const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('membershipList')
+    const { MembershipData } = useSelector(
+        (state: RootState) => state.MembershipData
+    )
+    console.log('umi', MembershipData)
+    useEffect(() => {
+        store.dispatch(getMembershipById)
+    }, [])
 
     return (
         <CustomDiv>
@@ -60,7 +69,7 @@ const RenderTableTitle = (): JSX.Element => {
                             Sep 21, 2023
                         </p>
                         <img
-                            src={DateCalander}
+                            src={DateCalendar}
                             alt="calander"
                             width={21}
                             height={21}
@@ -146,47 +155,47 @@ const ListMembership: React.FC = () => {
     const columns: ColumnsType<MembershipDataType> = [
         {
             title: getLabelByKey('id'),
-            dataIndex: 'MembershipId',
-            key: 'MembershipId',
+            dataIndex: 'memberShipPlanId',
+            key: 'memberShipPlanId',
         },
         {
             title: getLabelByKey('membershipTitle'),
-            dataIndex: 'MembershipTitle',
-            key: 'MembershipTitle',
+            dataIndex: 'title',
+            key: 'title',
         },
         {
             title: getLabelByKey('type'),
-            dataIndex: 'MembershipType',
-            key: 'MembershipType',
+            dataIndex: 'subscriptionType',
+            key: 'subscriptionType',
         },
         {
             title: getLabelByKey('visibility'),
-            dataIndex: 'MembershipVisibility',
-            key: 'MembershipVisibility',
+            dataIndex: 'visibility',
+            key: 'visibility',
         },
         {
             title: getLabelByKey('expires'),
-            dataIndex: 'MembershipExpires',
-            key: 'MembershipExpires',
+            dataIndex: 'expiryDate',
+            key: 'expiryDate',
         },
         {
             title: getLabelByKey('price'),
-            dataIndex: 'MembershipPrice',
-            key: 'MembershipPrice',
+            dataIndex: 'price',
+            key: 'price',
         },
 
         {
             title: getLabelByKey('status'),
-            dataIndex: 'MembershipStatus',
-            key: 'MembershipStatus',
-            render: (DummyDatas) => {
-                return (
-                    <div>
-                        <button>{DummyDatas}</button>
-                        <img src={StatusActiveError as string} alt="images" />
-                    </div>
-                )
-            },
+            dataIndex: 'isActive',
+            key: 'isActive',
+            // render: (DummyDatas) => {
+            //     return (
+            //         <div>
+            //             <button>{DummyDatas}</button>
+            //             <img src={StatusActiveError as string} alt="images" />
+            //         </div>
+            //     )
+            // },
         },
         {
             title: getLabelByKey('actions'),
@@ -239,12 +248,7 @@ const ListMembership: React.FC = () => {
             <ListMembershipStyled>
                 <Table
                     columns={columns}
-                    dataSource={
-                        DummyData.map((item) => ({
-                            ...item,
-                            key: item.MembershipId,
-                        })) as unknown as MembershipDataType[]
-                    }
+                    // dataSource={MembershipData?.data.}
                     pagination={{
                         showTotal: (total, range) => (
                             <span

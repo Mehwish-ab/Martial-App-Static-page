@@ -1,11 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 import store from '../../store'
-import {
-    base_url,
-    get_branch_by_school_id_url,
-    authorizationToken,
-} from '../../../utils/api_urls'
+import { base_url, authorizationToken } from '../../../utils/api_urls'
 import { loginDataTypes } from '../types'
 
 export interface MembershipDataType {
@@ -50,7 +46,7 @@ const initialState: MembershipDataInitialState = {
         data: [
             {
                 classIds: 0,
-                useCase: '',
+                useCase: 'SCHOOL',
                 id: 0,
                 title: '',
                 startDate: '',
@@ -93,6 +89,7 @@ export const getMembershipById = createAsyncThunk(
                     schoolId:
                         state.loginData.data?.schoolId ||
                         state.dashboardData.schoolData.schoolId,
+                    useCase: 'SCHOOL',
                 },
                 {
                     headers: {

@@ -9,7 +9,9 @@ export interface CreateInstructorInitialValues {
     activities: string[]
     specializations: string[]
     termCondition: string
-    rankId: number
+    rankId: number | string
+    ranking: any
+
     // stripePublishableKey: string;
     // stripeSecretKey: string;
     // cardAccessToken: string;

@@ -27,7 +27,8 @@ import { Form, Formik } from 'formik'
 import moment from 'moment'
 
 const MembershipCardView = (): JSX.Element => {
-    const navigate = useNavigate()
+    const { loginData } = useSelector((state: RootState) => state)
+    const schoolId = loginData.data?.schoolId
     const { loading, handleCreateSubmit } = useMembership()
     const [selectedClassIds, setSelectedClassIds] = useState<string[]>([])
     const { getLabelByKey } = useScreenTranslation('createMembershipClass')
@@ -56,7 +57,7 @@ const MembershipCardView = (): JSX.Element => {
     const payload = {
         useCase: 'SCHOOL',
         classIds: selectedClassIds.join(','),
-        id: data.id,
+        id: Number(schoolId),
         title: data.title,
         startDate: moment(data.startDate, 'dddd, MMM DD, YYYY').format(
             'YYYY-MM-DD'

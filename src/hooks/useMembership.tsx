@@ -66,7 +66,7 @@ const useMembership = (): IUseMembership => {
     const navigate = useNavigate()
 
     const { loginData } = useSelector((state: RootState) => state)
-
+    console.log('schoolID', schoolId)
     // to create Membership
     const handleCreateSubmit = async (
         values: any,
@@ -77,8 +77,7 @@ const useMembership = (): IUseMembership => {
         const payload = {
             useCase: 'SCHOOL',
             classIds: values.classIds,
-            // id: values.id,
-            id: 148,
+            id: values.id,
             title: values.title,
             startDate: values.startDate,
             endDate: values.endDate,

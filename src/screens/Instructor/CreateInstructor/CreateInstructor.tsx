@@ -252,6 +252,42 @@ const CreateInstructor = (): JSX.Element => {
                                         <Row>
                                             <Col md="4" className="mt-20">
                                                 <FormControl
+                                                    control="select"
+                                                    type="text"
+                                                    name="rankId"
+                                                    fontFamily={
+                                                        fontFamilyRegular
+                                                    }
+                                                    label={getLabelByKey(
+                                                        'ranking'
+                                                    )}
+                                                    placeholder={getLabelByKey(
+                                                        'PlaceholderRanking'
+                                                    )}
+                                                    options={
+                                                        BELTS_SELECT_OPTIONS
+                                                    }
+                                                />
+                                            </Col>
+                                            <Col md="4" className="mt-20">
+                                                <FormControl
+                                                    control="select"
+                                                    type="text"
+                                                    name="belts"
+                                                    fontFamily={
+                                                        fontFamilyRegular
+                                                    }
+                                                    label={getLabelByKey(
+                                                        'belts'
+                                                    )}
+                                                    placeholder={getLabelByKey(
+                                                        'selectBelt'
+                                                    )}
+                                                    // options={}
+                                                />
+                                            </Col>
+                                            {/* <Col md="4" className="mt-20">
+                                                <FormControl
                                                     control="input"
                                                     type="number"
                                                     name="yearsOfExperience"
@@ -276,26 +312,7 @@ const CreateInstructor = (): JSX.Element => {
                                                         'placeholderYearsOfExperience'
                                                     )}
                                                 />
-                                            </Col>
-                                            <Col md="4" className="mt-20">
-                                                <FormControl
-                                                    control="select"
-                                                    type="text"
-                                                    name="rankId"
-                                                    fontFamily={
-                                                        fontFamilyRegular
-                                                    }
-                                                    label={getLabelByKey(
-                                                        'ranking'
-                                                    )}
-                                                    placeholder={getLabelByKey(
-                                                        'PlaceholderRanking'
-                                                    )}
-                                                    options={
-                                                        BELTS_SELECT_OPTIONS
-                                                    }
-                                                />
-                                            </Col>
+                                            </Col> */}
                                             <Col md="4" className="mt-20">
                                                 <FormControl
                                                     control="file"

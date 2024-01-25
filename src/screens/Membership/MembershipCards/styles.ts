@@ -93,8 +93,7 @@ export const MembershipCardViewStyled = styled.div`
       }
 
       .card_body_inner{
-        width: 95%;
-        margin-right: 10px;
+        width: 100%;
       }
 
 

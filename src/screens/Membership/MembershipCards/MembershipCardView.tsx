@@ -1,14 +1,13 @@
 /* eslint-disable max-len */
 import React, { useEffect, useState } from 'react'
 import { MembershipCardViewStyled } from './styles'
-import { Dropdown } from 'antd'
-import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 import { useLocation, useNavigate } from 'react-router-dom'
 import FormControl from '../../../components/FormControl'
 import placeHolderImage from '../../../assets/images/custom_card_placeholder.png'
 import {
     darkBlue,
     fontFamilyMedium,
+    fontFamilyRegular,
     lightBlue3,
     maastrichtBlue,
     pureDark,
@@ -25,12 +24,13 @@ import { useSelector } from 'react-redux'
 import store, { RootState } from '../../../redux/store'
 import { getBranchBySchoolId } from '../../../redux/features/CLasses/ClassSlice'
 import useMembership from '../../../hooks/useMembership'
+import { Form, Formik } from 'formik'
 
 const MembershipCardView = (): JSX.Element => {
     const navigate = useNavigate()
-    const { handleCreateSubmit, loading } = useMembership()
+    const { loading } = useMembership()
     const [selectedClassIds, setSelectedClassIds] = useState<string[]>([])
-    const { getLabelByKey } = useScreenTranslation('updateMembershipClass')
+    const { getLabelByKey } = useScreenTranslation('createMembershipClass')
     const { ClassData } = useSelector((state: RootState) => state.ClassData)
     useEffect(() => {
         store.dispatch(getBranchBySchoolId())
@@ -39,111 +39,103 @@ const MembershipCardView = (): JSX.Element => {
     const location = useLocation()
     const data = location.state && location.state.data
     console.log('Received data:', data)
-    const items = [
-        {
-            key: '1',
-            label: 'View',
-            // onClick: () => navigation(record, "view"),
-        },
-        {
-            key: '2',
-            label: 'Edit',
-            // onClick: () => navigation(record, "edit"),
-        },
-        {
-            key: '3',
-            label: 'Subscribe',
-            // onClick: () => navig[ation(record, "subscribe"),
-        },
-    ]
 
     const handleCheckboxChange = (classId: string): void => {
         const isSelected = selectedClassIds.includes(classId)
 
         if (isSelected) {
-            // If already selected, remove from the array
             setSelectedClassIds((prevIds: any[]) =>
                 prevIds.filter((id) => id !== classId)
             )
         } else {
-            // If not selected, add to the array
             setSelectedClassIds((prevIds: any) => [...prevIds, classId])
         }
     }
-    // const submit = async (): any => {
-    //    // await handleCreateSubmit(val, file)
-    // }
+    const initialValues = (): void => {}
+    const handleCreateSubmit = (): void => {}
     return (
         <>
             <Head title="Membership Class" />
             <MembershipCardViewStyled>
                 <CustomDiv>
-                    <div className="mainWrapper">
-                        <h3 className="table-heading">
-                            {getLabelByKey('title')}
-                        </h3>
-                        <div className="FilterMainContainer">
-                            <div className="arrowsMain">
-                                <div className="arrowRight">
-                                    <img
-                                        src={LeftArrow}
-                                        alt="Date"
-                                        width={18}
-                                        height={12}
-                                    />
-                                </div>
-                                <div className="arrowLeft">
-                                    <img
-                                        src={RightArrow}
-                                        alt="Date"
-                                        width={18}
-                                        height={12}
-                                    />
-                                </div>
-                            </div>
-                            <div className="dateRange">
-                                <p>
-                                    {' '}
-                                    <span>Mon,</span> Sep 11, 2023 -{' '}
-                                    <span>Thu,</span> Sep 21, 2023
-                                </p>
-                                <img
-                                    src={DateCalander}
-                                    alt="calander"
-                                    width={21}
-                                    height={21}
-                                />
-                            </div>
-                            <div className="todayPlusContainer">
-                                <div className="dateToday">
-                                    <p>Today</p>
-                                </div>
-                                <CustomButton
-                                    bgcolor={darkBlue}
-                                    textTransform="Captilize"
-                                    color={pureDark}
-                                    padding="6.5px 0px"
-                                    fontFamily={`${fontFamilyMedium}`}
-                                    width="40px"
-                                    type="submit"
-                                    title=""
-                                    fontSize="17px"
-                                    loading={loading}
-                                    icon={
-                                        <img
-                                            src={FilterIcon}
-                                            alt="edit icon"
-                                            width={17}
-                                            height={17}
-                                        />
-                                    }
-                                    clicked={() => {
-                                        navigate(`/membership/create`)
-                                    }}
-                                />
-                            </div>
-                        </div>
-                    </div>
+                    <Formik
+                        initialValues={initialValues}
+                        // validationSchema={validationSchema}
+                        onSubmit={handleCreateSubmit}
+                    >
+                        {(formik) => {
+                            return (
+                                <Form
+                                    name="basic"
+                                    // onFinish={formik.handleSubmit}
+                                    autoComplete="off"
+                                >
+                                    <div className="mainWrapper">
+                                        <h3 className="table-heading">
+                                            {getLabelByKey('title')}
+                                        </h3>
+                                        <div className="FilterMainContainer">
+                                            <div className="arrowsMain">
+                                                <div className="arrowRight">
+                                                    <img
+                                                        src={LeftArrow}
+                                                        alt="Date"
+                                                        width={18}
+                                                        height={12}
+                                                    />
+                                                </div>
+                                                <div className="arrowLeft">
+                                                    <img
+                                                        src={RightArrow}
+                                                        alt="Date"
+                                                        width={18}
+                                                        height={12}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <FormControl
+                                                control="startEndDate"
+                                                type="startEndDate"
+                                                name="startDate"
+                                                fontFamily={fontFamilyRegular}
+                                                padding="8px 10px"
+                                            />
+                                            <div className="todayPlusContainer">
+                                                <div className="dateToday">
+                                                    <p>Today</p>
+                                                </div>
+                                                <CustomButton
+                                                    bgcolor={darkBlue}
+                                                    textTransform="Captilize"
+                                                    color={pureDark}
+                                                    padding="6.5px 0px"
+                                                    fontFamily={`${fontFamilyMedium}`}
+                                                    width="40px"
+                                                    type="submit"
+                                                    title=""
+                                                    fontSize="17px"
+                                                    loading={loading}
+                                                    icon={
+                                                        <img
+                                                            src={FilterIcon}
+                                                            alt="edit icon"
+                                                            width={17}
+                                                            height={17}
+                                                        />
+                                                    }
+                                                    clicked={() => {
+                                                        navigate(
+                                                            `/membership/create`
+                                                        )
+                                                    }}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Form>
+                            )
+                        }}
+                    </Formik>
                 </CustomDiv>
                 <div className="custom_card_list d-flex flex-wrap justify-content-center">
                     {/* branchData?.data[0].branchId !== 0 ? branchData.data : [] */}
@@ -179,7 +171,7 @@ const MembershipCardView = (): JSX.Element => {
                                         }
                                     />
                                 </div>
-                                <div className="custom_card_body d-flex align-items-center">
+                                <div className="custom_card_body d-flex justify-content-center align-items-center">
                                     <div className="card_body_inner ">
                                         <div className="cardBody_title d-flex justify-content-between align-items-center ">
                                             <h6 className="mb-0">
@@ -196,15 +188,6 @@ const MembershipCardView = (): JSX.Element => {
                                             </p>
                                         </div>
                                     </div>
-                                    <Dropdown menu={{ items }}>
-                                        <img
-                                            src={
-                                                actionMenuTogglerIcon as string
-                                            }
-                                            alt="action menu"
-                                            style={{ cursor: 'pointer' }}
-                                        />
-                                    </Dropdown>
                                 </div>
                             </div>
                         )

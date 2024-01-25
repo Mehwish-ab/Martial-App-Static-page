@@ -9,6 +9,7 @@ export interface MembershipDataType {
     useCase: string
     id: number
     memberShipPlanId: number
+    bannerPicture: string | null | undefined
     isActive: boolean
     title: string
     startDate: string
@@ -51,6 +52,7 @@ const initialState: MembershipDataInitialState = {
                 useCase: 'SCHOOL',
                 id: 0,
                 memberShipPlanId: 0,
+                bannerPicture: '',
                 isActive: true,
                 title: '',
                 startDate: '',
@@ -85,7 +87,6 @@ export const getMembershipById = createAsyncThunk(
     'membershipData/getMembershipById',
     async () => {
         const state = store.getState()
-        console.log('umi', getMembershipById)
         try {
             const { data } = await axios.post(
                 `${base_url}classes/membershipPlan/byId`,

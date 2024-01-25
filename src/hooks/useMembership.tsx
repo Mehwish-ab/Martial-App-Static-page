@@ -35,7 +35,8 @@ interface IUseMembership {
     handleUpdate: (
         id: number,
         values: CreateMembershipInitialValues,
-        file: any
+        file: any,
+        bannerImages: any
     ) => Promise<void>
     error: string
     isUploadImgModalVisible: boolean
@@ -71,7 +72,6 @@ const useMembership = (): IUseMembership => {
         values: CreateMembershipInitialValues,
         file: any
     ): Promise<void> => {
-        console.log('>> im in handleSubmit')
         const userDetails = loginData.data?.userDetails
 
         const payload = {
@@ -82,7 +82,8 @@ const useMembership = (): IUseMembership => {
             startDate: values.startDate,
             endDate: values.endDate,
             visibility: values.visibility,
-            subscriptionType: values.subscriptionType,
+            // subscriptionType: values.subscriptionType,
+            subscriptionType: 1,
             membershipFee: values.membershipFee,
             minimumStudent: values.minimumStudent,
             dailySubsFee: values.dailySubsFee,
@@ -96,10 +97,8 @@ const useMembership = (): IUseMembership => {
             cancellationCharges: values.cancellationCharges,
             accommodation: values.accommodation,
             description: values.description,
-
             ...(schoolId && { schoolId }), // Add schoolId conditionally
         }
-        console.log('payload', payload, 'file', file)
 
         // const endpoint = schoolId ? edit_school_url : create_school_url
         const datas = JSON.stringify(payload)
@@ -116,10 +115,9 @@ const useMembership = (): IUseMembership => {
             // .formData.append('file', (file as any).file)
             formData.append('file', file)
             // formData.append('file', String(values?.latestCertification))
-            console.log('formdata', formData)
 
             const { data: data1 } = await axios.post(
-                '/membership/create',
+                'classes/membershipPlan/create',
                 formData,
                 {
                     headers: {
@@ -167,7 +165,8 @@ const useMembership = (): IUseMembership => {
     const handleUpdate = async (
         id: number,
         values: CreateMembershipInitialValues,
-        file: any
+        file: any,
+        bannerImages: any
     ): Promise<void> => {
         console.log('>> im in handleUpdate')
         const userDetails = loginData.data?.userDetails
@@ -193,7 +192,7 @@ const useMembership = (): IUseMembership => {
             cancellationCharges: values.cancellationCharges,
             accommodation: values.accommodation,
             description: values.description,
-
+            ...(bannerImages === null && { bannerPicture: file }),
             ...(schoolId && { schoolId }), // Add schoolId conditionally
         }
         console.log('payload', payload, 'file', file)

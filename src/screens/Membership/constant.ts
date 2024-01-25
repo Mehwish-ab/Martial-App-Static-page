@@ -18,6 +18,7 @@ export interface CreateMembershipInitialValues {
     bookingCancelStartDate: string
     bookingCancelEndDate: string
     cancellationCharges: string
-    accommodation: string
+    accommodation: string[]
     description: string
+    bannerPicture: string | null | undefined
 }

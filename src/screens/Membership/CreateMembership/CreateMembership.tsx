@@ -28,7 +28,7 @@ import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import dollar from '../../../assets/images/$.svg'
 import Head from '../../../components/Head/Head'
 import { VISIBILITY_SELECT_OPTIONS } from '../../Home/constants'
-import MembershipCardView from '../MembershipCards/MembershipCardView'
+import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
 
 const CreateMembership = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('createMembership')
@@ -36,6 +36,22 @@ const CreateMembership = (): JSX.Element => {
     const [isLoading, setIsLoading] = useState(false)
     const [isShowModal, setIsShowModal] = useState(false)
     const [data, setdatas] = useState<CreateMembershipInitialValues>()
+    const { loginData } = useSelector((state: RootState) => state)
+    const [bannerImage, setBannerImage] = useState<File | null>(null)
+    const {
+        dropdowns: { schoolAccommodation },
+    } = useSelector((state: RootState) => state.appData.data)
+    const convertedAccommodation = schoolAccommodation.map((accommodation) => ({
+        ...accommodation,
+        id: accommodation.id.toString(),
+    }))
+
+    const handleSaveBanner = (file: File): void => {
+        setBannerImage(file)
+    }
+    const { selectedLanguage } = useSelector(
+        (state: RootState) => state.selectedLanguage
+    )
 
     const navigate = useNavigate()
     const { MembershipData } = useSelector(
@@ -62,62 +78,87 @@ const CreateMembership = (): JSX.Element => {
         bookingCancelStartDate: '',
         bookingCancelEndDate: '',
         cancellationCharges: '',
-        accommodation: '',
+        accommodation: [],
         description: '',
+        bannerPicture: '',
+    }
+    // const onSubmit = async (values: any): Promise<void> => {
+    //     const schoolid = loginData.data?.schoolId
+    //     const start = moment(values.startDate, 'dddd, MMM DD, YYYY').format(
+    //         'YYYY-MM-DD'
+    //     )
+    //     const end = moment(values.endDate, 'dddd, MMM DD, YYYY').format(
+    //         'YYYY-MM-DD'
+    //     )
+    //     const studentCancel = moment(
+    //         values.allowStudentCancel,
+    //         'dddd, MMM DD, YYYY'
+    //     ).format('YYYY-MM-DD')
+    //     const refundFee = moment(
+    //         values.refundDate,
+    //         'dddd, MMM DD, YYYY'
+    //     ).format('YYYY-MM-DD')
+    //     const bookingCancelStart = moment(
+    //         values.bookingCancelStartDate,
+    //         'dddd, MMM DD, YYYY'
+    //     ).format('YYYY-MM-DD')
+    //     const bookingCancelEnd = moment(
+    //         values.bookingCancelEndDate,
+    //         'dddd, MMM DD, YYYY'
+    //     ).format('YYYY-MM-DD')
+    //     await handleCreateSubmit(
+    //         {
+    //             ...values,
+    //             id: schoolid,
+    //             startDate: start,
+    //             endDate: end,
+    //             allowStudentCancel: studentCancel,
+    //             refundDate: refundFee,
+    //             bookingCancelStartDate: bookingCancelStart,
+    //             bookingCancelEndDate: bookingCancelEnd,
+    //         },
+    //         bannerImage
+    //     )
+    // }
+    const showAccommodation = (_accommodate: string[]): string => {
+        const AccommodateName = _accommodate.reduce(
+            (a: string, accommodate_id: string) => {
+                const index = schoolAccommodation.findIndex(
+                    (facts: any) => facts.id === +accommodate_id
+                )
+
+                if (index === -1) {
+                    return a
+                }
+
+                const accommodateLabel = (schoolAccommodation[index] as any)[
+                    selectedLanguage
+                ]
+                return `${a} ${accommodateLabel},`
+            },
+            ''
+        )
+
+        if (AccommodateName.length > 35) {
+            return `${AccommodateName.slice(0, 35)}...`
+        }
+
+        return AccommodateName || getLabelByKey('selectAccommodationOptions')
     }
     const onSubmit = async (
         values: CreateMembershipInitialValues
     ): Promise<void> => {
         try {
             setdatas(values)
-
-            setIsShowModal(true)
-            console.log('dataaaa', values)
-
-            setTimeout(() => {
-                setIsShowModal(false)
-                // {
-                //     ;<MembershipCardView setdatas={data} />
-                // }
-                navigate('/membership/classes', { state: { data: values } })
-                {
-                }
-            }, 3000)
-            setIsLoading(false)
+            navigate('/membership/classes', { state: { data: values } })
         } catch (error: unknown) {}
     }
     return (
         <>
             <Head title="Membership Create" />
-            <CustomModal
-                isModalVisible={isShowModal}
-                setIsModalVisible={setIsShowModal}
-                showCloseBtn={true}
-            >
-                <SchoolSuccessfulModals>
-                    <div className="mainContainer d-flex flex-column align-items-center">
-                        <img
-                            src={ic_success}
-                            alt="Success Icon"
-                            width={79}
-                            height={79}
-                        />
-                        <h3 className="mainContainer-heading text-center">
-                            Complete Successfully!
-                        </h3>
-                        <p className="mainContainer-subText text-center">
-                            Congratulations! Your profile has been successfully
-                            completed, ensuring a seamless experience within the
-                            Marital
-                        </p>
-                    </div>
-                </SchoolSuccessfulModals>
-            </CustomModal>
             <CreateClassStyled>
                 <Formik initialValues={initialValues} onSubmit={onSubmit}>
                     {(formik) => {
-                        console.log('formik values', formik.values)
-
                         return (
                             <Form
                                 name="basic"
@@ -247,7 +288,7 @@ const CreateMembership = (): JSX.Element => {
                                                             >
                                                                 <FormControl
                                                                     control="input"
-                                                                    type="text"
+                                                                    type="number"
                                                                     name="membershipFee"
                                                                     fontFamily={
                                                                         fontFamilyRegular
@@ -282,7 +323,7 @@ const CreateMembership = (): JSX.Element => {
                                                             >
                                                                 <FormControl
                                                                     control="input"
-                                                                    type="text"
+                                                                    type="number"
                                                                     name="minimumStudent"
                                                                     fontFamily={
                                                                         fontFamilyRegular
@@ -329,7 +370,7 @@ const CreateMembership = (): JSX.Element => {
                                         <Col md="3" className="mt-20">
                                             <FormControl
                                                 control="input"
-                                                type="text"
+                                                type="number"
                                                 name="dailySubsFee"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
@@ -352,7 +393,7 @@ const CreateMembership = (): JSX.Element => {
                                         <Col md="3" className="mt-20">
                                             <FormControl
                                                 control="input"
-                                                type="text"
+                                                type="number"
                                                 name="weeklySubsFee"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
@@ -375,7 +416,7 @@ const CreateMembership = (): JSX.Element => {
                                         <Col md="3" className="mt-20">
                                             <FormControl
                                                 control="input"
-                                                type="text"
+                                                type="number"
                                                 name="monthlySubsFee"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
@@ -398,7 +439,7 @@ const CreateMembership = (): JSX.Element => {
                                         <Col md="3" className="mt-20">
                                             <FormControl
                                                 control="input"
-                                                type="text"
+                                                type="number"
                                                 name="annuallySubsFee"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
@@ -423,7 +464,7 @@ const CreateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="date"
                                                 type="text"
-                                                name="allowStudentCancel "
+                                                name="allowStudentCancel"
                                                 label={getLabelByKey(
                                                     'allowToStudentCancel'
                                                 )}
@@ -457,7 +498,7 @@ const CreateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="date"
                                                 type="date"
-                                                name="bookingCancelStartDate "
+                                                name="bookingCancelStartDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'bookingCancellationStart'
@@ -473,7 +514,7 @@ const CreateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="date"
                                                 type="date"
-                                                name="bookingCancelEndDate "
+                                                name="bookingCancelEndDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'bookingCancellationEnd'
@@ -488,7 +529,7 @@ const CreateMembership = (): JSX.Element => {
                                         <Col md="3" className="mt-20">
                                             <FormControl
                                                 control="input"
-                                                type="text"
+                                                type="number"
                                                 name="cancellationCharges"
                                                 fontFamily={fontFamilyRegular}
                                                 label={
@@ -518,29 +559,19 @@ const CreateMembership = (): JSX.Element => {
                                             />
                                         </Col>
 
-                                        <Col md="3" className="mt-20">
-                                            <FormControl
-                                                control="select"
-                                                type="text"
+                                        <Col md="3">
+                                            <CheckboxesSelect
                                                 name="accommodation"
-                                                label={
-                                                    <>
-                                                        {getLabelByKey(
-                                                            'accommodate'
-                                                        )}{' '}
-                                                        <span>
-                                                            {getLabelByKey(
-                                                                'ifSchoolCancel'
-                                                            )}
-                                                        </span>
-                                                    </>
-                                                }
-                                                fontFamily={fontFamilyRegular}
-                                                fontSize="16px"
-                                                max={6}
-                                                placeholder={getLabelByKey(
-                                                    'selectAccommodationOptions'
+                                                label={getLabelByKey(
+                                                    'accommodate'
                                                 )}
+                                                list={convertedAccommodation} // Use the converted array here                                                showErrorMsgInList={false}
+                                                placeholder={showAccommodation(
+                                                    formik.values.accommodation
+                                                )}
+                                                showErrorMsgInList={false} // value={
+                                                //     formik.values.accommodation
+                                                // }
                                             />
                                         </Col>
 

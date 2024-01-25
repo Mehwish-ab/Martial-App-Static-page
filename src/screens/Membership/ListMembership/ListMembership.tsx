@@ -103,7 +103,7 @@ const RenderTableTitle = (): JSX.Element => {
                                                 />
                                             }
                                             clicked={() => {
-                                                navigate(`/class/create`)
+                                                navigate(`/membership/create`)
                                             }}
                                         />
                                     </div>

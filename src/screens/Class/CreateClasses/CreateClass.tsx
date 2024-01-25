@@ -24,9 +24,6 @@ import Head from '../../../components/Head/Head'
 import { getInstructorByUserId } from '../../../redux/features/instructor/instructorSlice'
 import { getTimetableByUserId } from '../../../redux/features/TimeTable/TimeTableSlice'
 import moment from 'moment'
-import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
-import { SelectOptionsDataTypes } from '../../Home/constants'
-// import PreviewImagesUpload from '../../../components/ImagesUpload/PreviewImageUpload'
 
 const CreateClass = (): JSX.Element => {
     const {
@@ -52,7 +49,6 @@ const CreateClass = (): JSX.Element => {
         store.dispatch(getInstructorByUserId())
         store.dispatch(getTimetableByUserId())
     }, [])
-    const { ClassData } = useSelector((state: RootState) => state.ClassData)
     const { handleCreateSubmit, loading, Createmodal } = useClass()
 
     const initialValues: CreateClassInitialValues = {
@@ -83,24 +79,14 @@ const CreateClass = (): JSX.Element => {
         id: 0,
         timeTableId: 0,
     }
-    const [selectedFiles, setSelectedFiless] = useState<FileList | null>(null)
     const { loginData } = useSelector((state: RootState) => state)
 
-    const handleImagesUpload = (selectedFiless: FileList | null): void => {
-        setSelectedFiless(selectedFiless)
-    }
     const [bannerImage, setBannerImage] = useState<File | null>(null)
-    const [profileImage, setProfileImage] = useState<File | null>(null)
 
     const handleSaveBanner = (file: File): void => {
         setBannerImage(file)
-        // You can perform additional actions here if needed
     }
 
-    const handleSaveProfile = (file: File): void => {
-        setProfileImage(file)
-        // You can perform additional actions here if needed
-    }
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
@@ -164,9 +150,6 @@ const CreateClass = (): JSX.Element => {
         )
     }
 
-    const handleImagesSelect = (files: FileList | null): void => {
-        // Handle the selected files, for example, you can store them in state
-    }
     const showAccommodation = (_accommodate: string[]): string => {
         const AccommodateName = _accommodate.reduce(
             (a: string, accommodate_id: string) => {

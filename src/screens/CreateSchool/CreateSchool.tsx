@@ -133,12 +133,11 @@ const CreateSchool = (): JSX.Element => {
         console.log('>>im create school')
 
         // store.dispatch(getSchoolByUserId())
-        if (schoolData && schoolData?.schoolId > 0) {
-            console.log('checking loginData: ', loginData)
+        // if (schoolData && schoolData?.schoolId > 0) {
+        //     console.log('checking loginData: ', loginData)
 
-            if (schoolData && loginData?.schoolId)
-                return navigate('/school/view')
-        }
+        if (schoolData.schoolId > 0) return navigate('/school/view')
+        // }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [schoolData, loginData])
 

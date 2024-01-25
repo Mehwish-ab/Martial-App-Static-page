@@ -26,8 +26,12 @@ import PlacesAutoCompleteInput from '../../../maps/PlacesAutocomplete'
 import useInstructor from '../../../hooks/useInstructor'
 import { useParams } from 'react-router-dom'
 import { InstructorDataType } from '../../../redux/features/instructor/instructorSlice'
-import { BELTS_SELECT_OPTIONS } from '../../Home/constants'
+import {
+    BELTS_SELECT_OPTIONS,
+    SelectOptionsDataTypes,
+} from '../../Home/constants'
 import ImagesUpload from '../../../components/ImagesUpload/ImagesUpload'
+import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
 
 const UpdateeInstructor = (): JSX.Element => {
     const { instructorId } = useParams()
@@ -78,8 +82,8 @@ const UpdateeInstructor = (): JSX.Element => {
             ? instructorData?.specializations?.split(',').map(String)
             : [],
         termCondition: '',
+        ranking: '',
     }
-    console.log('nada', instructorData?.activities)
 
     // const franchiseName = validationFinder('BUSINESS_NAME')!
     // const franchiseNameReg = new RegExp(franchiseName.pattern)
@@ -141,7 +145,25 @@ const UpdateeInstructor = (): JSX.Element => {
         }
         return activitiesName || getLabelByKey('activitiesPlaceholder')
     }
+    const {
+        belts: { adult },
+    } = useSelector((state: RootState) => state.appData.data)
 
+    const createOptions = (
+        list: DataTypesWithIdAndMultipleLangLabel[]
+    ): SelectOptionsDataTypes[] => {
+        const options: SelectOptionsDataTypes[] = []
+        list.forEach((item) => {
+            const obj = {
+                label: (item as any)[selectedLanguage],
+                value: item.id,
+            }
+
+            options.push(obj)
+        })
+
+        return options
+    }
     const showFacilities = (_facilities: string[]): string => {
         let facilitiesName = ''
         _facilities?.map((facility) => {
@@ -283,72 +305,85 @@ const UpdateeInstructor = (): JSX.Element => {
                                             <Row>
                                                 <Col md="4" className="mt-20">
                                                     <FormControl
-                                                        control="input"
-                                                        type="number"
-                                                        name="yearsOfExperience"
-                                                        fontFamily={
-                                                            fontFamilyRegular
-                                                        }
-                                                        label={getLabelByKey(
-                                                            'yearsOfExperience'
-                                                        )}
-                                                        padding="10px"
-                                                        suffix={
-                                                            <img
-                                                                src={
-                                                                    DateCalander as string
-                                                                }
-                                                                alt="Calander"
-                                                                width={21}
-                                                                height={21}
-                                                            />
-                                                        }
-                                                        placeholder={getLabelByKey(
-                                                            'yearsOfExperiencePlaceholder'
-                                                        )}
-                                                    />
-                                                </Col>
-                                                <Col md="4" className="mt-20">
-                                                    <FormControl
                                                         control="select"
                                                         type="text"
-                                                        name="rankId"
+                                                        name="ranking"
                                                         fontFamily={
                                                             fontFamilyRegular
                                                         }
                                                         label={getLabelByKey(
                                                             'ranking'
                                                         )}
-                                                        value={
-                                                            formik.values
-                                                                .rankId === 1
-                                                                ? 'Yes'
-                                                                : 'No'
-                                                        }
-                                                        padding="10px"
                                                         placeholder={getLabelByKey(
-                                                            'rankingPlaceholder'
+                                                            'PlaceholderRanking'
                                                         )}
-                                                        className={
-                                                            formik.errors
-                                                                .rankId &&
-                                                            formik.touched
-                                                                .rankId
-                                                                ? 'is-invalid'
-                                                                : 'customInput'
-                                                        }
                                                         options={
                                                             BELTS_SELECT_OPTIONS
                                                         }
-                                                        // defaultValue={
-                                                        //   // formik.values.rank === 1 ? "Yes" : "No"
-                                                        //   formik.values
-                                                        //     ? BELTS_SELECT_OPTIONS.find(
-                                                        //         (item) => item.value === formik.values.rankId
-                                                        //       )?.label
-                                                        //     : undefined
-                                                        // }
                                                     />
+                                                </Col>
+                                                <Col md="4" className="mt-20">
+                                                    {formik.values.ranking ===
+                                                    1 ? (
+                                                        <>
+                                                            {
+                                                                (formik.values.yearsOfExperience = 0)
+                                                            }
+                                                            <FormControl
+                                                                control="select"
+                                                                type="text"
+                                                                name="rankId"
+                                                                fontFamily={
+                                                                    fontFamilyRegular
+                                                                }
+                                                                label={getLabelByKey(
+                                                                    'belts'
+                                                                )}
+                                                                placeholder={getLabelByKey(
+                                                                    'selectBelt'
+                                                                )}
+                                                                options={createOptions(
+                                                                    adult
+                                                                )}
+                                                            />
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            {
+                                                                (formik.values.rankId =
+                                                                    '')
+                                                            }
+                                                            <FormControl
+                                                                control="input"
+                                                                type="number"
+                                                                name="yearsOfExperience"
+                                                                fontFamily={
+                                                                    fontFamilyRegular
+                                                                }
+                                                                label={getLabelByKey(
+                                                                    'yearsOfExperience'
+                                                                )}
+                                                                padding="10px"
+                                                                suffix={
+                                                                    <img
+                                                                        src={
+                                                                            DateCalander as string
+                                                                        }
+                                                                        alt="Calander"
+                                                                        width={
+                                                                            21
+                                                                        }
+                                                                        height={
+                                                                            21
+                                                                        }
+                                                                    />
+                                                                }
+                                                                placeholder={getLabelByKey(
+                                                                    'placeholderYearsOfExperience'
+                                                                )}
+                                                            />
+                                                        </>
+                                                    )}
                                                 </Col>
                                                 <Col md="4" className="mt-20">
                                                     <FormControl

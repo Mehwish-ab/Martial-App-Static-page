@@ -105,6 +105,9 @@ const RenderTableTitle = (): JSX.Element => {
 
 const ListInstructor: React.FC = () => {
     const { getLabelByKey } = useScreenTranslation('instructorList')
+    const {
+        belts: { adult },
+    } = useSelector((state: RootState) => state.appData.data)
 
     const navigate = useNavigate()
     const navigation = (
@@ -189,10 +192,19 @@ const ListInstructor: React.FC = () => {
         },
         {
             title: getLabelByKey('Image'),
-            dataIndex: 'instructorImage',
-            key: 'instructorImage',
-            render: () => {
-                return <img src={defaltimg as string} width={44} height={44} />
+            render: (Dummydatas) => {
+                console.log('>>images', Dummydatas?.profilePicture)
+                if (Dummydatas.profilePicture === null) {
+                    return <img src={defaltimg} width={44} height={44} />
+                } else {
+                    return (
+                        <img
+                            src={`https://fistastore.com:444${Dummydatas?.profilePicture}`}
+                            width={44}
+                            height={44}
+                        />
+                    )
+                }
             },
         },
         {
@@ -216,10 +228,17 @@ const ListInstructor: React.FC = () => {
             title: getLabelByKey('ranking'),
             dataIndex: 'rankId',
             key: 'rankId',
-            render: () => {
+            render: (image) => {
+                const selectedBelt = adult.find((belt) => belt.id === image)
+                console.log('lkjh', selectedBelt?.imageUrl)
+
                 return (
                     <div className="blueBeltContainer">
-                        <img src={BlueBelt} alt="belt" />
+                        {selectedBelt && (
+                            <img
+                                src={`https://fistastore.com:444/${selectedBelt?.imageUrl}`} // alt={selectedBelt.en}
+                            />
+                        )}
                     </div>
                 )
             },
@@ -229,6 +248,12 @@ const ListInstructor: React.FC = () => {
             title: 'Experience',
             dataIndex: 'experience',
             key: 'experience',
+            render: (experience) => {
+                if (experience === 0) return '--'
+                else {
+                    return experience
+                }
+            },
         },
         {
             title: getLabelByKey('phoneNumber'),

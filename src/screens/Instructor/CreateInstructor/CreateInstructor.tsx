@@ -71,7 +71,7 @@ const CreateInstructor = (): JSX.Element => {
         instructorPhoneNumber: '',
         address: '',
         yearsOfExperience: '',
-        rankId: 0,
+        rankId: '',
         latestCertification: '',
         description: '',
         activities: [],
@@ -281,7 +281,8 @@ const CreateInstructor = (): JSX.Element => {
                                                 {formik.values.ranking === 1 ? (
                                                     <>
                                                         {
-                                                            (formik.values.yearsOfExperience = 0)
+                                                            (formik.values.yearsOfExperience =
+                                                                '')
                                                         }
                                                         <FormControl
                                                             control="select"

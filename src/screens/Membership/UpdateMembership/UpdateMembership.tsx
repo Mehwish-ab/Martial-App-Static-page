@@ -58,8 +58,9 @@ const UpdateMembership = (): JSX.Element => {
         bookingCancelStartDate: '',
         bookingCancelEndDate: '',
         cancellationCharges: '',
-        accommodation: '',
+        accommodation: [],
         description: '',
+        bannerPicture: '',
     }
 
     const onSubmit = async (): Promise<void> => {

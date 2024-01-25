@@ -60,6 +60,7 @@ const UpdateMembership = (): JSX.Element => {
         cancellationCharges: '',
         accommodation: [],
         description: '',
+        bannerPicture: '',
     }
 
     const onSubmit = async (): Promise<void> => {

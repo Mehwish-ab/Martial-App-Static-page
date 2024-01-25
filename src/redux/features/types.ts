@@ -409,6 +409,7 @@ export interface DataTypesWithIdAndMultipleLangLabel {
     pt: string
     ar: string
     ur: string
+    imageUrl: string
 }
 
 export interface AppTheme {

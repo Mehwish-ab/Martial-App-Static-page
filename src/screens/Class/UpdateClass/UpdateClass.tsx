@@ -27,6 +27,7 @@ import { getTimetableByUserId } from '../../../redux/features/TimeTable/TimeTabl
 import { getInstructorByUserId } from '../../../redux/features/instructor/instructorSlice'
 import useTimetable from '../../../hooks/useTimetable'
 import useInstructor from '../../../hooks/useInstructor'
+import { initial } from 'lodash'
 
 const UpdateClass = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('updateClasses')
@@ -288,6 +289,8 @@ const UpdateClass = (): JSX.Element => {
                     enableReinitialize
                 >
                     {(formik) => {
+                        console.log('initial', InitialValues)
+
                         return (
                             <Form
                                 name="basic"

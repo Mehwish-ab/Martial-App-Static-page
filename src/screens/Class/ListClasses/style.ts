@@ -30,18 +30,6 @@ export const ListClassStyled = styled.div`
         line-height: normal;
     }
 
-    // @media screen and ${mediaDeviceMin.tabletL} {
-    //     .ant-table-content table {
-    //         width: 100% !important;
-    //     }
-    // }
-    // @media screen and ${mediaDeviceMax.tabletL} {
-    //     .ant-table-content table {
-    //         width: 100% !important;
-    //         min-width: 1080px !important;
-    //     }
-    // }
-
     .ant-table-thead > tr > th {
         background: transparent;
         border-bottom: none;
@@ -79,7 +67,7 @@ export const ListClassStyled = styled.div`
         position: relative;
         width: 95px;
     }
-    .ant-table-tbody > tr > td:nth-child(7) button {
+    .ant-table-tbody > tr > td:nth-child(7) .Active button {
         font-style: normal;
         font-weight: 400;
         line-height: normal;
@@ -88,8 +76,23 @@ export const ListClassStyled = styled.div`
         background: rgb(76, 175, 80);
         width: 90px;
         height: 30px;
-        color: rgb(255, 255, 255) !important;
-        font-size: 14px !important;
+        color: rgb(255, 255, 255);
+        font-size: 14px;
+        display: block;
+        position: relative;
+        text-align: center;
+    }
+    .ant-table-tbody > tr > td:nth-child(7) .De-Active button {
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        padding: 7px 10px;
+        border-radius: 4px;
+        background: ${AlizarinCrimson};
+        width: 90px;
+        height: 30px;
+        color: rgb(255, 255, 255);
+        font-size: 14px;
         display: block;
         position: relative;
         text-align: center;
@@ -246,35 +249,5 @@ export const ListClassStyled = styled.div`
             display: inline-block;
             margin: 0px 10px;
         }
-    }
-    .ant-table-tbody > tr > td:nth-child(7) .Active button {
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-        padding: 7px 10px;
-        border-radius: 4px;
-        background: rgb(76, 175, 80);
-        width: 90px;
-        height: 30px;
-        color: rgb(255, 255, 255);
-        font-size: 14px;
-        display: block;
-        position: relative;
-        text-align: center;
-    }
-    .ant-table-tbody > tr > td:nth-child(7) .De-Active button {
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-        padding: 7px 10px;
-        border-radius: 4px;
-        background: ${AlizarinCrimson};
-        width: 90px;
-        height: 30px;
-        color: rgb(255, 255, 255);
-        font-size: 14px;
-        display: block;
-        position: relative;
-        text-align: center;
     }
 `

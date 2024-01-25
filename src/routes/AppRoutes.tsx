@@ -348,7 +348,7 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/membership/information"
+                    path="/membership/information/:memberShipPlanId"
                     element={
                         <AppLayout>
                             <ViewMembership />

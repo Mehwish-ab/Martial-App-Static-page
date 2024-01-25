@@ -111,26 +111,12 @@ const ListClass = (): JSX.Element => {
                                                 />
                                             </div>
                                         </div>
-                                        {/* <div className="dateRange">
-                            <p>
-                                {' '}
-                                <span>Mon,</span> Sep 11, 2023 -{' '}
-                                <span>Thu,</span> Sep 21, 2023
-                            </p>
-                            <img
-                                src={DateCalander}
-                                alt="calander"
-                                width={21}
-                                height={21}
-                            />
-                        </div> */}
                                         <FormControl
                                             control="startEndDate"
                                             type="startEndDate"
                                             name="startDate"
                                             fontFamily={fontFamilyRegular}
                                             padding="8px 10px"
-                                            placeholder="sada"
                                         />
                                         <div className="todayPlusContainer">
                                             <div className="dateToday">

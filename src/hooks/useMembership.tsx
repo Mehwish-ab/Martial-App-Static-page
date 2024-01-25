@@ -21,6 +21,7 @@ import CustomModal from '../components/Modal/CustomModal'
 import ic_error from '../assets/icons/ic_error.svg'
 import ic_success from '../assets/images/ic_success.svg'
 import { getBranchBySchoolId } from '../redux/features/CLasses/ClassSlice'
+import { getMembershipById } from '../redux/features/Membership/MembershipSlice'
 
 interface IModalComponent {
     modalComponent: JSX.Element
@@ -42,7 +43,10 @@ interface IUseMembership {
     deletemodal: () => IModalComponent
     Createmodal: () => IModalComponent
     UpdateModal: () => IModalComponent
-    ClassStatus: (classid: number, classStatusid: number) => Promise<any>
+    membershipStatus: (
+        memberShipPlanId: number,
+        isActive: boolean
+    ) => Promise<any>
     getClassbyid: (classid: number) => Promise<any>
     deleteConfirmation: (id: number) => IModalComponent
     deleteClass: (id: number) => Promise<void>
@@ -252,16 +256,16 @@ const useMembership = (): IUseMembership => {
             })
         }
     }
-    const ClassStatus = async (
-        classid: number,
-        classStatusid: number
+    const membershipStatus = async (
+        memberShipPlanId: number,
+        isActive: boolean
     ): Promise<any> => {
         try {
             setError('')
             setLoading(true)
             const { data: data2 } = await axios.post(
-                '/classes/updateStatus',
-                { classId: classid, classStatusId: classStatusid },
+                '/classes/membershipPlan/updateStatus',
+                { memberShipPlanId: memberShipPlanId, isActive: isActive },
                 {
                     headers: {
                         ...authorizationToken(loginData.data as loginDataTypes),
@@ -282,7 +286,7 @@ const useMembership = (): IUseMembership => {
                 // navigate('/school/view')
             }, 3000)
             console.log('done changing', data2)
-            store.dispatch(getBranchBySchoolId())
+            store.dispatch(getMembershipById())
 
             // toastId.current = toast(data.responseMessage, {
             //   type: "success",
@@ -580,7 +584,7 @@ const useMembership = (): IUseMembership => {
         Createmodal,
         UpdateModal,
         deleteConfirmation,
-        ClassStatus,
+        membershipStatus,
         getClassbyid,
         handleUpdate,
         deleteClass,

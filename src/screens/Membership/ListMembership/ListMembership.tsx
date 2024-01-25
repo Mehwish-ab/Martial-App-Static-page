@@ -6,6 +6,7 @@ import CustomButton from '../../../components/CustomButton/CustomButton'
 import { CustomDiv } from './CustomDiv'
 import {
     fontFamilyMedium,
+    fontFamilyRegular,
     pureDark,
     tertiaryBlue2,
 } from '../../../components/GlobalStyle'
@@ -19,132 +20,148 @@ import {
     MembershipDataType,
     getMembershipById,
 } from '../../../redux/features/Membership/MembershipSlice'
-import DummyData from './dummyData.json'
 import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
-import DateCalendar from '../../../assets/images/dateCalander.svg'
 import Head from '../../../components/Head/Head'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
+import FormControl from '../../../components/FormControl'
+import { Form, Formik } from 'formik'
+import moment from 'moment'
+import useMembership from '../../../hooks/useMembership'
+import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 
 const RenderTableTitle = (): JSX.Element => {
+    const navigate = useNavigate()
+    const { getLabelByKey } = useScreenTranslation('membershipList')
+    const initialValues = (): void => {}
+    const handleCreateSubmit = (): void => {}
+    return (
+        <CustomDiv>
+            <Formik
+                initialValues={initialValues}
+                // validationSchema={validationSchema}
+                onSubmit={handleCreateSubmit}
+            >
+                {(formik) => {
+                    return (
+                        <Form
+                            name="basic"
+                            // onFinish={formik.handleSubmit}
+                            autoComplete="off"
+                        >
+                            <div className="mainWrapper">
+                                <h3 className="table-heading">
+                                    {getLabelByKey('titleScreen')}
+                                </h3>
+                                <div className="FilterMainContainer">
+                                    <div className="arrowsMain">
+                                        <div className="arrowRight">
+                                            <img
+                                                src={LeftArrow}
+                                                alt="Date"
+                                                width={18}
+                                                height={12}
+                                            />
+                                        </div>
+                                        <div className="arrowLeft">
+                                            <img
+                                                src={RightArrow}
+                                                alt="Date"
+                                                width={18}
+                                                height={12}
+                                            />
+                                        </div>
+                                    </div>
+                                    <FormControl
+                                        control="startEndDate"
+                                        type="startEndDate"
+                                        name="startDate"
+                                        fontFamily={fontFamilyRegular}
+                                        padding="8px 10px"
+                                    />
+                                    <div className="todayPlusContainer">
+                                        <div className="dateToday">
+                                            <p>Today</p>
+                                        </div>
+                                        <CustomButton
+                                            bgcolor={tertiaryBlue2}
+                                            textTransform="Captilize"
+                                            color={pureDark}
+                                            padding="6.5px 0px"
+                                            fontFamily={`${fontFamilyMedium}`}
+                                            width="40px"
+                                            type="submit"
+                                            title=""
+                                            fontSize="17px"
+                                            // loading={loading}
+                                            icon={
+                                                <img
+                                                    src={plusIcon}
+                                                    alt="edit icon"
+                                                    width={17}
+                                                    height={17}
+                                                />
+                                            }
+                                            clicked={() => {
+                                                navigate(`/class/create`)
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </Form>
+                    )
+                }}
+            </Formik>
+        </CustomDiv>
+    )
+}
+
+const ListMembership = (): JSX.Element => {
     const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('membershipList')
     const { MembershipData } = useSelector(
         (state: RootState) => state.MembershipData
     )
-    console.log('umi', MembershipData)
+    const { membershipStatus } = useMembership()
     useEffect(() => {
-        store.dispatch(getMembershipById)
+        store.dispatch(getMembershipById())
     }, [])
-
-    return (
-        <CustomDiv>
-            <div className="mainWrapper">
-                <h3 className="table-heading">
-                    {getLabelByKey('titleScreen')}
-                </h3>
-                <div className="FilterMainContainer">
-                    <div className="arrowsMain">
-                        <div className="arrowRight">
-                            <img
-                                src={LeftArrow}
-                                alt="Date"
-                                width={18}
-                                height={12}
-                            />
-                        </div>
-                        <div className="arrowLeft">
-                            <img
-                                src={RightArrow}
-                                alt="Date"
-                                width={18}
-                                height={12}
-                            />
-                        </div>
-                    </div>
-                    <div className="dateRange">
-                        <p>
-                            {' '}
-                            <span>Mon,</span> Sep 11, 2023 - <span>Thu,</span>{' '}
-                            Sep 21, 2023
-                        </p>
-                        <img
-                            src={DateCalendar}
-                            alt="calander"
-                            width={21}
-                            height={21}
-                        />
-                    </div>
-                    <div className="todayPlusContainer">
-                        <div className="dateToday">
-                            <p>Today</p>
-                        </div>
-                        <CustomButton
-                            bgcolor={tertiaryBlue2}
-                            textTransform="Captilize"
-                            color={pureDark}
-                            padding="6.5px 0px"
-                            fontFamily={`${fontFamilyMedium}`}
-                            width="40px"
-                            type="submit"
-                            title=""
-                            fontSize="17px"
-                            // loading={loading}
-                            icon={
-                                <img
-                                    src={plusIcon}
-                                    alt="edit icon"
-                                    width={17}
-                                    height={17}
-                                />
-                            }
-                            clicked={() => {
-                                navigate(`/membership/create`)
-                            }}
-                        />
-                    </div>
-                </div>
-            </div>
-        </CustomDiv>
-    )
-}
-
-const ListMembership: React.FC = () => {
-    const navigate = useNavigate()
-    const { getLabelByKey } = useScreenTranslation('membershipList')
-
     const navigation = (
         record: MembershipDataType,
         redirectTo: string
     ): void => {
         switch (redirectTo) {
-            case 'update':
+            case 'edit':
                 navigate(`/membership/update`, {
                     state: {
-                        branchToEdit: record as MembershipDataType,
+                        MembershipEdit: record as MembershipDataType,
                     },
                 })
                 break
 
             case 'view':
-                navigate(`/Membership/information`, {
-                    state: {
-                        branch: record as MembershipDataType,
-                    },
-                })
+                navigate(
+                    `/membership/information/:${record.memberShipPlanId}`,
+                    {
+                        state: {
+                            MembershipView: record as MembershipDataType,
+                        },
+                    }
+                )
                 break
 
             case 'school':
                 navigate(`/membership/classes`, {
                     state: {
-                        branch: record as MembershipDataType,
+                        MembershipClasses: record as MembershipDataType,
                     },
                 })
                 break
             case 'delete':
                 navigate(`/`, {
                     state: {
-                        branch: record as MembershipDataType,
+                        MembershipDelete: record as MembershipDataType,
                     },
                 })
         }
@@ -177,6 +194,15 @@ const ListMembership: React.FC = () => {
             title: getLabelByKey('expires'),
             dataIndex: 'expiryDate',
             key: 'expiryDate',
+            render: (expiryDate) => {
+                return (
+                    <div className="list-item mb-0">
+                        {moment(moment(expiryDate, 'YYYY-MM-DD')).format(
+                            'dddd, MMM DD, YYYY'
+                        )}
+                    </div>
+                )
+            },
         },
         {
             title: getLabelByKey('price'),
@@ -188,14 +214,43 @@ const ListMembership: React.FC = () => {
             title: getLabelByKey('status'),
             dataIndex: 'isActive',
             key: 'isActive',
-            // render: (DummyDatas) => {
-            //     return (
-            //         <div>
-            //             <button>{DummyDatas}</button>
-            //             <img src={StatusActiveError as string} alt="images" />
-            //         </div>
-            //     )
-            // },
+            render: (isActive, index) => {
+                if (index?.isActive === true) {
+                    return (
+                        <div className={'Active'}>
+                            <button
+                                onClick={() => {
+                                    {
+                                        membershipStatus(
+                                            index.memberShipPlanId,
+                                            false
+                                        )
+                                    }
+                                }}
+                            >
+                                Active
+                            </button>
+                            <img src={StatusActiveError} alt="image" />
+                        </div>
+                    )
+                } else {
+                    return (
+                        <div className={'De-Active'}>
+                            <button
+                                onClick={() => {
+                                    membershipStatus(
+                                        index.memberShipPlanId,
+                                        true
+                                    )
+                                }}
+                            >
+                                De-Active
+                            </button>
+                            <img src={StatusActiveError} alt="image" />
+                        </div>
+                    )
+                }
+            },
         },
         {
             title: getLabelByKey('actions'),
@@ -238,8 +293,6 @@ const ListMembership: React.FC = () => {
         },
     ]
 
-    console.log('DummyData', DummyData)
-
     return (
         <>
             <Head title="Membership List" />
@@ -248,7 +301,11 @@ const ListMembership: React.FC = () => {
             <ListMembershipStyled>
                 <Table
                     columns={columns}
-                    // dataSource={MembershipData?.data.}
+                    dataSource={
+                        MembershipData?.data[0].id !== 0
+                            ? MembershipData.data
+                            : []
+                    }
                     pagination={{
                         showTotal: (total, range) => (
                             <span

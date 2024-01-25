@@ -130,12 +130,14 @@ const CreateSchool = (): JSX.Element => {
         return options
     }
     useEffect(() => {
-        // store.dispatch(getSchoolByUserId())
-        // if (schoolData && schoolData?.schoolId > 0) {
-        console.log('checking loginData: ', loginData)
+        console.log('>>im create school')
 
-        if (schoolData && loginData?.schoolId) {
-            return navigate('/school/view')
+        // store.dispatch(getSchoolByUserId())
+        if (schoolData && schoolData?.schoolId > 0) {
+            console.log('checking loginData: ', loginData)
+
+            if (schoolData && loginData?.schoolId)
+                return navigate('/school/view')
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [schoolData, loginData])

@@ -36,7 +36,7 @@ const ViewSchool = (): JSX.Element => {
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
-    console.log('>>SchoolData', schoolData)
+    console.log('>>im view school', schoolData)
     const { language, currency } = useSelector(
         (state: RootState) => state.appData.data.dropdowns
     )
@@ -143,6 +143,8 @@ const ViewSchool = (): JSX.Element => {
         return '--'
     }
     useEffect(() => {
+        console.log('>>im view school')
+
         store.dispatch(getSchoolByUserId())
     }, [])
     return (

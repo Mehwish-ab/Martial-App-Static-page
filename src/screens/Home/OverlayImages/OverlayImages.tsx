@@ -41,7 +41,6 @@ const OverlayImages = ({
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
-    // console.log('>>schoolData', schoolData)
     const { loginData } = useSelector((state: RootState) => state)
 
     const { schoolId } = useParams()
@@ -51,7 +50,6 @@ const OverlayImages = ({
         setProfileImg(overlayImg)
         setBannerImg(backgroundImg)
     }, [overlayImg, backgroundImg])
-    // console.log('>>id', { paramId })
     const { franchiseId } = useParams()
 
     const { instructorId } = useParams()
@@ -81,7 +79,6 @@ const OverlayImages = ({
         info: string | Blob | File,
         useCase: string
     ): Promise<void> => {
-        console.log('>>Im here')
         try {
             setLoading(true)
 
@@ -122,7 +119,6 @@ const OverlayImages = ({
                     useCase === 'SCHOOL_BANNER_IMAGE'
                 ) {
                     setBannerImg(data.results.url)
-                    console.log('image', data.results.url)
                 } else if (
                     useCase === 'BRANCH_PROFILE_PICTURE' ||
                     useCase === 'FRANCHISE_PROFILE_IMAGE' ||
@@ -130,7 +126,6 @@ const OverlayImages = ({
                     useCase === 'SCHOOL_PROFILE_PICTURE'
                 ) {
                     setProfileImg(data.results.url)
-                    console.log('image', data.results.url)
                 }
                 message.success(`${data.responseMessage}`)
             } else {

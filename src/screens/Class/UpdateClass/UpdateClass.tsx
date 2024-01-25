@@ -33,7 +33,6 @@ const UpdateClass = (): JSX.Element => {
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
     const { classId } = useParams()
     const { loginData } = useSelector((state: RootState) => state)
-    console.log('login data', loginData.data?.schoolId)
 
     const { getClassbyid, loading, UpdateModal, handleUpdate } = useClass()
     const {
@@ -44,12 +43,21 @@ const UpdateClass = (): JSX.Element => {
     const [instructor, setinstructor] = useState<any>(undefined)
     const { getTimetableById } = useTimetable()
     const { getInstructorbyid } = useInstructor()
+    const {
+        dropdowns: { schoolAccommodation },
+    } = useSelector((state: RootState) => state.appData.data)
+    const { selectedLanguage } = useSelector(
+        (state: RootState) => state.selectedLanguage
+    )
+    const convertedAccommodation = schoolAccommodation.map((accommodation) => ({
+        ...accommodation,
+        id: accommodation.id.toString(),
+    }))
     useEffect(() => {
         const fetchData = async (): Promise<void> => {
             try {
                 const data = await getClassbyid(Number(classId))
                 setValues(data)
-                console.log('Nadda', data.instructorId)
 
                 if (data) {
                     const datas = await getInstructorbyid(data?.instructorId)
@@ -65,9 +73,61 @@ const UpdateClass = (): JSX.Element => {
         fetchData()
     }, [])
     const [bannerImage, setBannerImage] = useState<File | null>(null)
+    const [bannerImages, setBannerImages] = useState<File | null>(null)
 
+    // const showAccommodation = (_accommodate: string[]): string => {
+    //     const AccommodateName = _accommodate.reduce(
+    //         (a: string, accommodate_id: string) => {
+    //             const index = convertedAccommodation.findIndex(
+    //                 (facts: any) => facts.id === +accommodate_id
+    //             )
+
+    //             if (index === -1) {
+    //                 return a
+    //             }
+
+    //             const accommodateLabel = (convertedAccommodation[index] as any)[
+    //                 selectedLanguage
+    //             ]
+    //             return `${a} ${accommodateLabel},`
+    //         },
+    //         ''
+    //     )
+
+    //     if (AccommodateName.length > 35) {
+    //         return `${AccommodateName.slice(0, 35)}...`
+    //     }
+
+    //     return AccommodateName || getLabelByKey('selectAccommodationOptions')
+    // }
+    const showAccommodation = (_facilities: string[]): string => {
+        let facilitiesName = ''
+        _facilities?.map((facility) => {
+            const index = convertedAccommodation.findIndex(
+                (facts: any) => facts.id === facility
+            )
+            if (index !== -1) {
+                facilitiesName =
+                    facilitiesName === ''
+                        ? (convertedAccommodation[index] as any)[
+                              selectedLanguage
+                          ]
+                        : `${facilitiesName}, ${
+                              (convertedAccommodation[index] as any)[
+                                  selectedLanguage
+                              ]
+                          }`
+            }
+        })
+
+        if (facilitiesName.length > 40) {
+            return `${facilitiesName.slice(0, 40)}...`
+        }
+        return facilitiesName || getLabelByKey('facilities')
+    }
     const handleSaveBanner = (file: File): void => {
         setBannerImage(file)
+        setBannerImages(file)
     }
 
     const InitialValues: CreateClassInitialValues = {
@@ -81,6 +141,10 @@ const UpdateClass = (): JSX.Element => {
         instructorId: values?.instructorId,
         fee: values?.fee,
         activities: values ? values.activities?.split(',').map(String) : [],
+        accommodation: values
+            ? values.accommodation?.split(',').map(String)
+            : [],
+
         capacity: values?.capacity,
         minimumStudent: values?.minimumStudent,
         bookingStartDate: moment(values?.bookingStartDate, 'YYYY-MM-DD').format(
@@ -111,7 +175,6 @@ const UpdateClass = (): JSX.Element => {
             'YYYY-MM-DD'
         ).format('dddd, MMM DD, YYYY'),
         cancellationCharges: values?.cancellationCharges,
-        accommodation: values?.accommodation,
         description: values?.description,
         Agreement: '',
         termCondition: '',
@@ -121,12 +184,6 @@ const UpdateClass = (): JSX.Element => {
         id: Number(loginData.data?.schoolId),
         timeTableId: values?.timeTableId,
     }
-
-    console.log('initial picture', InitialValues.bannerPicture)
-
-    const { selectedLanguage } = useSelector(
-        (state: RootState) => state.selectedLanguage
-    )
 
     const showActivities = (_activities: string[]): string => {
         let activitiesName = ''
@@ -200,16 +257,6 @@ const UpdateClass = (): JSX.Element => {
             ? bannerImage
             : InitialValues.bannerPicture
 
-        // const bannerImageToSend =
-        //     bannerImage ||
-        //     new File([''], InitialValues.bannerPicture, { type: 'image/jpeg' })
-        console.log(
-            'image',
-            bannerImageToSend,
-            InitialValues.bannerPicture,
-            bannerImage
-        )
-
         handleUpdate(
             Number(classId),
             {
@@ -225,7 +272,8 @@ const UpdateClass = (): JSX.Element => {
                 bookingCancelStartDate: bookingCancleStart,
                 bookingCancelEndDate: bookingCancleEnd,
             },
-            bannerImageToSend
+            bannerImageToSend,
+            bannerImages
         )
     }
     return (
@@ -240,8 +288,6 @@ const UpdateClass = (): JSX.Element => {
                     enableReinitialize
                 >
                     {(formik) => {
-                        // console.log('firmik valuse', formik.values)
-
                         return (
                             <Form
                                 name="basic"
@@ -771,29 +817,16 @@ const UpdateClass = (): JSX.Element => {
                                             />
                                         </Col>
 
-                                        <Col md="3" className=" fill mt-20 ">
-                                            <FormControl
-                                                control="select"
-                                                type="text"
+                                        <Col md="3" className="  ">
+                                            <CheckboxesSelect
                                                 name="accommodation"
-                                                label={
-                                                    <>
-                                                        {getLabelByKey(
-                                                            'accommodate'
-                                                        )}{' '}
-                                                        <span>
-                                                            {getLabelByKey(
-                                                                'ifSchoolCancel'
-                                                            )}
-                                                        </span>
-                                                    </>
-                                                }
-                                                fontFamily={fontFamilyRegular}
-                                                padding="8px 10px"
-                                                fontSize="15px"
-                                                max={6}
-                                                placeholder={getLabelByKey(
-                                                    'selectAccommodationOptions'
+                                                label={getLabelByKey(
+                                                    'accommodate'
+                                                )}
+                                                list={convertedAccommodation}
+                                                showErrorMsgInList={false}
+                                                placeholder={showAccommodation(
+                                                    formik.values.accommodation
                                                 )}
                                             />
                                         </Col>

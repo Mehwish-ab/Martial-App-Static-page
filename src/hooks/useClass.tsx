@@ -36,7 +36,8 @@ interface IUseClass {
     handleUpdate: (
         id: number,
         values: CreateClassInitialValues,
-        file: any
+        file: any,
+        bannerImages: any
     ) => Promise<void>
     error: string
     isUploadImgModalVisible: boolean
@@ -57,8 +58,6 @@ const useClass = (): IUseClass => {
     const [isUploadImgModalVisible, setIsUploadImgVisible] = useState(false)
     const toastId = useRef<any>(null)
     const { schoolId } = useParams()
-    // const [data, setData] = useState<unknown>({})
-    // const { data: logindata } = useAppSelector((state) => state.loginData)
     const [isShowWarningModal, setIsShowWarningModal] = useState(false)
     const [isShowModal, setIsShowModal] = useState(false)
     const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
@@ -71,7 +70,6 @@ const useClass = (): IUseClass => {
         values: CreateClassInitialValues,
         file: any
     ): Promise<void> => {
-        console.log('>> im in handleSubmit')
         const userDetails = loginData.data?.userDetails
 
         const payload = {
@@ -81,7 +79,7 @@ const useClass = (): IUseClass => {
             startDate: values.startDate,
             endDate: values.endDate || '',
             instructorId: values.instructorId,
-            fee: `$${values.fee}` || '',
+            fee: `${values.fee}` || '',
             activities: values.activities.join(','),
             capacity: values.capacity,
             minimumStudent: values.minimumStudent,
@@ -93,14 +91,13 @@ const useClass = (): IUseClass => {
             refundDate: values.refundDate || '',
             bookingCancelStartDate: values.bookingCancelStartDate || '',
             bookingCancelEndDate: values.bookingCancelEndDate || '',
-            cancellationCharges: `$${values.cancellationCharges}` || '',
-            accommodation: '1,2,4',
+            cancellationCharges: `${values.cancellationCharges}` || '',
+            accommodation: values.accommodation.join(','),
             description: values.description || '',
             timeTableId: values.timeTableId,
 
             ...(schoolId && { schoolId }), // Add schoolId conditionally
         }
-        console.log('payload', payload, 'file', file)
 
         // const endpoint = schoolId ? edit_school_url : create_school_url
         const datas = JSON.stringify(payload)
@@ -117,7 +114,6 @@ const useClass = (): IUseClass => {
             // .formData.append('file', (file as any).file)
             formData.append('file', file)
             // formData.append('file', String(values?.latestCertification))
-            console.log('formdata', formData)
 
             const { data: data1 } = await axios.post(
                 '/classes/create',
@@ -148,12 +144,10 @@ const useClass = (): IUseClass => {
             //   autoClose: 1000,
             // });
             //setLoading(false);
-            console.log('data', { data1 })
             //setIsUploadImgVisible(true);
             // navigate("/");
             // eslint-disable-next-line @typescript-eslint/no-shadow
         } catch (error: any) {
-            console.log('error', { error })
             setLoading(false)
             setError(error.response)
             setTimeout(() => {
@@ -168,9 +162,9 @@ const useClass = (): IUseClass => {
     const handleUpdate = async (
         id: number,
         values: CreateClassInitialValues,
-        file: any
+        file: any,
+        bannerImages: any
     ): Promise<void> => {
-        console.log('>> im in handleUpdate')
         const userDetails = loginData.data?.userDetails
 
         const payload = {
@@ -192,28 +186,25 @@ const useClass = (): IUseClass => {
             bookingCancelStartDate: values.bookingCancelStartDate || '',
             bookingCancelEndDate: values.bookingCancelEndDate || '',
             cancellationCharges: `${values.cancellationCharges}` || '',
-            accommodation: '1,2,4',
+            accommodation: values.accommodation.join(','),
             description: values.description || '',
             timeTableId: values.timeTableId,
-            bannerPicture: file,
-
+            ...(bannerImages === null && { bannerPicture: file }),
             ...(schoolId && { schoolId }), // Add schoolId conditionally
         }
-        console.log('payload', payload, 'file', file)
         try {
             setError('')
             setLoading(true)
             const formData = new FormData()
             formData.append(
                 'data',
-                new Blob(
-                    [JSON.stringify({ ...payload, bannerPicture: file })],
-                    {
-                        type: 'application/json',
-                    }
-                )
+                new Blob([JSON.stringify(payload)], {
+                    type: 'application/json',
+                })
             )
-            console.log('formdata', formData)
+            if (bannerImages !== null) {
+                formData.append('file', bannerImages)
+            }
             const { data: data1 } = await axios.post(
                 '/classes/edit',
                 formData,
@@ -244,12 +235,10 @@ const useClass = (): IUseClass => {
             //   autoClose: 1000,
             // });
             //setLoading(false);
-            console.log('data', { data1 })
             //setIsUploadImgVisible(true);
             // navigate("/");
             // eslint-disable-next-line @typescript-eslint/no-shadow
         } catch (error: any) {
-            console.log('error', { error })
             setLoading(false)
             setError(error.response)
             setTimeout(() => {
@@ -290,7 +279,6 @@ const useClass = (): IUseClass => {
                 setLoading(false)
                 // navigate('/school/view')
             }, 3000)
-            console.log('done changing', data2)
             store.dispatch(getBranchBySchoolId())
 
             // toastId.current = toast(data.responseMessage, {
@@ -298,13 +286,11 @@ const useClass = (): IUseClass => {
             //   autoClose: 1000,
             // });
             //setLoading(false);
-            console.log('data', { data: data2 })
             //setIsUploadImgVisible(true);
             // navigate("/");
             // resetForm()
             return data2.results
         } catch (error2: any) {
-            console.log('error', { error: error2 })
             setLoading(false)
             setError(error2.response.data.responseMessage)
             setTimeout(() => {
@@ -441,18 +427,12 @@ const useClass = (): IUseClass => {
                 // navigate('/branch/list')
             }, 3000)
             // setData('results: ' + data2)
-            console.log('data', { data: data2 })
             setLoading(false)
             store.dispatch(getBranchBySchoolId())
             // navigate("/school");
         } catch (error2: any) {
-            console.log('api error', error2)
             setError(error2.response.data.responseMessage)
             setLoading(false)
-            console.log(
-                error2.response.data.responseMessage,
-                'error in api data'
-            )
         }
     }
 
@@ -570,11 +550,9 @@ const useClass = (): IUseClass => {
                 setLoading(false)
                 return
             }
-            console.log('Instructor info', data.results)
             setLoading(false)
             return data.results
         } catch (error2: any) {
-            console.log('error', error2)
             setLoading(false)
             setError(error2)
         }

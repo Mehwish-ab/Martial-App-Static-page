@@ -69,7 +69,7 @@ const useMembership = (): IUseMembership => {
 
     // to create Membership
     const handleCreateSubmit = async (
-        values: CreateMembershipInitialValues,
+        values: any,
         file: any
     ): Promise<void> => {
         const userDetails = loginData.data?.userDetails
@@ -77,7 +77,8 @@ const useMembership = (): IUseMembership => {
         const payload = {
             useCase: 'SCHOOL',
             classIds: values.classIds,
-            id: values.id,
+            // id: values.id,
+            id: 148,
             title: values.title,
             startDate: values.startDate,
             endDate: values.endDate,
@@ -95,10 +96,12 @@ const useMembership = (): IUseMembership => {
             bookingCancelStartDate: values.bookingCancelStartDate,
             bookingCancelEndDate: values.bookingCancelEndDate,
             cancellationCharges: values.cancellationCharges,
-            accommodation: values.accommodation,
+            accommodation: values.accommodation.join(','),
             description: values.description,
             ...(schoolId && { schoolId }), // Add schoolId conditionally
         }
+        console.log('use membership payload', payload)
+        console.log('use membership payload', file)
 
         // const endpoint = schoolId ? edit_school_url : create_school_url
         const datas = JSON.stringify(payload)
@@ -117,7 +120,7 @@ const useMembership = (): IUseMembership => {
             // formData.append('file', String(values?.latestCertification))
 
             const { data: data1 } = await axios.post(
-                'classes/membershipPlan/create',
+                '/classes/membershipPlan/create',
                 formData,
                 {
                     headers: {

@@ -15,7 +15,6 @@ import {
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
-import DateCalander from '../../../assets/images/dateCalander.svg'
 import FilterIcon from '../../../assets/icons/ic_filter.svg'
 import { CustomDiv } from './CustomDiv'
 import Head from '../../../components/Head/Head'
@@ -25,10 +24,11 @@ import store, { RootState } from '../../../redux/store'
 import { getBranchBySchoolId } from '../../../redux/features/CLasses/ClassSlice'
 import useMembership from '../../../hooks/useMembership'
 import { Form, Formik } from 'formik'
+import moment from 'moment'
 
 const MembershipCardView = (): JSX.Element => {
     const navigate = useNavigate()
-    const { loading } = useMembership()
+    const { loading, handleCreateSubmit } = useMembership()
     const [selectedClassIds, setSelectedClassIds] = useState<string[]>([])
     const { getLabelByKey } = useScreenTranslation('createMembershipClass')
     const { ClassData } = useSelector((state: RootState) => state.ClassData)
@@ -39,6 +39,8 @@ const MembershipCardView = (): JSX.Element => {
     const location = useLocation()
     const data = location.state && location.state.data
     console.log('Received data:', data)
+    const recivingImage = location.state && location.state.bannerImages
+    console.log('Received Image:', recivingImage)
 
     const handleCheckboxChange = (classId: string): void => {
         const isSelected = selectedClassIds.includes(classId)
@@ -51,8 +53,52 @@ const MembershipCardView = (): JSX.Element => {
             setSelectedClassIds((prevIds: any) => [...prevIds, classId])
         }
     }
+    const payload = {
+        useCase: 'SCHOOL',
+        classIds: selectedClassIds.join(','),
+        id: data.id,
+        title: data.title,
+        startDate: moment(data.startDate, 'dddd, MMM DD, YYYY').format(
+            'YYYY-MM-DD'
+        ),
+        endDate: moment(data.endDate, 'dddd, MMM DD, YYYY').format(
+            'YYYY-MM-DD'
+        ),
+        visibility: data.visibility,
+        // subscriptionType: data.subscriptionType,
+        subscriptionType: 1,
+        membershipFee: data.membershipFee,
+        minimumStudent: data.minimumStudent,
+        dailySubsFee: data.dailySubsFee,
+        weeklySubsFee: data.weeklySubsFee,
+        monthlySubsFee: data.monthlySubsFee,
+        annuallySubsFee: data.annuallySubsFee,
+        allowStudentCancel: moment(
+            data.allowStudentCancel,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD'),
+        refundDate: moment(data.refundDate, 'dddd, MMM DD, YYYY').format(
+            'YYYY-MM-DD'
+        ),
+        bookingCancelStartDate: moment(
+            data.bookingCancelStartDate,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD'),
+        bookingCancelEndDate: moment(
+            data.bookingCancelEndDate,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD'),
+        cancellationCharges: data.cancellationCharges,
+        accommodation: data.accommodation,
+        description: data.description,
+    }
+
+    const onSubmit = async (): Promise<void> => {
+        console.log('umi', payload)
+        await handleCreateSubmit(payload, recivingImage)
+    }
     const initialValues = (): void => {}
-    const handleCreateSubmit = (): void => {}
+    const handleCreateSubmits = (): void => {}
     return (
         <>
             <Head title="Membership Class" />
@@ -61,7 +107,7 @@ const MembershipCardView = (): JSX.Element => {
                     <Formik
                         initialValues={initialValues}
                         // validationSchema={validationSchema}
-                        onSubmit={handleCreateSubmit}
+                        onSubmit={handleCreateSubmits}
                     >
                         {(formik) => {
                             return (
@@ -123,11 +169,6 @@ const MembershipCardView = (): JSX.Element => {
                                                             height={17}
                                                         />
                                                     }
-                                                    clicked={() => {
-                                                        navigate(
-                                                            `/membership/create`
-                                                        )
-                                                    }}
                                                 />
                                             </div>
                                         </div>
@@ -205,7 +246,7 @@ const MembershipCardView = (): JSX.Element => {
                         title={getLabelByKey('primaryButton')}
                         fontSize="18px"
                         loading={loading}
-                        // clicked={}
+                        clicked={onSubmit}
                     />
                 </div>
                 <div>

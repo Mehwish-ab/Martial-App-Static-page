@@ -29,6 +29,7 @@ import dollar from '../../../assets/images/$.svg'
 import Head from '../../../components/Head/Head'
 import { VISIBILITY_SELECT_OPTIONS } from '../../Home/constants'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
+import Images from '../../Home/OverlayImages/images'
 
 const CreateMembership = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('createMembership')
@@ -80,46 +81,9 @@ const CreateMembership = (): JSX.Element => {
         cancellationCharges: '',
         accommodation: [],
         description: '',
-        bannerPicture: '',
+        // bannerPicture: '',
     }
-    // const onSubmit = async (values: any): Promise<void> => {
-    //     const schoolid = loginData.data?.schoolId
-    //     const start = moment(values.startDate, 'dddd, MMM DD, YYYY').format(
-    //         'YYYY-MM-DD'
-    //     )
-    //     const end = moment(values.endDate, 'dddd, MMM DD, YYYY').format(
-    //         'YYYY-MM-DD'
-    //     )
-    //     const studentCancel = moment(
-    //         values.allowStudentCancel,
-    //         'dddd, MMM DD, YYYY'
-    //     ).format('YYYY-MM-DD')
-    //     const refundFee = moment(
-    //         values.refundDate,
-    //         'dddd, MMM DD, YYYY'
-    //     ).format('YYYY-MM-DD')
-    //     const bookingCancelStart = moment(
-    //         values.bookingCancelStartDate,
-    //         'dddd, MMM DD, YYYY'
-    //     ).format('YYYY-MM-DD')
-    //     const bookingCancelEnd = moment(
-    //         values.bookingCancelEndDate,
-    //         'dddd, MMM DD, YYYY'
-    //     ).format('YYYY-MM-DD')
-    //     await handleCreateSubmit(
-    //         {
-    //             ...values,
-    //             id: schoolid,
-    //             startDate: start,
-    //             endDate: end,
-    //             allowStudentCancel: studentCancel,
-    //             refundDate: refundFee,
-    //             bookingCancelStartDate: bookingCancelStart,
-    //             bookingCancelEndDate: bookingCancelEnd,
-    //         },
-    //         bannerImage
-    //     )
-    // }
+
     const showAccommodation = (_accommodate: string[]): string => {
         const AccommodateName = _accommodate.reduce(
             (a: string, accommodate_id: string) => {
@@ -150,7 +114,9 @@ const CreateMembership = (): JSX.Element => {
     ): Promise<void> => {
         try {
             setdatas(values)
-            navigate('/membership/classes', { state: { data: values } })
+            navigate('/membership/classes', {
+                state: { data: values, bannerImages: bannerImage },
+            })
         } catch (error: unknown) {}
     }
     return (
@@ -340,25 +306,19 @@ const CreateMembership = (): JSX.Element => {
                                                         </Row>
                                                     </Col>
                                                 </Col>
-                                                <Col md="6">
-                                                    <Col
-                                                        md="12"
-                                                        className="mt-20"
-                                                    >
-                                                        <p className="bannerTitle ">
-                                                            {getLabelByKey(
-                                                                'bannerImage'
-                                                            )}
-                                                        </p>
-                                                        <OverlayImages
-                                                            backgroundImg={
-                                                                MembershipData?.MemberShipPicture ||
-                                                                ''
-                                                            }
-                                                            overlayImg={false}
-                                                            isEditable={true}
-                                                        />
-                                                    </Col>
+                                                <Col md="6" className="mt-20">
+                                                    <p className="bannerTitle ">
+                                                        {getLabelByKey(
+                                                            'bannerImage'
+                                                        )}
+                                                    </p>
+                                                    <Images
+                                                        onSaveBanner={
+                                                            handleSaveBanner
+                                                        }
+                                                        isEditable={true} // Set isEditable to true or false based on your requirement
+                                                        defaultImage={null}
+                                                    />
                                                 </Col>
                                             </Row>
                                         </Col>

@@ -103,7 +103,7 @@ const ListFranchise = (): JSX.Element => {
                 break
 
             case 'delete':
-                navigate(`/franchise/delete/${9}`, {
+                navigate(`/franchise/delete/${record.franchiseId}`, {
                     state: {
                         branch: record as FranchiseDataType,
                     },
@@ -138,17 +138,6 @@ const ListFranchise = (): JSX.Element => {
         },
         {
             title: 'Image',
-            // dataIndex: 'profilePicture',
-            // key: 'profilePicture',
-            // render: (text) => (
-            //   <div style={{ width: 50, height: 50 }}>
-            //     <img
-            //       src={ipForImages + text}
-            //       alt="branch img"
-            //       style={{ objectFit: "contain", width: "100%" }}
-            //     />
-            //   </div>
-            // ),
             render: (Dummydatas) => {
                 console.log('>>images', Dummydatas?.profilePicture)
                 if (Dummydatas?.profilePicture === null) {

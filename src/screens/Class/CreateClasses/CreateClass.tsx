@@ -33,9 +33,12 @@ const CreateClass = (): JSX.Element => {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
     const {
-        dropdowns: { schoolAccommodation, businessTypes },
+        dropdowns: { schoolAccommodation },
     } = useSelector((state: RootState) => state.appData.data)
-    console.log('schoolAccommodation', schoolAccommodation, businessTypes)
+    const convertedAccommodation = schoolAccommodation.map((accommodation) => ({
+        ...accommodation,
+        id: accommodation.id.toString(),
+    }))
 
     const { getLabelByKey } = useScreenTranslation('createClasses')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
@@ -49,12 +52,6 @@ const CreateClass = (): JSX.Element => {
         store.dispatch(getInstructorByUserId())
         store.dispatch(getTimetableByUserId())
     }, [])
-    // console.log();
-
-    // const [isShowModal, setIsShowModal] = useState(false)
-    // const navigate = useNavigate()
-    // const [isLoading, setIsLoading] = useState(false)
-    // const [bannerImage, setBannerImage] = useState(null); // State to manage banner image
     const { ClassData } = useSelector((state: RootState) => state.ClassData)
     const { handleCreateSubmit, loading, Createmodal } = useClass()
 
@@ -88,7 +85,6 @@ const CreateClass = (): JSX.Element => {
     }
     const [selectedFiles, setSelectedFiless] = useState<FileList | null>(null)
     const { loginData } = useSelector((state: RootState) => state)
-    console.log('login data', loginData)
 
     const handleImagesUpload = (selectedFiless: FileList | null): void => {
         setSelectedFiless(selectedFiless)
@@ -108,50 +104,8 @@ const CreateClass = (): JSX.Element => {
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
-    const createOptions = (
-        list: DataTypesWithIdAndMultipleLangLabel[]
-    ): SelectOptionsDataTypes[] => {
-        const options: SelectOptionsDataTypes[] = []
-        list?.forEach((item) => {
-            const obj = {
-                label: (item as any)[selectedLanguage],
-                value: item.id,
-            }
 
-            options.push(obj)
-        })
-
-        return options
-    }
-    const showAccommodation = (_accommodate: string[]): string => {
-        const AccommodateName = _accommodate.reduce(
-            (a: string, accommodate_id: string) => {
-                const index = schoolAccommodation.findIndex(
-                    (facts: any) => facts.id === +accommodate_id
-                )
-
-                console.log(index, schoolAccommodation, accommodate_id)
-
-                if (index === -1) {
-                    return a
-                }
-
-                const accommodateLabel = (schoolAccommodation[index] as any)[
-                    selectedLanguage
-                ]
-                return `${a} ${accommodateLabel},`
-            },
-            ''
-        )
-
-        if (AccommodateName.length > 35) {
-            return `${AccommodateName.slice(0, 35)}...`
-        }
-
-        return AccommodateName || getLabelByKey('selectAccommodationOptions')
-    }
     const submit = async (values: any): Promise<void> => {
-        console.log('bbb', values)
         const schoolid = loginData.data?.schoolId
         const start = moment(values.startDate, 'dddd, MMM DD, YYYY').format(
             'YYYY-MM-DD'
@@ -191,8 +145,6 @@ const CreateClass = (): JSX.Element => {
             values.bookingCancelEndDate,
             'dddd, MMM DD, YYYY'
         ).format('YYYY-MM-DD')
-        console.log('image', bannerImage, profileImage)
-
         await handleCreateSubmit(
             {
                 ...values,
@@ -214,9 +166,32 @@ const CreateClass = (): JSX.Element => {
 
     const handleImagesSelect = (files: FileList | null): void => {
         // Handle the selected files, for example, you can store them in state
-        console.log('Selected Files:', files)
     }
+    const showAccommodation = (_accommodate: string[]): string => {
+        const AccommodateName = _accommodate.reduce(
+            (a: string, accommodate_id: string) => {
+                const index = schoolAccommodation.findIndex(
+                    (facts: any) => facts.id === +accommodate_id
+                )
 
+                if (index === -1) {
+                    return a
+                }
+
+                const accommodateLabel = (schoolAccommodation[index] as any)[
+                    selectedLanguage
+                ]
+                return `${a} ${accommodateLabel},`
+            },
+            ''
+        )
+
+        if (AccommodateName.length > 35) {
+            return `${AccommodateName.slice(0, 35)}...`
+        }
+
+        return AccommodateName || getLabelByKey('selectAccommodationOptions')
+    }
     const showActivities = (_activities: string[]): string => {
         let activitiesName = ''
         _activities.forEach((activity) => {
@@ -244,8 +219,6 @@ const CreateClass = (): JSX.Element => {
             <CreateClassStyled>
                 <Formik initialValues={initialValues} onSubmit={submit}>
                     {(formik) => {
-                        console.log('firmik', formik.values)
-
                         return (
                             <Form
                                 name="basic"
@@ -667,12 +640,11 @@ const CreateClass = (): JSX.Element => {
                                                 label={getLabelByKey(
                                                     'accommodate'
                                                 )}
-                                                list={schoolAccommodation}
-                                                showErrorMsgInList={false}
+                                                list={convertedAccommodation} // Use the converted array here                                                showErrorMsgInList={false}
                                                 placeholder={showAccommodation(
                                                     formik.values.accommodation
                                                 )}
-                                                // value={
+                                                showErrorMsgInList={false} // value={
                                                 //     formik.values.accommodation
                                                 // }
                                             />

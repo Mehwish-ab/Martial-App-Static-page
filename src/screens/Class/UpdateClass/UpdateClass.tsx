@@ -44,6 +44,16 @@ const UpdateClass = (): JSX.Element => {
     const [instructor, setinstructor] = useState<any>(undefined)
     const { getTimetableById } = useTimetable()
     const { getInstructorbyid } = useInstructor()
+    const {
+        dropdowns: { schoolAccommodation },
+    } = useSelector((state: RootState) => state.appData.data)
+    const { selectedLanguage } = useSelector(
+        (state: RootState) => state.selectedLanguage
+    )
+    const convertedAccommodation = schoolAccommodation.map((accommodation) => ({
+        ...accommodation,
+        id: accommodation.id.toString(),
+    }))
     useEffect(() => {
         const fetchData = async (): Promise<void> => {
             try {
@@ -65,7 +75,31 @@ const UpdateClass = (): JSX.Element => {
         fetchData()
     }, [])
     const [bannerImage, setBannerImage] = useState<File | null>(null)
+    const showAccommodation = (_accommodate: string[]): string => {
+        const AccommodateName = _accommodate.reduce(
+            (a: string, accommodate_id: string) => {
+                const index = convertedAccommodation.findIndex(
+                    (facts: any) => facts.id === +accommodate_id
+                )
 
+                if (index === -1) {
+                    return a
+                }
+
+                const accommodateLabel = (convertedAccommodation[index] as any)[
+                    selectedLanguage
+                ]
+                return `${a} ${accommodateLabel},`
+            },
+            ''
+        )
+
+        if (AccommodateName.length > 35) {
+            return `${AccommodateName.slice(0, 35)}...`
+        }
+
+        return AccommodateName || getLabelByKey('selectAccommodationOptions')
+    }
     const handleSaveBanner = (file: File): void => {
         setBannerImage(file)
     }
@@ -123,10 +157,6 @@ const UpdateClass = (): JSX.Element => {
     }
 
     console.log('initial picture', InitialValues.bannerPicture)
-
-    const { selectedLanguage } = useSelector(
-        (state: RootState) => state.selectedLanguage
-    )
 
     const showActivities = (_activities: string[]): string => {
         let activitiesName = ''
@@ -772,28 +802,15 @@ const UpdateClass = (): JSX.Element => {
                                         </Col>
 
                                         <Col md="3" className=" fill mt-20 ">
-                                            <FormControl
-                                                control="select"
-                                                type="text"
+                                            <CheckboxesSelect
                                                 name="accommodation"
-                                                label={
-                                                    <>
-                                                        {getLabelByKey(
-                                                            'accommodate'
-                                                        )}{' '}
-                                                        <span>
-                                                            {getLabelByKey(
-                                                                'ifSchoolCancel'
-                                                            )}
-                                                        </span>
-                                                    </>
-                                                }
-                                                fontFamily={fontFamilyRegular}
-                                                padding="8px 10px"
-                                                fontSize="15px"
-                                                max={6}
-                                                placeholder={getLabelByKey(
-                                                    'selectAccommodationOptions'
+                                                label={getLabelByKey(
+                                                    'accommodate'
+                                                )}
+                                                list={convertedAccommodation}
+                                                showErrorMsgInList={false}
+                                                placeholder={showAccommodation(
+                                                    formik.values.accommodation
                                                 )}
                                             />
                                         </Col>

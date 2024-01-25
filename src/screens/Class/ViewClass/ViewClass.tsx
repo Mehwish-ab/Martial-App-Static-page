@@ -31,6 +31,68 @@ const ViewClass = (): JSX.Element => {
     const [values, setValues] = useState<any>(undefined)
     const [timetable, setTimetable] = useState<any>(undefined)
     const [instructor, setinstructor] = useState<any>(undefined)
+    const {
+        dropdowns: { schoolAccommodation },
+    } = useSelector((state: RootState) => state.appData.data)
+    // const showAccommodation = (_accommodate: string[]): string => {
+    //     const AccommodateName = _accommodate.reduce(
+    //         (a: string, accommodate_id: string) => {
+    //             const index = schoolAccommodation.findIndex(
+    //                 (facts: any) => facts.id === +accommodate_id
+    //             )
+
+    //             if (index === -1) {
+    //                 return a
+    //             }
+
+    //             const accommodateLabel = (schoolAccommodation[index] as any)[
+    //                 selectedLanguage
+    //             ]
+    //             return `${a} ${accommodateLabel},`
+    //         },
+    //         ''
+    //     )
+
+    //     if (AccommodateName.length > 35) {
+    //         return `${AccommodateName.slice(0, 35)}...`
+    //     }
+
+    //     return AccommodateName || getLabelByKey('selectAccommodationOptions')
+    // }
+    const convertedAccommodation = schoolAccommodation.map((accommodation) => ({
+        ...accommodation,
+        id: accommodation.id.toString(),
+    }))
+    const showAccommodation = (_accommodate: string[]): string => {
+        if (!Array.isArray(_accommodate)) {
+            return getLabelByKey('selectAccommodationOptions')
+        }
+
+        const AccommodateName = _accommodate.reduce(
+            (a: string, accommodate_id: string) => {
+                const index = schoolAccommodation.findIndex(
+                    (facts: any) => facts.id === +accommodate_id
+                )
+
+                if (index === -1) {
+                    return a
+                }
+
+                const accommodateLabel = (schoolAccommodation[index] as any)[
+                    selectedLanguage
+                ]
+                return `${a} ${accommodateLabel},`
+            },
+            ''
+        )
+
+        if (AccommodateName.length > 35) {
+            return `${AccommodateName.slice(0, 35)}...`
+        }
+
+        return AccommodateName || getLabelByKey('selectAccommodationOptions')
+    }
+
     useEffect(() => {
         const fetchData = async (): Promise<void> => {
             try {
@@ -69,6 +131,7 @@ const ViewClass = (): JSX.Element => {
         return '--'
     }
     const activitiesToShow = values?.activities || ''
+    const accommodationToShow = values?.accommodation || ''
 
     return (
         <>
@@ -366,17 +429,15 @@ const ViewClass = (): JSX.Element => {
                         <Col md="4">
                             <div className="list-item">
                                 <div className="list-item-title">
-                                    <>
-                                        {getLabelByKey('accommodate')}{' '}
-                                        <span>
-                                            {getLabelByKey('ifSchoolCancel')}
-                                        </span>
-                                    </>
+                                    {getLabelByKey('activities')}
                                 </div>
                                 <div className="list-item-value">
-                                    {' '}
-                                    {values ? values.accommodation : '--'}
+                                    {showAccommodation(accommodationToShow)}
                                 </div>
+                                {/* <div className="list-item-value">
+                                    {' showAccommodation'}
+                                    {values ? values.accommodation : '--'}
+                                </div> */}
                             </div>
                         </Col>
 

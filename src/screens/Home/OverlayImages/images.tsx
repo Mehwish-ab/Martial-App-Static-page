@@ -27,7 +27,6 @@ const OverlayImages = ({
         DefaultBannerImage
     )
     const [loading, setLoading] = useState(false)
-    console.log('imges', bannerImg)
 
     useEffect(() => {
         if (defaultImage != null) {

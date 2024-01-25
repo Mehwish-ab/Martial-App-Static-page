@@ -71,7 +71,6 @@ const useClass = (): IUseClass => {
         values: CreateClassInitialValues,
         file: any
     ): Promise<void> => {
-        console.log('>> im in handleSubmit')
         const userDetails = loginData.data?.userDetails
 
         const payload = {
@@ -94,13 +93,12 @@ const useClass = (): IUseClass => {
             bookingCancelStartDate: values.bookingCancelStartDate || '',
             bookingCancelEndDate: values.bookingCancelEndDate || '',
             cancellationCharges: `$${values.cancellationCharges}` || '',
-            accommodation: '1,2,4',
+            accommodation: values.accommodation.join(','),
             description: values.description || '',
             timeTableId: values.timeTableId,
 
             ...(schoolId && { schoolId }), // Add schoolId conditionally
         }
-        console.log('payload', payload, 'file', file)
 
         // const endpoint = schoolId ? edit_school_url : create_school_url
         const datas = JSON.stringify(payload)
@@ -117,7 +115,6 @@ const useClass = (): IUseClass => {
             // .formData.append('file', (file as any).file)
             formData.append('file', file)
             // formData.append('file', String(values?.latestCertification))
-            console.log('formdata', formData)
 
             const { data: data1 } = await axios.post(
                 '/classes/create',

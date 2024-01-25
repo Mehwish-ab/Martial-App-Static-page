@@ -33,6 +33,7 @@
     "cSpell.words": [
         "Createmodal",
         "deletebranch",
-        "deletemodal"
+        "deletemodal",
+        "formik"
     ] // Unix
 }

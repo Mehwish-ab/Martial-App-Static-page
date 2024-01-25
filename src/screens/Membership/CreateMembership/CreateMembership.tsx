@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import { Formik } from 'formik'
-import { Form } from 'antd'
+import { Form } from 'formik-antd'
 
 import { Col, Row } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
@@ -28,12 +28,15 @@ import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import dollar from '../../../assets/images/$.svg'
 import Head from '../../../components/Head/Head'
 import { VISIBILITY_SELECT_OPTIONS } from '../../Home/constants'
+import MembershipCardView from '../MembershipCards/MembershipCardView'
 
 const CreateMembership = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('createMembership')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
     const [isLoading, setIsLoading] = useState(false)
     const [isShowModal, setIsShowModal] = useState(false)
+    const [data, setdatas] = useState<CreateMembershipInitialValues>()
+
     const navigate = useNavigate()
     const { MembershipData } = useSelector(
         (state: RootState) => state.MembershipData
@@ -62,13 +65,23 @@ const CreateMembership = (): JSX.Element => {
         accommodation: '',
         description: '',
     }
-
-    const onSubmit = async (): Promise<void> => {
+    const onSubmit = async (
+        values: CreateMembershipInitialValues
+    ): Promise<void> => {
         try {
+            setdatas(values)
+
             setIsShowModal(true)
+            console.log('dataaaa', values)
+
             setTimeout(() => {
                 setIsShowModal(false)
-                navigate('/membership/classes')
+                // {
+                //     ;<MembershipCardView setdatas={data} />
+                // }
+                navigate('/membership/classes', { state: { data: values } })
+                {
+                }
             }, 3000)
             setIsLoading(false)
         } catch (error: unknown) {}

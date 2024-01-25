@@ -1,9 +1,9 @@
 /* eslint-disable max-len */
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MembershipCardViewStyled } from './styles'
 import { Dropdown } from 'antd'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import FormControl from '../../../components/FormControl'
 import placeHolderImage from '../../../assets/images/custom_card_placeholder.png'
 import {
@@ -24,16 +24,21 @@ import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { useSelector } from 'react-redux'
 import store, { RootState } from '../../../redux/store'
 import { getBranchBySchoolId } from '../../../redux/features/CLasses/ClassSlice'
+import useMembership from '../../../hooks/useMembership'
 
 const MembershipCardView = (): JSX.Element => {
     const navigate = useNavigate()
+    const { handleCreateSubmit, loading } = useMembership()
+    const [selectedClassIds, setSelectedClassIds] = useState<string[]>([])
     const { getLabelByKey } = useScreenTranslation('updateMembershipClass')
     const { ClassData } = useSelector((state: RootState) => state.ClassData)
     useEffect(() => {
         store.dispatch(getBranchBySchoolId())
     }, [])
-    console.log('classes', ClassData)
-
+    console.log('Selected Class IDs:', selectedClassIds)
+    const location = useLocation()
+    const data = location.state && location.state.data
+    console.log('Received data:', data)
     const items = [
         {
             key: '1',
@@ -52,6 +57,22 @@ const MembershipCardView = (): JSX.Element => {
         },
     ]
 
+    const handleCheckboxChange = (classId: string): void => {
+        const isSelected = selectedClassIds.includes(classId)
+
+        if (isSelected) {
+            // If already selected, remove from the array
+            setSelectedClassIds((prevIds: any[]) =>
+                prevIds.filter((id) => id !== classId)
+            )
+        } else {
+            // If not selected, add to the array
+            setSelectedClassIds((prevIds: any) => [...prevIds, classId])
+        }
+    }
+    // const submit = async (): any => {
+    //    // await handleCreateSubmit(val, file)
+    // }
     return (
         <>
             <Head title="Membership Class" />
@@ -107,7 +128,7 @@ const MembershipCardView = (): JSX.Element => {
                                     type="submit"
                                     title=""
                                     fontSize="17px"
-                                    // loading={loading}
+                                    loading={loading}
                                     icon={
                                         <img
                                             src={FilterIcon}
@@ -125,58 +146,69 @@ const MembershipCardView = (): JSX.Element => {
                     </div>
                 </CustomDiv>
                 <div className="custom_card_list d-flex flex-wrap justify-content-center">
-                    {ClassData.data.map((classItem) => (
-                        <div className="custom_card" key={classItem.classId}>
-                            {/* ... (your existing JSX for each class item) */}
+                    {/* branchData?.data[0].branchId !== 0 ? branchData.data : [] */}
+                    {ClassData?.data.map((classItem) => {
+                        return (
                             <div
-                                className="custom_card_placeholder_img"
-                                id="cardImg"
+                                className="custom_card"
+                                key={classItem.classId}
                             >
-                                {/* // {if (classItem.bannerPicture){
-                            //        <img
-                            //         src={`https://fistastore.com:444${classItem.bannerPicture}`}
-                            //         alt="CardImg"
-                            //         id="cardImg"
-                            //     />  
-                            //     } */}
-                                {/* // else{ */}
-                                <img
-                                    src={placeHolderImage}
-                                    alt="CardImg"
+                                <div
+                                    className="custom_card_placeholder_img"
                                     id="cardImg"
-                                />
-                                {/* // }} */}
-
-                                <FormControl
-                                    control="checkbox"
-                                    type="checkbox"
-                                    id="cardImg"
-                                    name="cardImg"
-                                    className="custom_card_checkbox"
-                                />
-                            </div>
-                            <div className="custom_card_body d-flex align-items-center">
-                                <div className="card_body_inner ">
-                                    <div className="cardBody_title d-flex justify-content-between align-items-center ">
-                                        <h6 className="mb-0">
-                                            {classItem.title}
-                                        </h6>
+                                >
+                                    <img
+                                        src={
+                                            classItem.bannerPicture
+                                                ? `https://fistastore.com:444${classItem.bannerPicture}`
+                                                : placeHolderImage
+                                        }
+                                        alt="CardImg"
+                                        id="cardImg"
+                                    />
+                                    <FormControl
+                                        control="checkbox"
+                                        type="checkbox"
+                                        id="cardImg"
+                                        name="cardImg"
+                                        className="custom_card_checkbox"
+                                        onChange={() =>
+                                            handleCheckboxChange(
+                                                String(classItem.classId)
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <div className="custom_card_body d-flex align-items-center">
+                                    <div className="card_body_inner ">
+                                        <div className="cardBody_title d-flex justify-content-between align-items-center ">
+                                            <h6 className="mb-0">
+                                                {classItem.title}
+                                            </h6>
+                                        </div>
+                                        <div className="cardBody_time d-flex justify-content-between align-items-center">
+                                            <p className="mb-0">
+                                                {classItem.startDate}
+                                            </p>
+                                            <p className="mb-0">
+                                                {classItem.fee}
+                                                {/* Add the relevant data here */}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div className="cardBody_time d-flex justify-content-between align-items-center">
-                                        <p className="mb-0">
-                                            {classItem.startDate}
-                                        </p>
-                                        {/* Add the relevant data here */}
-                                        <p className="mb-0">
-                                            {classItem.fee}
-                                            {/* Add the relevant data here */}
-                                        </p>
-                                    </div>
+                                    <Dropdown menu={{ items }}>
+                                        <img
+                                            src={
+                                                actionMenuTogglerIcon as string
+                                            }
+                                            alt="action menu"
+                                            style={{ cursor: 'pointer' }}
+                                        />
+                                    </Dropdown>
                                 </div>
                             </div>
-                            {/* ... (your existing JSX for each class item) */}
-                        </div>
-                    ))}
+                        )
+                    })}
                 </div>
                 <div className="mt-20 d-flex justify-content-end">
                     <CustomButton
@@ -189,6 +221,8 @@ const MembershipCardView = (): JSX.Element => {
                         type="submit"
                         title={getLabelByKey('primaryButton')}
                         fontSize="18px"
+                        loading={loading}
+                        // clicked={}
                     />
                 </div>
                 <div>

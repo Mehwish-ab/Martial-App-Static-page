@@ -58,7 +58,7 @@ const UpdateMembership = (): JSX.Element => {
         bookingCancelStartDate: '',
         bookingCancelEndDate: '',
         cancellationCharges: '',
-        accommodation: '',
+        accommodation: [],
         description: '',
     }
 

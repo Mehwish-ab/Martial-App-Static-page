@@ -78,6 +78,7 @@ const UpdateeInstructor = (): JSX.Element => {
             ? instructorData?.specializations?.split(',').map(String)
             : [],
         termCondition: '',
+        ranking: undefined,
     }
     console.log('nada', instructorData?.activities)
 

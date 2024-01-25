@@ -29,19 +29,20 @@ import moment from 'moment'
 const MembershipCardView = (): JSX.Element => {
     const { loginData } = useSelector((state: RootState) => state)
     const schoolId = loginData.data?.schoolId
-    const { loading, handleCreateSubmit } = useMembership()
+    const { loading, handleCreateSubmit, Createmodal } = useMembership()
     const [selectedClassIds, setSelectedClassIds] = useState<string[]>([])
     const { getLabelByKey } = useScreenTranslation('createMembershipClass')
     const { ClassData } = useSelector((state: RootState) => state.ClassData)
     useEffect(() => {
         store.dispatch(getBranchBySchoolId())
     }, [])
+    const navigate = useNavigate()
+
     console.log('Selected Class IDs:', selectedClassIds)
     const location = useLocation()
     const data = location.state && location.state.data
     console.log('Received data:', data)
-    const recivingImage = location.state && location.state.bannerImages
-    console.log('Received Image:', recivingImage)
+    const receivingImage = location.state && location.state.bannerImages
 
     const handleCheckboxChange = (classId: string): void => {
         const isSelected = selectedClassIds.includes(classId)
@@ -96,13 +97,14 @@ const MembershipCardView = (): JSX.Element => {
 
     const onSubmit = async (): Promise<void> => {
         console.log('umi', payload)
-        await handleCreateSubmit(payload, recivingImage)
+        await handleCreateSubmit(payload, receivingImage)
     }
     const initialValues = (): void => {}
     const handleCreateSubmits = (): void => {}
     return (
         <>
             <Head title="Membership Class" />
+            {Createmodal().modalComponent}
             <MembershipCardViewStyled>
                 <CustomDiv>
                     <Formik
@@ -161,7 +163,6 @@ const MembershipCardView = (): JSX.Element => {
                                                     type="submit"
                                                     title=""
                                                     fontSize="17px"
-                                                    loading={loading}
                                                     icon={
                                                         <img
                                                             src={FilterIcon}
@@ -199,6 +200,7 @@ const MembershipCardView = (): JSX.Element => {
                                         }
                                         alt="CardImg"
                                         id="cardImg"
+                                        // {onClick: () => navigation(`/class/view${}`)}
                                     />
                                     <FormControl
                                         control="checkbox"

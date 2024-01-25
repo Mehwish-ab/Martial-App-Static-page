@@ -142,23 +142,14 @@ const useMembership = (): IUseMembership => {
                 setIsShowModal(false)
                 navigate('/membership/list')
             }, 3000)
-            // toastId.current = toast(data.responseMessage, {
-            //   type: "success",
-            //   autoClose: 1000,
-            // });
-            //setLoading(false);
-            console.log('data', { data1 })
-            //setIsUploadImgVisible(true);
-            // navigate("/");
-            // eslint-disable-next-line @typescript-eslint/no-shadow
-        } catch (error: any) {
-            console.log('error', { error })
+        } catch (error2: any) {
+            console.log('error', { error: error2 })
             setLoading(false)
-            setError(error.response)
+            setError(error2.response)
             setTimeout(() => {
                 setError('')
             }, 2000)
-            toastId.current = toast(error.message, {
+            toastId.current = toast(error2.message, {
                 type: 'error',
                 autoClose: 1000,
             })

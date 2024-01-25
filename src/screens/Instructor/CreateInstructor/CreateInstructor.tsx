@@ -24,15 +24,38 @@ import FileSubmit from '../../../assets/icons/ic_fileSubmit.svg'
 import { validationFinder } from '../../../utils/utilities'
 import * as Yup from 'yup'
 import { useEffect, useState } from 'react'
-import { BELTS_SELECT_OPTIONS } from '../../Home/constants'
+import {
+    BELTS_SELECT_OPTIONS,
+    SelectOptionsDataTypes,
+} from '../../Home/constants'
 import Head from '../../../components/Head/Head'
+import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
 const CreateInstructor = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('instructorCreate')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
-
+    const { selectedLanguage } = useSelector(
+        (state: RootState) => state.selectedLanguage
+    )
     const {
         statusData: { activities, facilities },
+        belts: { adult },
     } = useSelector((state: RootState) => state.appData.data)
+    const createOptions = (
+        list: DataTypesWithIdAndMultipleLangLabel[]
+    ): SelectOptionsDataTypes[] => {
+        const options: SelectOptionsDataTypes[] = []
+        list.forEach((item) => {
+            const obj = {
+                label: (item as any)[selectedLanguage],
+                value: item.id,
+            }
+
+            options.push(obj)
+        })
+
+        return options
+    }
+    console.log('adults', adult)
     const [selectedFiles, setSelectedFiless] = useState<FileList | null>(null)
     useEffect(() => {
         console.log('this is create instructor')
@@ -54,6 +77,7 @@ const CreateInstructor = (): JSX.Element => {
         activities: [],
         specializations: [],
         termCondition: '',
+        ranking: '',
     }
     const instructorName = validationFinder('BUSINESS_NAME')!
     const franchiseNameReg = new RegExp(instructorName.pattern)
@@ -81,19 +105,7 @@ const CreateInstructor = (): JSX.Element => {
         yearsOfExperience: Yup.string().required(
             'Please select years Of Experience'
         ),
-        // latestCertification: Yup.mixed().test(
-        //     'fileFormat',
-        //     'Only PNG and JPEG images are allowed',
-        //     function (value) {
-        //         if (value === undefined) {
-        //             return true // Validation passes for undefined values
-        //         }
 
-        //         const allowedFormats = ['image/png', 'image/jpeg']
-
-        //         return allowedFormats.includes(value.type)
-        //     }
-        // ),
         defaultCurrency: Yup.string().required(
             'Please select default currency'
         ),
@@ -104,9 +116,6 @@ const CreateInstructor = (): JSX.Element => {
             .of(Yup.string().required('Select an specilization'))
             .min(1, 'Select at least one specilization'),
     })
-    const { selectedLanguage } = useSelector(
-        (state: RootState) => state.selectedLanguage
-    )
 
     const showActivities = (_activities: string[]): string => {
         let activitiesName = ''
@@ -159,7 +168,6 @@ const CreateInstructor = (): JSX.Element => {
             >
                 {(formik) => {
                     console.log('formik values', formik.values)
-                    console.log(' values', initialValues)
 
                     return (
                         <Form
@@ -254,7 +262,7 @@ const CreateInstructor = (): JSX.Element => {
                                                 <FormControl
                                                     control="select"
                                                     type="text"
-                                                    name="rankId"
+                                                    name="ranking"
                                                     fontFamily={
                                                         fontFamilyRegular
                                                     }
@@ -270,49 +278,63 @@ const CreateInstructor = (): JSX.Element => {
                                                 />
                                             </Col>
                                             <Col md="4" className="mt-20">
-                                                <FormControl
-                                                    control="select"
-                                                    type="text"
-                                                    name="belts"
-                                                    fontFamily={
-                                                        fontFamilyRegular
-                                                    }
-                                                    label={getLabelByKey(
-                                                        'belts'
-                                                    )}
-                                                    placeholder={getLabelByKey(
-                                                        'selectBelt'
-                                                    )}
-                                                    // options={}
-                                                />
-                                            </Col>
-                                            {/* <Col md="4" className="mt-20">
-                                                <FormControl
-                                                    control="input"
-                                                    type="number"
-                                                    name="yearsOfExperience"
-                                                    fontFamily={
-                                                        fontFamilyRegular
-                                                    }
-                                                    label={getLabelByKey(
-                                                        'yearsOfExperience'
-                                                    )}
-                                                    padding="10px"
-                                                    suffix={
-                                                        <img
-                                                            src={
-                                                                DateCalander as string
+                                                {formik.values.ranking === 1 ? (
+                                                    <>
+                                                        {
+                                                            (formik.values.yearsOfExperience = 0)
+                                                        }
+                                                        <FormControl
+                                                            control="select"
+                                                            type="text"
+                                                            name="rankId"
+                                                            fontFamily={
+                                                                fontFamilyRegular
                                                             }
-                                                            alt="Calander"
-                                                            width={21}
-                                                            height={21}
+                                                            label={getLabelByKey(
+                                                                'belts'
+                                                            )}
+                                                            placeholder={getLabelByKey(
+                                                                'selectBelt'
+                                                            )}
+                                                            options={createOptions(
+                                                                adult
+                                                            )}
                                                         />
-                                                    }
-                                                    placeholder={getLabelByKey(
-                                                        'placeholderYearsOfExperience'
-                                                    )}
-                                                />
-                                            </Col> */}
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        {
+                                                            (formik.values.rankId =
+                                                                '')
+                                                        }
+                                                        <FormControl
+                                                            control="input"
+                                                            type="number"
+                                                            name="yearsOfExperience"
+                                                            fontFamily={
+                                                                fontFamilyRegular
+                                                            }
+                                                            label={getLabelByKey(
+                                                                'yearsOfExperience'
+                                                            )}
+                                                            padding="10px"
+                                                            suffix={
+                                                                <img
+                                                                    src={
+                                                                        DateCalander as string
+                                                                    }
+                                                                    alt="Calander"
+                                                                    width={21}
+                                                                    height={21}
+                                                                />
+                                                            }
+                                                            placeholder={getLabelByKey(
+                                                                'placeholderYearsOfExperience'
+                                                            )}
+                                                        />
+                                                    </>
+                                                )}
+                                            </Col>
                                             <Col md="4" className="mt-20">
                                                 <FormControl
                                                     control="file"
@@ -334,7 +356,6 @@ const CreateInstructor = (): JSX.Element => {
                                                         </>
                                                     }
                                                     src={FileSubmit}
-                                                    // onChange={handleChange}
                                                     suffix={
                                                         <ImagesUpload
                                                             onImagesSelect={

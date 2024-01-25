@@ -382,6 +382,7 @@ export interface appDataTypes {
     validations: Validation[]
     statusData: StatusDataTypes
     dropdowns: DropdownDataTypes
+    belts: DropdownDataTypes
 }
 
 export interface DropdownDataTypes {
@@ -390,6 +391,8 @@ export interface DropdownDataTypes {
     businessTypes: DataTypesWithIdAndMultipleLangLabel[]
     countryName: DataTypesWithIdAndMultipleLangLabel[]
     schoolAccommodation: DataTypesWithIdAndMultipleLangLabel[]
+    adult: DataTypesWithIdAndMultipleLangLabel[]
+    kids: DataTypesWithIdAndMultipleLangLabel[]
 }
 
 export interface StatusDataTypes {

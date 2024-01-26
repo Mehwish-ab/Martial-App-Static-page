@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Dropdown, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { ListMembershipStyled } from './styles'
@@ -29,7 +29,6 @@ import { Form, Formik } from 'formik'
 import moment from 'moment'
 import useMembership from '../../../hooks/useMembership'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
-import Item from 'antd/lib/list/Item'
 
 const RenderTableTitle = (): JSX.Element => {
     const navigate = useNavigate()
@@ -39,18 +38,10 @@ const RenderTableTitle = (): JSX.Element => {
 
     return (
         <CustomDiv>
-            <Formik
-                initialValues={initialValues}
-                // validationSchema={validationSchema}
-                onSubmit={handleCreateSubmit}
-            >
+            <Formik initialValues={initialValues} onSubmit={handleCreateSubmit}>
                 {(formik) => {
                     return (
-                        <Form
-                            name="basic"
-                            // onFinish={formik.handleSubmit}
-                            autoComplete="off"
-                        >
+                        <Form name="basic" autoComplete="off">
                             <div className="mainWrapper">
                                 <h3 className="table-heading">
                                     {getLabelByKey('titleScreen')}
@@ -153,14 +144,11 @@ const ListMembership = (): JSX.Element => {
                 break
 
             case 'view':
-                navigate(
-                    `/membership/information/:${record.memberShipPlanId}`,
-                    {
-                        state: {
-                            MembershipView: record as MembershipDataType,
-                        },
-                    }
-                )
+                navigate(`/membership/information/${record.memberShipPlanId}`, {
+                    state: {
+                        MembershipView: record as MembershipDataType,
+                    },
+                })
                 break
 
             case 'school':

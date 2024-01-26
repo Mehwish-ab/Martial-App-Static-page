@@ -32,7 +32,7 @@ import Images from '../../Home/OverlayImages/images'
 const CreateMembership = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('createMembership')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
-    const [isLoading, setIsLoading] = useState(false)
+    // const [isLoading, setIsLoading] = useState(false)
     const [data, setdatas] = useState<CreateMembershipInitialValues>()
     const [bannerImage, setBannerImage] = useState<File | null>(null)
     const {
@@ -705,7 +705,6 @@ const CreateMembership = (): JSX.Element => {
                                         type="submit"
                                         title={getLabelByKey('primaryButton')}
                                         fontSize="18px"
-                                        loading={isLoading}
                                     />
                                 </div>
                             </Form>

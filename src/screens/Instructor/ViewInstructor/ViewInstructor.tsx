@@ -177,7 +177,7 @@ const ViewInstructor = (): JSX.Element => {
                             <Col md="4">
                                 <div className="list-item">
                                     <div className="list-item-title">
-                                        {getLabelByKey('ranking')}
+                                        {getLabelByKey('belts')}
                                     </div>
                                     <div className="list-item-value">
                                         {Number(values?.rankId) > 1

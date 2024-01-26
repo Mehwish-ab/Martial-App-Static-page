@@ -36,7 +36,8 @@ interface IUseInstructor {
     updateInstructor: (
         id: number,
         values: CreateInstructorInitialValues,
-        file: any
+        file: any,
+        bannerImages: any
     ) => Promise<void>
     errorMessage: string
     setIsShowModal: (showModal: true) => void
@@ -215,7 +216,8 @@ const useInstructor = (): IUseInstructor => {
     const updateInstructor = async (
         id: number,
         values: CreateInstructorInitialValues,
-        file: any
+        file: any,
+        bannerImages: any
     ): Promise<void> => {
         console.log('values from form:', values, 'hu', file)
         const Payload = {
@@ -229,6 +231,7 @@ const useInstructor = (): IUseInstructor => {
             specializations: values.specializations.join(','),
             activities: values.activities.join(','),
             description: values.description,
+            ...(bannerImages === null && { bannerPicture: file }),
         }
         // const val= values.File
         try {
@@ -242,8 +245,9 @@ const useInstructor = (): IUseInstructor => {
                     type: 'application/json',
                 })
             )
-            formData.append('file', values.latestCertification)
-
+            if (bannerImages !== null) {
+                formData.append('file', bannerImages)
+            }
             const { data } = await axios.post('/instructor/edit', formData, {
                 headers: {
                     ...authorizationToken(loginData.data as loginDataTypes),

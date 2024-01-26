@@ -39,21 +39,21 @@ const ViewClass = (): JSX.Element => {
         ...accommodation,
         id: accommodation.id.toString(),
     }))
-    const showAccommodation = (_Facilities: string): string => {
-        const activitiesArr = _Facilities.split(',')
+    const showAccommodation = (_Accommodation: string): string => {
+        const activitiesArr = _Accommodation.split(',')
 
-        let activitiesName = ''
+        let AccommodationName = ''
         activitiesArr.map((accommodation) => {
             const index = convertedAccommodation.findIndex(
                 (acc: any) => acc.id === accommodation
             )
             if (index !== -1) {
-                activitiesName =
-                    activitiesName === ''
+                AccommodationName =
+                    AccommodationName === ''
                         ? (convertedAccommodation[index] as any)[
                               selectedLanguage
                           ]
-                        : `${activitiesName},${
+                        : `${AccommodationName},${
                               (convertedAccommodation[index] as any)[
                                   selectedLanguage
                               ]
@@ -61,7 +61,7 @@ const ViewClass = (): JSX.Element => {
             }
         })
 
-        if (activitiesName !== '') return activitiesName
+        if (AccommodationName !== '') return AccommodationName
         return '--'
     }
     useEffect(() => {
@@ -399,7 +399,7 @@ const ViewClass = (): JSX.Element => {
                         <Col md="4">
                             <div className="list-item">
                                 <div className="list-item-title">
-                                    {getLabelByKey('activities')}
+                                    {getLabelByKey('accommodate')}
                                 </div>
                                 <div className="list-item-value">
                                     {showAccommodation(accommodationToShow)}

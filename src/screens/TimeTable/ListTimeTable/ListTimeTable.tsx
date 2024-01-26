@@ -325,7 +325,7 @@ const ListTimeTable: React.FC = () => {
                     //     return data
                     // })}
                     dataSource={
-                        timeTableData?.data[0].timeTableId !== 0
+                        timeTableData?.data.length !== 0
                             ? timeTableData.data
                             : []
                     }

@@ -10,8 +10,6 @@ import { useNavigate } from 'react-router-dom'
 
 import FormControl from '../../../components/FormControl'
 import doller from '../../../assets/images/$.svg'
-import ic_success from '../../../assets/images/ic_success.svg'
-
 import {
     fontFamilyMedium,
     fontFamilyRegular,
@@ -21,34 +19,22 @@ import {
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import { CreateClassStyled } from '../../Class/CreateClasses/styles'
 import { CreateMembershipInitialValues } from '../constant'
-import CustomModal from '../../../components/Modal/CustomModal'
-import OverlayImages from '../../Home/OverlayImages/OverlayImages'
-import { SchoolSuccessfulModals } from '../../../hooks/PopupModalsStyling'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import dollar from '../../../assets/images/$.svg'
 import Head from '../../../components/Head/Head'
-import {
-    SelectOptionsDataTypes,
-    VISIBILITY_SELECT_OPTIONS,
-} from '../../Home/constants'
+import { SelectOptionsDataTypes } from '../../Home/constants'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
 import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
+import Images from '../../Home/OverlayImages/images'
 
 const CreateMembership = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('createMembership')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
     const [isLoading, setIsLoading] = useState(false)
-    const [isShowModal, setIsShowModal] = useState(false)
     const [data, setdatas] = useState<CreateMembershipInitialValues>()
-    const { loginData } = useSelector((state: RootState) => state)
     const [bannerImage, setBannerImage] = useState<File | null>(null)
     const {
-        dropdowns: {
-            schoolAccommodation,
-            visibility,
-            subscriptionType,
-            businessTypes,
-        },
+        dropdowns: { schoolAccommodation, visibility, subscriptionType },
     } = useSelector((state: RootState) => state.appData.data)
     const convertedAccommodation = schoolAccommodation.map((accommodation) => ({
         ...accommodation,
@@ -89,7 +75,7 @@ const CreateMembership = (): JSX.Element => {
         cancellationCharges: '',
         accommodation: [],
         description: '',
-        bannerPicture: '',
+        // bannerPicture: '',
     }
 
     const showAccommodation = (_accommodate: string[]): string => {
@@ -137,7 +123,9 @@ const CreateMembership = (): JSX.Element => {
     ): Promise<void> => {
         try {
             setdatas(values)
-            navigate('/membership/classes', { state: { data: values } })
+            navigate('/membership/classes', {
+                state: { data: values, bannerImages: bannerImage },
+            })
         } catch (error: unknown) {}
     }
     return (
@@ -330,25 +318,19 @@ const CreateMembership = (): JSX.Element => {
                                                         </Row>
                                                     </Col>
                                                 </Col>
-                                                <Col md="6">
-                                                    <Col
-                                                        md="12"
-                                                        className="mt-20"
-                                                    >
-                                                        <p className="bannerTitle ">
-                                                            {getLabelByKey(
-                                                                'bannerImage'
-                                                            )}
-                                                        </p>
-                                                        <OverlayImages
-                                                            backgroundImg={
-                                                                MembershipData?.MemberShipPicture ||
-                                                                ''
-                                                            }
-                                                            overlayImg={false}
-                                                            isEditable={true}
-                                                        />
-                                                    </Col>
+                                                <Col md="6" className="mt-20">
+                                                    <p className="bannerTitle ">
+                                                        {getLabelByKey(
+                                                            'bannerImage'
+                                                        )}
+                                                    </p>
+                                                    <Images
+                                                        onSaveBanner={
+                                                            handleSaveBanner
+                                                        }
+                                                        isEditable={true} // Set isEditable to true or false based on your requirement
+                                                        defaultImage={null}
+                                                    />
                                                 </Col>
                                             </Row>
                                         </Col>

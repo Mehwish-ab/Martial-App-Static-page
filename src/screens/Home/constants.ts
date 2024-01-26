@@ -39,14 +39,3 @@ export const BELTS_SELECT_OPTIONS: SelectOptionsDataTypes[] = [
         label: 'No',
     },
 ]
-
-export const VISIBILITY_SELECT_OPTIONS: SelectOptionsDataTypes[] = [
-    {
-        value: 1,
-        label: 'Public',
-    },
-    {
-        value: 2,
-        label: 'Private',
-    },
-]

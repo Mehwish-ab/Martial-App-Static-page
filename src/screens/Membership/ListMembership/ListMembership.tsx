@@ -29,6 +29,7 @@ import { Form, Formik } from 'formik'
 import moment from 'moment'
 import useMembership from '../../../hooks/useMembership'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
+import Item from 'antd/lib/list/Item'
 
 const RenderTableTitle = (): JSX.Element => {
     const navigate = useNavigate()
@@ -124,6 +125,10 @@ const ListMembership = (): JSX.Element => {
     const { MembershipData } = useSelector(
         (state: RootState) => state.MembershipData
     )
+    const {
+        dropdowns: { visibility },
+    } = useSelector((state: RootState) => state.appData.data)
+
     const [Id, setId] = useState(0)
     const {
         membershipStatus,

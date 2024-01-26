@@ -7,11 +7,14 @@ import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
 import FormControl from '../../../components/FormControl'
+import { useParams } from 'react-router-dom'
 
 const ViewMembership = (): JSX.Element => {
+    const { memberShipPlanId } = useParams()
     const { getLabelByKey } = useScreenTranslation('detailMembership')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
     const { ClassData } = useSelector((state: RootState) => state.ClassData)
+    console.log('memberShipPlanId', memberShipPlanId)
 
     return (
         <>

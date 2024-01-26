@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Dropdown, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { ListMembershipStyled } from './styles'
@@ -35,6 +35,7 @@ const RenderTableTitle = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('membershipList')
     const initialValues = (): void => {}
     const handleCreateSubmit = (): void => {}
+
     return (
         <CustomDiv>
             <Formik
@@ -123,7 +124,13 @@ const ListMembership = (): JSX.Element => {
     const { MembershipData } = useSelector(
         (state: RootState) => state.MembershipData
     )
-    const { membershipStatus } = useMembership()
+    const [Id, setId] = useState(0)
+    const {
+        membershipStatus,
+        deletemodal,
+        deleteConfirmation,
+        setIsShowModal,
+    } = useMembership()
     useEffect(() => {
         store.dispatch(getMembershipById())
     }, [])
@@ -159,11 +166,14 @@ const ListMembership = (): JSX.Element => {
                 })
                 break
             case 'delete':
-                navigate(`/`, {
-                    state: {
-                        MembershipDelete: record as MembershipDataType,
-                    },
-                })
+                navigate(
+                    `/classes/membershipPlan/delete:${record.memberShipPlanId}`,
+                    {
+                        state: {
+                            MembershipDelete: record as MembershipDataType,
+                        },
+                    }
+                )
         }
     }
 
@@ -275,7 +285,10 @@ const ListMembership = (): JSX.Element => {
                     {
                         key: '4',
                         label: 'Delete',
-                        onClick: () => navigation(record, 'delete'),
+                        onClick: () => {
+                            setId(record.memberShipPlanId)
+                            setIsShowModal(true)
+                        },
                     },
                 ]
                 return (
@@ -297,6 +310,8 @@ const ListMembership = (): JSX.Element => {
         <>
             <Head title="Membership List" />
             {loading && <LoadingOverlay message="" />}
+            {deletemodal().modalComponent}
+            {deleteConfirmation(Id).modalComponent}
             <RenderTableTitle />
             <ListMembershipStyled>
                 <Table

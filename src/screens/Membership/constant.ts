@@ -20,5 +20,5 @@ export interface CreateMembershipInitialValues {
     cancellationCharges: string
     accommodation: string[]
     description: string
-    bannerPicture: string | null | undefined
+    // bannerPicture: string | null | undefined
 }

@@ -20,7 +20,6 @@ import { SchoolSuccessfulModals } from './PopupModalsStyling'
 import CustomModal from '../components/Modal/CustomModal'
 import ic_error from '../assets/icons/ic_error.svg'
 import ic_success from '../assets/images/ic_success.svg'
-import { getBranchBySchoolId } from '../redux/features/CLasses/ClassSlice'
 import { getMembershipById } from '../redux/features/Membership/MembershipSlice'
 
 interface IModalComponent {
@@ -48,9 +47,9 @@ interface IUseMembership {
         memberShipPlanId: number,
         isActive: boolean
     ) => Promise<any>
-    getClassbyid: (classid: number) => Promise<any>
+    getByMemberShipPlanId: (memberShipPlanId: number) => Promise<any>
     deleteConfirmation: (id: number) => IModalComponent
-    deleteClass: (id: number) => Promise<void>
+    deleteMembership: (id: number) => Promise<void>
     setIsShowModal: (showModal: true) => void
 }
 
@@ -115,7 +114,6 @@ const useMembership = (): IUseMembership => {
             // .formData.append('file', (file as any).file)
             formData.append('file', file)
             // formData.append('file', String(values?.latestCertification))
-
             const { data: data1 } = await axios.post(
                 'classes/membershipPlan/create',
                 formData,
@@ -140,23 +138,15 @@ const useMembership = (): IUseMembership => {
                 setIsShowModal(false)
                 navigate('/membership/list')
             }, 3000)
-            // toastId.current = toast(data.responseMessage, {
-            //   type: "success",
-            //   autoClose: 1000,
-            // });
-            //setLoading(false);
             console.log('data', { data1 })
-            //setIsUploadImgVisible(true);
-            // navigate("/");
-            // eslint-disable-next-line @typescript-eslint/no-shadow
-        } catch (error: any) {
-            console.log('error', { error })
+        } catch (error2: any) {
+            console.log('error', { error: error2 })
             setLoading(false)
-            setError(error.response)
+            setError(error2.response)
             setTimeout(() => {
                 setError('')
             }, 2000)
-            toastId.current = toast(error.message, {
+            toastId.current = toast(error2.message, {
                 type: 'error',
                 autoClose: 1000,
             })
@@ -170,7 +160,6 @@ const useMembership = (): IUseMembership => {
     ): Promise<void> => {
         console.log('>> im in handleUpdate')
         const userDetails = loginData.data?.userDetails
-
         const payload = {
             classIds: values.classIds,
             id: values.id,
@@ -230,26 +219,18 @@ const useMembership = (): IUseMembership => {
             setIsShowModal(true)
             setTimeout(() => {
                 setIsShowModal(false)
-
                 navigate('/membership/list')
             }, 3000)
-            // toastId.current = toast(data.responseMessage, {
-            //   type: "success",
-            //   autoClose: 1000,
-            // });
-            //setLoading(false);
+
             console.log('data', { data1 })
-            //setIsUploadImgVisible(true);
-            // navigate("/");
-            // eslint-disable-next-line @typescript-eslint/no-shadow
-        } catch (error: any) {
-            console.log('error', { error })
+        } catch (error2: any) {
+            console.log('error', { error: error2 })
             setLoading(false)
-            setError(error.response)
+            setError(error2.response)
             setTimeout(() => {
                 setError('')
             }, 2000)
-            toastId.current = toast(error.message, {
+            toastId.current = toast(error2.message, {
                 type: 'error',
                 autoClose: 1000,
             })
@@ -279,23 +260,11 @@ const useMembership = (): IUseMembership => {
                 setLoading(false)
                 return
             }
-
             setTimeout(() => {
                 setLoading(false)
-                // navigate('/school/view')
             }, 3000)
             console.log('done changing', data2)
             store.dispatch(getMembershipById())
-
-            // toastId.current = toast(data.responseMessage, {
-            //   type: "success",
-            //   autoClose: 1000,
-            // });
-            //setLoading(false);
-            console.log('data', { data: data2 })
-            //setIsUploadImgVisible(true);
-            // navigate("/");
-            // resetForm()
             return data2.results
         } catch (error2: any) {
             console.log('error', { error: error2 })
@@ -400,15 +369,15 @@ const useMembership = (): IUseMembership => {
             ),
         }
     }
-    const deleteClass = async (id: number): Promise<void> => {
-        const url = '/classes/delete'
+    const deleteMembership = async (id: number): Promise<void> => {
+        const url = '/classes/membershipPlan/delete'
 
         try {
             setError('')
             setLoading(true)
             const { data: data2 } = await axios.post(
                 url,
-                { classId: id },
+                { memberShipPlanId: id },
                 {
                     headers: {
                         ...authorizationToken(loginData.data as loginDataTypes),
@@ -423,21 +392,15 @@ const useMembership = (): IUseMembership => {
                 setLoading(false)
                 return
             }
-            // toastId.current = toast(data.responseMessage, {
-            //   type: "success",
-            //   autoClose: 1000,
-            // });
             setLoading(false)
             setIsShowModal(false)
             setIsShowDeleteModal(true)
             setTimeout(() => {
                 setIsShowDeleteModal(false)
             }, 3000)
-            // setData('results: ' + data2)
             console.log('data', { data: data2 })
             setLoading(false)
-            store.dispatch(getBranchBySchoolId())
-            // navigate("/school");
+            store.dispatch(getMembershipById())
         } catch (error2: any) {
             console.log('api error', error2)
             setError(error2.response.data.responseMessage)
@@ -482,10 +445,10 @@ const useMembership = (): IUseMembership => {
     }
 
     const deleteConfirmation = (_id: number): IModalComponent => {
-        const Deleteschool = async (id: number): Promise<void> => {
-            setIsShowModal(false) // Close any other modals
+        const deleteMemberShip = async (id: number): Promise<void> => {
+            setIsShowModal(false)
             setIsShowDeleteModal(true)
-            await deleteClass(id)
+            await deleteMembership(id)
         }
         return {
             modalComponent: (
@@ -535,7 +498,7 @@ const useMembership = (): IUseMembership => {
                                         title="Confirmed"
                                         fontSize="16px"
                                         loading={false}
-                                        clicked={() => Deleteschool(_id)}
+                                        clicked={() => deleteMemberShip(_id)}
                                     />
                                 </Col>
                             </Row>
@@ -545,12 +508,12 @@ const useMembership = (): IUseMembership => {
             ),
         }
     }
-    const getClassbyid = async (classid: number): Promise<any> => {
+    const getByMemberShipPlanId = async (classid: number): Promise<any> => {
         try {
             setError('')
             setLoading(true)
             const { data } = await axios.post(
-                '/classes/getDetailsById',
+                '/classes/membershipPlan/getDetailsById',
                 { classId: classid },
                 {
                     headers: {
@@ -584,9 +547,9 @@ const useMembership = (): IUseMembership => {
         UpdateModal,
         deleteConfirmation,
         membershipStatus,
-        getClassbyid,
+        getByMemberShipPlanId,
         handleUpdate,
-        deleteClass,
+        deleteMembership,
         setIsShowModal,
     }
 }

@@ -82,7 +82,7 @@ const UpdateeInstructor = (): JSX.Element => {
             ? instructorData?.specializations?.split(',').map(String)
             : [],
         termCondition: '',
-        ranking: '',
+        ranking: Number(instructorData?.rankId) > 0 ? 1 : 2,
     }
 
     // const franchiseName = validationFinder('BUSINESS_NAME')!
@@ -320,6 +320,14 @@ const UpdateeInstructor = (): JSX.Element => {
                                                         options={
                                                             BELTS_SELECT_OPTIONS
                                                         }
+                                                        value={
+                                                            Number(
+                                                                formik.values
+                                                                    .rankId
+                                                            ) > 0
+                                                                ? 'Yes'
+                                                                : 'No'
+                                                        }
                                                     />
                                                 </Col>
                                                 <Col md="4" className="mt-20">
@@ -345,6 +353,20 @@ const UpdateeInstructor = (): JSX.Element => {
                                                                 options={createOptions(
                                                                     adult
                                                                 )}
+                                                                defaultValue={
+                                                                    instructorId
+                                                                        ? createOptions(
+                                                                              adult
+                                                                          ).find(
+                                                                              (
+                                                                                  item
+                                                                              ) =>
+                                                                                  item.value ===
+                                                                                  initialValues.rankId
+                                                                          )
+                                                                              ?.value
+                                                                        : undefined
+                                                                }
                                                             />
                                                         </>
                                                     ) : (

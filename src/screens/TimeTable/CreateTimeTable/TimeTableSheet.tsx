@@ -132,6 +132,39 @@ const TimeTableSheet: React.FC = () => {
 
         setTableDataSource(updatedTableDateSource)
     }
+    const handleDuplicateDay = (_recordIndex: number): void => {
+        if (!allTimeTableDetail) return
+
+        const currentDate = new Date(allTimeTableDetail.startDate)
+        currentDate.setDate(currentDate.getDate() + _recordIndex)
+
+        const nextDate = new Date(currentDate)
+        nextDate.setDate(nextDate.getDate() + 1)
+
+        const updatedTableDateSource: TableDateSourceProps[] =
+            cloneDeep(tableDataSource)
+
+        const sourceDayIndex = _recordIndex
+        const destinationDayIndex = _recordIndex + 1
+
+        if (destinationDayIndex < updatedTableDateSource.length) {
+            console.log('updatedTableDateSource', updatedTableDateSource)
+
+            updatedTableDateSource[destinationDayIndex].timeEntries =
+                updatedTableDateSource[sourceDayIndex].timeEntries.map(
+                    (timeEntry: TimeEntryProps) => ({
+                        ...timeEntry,
+                        startTime: undefined,
+                        endTime: undefined,
+                        startBreak: undefined,
+                        endBreak: undefined,
+                    })
+                )
+
+            setTableDataSource(updatedTableDateSource)
+        }
+    }
+    console.log('tableDataSource', tableDataSource)
 
     const addNewSlot = (_recordIndex: number): void => {
         if (!allTimeTableDetail) return
@@ -302,7 +335,7 @@ const TimeTableSheet: React.FC = () => {
                     {
                         key: '1',
                         label: 'Duplicate',
-                        onClick: () => {},
+                        onClick: () => handleDuplicateDay(recordIndex),
                     },
                     {
                         key: '2',

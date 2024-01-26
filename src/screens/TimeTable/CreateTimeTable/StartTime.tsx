@@ -6,7 +6,7 @@ import { fontFamilyMedium } from '../../../components/GlobalStyle'
 import { FilterTimeTableStyled } from './styles'
 // import useTimetable from '../../../hooks/useTimetable'
 import { Formik } from 'formik'
-import { Form } from 'antd'
+import { Form } from 'formik-antd'
 import moment from 'moment'
 
 interface TimeTableFormProps {

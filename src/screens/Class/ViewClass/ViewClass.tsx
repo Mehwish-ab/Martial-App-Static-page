@@ -176,8 +176,7 @@ const ViewClass = (): JSX.Element => {
                                         <Col md="6">
                                             <div className="list-item">
                                                 <div className="list-item-title">
-                                                    {/* {getLabelByKey('classFees')} */}
-                                                    TimeTable
+                                                    {getLabelByKey('timeTable')}
                                                 </div>
                                                 <div className="list-item-value">
                                                     {timetable

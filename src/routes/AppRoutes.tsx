@@ -299,11 +299,19 @@ function AppRoutes(): JSX.Element {
                         </AppLayout>
                     }
                 />
-                <Route
+                {/* <Route
                     path="/timetable/slots/:timeTableId"
                     element={
                         <AppLayout>
                             <TimeTableSheet />
+                        </AppLayout>
+                    }
+                /> */}
+                <Route
+                    path="/timetable/slots/:timeTableId"
+                    element={
+                        <AppLayout>
+                            <NewTimeTable />
                         </AppLayout>
                     }
                 />
@@ -451,14 +459,7 @@ function AppRoutes(): JSX.Element {
                         </AppLayout>
                     }
                 />
-                <Route
-                    path="/NewTimeTable"
-                    element={
-                        <AppLayout>
-                            <NewTimeTable />
-                        </AppLayout>
-                    }
-                />
+
                 {/* error page */}
                 <Route path="*" element={<ErrorPage404 />} />
             </Routes>

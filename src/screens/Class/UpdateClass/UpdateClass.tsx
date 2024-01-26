@@ -451,11 +451,6 @@ const UpdateClass = (): JSX.Element => {
                                                                             .instructorId
                                                                     } // Set value to the selected instructor ID
                                                                 >
-                                                                    {' '}
-                                                                    <option
-                                                                        value=""
-                                                                        label="Select an Instructor"
-                                                                    />
                                                                     {instructorData.data.map(
                                                                         (
                                                                             instructors
@@ -484,31 +479,24 @@ const UpdateClass = (): JSX.Element => {
                                                                     control="select"
                                                                     type="text"
                                                                     name="timeTableId"
-                                                                    // label={getLabelByKey(
-                                                                    //     'instructors'
-                                                                    // )}
-                                                                    label="TimeTable"
+                                                                    label={getLabelByKey(
+                                                                        'timeTable'
+                                                                    )}
                                                                     padding="8px 10px"
                                                                     fontFamily={
                                                                         fontFamilyRegular
                                                                     }
                                                                     fontSize="16px"
                                                                     max={6}
-                                                                    // placeholder={getLabelByKey(
-                                                                    //     'InstructorsPlaceholder'
-                                                                    // )}
-                                                                    placeholder="Select TimeTable"
+                                                                    placeholder={getLabelByKey(
+                                                                        'selectTimeTable'
+                                                                    )}
                                                                     value={
                                                                         formik
                                                                             .values
                                                                             .timeTableId
                                                                     }
                                                                 >
-                                                                    {' '}
-                                                                    <option
-                                                                        value=""
-                                                                        label="Select an Instructor"
-                                                                    />
                                                                     {timeTableData.data.map(
                                                                         (
                                                                             timetables

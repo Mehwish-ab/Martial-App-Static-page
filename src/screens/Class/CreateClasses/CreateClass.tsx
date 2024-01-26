@@ -327,20 +327,18 @@ const CreateClass = (): JSX.Element => {
                                                                     control="select"
                                                                     type="text"
                                                                     name="timeTableId"
-                                                                    // label={getLabelByKey(
-                                                                    //     'instructors'
-                                                                    // )}
-                                                                    label="TimeTable"
+                                                                    label={getLabelByKey(
+                                                                        'timeTable'
+                                                                    )}
                                                                     padding="8px 10px"
                                                                     fontFamily={
                                                                         fontFamilyRegular
                                                                     }
                                                                     fontSize="16px"
                                                                     max={6}
-                                                                    // placeholder={getLabelByKey(
-                                                                    //     'InstructorsPlaceholder'
-                                                                    // )}
-                                                                    placeholder="Select TimeTable"
+                                                                    placeholder={getLabelByKey(
+                                                                        'selectTimeTable'
+                                                                    )}
                                                                 >
                                                                     {timeTableData.data.map(
                                                                         (

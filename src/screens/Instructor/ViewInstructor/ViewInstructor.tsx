@@ -48,7 +48,7 @@ const ViewInstructor = (): JSX.Element => {
         (state: RootState) => state.appData.data.statusData
     )
 
-    console.log('getInstructor', values?.emailAddress, instructor.emailAddress)
+    console.log('getInstructor', values)
     const openModal = (certificationURL: string | undefined): void => {
         setImageURL(certificationURL || '')
         setIsShowModal(true)
@@ -95,7 +95,21 @@ const ViewInstructor = (): JSX.Element => {
         if (activitiesName !== '') return activitiesName
         return '--'
     }
+    const {
+        belts: { adult },
+    } = useSelector((state: RootState) => state.appData.data)
 
+    const showBusinessType = (_businessType: any): any => {
+        const index = adult.findIndex((business: any) => {
+            return business.id === _businessType
+        })
+
+        if (index !== -1) {
+            return (adult[index] as any)[selectedLanguage]
+        }
+
+        return '--'
+    }
     // TODO: this state will be set after getting response from api
     // setInitialValues({
     //   termCondition: false, agreement: false, liability: false
@@ -163,22 +177,24 @@ const ViewInstructor = (): JSX.Element => {
                             <Col md="4">
                                 <div className="list-item">
                                     <div className="list-item-title">
-                                        {getLabelByKey('yearsOfExperience')}
+                                        {getLabelByKey('ranking')}
                                     </div>
                                     <div className="list-item-value">
-                                        {values?.experience}
+                                        {Number(values?.rankId) > 1
+                                            ? showBusinessType(values?.rankId)
+                                            : '--'}
                                     </div>
                                 </div>
                             </Col>
                             <Col md="4">
                                 <div className="list-item">
                                     <div className="list-item-title">
-                                        {getLabelByKey('ranking')}
+                                        {getLabelByKey('yearsOfExperience')}
                                     </div>
                                     <div className="list-item-value">
-                                        {Number(values?.rankId) === 1
-                                            ? 'Yes'
-                                            : 'No'}
+                                        {Number(values?.experience) > 0
+                                            ? values?.experience
+                                            : '--'}
                                     </div>
                                 </div>
                             </Col>

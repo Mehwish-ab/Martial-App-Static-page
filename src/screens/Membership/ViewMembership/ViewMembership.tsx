@@ -12,11 +12,11 @@ import useMembership from '../../../hooks/useMembership'
 import { useParams } from 'react-router-dom'
 
 const ViewMembership = (): JSX.Element => {
+    const { memberShipPlanId } = useParams()
     const { getLabelByKey } = useScreenTranslation('detailMembership')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
     const { ClassData } = useSelector((state: RootState) => state.ClassData)
     const { getByMemberShipPlanId } = useMembership()
-    const { memberShipPlanId } = useParams()
     const [memberShipValue, setMemberShipValue] = useState<any>()
     console.log('umi', memberShipPlanId)
     useEffect(() => {

@@ -91,7 +91,7 @@ const MembershipCardView = (): JSX.Element => {
             'dddd, MMM DD, YYYY'
         ).format('YYYY-MM-DD'),
         cancellationCharges: data.cancellationCharges,
-        accommodation: data.accommodation,
+        accommodation: data.accommodation.join(','),
         description: data.description,
         bannerPicture: '',
     }

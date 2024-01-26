@@ -16,13 +16,6 @@ const OverlayImages = ({
     isEditable,
     defaultImage,
 }: OverlayImagesProps): JSX.Element => {
-    // let img: any = null
-    // if (defaultImage !== null) {
-    //     img = `https://fistastore.com:444${defaultImage}`
-    // } else {
-    //     img = DefaultBannerImage
-    // }
-
     const [bannerImg, setBannerImg] = useState<string | null>(
         DefaultBannerImage
     )
@@ -39,10 +32,29 @@ const OverlayImages = ({
     const BannerImgUploadProps = {
         name: 'bannerImg',
         showUploadList: false,
-        accept: '.jpeg, .jpg, .webp, .png, tiff, .bmp',
+        accept: '.jpeg, .jpg, .webp, tiff, .bmp',
         beforeUpload: (file: File) => {
-            setBannerImg(URL.createObjectURL(file))
-            onSaveBanner(file) // Save the file using the provided function
+            // Define the allowed image types
+            const allowedTypes = [
+                'image/jpeg',
+                'image/webp',
+                'image/jpg',
+                'image/bmp',
+                'image/tiff',
+            ]
+
+            // Check if the file type is in the allowed list
+            const isAllowedType = allowedTypes.includes(file.type)
+
+            if (isAllowedType) {
+                setBannerImg(URL.createObjectURL(file))
+                onSaveBanner(file) // Save the file using the provided function
+            } else {
+                // Display an error message or handle the invalid file type
+                // For now, let's log an error to the console
+                console.error('Invalid file type. Please upload a valid image.')
+            }
+
             return false // Prevent default upload behavior
         },
     }

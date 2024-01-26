@@ -250,11 +250,6 @@ const ListFranchise = (): JSX.Element => {
                     {
                         key: '5',
                         label: 'Delete',
-                        // onClick: () =>
-                        //     //navigation(record, "delete"),
-                        //     {
-                        //         handleDelete(record.franchiseId)
-                        //     },
                         onClick: () => {
                             setId(record.franchiseId)
                             setIsShowModal(true)

@@ -47,10 +47,11 @@ interface IUseMembership {
         memberShipPlanId: number,
         isActive: boolean
     ) => Promise<any>
-    getByMemberShipPlanId: (membersId: number) => Promise<any>
+    // getByMemberShipPlanId: (membersId: number) => Promise<any>
     deleteConfirmation: (id: number) => IModalComponent
     deleteMembership: (id: number) => Promise<void>
     setIsShowModal: (showModal: true) => void
+    getMembershipbyid: (memberShipPlanid: number) => Promise<any>
 }
 
 const useMembership = (): IUseMembership => {
@@ -508,14 +509,15 @@ const useMembership = (): IUseMembership => {
             ),
         }
     }
-    const getByMemberShipPlanId = async (membersId: number): Promise<any> => {
+    const getMembershipbyid = async (
+        memberShipPlanid: number
+    ): Promise<any> => {
         try {
             setError('')
             setLoading(true)
-            console.log('abc', membersId)
             const { data } = await axios.post(
-                '/classes/membershipPlan/getDetailsById',
-                { memberShipPlanId: membersId },
+                'classes/membershipPlan/getDetailsById',
+                { memberShipPlanId: memberShipPlanid },
                 {
                     headers: {
                         ...authorizationToken(loginData.data as loginDataTypes),
@@ -527,11 +529,9 @@ const useMembership = (): IUseMembership => {
                 setLoading(false)
                 return
             }
-            console.log('umi', data.results)
             setLoading(false)
             return data.results
         } catch (error2: any) {
-            console.log('error', error2)
             setLoading(false)
             setError(error2)
         }
@@ -548,10 +548,11 @@ const useMembership = (): IUseMembership => {
         UpdateModal,
         deleteConfirmation,
         membershipStatus,
-        getByMemberShipPlanId,
+        // getByMemberShipPlanId,
         handleUpdate,
         deleteMembership,
         setIsShowModal,
+        getMembershipbyid,
     }
 }
 

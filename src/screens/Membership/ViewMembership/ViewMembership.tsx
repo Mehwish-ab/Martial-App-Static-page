@@ -3,36 +3,96 @@ import { ViewClassStyle } from '../../Class/ViewClass/styles'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import Head from '../../../components/Head/Head'
 import { Card } from 'antd'
-import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
 import FormControl from '../../../components/FormControl'
 import { useEffect, useState } from 'react'
 import useMembership from '../../../hooks/useMembership'
 import { useParams } from 'react-router-dom'
+import moment from 'moment'
+import Images from '../../Home/OverlayImages/images'
 
 const ViewMembership = (): JSX.Element => {
     const { memberShipPlanId } = useParams()
     const { getLabelByKey } = useScreenTranslation('detailMembership')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
-    const { ClassData } = useSelector((state: RootState) => state.ClassData)
-    const { getByMemberShipPlanId } = useMembership()
+    const { getMembershipbyid } = useMembership()
     const [memberShipValue, setMemberShipValue] = useState<any>()
-    console.log('umi', memberShipPlanId)
+    const { visibility, subscriptionType } = useSelector(
+        (state: RootState) => state.appData.data.dropdowns
+    )
+    const { selectedLanguage } = useSelector(
+        (state: RootState) => state?.selectedLanguage
+    )
+    const showVisibility = (_Visibility: number): string => {
+        const index = visibility.findIndex((business: any) => {
+            return business.id === _Visibility
+        })
+        if (index !== -1) {
+            return (visibility[index] as any)[selectedLanguage]
+        }
+
+        return '--'
+    }
+    const showSubscription = (_Subscription: number): string => {
+        const index = subscriptionType.findIndex((business: any) => {
+            return business.id === _Subscription
+        })
+        if (index !== -1) {
+            return (subscriptionType[index] as any)[selectedLanguage]
+        }
+
+        return '--'
+    }
+    const {
+        dropdowns: { schoolAccommodation },
+    } = useSelector((state: RootState) => state.appData.data)
+    const convertedAccommodation = schoolAccommodation.map((accommodation) => ({
+        ...accommodation,
+        id: accommodation.id.toString(),
+    }))
+    const showAccommodation = (_Accommodation: string): string => {
+        const activitiesArr = _Accommodation.split(',')
+
+        let AccommodationName = ''
+        activitiesArr.map((accommodation) => {
+            const index = convertedAccommodation.findIndex(
+                (acc: any) => acc.id === accommodation
+            )
+            if (index !== -1) {
+                AccommodationName =
+                    AccommodationName === ''
+                        ? (convertedAccommodation[index] as any)[
+                              selectedLanguage
+                          ]
+                        : `${AccommodationName},${
+                              (convertedAccommodation[index] as any)[
+                                  selectedLanguage
+                              ]
+                          }`
+            }
+        })
+
+        if (AccommodationName !== '') return AccommodationName
+        return '--'
+    }
+
+    const Visibility = memberShipValue?.visibility || ''
+    const subscription = memberShipValue?.subscriptionType || ''
+    const accommodationToShow = memberShipValue?.accommodation || ''
+
     useEffect(() => {
         const fetchData = async (): Promise<void> => {
-            try {
-                const data = await getByMemberShipPlanId(
-                    Number(memberShipPlanId)
-                )
+            if (memberShipPlanId !== undefined) {
+                const data = await getMembershipbyid(Number(memberShipPlanId))
                 setMemberShipValue(data)
-            } catch (error) {
-                console.error('Error fetching data:', error)
             }
         }
 
         fetchData()
-    }, [])
+    }, [memberShipPlanId])
+    console.log('memship values', memberShipValue)
+
     return (
         <>
             <Head title="Membership Information" />
@@ -61,8 +121,14 @@ const ViewMembership = (): JSX.Element => {
                                                     {getLabelByKey('startDate')}
                                                 </div>
                                                 <div className="list-item-value">
-                                                    {memberShipValue?.startDate ||
-                                                        '--'}
+                                                    {moment(
+                                                        moment(
+                                                            memberShipValue?.startDate,
+                                                            'YYYY-MM-DD'
+                                                        )
+                                                    ).format(
+                                                        'dddd, MMM DD, YYYY'
+                                                    )}
                                                 </div>
                                             </div>
                                         </Col>
@@ -72,8 +138,14 @@ const ViewMembership = (): JSX.Element => {
                                                     {getLabelByKey('endDate')}
                                                 </div>
                                                 <div className="list-item-value">
-                                                    {memberShipValue?.endDate ||
-                                                        '--'}
+                                                    {moment(
+                                                        moment(
+                                                            memberShipValue?.endDate,
+                                                            'YYYY-MM-DD'
+                                                        )
+                                                    ).format(
+                                                        'dddd, MMM DD, YYYY'
+                                                    )}
                                                 </div>
                                             </div>
                                         </Col>
@@ -85,8 +157,9 @@ const ViewMembership = (): JSX.Element => {
                                                     )}
                                                 </div>
                                                 <div className="list-item-value">
-                                                    {memberShipValue?.visibility ||
-                                                        '--'}
+                                                    {showVisibility(
+                                                        Visibility as number
+                                                    )}
                                                 </div>
                                             </div>
                                         </Col>
@@ -98,8 +171,9 @@ const ViewMembership = (): JSX.Element => {
                                                     )}
                                                 </div>
                                                 <div className="list-item-value">
-                                                    {memberShipValue?.subscriptionType ||
-                                                        '--'}
+                                                    {showSubscription(
+                                                        subscription as number
+                                                    )}
                                                 </div>
                                             </div>
                                         </Col>
@@ -144,16 +218,14 @@ const ViewMembership = (): JSX.Element => {
                                             {getLabelByKey('bannerImage')}
                                         </div>
                                         <div className="list-item-value">
-                                            <OverlayImages
-                                                backgroundImg={
-                                                    ClassData.bannerPicture ||
-                                                    ''
+                                            <Images
+                                                isEditable={false}
+                                                defaultImage={
+                                                    memberShipValue?.bannerPicture
                                                 }
-                                                overlayImg={
-                                                    ClassData.profilePicture ||
-                                                    ''
-                                                }
-                                                isEditable={true}
+                                                onSaveBanner={(
+                                                    file: File
+                                                ) => {}}
                                             />
                                         </div>
                                     </div>
@@ -206,8 +278,12 @@ const ViewMembership = (): JSX.Element => {
                                     {getLabelByKey('allowToStudentCancel')}
                                 </div>
                                 <div className="list-item-value">
-                                    {memberShipValue?.allowStudentCancel ||
-                                        '--'}
+                                    {moment(
+                                        moment(
+                                            memberShipValue?.allowStudentCancel,
+                                            'YYYY-MM-DD'
+                                        )
+                                    ).format('dddd, MMM DD, YYYY')}
                                 </div>
                             </div>
                         </Col>
@@ -217,7 +293,12 @@ const ViewMembership = (): JSX.Element => {
                                     {getLabelByKey('refundFeesDate')}
                                 </div>
                                 <div className="list-item-value">
-                                    {memberShipValue?.refundDate || '--'}
+                                    {moment(
+                                        moment(
+                                            memberShipValue?.refundDate,
+                                            'YYYY-MM-DD'
+                                        )
+                                    ).format('dddd, MMM DD, YYYY')}
                                 </div>
                             </div>
                         </Col>
@@ -227,8 +308,12 @@ const ViewMembership = (): JSX.Element => {
                                     {getLabelByKey('bookingCancellationStart')}
                                 </div>
                                 <div className="list-item-value">
-                                    {memberShipValue?.bookingCancelStartDate ||
-                                        '--'}
+                                    {moment(
+                                        moment(
+                                            memberShipValue?.bookingCancelStartDate,
+                                            'YYYY-MM-DD'
+                                        )
+                                    ).format('dddd, MMM DD, YYYY')}
                                 </div>
                             </div>
                         </Col>
@@ -238,8 +323,12 @@ const ViewMembership = (): JSX.Element => {
                                     {getLabelByKey('bookingCancellationEnd')}
                                 </div>
                                 <div className="list-item-value">
-                                    {memberShipValue?.bookingCancelEndDate ||
-                                        '--'}
+                                    {moment(
+                                        moment(
+                                            memberShipValue?.bookingCancelEndDate,
+                                            'YYYY-MM-DD'
+                                        )
+                                    ).format('dddd, MMM DD, YYYY')}
                                 </div>
                             </div>
                         </Col>
@@ -276,7 +365,8 @@ const ViewMembership = (): JSX.Element => {
                                     </>
                                 </div>
                                 <div className="list-item-value">
-                                    {memberShipValue?.accommodation || '--'}
+                                    {/* {memberShipValue?.accommodation || '--'} */}
+                                    {showAccommodation(accommodationToShow)}
                                 </div>
                             </div>
                         </Col>
@@ -299,6 +389,7 @@ const ViewMembership = (): JSX.Element => {
                                     type="checkbox"
                                     id="termsAndConditions"
                                     name="termsAndConditions"
+                                    checked
                                 />
                                 <p
                                     className="checkBoxPara"
@@ -315,6 +406,7 @@ const ViewMembership = (): JSX.Element => {
                                     type="checkbox"
                                     id="AgreementGuidelines"
                                     name="AgreementGuidelines"
+                                    checked
                                 />
                                 <p
                                     className="checkBoxPara"
@@ -331,6 +423,7 @@ const ViewMembership = (): JSX.Element => {
                                     type="checkbox"
                                     id="liabilityWaivers"
                                     name="liabilityWaivers"
+                                    checked
                                 />
                                 <p
                                     className="checkBoxPara"

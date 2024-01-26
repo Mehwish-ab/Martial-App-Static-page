@@ -38,6 +38,7 @@ import { validationFinder } from '../../../utils/utilities'
 const UpdateeInstructor = (): JSX.Element => {
     const { instructorId } = useParams()
     const [selectedFiles, setSelectedFiless] = useState<FileList | null>(null)
+    const [bannerImages, setBannerImages] = useState<File | null>(null)
 
     const { getLabelByKey } = useScreenTranslation('instructorUpdate')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
@@ -51,10 +52,16 @@ const UpdateeInstructor = (): JSX.Element => {
     >()
 
     const handleupdate = async (values: any): Promise<void> => {
-        await updateInstructor(Number(instructorId), values, selectedFiles)
+        await updateInstructor(
+            Number(instructorId),
+            values,
+            selectedFiles,
+            bannerImages
+        )
     }
     const handleImagesUpload = (selectedFiless: any): void => {
         setSelectedFiless(selectedFiless)
+        setBannerImages(selectedFiless)
     }
 
     useEffect(() => {
@@ -75,7 +82,9 @@ const UpdateeInstructor = (): JSX.Element => {
         address: instructorData ? instructorData.address : '--',
         yearsOfExperience: instructorData?.experience || '--',
         rankId: Number(instructorData?.rankId) || 0, // or a default value
-        latestCertification: instructorData?.certificationURL || '--',
+        latestCertification: instructorData?.certificationURL
+            ? 'uploaded'
+            : '--',
         description: instructorData ? instructorData.description : '--',
         activities: instructorData
             ? instructorData?.activities?.split(',').map(String)
@@ -107,26 +116,26 @@ const UpdateeInstructor = (): JSX.Element => {
         instructorPhoneNumber: Yup.string().required(
             instructorPhoneNumber.notBlankMsgEn
         ),
-        latestCertification: Yup.mixed().test(
-            'fileType',
-            'Unsupported File Format',
-            function (value) {
-                if (value) {
-                    const allowedTypes = [
-                        'image/jpeg',
-                        'image/png',
-                        'image/webp',
-                        'image/jpg',
-                        'image/bmp',
-                        'image/tiff',
-                    ]
-                    const isAllowedType = allowedTypes.includes(value.type)
+        // latestCertification: Yup.mixed().test(
+        //     'fileType',
+        //     'Unsupported File Format',
+        //     function (value) {
+        //         if (value) {
+        //             const allowedTypes = [
+        //                 'image/jpeg',
+        //                 'image/png',
+        //                 'image/webp',
+        //                 'image/jpg',
+        //                 'image/bmp',
+        //                 'image/tiff',
+        //             ]
+        //             const isAllowedType = allowedTypes.includes(value.type)
 
-                    return isAllowedType
-                }
-                return true
-            }
-        ),
+        //             return isAllowedType
+        //         }
+        //         return true
+        //     }
+        // ),
         rankId: Yup.string().required('Please select belts'),
         description: Yup.string().required('Please enter description'),
         yearsOfExperience: Yup.string().required(
@@ -249,7 +258,7 @@ const UpdateeInstructor = (): JSX.Element => {
             <CreateSchoolStyled>
                 <Formik
                     initialValues={initialValues}
-                    validationSchema={validationSchema}
+                    // validationSchema={validationSchema}
                     onSubmit={handleupdate}
                     enableReinitialize
                 >
@@ -430,8 +439,7 @@ const UpdateeInstructor = (): JSX.Element => {
                                                     ) : (
                                                         <>
                                                             {
-                                                                (formik.values.rankId =
-                                                                    '')
+                                                                (formik.values.rankId = 0)
                                                             }
                                                             <FormControl
                                                                 control="input"
@@ -624,6 +632,9 @@ const UpdateeInstructor = (): JSX.Element => {
                                         title={getLabelByKey('primaryButton')}
                                         fontSize="18px"
                                         loading={loading}
+                                        // clicked={() => {
+                                        //     updateInstructor
+                                        // }}
                                     />
                                 </div>
                             </Form>

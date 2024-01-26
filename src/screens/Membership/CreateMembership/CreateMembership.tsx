@@ -25,6 +25,8 @@ import Head from '../../../components/Head/Head'
 import { SelectOptionsDataTypes } from '../../Home/constants'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
 import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
+import * as Yup from 'yup'
+import { validationFinder } from '../../../utils/utilities'
 import Images from '../../Home/OverlayImages/images'
 
 const CreateMembership = (): JSX.Element => {
@@ -75,8 +77,74 @@ const CreateMembership = (): JSX.Element => {
         cancellationCharges: '',
         accommodation: [],
         description: '',
-        // bannerPicture: '',
+        bannerPicture: '',
     }
+    const title = validationFinder('BUSINESS_NAME')!
+    const TitleReg = new RegExp(title.pattern)
+    // const address = validationFinder('ADDRESS')!
+    // const addressReg = new RegExp(address.pattern)
+    const branchPhoneNumber = validationFinder('PHONE_NUMBER')!
+
+    const validationSchema = Yup.object({
+        title: Yup.string()
+            .required(title.notBlankMsgEn)
+            .matches(TitleReg, title.patternMsgEn),
+        // address: Yup.string()
+        //     .required(address.notBlankMsgEn)
+        //     .matches(addressReg, address.patternMsgEn),
+        startDate: Yup.string().required('Please select  start Date'),
+        endDate: Yup.string().required('Please Select end date'),
+        visibility: Yup.string().required('Please select default language'),
+        subscriptionType: Yup.string().required(
+            'Please select default currency'
+        ),
+        // belts: Yup.string().required("Please select belts"),
+        minimumStudent: Yup.string().required('Please select ranks'),
+        membershipFee: Yup.string().required('Please enter membershipFee'),
+        dailySubsFee: Yup.string().required('Please enter dailySubsFee'),
+
+        weeklySubsFee: Yup.string().required('Please enter weeklySubsFee'),
+        monthlySubsFee: Yup.string().required('Please enter monthlySubsFee'),
+
+        annuallySubsFee: Yup.string().required('Please enter annuallySubsFee'),
+        allowStudentCancel: Yup.string().required(
+            'Please select allowStudentCancel'
+        ),
+        refundDate: Yup.string().required('Please select refundDate'),
+        bookingCancelStartDate: Yup.string().required(
+            'Please select bookingCancelStartDate'
+        ),
+
+        bookingCancelEndDate: Yup.string().required(
+            'Please select bookingCancelEndDate'
+        ),
+        cancellationCharges: Yup.string().required(
+            'Please  cancellationCharges'
+        ),
+        accommodation: Yup.array()
+            .of(Yup.string().required('Select an accommodation'))
+            .min(1, 'Select at least one accommodation'),
+        description: Yup.string().required('Please enter description'),
+        //   latestCertification: Yup.mixed().test(
+        //     'fileType',
+        //     'Unsupported File Format',
+        //     function (value) {
+        //         if (value) {
+        //             const allowedTypes = [
+        // 'image/jpeg',
+        // 'image/png',
+        // 'image/webp',
+        // 'image/jpg',
+        // 'image/bmp',
+        // 'image/tiff',
+        //             ]
+        //             const isAllowedType = allowedTypes.includes(value.type)
+        //             return isAllowedType
+        //         }
+        //         return true
+        //     }
+        // ),
+    })
 
     const showAccommodation = (_accommodate: string[]): string => {
         const AccommodateName = _accommodate.reduce(
@@ -132,7 +200,11 @@ const CreateMembership = (): JSX.Element => {
         <>
             <Head title="Membership Create" />
             <CreateClassStyled>
-                <Formik initialValues={initialValues} onSubmit={onSubmit}>
+                <Formik
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                    onSubmit={onSubmit}
+                >
                     {(formik) => {
                         return (
                             <Form

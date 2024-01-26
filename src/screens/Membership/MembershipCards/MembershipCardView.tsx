@@ -93,6 +93,7 @@ const MembershipCardView = (): JSX.Element => {
         cancellationCharges: data.cancellationCharges,
         accommodation: data.accommodation,
         description: data.description,
+        bannerPicture: '',
     }
 
     const onSubmit = async (): Promise<void> => {

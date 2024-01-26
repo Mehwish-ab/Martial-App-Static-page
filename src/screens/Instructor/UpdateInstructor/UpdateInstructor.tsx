@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { Formik } from 'formik'
 import { Form } from 'antd'
+import * as Yup from 'yup'
 
 import { Col, Row } from 'react-bootstrap'
 // import * as Yup from 'yup'
@@ -32,6 +33,7 @@ import {
 } from '../../Home/constants'
 import ImagesUpload from '../../../components/ImagesUpload/ImagesUpload'
 import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
+import { validationFinder } from '../../../utils/utilities'
 
 const UpdateeInstructor = (): JSX.Element => {
     const { instructorId } = useParams()
@@ -84,7 +86,63 @@ const UpdateeInstructor = (): JSX.Element => {
         termCondition: '',
         ranking: Number(instructorData?.rankId) > 0 ? 1 : 2,
     }
+    const instructorName = validationFinder('BUSINESS_NAME')!
+    const franchiseNameReg = new RegExp(instructorName.pattern)
+    const address = validationFinder('ADDRESS')!
+    const addressReg = new RegExp(address.pattern)
+    const emailAddress = validationFinder('EMAIL_ADDRESS')!
+    const emailAddressReg = new RegExp(emailAddress.pattern)
+    const instructorPhoneNumber = validationFinder('PHONE_NUMBER')!
 
+    const validationSchema = Yup.object({
+        in: Yup.string()
+            .required(instructorName.notBlankMsgEn)
+            .matches(franchiseNameReg, instructorName.patternMsgEn),
+        address: Yup.string()
+            .required(address.notBlankMsgEn)
+            .matches(addressReg, address.patternMsgEn),
+        emailAddress: Yup.string()
+            .required(emailAddress.notBlankMsgEn)
+            .matches(emailAddressReg, emailAddress.patternMsgEn),
+        instructorPhoneNumber: Yup.string().required(
+            instructorPhoneNumber.notBlankMsgEn
+        ),
+        latestCertification: Yup.mixed().test(
+            'fileType',
+            'Unsupported File Format',
+            function (value) {
+                if (value) {
+                    const allowedTypes = [
+                        'image/jpeg',
+                        'image/png',
+                        'image/webp',
+                        'image/jpg',
+                        'image/bmp',
+                        'image/tiff',
+                    ]
+                    const isAllowedType = allowedTypes.includes(value.type)
+
+                    return isAllowedType
+                }
+                return true
+            }
+        ),
+        rankId: Yup.string().required('Please select belts'),
+        description: Yup.string().required('Please enter description'),
+        yearsOfExperience: Yup.string().required(
+            'Please select years Of Experience'
+        ),
+
+        defaultCurrency: Yup.string().required(
+            'Please select default currency'
+        ),
+        activities: Yup.array()
+            .of(Yup.string().required('Select an activity'))
+            .min(1, 'Select at least one activity'),
+        specializations: Yup.array()
+            .of(Yup.string().required('Select an specilization'))
+            .min(1, 'Select at least one specilization'),
+    })
     // const franchiseName = validationFinder('BUSINESS_NAME')!
     // const franchiseNameReg = new RegExp(franchiseName.pattern)
     // const address = validationFinder('ADDRESS')!
@@ -191,7 +249,7 @@ const UpdateeInstructor = (): JSX.Element => {
             <CreateSchoolStyled>
                 <Formik
                     initialValues={initialValues}
-                    // validationSchema={validationSchema}
+                    validationSchema={validationSchema}
                     onSubmit={handleupdate}
                     enableReinitialize
                 >

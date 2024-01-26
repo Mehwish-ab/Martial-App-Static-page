@@ -391,6 +391,8 @@ export interface DropdownDataTypes {
     businessTypes: DataTypesWithIdAndMultipleLangLabel[]
     countryName: DataTypesWithIdAndMultipleLangLabel[]
     schoolAccommodation: DataTypesWithIdAndMultipleLangLabel[]
+    subscriptionType: DataTypesWithIdAndMultipleLangLabel[]
+    visibility: DataTypesWithIdAndMultipleLangLabel[]
     adult: DataTypesWithIdAndMultipleLangLabel[]
     kids: DataTypesWithIdAndMultipleLangLabel[]
 }

@@ -249,7 +249,7 @@ const ListInstructor: React.FC = () => {
             dataIndex: 'experience',
             key: 'experience',
             render: (experience) => {
-                if (experience === 0) return '--'
+                if (experience === 0 || experience === null) return '--'
                 else {
                     return experience
                 }

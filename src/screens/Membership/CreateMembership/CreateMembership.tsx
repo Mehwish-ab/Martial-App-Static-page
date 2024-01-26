@@ -27,8 +27,12 @@ import { SchoolSuccessfulModals } from '../../../hooks/PopupModalsStyling'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import dollar from '../../../assets/images/$.svg'
 import Head from '../../../components/Head/Head'
-import { VISIBILITY_SELECT_OPTIONS } from '../../Home/constants'
+import {
+    SelectOptionsDataTypes,
+    VISIBILITY_SELECT_OPTIONS,
+} from '../../Home/constants'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
+import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
 
 const CreateMembership = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('createMembership')
@@ -39,7 +43,12 @@ const CreateMembership = (): JSX.Element => {
     const { loginData } = useSelector((state: RootState) => state)
     const [bannerImage, setBannerImage] = useState<File | null>(null)
     const {
-        dropdowns: { schoolAccommodation },
+        dropdowns: {
+            schoolAccommodation,
+            visibility,
+            subscriptionType,
+            businessTypes,
+        },
     } = useSelector((state: RootState) => state.appData.data)
     const convertedAccommodation = schoolAccommodation.map((accommodation) => ({
         ...accommodation,
@@ -82,44 +91,7 @@ const CreateMembership = (): JSX.Element => {
         description: '',
         bannerPicture: '',
     }
-    // const onSubmit = async (values: any): Promise<void> => {
-    //     const schoolid = loginData.data?.schoolId
-    //     const start = moment(values.startDate, 'dddd, MMM DD, YYYY').format(
-    //         'YYYY-MM-DD'
-    //     )
-    //     const end = moment(values.endDate, 'dddd, MMM DD, YYYY').format(
-    //         'YYYY-MM-DD'
-    //     )
-    //     const studentCancel = moment(
-    //         values.allowStudentCancel,
-    //         'dddd, MMM DD, YYYY'
-    //     ).format('YYYY-MM-DD')
-    //     const refundFee = moment(
-    //         values.refundDate,
-    //         'dddd, MMM DD, YYYY'
-    //     ).format('YYYY-MM-DD')
-    //     const bookingCancelStart = moment(
-    //         values.bookingCancelStartDate,
-    //         'dddd, MMM DD, YYYY'
-    //     ).format('YYYY-MM-DD')
-    //     const bookingCancelEnd = moment(
-    //         values.bookingCancelEndDate,
-    //         'dddd, MMM DD, YYYY'
-    //     ).format('YYYY-MM-DD')
-    //     await handleCreateSubmit(
-    //         {
-    //             ...values,
-    //             id: schoolid,
-    //             startDate: start,
-    //             endDate: end,
-    //             allowStudentCancel: studentCancel,
-    //             refundDate: refundFee,
-    //             bookingCancelStartDate: bookingCancelStart,
-    //             bookingCancelEndDate: bookingCancelEnd,
-    //         },
-    //         bannerImage
-    //     )
-    // }
+
     const showAccommodation = (_accommodate: string[]): string => {
         const AccommodateName = _accommodate.reduce(
             (a: string, accommodate_id: string) => {
@@ -144,6 +116,21 @@ const CreateMembership = (): JSX.Element => {
         }
 
         return AccommodateName || getLabelByKey('selectAccommodationOptions')
+    }
+    const createOptions = (
+        list: DataTypesWithIdAndMultipleLangLabel[]
+    ): SelectOptionsDataTypes[] => {
+        const options: SelectOptionsDataTypes[] = []
+        list.forEach((item) => {
+            const obj = {
+                label: (item as any)[selectedLanguage],
+                value: item.id,
+            }
+
+            options.push(obj)
+        })
+
+        return options
     }
     const onSubmit = async (
         values: CreateMembershipInitialValues
@@ -255,9 +242,9 @@ const CreateMembership = (): JSX.Element => {
                                                                     placeholder={getLabelByKey(
                                                                         'visibilityPlacehor'
                                                                     )}
-                                                                    options={
-                                                                        VISIBILITY_SELECT_OPTIONS
-                                                                    }
+                                                                    options={createOptions(
+                                                                        visibility
+                                                                    )}
                                                                 />
                                                             </Col>
                                                             <Col
@@ -279,6 +266,9 @@ const CreateMembership = (): JSX.Element => {
                                                                     max={6}
                                                                     placeholder={getLabelByKey(
                                                                         'subscriptionTypePlaceholder'
+                                                                    )}
+                                                                    options={createOptions(
+                                                                        subscriptionType
                                                                     )}
                                                                 />
                                                             </Col>

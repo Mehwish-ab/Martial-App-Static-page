@@ -100,6 +100,25 @@ const CreateInstructor = (): JSX.Element => {
         instructorPhoneNumber: Yup.string().required(
             instructorPhoneNumber.notBlankMsgEn
         ),
+        latestCertification: Yup.mixed().test(
+            'fileType',
+            'Unsupported File Format',
+            function (value) {
+                if (value) {
+                    const allowedTypes = [
+                        'image/jpeg',
+                        'image/png',
+                        'image/webp',
+                        'image/jpg',
+                        'image/bmp',
+                        'image/tiff',
+                    ]
+                    const isAllowedType = allowedTypes.includes(value.type)
+                    return isAllowedType
+                }
+                return true
+            }
+        ),
         rankId: Yup.string().required('Please select belts'),
         description: Yup.string().required('Please enter description'),
         yearsOfExperience: Yup.string().required(

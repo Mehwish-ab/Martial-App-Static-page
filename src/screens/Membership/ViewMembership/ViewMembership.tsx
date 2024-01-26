@@ -7,12 +7,32 @@ import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
 import FormControl from '../../../components/FormControl'
+import { useEffect, useState } from 'react'
+import useMembership from '../../../hooks/useMembership'
+import { useParams } from 'react-router-dom'
 
 const ViewMembership = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('detailMembership')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
     const { ClassData } = useSelector((state: RootState) => state.ClassData)
+    const { getByMemberShipPlanId } = useMembership()
+    const { memberShipPlanId } = useParams()
+    const [memberShipValue, setMemberShipValue] = useState<any>()
+    console.log('umi', memberShipPlanId)
+    useEffect(() => {
+        const fetchData = async (): Promise<void> => {
+            try {
+                const data = await getByMemberShipPlanId(
+                    Number(memberShipPlanId)
+                )
+                setMemberShipValue(data)
+            } catch (error) {
+                console.error('Error fetching data:', error)
+            }
+        }
 
+        fetchData()
+    }, [])
     return (
         <>
             <Head title="Membership Information" />
@@ -30,7 +50,8 @@ const ViewMembership = (): JSX.Element => {
                                                     {getLabelByKey('title')}
                                                 </div>
                                                 <div className="list-item-value">
-                                                    --
+                                                    {memberShipValue?.title ||
+                                                        '--'}
                                                 </div>
                                             </div>
                                         </Col>
@@ -40,7 +61,8 @@ const ViewMembership = (): JSX.Element => {
                                                     {getLabelByKey('startDate')}
                                                 </div>
                                                 <div className="list-item-value">
-                                                    --
+                                                    {memberShipValue?.startDate ||
+                                                        '--'}
                                                 </div>
                                             </div>
                                         </Col>
@@ -50,7 +72,8 @@ const ViewMembership = (): JSX.Element => {
                                                     {getLabelByKey('endDate')}
                                                 </div>
                                                 <div className="list-item-value">
-                                                    --
+                                                    {memberShipValue?.endDate ||
+                                                        '--'}
                                                 </div>
                                             </div>
                                         </Col>
@@ -62,7 +85,8 @@ const ViewMembership = (): JSX.Element => {
                                                     )}
                                                 </div>
                                                 <div className="list-item-value">
-                                                    --
+                                                    {memberShipValue?.visibility ||
+                                                        '--'}
                                                 </div>
                                             </div>
                                         </Col>
@@ -74,7 +98,8 @@ const ViewMembership = (): JSX.Element => {
                                                     )}
                                                 </div>
                                                 <div className="list-item-value">
-                                                    --
+                                                    {memberShipValue?.subscriptionType ||
+                                                        '--'}
                                                 </div>
                                             </div>
                                         </Col>
@@ -86,7 +111,8 @@ const ViewMembership = (): JSX.Element => {
                                                     )}
                                                 </div>
                                                 <div className="list-item-value">
-                                                    --
+                                                    {memberShipValue?.membershipFee ||
+                                                        '--'}
                                                 </div>
                                             </div>
                                         </Col>
@@ -98,7 +124,8 @@ const ViewMembership = (): JSX.Element => {
                                                     )}
                                                 </div>
                                                 <div className="list-item-value">
-                                                    --
+                                                    {memberShipValue?.minimumStudent ||
+                                                        '--'}
                                                 </div>
                                             </div>
                                         </Col>
@@ -138,7 +165,9 @@ const ViewMembership = (): JSX.Element => {
                                 <div className="list-item-title">
                                     {getLabelByKey('dailySubscriptionFees')}
                                 </div>
-                                <div className="list-item-value">--</div>
+                                <div className="list-item-value">
+                                    {memberShipValue?.dailySubsFee || '--'}
+                                </div>
                             </div>
                         </Col>
                         <Col md="3">
@@ -146,7 +175,9 @@ const ViewMembership = (): JSX.Element => {
                                 <div className="list-item-title">
                                     {getLabelByKey('weeklySubscriptionFees')}
                                 </div>
-                                <div className="list-item-value">--</div>
+                                <div className="list-item-value">
+                                    {memberShipValue?.weeklySubsFee || '--'}
+                                </div>
                             </div>
                         </Col>
                         <Col md="3">
@@ -154,7 +185,9 @@ const ViewMembership = (): JSX.Element => {
                                 <div className="list-item-title">
                                     {getLabelByKey('monthlySubscriptionFees')}
                                 </div>
-                                <div className="list-item-value">--</div>
+                                <div className="list-item-value">
+                                    {memberShipValue?.monthlySubsFee || '--'}
+                                </div>
                             </div>
                         </Col>
                         <Col md="3">
@@ -162,7 +195,9 @@ const ViewMembership = (): JSX.Element => {
                                 <div className="list-item-title">
                                     {getLabelByKey('annuallySubscriptionFees')}
                                 </div>
-                                <div className="list-item-value">--</div>
+                                <div className="list-item-value">
+                                    {memberShipValue?.annuallySubsFee || '--'}
+                                </div>
                             </div>
                         </Col>
                         <Col md="4">
@@ -170,7 +205,10 @@ const ViewMembership = (): JSX.Element => {
                                 <div className="list-item-title">
                                     {getLabelByKey('allowToStudentCancel')}
                                 </div>
-                                <div className="list-item-value">--</div>
+                                <div className="list-item-value">
+                                    {memberShipValue?.allowStudentCancel ||
+                                        '--'}
+                                </div>
                             </div>
                         </Col>
                         <Col md="4">
@@ -178,7 +216,9 @@ const ViewMembership = (): JSX.Element => {
                                 <div className="list-item-title">
                                     {getLabelByKey('refundFeesDate')}
                                 </div>
-                                <div className="list-item-value">--</div>
+                                <div className="list-item-value">
+                                    {memberShipValue?.refundDate || '--'}
+                                </div>
                             </div>
                         </Col>
                         <Col md="4">
@@ -186,7 +226,10 @@ const ViewMembership = (): JSX.Element => {
                                 <div className="list-item-title">
                                     {getLabelByKey('bookingCancellationStart')}
                                 </div>
-                                <div className="list-item-value">--</div>
+                                <div className="list-item-value">
+                                    {memberShipValue?.bookingCancelStartDate ||
+                                        '--'}
+                                </div>
                             </div>
                         </Col>
                         <Col md="4">
@@ -194,7 +237,10 @@ const ViewMembership = (): JSX.Element => {
                                 <div className="list-item-title">
                                     {getLabelByKey('bookingCancellationEnd')}
                                 </div>
-                                <div className="list-item-value">--</div>
+                                <div className="list-item-value">
+                                    {memberShipValue?.bookingCancelEndDate ||
+                                        '--'}
+                                </div>
                             </div>
                         </Col>
                         <Col md="4">
@@ -213,7 +259,10 @@ const ViewMembership = (): JSX.Element => {
                                         </>
                                     }
                                 </div>
-                                <div className="list-item-value">--</div>
+                                <div className="list-item-value">
+                                    {memberShipValue?.cancellationCharges ||
+                                        '--'}
+                                </div>
                             </div>
                         </Col>
                         <Col md="4">
@@ -226,7 +275,9 @@ const ViewMembership = (): JSX.Element => {
                                         </span>
                                     </>
                                 </div>
-                                <div className="list-item-value">--</div>
+                                <div className="list-item-value">
+                                    {memberShipValue?.accommodation || '--'}
+                                </div>
                             </div>
                         </Col>
 
@@ -235,7 +286,9 @@ const ViewMembership = (): JSX.Element => {
                                 <div className="list-item-title">
                                     {getLabelByKey('descriptionAndFeatures')}
                                 </div>
-                                <div className="list-item-value">--</div>
+                                <div className="list-item-value">
+                                    {memberShipValue?.description || '--'}
+                                </div>
                             </div>
                         </Col>
 

@@ -47,7 +47,7 @@ interface IUseMembership {
         memberShipPlanId: number,
         isActive: boolean
     ) => Promise<any>
-    getByMemberShipPlanId: (memberShipPlanId: number) => Promise<any>
+    getByMemberShipPlanId: (membersId: number) => Promise<any>
     deleteConfirmation: (id: number) => IModalComponent
     deleteMembership: (id: number) => Promise<void>
     setIsShowModal: (showModal: true) => void
@@ -508,13 +508,14 @@ const useMembership = (): IUseMembership => {
             ),
         }
     }
-    const getByMemberShipPlanId = async (classid: number): Promise<any> => {
+    const getByMemberShipPlanId = async (membersId: number): Promise<any> => {
         try {
             setError('')
             setLoading(true)
+            console.log('abc', membersId)
             const { data } = await axios.post(
                 '/classes/membershipPlan/getDetailsById',
-                { classId: classid },
+                { memberShipPlanId: membersId },
                 {
                     headers: {
                         ...authorizationToken(loginData.data as loginDataTypes),
@@ -526,7 +527,7 @@ const useMembership = (): IUseMembership => {
                 setLoading(false)
                 return
             }
-            console.log('Instructor info', data.results)
+            console.log('umi', data.results)
             setLoading(false)
             return data.results
         } catch (error2: any) {

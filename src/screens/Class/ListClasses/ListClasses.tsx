@@ -39,12 +39,18 @@ const ListClass = (): JSX.Element => {
     const { ClassStatus, deletemodal, deleteConfirmation, setIsShowModal } =
         useClass()
     const [Id, setId] = useState(0)
+    const [startDate, setStartDate] = useState(null)
+    const [endDate, setEndDate] = useState(null)
+    const { getInstructorstartenddate } = useClass()
     // const { g}=useCreateSchool()
 
     const { getLabelByKey } = useScreenTranslation('classesList')
     useEffect(() => {
         store.dispatch(getBranchBySchoolId())
     }, [])
+    const getparam = async (startdate: any, enddate: any): Promise<void> => {
+        await getInstructorstartenddate(startdate, enddate)
+    }
 
     const { loading } = useSelector((state: RootState) => state.ClassData)
     const navigation = (record: ClassDataType, redirectTo: string): void => {
@@ -121,6 +127,22 @@ const ListClass = (): JSX.Element => {
                                             name="startDate"
                                             fontFamily={fontFamilyRegular}
                                             padding="8px 10px"
+                                            onChange={(dates: any) => {
+                                                const [start, end] = dates.map(
+                                                    (date: any) =>
+                                                        moment(date).format(
+                                                            'YYYY-MM-DD'
+                                                        )
+                                                )
+                                                setStartDate(start)
+                                                setEndDate(end)
+                                                console.log(
+                                                    'Start Date:',
+                                                    start
+                                                )
+                                                console.log('End Date:', end)
+                                                getparam(start, end)
+                                            }}
                                         />
                                         <div className="todayPlusContainer">
                                             <div className="dateToday">
@@ -180,6 +202,7 @@ const ListClass = (): JSX.Element => {
             title: getLabelByKey('startDate'),
             dataIndex: 'startDate',
             key: 'startDate',
+            // eslint-disable-next-line @typescript-eslint/no-shadow
             render: (startDate) => {
                 return (
                     <div className="list-item mb-0">
@@ -194,6 +217,7 @@ const ListClass = (): JSX.Element => {
             title: getLabelByKey('endDate'),
             dataIndex: 'endDate',
             key: 'endDate',
+            // eslint-disable-next-line @typescript-eslint/no-shadow
             render: (endDate) => {
                 return (
                     <div>

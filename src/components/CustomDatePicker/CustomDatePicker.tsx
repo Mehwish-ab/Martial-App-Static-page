@@ -79,7 +79,8 @@ const CustomDatePicker = (props: {
                             name={name}
                             format="dddd, MMM DD, YYYY"
                             {...rest}
-                            disabledDate={disabledDate}
+                            // disabledDate={disabledDate}
+                            showTime={false} // Set showTime to false to exclude the time part                            disabledDate={disabledDate}
                             onChange={(_, dateString) => {
                                 if (onChange) {
                                     onChange(dateString)
@@ -87,6 +88,7 @@ const CustomDatePicker = (props: {
                                     form.setFieldValue(name, dateString)
                                 }
                             }}
+
                             // defaultValue={begin || startOfWeekMonday}
                         />
                     </div>

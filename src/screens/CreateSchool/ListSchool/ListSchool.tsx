@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
 
-import { Dropdown, Space, Table } from 'antd'
+import { Dropdown, Menu, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 
@@ -74,6 +74,23 @@ const ListSchool = (): JSX.Element => {
                         branch: record as SchoolDataType,
                     },
                 })
+                break
+
+            case 'branch':
+                navigate(`/branch/list/`)
+                break
+            case 'franchise':
+                navigate(`/franchise/list/`)
+                break
+            case 'class':
+                navigate(`/class/list/`)
+                break
+            case 'timeTable':
+                navigate(`/timeTable/list/`)
+                break
+            case 'membership':
+                navigate(`/membership/list/`)
+                break
         }
     }
     const showActivities = (_activities: string): string => {
@@ -192,7 +209,6 @@ const ListSchool = (): JSX.Element => {
             title: 'Action',
             key: 'action',
             render: (_, record) => {
-                console.log(record, 'records')
                 const items = [
                     {
                         key: '1',
@@ -218,38 +234,69 @@ const ListSchool = (): JSX.Element => {
                         // },
                     },
                     {
+                        key: 'divider1',
+                        type: 'divider',
+                    },
+                    {
                         key: '5',
                         label: 'Branches',
+                        onClick: () => navigation(record, 'branch'),
                     },
                     {
                         key: '6',
                         label: 'Franchise',
+                        onClick: () => navigation(record, 'franchise'),
                     },
                     {
                         key: '7',
                         label: 'Classes',
+                        onClick: () => navigation(record, 'class'),
                     },
                     {
                         key: '8',
                         label: 'TimeTable',
+                        onClick: () => navigation(record, 'timeTable'),
                     },
                     {
                         key: '9',
                         label: 'Memberships',
+                        onClick: () => navigation(record, 'membership'),
                     },
                     {
                         key: '10',
                         label: 'Rooms',
                     },
                     {
+                        key: 'divider1',
+                        type: 'divider',
+                    },
+                    {
                         key: '11',
                         label: 'Reports',
                     },
                 ]
+                const menu = (
+                    <Menu>
+                        {items.map((item) => {
+                            if (item.type === 'divider') {
+                                return <Menu.Divider key={item.key} />
+                            }
+
+                            return (
+                                <Menu.Item
+                                    key={item.key}
+                                    onClick={item.onClick}
+                                >
+                                    {item.label}
+                                </Menu.Item>
+                            )
+                        })}
+                    </Menu>
+                )
 
                 return (
                     <Space size="middle">
-                        <Dropdown menu={{ items }}>
+                        <Dropdown overlay={menu}>
                             <img
                                 src={actionMenuTogglerIcon}
                                 alt="action menu"
@@ -332,7 +379,7 @@ const ListSchool = (): JSX.Element => {
                                                     />
                                                 }
                                                 clicked={() => {
-                                                    navigate(`/class/create`)
+                                                    navigate(`/school/create`)
                                                 }}
                                             />
                                         </div>

@@ -162,17 +162,9 @@ const useTimetable = (): IUseTimetable => {
 
             setTimeout(() => {
                 setLoading(false)
-                // navigate('/school/view')
             }, 3000)
-            // toastId.current = toast(data.responseMessage, {
-            //   type: "success",
-            //   autoClose: 1000,
-            // });
-            //setLoading(false);
             console.log('data', { data: data2 })
-            //setIsUploadImgVisible(true);
-            // navigate("/");
-            // resetForm()
+          
             return data2.results
         } catch (error2: any) {
             console.log('error', { error: error2 })
@@ -372,7 +364,7 @@ const useTimetable = (): IUseTimetable => {
                 setLoading(false)
                 console.log('add timetable list', data3.results.data)
 
-                return data3
+                return data3.results
             }
             setLoading(false)
             setTimeout(() => {
@@ -592,7 +584,6 @@ const useTimetable = (): IUseTimetable => {
             setTimeout(() => {
                 setIsShowDeleteModal(false)
                 // setIsShowDeleteModal(true)
-                navigate('/school/create')
             }, 3000)
             // console.log('data', { data: data2 })
         } catch (error2: any) {
@@ -782,7 +773,7 @@ const useTimetable = (): IUseTimetable => {
         getTimetableSlot,
         getAllTimetable,
         WarningModal,
-        getTimetableById: getTimetableById,
+        getTimetableById,
         createSlots,
         setIsShowWarningModal,
         TimeTableStatus,

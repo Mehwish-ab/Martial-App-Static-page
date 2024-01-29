@@ -84,7 +84,7 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
         const timeTableId = data?.timeTableId
         setNewTimetable(data)
         setIsShowModal(true)
-        navigate(`/timetable/slots/${timeTableId}`)
+        navigate(`/timetable/slotss/${timeTableId}`)
     }
 
     return (

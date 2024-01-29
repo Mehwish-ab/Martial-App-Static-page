@@ -1,15 +1,11 @@
 import { useState } from 'react'
-
 import { Formik } from 'formik'
 import { Form } from 'formik-antd'
-
 import { Col, Row } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
 import { useNavigate } from 'react-router-dom'
-
 import FormControl from '../../../components/FormControl'
-import doller from '../../../assets/images/$.svg'
 import {
     fontFamilyMedium,
     fontFamilyRegular,
@@ -20,7 +16,6 @@ import CustomButton from '../../../components/CustomButton/CustomButton'
 import { CreateClassStyled } from '../../Class/CreateClasses/styles'
 import { CreateMembershipInitialValues } from '../constant'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
-import dollar from '../../../assets/images/$.svg'
 import Head from '../../../components/Head/Head'
 import { SelectOptionsDataTypes } from '../../Home/constants'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
@@ -36,7 +31,12 @@ const CreateMembership = (): JSX.Element => {
     const [data, setdatas] = useState<CreateMembershipInitialValues>()
     const [bannerImage, setBannerImage] = useState<File | null>(null)
     const {
-        dropdowns: { schoolAccommodation, visibility, subscriptionType },
+        dropdowns: {
+            schoolAccommodation,
+            visibility,
+            subscriptionType,
+            currency,
+        },
     } = useSelector((state: RootState) => state.appData.data)
     const convertedAccommodation = schoolAccommodation.map((accommodation) => ({
         ...accommodation,
@@ -51,10 +51,31 @@ const CreateMembership = (): JSX.Element => {
     )
 
     const navigate = useNavigate()
-    const { MembershipData } = useSelector(
-        (state: RootState) => state.MembershipData
+
+    const { schoolData } = useSelector(
+        (state: RootState) => state.dashboardData
     )
 
+    const _currency = schoolData?.defaultCurrencyId
+    const CurrencyType = (_CurrencyType: number): string => {
+        const index = currency.findIndex(
+            (curr: any) => curr.id === _CurrencyType
+        )
+
+        if (index !== -1) {
+            const currencyInfo = currency[index] as any
+            const symbolMap: { [key: number]: string } = {
+                1: '€', // Euro
+                2: '£', // Pound
+                3: '$', // United States Dollar
+                4: 'R$', // Brazil
+            }
+
+            return symbolMap[_CurrencyType]
+        }
+
+        return '--'
+    }
     const initialValues: CreateMembershipInitialValues = {
         classIds: '',
         useCase: '',
@@ -81,9 +102,6 @@ const CreateMembership = (): JSX.Element => {
     }
     const title = validationFinder('BUSINESS_NAME')!
     const TitleReg = new RegExp(title.pattern)
-    // const address = validationFinder('ADDRESS')!
-    // const addressReg = new RegExp(address.pattern)
-    const branchPhoneNumber = validationFinder('PHONE_NUMBER')!
 
     const validationSchema = Yup.object({
         title: Yup.string()
@@ -186,13 +204,26 @@ const CreateMembership = (): JSX.Element => {
 
         return options
     }
+    const money = CurrencyType(_currency)
+
     const onSubmit = async (
         values: CreateMembershipInitialValues
     ): Promise<void> => {
         try {
             setdatas(values)
             navigate('/membership/classes', {
-                state: { data: values, bannerImages: bannerImage },
+                state: {
+                    data: {
+                        ...values,
+                        membershipFee: money + values.membershipFee,
+                        dailySubsFee: money + values.dailySubsFee,
+                        weeklySubsFee: money + values.weeklySubsFee,
+                        monthlySubsFee: money + values.monthlySubsFee,
+                        annuallySubsFee: money + values.annuallySubsFee,
+                        cancellationCharges: money + values.cancellationCharges,
+                    },
+                    bannerImages: bannerImage,
+                },
             })
         } catch (error: unknown) {}
     }
@@ -351,19 +382,16 @@ const CreateMembership = (): JSX.Element => {
                                                                         'membershipFeesPlaceholder'
                                                                     )}
                                                                     suffix={
-                                                                        <img
-                                                                            src={
-                                                                                dollar
-                                                                            }
-                                                                            alt=""
-                                                                            width={
-                                                                                13
-                                                                            }
-                                                                            height={
-                                                                                27
-                                                                            }
-                                                                            //onClick={(type = "date")}
-                                                                        />
+                                                                        <span
+                                                                            style={{
+                                                                                fontSize:
+                                                                                    '20px',
+                                                                            }}
+                                                                        >
+                                                                            {CurrencyType(
+                                                                                _currency
+                                                                            )}
+                                                                        </span>
                                                                     }
                                                                 />
                                                             </Col>
@@ -425,12 +453,15 @@ const CreateMembership = (): JSX.Element => {
                                                     'dailySubscriptionFeesPlaceholder'
                                                 )}
                                                 suffix={
-                                                    <img
-                                                        src={doller as string}
-                                                        alt=""
-                                                        width={13}
-                                                        height={27}
-                                                    />
+                                                    <span
+                                                        style={{
+                                                            fontSize: '20px',
+                                                        }}
+                                                    >
+                                                        {CurrencyType(
+                                                            _currency
+                                                        )}
+                                                    </span>
                                                 }
                                             />
                                         </Col>
@@ -448,12 +479,15 @@ const CreateMembership = (): JSX.Element => {
                                                     'weeklySubscriptionFeesPlaceholder'
                                                 )}
                                                 suffix={
-                                                    <img
-                                                        src={doller as string}
-                                                        alt=""
-                                                        width={13}
-                                                        height={27}
-                                                    />
+                                                    <span
+                                                        style={{
+                                                            fontSize: '20px',
+                                                        }}
+                                                    >
+                                                        {CurrencyType(
+                                                            _currency
+                                                        )}
+                                                    </span>
                                                 }
                                             />
                                         </Col>
@@ -471,12 +505,15 @@ const CreateMembership = (): JSX.Element => {
                                                     'monthlySubscriptionFeesPlaceholder'
                                                 )}
                                                 suffix={
-                                                    <img
-                                                        src={doller as string}
-                                                        alt=""
-                                                        width={13}
-                                                        height={27}
-                                                    />
+                                                    <span
+                                                        style={{
+                                                            fontSize: '20px',
+                                                        }}
+                                                    >
+                                                        {CurrencyType(
+                                                            _currency
+                                                        )}
+                                                    </span>
                                                 }
                                             />
                                         </Col>
@@ -494,12 +531,15 @@ const CreateMembership = (): JSX.Element => {
                                                     'annuallySubscriptionFeesPlaceholder'
                                                 )}
                                                 suffix={
-                                                    <img
-                                                        src={doller as string}
-                                                        alt=""
-                                                        width={13}
-                                                        height={27}
-                                                    />
+                                                    <span
+                                                        style={{
+                                                            fontSize: '20px',
+                                                        }}
+                                                    >
+                                                        {CurrencyType(
+                                                            _currency
+                                                        )}
+                                                    </span>
                                                 }
                                             />
                                         </Col>
@@ -593,12 +633,15 @@ const CreateMembership = (): JSX.Element => {
                                                     'cancellationChargePlaceholder'
                                                 )}
                                                 suffix={
-                                                    <img
-                                                        src={doller as string}
-                                                        alt=""
-                                                        width={13}
-                                                        height={27}
-                                                    />
+                                                    <span
+                                                        style={{
+                                                            fontSize: '20px',
+                                                        }}
+                                                    >
+                                                        {CurrencyType(
+                                                            _currency
+                                                        )}
+                                                    </span>
                                                 }
                                             />
                                         </Col>

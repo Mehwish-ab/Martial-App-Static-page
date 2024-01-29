@@ -42,6 +42,10 @@ interface IUseClass {
     error: string
     isUploadImgModalVisible: boolean
     setIsUploadImgVisible: (param: boolean) => void
+    getInstructorstartenddate: (
+        startDate: string,
+        endDate: string
+    ) => Promise<any>
     deletemodal: () => IModalComponent
     Createmodal: () => IModalComponent
     UpdateModal: () => IModalComponent
@@ -98,6 +102,7 @@ const useClass = (): IUseClass => {
 
             ...(schoolId && { schoolId }), // Add schoolId conditionally
         }
+        console.log('payload', payload)
 
         // const endpoint = schoolId ? edit_school_url : create_school_url
         const datas = JSON.stringify(payload)
@@ -157,6 +162,39 @@ const useClass = (): IUseClass => {
                 type: 'error',
                 autoClose: 1000,
             })
+        }
+    }
+    const getInstructorstartenddate = async (
+        startDate: string,
+        endDate: string
+    ): Promise<any> => {
+        try {
+            setError('')
+            setLoading(true)
+            const { data } = await axios.post(
+                `/classes/getSchoolId?startDate=${startDate}&endDate=${endDate}`,
+
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+
+            if (data.responseCode === '500') {
+                setLoading(false)
+                return
+            }
+            console.log(
+                'classes info according to start date and end date',
+                data.results
+            )
+            setLoading(false)
+            return data.results
+        } catch (error2: any) {
+            console.log('error', error2)
+            setLoading(false)
+            setError(error2)
         }
     }
     const handleUpdate = async (
@@ -573,6 +611,7 @@ const useClass = (): IUseClass => {
         handleUpdate,
         deleteClass,
         setIsShowModal,
+        getInstructorstartenddate,
     }
 }
 

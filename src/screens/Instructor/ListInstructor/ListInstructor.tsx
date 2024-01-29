@@ -6,6 +6,7 @@ import CustomButton from '../../../components/CustomButton/CustomButton'
 import { CustomDiv } from './CustomDiv'
 import {
     fontFamilyMedium,
+    fontFamilyRegular,
     pureDark,
     tertiaryBlue2,
 } from '../../../components/GlobalStyle'
@@ -28,77 +29,113 @@ import LeftArrow from '../../../assets/images/leftArrow.svg'
 import DateCalander from '../../../assets/images/dateCalander.svg'
 import useInstructor from '../../../hooks/useInstructor'
 import BlueBelt from '../../../assets/icons/BlueBelt.svg'
+import { Form, Formik } from 'formik'
+import FormControl from '../../../components/FormControl'
+import moment from 'moment'
+
+const initialValues = (): void => {}
+const handleCreateSubmit = (): void => {}
 
 const RenderTableTitle = (): JSX.Element => {
-    const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('instructorList')
-
+    const navigate = useNavigate()
+    const [startDate, setStartDate] = useState(null)
+    const [endDate, setEndDate] = useState(null)
+    const { getInstructorstartenddate } = useInstructor()
+    const getparam = async (startdate: any, enddate: any): Promise<void> => {
+        await getInstructorstartenddate(startdate, enddate)
+    }
     return (
         <CustomDiv>
-            <div className="mainWrapper">
-                <h3 className="table-heading">{getLabelByKey('title')}</h3>
-                <div className="FilterMainContainer">
-                    <div className="arrowsMain">
-                        <div className="arrowRight">
-                            <img
-                                src={LeftArrow}
-                                alt="Date"
-                                width={18}
-                                height={12}
-                            />
-                        </div>
-                        <div className="arrowLeft">
-                            <img
-                                src={RightArrow}
-                                alt="Date"
-                                width={18}
-                                height={12}
-                            />
-                        </div>
-                    </div>
-                    <div className="dateRange">
-                        <p>
-                            {' '}
-                            <span>Mon,</span> Sep 11, 2023 - <span>Thu,</span>{' '}
-                            Sep 21, 2023
-                        </p>
-                        <img
-                            src={DateCalander}
-                            alt="calander"
-                            width={21}
-                            height={21}
-                        />
-                    </div>
-                    <div className="todayPlusContainer">
-                        <div className="dateToday">
-                            <p>Today</p>
-                        </div>
-                        <CustomButton
-                            bgcolor={tertiaryBlue2}
-                            textTransform="Captilize"
-                            color={pureDark}
-                            padding="6.5px 0px"
-                            fontFamily={`${fontFamilyMedium}`}
-                            width="40px"
-                            type="submit"
-                            title=""
-                            fontSize="17px"
-                            // loading={loading}
-                            icon={
-                                <img
-                                    src={plusIcon}
-                                    alt="edit icon"
-                                    width={17}
-                                    height={17}
-                                />
-                            }
-                            clicked={() => {
-                                navigate(`/instructor/create`)
-                            }}
-                        />
-                    </div>
-                </div>
-            </div>
+            <Formik
+                initialValues={initialValues}
+                // validationSchema={validationSchema}
+                onSubmit={handleCreateSubmit}
+            >
+                {(formik) => {
+                    return (
+                        <Form
+                            name="basic"
+                            // onFinish={formik.handleSubmit}
+                            autoComplete="off"
+                        >
+                            <div className="mainWrapper">
+                                <h3 className="table-heading">
+                                    {getLabelByKey('title')}
+                                </h3>
+                                <div className="FilterMainContainer">
+                                    <div className="arrowsMain">
+                                        <div className="arrowRight">
+                                            <img
+                                                src={LeftArrow}
+                                                alt="Date"
+                                                width={18}
+                                                height={12}
+                                            />
+                                        </div>
+                                        <div className="arrowLeft">
+                                            <img
+                                                src={RightArrow}
+                                                alt="Date"
+                                                width={18}
+                                                height={12}
+                                            />
+                                        </div>
+                                    </div>
+                                    <FormControl
+                                        control="startEndDate"
+                                        type="startEndDate"
+                                        name="startDate"
+                                        fontFamily={fontFamilyRegular}
+                                        padding="8px 10px"
+                                        onChange={(dates: any) => {
+                                            const [start, end] = dates.map(
+                                                (date: any) =>
+                                                    moment(date).format(
+                                                        'YYYY-MM-DD'
+                                                    )
+                                            )
+                                            setStartDate(start)
+                                            setEndDate(end)
+                                            console.log('Start Date:', start)
+                                            console.log('End Date:', end)
+                                            getparam(start, end)
+                                        }}
+                                    />
+                                    <div className="todayPlusContainer">
+                                        <div className="dateToday">
+                                            <p>Today</p>
+                                        </div>
+                                        <CustomButton
+                                            bgcolor={tertiaryBlue2}
+                                            textTransform="Captilize"
+                                            color={pureDark}
+                                            padding="6.5px 0px"
+                                            fontFamily={`${fontFamilyMedium}`}
+                                            width="40px"
+                                            type="submit"
+                                            title=""
+                                            fontSize="17px"
+                                            // loading={loading}
+                                            icon={
+                                                <img
+                                                    src={plusIcon}
+                                                    alt="edit icon"
+                                                    width={17}
+                                                    height={17}
+                                                />
+                                            }
+                                            clicked={() => {
+                                                navigate(`/instructor/create`)
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </Form>
+                    )
+                }}
+            </Formik>
         </CustomDiv>
     )
 }
@@ -230,19 +267,19 @@ const ListInstructor: React.FC = () => {
             key: 'rankId',
             render: (image) => {
                 const selectedBelt = adult.find((belt) => belt.id === image)
-                if (selectedBelt) {
-                    return (
-                        <div className="blueBeltContainer">
-                            {selectedBelt && (
-                                <img
-                                    src={`https://fistastore.com:444/${selectedBelt?.imageUrl}`} // alt={selectedBelt.en}
-                                />
-                            )}
-                        </div>
-                    )
-                } else {
-                    return '--'
-                }
+                // if (selectedBelt) {
+                return (
+                    <div className="blueBeltContainer">
+                        {selectedBelt && (
+                            <img
+                                src={`https://fistastore.com:444/${selectedBelt?.imageUrl}`} // alt={selectedBelt.en}
+                            />
+                        )}
+                    </div>
+                )
+                //   } else {
+                //       return '--'
+                //   }
             },
         },
         {

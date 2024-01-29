@@ -66,7 +66,39 @@ const useMembership = (): IUseMembership => {
     const navigate = useNavigate()
 
     const { loginData } = useSelector((state: RootState) => state)
+    const getInstructorstartenddate = async (
+        startDate: string,
+        endDate: string
+    ): Promise<any> => {
+        try {
+            setError('')
+            setLoading(true)
+            const { data } = await axios.post(
+                `/instructor/getByUserId?startDate=${startDate}&endDate=${endDate}`,
 
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+
+            if (data.responseCode === '500') {
+                setLoading(false)
+                return
+            }
+            console.log(
+                'Instructor info according to start date and end date',
+                data.results
+            )
+            setLoading(false)
+            return data.results
+        } catch (error2: any) {
+            console.log('error', error2)
+            setLoading(false)
+            setError(error2)
+        }
+    }
     // to create Membership
     const handleCreateSubmit = async (
         values: CreateMembershipInitialValues,

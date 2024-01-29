@@ -99,6 +99,8 @@ const MembershipCardView = (): JSX.Element => {
     const onSubmit = async (): Promise<void> => {
         await handleCreateSubmit(payload, receivingImage)
     }
+    console.log(ClassData, 'll')
+
     const initialValues = (): void => {}
     const handleCreateSubmits = (): void => {}
     return (

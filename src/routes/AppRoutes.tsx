@@ -325,6 +325,14 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
+                    path="/timetable/slotss/:timeTableId"
+                    element={
+                        <AppLayout>
+                            <TimeTableSheet />
+                        </AppLayout>
+                    }
+                />
+                <Route
                     path="/timetable/information/:timeTableId"
                     element={
                         <AppLayout>

@@ -33,6 +33,10 @@ interface IUseInstructor {
     ) => Promise<void>
     deleteInstructor: (instructorId: number) => Promise<void>
     getInstructorbyid: (instructorId: number) => Promise<any>
+    getInstructorstartenddate: (
+        startDate: string,
+        endDate: string
+    ) => Promise<any>
     updateInstructor: (
         id: number,
         values: CreateInstructorInitialValues,
@@ -67,7 +71,7 @@ const useInstructor = (): IUseInstructor => {
     //     (state: RootState) => state.dashboardData
     // )
     // const dispatch = useDispatch()
-
+    //{{local}}/instructor/getByUserId?startDate=2023-12-03&endDate=2024-12-05
     const handleSubmit = async (
         values: CreateInstructorInitialValues,
         file: any
@@ -205,6 +209,39 @@ const useInstructor = (): IUseInstructor => {
                 return
             }
             console.log('Instructor info', data.results)
+            setLoading(false)
+            return data.results
+        } catch (error2: any) {
+            console.log('error', error2)
+            setLoading(false)
+            setError(error2)
+        }
+    }
+    const getInstructorstartenddate = async (
+        startDate: string,
+        endDate: string
+    ): Promise<any> => {
+        try {
+            setError('')
+            setLoading(true)
+            const { data } = await axios.post(
+                `/instructor/getByUserId?startDate=${startDate}&endDate=${endDate}`,
+
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+
+            if (data.responseCode === '500') {
+                setLoading(false)
+                return
+            }
+            console.log(
+                'Instructor info according to start date and end date',
+                data.results
+            )
             setLoading(false)
             return data.results
         } catch (error2: any) {
@@ -539,6 +576,7 @@ const useInstructor = (): IUseInstructor => {
         deleteConfirmation,
         deletemodal,
         InstructorStatus,
+        getInstructorstartenddate,
     }
 }
 

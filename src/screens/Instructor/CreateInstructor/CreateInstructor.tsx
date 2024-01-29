@@ -81,8 +81,6 @@ const CreateInstructor = (): JSX.Element => {
     }
     const instructorName = validationFinder('BUSINESS_NAME')!
     const franchiseNameReg = new RegExp(instructorName.pattern)
-    const address = validationFinder('ADDRESS')!
-    const addressReg = new RegExp(address.pattern)
     const emailAddress = validationFinder('EMAIL_ADDRESS')!
     const emailAddressReg = new RegExp(emailAddress.pattern)
     const instructorPhoneNumber = validationFinder('PHONE_NUMBER')!
@@ -91,9 +89,7 @@ const CreateInstructor = (): JSX.Element => {
         in: Yup.string()
             .required(instructorName.notBlankMsgEn)
             .matches(franchiseNameReg, instructorName.patternMsgEn),
-        address: Yup.string()
-            .required(address.notBlankMsgEn)
-            .matches(addressReg, address.patternMsgEn),
+        address: Yup.string().required('Please enter description'),
         emailAddress: Yup.string()
             .required(emailAddress.notBlankMsgEn)
             .matches(emailAddressReg, emailAddress.patternMsgEn),
@@ -174,7 +170,7 @@ const CreateInstructor = (): JSX.Element => {
         if (facilitiesName.length > 35) {
             return `${facilitiesName.slice(0, 35)}...`
         }
-        return facilitiesName || 'Specilizations'
+        return facilitiesName || 'Specializations'
     }
     return (
         <CreateSchoolStyled>

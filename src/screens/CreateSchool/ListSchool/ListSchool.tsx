@@ -16,6 +16,7 @@ import {
     tertiaryBlue2,
 } from '../../../components/GlobalStyle'
 import plusIcon from '../../../assets/icons/ic_plus.svg'
+import dummyData from './dummyData.json'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 // import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import RightArrow from '../../../assets/images/rightArrow.svg'
@@ -103,25 +104,26 @@ const ListSchool = (): JSX.Element => {
         },
         {
             title: 'Image',
-            render: (Dummydatas) => {
-                console.log('>>images', Dummydatas?.profilePicture)
-                if (Dummydatas.profilePicture === null) {
-                    return <img src={defaultPic} width={44} height={44} />
-                } else {
-                    return (
-                        <img
-                            src={`https://fistastore.com:444${Dummydatas?.profilePicture}`}
-                            width={44}
-                            height={44}
-                        />
-                    )
-                }
-            },
+            dataIndex: 'profilePicture',
+            key: 'profilePicture',
+            // render: (Dummydatas) => {
+            //     if (Dummydatas.profilePicture === null) {
+            //         return <img src={defaultPic} width={44} height={44} />
+            //     } else {
+            //         return (
+            //             <img
+            //                 src={`https://fistastore.com:444${Dummydatas?.profilePicture}`}
+            //                 width={44}
+            //                 height={44}
+            //             />
+            //         )
+            //     }
+            // },
         },
         {
             title: 'Name',
-            dataIndex: 'branchName',
-            key: 'branchName',
+            dataIndex: 'schoolName',
+            key: 'schoolName',
             render: (text) => (
                 <p>{text.length > 10 ? `${text.slice(0, 10)}...` : text}</p>
             ),
@@ -153,7 +155,7 @@ const ListSchool = (): JSX.Element => {
         {
             title: 'Status',
             dataIndex: 'status',
-            key: 'Status',
+            key: 'status',
             // render: (isActive, index) => {
 
             //     if (index?.schoolStatusId === 1) {
@@ -372,6 +374,12 @@ const ListSchool = (): JSX.Element => {
                     //         ? schoolData.data
                     //         : []
                     // }
+                    dataSource={
+                        dummyData.map((item) => ({
+                            ...item,
+                            key: item.schoolId,
+                        })) as any
+                    }
                     title={() => <RenderTableTitle />}
                     scroll={{ x: true }}
                     pagination={{

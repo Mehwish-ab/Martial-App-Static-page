@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { Dropdown, Space, Table } from 'antd'
+import { Dropdown, Space, Table, Tabs } from 'antd'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
@@ -18,6 +18,8 @@ import { cloneDeep, values } from 'lodash'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import moment from 'moment'
 import Head from '../../../components/Head/Head'
+import { TabPane } from 'react-bootstrap'
+import { string } from 'yup/lib/locale'
 interface TimeEntryProps {
     startTime: string | undefined
     endTime: string | undefined
@@ -98,6 +100,11 @@ const TimeTableSheet: React.FC = () => {
         TableDateSourceProps[]
     >([])
     const { loading } = useSelector((state: RootState) => state.timeTableData)
+    const [activeTab, setActiveTab] = useState<string>('0') // Default to the first day
+
+    const handleTabChange = (key: string): void => {
+        setActiveTab(key)
+    }
 
     const handleUpdateTableDataSource = (
         _recordIndex: number,
@@ -135,12 +142,6 @@ const TimeTableSheet: React.FC = () => {
     const handleDuplicateDay = (_recordIndex: number): void => {
         if (!allTimeTableDetail) return
 
-        const currentDate = new Date(allTimeTableDetail.startDate)
-        currentDate.setDate(currentDate.getDate() + _recordIndex)
-
-        const nextDate = new Date(currentDate)
-        nextDate.setDate(nextDate.getDate() + 1)
-
         const updatedTableDateSource: TableDateSourceProps[] =
             cloneDeep(tableDataSource)
 
@@ -148,43 +149,130 @@ const TimeTableSheet: React.FC = () => {
         const destinationDayIndex = _recordIndex + 1
 
         if (destinationDayIndex < updatedTableDateSource.length) {
-            console.log('updatedTableDateSource', updatedTableDateSource)
+            const clonedTimeEntries = cloneDeep(
+                updatedTableDateSource[sourceDayIndex].timeEntries
+            )
+            const duplicatedTimeEntries = clonedTimeEntries.map(
+                (timeEntry) => ({
+                    ...timeEntry,
+                    startTime: undefined,
+                    endTime: undefined,
+                    startBreak: undefined,
+                    endBreak: undefined,
+                })
+            )
 
             updatedTableDateSource[destinationDayIndex].timeEntries =
-                updatedTableDateSource[sourceDayIndex].timeEntries.map(
-                    (timeEntry: TimeEntryProps) => ({
-                        ...timeEntry,
-                        startTime: undefined,
-                        endTime: undefined,
-                        startBreak: undefined,
-                        endBreak: undefined,
-                    })
-                )
+                duplicatedTimeEntries
 
             setTableDataSource(updatedTableDateSource)
         }
     }
+
     console.log('tableDataSource', tableDataSource)
 
-    const addNewSlot = (_recordIndex: number): void => {
+    // const addNewSlot = (_recordIndex: number): void => {
+    //     console.log('addnewslot', _recordIndex)
+
+    //     if (!allTimeTableDetail) return
+
+    //     const currentDate = new Date(allTimeTableDetail.startDate)
+    //     currentDate.setDate(currentDate.getDate() + _recordIndex)
+    //     const dayOfWeek = daysOfWeek[currentDate.getDay()]
+    //     const updatedTableDateSource: TableDateSourceProps[] =
+    //         cloneDeep(tableDataSource)
+    //     updatedTableDateSource[_recordIndex].timeEntries.push({
+    //         startTime: undefined,
+    //         endTime: undefined,
+    //         startBreak: undefined,
+    //         endBreak: undefined,
+    //         dayOfWeek: dayOfWeek,
+    //         timeTableId:
+    //             updatedTableDateSource[_recordIndex].timeEntries[0].timeTableId,
+    //         isActive: allTimeTableDetail.isActive,
+    //     })
+    //     setTableDataSource(updatedTableDateSource)
+    // }
+    // const addNewSlot = (): void => {
+    //     console.log('addnewslot', activeTab)
+
+    //     if (!allTimeTableDetail) return
+
+    //     const currentDate = new Date(allTimeTableDetail.startDate)
+    //     currentDate.setDate(currentDate.getDate() + parseInt(activeTab, 10))
+    //     const dayOfWeek = daysOfWeek[currentDate.getDay()]
+    //     const updatedTableDateSource: TableDateSourceProps[] =
+    //         cloneDeep(tableDataSource)
+
+    //     updatedTableDateSource[parseInt(activeTab, 10)].timeEntries.push({
+    //         startTime: undefined,
+    //         endTime: undefined,
+    //         startBreak: undefined,
+    //         endBreak: undefined,
+    //         dayOfWeek: dayOfWeek,
+    //         timeTableId:
+    //             updatedTableDateSource[parseInt(activeTab, 10)].timeEntries[0]
+    //                 .timeTableId,
+    //         isActive: allTimeTableDetail.isActive,
+    //     })
+    //     setTableDataSource(updatedTableDateSource)
+    // }
+    const addNewSlot = (): void => {
         if (!allTimeTableDetail) return
 
         const currentDate = new Date(allTimeTableDetail.startDate)
-        currentDate.setDate(currentDate.getDate() + _recordIndex)
+        currentDate.setDate(currentDate.getDate() + parseInt(activeTab, 10))
         const dayOfWeek = daysOfWeek[currentDate.getDay()]
+
         const updatedTableDateSource: TableDateSourceProps[] =
             cloneDeep(tableDataSource)
-        updatedTableDateSource[_recordIndex].timeEntries.push({
+        const newTimeEntry: TimeEntryProps = {
             startTime: undefined,
             endTime: undefined,
             startBreak: undefined,
+            timeTableId: Number(timeTableId),
             endBreak: undefined,
-            dayOfWeek: dayOfWeek,
-            timeTableId:
-                updatedTableDateSource[_recordIndex].timeEntries[0].timeTableId,
             isActive: allTimeTableDetail.isActive,
+            dayOfWeek: String(undefined),
+        }
+
+        // Find the correct index based on activeTab
+        const tabIdx = parseInt(activeTab, 10)
+
+        // Add the new time entry to the correct day
+        updatedTableDateSource[tabIdx].timeEntries.push(newTimeEntry)
+
+        // Call createSlots with the updated data
+        createSlots({
+            timeTableId: allTimeTableDetail.timeTableId,
+            startTime:
+                moment(newTimeEntry.startTime, 'hh:mm A').format('HH:mm:ss') ||
+                '',
+            endTime:
+                moment(newTimeEntry.endTime, 'hh:mm A').format('HH:mm:ss') ||
+                '',
+            startBreak:
+                moment(newTimeEntry.startBreak, 'hh:mm A').format('HH:mm:ss') ||
+                '',
+            endBreak:
+                moment(newTimeEntry.endBreak, 'hh:mm A').format('HH:mm:ss') ||
+                '',
+            dayOfWeek: newTimeEntry.dayOfWeek || '',
         })
+
         setTableDataSource(updatedTableDateSource)
+    }
+
+    const slots = async (slotData: any): Promise<void> => {
+        try {
+            // Assuming your API call to create slots here
+            const response = await createSlots(slotData)
+            // Handle the response as needed
+            console.log('createSlots response:', response)
+        } catch (error) {
+            // Handle errors
+            console.error('Error creating slots:', error)
+        }
     }
     const { getLabelByKey } = useScreenTranslation('createTImeTable')
 
@@ -282,19 +370,21 @@ const TimeTableSheet: React.FC = () => {
                         <div key={`${recordIndex}-${rowIndex}`}>
                             <button
                                 onClick={() => {
-                                    if (
-                                        !timeEntry.timeTableId ||
-                                        !timeEntry.startTime ||
-                                        !timeEntry.endTime ||
-                                        !timeEntry.startBreak ||
-                                        !timeEntry.endBreak ||
-                                        !timeEntry.dayOfWeek
-                                    ) {
-                                        alert('Please fill out the time slot')
-                                        return
-                                    }
-                                    createSlots({
-                                        timeTableId: timeEntry.timeTableId,
+                                    console.log('nada', timeEntry, recordIndex)
+
+                                    // if (
+                                    //     !timeEntry.timeTableId ||
+                                    //     !timeEntry.startTime ||
+                                    //     !timeEntry.endTime ||
+                                    //     !timeEntry.startBreak ||
+                                    //     !timeEntry.endBreak ||
+                                    //     !timeEntry.dayOfWeek
+                                    // ) {
+                                    //     alert('Please fill out the time slot')
+                                    //     return
+                                    // }
+                                    slots({
+                                        timeTableId: timeTableId,
                                         startTime:
                                             moment(
                                                 timeEntry.startTime,
@@ -341,7 +431,7 @@ const TimeTableSheet: React.FC = () => {
                         key: '2',
                         label: 'Add new Slot',
                         // improving-screens
-                        onClick: () => addNewSlot(recordIndex),
+                        onClick: () => addNewSlot(),
                     },
                 ]
                 return record.timeEntries.map(
@@ -415,16 +505,20 @@ const TimeTableSheet: React.FC = () => {
         if (!allTimeTableDetail) {
             return
         }
+
         const numberOfDays = calculateDaysDifference(
             allTimeTableDetail.startDate,
             allTimeTableDetail.endDate
         )
+
         const _tableDataSource: TableDateSourceProps[] = Array.from(
             { length: numberOfDays },
             (_, index) => {
                 const currentDate = new Date(allTimeTableDetail.startDate)
                 currentDate.setDate(currentDate.getDate() + index)
                 const dayOfWeek = daysOfWeek[currentDate.getDay()]
+
+                // Ensure that timeEntries is initialized properly
                 const _timeEntries = allTimeTableDetail.timeEntries.length
                     ? [...allTimeTableDetail.timeEntries]
                     : [
@@ -438,6 +532,7 @@ const TimeTableSheet: React.FC = () => {
                               isActive: allTimeTableDetail.isActive,
                           },
                       ]
+
                 return {
                     key: index.toString(),
                     date: currentDate.toISOString().split('T')[0],
@@ -461,12 +556,25 @@ const TimeTableSheet: React.FC = () => {
             {loading && <LoadingOverlay message="" />}
             <RenderTableTitle />
             <CreateTimeTableStyled>
-                <Table
-                    columns={columns}
-                    dataSource={tableDataSource}
-                    pagination={false}
-                    scroll={{ x: true }}
-                />
+                <Tabs
+                    activeKey={activeTab}
+                    onChange={handleTabChange}
+                    type="card"
+                >
+                    {tableDataSource.map((day, index) => (
+                        <Tabs.TabPane
+                            tab={day.dayOfWeek}
+                            key={index.toString()}
+                        >
+                            <Table
+                                columns={columns}
+                                dataSource={[day]}
+                                pagination={false}
+                                scroll={{ x: true }}
+                            />
+                        </Tabs.TabPane>
+                    ))}
+                </Tabs>
             </CreateTimeTableStyled>
         </>
     )

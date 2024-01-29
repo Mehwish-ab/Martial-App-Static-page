@@ -30,6 +30,8 @@ import useClass from '../../../hooks/useClass'
 import moment from 'moment'
 import FormControl from '../../../components/FormControl'
 import { Form, Formik } from 'formik'
+import useCreateSchool from '../../../hooks/useCreateSchool'
+import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
 
 const ListClass = (): JSX.Element => {
     const { ClassData } = useSelector((state: RootState) => state.ClassData)
@@ -37,11 +39,13 @@ const ListClass = (): JSX.Element => {
     const { ClassStatus, deletemodal, deleteConfirmation, setIsShowModal } =
         useClass()
     const [Id, setId] = useState(0)
+    // const { g}=useCreateSchool()
 
     const { getLabelByKey } = useScreenTranslation('classesList')
     useEffect(() => {
         store.dispatch(getBranchBySchoolId())
     }, [])
+
     const { loading } = useSelector((state: RootState) => state.ClassData)
     const navigation = (record: ClassDataType, redirectTo: string): void => {
         switch (redirectTo) {

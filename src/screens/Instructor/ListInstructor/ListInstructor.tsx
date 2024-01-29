@@ -230,19 +230,19 @@ const ListInstructor: React.FC = () => {
             key: 'rankId',
             render: (image) => {
                 const selectedBelt = adult.find((belt) => belt.id === image)
-                if (selectedBelt) {
-                    return (
-                        <div className="blueBeltContainer">
-                            {selectedBelt && (
-                                <img
-                                    src={`https://fistastore.com:444/${selectedBelt?.imageUrl}`} // alt={selectedBelt.en}
-                                />
-                            )}
-                        </div>
-                    )
-                } else {
-                    return '--'
-                }
+                // if (selectedBelt) {
+                return (
+                    <div className="blueBeltContainer">
+                        {selectedBelt && (
+                            <img
+                                src={`https://fistastore.com:444/${selectedBelt?.imageUrl}`} // alt={selectedBelt.en}
+                            />
+                        )}
+                    </div>
+                )
+                //   } else {
+                //       return '--'
+                //   }
             },
         },
         {

@@ -28,6 +28,7 @@ import { getInstructorByUserId } from '../../../redux/features/instructor/instru
 import useTimetable from '../../../hooks/useTimetable'
 import useInstructor from '../../../hooks/useInstructor'
 import { initial } from 'lodash'
+import * as Yup from 'yup'
 
 const UpdateClass = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('updateClasses')
@@ -185,7 +186,55 @@ const UpdateClass = (): JSX.Element => {
         id: Number(loginData.data?.schoolId),
         timeTableId: values?.timeTableId,
     }
+    const validationSchemas = Yup.object({
+        // in: Yup.string()
+        //     .required(instructorName.notBlankMsgEn)
+        //     .matches(franchiseNameReg, instructorName.patternMsgEn),
+        // address: Yup.string()
+        //     .required(address.notBlankMsgEn)
+        //     .matches(addressReg, address.patternMsgEn),
+        // emailAddress: Yup.string()
+        //     .required(emailAddress.notBlankMsgEn)
+        //     .matches(emailAddressReg, emailAddress.patternMsgEn),
+        // instructorPhoneNumber: Yup.string().required(
+        //     instructorPhoneNumber.notBlankMsgEn
+        // ),
+        // latestCertification: Yup.mixed().test(
+        //     'fileType',
+        //     'Unsupported File Format',
+        //     function (value) {
+        //         if (value) {
+        //             const allowedTypes = [
+        //                 'image/jpeg',
+        //                 'image/png',
+        //                 'image/webp',
+        //                 'image/jpg',
+        //                 'image/bmp',
+        //                 'image/tiff',
+        //             ]
+        //             const isAllowedType = allowedTypes.includes(value.type)
 
+        //             return isAllowedType
+        //         }
+        //         return true
+        //     }
+        // ),
+        title: Yup.string().required('Please select title'),
+        fee: Yup.string().required('Please enter description'),
+        // yearsOfExperience: Yup.string().required(
+        //     'Please select years Of Experience'
+        // ),
+
+        // defaultCurrency: Yup.string().required(
+        //     'Please select default currency'
+        // ),
+        // activities: Yup.array()
+        //     .of(Yup.string().required('Select an activity'))
+        //     .min(1, 'Select at least one activity'),
+        // specializations: Yup.array()
+        //     .of(Yup.string().required('Select an specilization'))
+        //     .min(1, 'Select at least one specilization'),
+    })
     const showActivities = (_activities: string[]): string => {
         let activitiesName = ''
         _activities.forEach((activity) => {
@@ -286,6 +335,7 @@ const UpdateClass = (): JSX.Element => {
                 <Formik
                     initialValues={InitialValues}
                     onSubmit={onSubmit}
+                    validationSchema={validationSchemas}
                     enableReinitialize
                 >
                     {(formik) => {

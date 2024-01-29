@@ -325,9 +325,7 @@ const ListTimeTable: React.FC = () => {
                     //     return data
                     // })}
                     dataSource={
-                        timeTableData?.data.length !== 0
-                            ? timeTableData.data
-                            : []
+                        timeTableData?.data.length > 0 ? timeTableData.data : []
                     }
                     // scroll={{ x: true }}
                     pagination={{

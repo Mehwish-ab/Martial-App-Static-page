@@ -140,7 +140,7 @@ const ListStudent = (): JSX.Element => {
                                 autoComplete="off"
                             >
                                 <div className="mainWrapper">
-                                    <h3 className="table-heading">Schools</h3>
+                                    <h3 className="table-heading">Students</h3>
                                     <div className="FilterMainContainer">
                                         <div className="arrowsMain">
                                             <div className="arrowRight">

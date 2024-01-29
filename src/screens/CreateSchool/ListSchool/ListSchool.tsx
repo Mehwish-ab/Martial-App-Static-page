@@ -106,19 +106,20 @@ const ListSchool = (): JSX.Element => {
             title: 'Image',
             dataIndex: 'profilePicture',
             key: 'profilePicture',
-            // render: (Dummydatas) => {
-            //     if (Dummydatas.profilePicture === null) {
-            //         return <img src={defaultPic} width={44} height={44} />
-            //     } else {
-            //         return (
-            //             <img
-            //                 src={`https://fistastore.com:444${Dummydatas?.profilePicture}`}
-            //                 width={44}
-            //                 height={44}
-            //             />
-            //         )
-            //     }
-            // },
+            render: (Dummydatas) => {
+                // if (Dummydatas.profilePicture === null) {
+                return <img src={defaultPic} width={44} height={44} />
+                // }
+                // else {
+                //     return (
+                //         <img
+                //             src={`https://fistastore.com:444${Dummydatas?.profilePicture}`}
+                //             width={44}
+                //             height={44}
+                //         />
+                //     )
+                // }
+            },
         },
         {
             title: 'Name',
@@ -142,8 +143,6 @@ const ListSchool = (): JSX.Element => {
             dataIndex: 'activities',
             key: 'activities',
             render: (DummyData) => {
-                console.log(DummyData, 'DummyData')
-
                 return <p className="sub-title">{showActivities(DummyData)}</p>
             },
         },
@@ -366,6 +365,7 @@ const ListSchool = (): JSX.Element => {
             {deleteConfirmation(Id).modalComponent} */}
 
             {/* {loading && <LoadingOverlay message="" />} */}
+            <RenderTableTitle />
             <ListBranchStyled>
                 <Table
                     columns={columns}
@@ -380,7 +380,6 @@ const ListSchool = (): JSX.Element => {
                             key: item.schoolId,
                         })) as any
                     }
-                    title={() => <RenderTableTitle />}
                     scroll={{ x: true }}
                     pagination={{
                         showTotal: (total, range) => (

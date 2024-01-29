@@ -9,7 +9,7 @@ type MenuItem = Required<MenuProps>['items'][number]
 
 const menuLinks: any = {
     dashboard: '/',
-    createSchool: '/school/create',
+    createSchool: '/school/list',
     classes: '/class/list',
     timeTable: '/timetable/list',
     transactionsHistory: '/transaction-history/list',

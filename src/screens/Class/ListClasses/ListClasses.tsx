@@ -48,7 +48,7 @@ const ListClass = (): JSX.Element => {
     const [calenderData, setcalenderData] = useState<
         ClassDataType[] | undefined
     >(undefined)
-    let flag = false
+    const [Flag, setFlag] = useState(false)
     const schoolId = loginData.data?.schoolId
     const calculateDaysDifference = (st: string, en: string): number => {
         const start = new Date(st)
@@ -86,7 +86,7 @@ const ListClass = (): JSX.Element => {
     }
 
     const handleDateChange = async (dates: any): Promise<void> => {
-        flag = true
+        setFlag(true)
 
         console.log('shaza', dates)
         setCalculateDay(0)
@@ -403,11 +403,13 @@ const ListClass = (): JSX.Element => {
                 <Table
                     columns={columns}
                     dataSource={
-                        calenderData == undefined
+                        Flag === false
                             ? ClassData?.data[0].id !== 0
                                 ? ClassData.data
                                 : []
-                            : calenderData
+                            : calenderData === undefined
+                              ? []
+                              : calenderData
                     }
                     // scroll={{ x: true }}
                     pagination={{

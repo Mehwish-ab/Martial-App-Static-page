@@ -1,6 +1,6 @@
-import { CreateSchoolStyled } from '../styles'
+import { CreateSchoolStyled, StudentViewStyling } from '../styles'
 import { ErrorMessage, Formik } from 'formik'
-import { Form } from 'antd'
+import { Card, Form } from 'antd'
 import { Col, Row } from 'react-bootstrap'
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
@@ -176,6 +176,47 @@ const EditSchool = (): JSX.Element => {
     return (
         <>
             <Head title="Update School" />
+            <StudentViewStyling>
+                <Card>
+                    <h3>Owner Information</h3>
+                    <Row className="mt-20">
+                        <Col md="6">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    Owner First Name
+                                </div>
+                                <div className="list-item-value">Adnan</div>
+                            </div>
+                        </Col>
+                        <Col md="6">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    Owner Last Name
+                                </div>
+                                <div className="list-item-value">Qureshi</div>
+                            </div>
+                        </Col>
+                        <Col md="6">
+                            <div className="list-item">
+                                <div className="list-item-title">Email</div>
+                                <div className="list-item-value">
+                                    adnan@gmail.com
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="6">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    Phone Number
+                                </div>
+                                <div className="list-item-value">
+                                    +923000000000
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                </Card>
+            </StudentViewStyling>
             <CreateSchoolStyled>
                 {/* {UpdateModal().modalComponent}
       <OverlayImages
@@ -197,10 +238,8 @@ const EditSchool = (): JSX.Element => {
                                 onFinish={formik.handleSubmit}
                                 autoComplete="off"
                             >
-                                <h3 className="ps-3">
-                                    {getTitleLabelByKey('title')}
-                                </h3>
-                                <div className="bg-white form mt-10">
+                                <div className="bg-white form mt-20">
+                                    <h3>{getTitleLabelByKey('title')}</h3>
                                     <Row>
                                         <Col md="4" className="mt-20">
                                             <FormControl

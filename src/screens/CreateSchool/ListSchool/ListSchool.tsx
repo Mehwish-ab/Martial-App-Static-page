@@ -378,7 +378,7 @@ const ListSchool = (): JSX.Element => {
                                                     />
                                                 }
                                                 clicked={() => {
-                                                    navigate(`/student/list`)
+                                                    navigate(`/user/list`)
                                                 }}
                                             />
                                         </div>

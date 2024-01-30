@@ -20,7 +20,8 @@ import { Form, Formik } from 'formik'
 import FormControl from '../../components/FormControl'
 import { SchoolDataType } from '../../redux/features/dashboard/dashboardDataSlice'
 import { CustomDiv } from '../CreateSchool/ListSchool/CustomDiv'
-const ListStudent = (): JSX.Element => {
+import Head from '../../components/Head/Head'
+const UserList = (): JSX.Element => {
     // const { schoolData } = useSelector(
     //     (state: RootState) => state.dashboardData
     // )
@@ -140,7 +141,7 @@ const ListStudent = (): JSX.Element => {
                                 autoComplete="off"
                             >
                                 <div className="mainWrapper">
-                                    <h3 className="table-heading">Students</h3>
+                                    <h3 className="table-heading">Users</h3>
                                     <div className="FilterMainContainer">
                                         <div className="arrowsMain">
                                             <div className="arrowRight">
@@ -191,7 +192,7 @@ const ListStudent = (): JSX.Element => {
                                                     />
                                                 }
                                                 clicked={() => {
-                                                    navigate(`/school/create`)
+                                                    navigate(`/register`)
                                                 }}
                                             />
                                         </div>
@@ -224,6 +225,7 @@ const ListStudent = (): JSX.Element => {
             {deleteConfirmation(Id).modalComponent} */}
 
             {/* {loading && <LoadingOverlay message="" />} */}
+            <Head title="User List" />
             <RenderTableTitle />
             <ListStudentStyling>
                 <Table
@@ -255,4 +257,4 @@ const ListStudent = (): JSX.Element => {
     )
 }
 
-export default ListStudent
+export default UserList

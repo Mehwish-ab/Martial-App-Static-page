@@ -54,8 +54,7 @@ import UpdateMembership from '../screens/Membership/UpdateMembership/UpdateMembe
 import ViewMembership from '../screens/Membership/ViewMembership/ViewMembership'
 import NewTimeTable from '../screens/TimeTable/NewTimeTableCreate/NewTimeTableCreate'
 import ListSchool from '../screens/CreateSchool/ListSchool/ListSchool'
-import ListStudent from '../screens/StudentList/ListStudent'
-// import { useDispatch, useSelector } from "react-redux";
+import UserList from '../screens/UserList/UserList'
 // import { RootState } from "../redux/store";
 
 function AppRoutes(): JSX.Element {
@@ -108,10 +107,10 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/student/list"
+                    path="/user/list"
                     element={
                         <AppLayout>
-                            <ListStudent />
+                            <UserList />
                         </AppLayout>
                     }
                 />

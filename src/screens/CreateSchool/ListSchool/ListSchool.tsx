@@ -379,7 +379,7 @@ const ListSchool = (): JSX.Element => {
                                                     />
                                                 }
                                                 clicked={() => {
-                                                    navigate(`/school/create`)
+                                                    navigate(`/student/list`)
                                                 }}
                                             />
                                         </div>

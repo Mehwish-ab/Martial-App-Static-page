@@ -24,7 +24,7 @@ const menuLinks: any = {
     language: '/language',
     qrCode: '/qr-code',
     setting: '/settings',
-    user: '',
+    user: '/user/list',
     attendance: '',
 }
 

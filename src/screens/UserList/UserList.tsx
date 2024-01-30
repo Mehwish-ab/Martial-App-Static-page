@@ -1,123 +1,46 @@
 import { useNavigate } from 'react-router-dom'
-
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../redux/store'
-
-import { Dropdown, Menu, Space, Table } from 'antd'
+import { Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import CustomButton from '../../../components/CustomButton/CustomButton'
+import CustomButton from '../../components/CustomButton/CustomButton'
 
-import { ListSchoolStyle } from './styles'
-import { CustomDiv } from './CustomDiv'
+import { ListStudentStyling } from './styles'
 import {
     fontFamilyMedium,
     fontFamilyRegular,
     pureDark,
     tertiaryBlue2,
-} from '../../../components/GlobalStyle'
-import plusIcon from '../../../assets/icons/ic_plus.svg'
+} from '../../components/GlobalStyle'
+import plusIcon from '../../assets/icons/ic_plus.svg'
 import dummyData from './dummyData.json'
-import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
-import StatusActiveError from '../../../assets/images/activeBtnError.svg'
-import RightArrow from '../../../assets/images/rightArrow.svg'
-import LeftArrow from '../../../assets/images/leftArrow.svg'
-import defaultPic from '../../../assets/images/create_school_user_profile.svg'
+import StatusActiveError from '../../assets/images/activeBtnError.svg'
+import RightArrow from '../../assets/images/rightArrow.svg'
+import LeftArrow from '../../assets/images/leftArrow.svg'
+import defaultPic from '../../assets/images/create_school_user_profile.svg'
 import { Form, Formik } from 'formik'
-import FormControl from '../../../components/FormControl'
-import { SchoolDataType } from '../../../redux/features/dashboard/dashboardDataSlice'
-const ListSchool = (): JSX.Element => {
+import FormControl from '../../components/FormControl'
+import { SchoolDataType } from '../../redux/features/dashboard/dashboardDataSlice'
+import { CustomDiv } from '../CreateSchool/ListSchool/CustomDiv'
+import Head from '../../components/Head/Head'
+const UserList = (): JSX.Element => {
     // const { schoolData } = useSelector(
     //     (state: RootState) => state.dashboardData
     // )
-    const {
-        statusData: { activities },
-    } = useSelector((state: RootState) => state.appData.data)
+
     const navigate = useNavigate()
 
     // const { schoolData, loading } = useSelector(
     //     (state: RootState) => state.schoolData
     // )
-    const { selectedLanguage } = useSelector(
-        (state: RootState) => state.selectedLanguage
-    )
+
     // const {
     //     dropdowns: { businessTypes },
     // } = useSelector((state: RootState) => state.appData.data)
-    const navigation = (record: SchoolDataType, redirectTo: string): void => {
-        switch (redirectTo) {
-            case 'edit':
-                navigate(`/school/edit/${record.schoolId}`, {
-                    state: {
-                        branchToEdit: record as SchoolDataType,
-                    },
-                })
-                break
 
-            case 'view':
-                navigate(`/school/view/${record.schoolId}`, {
-                    state: {
-                        branch: record as SchoolDataType,
-                    },
-                })
-                break
-            case 'payment':
-                navigate(`/school/add-payment-information/${record.schoolId}`, {
-                    state: {
-                        branchToEdit: record as SchoolDataType,
-                    },
-                })
-                break
-
-            case 'delete':
-                navigate(`/school/delete/${record.schoolId}`, {
-                    state: {
-                        branch: record as SchoolDataType,
-                    },
-                })
-                break
-
-            case 'branch':
-                navigate(`/branch/list/`)
-                break
-            case 'franchise':
-                navigate(`/franchise/list/`)
-                break
-            case 'class':
-                navigate(`/class/list/`)
-                break
-            case 'timeTable':
-                navigate(`/timeTable/list/`)
-                break
-            case 'membership':
-                navigate(`/membership/list/`)
-                break
-        }
-    }
-    const showActivities = (_activities: string): string => {
-        const activitiesArr = _activities.split(',')
-
-        let activitiesName = ''
-        activitiesArr.map((activity) => {
-            const index = activities.findIndex((act) => act.id === activity)
-            if (index !== -1) {
-                activitiesName =
-                    activitiesName === ''
-                        ? (activities[index] as any)[selectedLanguage]
-                        : `${activitiesName}, ${
-                              (activities[index] as any)[selectedLanguage]
-                          }`
-            }
-        })
-        if (activitiesName.length > 35) {
-            return `${activitiesName.slice(0, 35)}...`
-        }
-        return activitiesName
-    }
     const columns: ColumnsType<SchoolDataType> = [
         {
             title: 'Id',
-            dataIndex: 'schoolId',
-            key: 'schoolId',
+            dataIndex: 'studentId',
+            key: 'studentId',
         },
         {
             title: 'Image',
@@ -125,7 +48,7 @@ const ListSchool = (): JSX.Element => {
             key: 'profilePicture',
             render: (Dummydatas) => {
                 // if (Dummydatas.profilePicture === null) {
-                return <img src={defaultPic} width={44} height={44} />
+                return <img src={Dummydatas} width={44} height={44} />
                 // }
                 // else {
                 //     return (
@@ -140,28 +63,20 @@ const ListSchool = (): JSX.Element => {
         },
         {
             title: 'Name',
-            dataIndex: 'schoolName',
-            key: 'schoolName',
+            dataIndex: 'studentName',
+            key: 'studentName',
             render: (text) => (
                 <p>{text.length > 10 ? `${text.slice(0, 10)}...` : text}</p>
             ),
         },
         {
-            title: 'Type',
-            dataIndex: 'schoolType',
-            key: 'schoolType',
+            title: 'Email Address',
+            dataIndex: 'emailAddress',
+            key: 'emailAddress',
             // render: (_, { schoolType }) => {
             //     const item = businessTypes.find((b) => b.id === schoolType)
             //     return <p>{item?.en}</p>
             // },
-        },
-        {
-            title: 'Activity',
-            dataIndex: 'activities',
-            key: 'activities',
-            render: (DummyData) => {
-                return <p className="sub-title">{showActivities(DummyData)}</p>
-            },
         },
         {
             title: 'Phone Number',
@@ -179,7 +94,7 @@ const ListSchool = (): JSX.Element => {
                         <button
                         // onClick={() => {
                         //     {
-                        //         BranchStatus(index.schoolId, 2)
+                        //         BranchStatus(index.studentId, 2)
                         //     }
                         // }}
                         >
@@ -193,7 +108,7 @@ const ListSchool = (): JSX.Element => {
                     <div className={'De-Active'}>
                         <button
                         // onClick={() => {
-                        //     BranchStatus(index.schoolId, 1)
+                        //     BranchStatus(index.studentId, 1)
                         // }}
                         >
                             De-Active
@@ -206,104 +121,38 @@ const ListSchool = (): JSX.Element => {
         },
         {
             title: 'Action',
-            key: 'action',
-            render: (_, record) => {
-                const items = [
-                    {
-                        key: '1',
-                        label: 'View',
-                        onClick: () => navigation(record, 'view'),
-                    },
-                    {
-                        key: '2',
-                        label: 'Edit',
-                        onClick: () => navigation(record, 'edit'),
-                    },
-                    {
-                        key: '3',
-                        label: 'Payment',
-                        onClick: () => navigation(record, 'payment'),
-                    },
-                    {
-                        key: '4',
-                        label: 'Delete',
-                        // onClick: () => {
-                        //     setId(record.schoolId)
-                        //     setIsShowModal(true)
-                        // },
-                    },
-                    {
-                        key: 'divider1',
-                        type: 'divider',
-                    },
-                    {
-                        key: '5',
-                        label: 'Branches',
-                        onClick: () => navigation(record, 'branch'),
-                    },
-                    {
-                        key: '6',
-                        label: 'Franchise',
-                        onClick: () => navigation(record, 'franchise'),
-                    },
-                    {
-                        key: '7',
-                        label: 'Classes',
-                        onClick: () => navigation(record, 'class'),
-                    },
-                    {
-                        key: '8',
-                        label: 'TimeTable',
-                        onClick: () => navigation(record, 'timeTable'),
-                    },
-                    {
-                        key: '9',
-                        label: 'Memberships',
-                        onClick: () => navigation(record, 'membership'),
-                    },
-                    {
-                        key: '10',
-                        label: 'Rooms',
-                    },
-                    {
-                        key: 'divider1',
-                        type: 'divider',
-                    },
-                    {
-                        key: '11',
-                        label: 'Reports',
-                    },
-                ]
-                const menu = (
-                    <Menu>
-                        {items.map((item) => {
-                            if (item.type === 'divider') {
-                                return <Menu.Divider key={item.key} />
-                            }
-
-                            return (
-                                <Menu.Item
-                                    key={item.key}
-                                    onClick={item.onClick}
-                                >
-                                    {item.label}
-                                </Menu.Item>
-                            )
-                        })}
-                    </Menu>
-                )
-
+            dataIndex: 'status',
+            key: 'status',
+            render: (isActive, index) => {
+                // if (index?.schoolStatusId === 1) {
                 return (
-                    <Space size="middle">
-                        <Dropdown overlay={menu}>
-                            <img
-                                src={actionMenuTogglerIcon}
-                                alt="action menu"
-                                style={{ cursor: 'pointer' }}
-                            />
-                        </Dropdown>
-                    </Space>
+                    <div className={'Active'}>
+                        <button
+                        // onClick={() => {
+                        //     {
+                        //         BranchStatus(index.studentId, 2)
+                        //     }
+                        // }}
+                        >
+                            Active
+                        </button>
+                        <img src={StatusActiveError} alt="image" />
+                    </div>
                 )
+                // } else {
+                return (
+                    <div className={'De-Active'}>
+                        <button
+                        // onClick={() => {
+                        //     BranchStatus(index.studentId, 1)
+                        // }}
+                        >
+                            De-Active
+                        </button>
+                        <img src={StatusActiveError} alt="image" />
+                    </div>
+                )
+                // }
             },
         },
     ]
@@ -327,7 +176,7 @@ const ListSchool = (): JSX.Element => {
                                 autoComplete="off"
                             >
                                 <div className="mainWrapper">
-                                    <h3 className="table-heading">Schools</h3>
+                                    <h3 className="table-heading">Users</h3>
                                     <div className="FilterMainContainer">
                                         <div className="arrowsMain">
                                             <div className="arrowRight">
@@ -378,7 +227,7 @@ const ListSchool = (): JSX.Element => {
                                                     />
                                                 }
                                                 clicked={() => {
-                                                    navigate(`/student/list`)
+                                                    navigate(`/register`)
                                                 }}
                                             />
                                         </div>
@@ -411,19 +260,20 @@ const ListSchool = (): JSX.Element => {
             {deleteConfirmation(Id).modalComponent} */}
 
             {/* {loading && <LoadingOverlay message="" />} */}
+            <Head title="User List" />
             <RenderTableTitle />
-            <ListSchoolStyle>
+            <ListStudentStyling>
                 <Table
                     columns={columns}
                     // dataSource={
-                    //     schoolData?.data[0].schoolId !== 0
+                    //     schoolData?.data[0].studentId !== 0
                     //         ? schoolData.data
                     //         : []
                     // }
                     dataSource={
                         dummyData.map((item) => ({
                             ...item,
-                            key: item.schoolId,
+                            key: item.studentId, // Make sure studentId is present in the 'item'
                         })) as any
                     }
                     scroll={{ x: true }}
@@ -437,9 +287,9 @@ const ListSchool = (): JSX.Element => {
                         ),
                     }}
                 />
-            </ListSchoolStyle>
+            </ListStudentStyling>
         </>
     )
 }
 
-export default ListSchool
+export default UserList

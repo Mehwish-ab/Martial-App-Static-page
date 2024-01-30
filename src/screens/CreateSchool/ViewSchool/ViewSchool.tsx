@@ -19,6 +19,7 @@ import {
 } from '../../../components/GlobalStyle'
 import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
 import Head from '../../../components/Head/Head'
+import { StudentViewStyling } from '../styles'
 const ViewSchool = (): JSX.Element => {
     const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
@@ -161,8 +162,46 @@ const ViewSchool = (): JSX.Element => {
                     overlayImg={schoolData.profilePicture || ''}
                     isEditable={true}
                 />
+                <h3>Owner Information</h3>
+                <Card>
+                    <Row>
+                        <Col md="6">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    Owner First Name
+                                </div>
+                                <div className="list-item-value">Adnan</div>
+                            </div>
+                        </Col>
+                        <Col md="6">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    Owner Last Name
+                                </div>
+                                <div className="list-item-value">Qureshi</div>
+                            </div>
+                        </Col>
+                        <Col md="6">
+                            <div className="list-item">
+                                <div className="list-item-title">Email</div>
+                                <div className="list-item-value">
+                                    adnan@gmail.com
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="6">
+                            <div className="list-item ">
+                                <div className="list-item-title">
+                                    Phone Number
+                                </div>
+                                <div className="list-item-value">
+                                    +923000000000
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                </Card>
                 <h3>School Informations</h3>
-
                 <Card>
                     <Row>
                         <Col md="4">

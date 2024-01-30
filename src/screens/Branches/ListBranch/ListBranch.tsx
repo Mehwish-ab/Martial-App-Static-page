@@ -8,15 +8,15 @@ import {
     getBranchBySchoolId,
 } from '../../../redux/features/branch/branchSlice'
 
-import { Dropdown, Space, Table } from 'antd'
+import { Dropdown, Form, Menu, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
 
 import { ListBranchStyled } from './styles'
-import { CustomDiv } from './CustomDiv'
 import {
     fontFamilyMedium,
+    fontFamilyRegular,
     pureDark,
     tertiaryBlue2,
 } from '../../../components/GlobalStyle'
@@ -29,6 +29,10 @@ import LeftArrow from '../../../assets/images/leftArrow.svg'
 import DateCalander from '../../../assets/images/dateCalander.svg'
 import defaltimg from '../../../assets/images/create_school_user_profile.svg'
 import useBranch from '../hooks/useBranch'
+import { Formik } from 'formik'
+import FormControl from '../../../components/FormControl'
+import { CustomDiv } from '../../CreateSchool/ListSchool/CustomDiv'
+import Head from '../../../components/Head/Head'
 const localStorageData = localStorage.getItem('ennvision-admin:token')
 const loginData = JSON.parse(localStorageData as any)
 const ListBranch = (): JSX.Element => {
@@ -218,7 +222,6 @@ const ListBranch = (): JSX.Element => {
             title: 'Action',
             key: 'action',
             render: (_, record) => {
-                console.log(record, 'records')
                 const items = [
                     {
                         key: '1',
@@ -238,12 +241,61 @@ const ListBranch = (): JSX.Element => {
                     {
                         key: '4',
                         label: 'Delete',
-                        onClick: () => {
-                            setId(record.branchId)
-                            setIsShowModal(true)
-                        },
+                        // onClick: () => {
+                        //     setId(record.schoolId)
+                        //     setIsShowModal(true)
+                        // },
+                    },
+                    {
+                        key: 'divider1',
+                        type: 'divider',
+                    },
+                    {
+                        key: '5',
+                        label: 'Classes',
+                        onClick: () => navigation(record, 'class'),
+                    },
+                    {
+                        key: '6',
+                        label: 'TimeTable',
+                        onClick: () => navigation(record, 'timeTable'),
+                    },
+                    {
+                        key: '7',
+                        label: 'Memberships',
+                        onClick: () => navigation(record, 'membership'),
+                    },
+                    {
+                        key: '8',
+                        label: 'Rooms',
+                    },
+                    {
+                        key: 'divider1',
+                        type: 'divider',
+                    },
+                    {
+                        key: '9',
+                        label: 'Reports',
                     },
                 ]
+                const menu = (
+                    <Menu>
+                        {items.map((item) => {
+                            if (item.type === 'divider') {
+                                return <Menu.Divider key={item.key} />
+                            }
+
+                            return (
+                                <Menu.Item
+                                    key={item.key}
+                                    onClick={item.onClick}
+                                >
+                                    {item.label}
+                                </Menu.Item>
+                            )
+                        })}
+                    </Menu>
+                )
 
                 return (
                     <Space size="middle">
@@ -260,76 +312,87 @@ const ListBranch = (): JSX.Element => {
         },
     ]
 
+    const initialValues = (): void => {}
+    const handleCreateSubmit = (): void => {}
+
     const RenderTableTitle = (): JSX.Element => {
         return (
-            <div className="d-flex flex-row flex-wrap justify-content-between align-items-center">
-                {/* <h3 className="table-heading">{getLabelByKey("title")}</h3> */}
-                <h3 className="table-heading">Branches</h3>
-                <CustomDiv>
-                    <div className="instructorDateSection">
-                        <div className="mainarrow">
-                            <div className="arrowright">
-                                <img
-                                    src={LeftArrow}
-                                    alt="Date"
-                                    width={18}
-                                    height={12}
-                                />
-                            </div>
-                            <div className="arrowleft">
-                                <img
-                                    src={RightArrow}
-                                    alt="Date"
-                                    width={18}
-                                    height={12}
-                                />
-                            </div>
-                        </div>
-                        <div className="dateRange">
-                            <p>
-                                <span>Mon,</span> Sep 11, 2023 -{' '}
-                                <span>Thu,</span> Sep 21, 2023
-                            </p>
-                            <img
-                                src={DateCalander}
-                                alt="Calander"
-                                width={21}
-                                height={21}
-                            />
-                        </div>
-                        <div className="dateToday">Today</div>
-                    </div>
-                    <CustomButton
-                        bgcolor={tertiaryBlue2}
-                        textTransform="Captilize"
-                        color={pureDark}
-                        padding="6.5px 0px"
-                        fontFamily={`${fontFamilyMedium}`}
-                        width="40px"
-                        type="submit"
-                        title=""
-                        fontSize="17px"
-                        icon={
-                            <img
-                                src={plusIcon}
-                                alt="edit icon"
-                                width={23}
-                                height={23}
-                            />
-                        }
-                        clicked={() => {
-                            {
-                                if (
-                                    schoolData?.schoolId ||
-                                    loginData?.schoolId
-                                ) {
-                                    navigate(`/branch/create`)
-                                } else navigate('/school/create')
-                            }
-                        }}
-                    />
-                </CustomDiv>
-            </div>
+            <CustomDiv>
+                <Formik
+                    initialValues={initialValues}
+                    // validationSchema={validationSchema}
+                    onSubmit={handleCreateSubmit}
+                >
+                    {(formik) => {
+                        return (
+                            <Form
+                                name="basic"
+                                // onFinish={formik.handleSubmit}
+                                autoComplete="off"
+                            >
+                                <div className="mainWrapper">
+                                    <h3 className="table-heading">Branches</h3>
+                                    <div className="FilterMainContainer">
+                                        <div className="arrowsMain">
+                                            <div className="arrowRight">
+                                                <img
+                                                    src={LeftArrow}
+                                                    alt="Date"
+                                                    width={18}
+                                                    height={12}
+                                                />
+                                            </div>
+                                            <div className="arrowLeft">
+                                                <img
+                                                    src={RightArrow}
+                                                    alt="Date"
+                                                    width={18}
+                                                    height={12}
+                                                />
+                                            </div>
+                                        </div>
+                                        <FormControl
+                                            control="startEndDate"
+                                            type="startEndDate"
+                                            name="startDate"
+                                            fontFamily={fontFamilyRegular}
+                                            padding="8px 10px"
+                                        />
+                                        <div className="todayPlusContainer">
+                                            <div className="dateToday">
+                                                <p>Today</p>
+                                            </div>
+                                            <CustomButton
+                                                bgcolor={tertiaryBlue2}
+                                                textTransform="Captilize"
+                                                color={pureDark}
+                                                padding="6.5px 0px"
+                                                fontFamily={`${fontFamilyMedium}`}
+                                                width="40px"
+                                                type="submit"
+                                                title=""
+                                                fontSize="17px"
+                                                // loading={loading}
+                                                icon={
+                                                    <img
+                                                        src={plusIcon}
+                                                        alt="edit icon"
+                                                        width={17}
+                                                        height={17}
+                                                    />
+                                                }
+                                                clicked={() => {
+                                                    navigate(`/branch/create`)
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </Form>
+                        )
+                    }}
+                </Formik>
+            </CustomDiv>
         )
     }
 
@@ -354,6 +417,8 @@ const ListBranch = (): JSX.Element => {
             {/* {deleteConfirmation(record.branchId).modalComponent}  */}
 
             {loading && <LoadingOverlay message="" />}
+            <Head title="Branch List" />
+            <RenderTableTitle />
             <ListBranchStyled>
                 <Table
                     columns={columns}
@@ -362,7 +427,6 @@ const ListBranch = (): JSX.Element => {
                             ? branchData.data
                             : []
                     }
-                    title={() => <RenderTableTitle />}
                     scroll={{ x: true }}
                     pagination={{
                         showTotal: (total, range) => (

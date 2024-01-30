@@ -114,7 +114,41 @@ const ViewBranch = (): JSX.Element => {
                 overlayImg={Branch?.profilePicture || ''}
                 isEditable={true}
             />
-
+            <h3>Owner Information</h3>
+            <Card>
+                <Row>
+                    <Col md="6">
+                        <div className="list-item">
+                            <div className="list-item-title">
+                                Owner First Name
+                            </div>
+                            <div className="list-item-value">Adnan</div>
+                        </div>
+                    </Col>
+                    <Col md="6">
+                        <div className="list-item">
+                            <div className="list-item-title">
+                                Owner Last Name
+                            </div>
+                            <div className="list-item-value">Qureshi</div>
+                        </div>
+                    </Col>
+                    <Col md="6">
+                        <div className="list-item">
+                            <div className="list-item-title">Email</div>
+                            <div className="list-item-value">
+                                adnan@gmail.com
+                            </div>
+                        </div>
+                    </Col>
+                    <Col md="6">
+                        <div className="list-item ">
+                            <div className="list-item-title">Phone Number</div>
+                            <div className="list-item-value">+923000000000</div>
+                        </div>
+                    </Col>
+                </Row>
+            </Card>
             <h3>Branch Information</h3>
 
             <Card>

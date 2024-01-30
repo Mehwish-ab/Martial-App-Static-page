@@ -7,7 +7,7 @@ import { Dropdown, Menu, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 
-import { ListBranchStyled } from './styles'
+import { ListSchoolStyle } from './styles'
 import { CustomDiv } from './CustomDiv'
 import {
     fontFamilyMedium,
@@ -18,7 +18,7 @@ import {
 import plusIcon from '../../../assets/icons/ic_plus.svg'
 import dummyData from './dummyData.json'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
-// import StatusActiveError from '../../../assets/images/activeBtnError.svg'
+import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
 import defaultPic from '../../../assets/images/create_school_user_profile.svg'
@@ -172,38 +172,37 @@ const ListSchool = (): JSX.Element => {
             title: 'Status',
             dataIndex: 'status',
             key: 'status',
-            // render: (isActive, index) => {
-
-            //     if (index?.schoolStatusId === 1) {
-            //         return (
-            //             <div className={'Active'}>
-            //                 <button
-            //                 // onClick={() => {
-            //                 //     {
-            //                 //         BranchStatus(index.schoolId, 2)
-            //                 //     }
-            //                 // }}
-            //                 >
-            //                     Active
-            //                 </button>
-            //                 <img src={StatusActiveError} alt="image" />
-            //             </div>
-            //         )
-            //     } else {
-            //         return (
-            //             <div className={'De-Active'}>
-            //                 <button
-            //                 // onClick={() => {
-            //                 //     BranchStatus(index.schoolId, 1)
-            //                 // }}
-            //                 >
-            //                     De-Active
-            //                 </button>
-            //                 <img src={StatusActiveError} alt="image" />
-            //             </div>
-            //         )
-            //     }
-            // },
+            render: (isActive, index) => {
+                // if (index?.schoolStatusId === 1) {
+                return (
+                    <div className={'Active'}>
+                        <button
+                        // onClick={() => {
+                        //     {
+                        //         BranchStatus(index.schoolId, 2)
+                        //     }
+                        // }}
+                        >
+                            Active
+                        </button>
+                        <img src={StatusActiveError} alt="image" />
+                    </div>
+                )
+                // } else {
+                return (
+                    <div className={'De-Active'}>
+                        <button
+                        // onClick={() => {
+                        //     BranchStatus(index.schoolId, 1)
+                        // }}
+                        >
+                            De-Active
+                        </button>
+                        <img src={StatusActiveError} alt="image" />
+                    </div>
+                )
+                // }
+            },
         },
         {
             title: 'Action',
@@ -413,7 +412,7 @@ const ListSchool = (): JSX.Element => {
 
             {/* {loading && <LoadingOverlay message="" />} */}
             <RenderTableTitle />
-            <ListBranchStyled>
+            <ListSchoolStyle>
                 <Table
                     columns={columns}
                     // dataSource={
@@ -438,7 +437,7 @@ const ListSchool = (): JSX.Element => {
                         ),
                     }}
                 />
-            </ListBranchStyled>
+            </ListSchoolStyle>
         </>
     )
 }

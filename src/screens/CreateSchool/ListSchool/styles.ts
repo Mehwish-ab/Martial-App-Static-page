@@ -12,7 +12,7 @@ import {
     whiteColor,
 } from '../../../components/GlobalStyle'
 
-export const ListBranchStyled = styled.div`
+export const ListSchoolStyle = styled.div`
     background-color: #fff;
     padding: 16px 0px;
     border-radius: 20px;

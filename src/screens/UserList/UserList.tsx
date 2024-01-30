@@ -12,7 +12,7 @@ import {
 } from '../../components/GlobalStyle'
 import plusIcon from '../../assets/icons/ic_plus.svg'
 import dummyData from './dummyData.json'
-// import StatusActiveError from '../../../assets/images/activeBtnError.svg'
+import StatusActiveError from '../../assets/images/activeBtnError.svg'
 import RightArrow from '../../assets/images/rightArrow.svg'
 import LeftArrow from '../../assets/images/leftArrow.svg'
 import defaultPic from '../../assets/images/create_school_user_profile.svg'
@@ -87,38 +87,73 @@ const UserList = (): JSX.Element => {
             title: 'Status',
             dataIndex: 'status',
             key: 'status',
-            // render: (isActive, index) => {
-
-            //     if (index?.schoolStatusId === 1) {
-            //         return (
-            //             <div className={'Active'}>
-            //                 <button
-            //                 // onClick={() => {
-            //                 //     {
-            //                 //         BranchStatus(index.studentId, 2)
-            //                 //     }
-            //                 // }}
-            //                 >
-            //                     Active
-            //                 </button>
-            //                 <img src={StatusActiveError} alt="image" />
-            //             </div>
-            //         )
-            //     } else {
-            //         return (
-            //             <div className={'De-Active'}>
-            //                 <button
-            //                 // onClick={() => {
-            //                 //     BranchStatus(index.studentId, 1)
-            //                 // }}
-            //                 >
-            //                     De-Active
-            //                 </button>
-            //                 <img src={StatusActiveError} alt="image" />
-            //             </div>
-            //         )
-            //     }
-            // },
+            render: (isActive, index) => {
+                // if (index?.schoolStatusId === 1) {
+                return (
+                    <div className={'Active'}>
+                        <button
+                        // onClick={() => {
+                        //     {
+                        //         BranchStatus(index.studentId, 2)
+                        //     }
+                        // }}
+                        >
+                            Active
+                        </button>
+                        <img src={StatusActiveError} alt="image" />
+                    </div>
+                )
+                // } else {
+                return (
+                    <div className={'De-Active'}>
+                        <button
+                        // onClick={() => {
+                        //     BranchStatus(index.studentId, 1)
+                        // }}
+                        >
+                            De-Active
+                        </button>
+                        <img src={StatusActiveError} alt="image" />
+                    </div>
+                )
+                // }
+            },
+        },
+        {
+            title: 'Action',
+            dataIndex: 'status',
+            key: 'status',
+            render: (isActive, index) => {
+                // if (index?.schoolStatusId === 1) {
+                return (
+                    <div className={'Active'}>
+                        <button
+                        // onClick={() => {
+                        //     {
+                        //         BranchStatus(index.studentId, 2)
+                        //     }
+                        // }}
+                        >
+                            Active
+                        </button>
+                        <img src={StatusActiveError} alt="image" />
+                    </div>
+                )
+                // } else {
+                return (
+                    <div className={'De-Active'}>
+                        <button
+                        // onClick={() => {
+                        //     BranchStatus(index.studentId, 1)
+                        // }}
+                        >
+                            De-Active
+                        </button>
+                        <img src={StatusActiveError} alt="image" />
+                    </div>
+                )
+                // }
+            },
         },
     ]
 

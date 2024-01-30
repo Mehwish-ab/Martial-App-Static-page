@@ -103,6 +103,7 @@ const ListBranch = (): JSX.Element => {
                         branch: record as BranchDataType,
                     },
                 })
+                break
         }
     }
     const showActivities = (_activities: string): string => {

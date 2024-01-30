@@ -44,7 +44,8 @@ interface IUseClass {
     setIsUploadImgVisible: (param: boolean) => void
     getInstructorstartenddate: (
         startDate: string,
-        endDate: string
+        endDate: string,
+        schoolid: number
     ) => Promise<any>
     deletemodal: () => IModalComponent
     Createmodal: () => IModalComponent
@@ -166,14 +167,15 @@ const useClass = (): IUseClass => {
     }
     const getInstructorstartenddate = async (
         startDate: string,
-        endDate: string
+        endDate: string,
+        schoolid: number
     ): Promise<any> => {
         try {
             setError('')
             setLoading(true)
             const { data } = await axios.post(
                 `/classes/getSchoolId?startDate=${startDate}&endDate=${endDate}`,
-
+                { schoolId: schoolid },
                 {
                     headers: {
                         ...authorizationToken(loginData.data as loginDataTypes),
@@ -187,10 +189,10 @@ const useClass = (): IUseClass => {
             }
             console.log(
                 'classes info according to start date and end date',
-                data.results
+                data.results.data
             )
             setLoading(false)
-            return data.results
+            return data.results.data
         } catch (error2: any) {
             console.log('error', error2)
             setLoading(false)

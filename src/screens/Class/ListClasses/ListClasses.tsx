@@ -32,6 +32,7 @@ import FormControl from '../../../components/FormControl'
 import { Form, Formik } from 'formik'
 import useCreateSchool from '../../../hooks/useCreateSchool'
 import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
+import { nextDay } from 'date-fns'
 
 const ListClass = (): JSX.Element => {
     const { ClassData } = useSelector((state: RootState) => state.ClassData)
@@ -39,8 +40,31 @@ const ListClass = (): JSX.Element => {
     const { ClassStatus, deletemodal, deleteConfirmation, setIsShowModal } =
         useClass()
     const [Id, setId] = useState(0)
-    const [startDate, setStartDate] = useState(null)
-    const [endDate, setEndDate] = useState(null)
+    const [startDate, setStartDate] = useState('')
+    const [endDate, setEndDate] = useState('')
+    const [CalculateDay, setCalculateDay] = useState(0)
+    const [NextDays, setNextDays] = useState('')
+    const { loginData } = useSelector((state: RootState) => state)
+    const [calenderData, setcalenderData] = useState<
+        ClassDataType[] | undefined
+    >(undefined)
+    let flag = false
+    const schoolId = loginData.data?.schoolId
+    const calculateDaysDifference = (st: string, en: string): number => {
+        const start = new Date(st)
+        const end = new Date(en)
+        console.log('as', st, en)
+
+        if (endDate != null) {
+            const differenceInTime = end.getTime() - start.getTime() + 1
+            const differenceInDays = Math.ceil(
+                differenceInTime / (1000 * 3600 * 24)
+            )
+            return differenceInDays
+        } else {
+            return 1
+        }
+    }
     const { getInstructorstartenddate } = useClass()
     // const { g}=useCreateSchool()
 
@@ -48,8 +72,76 @@ const ListClass = (): JSX.Element => {
     useEffect(() => {
         store.dispatch(getBranchBySchoolId())
     }, [])
-    const getparam = async (startdate: any, enddate: any): Promise<void> => {
-        await getInstructorstartenddate(startdate, enddate)
+
+    const getparam = async (
+        startdate: string,
+        enddate: string
+    ): Promise<void> => {
+        const data = await getInstructorstartenddate(
+            startdate,
+            enddate,
+            Number(schoolId)
+        )
+        setcalenderData(data)
+    }
+
+    const handleDateChange = async (dates: any): Promise<void> => {
+        flag = true
+
+        console.log('shaza', dates)
+        setCalculateDay(0)
+        const [start, end] = dates.map((date: any) =>
+            moment(date).format('YYYY-MM-DD')
+        )
+        setStartDate(start)
+        setEndDate(end)
+        console.log('Start Date:', start)
+        console.log('End Date:', end)
+
+        await getparam(start, end)
+
+        setCalculateDay(calculateDaysDifference(startDate, endDate))
+        console.log('next day count', CalculateDay)
+
+        const days = moment(endDate, 'YYYY-MM-DD').add(CalculateDay, 'd')
+        console.log('zx', days)
+
+        // Check the validity of the 'days' moment object
+        console.log('Is Valid:', days.isValid())
+
+        // If the 'days' object is valid, format the date
+        if (days.isValid()) {
+            const formattedDays = days.format('YYYY-MM-DD')
+            console.log('Formatted Days:', formattedDays)
+            setNextDays(formattedDays)
+            console.log('nada', NextDays)
+        } else {
+            console.log('Invalid date')
+        }
+    }
+
+    const handlenextdates = async (): Promise<void> => {
+        console.log('next date', endDate, NextDays)
+        console.log('day count', CalculateDay)
+
+        const dataaa = await getparam(endDate, NextDays)
+        console.log('p', dataaa)
+
+        const days = moment(endDate, 'YYYY-MM-DD').add(CalculateDay, 'd')
+        console.log('zx', days)
+        // Check the validity of the 'days' moment object
+        console.log('Is Valid:', days.isValid())
+
+        // If the 'days' object is valid, format the date
+        if (days.isValid()) {
+            const formattedDays = days.format('YYYY-MM-DD')
+            console.log('Formatted Days:', formattedDays)
+            setEndDate(NextDays)
+            setNextDays(formattedDays)
+            console.log('nada', NextDays)
+        } else {
+            console.log('Invalid date')
+        }
     }
 
     const { loading } = useSelector((state: RootState) => state.ClassData)
@@ -113,12 +205,17 @@ const ListClass = (): JSX.Element => {
                                                 />
                                             </div>
                                             <div className="arrowLeft">
-                                                <img
-                                                    src={RightArrow}
-                                                    alt="Date"
-                                                    width={18}
-                                                    height={12}
-                                                />
+                                                <button
+                                                    onClick={handlenextdates}
+                                                >
+                                                    {' '}
+                                                    <img
+                                                        src={RightArrow}
+                                                        alt="Date"
+                                                        width={18}
+                                                        height={12}
+                                                    />
+                                                </button>{' '}
                                             </div>
                                         </div>
                                         <FormControl
@@ -128,20 +225,7 @@ const ListClass = (): JSX.Element => {
                                             fontFamily={fontFamilyRegular}
                                             padding="8px 10px"
                                             onChange={(dates: any) => {
-                                                const [start, end] = dates.map(
-                                                    (date: any) =>
-                                                        moment(date).format(
-                                                            'YYYY-MM-DD'
-                                                        )
-                                                )
-                                                setStartDate(start)
-                                                setEndDate(end)
-                                                console.log(
-                                                    'Start Date:',
-                                                    start
-                                                )
-                                                console.log('End Date:', end)
-                                                getparam(start, end)
+                                                handleDateChange(dates)
                                             }}
                                         />
                                         <div className="todayPlusContainer">
@@ -311,7 +395,7 @@ const ListClass = (): JSX.Element => {
     return (
         <>
             <Head title="Classes List" />
-            {deletemodal().modalComponent}
+            {deletemodal().modalComponent}i
             {deleteConfirmation(Id).modalComponent}
             {loading && <LoadingOverlay message="" />}
             <RenderTableTitle />
@@ -319,7 +403,11 @@ const ListClass = (): JSX.Element => {
                 <Table
                     columns={columns}
                     dataSource={
-                        ClassData?.data[0].id !== 0 ? ClassData.data : []
+                        calenderData == undefined
+                            ? ClassData?.data[0].id !== 0
+                                ? ClassData.data
+                                : []
+                            : calenderData
                     }
                     // scroll={{ x: true }}
                     pagination={{

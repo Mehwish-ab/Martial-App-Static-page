@@ -1,6 +1,6 @@
 import type { Moment } from 'moment'
 import React, { useState } from 'react'
-import { DatePicker } from 'antd'
+import { DatePicker } from 'formik-antd'
 import { CustomDateRangePickerStyle } from './style'
 import { ErrorMessage, Field, FieldProps } from 'formik'
 import ErrorMsg from '../ErrorMessage'
@@ -42,24 +42,7 @@ const CustomDateRangePicker = (
         ...rest
     } = props
 
-    const [dates, setDates] = useState<RangeValue>(null)
-
-    // const disabledDate = (current: Moment): boolean => {
-    //     if (!dates) {
-    //         return false
-    //     }
-    //     const tooLate = dates[0] && current.diff(dates[0], 'days') >= 7
-    //     const tooEarly = dates[1] && dates[1].diff(current, 'days') >= 7
-    //     return !!tooEarly || !!tooLate
-    // }
-
-    const onOpenChange = (open: boolean): void => {
-        if (open) {
-            setDates([null, null])
-        } else {
-            setDates(null)
-        }
-    }
+    const [dates, setDates] = useState<RangeValue>()
 
     return (
         <CustomDateRangePickerStyle
@@ -75,6 +58,7 @@ const CustomDateRangePicker = (
                     <RangePicker
                         allowClear={false}
                         value={dates}
+                        name={name}
                         // disabledDate={disabledDate}
                         onCalendarChange={(val) => {
                             setDates(val)
@@ -87,7 +71,6 @@ const CustomDateRangePicker = (
                                 form.setFieldValue(field.name, val)
                             }
                         }}
-                        // onOpenChange={onOpenChange}
                         suffixIcon={<img src={dateIcon} alt="calender-icon" />}
                     />
                 )}

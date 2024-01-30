@@ -31,6 +31,7 @@ import useFranchise from '../hooks/useFranchise'
 import { Formik } from 'formik'
 import FormControl from '../../../components/FormControl'
 import { CustomDiv } from '../../CreateSchool/ListSchool/CustomDiv'
+import Head from '../../../components/Head/Head'
 
 const ListFranchise = (): JSX.Element => {
     const {
@@ -423,6 +424,7 @@ const ListFranchise = (): JSX.Element => {
             {deletemodal().modalComponent}
             {deleteConfirmation(Id).modalComponent}
             {loading && <LoadingOverlay message="" />}
+            <Head title="Franchise List" />
             <RenderTableTitle />
             <ListFranchiseStyled>
                 <Table

@@ -68,46 +68,53 @@ const ListFranchise = (): JSX.Element => {
     ): void => {
         switch (redirectTo) {
             case 'edit':
-                navigate(`/franchise/edit/${record.franchiseId}`, {
+                navigate(`/school/edit/${record.schoolId}`, {
                     state: {
-                        franchiseToEdit: record as FranchiseDataType,
+                        branchToEdit: record as FranchiseDataType,
                     },
                 })
                 break
 
             case 'view':
-                navigate(`/franchise/view/${record.franchiseId}`, {
+                navigate(`/school/view/${record.schoolId}`, {
                     state: {
                         branch: record as FranchiseDataType,
                     },
                 })
                 break
-
             case 'payment':
-                navigate(
-                    `/franchise/add-payment-information/${record.franchiseId}`,
-                    {
-                        state: {
-                            branch: record as FranchiseDataType,
-                        },
-                    }
-                )
-                break
-
-            case 'subscribe':
-                navigate(`/franchise/subscribe/${record.franchiseId}`, {
+                navigate(`/school/add-payment-information/${record.schoolId}`, {
                     state: {
-                        branch: record as FranchiseDataType,
+                        branchToEdit: record as FranchiseDataType,
                     },
                 })
                 break
 
             case 'delete':
-                navigate(`/franchise/delete/${9}`, {
+                navigate(`/school/delete/${record.schoolId}`, {
                     state: {
                         branch: record as FranchiseDataType,
                     },
                 })
+                break
+
+            case 'Transaction':
+                navigate(`/Transaction/list/${record.schoolId}`)
+                break
+            case 'Subscription':
+                navigate(`/franchise/list/${record.schoolId}`)
+                break
+            case 'Classes':
+                navigate(`/class/list/${record.schoolId}`)
+                break
+            case 'timeTable':
+                navigate(`/timeTable/list/${record.schoolId}`)
+                break
+            case 'membership':
+                navigate(`/membership/list/${record.schoolId}`)
+                break
+            case 'Report':
+                navigate(`/Report/list/${record.schoolId}`)
         }
     }
     const { franchiseData, loading } = useSelector(
@@ -255,21 +262,54 @@ const ListFranchise = (): JSX.Element => {
                     },
                     {
                         key: '4',
-                        label: 'Subscribe',
-                        onClick: () => navigation(record, 'subscribe'),
+                        label: 'Delete',
+                        // onClick: () => {
+                        //     setId(record.schoolId)
+                        //     setIsShowModal(true)
+                        // },
+                    },
+                    {
+                        key: 'divider1',
+                        type: 'divider',
                     },
                     {
                         key: '5',
-                        label: 'Delete',
-                        // onClick: () =>
-                        //     //navigation(record, "delete"),
-                        //     {
-                        //         handleDelete(record.franchiseId)
-                        //     },
-                        onClick: () => {
-                            setId(record.franchiseId)
-                            setIsShowModal(true)
-                        },
+                        label: 'Transaction',
+                        onClick: () => navigation(record, 'branch'),
+                    },
+                    {
+                        key: '6',
+                        label: 'Subscription',
+                        onClick: () => navigation(record, 'franchise'),
+                    },
+                    {
+                        key: '7',
+                        label: 'Classes',
+                        onClick: () => navigation(record, 'class'),
+                    },
+                    {
+                        key: '8',
+                        label: 'TimeTable',
+                        onClick: () => navigation(record, 'timeTable'),
+                    },
+                    {
+                        key: '9',
+                        label: 'Memberships',
+                        onClick: () => navigation(record, 'membership'),
+                    },
+                    {
+                        key: '10',
+                        label: 'Rooms',
+                        onClick: () => navigation(record, 'Rooms'),
+                    },
+                    {
+                        key: 'divider1',
+                        type: 'divider',
+                    },
+                    {
+                        key: '11',
+                        label: 'Reports',
+                        onClick: () => navigation(record, 'Reports'),
                     },
                 ]
 
@@ -346,7 +386,7 @@ const ListFranchise = (): JSX.Element => {
                             />
                         }
                         clicked={() => {
-                            navigate(`/franchise/create`)
+                            navigate(`/user/list`)
                         }}
                     />
                 </CustomDiv>

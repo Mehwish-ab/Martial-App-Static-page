@@ -111,7 +111,9 @@ const ListBranch = (): JSX.Element => {
 
         let activitiesName = ''
         activitiesArr.map((activity) => {
-            const index = activities.findIndex((act) => act.id === activity)
+            const index = activities.findIndex(
+                (act: { id: string }) => act.id === activity
+            )
             if (index !== -1) {
                 activitiesName =
                     activitiesName === ''

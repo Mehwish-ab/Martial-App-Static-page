@@ -29,7 +29,7 @@ interface IModalComponent {
     modalComponent: JSX.Element
 }
 
-interface IUseSchool {
+interface IuseUser {
     loading: boolean
     handleCreateSubmit: (
         values: CreateSchoolInitialValues,
@@ -50,11 +50,10 @@ interface IUseSchool {
     deleteConfirmation: (id: number) => IModalComponent
     setIsShowModal: (showModal: true) => void
     setIsShowWarningModal: (showModal: true) => void
-    getAllSchool: (country: string) => Promise<void>
-    getSchoolbyId: (schoolid: number) => Promise<void>
+    getAllUser: (c: string) => Promise<void>
 }
 
-const useCreateSchool = (): IUseSchool => {
+const useUser = (): IuseUser => {
     const [loading, setLoading] = useState(false)
     const [errorMessage, setError] = useState('')
     const [isUploadImgModalVisible, setIsUploadImgVisible] = useState(false)
@@ -148,12 +147,12 @@ const useCreateSchool = (): IUseSchool => {
         }
     }
 
-    const getAllSchool = async (v: string): Promise<any> => {
+    const getAllUser = async (c: string): Promise<any> => {
         try {
             setError('')
             setLoading(true)
             const { data: allschool } = await axios.post(
-                '/school/getAll',
+                'api/auth/getAll',
                 { country: '' },
                 {
                     headers: {
@@ -248,55 +247,6 @@ const useCreateSchool = (): IUseSchool => {
                 type: 'error',
                 autoClose: 1000,
             })
-        }
-    }
-    const getSchoolbyId = async (schoolid: number): Promise<any> => {
-        // const url = get_branch_by_school_id_url
-        console.log('>> im in getSchoolbyId')
-        try {
-            setLoading(true)
-            const { data: data3 } = await axios.post(
-                '/school/getById',
-                { schoolId: schoolid },
-                {
-                    headers: {
-                        ...authorizationToken(loginData.data as loginDataTypes),
-                    },
-                }
-            )
-            if (data3.responseCode === '500') {
-                toast(data3.responseMessage, {
-                    type: 'error',
-                    autoClose: 1000,
-                })
-                setLoading(false)
-                return data3
-            }
-            // setIsShowModal(true);
-            // setTimeout(() => {
-            //   setLoading(false);
-            //   setIsShowModal(false);
-            //   //navigate("/school/view");
-            // }, 3000);
-
-            // toastId.current = toast(data.responseMessage, {
-            //   type: "success",
-            //   autoClose: 1000,
-            // });
-            //setLoading(false);
-            console.log({ data3 })
-            return data3
-        } catch (e: any) {
-            // setError((errorMessage as any).response.data.responseMessage)
-            // setLoading(false)
-            // console.log(
-            //     (errorMessage as any).response.data.responseMessage,
-            //     'error in api data'
-            // )
-            // setError(
-            //     (errorMessage as any).response?.data?.responseMessage ||
-            //         'An error occurred'
-            // )
         }
     }
 
@@ -557,9 +507,8 @@ const useCreateSchool = (): IUseSchool => {
         deleteConfirmation,
         WarningModal,
         setIsShowWarningModal,
-        getAllSchool,
-        getSchoolbyId,
+        getAllUser,
     }
 }
 
-export default useCreateSchool
+export default useUser

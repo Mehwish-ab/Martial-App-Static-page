@@ -180,6 +180,7 @@ const useBranch = (): IUseBranch => {
                     autoClose: 1000,
                 })
                 setLoading(false)
+
                 return
             }
 
@@ -255,7 +256,7 @@ const useBranch = (): IUseBranch => {
     }
     const getallbranchbyschoolid = async (schoolid: number): Promise<any> => {
         // const url = get_branch_by_school_id_url
-        console.log('>> im in getall branch button')
+        console.log('>> im in getallbranchbyschoolid')
         try {
             setLoading(true)
             const { data: data3 } = await axios.post(
@@ -263,30 +264,25 @@ const useBranch = (): IUseBranch => {
                 { schoolId: schoolid },
                 {
                     headers: {
-                        ...authorizationToken(loginData.data as loginDataTypes),
+                        ...authorizationToken(logindata!),
                     },
                 }
             )
-            if (data3.responseCode === '500') {
-                toast(data.responseMessage, {
-                    type: 'error',
-                    autoClose: 1000,
-                })
-                setLoading(false)
-                return data3
-            }
+            console.log('v', data)
+            console.log('>>v', data3)
+
             // setIsShowModal(true);
             // setTimeout(() => {
             //   setLoading(false);
             //   setIsShowModal(false);
             //   //navigate("/school/view");
             // }, 3000);
-            setIsShowModal(true)
-            setTimeout(() => {
-                setLoading(false)
-                setIsShowModal(false)
-                navigate('/branch/list')
-            }, 3000)
+            // setIsShowModal(true)
+            // setTimeout(() => {
+            setLoading(false)
+            //     setIsShowModal(false)
+            //    // navigate('/branch/list')
+            // }, 3000)
             // toastId.current = toast(data.responseMessage, {
             //   type: "success",
             //   autoClose: 1000,
@@ -295,6 +291,7 @@ const useBranch = (): IUseBranch => {
             console.log({ data })
             return data3
         } catch (e: any) {
+            setLoading(false)
             // setError((errorMessage as any).response.data.responseMessage)
             // setLoading(false)
             // console.log(

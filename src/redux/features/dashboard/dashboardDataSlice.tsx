@@ -30,10 +30,18 @@ export interface SchoolDataType {
     bannerPicture: string | null | undefined
     profilePicture: string | null | undefined
     emailAddress: string
+    countryName: string
 }
-
+export interface OwnerDataTypes {
+    firstName: string
+    lastName: string
+    emailAddress: string
+    phoneNumber: string
+    id: number | string
+}
 export interface DashboardDataInitialState {
     schoolData: SchoolDataType
+    ownerData: OwnerDataTypes
     loading: boolean
     error: string | undefined
 }
@@ -61,9 +69,17 @@ const initialState: DashboardDataInitialState = {
         bannerPicture: '',
         profilePicture: '',
         emailAddress: '',
+        countryName: '',
     },
     loading: false,
     error: '',
+    ownerData: {
+        firstName: '',
+        lastName: '',
+        emailAddress: '',
+        phoneNumber: '',
+        id: 0,
+    },
 }
 
 export const getSchoolByUserId = createAsyncThunk(

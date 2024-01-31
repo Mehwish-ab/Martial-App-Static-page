@@ -53,7 +53,7 @@ const OverlayImages = ({
     const { franchiseId } = useParams()
 
     const { instructorId } = useParams()
-    // console.log('checking pages', schoolId, branchId, franchiseId, instructorId)
+    console.log('checking pages', schoolId, branchId, franchiseId, instructorId)
 
     const useCaseOfBanner = branchId
         ? 'BRANCH_BANNER_IMAGE'
@@ -61,7 +61,7 @@ const OverlayImages = ({
           ? 'INSTRUCTOR_BANNER_IMAGE'
           : franchiseId
             ? 'FRANCHISE_BANNER_IMAGE'
-            : schoolData.schoolId
+            : Number(schoolId)
               ? 'SCHOOL_BANNER_IMAGE'
               : ''
 
@@ -71,7 +71,7 @@ const OverlayImages = ({
           ? 'INSTRUCTOR_PROFILE_IMAGE'
           : franchiseId
             ? 'FRANCHISE_PROFILE_IMAGE'
-            : schoolData.schoolId
+            : Number(schoolId)
               ? 'SCHOOL_PROFILE_PICTURE'
               : ''
 
@@ -86,11 +86,7 @@ const OverlayImages = ({
             formData.append('multiPart', (info as any).file)
 
             const requestData = {
-                id:
-                    branchId ||
-                    franchiseId ||
-                    instructorId ||
-                    schoolData.schoolId,
+                id: branchId || franchiseId || instructorId || Number(schoolId),
                 useCase: useCase,
                 // Add any additional parameters needed
             }

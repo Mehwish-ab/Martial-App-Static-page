@@ -21,12 +21,51 @@ import FormControl from '../../components/FormControl'
 import { SchoolDataType } from '../../redux/features/dashboard/dashboardDataSlice'
 import { CustomDiv } from '../CreateSchool/ListSchool/CustomDiv'
 import Head from '../../components/Head/Head'
+import useUser from '../../hooks/useUser'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../redux/store'
+import { useEffect, useState } from 'react'
+import { userDataType } from '../../redux/features/User/UserSlice'
+import defaltimg from '../../assets/images/create_school_user_profile.svg'
+
 const UserList = (): JSX.Element => {
+    const { getAllUser } = useUser()
+    const [AllUSer, setAllUSer] = useState<
+        { data: userDataType[] } | null | undefined
+    >(null)
+    const [error, setError] = useState('')
+    const [loading, setLoading] = useState(true)
+
     // const { schoolData } = useSelector(
     //     (state: RootState) => state.dashboardData
     // )
-
+    let lengths: number = 0
+    const { loginData } = useSelector((state: RootState) => state)
     const navigate = useNavigate()
+    useEffect(() => {
+        const fetchData = async (): Promise<void> => {
+            try {
+                const response: any = await getAllUser(
+                    String(loginData.data?.userDetails.countryName)
+                )
+                if (response) {
+                    setAllUSer(response)
+
+                    // Update the lengths variable here
+                    lengths = response?.data?.length || 0
+                }
+                console.log('API response:', response)
+
+                // eslint-disable-next-line @typescript-eslint/no-shadow
+            } catch (error) {
+                setError('Error fetching data')
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchData()
+    }, [])
 
     // const { schoolData, loading } = useSelector(
     //     (state: RootState) => state.schoolData
@@ -35,36 +74,35 @@ const UserList = (): JSX.Element => {
     // const {
     //     dropdowns: { businessTypes },
     // } = useSelector((state: RootState) => state.appData.data)
-
-    const columns: ColumnsType<SchoolDataType> = [
+    console.log('AllUSer:', AllUSer)
+    const columns: ColumnsType<userDataType> = [
         {
             title: 'Id',
-            dataIndex: 'studentId',
-            key: 'studentId',
+            dataIndex: 'userId',
+            key: 'userId',
         },
         {
             title: 'Image',
-            dataIndex: 'profilePicture',
-            key: 'profilePicture',
+            dataIndex: 'schoolProfilePicture',
+            key: 'schoolProfilePicture',
             render: (Dummydatas) => {
-                // if (Dummydatas.profilePicture === null) {
-                return <img src={Dummydatas} width={44} height={44} />
-                // }
-                // else {
-                //     return (
-                //         <img
-                //             src={`https://fistastore.com:444${Dummydatas?.profilePicture}`}
-                //             width={44}
-                //             height={44}
-                //         />
-                //     )
-                // }
+                if (Dummydatas === null || Dummydatas === null) {
+                    return <img src={defaltimg} width={44} height={44} />
+                } else {
+                    return (
+                        <img
+                            src={`https://fistastore.com:444${Dummydatas}`}
+                            width={44}
+                            height={44}
+                        />
+                    )
+                }
             },
         },
         {
             title: 'Name',
-            dataIndex: 'studentName',
-            key: 'studentName',
+            dataIndex: 'schoolBusinessName',
+            key: 'schoolBusinessName',
             render: (text) => (
                 <p>{text.length > 10 ? `${text.slice(0, 10)}...` : text}</p>
             ),
@@ -85,8 +123,8 @@ const UserList = (): JSX.Element => {
         },
         {
             title: 'Status',
-            dataIndex: 'status',
-            key: 'status',
+            dataIndex: 'statusId',
+            key: 'statusId',
             render: (isActive, index) => {
                 // if (index?.schoolStatusId === 1) {
                 return (
@@ -271,10 +309,7 @@ const UserList = (): JSX.Element => {
                     //         : []
                     // }
                     dataSource={
-                        dummyData.map((item) => ({
-                            ...item,
-                            key: item.studentId, // Make sure studentId is present in the 'item'
-                        })) as any
+                        lengths > 0 && AllUSer?.data ? AllUSer?.data : []
                     }
                     scroll={{ x: true }}
                     pagination={{

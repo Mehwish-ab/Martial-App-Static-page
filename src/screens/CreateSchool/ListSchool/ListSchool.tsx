@@ -25,6 +25,8 @@ import defaultPic from '../../../assets/images/create_school_user_profile.svg'
 import { Form, Formik } from 'formik'
 import FormControl from '../../../components/FormControl'
 import { SchoolDataType } from '../../../redux/features/dashboard/dashboardDataSlice'
+import useCreateSchool from '../../../hooks/useCreateSchool'
+import { useEffect, useState } from 'react'
 const ListSchool = (): JSX.Element => {
     // const { schoolData } = useSelector(
     //     (state: RootState) => state.dashboardData
@@ -33,10 +35,35 @@ const ListSchool = (): JSX.Element => {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
     const navigate = useNavigate()
+    const { loginData } = useSelector((state: RootState) => state)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | undefined>(undefined)
+    const { getAllSchool } = useCreateSchool()
+    const [AllSchools, setAllSchools] = useState<
+        { data: SchoolDataType[] } | undefined
+    >(undefined)
 
-    // const { schoolData, loading } = useSelector(
-    //     (state: RootState) => state.schoolData
-    // )
+    console.log('')
+
+    useEffect(() => {
+        const fetchData = async (): Promise<void> => {
+            try {
+                const response: any = await getAllSchool(
+                    String(loginData.data?.userDetails.countryName)
+                )
+                setAllSchools(response)
+                // eslint-disable-next-line @typescript-eslint/no-shadow
+            } catch (error) {
+                setError('Error fetching data')
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchData()
+    }, [])
+    console.log('AllSchools', AllSchools)
+
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
@@ -124,32 +151,31 @@ const ListSchool = (): JSX.Element => {
             dataIndex: 'profilePicture',
             key: 'profilePicture',
             render: (Dummydatas) => {
-                // if (Dummydatas.profilePicture === null) {
-                return <img src={defaultPic} width={44} height={44} />
-                // }
-                // else {
-                //     return (
-                //         <img
-                //             src={`https://fistastore.com:444${Dummydatas?.profilePicture}`}
-                //             width={44}
-                //             height={44}
-                //         />
-                //     )
-                // }
+                if (Dummydatas === null) {
+                    return <img src={defaultPic} width={44} height={44} />
+                } else {
+                    return (
+                        <img
+                            src={`https://fistastore.com:444${Dummydatas}`}
+                            width={44}
+                            height={44}
+                        />
+                    )
+                }
             },
         },
         {
             title: 'Name',
-            dataIndex: 'schoolName',
-            key: 'schoolName',
+            dataIndex: 'businessName',
+            key: 'businessName',
             render: (text) => (
                 <p>{text.length > 10 ? `${text.slice(0, 10)}...` : text}</p>
             ),
         },
         {
             title: 'Type',
-            dataIndex: 'schoolType',
-            key: 'schoolType',
+            dataIndex: 'businessType',
+            key: 'businessType',
             // render: (_, { schoolType }) => {
             //     const item = businessTypes.find((b) => b.id === schoolType)
             //     return <p>{item?.en}</p>
@@ -170,8 +196,8 @@ const ListSchool = (): JSX.Element => {
         },
         {
             title: 'Status',
-            dataIndex: 'status',
-            key: 'status',
+            dataIndex: 'isActive',
+            key: 'isActive',
             render: (isActive, index) => {
                 // if (index?.schoolStatusId === 1) {
                 return (
@@ -415,17 +441,7 @@ const ListSchool = (): JSX.Element => {
             <ListSchoolStyle>
                 <Table
                     columns={columns}
-                    // dataSource={
-                    //     schoolData?.data[0].schoolId !== 0
-                    //         ? schoolData.data
-                    //         : []
-                    // }
-                    dataSource={
-                        dummyData.map((item) => ({
-                            ...item,
-                            key: item.schoolId,
-                        })) as any
-                    }
+                    dataSource={AllSchools ? AllSchools.data : []}
                     scroll={{ x: true }}
                     pagination={{
                         showTotal: (total, range) => (

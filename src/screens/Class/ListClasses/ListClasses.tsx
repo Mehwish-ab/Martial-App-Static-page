@@ -395,7 +395,7 @@ const ListClass = (): JSX.Element => {
     return (
         <>
             <Head title="Classes List" />
-            {deletemodal().modalComponent}i
+            {deletemodal().modalComponent}
             {deleteConfirmation(Id).modalComponent}
             {loading && <LoadingOverlay message="" />}
             <RenderTableTitle />

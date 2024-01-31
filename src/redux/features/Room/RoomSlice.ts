@@ -8,84 +8,38 @@ import {
 
 import store from '../../store'
 import { loginDataTypes } from '../types'
-export interface SchoolDataType {
-    schoolId: number
-    userId: number
-    businessName: string
-    businessType: number | string
-    address: string
-    phoneNumber: string
-    rank: boolean
-    defaultLanguageId: number
-    defaultCurrencyId: number
-    activities: string
-    facilities: string
-    description: string
-    stripePublicKey: string
-    stripeSecretKey: string
-    gclAccessToken: string
-    gclClientId: string
-    gclWebHook: string
-    gclClientSecret: string
-    bannerPicture: string | null | undefined
-    profilePicture: string | null | undefined
-    emailAddress: string
-    countryName: string
-    totalItems: number
-    totalPages: number
-    currentPage: number
-}
-export interface OwnerDataTypes {
-    firstName: string
-    lastName: string
-    emailAddress: string
-    phoneNumber: string
+export interface RoomDataType {
+    useCase: string
     id: number | string
+    name: string
+    floorNumber: number | string
+    roomNumber: number | string
+    width: string
+    height: string
+    isActive: boolean
+    roomId: number | string
 }
+
 export interface DashboardDataInitialState {
-    schoolData: SchoolDataType
-    ownerData: OwnerDataTypes
+    roomData: RoomDataType
     loading: boolean
     error: string | undefined
 }
 
 const initialState: DashboardDataInitialState = {
-    schoolData: {
-        schoolId: 0,
-        userId: 0,
-        businessName: '',
-        businessType: '0',
-        address: '',
-        phoneNumber: '',
-        rank: false,
-        defaultCurrencyId: 0,
-        defaultLanguageId: 0,
-        activities: '',
-        facilities: '',
-        description: '',
-        stripePublicKey: '',
-        stripeSecretKey: '',
-        gclAccessToken: '',
-        gclClientId: '',
-        gclWebHook: '',
-        gclClientSecret: '',
-        bannerPicture: '',
-        profilePicture: '',
-        emailAddress: '',
-        countryName: '',
-        currentPage: 0,
-        totalItems: 0,
-        totalPages: 0,
+    roomData: {
+        useCase: '',
+        id: '',
+        name: '',
+        floorNumber: '',
+        roomNumber: '',
+        width: '',
+        height: '',
+        isActive: false,
+        roomId: '',
     },
     loading: false,
     error: '',
-    ownerData: {
-        firstName: '',
-        lastName: '',
-        emailAddress: '',
-        phoneNumber: '',
-        id: 0,
-    },
 }
 
 export const getSchoolByUserId = createAsyncThunk(
@@ -129,18 +83,18 @@ const dashboardDataSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getSchoolByUserId.pending, (state) => {
-                state.schoolData = initialState.schoolData
+                state.roomData = initialState.roomData
                 state.loading = true
                 state.error = ''
             })
             .addCase(getSchoolByUserId.fulfilled, (state, action) => {
-                state.schoolData = action.payload
+                state.roomData = action.payload
                 state.loading = false
                 state.error = ''
             })
             .addCase(getSchoolByUserId.rejected, (state, action) => {
                 console.log('action.error', action)
-                state.schoolData = initialState.schoolData
+                state.roomData = initialState.roomData
                 state.error = action.error.message
                 state.loading = false
             })

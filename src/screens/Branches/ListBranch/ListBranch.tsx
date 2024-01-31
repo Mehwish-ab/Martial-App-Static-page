@@ -104,6 +104,9 @@ const ListBranch = (): JSX.Element => {
                     },
                 })
                 break
+            case 'rooms':
+                navigate(`/branch/room/list/${record.branchId}`)
+                break
         }
     }
     const showActivities = (_activities: string): string => {
@@ -271,6 +274,7 @@ const ListBranch = (): JSX.Element => {
                     {
                         key: '8',
                         label: 'Rooms',
+                        onClick: () => navigation(record, 'rooms'),
                     },
                     {
                         key: 'divider1',

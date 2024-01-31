@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
 
-import { Dropdown, Menu, Space, Table } from 'antd'
+import { Dropdown, Menu, Space, Table, Pagination } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 
@@ -26,7 +26,9 @@ import { Form, Formik } from 'formik'
 import FormControl from '../../../components/FormControl'
 import { SchoolDataType } from '../../../redux/features/dashboard/dashboardDataSlice'
 import useCreateSchool from '../../../hooks/useCreateSchool'
-import { useEffect, useState } from 'react'
+import { SetStateAction, useEffect, useState } from 'react'
+import Head from '../../../components/Head/Head'
+
 const ListSchool = (): JSX.Element => {
     // const { schoolData } = useSelector(
     //     (state: RootState) => state.dashboardData
@@ -38,13 +40,33 @@ const ListSchool = (): JSX.Element => {
     const { loginData } = useSelector((state: RootState) => state)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | undefined>(undefined)
-    const { getAllSchool } = useCreateSchool()
+    const { getAllSchool, getAllSchoolpagination } = useCreateSchool()
+    const [currentPage, setCurrentPage] = useState(1)
+    const pageSize = 10
+
     const [AllSchools, setAllSchools] = useState<
-        { data: SchoolDataType[] } | undefined
+        | {
+              currentPage: number
+              totalItems: number | undefined
+              data: SchoolDataType[]
+          }
+        | undefined
     >(undefined)
 
     console.log('')
-
+    const customItemRender = (
+        current: any,
+        type: any,
+        originalElement: any
+    ): any => {
+        if (type === 'prev') {
+            return <a className="custom-pagination-link">{originalElement}</a>
+        }
+        if (type === 'next') {
+            return <a className="custom-pagination-link">{originalElement}</a>
+        }
+        return originalElement
+    }
     useEffect(() => {
         const fetchData = async (): Promise<void> => {
             try {
@@ -61,6 +83,42 @@ const ListSchool = (): JSX.Element => {
         }
 
         fetchData()
+    }, [])
+    const handlePaginationChange = async (page: number): Promise<void> => {
+        try {
+            setLoading(true)
+            page = page - 1
+            const response = await getAllSchoolpagination(
+                String(loginData.data?.userDetails.countryName),
+                page
+            )
+            setAllSchools(response)
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+        } catch (error: unknown) {
+            setError('Error fetching data')
+        } finally {
+            setLoading(false)
+        }
+        setCurrentPage(page)
+    }
+
+    useEffect(() => {
+        const fetchData = async (page: number): Promise<void> => {
+            try {
+                page = page - 1
+                const response: any = await getAllSchoolpagination(
+                    String(loginData.data?.userDetails.countryName),
+                    page
+                )
+                setAllSchools(response)
+                // eslint-disable-next-line @typescript-eslint/no-shadow
+            } catch (error) {
+                setError('Error fetching data')
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchData(currentPage)
     }, [])
     console.log('AllSchools', AllSchools)
 
@@ -116,10 +174,10 @@ const ListSchool = (): JSX.Element => {
                 navigate(`/timeTable/list/`)
                 break
             case 'membership':
-                navigate(`/membership/list/`)
+                navigate(`/membership/list/${record.schoolId}`)
                 break
             case 'rooms':
-                navigate(`/room/list/`)
+                navigate(`/room/list/${record.schoolId}`)
                 break
         }
     }
@@ -439,6 +497,7 @@ const ListSchool = (): JSX.Element => {
         <>
             {/* {deletemodal().modalComponent}
             {deleteConfirmation(Id).modalComponent} */}
+            <Head title="School List" />
 
             {/* {loading && <LoadingOverlay message="" />} */}
             <RenderTableTitle />
@@ -448,13 +507,20 @@ const ListSchool = (): JSX.Element => {
                     dataSource={AllSchools ? AllSchools.data : []}
                     scroll={{ x: true }}
                     pagination={{
+                        current: currentPage,
+                        total: AllSchools ? AllSchools.totalItems : 0,
+                        pageSize: pageSize,
                         showTotal: (total, range) => (
                             <span
                                 dangerouslySetInnerHTML={{
-                                    __html: `Page <span className='paginationVal'>${range[0]}</span> of ${range[1]}`,
+                                    __html: `Page <span className='paginationVal'>${
+                                        range[0]
+                                    }</span> of ${Math.ceil(total / pageSize)}`,
                                 }}
                             />
                         ),
+                        onChange: (page) => handlePaginationChange(page),
+                        // itemRender: customItemRender,
                     }}
                 />
             </ListSchoolStyle>

@@ -340,6 +340,9 @@ const RegisterUser = (): JSX.Element => {
                                                                     ? 'is-invalid_phone'
                                                                     : 'custom-phone-input-label'
                                                             }
+                                                            limitMaxLength={
+                                                                true
+                                                            }
                                                             value={
                                                                 formik.values
                                                                     .phoneNumber

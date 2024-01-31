@@ -149,6 +149,7 @@ const ForgotPassword = (): JSX.Element => {
                                                                 : 'custom-phone-input-label'
                                                         }
                                                         name="phoneNumber"
+                                                        limitMaxLength={true}
                                                         value={
                                                             formik.values
                                                                 .phoneNumber

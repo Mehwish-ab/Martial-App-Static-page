@@ -89,7 +89,7 @@ const ListRoom = (): JSX.Element => {
     const navigation = (record: RoomDataType, redirectTo: string): void => {
         switch (redirectTo) {
             case 'edit':
-                navigate(`/school/edit/${record.roomId}`, {
+                navigate(`/room/edit/${record.roomId}`, {
                     state: {
                         branchToEdit: record as RoomDataType,
                     },
@@ -97,14 +97,14 @@ const ListRoom = (): JSX.Element => {
                 break
 
             case 'view':
-                navigate(`/school/view/${record.roomId}`, {
+                navigate(`/room/view/${record.roomId}`, {
                     state: {
                         branch: record as RoomDataType,
                     },
                 })
                 break
             case 'delete':
-                navigate(`/school/delete/${record.roomId}`, {
+                navigate(`/room/delete/${record.roomId}`, {
                     state: {
                         branch: record as RoomDataType,
                     },

@@ -72,7 +72,7 @@ const ListFranchise = (): JSX.Element => {
     ): void => {
         switch (redirectTo) {
             case 'edit':
-                navigate(`/school/edit/${record.schoolId}`, {
+                navigate(`/school/edit/${record.franchiseId}`, {
                     state: {
                         branchToEdit: record as FranchiseDataType,
                     },
@@ -80,22 +80,25 @@ const ListFranchise = (): JSX.Element => {
                 break
 
             case 'view':
-                navigate(`/school/view/${record.schoolId}`, {
+                navigate(`/school/view/${record.franchiseId}`, {
                     state: {
                         branch: record as FranchiseDataType,
                     },
                 })
                 break
             case 'payment':
-                navigate(`/school/add-payment-information/${record.schoolId}`, {
-                    state: {
-                        branchToEdit: record as FranchiseDataType,
-                    },
-                })
+                navigate(
+                    `/school/add-payment-information/${record.franchiseId}`,
+                    {
+                        state: {
+                            branchToEdit: record as FranchiseDataType,
+                        },
+                    }
+                )
                 break
 
             case 'delete':
-                navigate(`/school/delete/${record.schoolId}`, {
+                navigate(`/school/delete/${record.franchiseId}`, {
                     state: {
                         branch: record as FranchiseDataType,
                     },
@@ -103,22 +106,22 @@ const ListFranchise = (): JSX.Element => {
                 break
 
             case 'Transaction':
-                navigate(`/Transaction/list/${record.schoolId}`)
+                navigate(`/Transaction/list/${record.franchiseId}`)
                 break
             case 'Subscription':
-                navigate(`/franchise/list/${record.schoolId}`)
+                navigate(`/franchise/list/${record.franchiseId}`)
                 break
             case 'Classes':
-                navigate(`/class/list/${record.schoolId}`)
+                navigate(`/class/list/${record.franchiseId}`)
                 break
             case 'timeTable':
-                navigate(`/timeTable/list/${record.schoolId}`)
+                navigate(`/timeTable/list/${record.franchiseId}`)
                 break
             case 'membership':
-                navigate(`/membership/list/${record.schoolId}`)
+                navigate(`/membership/list/${record.franchiseId}`)
                 break
-            case 'Report':
-                navigate(`/Report/list/${record.schoolId}`)
+            case 'room':
+                navigate(`/franchise/room/list/${record.franchiseId}`)
         }
     }
     const { franchiseData, loading } = useSelector(
@@ -302,8 +305,8 @@ const ListFranchise = (): JSX.Element => {
                     },
                     {
                         key: '10',
-                        label: 'Rooms',
-                        onClick: () => navigation(record, 'Rooms'),
+                        label: 'room',
+                        onClick: () => navigation(record, 'room'),
                     },
                     {
                         key: 'divider1',

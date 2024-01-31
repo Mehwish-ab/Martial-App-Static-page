@@ -167,7 +167,23 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/room/list"
+                    path="/school/room/list/:schoolId"
+                    element={
+                        <AppLayout>
+                            <ListRoom />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/branch/room/list/:branchId"
+                    element={
+                        <AppLayout>
+                            <ListRoom />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/franchise/room/list/:franchiseId"
                     element={
                         <AppLayout>
                             <ListRoom />

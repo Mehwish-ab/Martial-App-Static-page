@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
@@ -21,8 +21,12 @@ import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
 import { Form, Formik } from 'formik'
 import FormControl from '../../../components/FormControl'
-import { SchoolDataType } from '../../../redux/features/dashboard/dashboardDataSlice'
 import { CustomDiv } from '../../CreateSchool/ListSchool/CustomDiv'
+import useRoom from '../../../hooks/useRoom'
+import { useEffect, useState } from 'react'
+import { RoomDataType } from '../../../redux/features/Room/RoomSlice'
+import { log } from 'console'
+import Head from '../../../components/Head/Head'
 const ListRoom = (): JSX.Element => {
     // const { schoolData } = useSelector(
     //     (state: RootState) => state.dashboardData
@@ -31,6 +35,13 @@ const ListRoom = (): JSX.Element => {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
     const navigate = useNavigate()
+    const [Room, setRoom] = useState<{ data: RoomDataType[] } | undefined>(
+        undefined
+    )
+
+    const { schoolId, branchId, franchiseId } = useParams()
+    console.log('ids', schoolId, branchId, franchiseId)
+    const { getallRoombyUC } = useRoom()
 
     // const { schoolData, loading } = useSelector(
     //     (state: RootState) => state.schoolData
@@ -38,30 +49,64 @@ const ListRoom = (): JSX.Element => {
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
+    useEffect(() => {
+        const fetchData = async (): Promise<void> => {
+            try {
+                if (schoolId) {
+                    const response: any = await getallRoombyUC(
+                        Number(schoolId),
+                        'SCHOOL'
+                    )
+                    setRoom(response)
+                } else if (branchId) {
+                    const response: any = await getallRoombyUC(
+                        Number(branchId),
+                        'BRANCH'
+                    )
+                    setRoom(response)
+                } else if (franchiseId) {
+                    const response: any = await getallRoombyUC(
+                        Number(franchiseId),
+                        'FRANCHISE'
+                    )
+                    setRoom(response)
+                }
+                // eslint-disable-next-line @typescript-eslint/no-shadow
+            } catch (error) {
+                /// setError('Error fetching data')
+            } finally {
+                //  setLoading(false)
+            }
+        }
+
+        fetchData()
+    }, [])
+    console.log('room', Room)
+
     // const {
     //     dropdowns: { businessTypes },
     // } = useSelector((state: RootState) => state.appData.data)
-    const navigation = (record: SchoolDataType, redirectTo: string): void => {
+    const navigation = (record: RoomDataType, redirectTo: string): void => {
         switch (redirectTo) {
             case 'edit':
-                navigate(`/school/edit/${record.schoolId}`, {
+                navigate(`/school/edit/${record.roomId}`, {
                     state: {
-                        branchToEdit: record as SchoolDataType,
+                        branchToEdit: record as RoomDataType,
                     },
                 })
                 break
 
             case 'view':
-                navigate(`/school/view/${record.schoolId}`, {
+                navigate(`/school/view/${record.roomId}`, {
                     state: {
-                        branch: record as SchoolDataType,
+                        branch: record as RoomDataType,
                     },
                 })
                 break
             case 'delete':
-                navigate(`/school/delete/${record.schoolId}`, {
+                navigate(`/school/delete/${record.roomId}`, {
                     state: {
-                        branch: record as SchoolDataType,
+                        branch: record as RoomDataType,
                     },
                 })
         }
@@ -86,24 +131,24 @@ const ListRoom = (): JSX.Element => {
         }
         return activitiesName
     }
-    const columns: ColumnsType<SchoolDataType> = [
+    const columns: ColumnsType<RoomDataType> = [
         {
             title: 'Id',
-            dataIndex: 'schoolId',
-            key: 'schoolId',
+            dataIndex: 'roomId',
+            key: 'roomId',
         },
         {
             title: 'Name',
-            dataIndex: 'schoolName',
-            key: 'schoolName',
+            dataIndex: 'name',
+            key: 'name',
             // render: (text) => (
             //     <p>{text.length > 10 ? `${text.slice(0, 10)}...` : text}</p>
             // ),
         },
         {
             title: 'Room Number',
-            dataIndex: 'schoolType',
-            key: 'schoolType',
+            dataIndex: 'roomNumber',
+            key: 'roomNumber',
             // render: (_, { schoolType }) => {
             //     const item = businessTypes.find((b) => b.id === schoolType)
             //     return <p>{item?.en}</p>
@@ -111,8 +156,8 @@ const ListRoom = (): JSX.Element => {
         },
         {
             title: 'Floor Number',
-            dataIndex: 'schoolType',
-            key: 'schoolType',
+            dataIndex: 'floorNumber',
+            key: 'floorNumber',
             // render: (_, { schoolType }) => {
             //     const item = businessTypes.find((b) => b.id === schoolType)
             //     return <p>{item?.en}</p>
@@ -311,6 +356,7 @@ const ListRoom = (): JSX.Element => {
             {deleteConfirmation(Id).modalComponent} */}
 
             {/* {loading && <LoadingOverlay message="" />} */}
+            <Head title="Room List" />
             <RenderTableTitle />
             <ListRoomsStyle>
                 <Table
@@ -320,20 +366,24 @@ const ListRoom = (): JSX.Element => {
                     //         ? schoolData.data
                     //         : []
                     // }
-                    dataSource={
-                        dummyData.map((item) => ({
-                            ...item,
-                            key: item.schoolId,
-                        })) as any
-                    }
+                    // dataSource={
+                    //     dummyData.map((item) => ({
+                    //         ...item,
+                    //         key: item.schoolId,
+                    //     })) as any
+                    // }
+                    dataSource={Room ? Room?.data : []}
                     scroll={{ x: true }}
                     pagination={{
-                        showTotal: (total, range) => (
-                            <span
-                                dangerouslySetInnerHTML={{
-                                    __html: `Page <span className='paginationVal'>${range[0]}</span> of ${range[1]}`,
-                                }}
-                            />
+                        showTotal: (totalItems, totalPages) => (
+                            <>
+                                {console.log(totalItems, totalPages, 'hi')}{' '}
+                                <span
+                                    dangerouslySetInnerHTML={{
+                                        __html: `Page <span className='paginationVal'>${totalPages[0]}</span> of ${totalPages[1]}`,
+                                    }}
+                                />
+                            </>
                         ),
                     }}
                 />

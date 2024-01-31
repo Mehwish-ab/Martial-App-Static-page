@@ -52,6 +52,7 @@ interface IUseSchool {
     setIsShowWarningModal: (showModal: true) => void
     getAllSchool: (country: string) => Promise<void>
     getSchoolbyId: (schoolid: number) => Promise<void>
+    getAllSchoolpagination: (v: string, page: any) => Promise<any>
 }
 
 const useCreateSchool = (): IUseSchool => {
@@ -184,7 +185,47 @@ const useCreateSchool = (): IUseSchool => {
             })
         }
     }
+    const getAllSchoolpagination = async (
+        v: string,
+        page: number
+    ): Promise<any> => {
+        try {
+            setError('')
+            setLoading(true)
+            const { data: allschool } = await axios.post(
+                `/school/getAll?pageNo=${page}`,
+                { country: '' },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            if (allschool.responseCode === '500') {
+                setLoading(false)
+                return
+            }
 
+            setLoading(false)
+            console.log('next page', allschool)
+
+            return allschool.results
+        } catch (error: any) {
+            console.log({ error })
+            setLoading(false)
+            setError(error.response.data.responseMessage)
+            const id = setTimeout(() => {
+                setError('')
+            }, 3000)
+            if (!setIsShowModal) {
+                clearTimeout(id)
+            }
+            toastId.current = toast(error.response.data.errors, {
+                type: 'error',
+                autoClose: 1000,
+            })
+        }
+    }
     //to edit school
     const editSchool = async (
         _schoolId: number,
@@ -559,6 +600,7 @@ const useCreateSchool = (): IUseSchool => {
         setIsShowWarningModal,
         getAllSchool,
         getSchoolbyId,
+        getAllSchoolpagination,
     }
 }
 

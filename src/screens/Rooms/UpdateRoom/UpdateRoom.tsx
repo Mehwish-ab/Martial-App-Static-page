@@ -97,10 +97,10 @@ const UpdateRoom = (): JSX.Element => {
                                             <FormControl
                                                 control="numberField"
                                                 type="number"
-                                                label="Length"
-                                                inchName="lInch"
-                                                feetName="lFeet"
-                                                name="length"
+                                                label="Height"
+                                                inchName="hInch"
+                                                feetName="hFeet"
+                                                name="height"
                                                 inchPlaceholder="Inch"
                                                 feetPlaceholder="Feet"
                                                 className={

@@ -35,7 +35,7 @@ const ViewRoom = (): JSX.Element => {
                         </Col>
                         <Col md="6">
                             <div className="list-item">
-                                <div className="list-item-title">Width</div>
+                                <div className="list-item-title">Height</div>
                                 <div className="d-flex justify-content-around">
                                     <div className="list-item-value">-- </div>
                                     <div className="list-item-value">-- </div>
@@ -44,7 +44,7 @@ const ViewRoom = (): JSX.Element => {
                         </Col>
                         <Col md="6">
                             <div className="list-item">
-                                <div className="list-item-title">Height</div>
+                                <div className="list-item-title">Width</div>
                                 <div className="d-flex justify-content-around">
                                     <div className="list-item-value">-- </div>
                                     <div className="list-item-value">-- </div>

@@ -92,7 +92,7 @@ const CustomNumberField: React.FC<CustomNumberField> = ({
                             className={className}
                             type={type}
                             readOnly={readyOnly}
-                            maxLength={maxLength}
+                            maxLength={12}
                             placeholder={feetPlaceholder}
                             defaultValue={defaultValue}
                             {...field}
@@ -109,7 +109,7 @@ const CustomNumberField: React.FC<CustomNumberField> = ({
                             className={className}
                             type={type}
                             readOnly={readyOnly}
-                            maxLength={maxLength}
+                            maxLength={12}
                             placeholder={inchPlaceholder}
                             defaultValue={defaultValue}
                             {...field}

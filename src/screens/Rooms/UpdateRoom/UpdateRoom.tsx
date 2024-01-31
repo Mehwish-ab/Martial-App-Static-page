@@ -1,6 +1,6 @@
 import { CreateRoomsStyle } from './styles'
 import { Formik } from 'formik'
-import { Form, Space } from 'antd'
+import { Form } from 'antd'
 import { CreateRoomInitialValues } from '../constant'
 import FormControl from '../../../components/FormControl'
 import { Col, Row } from 'react-bootstrap'
@@ -20,10 +20,10 @@ const initialValues: CreateRoomInitialValues = {
     width: [],
 }
 const handleCreateSubmit = (): void => {}
-const CreateRoom = (): JSX.Element => {
+const UpdateRoom = (): JSX.Element => {
     return (
         <>
-            <Head title="Room Create" />
+            <Head title="Room Update" />
             <CreateRoomsStyle>
                 <Formik
                     initialValues={initialValues}
@@ -39,7 +39,7 @@ const CreateRoom = (): JSX.Element => {
                                 autoComplete="off"
                             >
                                 <div className="bg-white form mt-20">
-                                    <h3>Room Create</h3>
+                                    <h3>Room Update</h3>
 
                                     <Row>
                                         <Col md="12" className="mt-20">
@@ -140,7 +140,7 @@ const CreateRoom = (): JSX.Element => {
                                         fontFamily={`${fontFamilyMedium}`}
                                         width="fit-content"
                                         type="submit"
-                                        title="Submit"
+                                        title="Update"
                                         fontSize="18px"
                                         loading={false}
                                     />
@@ -154,4 +154,4 @@ const CreateRoom = (): JSX.Element => {
     )
 }
 
-export default CreateRoom
+export default UpdateRoom

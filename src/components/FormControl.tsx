@@ -13,6 +13,7 @@ import CustomSelects from './CustomSelect/CustomSelects'
 import CustomTimePicker from './CustomDateTimePicker/Index'
 import CustomTimePickerNew from './CustomTimePicker/CustomTimePicker'
 import CustomDateRangePicker from './CustomDateRangePicker/CustomDateRangePicker'
+import CustomNumberField from './CustomNumberField/CustomNumberField'
 export interface FieldStyleBasicProps {
     padding: string
     bgColor: string
@@ -69,6 +70,8 @@ const FormControl: React.FC<formControlProps> = (props) => {
             return <CustomTimePickerNew {...rest} />
         case 'startEndDate':
             return <CustomDateRangePicker {...rest} />
+        case 'numberField':
+            return <CustomNumberField {...rest} />
         default:
             return null
     }

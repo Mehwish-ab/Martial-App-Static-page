@@ -57,6 +57,8 @@ import ListSchool from '../screens/CreateSchool/ListSchool/ListSchool'
 import UserList from '../screens/UserList/UserList'
 import ListRoom from '../screens/Rooms/ListRoom/ListRoom'
 import CreateRoom from '../screens/Rooms/CreateRoom/CreateRoom'
+import UpdateRoom from '../screens/Rooms/UpdateRoom/UpdateRoom'
+import ViewRoom from '../screens/Rooms/ViewRoom/ViewRoom'
 // import { RootState } from "../redux/store";
 
 function AppRoutes(): JSX.Element {
@@ -177,6 +179,22 @@ function AppRoutes(): JSX.Element {
                     element={
                         <AppLayout>
                             <CreateRoom />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/room/update"
+                    element={
+                        <AppLayout>
+                            <UpdateRoom />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/room/view"
+                    element={
+                        <AppLayout>
+                            <ViewRoom />
                         </AppLayout>
                     }
                 />

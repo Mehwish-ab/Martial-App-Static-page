@@ -6,9 +6,8 @@ import { RootState } from '../../../redux/store'
 import { Dropdown, Menu, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import CustomButton from '../../../components/CustomButton/CustomButton'
-
-import { ListSchoolStyle } from './styles'
-import { CustomDiv } from './CustomDiv'
+import dummyData from './dummyData.json'
+import { ListRoomsStyle } from './styles'
 import {
     fontFamilyMedium,
     fontFamilyRegular,
@@ -16,16 +15,15 @@ import {
     tertiaryBlue2,
 } from '../../../components/GlobalStyle'
 import plusIcon from '../../../assets/icons/ic_plus.svg'
-import dummyData from './dummyData.json'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
-import defaultPic from '../../../assets/images/create_school_user_profile.svg'
 import { Form, Formik } from 'formik'
 import FormControl from '../../../components/FormControl'
 import { SchoolDataType } from '../../../redux/features/dashboard/dashboardDataSlice'
-const ListSchool = (): JSX.Element => {
+import { CustomDiv } from '../../CreateSchool/ListSchool/CustomDiv'
+const ListRoom = (): JSX.Element => {
     // const { schoolData } = useSelector(
     //     (state: RootState) => state.dashboardData
     // )
@@ -60,40 +58,12 @@ const ListSchool = (): JSX.Element => {
                     },
                 })
                 break
-            case 'payment':
-                navigate(`/school/add-payment-information/${record.schoolId}`, {
-                    state: {
-                        branchToEdit: record as SchoolDataType,
-                    },
-                })
-                break
-
             case 'delete':
                 navigate(`/school/delete/${record.schoolId}`, {
                     state: {
                         branch: record as SchoolDataType,
                     },
                 })
-                break
-
-            case 'branch':
-                navigate(`/branch/list/`)
-                break
-            case 'franchise':
-                navigate(`/franchise/list/`)
-                break
-            case 'class':
-                navigate(`/class/list/`)
-                break
-            case 'timeTable':
-                navigate(`/timeTable/list/`)
-                break
-            case 'membership':
-                navigate(`/membership/list/`)
-                break
-            case 'rooms':
-                navigate(`/room/list/`)
-                break
         }
     }
     const showActivities = (_activities: string): string => {
@@ -123,34 +93,15 @@ const ListSchool = (): JSX.Element => {
             key: 'schoolId',
         },
         {
-            title: 'Image',
-            dataIndex: 'profilePicture',
-            key: 'profilePicture',
-            render: (Dummydatas) => {
-                // if (Dummydatas.profilePicture === null) {
-                return <img src={defaultPic} width={44} height={44} />
-                // }
-                // else {
-                //     return (
-                //         <img
-                //             src={`https://fistastore.com:444${Dummydatas?.profilePicture}`}
-                //             width={44}
-                //             height={44}
-                //         />
-                //     )
-                // }
-            },
-        },
-        {
             title: 'Name',
             dataIndex: 'schoolName',
             key: 'schoolName',
-            render: (text) => (
-                <p>{text.length > 10 ? `${text.slice(0, 10)}...` : text}</p>
-            ),
+            // render: (text) => (
+            //     <p>{text.length > 10 ? `${text.slice(0, 10)}...` : text}</p>
+            // ),
         },
         {
-            title: 'Type',
+            title: 'Room Number',
             dataIndex: 'schoolType',
             key: 'schoolType',
             // render: (_, { schoolType }) => {
@@ -159,17 +110,13 @@ const ListSchool = (): JSX.Element => {
             // },
         },
         {
-            title: 'Activity',
-            dataIndex: 'activities',
-            key: 'activities',
-            render: (DummyData) => {
-                return <p className="sub-title">{showActivities(DummyData)}</p>
-            },
-        },
-        {
-            title: 'Phone Number',
-            dataIndex: 'phoneNumber',
-            key: 'phoneNumber',
+            title: 'Floor Number',
+            dataIndex: 'schoolType',
+            key: 'schoolType',
+            // render: (_, { schoolType }) => {
+            //     const item = businessTypes.find((b) => b.id === schoolType)
+            //     return <p>{item?.en}</p>
+            // },
         },
         {
             title: 'Status',
@@ -224,67 +171,16 @@ const ListSchool = (): JSX.Element => {
                     },
                     {
                         key: '3',
-                        label: 'Payment',
-                        onClick: () => navigation(record, 'payment'),
-                    },
-                    {
-                        key: '4',
                         label: 'Delete',
                         // onClick: () => {
                         //     setId(record.schoolId)
                         //     setIsShowModal(true)
                         // },
                     },
-                    {
-                        key: 'divider1',
-                        type: 'divider',
-                    },
-                    {
-                        key: '5',
-                        label: 'Branches',
-                        onClick: () => navigation(record, 'branch'),
-                    },
-                    {
-                        key: '6',
-                        label: 'Franchise',
-                        onClick: () => navigation(record, 'franchise'),
-                    },
-                    {
-                        key: '7',
-                        label: 'Classes',
-                        onClick: () => navigation(record, 'class'),
-                    },
-                    {
-                        key: '8',
-                        label: 'TimeTable',
-                        onClick: () => navigation(record, 'timeTable'),
-                    },
-                    {
-                        key: '9',
-                        label: 'Memberships',
-                        onClick: () => navigation(record, 'membership'),
-                    },
-                    {
-                        key: '10',
-                        label: 'Rooms',
-                        onClick: () => navigation(record, 'rooms'),
-                    },
-                    {
-                        key: 'divider1',
-                        type: 'divider',
-                    },
-                    {
-                        key: '11',
-                        label: 'Reports',
-                    },
                 ]
                 const menu = (
                     <Menu>
                         {items.map((item) => {
-                            if (item.type === 'divider') {
-                                return <Menu.Divider key={item.key} />
-                            }
-
                             return (
                                 <Menu.Item
                                     key={item.key}
@@ -331,7 +227,7 @@ const ListSchool = (): JSX.Element => {
                                 autoComplete="off"
                             >
                                 <div className="mainWrapper">
-                                    <h3 className="table-heading">Schools</h3>
+                                    <h3 className="table-heading">Rooms</h3>
                                     <div className="FilterMainContainer">
                                         <div className="arrowsMain">
                                             <div className="arrowRight">
@@ -382,7 +278,7 @@ const ListSchool = (): JSX.Element => {
                                                     />
                                                 }
                                                 clicked={() => {
-                                                    navigate(`/user/list`)
+                                                    navigate(`/room/create`)
                                                 }}
                                             />
                                         </div>
@@ -416,7 +312,7 @@ const ListSchool = (): JSX.Element => {
 
             {/* {loading && <LoadingOverlay message="" />} */}
             <RenderTableTitle />
-            <ListSchoolStyle>
+            <ListRoomsStyle>
                 <Table
                     columns={columns}
                     // dataSource={
@@ -441,9 +337,9 @@ const ListSchool = (): JSX.Element => {
                         ),
                     }}
                 />
-            </ListSchoolStyle>
+            </ListRoomsStyle>
         </>
     )
 }
 
-export default ListSchool
+export default ListRoom

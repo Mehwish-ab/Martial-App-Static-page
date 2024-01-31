@@ -55,6 +55,8 @@ import ViewMembership from '../screens/Membership/ViewMembership/ViewMembership'
 import NewTimeTable from '../screens/TimeTable/NewTimeTableCreate/NewTimeTableCreate'
 import ListSchool from '../screens/CreateSchool/ListSchool/ListSchool'
 import UserList from '../screens/UserList/UserList'
+import ListRoom from '../screens/Rooms/ListRoom/ListRoom'
+import CreateRoom from '../screens/Rooms/CreateRoom/CreateRoom'
 // import { RootState } from "../redux/store";
 
 function AppRoutes(): JSX.Element {
@@ -159,6 +161,22 @@ function AppRoutes(): JSX.Element {
                     element={
                         <AppLayout>
                             <AddPaymentSchool />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/room/list"
+                    element={
+                        <AppLayout>
+                            <ListRoom />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/room/create"
+                    element={
+                        <AppLayout>
+                            <CreateRoom />
                         </AppLayout>
                     }
                 />

@@ -1,13 +1,13 @@
 import { Card } from 'antd'
 import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import { ViewSchoolStyled } from './styles'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { useSelector } from 'react-redux'
 import store, { RootState } from '../../../redux/store'
 import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import useSchool from '../../../hooks/useCreateSchool'
 import SchoolViewTabs from './SchoolViewTabs'
@@ -17,27 +17,54 @@ import {
     fontFamilyMedium,
     maastrichtBlue,
 } from '../../../components/GlobalStyle'
-import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
+import {
+    OwnerDataTypes,
+    SchoolDataType,
+    getSchoolByUserId,
+} from '../../../redux/features/dashboard/dashboardDataSlice'
 import Head from '../../../components/Head/Head'
 import { StudentViewStyling } from '../styles'
 const ViewSchool = (): JSX.Element => {
     const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
-    const { deleteConfirmation, deletemodal, WarningModal } = useSchool()
+    const { deleteConfirmation, deletemodal, WarningModal, getSchoolbyId } =
+        useSchool()
     const { branchData } = useSelector((state: RootState) => state.branchData)
     const { franchiseData } = useSelector(
         (state: RootState) => state.franchiseData
     )
+    const [schoolData, setschoolData] = useState<SchoolDataType>()
+    const [OwnerData, setOwnerData] = useState<OwnerDataTypes>()
+
+    const { schoolId } = useParams()
+
+    useEffect(() => {
+        const fetchData = async (): Promise<void> => {
+            try {
+                const response: any = await getSchoolbyId(Number(schoolId))
+                if (response) {
+                    setschoolData(response.results)
+                    setOwnerData(response.results.ownerData)
+                }
+
+                // eslint-disable-next-line @typescript-eslint/no-shadow
+            } catch (error) {
+            } finally {
+            }
+        }
+
+        fetchData()
+    }, [schoolId])
+
+    // console.log('>>im view school', schoolData)
+
     // console.log(
     //     '>>DATATA',
     //     branchData?.data?.length,
     //     franchiseData?.data?.length
     // )
     // const { data } = useSelector((state: RootState) => state.loginData)
-    const { schoolData } = useSelector(
-        (state: RootState) => state.dashboardData
-    )
-    console.log('>>im view school', schoolData)
+
     const { language, currency } = useSelector(
         (state: RootState) => state.appData.data.dropdowns
     )
@@ -55,14 +82,14 @@ const ViewSchool = (): JSX.Element => {
     )
     const defaultLanguage = language.find(
         (item: DataTypesWithIdAndMultipleLangLabel) =>
-            +item.id == +schoolData.defaultLanguageId
+            +item.id == +Number(schoolData?.defaultLanguageId)
     )
     const defaultCurrency = currency.find(
         (item: DataTypesWithIdAndMultipleLangLabel) =>
-            +item.id == +schoolData.defaultCurrencyId
+            +item.id == +Number(schoolData?.defaultCurrencyId)
     )
     const handleUpdateClick = (): void => {
-        navigate(`/school/edit/:${schoolData.schoolId}`)
+        navigate(`/school/edit/:${schoolData?.schoolId}`)
     }
 
     // const handleDeleteClick = async (): Promise<void> => {
@@ -143,11 +170,11 @@ const ViewSchool = (): JSX.Element => {
         if (activitiesName !== '') return activitiesName
         return '--'
     }
-    useEffect(() => {
-        console.log('>>im view school')
+    // useEffect(() => {
+    //     console.log('>>im view school')
 
-        store.dispatch(getSchoolByUserId())
-    }, [])
+    //     store.dispatch(getSchoolByUserId())
+    // }, [])
     return (
         <>
             <Head title="School Information" />
@@ -155,11 +182,11 @@ const ViewSchool = (): JSX.Element => {
             <ViewSchoolStyled>
                 {WarningModal().modalComponent}
                 {deletemodal().modalComponent}
-                {deleteConfirmation(schoolData.schoolId).modalComponent}
+                {deleteConfirmation(Number(schoolId)).modalComponent}
 
                 <OverlayImages
-                    backgroundImg={schoolData.bannerPicture || ''}
-                    overlayImg={schoolData.profilePicture || ''}
+                    backgroundImg={schoolData?.bannerPicture || ''}
+                    overlayImg={schoolData?.profilePicture || ''}
                     isEditable={true}
                 />
                 <h3>Owner Information</h3>
@@ -170,7 +197,10 @@ const ViewSchool = (): JSX.Element => {
                                 <div className="list-item-title">
                                     Owner First Name
                                 </div>
-                                <div className="list-item-value">Adnan</div>
+                                <div className="list-item-value">
+                                    {' '}
+                                    {OwnerData?.firstName || '--'}
+                                </div>
                             </div>
                         </Col>
                         <Col md="6">
@@ -178,14 +208,16 @@ const ViewSchool = (): JSX.Element => {
                                 <div className="list-item-title">
                                     Owner Last Name
                                 </div>
-                                <div className="list-item-value">Qureshi</div>
+                                <div className="list-item-value">
+                                    {OwnerData?.lastName || '--'}
+                                </div>
                             </div>
                         </Col>
                         <Col md="6">
                             <div className="list-item">
                                 <div className="list-item-title">Email</div>
                                 <div className="list-item-value">
-                                    adnan@gmail.com
+                                    {OwnerData?.emailAddress || '--'}
                                 </div>
                             </div>
                         </Col>
@@ -195,7 +227,7 @@ const ViewSchool = (): JSX.Element => {
                                     Phone Number
                                 </div>
                                 <div className="list-item-value">
-                                    +923000000000
+                                    {OwnerData?.phoneNumber || '--'}
                                 </div>
                             </div>
                         </Col>
@@ -210,7 +242,7 @@ const ViewSchool = (): JSX.Element => {
                                     {getLabelByKey('businessName')}
                                 </div>
                                 <div className="list-item-value">
-                                    {schoolData.businessName || '--'}
+                                    {schoolData?.businessName || '--'}
                                 </div>
                             </div>
                         </Col>
@@ -221,7 +253,7 @@ const ViewSchool = (): JSX.Element => {
                                 </div>
                                 <div className="list-item-value">
                                     {showBusinessType(
-                                        schoolData.businessType as number
+                                        schoolData?.businessType as number
                                     )}
                                 </div>
                             </div>
@@ -232,7 +264,7 @@ const ViewSchool = (): JSX.Element => {
                                     {getLabelByKey('businessPhoneNumber')}
                                 </div>
                                 <div className="list-item-value">
-                                    {schoolData.phoneNumber || '--'}
+                                    {schoolData?.phoneNumber || '--'}
                                 </div>
                             </div>
                         </Col>
@@ -243,7 +275,7 @@ const ViewSchool = (): JSX.Element => {
                                     {getLabelByKey('address')}
                                 </div>
                                 <div className="list-item-value">
-                                    {schoolData.address || '--'}
+                                    {schoolData?.address || '--'}
                                 </div>
                             </div>
                         </Col>
@@ -255,9 +287,9 @@ const ViewSchool = (): JSX.Element => {
                                             {getLabelByKey('belts')}
                                         </div>
                                         <div className="list-item-value">
-                                            {schoolData.rank
+                                            {schoolData?.rank
                                                 ? 'Yes'
-                                                : schoolData.rank === false
+                                                : schoolData?.rank === false
                                                   ? 'No'
                                                   : '--'}
                                         </div>
@@ -301,7 +333,9 @@ const ViewSchool = (): JSX.Element => {
                                     {getLabelByKey('activity')}
                                 </div>
                                 <div className="list-item-value">
-                                    {showActivities(schoolData.activities)}
+                                    {showActivities(
+                                        String(schoolData?.activities)
+                                    )}
                                 </div>
                             </div>
                         </Col>
@@ -311,7 +345,9 @@ const ViewSchool = (): JSX.Element => {
                                     {getLabelByKey('facilities')}
                                 </div>
                                 <div className="list-item-value">
-                                    {showFacilities(schoolData.facilities)}
+                                    {showFacilities(
+                                        String(schoolData?.facilities)
+                                    )}
                                 </div>
                             </div>
                         </Col>
@@ -321,7 +357,7 @@ const ViewSchool = (): JSX.Element => {
                                     {getLabelByKey('description')}
                                 </div>
                                 <div className="list-item-value">
-                                    {schoolData.description || '--'}
+                                    {schoolData?.description || '--'}
                                 </div>
                             </div>
                         </Col>

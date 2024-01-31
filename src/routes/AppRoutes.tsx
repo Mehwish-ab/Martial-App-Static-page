@@ -133,7 +133,7 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/school/view"
+                    path="/school/view/:schoolId"
                     element={
                         <AppLayout>
                             <ViewSchool />

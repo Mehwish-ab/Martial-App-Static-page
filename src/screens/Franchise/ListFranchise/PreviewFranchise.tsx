@@ -15,13 +15,42 @@ import {
 } from '../../../redux/features/franchise/franchiseSlice'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import useFranchise from '../hooks/useFranchise'
+import { useParams } from 'react-router-dom'
 
 const PreviewFranchise = (): JSX.Element => {
     const {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
-    const { deletemodal, deleteConfirmation, FranchiseStatus } = useFranchise()
+    const { schoolId } = useParams()
+    const [franchiseData, setfranchiseData] = useState<
+        FranchiseDataType[] | undefined | null
+    >(undefined)
+    const {
+        deletemodal,
+        deleteConfirmation,
+        viewFranchisebySchoolid,
+        FranchiseStatus,
+        loading,
+    } = useFranchise()
     const [Id] = useState(0)
+    useEffect(() => {
+        const fetchData = async (): Promise<void> => {
+            try {
+                const response: any = await viewFranchisebySchoolid(
+                    Number(schoolId)
+                )
+                setfranchiseData(response.results.data)
+                length = response.results.data.length
+                console.log(' api Nada', response.results)
+
+                // eslint-disable-next-line @typescript-eslint/no-shadow
+            } catch (error) {
+            } finally {
+            }
+        }
+
+        fetchData()
+    }, [schoolId])
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
@@ -45,9 +74,7 @@ const PreviewFranchise = (): JSX.Element => {
         }
         return activitiesName
     }
-    const { franchiseData, loading } = useSelector(
-        (state: RootState) => state.franchiseData
-    )
+
     useEffect(() => {
         store.dispatch(getfranchiseBySchoolId())
     }, [])
@@ -85,13 +112,12 @@ const PreviewFranchise = (): JSX.Element => {
             //   </div>
             // ),
             render: (Dummydatas) => {
-                console.log('>>images', Dummydatas?.profilePicture)
-                if (Dummydatas?.profilePicture === null) {
+                if (Dummydatas.profilePicture === null) {
                     return <img src={defaltimg} width={44} height={44} />
                 } else {
                     return (
                         <img
-                            src={`https://fistastore.com:444${Dummydatas?.profilePicture}`}
+                            src={`https://fistastore.com:444${Dummydatas.profilePicture}`}
                             width={44}
                             height={44}
                         />
@@ -119,8 +145,6 @@ const PreviewFranchise = (): JSX.Element => {
             dataIndex: 'activities',
             key: 'activities',
             render: (DummyData) => {
-                console.log(DummyData)
-
                 return <p className="sub-title">{showActivities(DummyData)}</p>
             },
         },
@@ -134,17 +158,16 @@ const PreviewFranchise = (): JSX.Element => {
             dataIndex: 'franchiseStatusId',
             key: 'franchiseStatusId',
             render: (isActive, index) => {
-                console.log('Status', isActive, index)
-
                 if (index?.franchiseStatusId === 1) {
                     return (
                         <div className={'Active'}>
                             <button
-                                onClick={() => {
-                                    {
-                                        FranchiseStatus(index.franchiseId, 2)
-                                    }
-                                }}
+                            // onClick={() => {
+                            //     {
+                            //         FranchiseStatus(index.franchiseId, 2)
+                            //         store.dispatch(getBranchBySchoolId())
+                            //     }
+                            // }}
                             >
                                 Active
                             </button>
@@ -155,9 +178,10 @@ const PreviewFranchise = (): JSX.Element => {
                     return (
                         <div className={'De-Active'}>
                             <button
-                                onClick={() => {
-                                    FranchiseStatus(index.franchiseId, 1)
-                                }}
+                            // onClick={() => {
+                            //     FranchiseStatus(index.franchiseId, 1)
+                            //     store.dispatch(getBranchBySchoolId())
+                            // }}
                             >
                                 De-Active
                             </button>
@@ -180,11 +204,7 @@ const PreviewFranchise = (): JSX.Element => {
             <ListFranchiseStyled>
                 <Table
                     columns={columns}
-                    dataSource={
-                        franchiseData?.data[0]?.franchiseId !== 0
-                            ? franchiseData?.data
-                            : []
-                    }
+                    dataSource={franchiseData ? franchiseData : []}
                     scroll={{ x: true }}
                     pagination={{
                         showTotal: (total, range) => (

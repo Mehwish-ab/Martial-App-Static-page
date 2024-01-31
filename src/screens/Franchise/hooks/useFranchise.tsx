@@ -30,7 +30,7 @@ interface IUseFranchise {
         values: CreateFranchiseInitialValues,
         { resetForm }: FormikHelpers<CreateFranchiseInitialValues>
     ) => Promise<void>
-    viewFranchisebyid: (franchiseId: number) => Promise<unknown>
+    viewFranchisebySchoolid: (schoolid: number) => Promise<unknown>
     editFranchise: (
         franchiseId: number,
         values: CreateFranchiseInitialValues
@@ -135,13 +135,15 @@ const useFranchise = (): IUseFranchise => {
         }
     }
 
-    const viewFranchisebyid = async (franchiseId: number): Promise<unknown> => {
+    const viewFranchisebySchoolid = async (
+        schoolid: number
+    ): Promise<unknown> => {
         try {
             setError('')
             setLoading(true)
             const { data: data3 } = await axios.post(
-                '/franchise/getDetailsById',
-                { franchiseId },
+                '/franchise/getBySchoolId',
+                { schoolId: schoolid },
                 {
                     headers: {
                         ...authorizationToken(loginData.data as loginDataTypes),
@@ -155,7 +157,7 @@ const useFranchise = (): IUseFranchise => {
             }
             console.log('franchise info', data3.results)
             setLoading(false)
-            return data3.results
+            return data3
         } catch (error2: any) {
             console.log('error', error2)
             setLoading(false)
@@ -525,7 +527,7 @@ const useFranchise = (): IUseFranchise => {
     return {
         loading,
         handleSubmit,
-        viewFranchisebyid,
+        viewFranchisebySchoolid,
         editFranchise,
         deleteFranchise,
         getFranchisebyid,

@@ -23,15 +23,15 @@ import { CustomDiv } from '../CreateSchool/ListSchool/CustomDiv'
 import Head from '../../components/Head/Head'
 import useUser from '../../hooks/useUser'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../redux/store'
+import store, { RootState } from '../../redux/store'
 import { useEffect, useState } from 'react'
-import { userDataType } from '../../redux/features/User/UserSlice'
+import { UserDataType, getAllUsers } from '../../redux/features/User/UserSlice'
 import defaltimg from '../../assets/images/create_school_user_profile.svg'
 
 const UserList = (): JSX.Element => {
     const { getAllUser } = useUser()
     const [AllUSer, setAllUSer] = useState<
-        { data: userDataType[] } | null | undefined
+        { data: UserDataType[] } | null | undefined
     >(null)
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(true)
@@ -39,34 +39,39 @@ const UserList = (): JSX.Element => {
     // const { schoolData } = useSelector(
     //     (state: RootState) => state.dashboardData
     // )
-    let lengths: number = 0
+    const lengths: number = 0
     const { loginData } = useSelector((state: RootState) => state)
+    const { UserData } = useSelector((state: RootState) => state.UserData)
+
     const navigate = useNavigate()
+    // useEffect(() => {
+    //     const fetchData = async (): Promise<void> => {
+    //         try {
+    //             const response: any = await getAllUser(
+    //                 String(loginData.data?.userDetails.countryName)
+    //             )
+    //             if (response && response.data) {
+    //                 setAllUSer(response)
+
+    //                 // Update the lengths variable here
+    //                 lengths = response?.data?.length || 0
+    //             }
+    //             console.log('API response:', response)
+
+    //             // eslint-disable-next-line @typescript-eslint/no-shadow
+    //         } catch (error) {
+    //             setError('Error fetching data')
+    //         } finally {
+    //             setLoading(false)
+    //         }
+    //     }
+
+    //     fetchData()
+    // }, [])
+    console.log('Aabcdefg', UserData)
     useEffect(() => {
-        const fetchData = async (): Promise<void> => {
-            try {
-                const response: any = await getAllUser(
-                    String(loginData.data?.userDetails.countryName)
-                )
-                if (response) {
-                    setAllUSer(response)
-
-                    // Update the lengths variable here
-                    lengths = response?.data?.length || 0
-                }
-                console.log('API response:', response)
-
-                // eslint-disable-next-line @typescript-eslint/no-shadow
-            } catch (error) {
-                setError('Error fetching data')
-            } finally {
-                setLoading(false)
-            }
-        }
-
-        fetchData()
+        store.dispatch(getAllUsers())
     }, [])
-
     // const { schoolData, loading } = useSelector(
     //     (state: RootState) => state.schoolData
     // )
@@ -74,8 +79,8 @@ const UserList = (): JSX.Element => {
     // const {
     //     dropdowns: { businessTypes },
     // } = useSelector((state: RootState) => state.appData.data)
-    console.log('AllUSer:', AllUSer)
-    const columns: ColumnsType<userDataType> = [
+    // console.log('AllUSer:', AllUSer)
+    const columns: ColumnsType<UserDataType> = [
         {
             title: 'Id',
             dataIndex: 'userId',
@@ -101,10 +106,10 @@ const UserList = (): JSX.Element => {
         },
         {
             title: 'Name',
-            dataIndex: 'schoolBusinessName',
-            key: 'schoolBusinessName',
+            dataIndex: 'firstName',
+            key: 'firstName',
             render: (text) => (
-                <p>{text.length > 10 ? `${text.slice(0, 10)}...` : text}</p>
+                <p>{text > 10 ? `${text.slice(0, 10)}...` : text}</p>
             ),
         },
         {
@@ -309,7 +314,7 @@ const UserList = (): JSX.Element => {
                     //         : []
                     // }
                     dataSource={
-                        lengths > 0 && AllUSer?.data ? AllUSer?.data : []
+                        UserData?.data[0]?.userId !== 0 ? UserData?.data : []
                     }
                     scroll={{ x: true }}
                     pagination={{

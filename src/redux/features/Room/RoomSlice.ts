@@ -8,6 +8,8 @@ import {
 
 import store from '../../store'
 import { loginDataTypes } from '../types'
+import { useEffect } from 'react'
+import { getAllUsers } from '../User/UserSlice'
 export interface RoomDataType {
     useCase: string
     id: number | string
@@ -56,13 +58,12 @@ const initialState: ClassDataInitialState = {
 }
 
 export const getRoomDataByUseCase = createAsyncThunk(
-    'RoomData/getRoomDataByUseCase', // Use the correct action type
+    'RoomData/getRoomDataByUseCase',
     async ({ id, usecase }: { id: number; usecase: string }, thunkAPI) => {
-        // const userDetails: any = thunkAPI.getState().state.loginData.userDetails;
         const state = store.getState()
         try {
             const { data } = await axios.post(
-                `${base_url}/rooms/byUC`,
+                `${base_url}rooms/byUC`,
                 {
                     id: id,
                     useCase: usecase,
@@ -75,7 +76,7 @@ export const getRoomDataByUseCase = createAsyncThunk(
                     },
                 }
             )
-            return data.results
+            return data.results.data
         } catch (error: any) {
             if (error.response && error.response.data) {
                 const obj = {

@@ -35,7 +35,7 @@ interface IWarningModal {
 interface IUseRoom {
     loading: boolean
     handleCreateSubmit: (values: CreateRoomInitialValues) => Promise<void>
-    handleUpdate: (id: number, values: CreateRoomInitialValues) => Promise<void>
+    handleUpdate: (values: CreateRoomInitialValues) => Promise<void>
     error: string
     isUploadImgModalVisible: boolean
     setIsUploadImgVisible: (param: boolean) => void
@@ -44,6 +44,7 @@ interface IUseRoom {
         endDate: string,
         schoolid: number
     ) => Promise<any>
+    getbyroomid: (Id: number) => Promise<any>
     deletemodal: () => IModalComponent
     Createmodal: () => IModalComponent
     UpdateModal: () => IModalComponent
@@ -131,7 +132,55 @@ const useRoom = (): IUseRoom => {
             // )
         }
     }
+    const getbyroomid = async (Id: number): Promise<any> => {
+        // const url = get_branch_by_school_id_url
+        console.log('>> im in getallbranchbyschoolid')
+        try {
+            setLoading(true)
+            const { data: data3 } = await axios.post(
+                '/rooms/getDetailsById',
+                { roomId: Id },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            console.log('>>v', data3)
 
+            // setIsShowModal(true);
+            // setTimeout(() => {
+            //   setLoading(false);
+            //   setIsShowModal(false);
+            //   //navigate("/school/view");
+            // }, 3000);
+            // setIsShowModal(true)
+            // setTimeout(() => {
+            setLoading(false)
+            //     setIsShowModal(false)
+            //    // navigate('/branch/list')
+            // }, 3000)
+            // toastId.current = toast(data.responseMessage, {
+            //   type: "success",
+            //   autoClose: 1000,
+            // });
+            //setLoading(false);
+            console.log({ data3 })
+            return data3.results
+        } catch (e: any) {
+            setLoading(false)
+            // setError((errorMessage as any).response.data.responseMessage)
+            // setLoading(false)
+            // console.log(
+            //     (errorMessage as any).response.data.responseMessage,
+            //     'error in api data'
+            // )
+            // setError(
+            //     (errorMessage as any).response?.data?.responseMessage ||
+            //         'An error occurred'
+            // )
+        }
+    }
     // to create room
     const handleCreateSubmit = async (
         values: CreateRoomInitialValues
@@ -176,6 +225,14 @@ const useRoom = (): IUseRoom => {
                 if (values.useCase === 'SCHOOL') {
                     const schoolId = values.id
                     navigate(`/school/room/list/${schoolId}`)
+                }
+                if (values.useCase === 'BRANCH') {
+                    const branchId = values.id
+                    navigate(`/branch/room/list/${branchId}`)
+                }
+                if (values.useCase === 'FRANCHISE') {
+                    const franchiseId = values.id
+                    navigate(`/franchise/room/list/${franchiseId}`)
                 }
             }, 3000)
             // toastId.current = toast(data.responseMessage, {
@@ -240,15 +297,13 @@ const useRoom = (): IUseRoom => {
         }
     }
     const handleUpdate = async (
-        id: number,
         values: CreateRoomInitialValues
     ): Promise<void> => {
         const userDetails = loginData.data?.userDetails
-        console.log('clicked submit room')
+        console.log('clicked handleUpdate room')
 
         const payload = {
-            useCase: values.useCase,
-            id: values.id,
+            roomId: values.roomId,
             name: values.roomName,
             floorNumber: values.floorNumber,
             roomNumber: values.roomNumber,
@@ -282,7 +337,16 @@ const useRoom = (): IUseRoom => {
                     const schoolId = values.id
                     navigate(`/school/room/list/${schoolId}`)
                 }
+                if (values.useCase === 'BRANCH') {
+                    const branchId = values.id
+                    navigate(`/branch/room/list/${branchId}`)
+                }
+                if (values.useCase === 'FRANCHISE') {
+                    const franchiseId = values.id
+                    navigate(`/franchise/room/list/${franchiseId}`)
+                }
             }, 3000)
+
             // toastId.current = toast(data.responseMessage, {
             //   type: "success",
             //   autoClose: 1000,
@@ -649,6 +713,7 @@ const useRoom = (): IUseRoom => {
         getInstructorstartenddate,
         getallRoombyUC,
         WarningModal,
+        getbyroomid,
     }
 }
 

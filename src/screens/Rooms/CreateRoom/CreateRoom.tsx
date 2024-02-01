@@ -23,10 +23,11 @@ const initialValues: CreateRoomInitialValues = {
     lFeet: '',
     wInch: '',
     wFeet: '',
-    useCase: 'SCHOOL',
-    id: 147,
+    useCase: '',
+    id: '',
     width: '',
     height: '',
+    roomId: '',
 }
 const CreateRoom = (): JSX.Element => {
     const { schoolId } = useParams()

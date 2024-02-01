@@ -15,6 +15,7 @@ import {
 import FileSubmit from '../../assets/icons/ic_fileSubmit.svg'
 import CustomButton from '../../components/CustomButton/CustomButton'
 import EnnvisionModal from '../../components/CustomModals/EnnvisionModal'
+import Head from '../../components/Head/Head'
 
 const Activity = (): JSX.Element => {
     const initialValues: ActivityInitialValues = {
@@ -29,6 +30,7 @@ const Activity = (): JSX.Element => {
     const handleCreateSubmit = (): void => {}
     return (
         <>
+            <Head title="Activity" />
             <ActivityStyle>
                 <Formik
                     initialValues={initialValues}

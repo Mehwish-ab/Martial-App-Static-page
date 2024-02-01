@@ -1,19 +1,23 @@
 import { Modal } from 'antd'
-import { Dispatch, ReactNode, SetStateAction } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 import close from '../../assets/icons/ic_close.svg'
 import CustomModalStyle from './style'
 
-type CustomModalPropsTypes = {
-    children: ReactNode
+type CustomMessageModalPropsTypes = {
+    title: string
+    description: string
     isModalVisible: boolean
     onCancel?: () => void
     setIsModalVisible: Dispatch<SetStateAction<boolean>>
     width?: string
     showCloseBtn?: boolean
+    imageProp: string
 }
 
-const CustomModal: React.FC<CustomModalPropsTypes> = ({
-    children,
+const CustomMessageModal: React.FC<CustomMessageModalPropsTypes> = ({
+    title,
+    imageProp,
+    description,
     isModalVisible,
     setIsModalVisible,
     onCancel,
@@ -46,11 +50,21 @@ const CustomModal: React.FC<CustomModalPropsTypes> = ({
                         alt="close"
                     />
                 )}
-
-                <div className="px-2">{children}</div>
+                <div className="px-2">
+                    <img
+                        src={imageProp}
+                        alt="Success Icon"
+                        width={79}
+                        height={79}
+                    />
+                    {title && <h6 className="title my-2">{title}</h6>}
+                    {description && (
+                        <p className="description">{description}</p>
+                    )}
+                </div>
             </CustomModalStyle>
         </Modal>
     )
 }
 
-export default CustomModal
+export default CustomMessageModal

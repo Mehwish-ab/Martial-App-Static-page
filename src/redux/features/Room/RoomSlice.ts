@@ -20,38 +20,52 @@ export interface RoomDataType {
     roomId: number | string
 }
 
-export interface DashboardDataInitialState {
-    roomData: RoomDataType
+export interface GetRoomBySchoolResTypes {
+    data: RoomDataType[]
+    totalItems: number
+    totalPages: number
+    currentPage: number
+}
+export interface ClassDataInitialState {
+    RoomData: GetRoomBySchoolResTypes
     loading: boolean
     error: string | undefined
 }
 
-const initialState: DashboardDataInitialState = {
-    roomData: {
-        useCase: '',
-        id: '',
-        name: '',
-        floorNumber: '',
-        roomNumber: '',
-        width: '',
-        height: '',
-        isActive: false,
-        roomId: '',
+const initialState: ClassDataInitialState = {
+    RoomData: {
+        data: [
+            {
+                useCase: '',
+                id: '',
+                name: '',
+                floorNumber: '',
+                roomNumber: '',
+                width: '',
+                height: '',
+                isActive: false,
+                roomId: '',
+            },
+        ],
+        currentPage: 0,
+        totalItems: 0,
+        totalPages: 0,
     },
     loading: false,
     error: '',
 }
 
-export const getSchoolByUserId = createAsyncThunk(
-    'dashboardData/getSchoolByUserId', // Use the correct action type
-    async () => {
+export const getRoomDataByUseCase = createAsyncThunk(
+    'RoomData/getRoomDataByUseCase', // Use the correct action type
+    async ({ id, usecase }: { id: number; usecase: string }, thunkAPI) => {
         // const userDetails: any = thunkAPI.getState().state.loginData.userDetails;
         const state = store.getState()
         try {
             const { data } = await axios.post(
-                `${base_url}${get_school_by_user_id_url}`,
+                `${base_url}/rooms/byUC`,
                 {
-                    userId: state.loginData?.data?.userDetails?.id,
+                    id: id,
+                    useCase: usecase,
                 },
                 {
                     headers: {
@@ -76,29 +90,39 @@ export const getSchoolByUserId = createAsyncThunk(
     }
 )
 
-const dashboardDataSlice = createSlice({
-    name: 'dashboardData',
+const RoomSlice = createSlice({
+    name: 'instructorData',
     initialState,
-    reducers: {},
-    extraReducers: (builder) => {
+    reducers: {
+        updateInstructor: (state, action) => {
+            const updateInstructor: RoomDataType = action.payload
+            const index = state.RoomData.data.findIndex(
+                (b) => b.id === updateInstructor.id
+            )
+            state.RoomData.data[index] = updateInstructor
+        },
+    },
+    extraReducers(builder) {
         builder
-            .addCase(getSchoolByUserId.pending, (state) => {
-                state.roomData = initialState.roomData
+            .addCase(getRoomDataByUseCase.pending, (state) => {
+                state.RoomData = initialState.RoomData
                 state.loading = true
                 state.error = ''
             })
-            .addCase(getSchoolByUserId.fulfilled, (state, action) => {
-                state.roomData = action.payload
+            .addCase(getRoomDataByUseCase.fulfilled, (state, action) => {
+                state.RoomData = action.payload
                 state.loading = false
                 state.error = ''
             })
-            .addCase(getSchoolByUserId.rejected, (state, action) => {
+            .addCase(getRoomDataByUseCase.rejected, (state, action) => {
                 console.log('action.error', action)
-                state.roomData = initialState.roomData
+                state.RoomData = initialState.RoomData
                 state.error = action.error.message
                 state.loading = false
             })
     },
 })
 
-export default dashboardDataSlice.reducer
+export const { updateInstructor } = RoomSlice.actions
+
+export default RoomSlice.reducer

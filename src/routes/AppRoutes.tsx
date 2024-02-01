@@ -192,7 +192,7 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/room/create"
+                    path="/room/create/:schoolId"
                     element={
                         <AppLayout>
                             <CreateRoom />
@@ -200,7 +200,31 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/room/update"
+                    path="/room/create/:branchId"
+                    element={
+                        <AppLayout>
+                            <CreateRoom />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/branch/room/create/:branchId"
+                    element={
+                        <AppLayout>
+                            <CreateRoom />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/franchise/room/create/:franchiseId"
+                    element={
+                        <AppLayout>
+                            <CreateRoom />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/room/edit/:schoolId"
                     element={
                         <AppLayout>
                             <UpdateRoom />
@@ -208,7 +232,7 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/room/view"
+                    path="/room/view/:schoolId"
                     element={
                         <AppLayout>
                             <ViewRoom />

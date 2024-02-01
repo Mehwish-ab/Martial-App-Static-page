@@ -11,24 +11,79 @@ import {
     maastrichtBlue,
 } from '../../../components/GlobalStyle'
 import Head from '../../../components/Head/Head'
+import useRoom from '../../../hooks/useRoom'
+import { useParams } from 'react-router-dom'
+import { useState } from 'react'
 
 const initialValues: CreateRoomInitialValues = {
     roomName: '',
     floorNumber: '',
     roomNumber: '',
-    length: [],
-    width: [],
+    lInch: '',
+    lFeet: '',
+    wInch: '',
+    wFeet: '',
+    useCase: 'SCHOOL',
+    id: 147,
+    width: '',
+    height: '',
 }
-const handleCreateSubmit = (): void => {}
 const CreateRoom = (): JSX.Element => {
+    const { schoolId } = useParams()
+    const { branchId } = useParams()
+    const { franchiseId } = useParams()
+    console.log('id', schoolId, branchId, franchiseId)
+    const [isModalVisible, setIsModalVisible] = useState(false)
+
+    const { handleCreateSubmit, WarningModal } = useRoom()
+    const onSubmit = async (values: CreateRoomInitialValues): Promise<void> => {
+        setIsModalVisible(true)
+
+        try {
+            if (schoolId) {
+                await handleCreateSubmit({
+                    ...values,
+                    useCase: 'SCHOOL',
+                    id: schoolId,
+                })
+            }
+            if (branchId) {
+                await handleCreateSubmit({
+                    ...values,
+                    useCase: 'BRANCH',
+                    id: branchId,
+                })
+            }
+            if (franchiseId) {
+                try {
+                    await handleCreateSubmit({
+                        ...values,
+                        useCase: 'FRANCHISE',
+                        id: franchiseId,
+                    })
+                } catch (error) {
+                    // Show warning modal with custom message
+                    setIsModalVisible(false)
+                    const customMessage = 'Your custom error message here'
+                    WarningModal(customMessage).modalComponent
+                }
+            }
+        } catch (error) {
+            // Show warning modal with custom message
+            setIsModalVisible(false)
+            const customMessage = 'Your custom error message here'
+            WarningModal(customMessage).modalComponent
+        }
+    }
     return (
         <>
             <Head title="Room Create" />
+            {/* {WarningModal().modalComponent} */}
             <CreateRoomsStyle>
                 <Formik
                     initialValues={initialValues}
                     // validationSchema={validationSchema}
-                    onSubmit={handleCreateSubmit}
+                    onSubmit={onSubmit}
                 >
                     {(formik) => {
                         console.log('formik', formik.values)
@@ -61,13 +116,13 @@ const CreateRoom = (): JSX.Element => {
                                         </Col>
                                         <Col md="6" className="mt-20">
                                             <FormControl
-                                                control="select"
+                                                control="input"
                                                 type="text"
-                                                name="roomName"
+                                                name="floorNumber"
                                                 label="Floor Number"
                                                 fontSize="16px"
                                                 max={6}
-                                                placeholder="Select Floor Number"
+                                                placeholder="Enter Floor Number"
                                                 className={
                                                     formik.errors.floorNumber &&
                                                     formik.touched.floorNumber
@@ -78,9 +133,9 @@ const CreateRoom = (): JSX.Element => {
                                         </Col>
                                         <Col md="6" className="mt-20">
                                             <FormControl
-                                                control="select"
+                                                control="input"
                                                 type="text"
-                                                name="roomName"
+                                                name="roomNumber"
                                                 label="Room Number"
                                                 fontSize="16px"
                                                 max={6}
@@ -97,15 +152,15 @@ const CreateRoom = (): JSX.Element => {
                                             <FormControl
                                                 control="numberField"
                                                 type="number"
-                                                label="Length"
+                                                label="height"
                                                 inchName="lInch"
                                                 feetName="lFeet"
-                                                name="length"
+                                                name="height"
                                                 inchPlaceholder="Inch"
                                                 feetPlaceholder="Feet"
                                                 className={
-                                                    formik.errors.length &&
-                                                    formik.touched.length
+                                                    formik.errors.height &&
+                                                    formik.touched.height
                                                         ? 'is-invalid'
                                                         : 'customInput'
                                                 }

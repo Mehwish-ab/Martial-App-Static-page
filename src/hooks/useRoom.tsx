@@ -23,22 +23,19 @@ import CustomModal from '../components/Modal/CustomModal'
 import ic_error from '../assets/icons/ic_error.svg'
 import ic_success from '../assets/images/ic_success.svg'
 import { getBranchBySchoolId } from '../redux/features/CLasses/ClassSlice'
+import { CreateRoomInitialValues } from '../screens/Rooms/constant'
+import { getRoomDataByUseCase } from '../redux/features/Room/RoomSlice'
 
 interface IModalComponent {
     modalComponent: JSX.Element
 }
+interface IWarningModal {
+    customMessage: string
+}
 interface IUseRoom {
     loading: boolean
-    handleCreateSubmit: (
-        values: CreateClassInitialValues,
-        file: any
-    ) => Promise<void>
-    handleUpdate: (
-        id: number,
-        values: CreateClassInitialValues,
-        file: any,
-        bannerImages: any
-    ) => Promise<void>
+    handleCreateSubmit: (values: CreateRoomInitialValues) => Promise<void>
+    handleUpdate: (id: number, values: CreateRoomInitialValues) => Promise<void>
     error: string
     isUploadImgModalVisible: boolean
     setIsUploadImgVisible: (param: boolean) => void
@@ -50,11 +47,18 @@ interface IUseRoom {
     deletemodal: () => IModalComponent
     Createmodal: () => IModalComponent
     UpdateModal: () => IModalComponent
-    ClassStatus: (classid: number, classStatusid: number) => Promise<any>
+    RoomStatus: (
+        classid: number,
+        classStatusid: boolean,
+        Id: number,
+        schoolInUpperCase: string
+    ) => Promise<any>
+    WarningModal: (customMessage: string) => IModalComponent
+
     getClassbyid: (classid: number) => Promise<any>
     getallRoombyUC: (id: number, us: string) => Promise<any>
     deleteConfirmation: (id: number) => IModalComponent
-    deleteClass: (id: number) => Promise<void>
+    deleteRoom: (id: number) => Promise<void>
     setIsShowModal: (showModal: true) => void
 }
 
@@ -62,14 +66,21 @@ const useRoom = (): IUseRoom => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [isUploadImgModalVisible, setIsUploadImgVisible] = useState(false)
+    const [isShowWarningModal, setIsShowWarningModalInternal] = useState(false)
+    const [customWarningMessage, setCustomWarningMessage] = useState('')
     const toastId = useRef<any>(null)
-    const { schoolId } = useParams()
-    const [isShowWarningModal, setIsShowWarningModal] = useState(false)
     const [isShowModal, setIsShowModal] = useState(false)
     const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
     const navigate = useNavigate()
 
     const { loginData } = useSelector((state: RootState) => state)
+    const setIsShowWarningModal = (
+        showModal: boolean,
+        message: string = ''
+    ): void => {
+        setCustomWarningMessage(message)
+        setIsShowWarningModalInternal(showModal)
+    }
 
     const getallRoombyUC = async (Id: number, us: string): Promise<any> => {
         // const url = get_branch_by_school_id_url
@@ -121,38 +132,21 @@ const useRoom = (): IUseRoom => {
         }
     }
 
-    // to create School
+    // to create room
     const handleCreateSubmit = async (
-        values: CreateClassInitialValues,
-        file: any
+        values: CreateRoomInitialValues
     ): Promise<void> => {
         const userDetails = loginData.data?.userDetails
+        console.log('clicked submit room')
 
         const payload = {
-            useCase: 'SCHOOL',
+            useCase: values.useCase,
             id: values.id,
-            title: values.title || '',
-            startDate: values.startDate,
-            endDate: values.endDate || '',
-            instructorId: values.instructorId,
-            fee: `${values.fee}` || '',
-            activities: values.activities.join(','),
-            capacity: values.capacity,
-            minimumStudent: values.minimumStudent,
-            bookingStartDate: values.bookingStartDate,
-            bookingEndDate: values.bookingEndDate,
-            qrCodeStartDate: values.qrCodeStartDate,
-            qrCodeEndDate: values.qrCodeEndDate || '',
-            allowStudentCancel: values.allowStudentCancel,
-            refundDate: values.refundDate || '',
-            bookingCancelStartDate: values.bookingCancelStartDate || '',
-            bookingCancelEndDate: values.bookingCancelEndDate || '',
-            cancellationCharges: `${values.cancellationCharges}` || '',
-            accommodation: values.accommodation.join(','),
-            description: values.description || '',
-            timeTableId: values.timeTableId,
-
-            ...(schoolId && { schoolId }), // Add schoolId conditionally
+            name: values.roomName,
+            floorNumber: values.floorNumber,
+            roomNumber: values.roomNumber,
+            height: `${values.lFeet}'${values.lInch}"`,
+            width: `${values.wFeet}'${values.wInch}"`,
         }
         console.log('payload', payload)
 
@@ -161,27 +155,12 @@ const useRoom = (): IUseRoom => {
         try {
             setError('')
             setLoading(true)
-            const formData = new FormData()
-            formData.append(
-                'data',
-                new Blob([JSON.stringify(payload)], {
-                    type: 'application/json',
-                })
-            )
-            // .formData.append('file', (file as any).file)
-            formData.append('file', file)
-            // formData.append('file', String(values?.latestCertification))
 
-            const { data: data1 } = await axios.post(
-                '/classes/create',
-                formData,
-                {
-                    headers: {
-                        ...authorizationToken(loginData.data as loginDataTypes),
-                        'Content-Type': 'multipart/form-data',
-                    },
-                }
-            )
+            const { data: data1 } = await axios.post('/rooms/create', payload, {
+                headers: {
+                    ...authorizationToken(loginData.data as loginDataTypes),
+                },
+            })
             if (data1.responseCode === '500') {
                 toast(data1.responseMessage, {
                     type: 'error',
@@ -194,7 +173,10 @@ const useRoom = (): IUseRoom => {
             setTimeout(() => {
                 setLoading(false)
                 setIsShowModal(false)
-                navigate('/class/list')
+                if (values.useCase === 'SCHOOL') {
+                    const schoolId = values.id
+                    navigate(`/school/room/list/${schoolId}`)
+                }
             }, 3000)
             // toastId.current = toast(data.responseMessage, {
             //   type: "success",
@@ -210,6 +192,13 @@ const useRoom = (): IUseRoom => {
             setTimeout(() => {
                 setError('')
             }, 2000)
+            toastId.current = toast(error.message, {
+                type: error.response?.data?.responseMessage,
+                autoClose: 1000,
+            })
+            const warningMessage =
+                error.response?.data?.responseMessage || 'An error occurred'
+            setIsShowWarningModal(true, warningMessage)
             toastId.current = toast(error.message, {
                 type: 'error',
                 autoClose: 1000,
@@ -252,60 +241,30 @@ const useRoom = (): IUseRoom => {
     }
     const handleUpdate = async (
         id: number,
-        values: CreateClassInitialValues,
-        file: any,
-        bannerImages: any
+        values: CreateRoomInitialValues
     ): Promise<void> => {
         const userDetails = loginData.data?.userDetails
+        console.log('clicked submit room')
 
         const payload = {
-            classId: id,
-            title: values.title || '',
-            startDate: values.startDate,
-            endDate: values.endDate || '',
-            instructorId: values.instructorId,
-            fee: `${values.fee}` || '',
-            activities: values.activities.join(','),
-            capacity: values.capacity,
-            minimumStudent: values.minimumStudent,
-            bookingStartDate: values.bookingStartDate,
-            bookingEndDate: values.bookingEndDate,
-            qrCodeStartDate: values.qrCodeStartDate,
-            qrCodeEndDate: values.qrCodeEndDate || '',
-            allowStudentCancel: values.allowStudentCancel,
-            refundDate: values.refundDate || '',
-            bookingCancelStartDate: values.bookingCancelStartDate || '',
-            bookingCancelEndDate: values.bookingCancelEndDate || '',
-            cancellationCharges: `${values.cancellationCharges}` || '',
-            accommodation: values.accommodation.join(','),
-            description: values.description || '',
-            timeTableId: values.timeTableId,
-            ...(bannerImages === null && { bannerPicture: file }),
-            ...(schoolId && { schoolId }), // Add schoolId conditionally
+            useCase: values.useCase,
+            id: values.id,
+            name: values.roomName,
+            floorNumber: values.floorNumber,
+            roomNumber: values.roomNumber,
+            height: `${values.lFeet}'${values.lInch}"`,
+            width: `${values.wFeet}'${values.wInch}"`,
         }
+        console.log('payload', payload)
         try {
             setError('')
             setLoading(true)
-            const formData = new FormData()
-            formData.append(
-                'data',
-                new Blob([JSON.stringify(payload)], {
-                    type: 'application/json',
-                })
-            )
-            if (bannerImages !== null) {
-                formData.append('file', bannerImages)
-            }
-            const { data: data1 } = await axios.post(
-                '/classes/edit',
-                formData,
-                {
-                    headers: {
-                        ...authorizationToken(loginData.data as loginDataTypes),
-                        'Content-Type': 'multipart/form-data',
-                    },
-                }
-            )
+
+            const { data: data1 } = await axios.post('/rooms/edit', payload, {
+                headers: {
+                    ...authorizationToken(loginData.data as loginDataTypes),
+                },
+            })
             if (data1.responseCode === '500') {
                 toast(data1.responseMessage, {
                     type: 'error',
@@ -319,7 +278,10 @@ const useRoom = (): IUseRoom => {
             setTimeout(() => {
                 setIsShowModal(false)
 
-                navigate('/class/list')
+                if (values.useCase === 'SCHOOL') {
+                    const schoolId = values.id
+                    navigate(`/school/room/list/${schoolId}`)
+                }
             }, 3000)
             // toastId.current = toast(data.responseMessage, {
             //   type: "success",
@@ -341,16 +303,18 @@ const useRoom = (): IUseRoom => {
             })
         }
     }
-    const ClassStatus = async (
+    const RoomStatus = async (
         classid: number,
-        classStatusid: number
+        classStatusid: boolean,
+        Id: number,
+        schoolInUpperCase: string
     ): Promise<any> => {
         try {
             setError('')
             setLoading(true)
             const { data: data2 } = await axios.post(
-                '/classes/updateStatus',
-                { classId: classid, classStatusId: classStatusid },
+                '/rooms/updateStatus',
+                { roomId: classid, isActive: classStatusid },
                 {
                     headers: {
                         ...authorizationToken(loginData.data as loginDataTypes),
@@ -368,9 +332,16 @@ const useRoom = (): IUseRoom => {
 
             setTimeout(() => {
                 setLoading(false)
+
                 // navigate('/school/view')
             }, 3000)
-            store.dispatch(getBranchBySchoolId())
+            await store.dispatch(
+                getRoomDataByUseCase({
+                    id: Id,
+                    usecase: schoolInUpperCase,
+                })
+            )
+            // store.dispatch(getBranchBySchoolId())
 
             // toastId.current = toast(data.responseMessage, {
             //   type: "success",
@@ -391,6 +362,16 @@ const useRoom = (): IUseRoom => {
                 type: 'error',
                 autoClose: 1000,
             })
+            setLoading(false)
+            setError(error2.response.data.responseMessage)
+            setTimeout(() => {
+                setError('')
+            }, 2000)
+
+            // Show the warning modal with custom message from API response
+            const warningMessage =
+                error2.response?.data?.responseMessage || 'An error occurred'
+            setIsShowWarningModal(true, warningMessage)
         }
     }
     const Createmodal = (): IModalComponent => {
@@ -455,12 +436,12 @@ const useRoom = (): IUseRoom => {
         }
     }
 
-    const WarningModal = (): IModalComponent => {
+    const WarningModal = (customMessage: string): IModalComponent => {
         return {
             modalComponent: (
                 <CustomModal
                     isModalVisible={isShowWarningModal}
-                    setIsModalVisible={setIsShowWarningModal}
+                    setIsModalVisible={() => setIsShowWarningModal(false)}
                     showCloseBtn={true}
                 >
                     <SchoolSuccessfulModals>
@@ -475,7 +456,7 @@ const useRoom = (): IUseRoom => {
                                 Warning!
                             </h3>
                             <p className="mainContainer-subText text-center">
-                                Please remove the first Branches and Franchise.
+                                {customMessage}
                             </p>
                         </div>
                     </SchoolSuccessfulModals>
@@ -483,15 +464,16 @@ const useRoom = (): IUseRoom => {
             ),
         }
     }
-    const deleteClass = async (id: number): Promise<void> => {
-        const url = '/classes/delete'
+
+    const deleteRoom = async (id: number): Promise<void> => {
+        const url = '/rooms/delete'
 
         try {
             setError('')
             setLoading(true)
             const { data: data2 } = await axios.post(
                 url,
-                { classId: id },
+                { roomId: id },
                 {
                     headers: {
                         ...authorizationToken(loginData.data as loginDataTypes),
@@ -563,7 +545,7 @@ const useRoom = (): IUseRoom => {
         const Deleteschool = async (id: number): Promise<void> => {
             setIsShowModal(false) // Close any other modals
             setIsShowDeleteModal(true)
-            await deleteClass(id)
+            await deleteRoom(id)
         }
         return {
             modalComponent: (
@@ -659,13 +641,14 @@ const useRoom = (): IUseRoom => {
         Createmodal,
         UpdateModal,
         deleteConfirmation,
-        ClassStatus,
+        RoomStatus,
         getClassbyid,
         handleUpdate,
-        deleteClass,
+        deleteRoom,
         setIsShowModal,
         getInstructorstartenddate,
         getallRoombyUC,
+        WarningModal,
     }
 }
 

@@ -16,8 +16,14 @@ const initialValues: CreateRoomInitialValues = {
     roomName: '',
     floorNumber: '',
     roomNumber: '',
-    length: [],
-    width: [],
+    height: '',
+    width: '',
+    useCase: '',
+    id: '',
+    lInch: '',
+    lFeet: '',
+    wInch: '',
+    wFeet: '',
 }
 const handleCreateSubmit = (): void => {}
 const UpdateRoom = (): JSX.Element => {
@@ -104,8 +110,8 @@ const UpdateRoom = (): JSX.Element => {
                                                 inchPlaceholder="Inch"
                                                 feetPlaceholder="Feet"
                                                 className={
-                                                    formik.errors.length &&
-                                                    formik.touched.length
+                                                    formik.errors.height &&
+                                                    formik.touched.height
                                                         ? 'is-invalid'
                                                         : 'customInput'
                                                 }

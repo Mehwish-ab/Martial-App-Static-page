@@ -1,7 +1,7 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../redux/store'
+import store, { RootState } from '../../../redux/store'
 
 import { Dropdown, Menu, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
@@ -24,7 +24,10 @@ import FormControl from '../../../components/FormControl'
 import { CustomDiv } from '../../CreateSchool/ListSchool/CustomDiv'
 import useRoom from '../../../hooks/useRoom'
 import { useEffect, useState } from 'react'
-import { RoomDataType } from '../../../redux/features/Room/RoomSlice'
+import {
+    RoomDataType,
+    getRoomDataByUseCase,
+} from '../../../redux/features/Room/RoomSlice'
 import { log } from 'console'
 import Head from '../../../components/Head/Head'
 const ListRoom = (): JSX.Element => {
@@ -38,10 +41,29 @@ const ListRoom = (): JSX.Element => {
     const [Room, setRoom] = useState<{ data: RoomDataType[] } | undefined>(
         undefined
     )
+    const { RoomData } = useSelector((state: RootState) => state.RoomData)
+    console.log('Nada', RoomData)
+
+    const { pathname } = useLocation()
+    const [, extractedSchool] = pathname.split('/')
+
+    // Converting to uppercase
+    const schoolInUpperCase = extractedSchool.toUpperCase()
+    console.log('Extracted School:', schoolInUpperCase)
 
     const { schoolId, branchId, franchiseId } = useParams()
+
     console.log('ids', schoolId, branchId, franchiseId)
-    const { getallRoombyUC } = useRoom()
+    let Id: string
+    if (schoolId) {
+        Id = schoolId
+    } else if (branchId) {
+        Id = branchId
+    } else if (franchiseId) {
+        Id = franchiseId
+    }
+
+    const { getallRoombyUC, RoomStatus } = useRoom()
 
     // const { schoolData, loading } = useSelector(
     //     (state: RootState) => state.schoolData
@@ -111,6 +133,14 @@ const ListRoom = (): JSX.Element => {
                 })
         }
     }
+    useEffect(() => {
+        store.dispatch(
+            getRoomDataByUseCase({
+                id: Number(Id),
+                usecase: schoolInUpperCase,
+            })
+        )
+    }, [schoolInUpperCase])
     const showActivities = (_activities: string): string => {
         const activitiesArr = _activities.split(',')
 
@@ -168,35 +198,45 @@ const ListRoom = (): JSX.Element => {
             dataIndex: 'status',
             key: 'status',
             render: (isActive, index) => {
-                // if (index?.schoolStatusId === 1) {
-                return (
-                    <div className={'Active'}>
-                        <button
-                        // onClick={() => {
-                        //     {
-                        //         BranchStatus(index.schoolId, 2)
-                        //     }
-                        // }}
-                        >
-                            Active
-                        </button>
-                        <img src={StatusActiveError} alt="image" />
-                    </div>
-                )
-                // } else {
-                return (
-                    <div className={'De-Active'}>
-                        <button
-                        // onClick={() => {
-                        //     BranchStatus(index.schoolId, 1)
-                        // }}
-                        >
-                            De-Active
-                        </button>
-                        <img src={StatusActiveError} alt="image" />
-                    </div>
-                )
-                // }
+                if (index?.isActive === true) {
+                    return (
+                        <div className={'Active'}>
+                            <button
+                                onClick={() => {
+                                    {
+                                        RoomStatus(
+                                            Number(index.roomId),
+                                            false,
+                                            Number(Id),
+                                            schoolInUpperCase
+                                        )
+                                    }
+                                }}
+                            >
+                                Active
+                            </button>
+                            <img src={StatusActiveError} alt="image" />
+                        </div>
+                    )
+                } else {
+                    return (
+                        <div className={'De-Active'}>
+                            <button
+                                onClick={() => {
+                                    RoomStatus(
+                                        Number(index.roomId),
+                                        true,
+                                        Number(Id),
+                                        schoolInUpperCase
+                                    )
+                                }}
+                            >
+                                De-Active
+                            </button>
+                            <img src={StatusActiveError} alt="image" />
+                        </div>
+                    )
+                }
             },
         },
         {
@@ -323,7 +363,9 @@ const ListRoom = (): JSX.Element => {
                                                     />
                                                 }
                                                 clicked={() => {
-                                                    navigate(`/room/create`)
+                                                    navigate(
+                                                        `/room/create/${schoolId}`
+                                                    )
                                                 }}
                                             />
                                         </div>
@@ -373,6 +415,9 @@ const ListRoom = (): JSX.Element => {
                     //     })) as any
                     // }
                     dataSource={Room ? Room?.data : []}
+                    // dataSource={
+                    //     RoomData?.data[0].roomId !== 0 ? RoomData.data : []
+                    // }
                     scroll={{ x: true }}
                     pagination={{
                         showTotal: (totalItems, totalPages) => (

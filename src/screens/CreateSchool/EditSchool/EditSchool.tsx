@@ -29,7 +29,7 @@ import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelec
 import Head from '../../../components/Head/Head'
 
 const EditSchool = (): JSX.Element => {
-    const { editSchool, loading, UpdateModal } = useSchool()
+    const { editSchool, loading, SuccessModal, WarningModal } = useSchool()
     const { activities } = useSelector(
         (state: RootState) => state.appData.data.statusData
     )
@@ -218,13 +218,8 @@ const EditSchool = (): JSX.Element => {
                 </Card>
             </StudentViewStyling>
             <CreateSchoolStyled>
-                {/* {UpdateModal().modalComponent}
-      <OverlayImages
-        backgroundImg={schoolData.bannerPicture || ""}
-        overlayImg={schoolData.profilePicture || ""}
-        isEditable={true}
-      /> */}
-                {UpdateModal().modalComponent}
+                {SuccessModal().modalComponent}
+                {WarningModal().modalComponent}
                 <Formik
                     initialValues={initialValuesForEdit}
                     validationSchema={validationSchema}

@@ -2,14 +2,11 @@
 import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import axios from 'axios'
-import { authorizationToken, edit_school_url } from '../utils/api_urls'
+import { authorizationToken } from '../utils/api_urls'
 import { useSelector } from 'react-redux'
 import store, { RootState } from '../redux/store'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { loginDataTypes } from '../redux/features/types'
-
-import { useAppSelector } from '../app/hooks'
-import { CreateClassInitialValues } from '../screens/Class/constant'
 import { Col, Row } from 'react-bootstrap'
 import {
     fontFamilyMedium,
@@ -20,7 +17,6 @@ import {
 import CustomButton from '../components/CustomButton/CustomButton'
 import { SchoolSuccessfulModals } from './PopupModalsStyling'
 import CustomModal from '../components/Modal/CustomModal'
-import ic_error from '../assets/icons/ic_error.svg'
 import ic_success from '../assets/images/ic_success.svg'
 import { getBranchBySchoolId } from '../redux/features/CLasses/ClassSlice'
 import { CreateRoomInitialValues } from '../screens/Rooms/constant'
@@ -216,7 +212,6 @@ const useRoom = (): IUseRoom => {
                     ...authorizationToken(loginData.data as loginDataTypes),
                 },
             })
-
             setSuccessMessage(data1.responseMessage)
             setIsShowSuccessModal(true)
             setLoading(false)

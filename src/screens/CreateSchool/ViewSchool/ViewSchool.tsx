@@ -27,7 +27,7 @@ import { StudentViewStyling } from '../styles'
 const ViewSchool = (): JSX.Element => {
     const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
-    const { deleteConfirmation, deletemodal, WarningModal, getSchoolbyId } =
+    const { deleteConfirmation, SuccessModal, WarningModal, getSchoolbyId } =
         useSchool()
     const { branchData } = useSelector((state: RootState) => state.branchData)
     const { franchiseData } = useSelector(
@@ -181,7 +181,7 @@ const ViewSchool = (): JSX.Element => {
 
             <ViewSchoolStyled>
                 {WarningModal().modalComponent}
-                {deletemodal().modalComponent}
+                {SuccessModal().modalComponent}
                 {deleteConfirmation(Number(schoolId)).modalComponent}
 
                 <OverlayImages

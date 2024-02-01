@@ -28,10 +28,9 @@ import PlacesAutoCompleteInput from '../../maps/PlacesAutocomplete'
 import CheckboxesSelect from '../../components/CustomCheckbox/CheckboxesSelect'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-// import { getSchoolByUserId } from '../../redux/features/dashboard/dashboardDataSlice'
 import { useAppSelector } from '../../app/hooks'
 import Head from '../../components/Head/Head'
-// import { getSchoolByUserId } from '../../redux/features/dashboard/dashboardDataSlice'
+import { capitalize } from 'lodash'
 
 const localStorageData = localStorage.getItem('ennvision-admin:token')
 const loginData = JSON.parse(localStorageData as any)
@@ -46,11 +45,8 @@ const CreateSchool = (): JSX.Element => {
     const { schoolData } = useAppSelector((state) => state.dashboardData)
     const navigate = useNavigate()
 
-    // const { data } = useSelector((state: RootState) => state.loginData)
-
-    console.log('checking schoolData: ', schoolData)
-
-    const { handleCreateSubmit, loading, Createmodal } = useCreateSchool()
+    const { handleCreateSubmit, loading, SuccessModal, WarningModal } =
+        useCreateSchool()
 
     const initialValues: CreateSchoolInitialValues = {
         businessName: '',
@@ -123,21 +119,12 @@ const CreateSchool = (): JSX.Element => {
                 label: (item as any)[selectedLanguage],
                 value: item.id,
             }
-
             options.push(obj)
         })
-
         return options
     }
     useEffect(() => {
-        console.log('>>im create school')
-
-        // store.dispatch(getSchoolByUserId())
-        // if (schoolData && schoolData?.schoolId > 0) {
-        //     console.log('checking loginData: ', loginData)
-
         if (schoolData.schoolId > 0) return navigate('/school/view')
-        // }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [schoolData, loginData])
 
@@ -226,7 +213,8 @@ const CreateSchool = (): JSX.Element => {
                 </Card>
             </StudentViewStyling>
             <CreateSchoolStyled>
-                {Createmodal().modalComponent}
+                {SuccessModal().modalComponent}
+                {WarningModal().modalComponent}
                 <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}
@@ -498,7 +486,7 @@ const CreateSchool = (): JSX.Element => {
                                 <div className="mt-20 d-flex justify-content-end">
                                     <CustomButton
                                         bgcolor={lightBlue3}
-                                        textTransform="Captilize"
+                                        textTransform="capitalize"
                                         color={maastrichtBlue}
                                         padding="11px 40.50px"
                                         fontFamily={`${fontFamilyMedium}`}

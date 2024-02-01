@@ -40,7 +40,7 @@ const ListSchool = (): JSX.Element => {
     const { loginData } = useSelector((state: RootState) => state)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | undefined>(undefined)
-    const { getAllSchool, getAllSchoolpagination } = useCreateSchool()
+    const { getAllSchool, getAllSchoolPagination } = useCreateSchool()
     const [currentPage, setCurrentPage] = useState(1)
     const pageSize = 10
 
@@ -88,7 +88,7 @@ const ListSchool = (): JSX.Element => {
         try {
             setLoading(true)
             page = page - 1
-            const response = await getAllSchoolpagination(
+            const response = await getAllSchoolPagination(
                 String(loginData.data?.userDetails.countryName),
                 page
             )
@@ -106,7 +106,7 @@ const ListSchool = (): JSX.Element => {
         const fetchData = async (page: number): Promise<void> => {
             try {
                 page = page - 1
-                const response: any = await getAllSchoolpagination(
+                const response: any = await getAllSchoolPagination(
                     String(loginData.data?.userDetails.countryName),
                     page
                 )

@@ -2,6 +2,7 @@ import styled from 'styled-components'
 // import martial_logo from "../assets/icons/logo.svg";
 import martial_logo from '../assets/icons/ic_logo_splash.svg'
 import Loader from './Loader/Loader'
+import Head from './Head/Head'
 
 const Wrapper = styled.div`
     height: 100vh;
@@ -19,6 +20,7 @@ const Wrapper = styled.div`
 const IntroScreen = (): JSX.Element => {
     return (
         <Wrapper>
+            <Head title="Loading..." />
             <img src={martial_logo} alt="martial-logo" />
             <div className="mt-3">
                 <Loader color={'#fff'} />

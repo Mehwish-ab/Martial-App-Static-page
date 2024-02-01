@@ -5,7 +5,7 @@ import FormControl from '../../components/FormControl'
 import { ActivityInitialValues } from './constant'
 import { ActivityStyle } from './styles'
 import ImagesUpload from '../../components/ImagesUpload/ImagesUpload'
-import { useState } from 'react'
+import { SetStateAction, useState } from 'react'
 import {
     fontFamilyMedium,
     fontFamilyRegular,
@@ -14,21 +14,38 @@ import {
 } from '../../components/GlobalStyle'
 import FileSubmit from '../../assets/icons/ic_fileSubmit.svg'
 import CustomButton from '../../components/CustomButton/CustomButton'
-import EnnvisionModal from '../../components/CustomModals/EnnvisionModal'
+import Head from '../../components/Head/Head'
+import CustomMessageModal from '../../components/Modal/CustomMessageModal'
 
 const Activity = (): JSX.Element => {
+    const [isModalVisible, setIsModalVisible] = useState(false)
+
     const initialValues: ActivityInitialValues = {
         selectBelt: '',
         latestCertification: '',
     }
+    const handleCreateSubmit = (): void => {
+        // Perform your form submission logic here
+
+        // After successful form submission, show the modal
+        setIsModalVisible(true)
+    }
+
     const [selectedFiles, setSelectedFiless] = useState<FileList | null>(null)
 
     const handleImagesUpload = (selectedFiless: any): void => {
         setSelectedFiless(selectedFiless)
     }
-    const handleCreateSubmit = (): void => {}
     return (
         <>
+            <CustomMessageModal
+                title={'Hello'}
+                description={'Description'}
+                isModalVisible={isModalVisible}
+                setIsModalVisible={setIsModalVisible}
+                imageProp={''}
+            />
+            <Head title="Activity" />
             <ActivityStyle>
                 <Formik
                     initialValues={initialValues}
@@ -112,6 +129,7 @@ const Activity = (): JSX.Element => {
                                         title="Submit"
                                         fontSize="18px"
                                         loading={false}
+                                        clicked={handleCreateSubmit}
                                     />
                                 </div>
                             </Form>

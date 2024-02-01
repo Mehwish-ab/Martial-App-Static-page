@@ -1,8 +1,9 @@
 import { Modal } from 'antd'
 import { Dispatch, SetStateAction } from 'react'
 import close from '../../assets/icons/ic_close.svg'
-import CustomModalStyle from './style'
-
+import { CustomMessageModalStyle } from './style'
+import ic_success from '../../assets/images/ic_success.svg'
+import ic_error from '../../assets/icons/ic_error.svg'
 type CustomMessageModalPropsTypes = {
     title: string
     description: string
@@ -41,7 +42,7 @@ const CustomMessageModal: React.FC<CustomMessageModalPropsTypes> = ({
             width={width}
             className="position-relative"
         >
-            <CustomModalStyle>
+            <CustomMessageModalStyle>
                 {showCloseBtn && (
                     <img
                         className="close-icon"
@@ -50,19 +51,34 @@ const CustomMessageModal: React.FC<CustomMessageModalPropsTypes> = ({
                         alt="close"
                     />
                 )}
-                <div className="px-2">
-                    <img
-                        src={imageProp}
-                        alt="Success Icon"
-                        width={79}
-                        height={79}
-                    />
-                    {title && <h6 className="title my-2">{title}</h6>}
+                <div className="px-2 mainContainer d-flex flex-column align-items-center">
+                    {imageProp === 'error' ? (
+                        <img
+                            src={ic_error}
+                            alt="Error Icon"
+                            width={79}
+                            height={79}
+                        />
+                    ) : (
+                        <img
+                            src={ic_success}
+                            alt="Success Icon"
+                            width={79}
+                            height={79}
+                        />
+                    )}
+                    {title && (
+                        <h6 className="mainContainer-heading text-center">
+                            {title}
+                        </h6>
+                    )}
                     {description && (
-                        <p className="description">{description}</p>
+                        <p className="mainContainer-subText text-center">
+                            {description}
+                        </p>
                     )}
                 </div>
-            </CustomModalStyle>
+            </CustomMessageModalStyle>
         </Modal>
     )
 }

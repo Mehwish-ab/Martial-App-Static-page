@@ -43,7 +43,7 @@ const Activity = (): JSX.Element => {
                 description={'Description'}
                 isModalVisible={isModalVisible}
                 setIsModalVisible={setIsModalVisible}
-                imageProp={''}
+                imageProp={'error'}
             />
             <Head title="Activity" />
             <ActivityStyle>

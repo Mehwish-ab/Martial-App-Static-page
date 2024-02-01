@@ -11,22 +11,102 @@ import {
     maastrichtBlue,
 } from '../../../components/GlobalStyle'
 import Head from '../../../components/Head/Head'
+import { useParams } from 'react-router-dom'
+import useRoom from '../../../hooks/useRoom'
+import { useEffect, useState } from 'react'
+import { RoomDataType } from '../../../redux/features/Room/RoomSlice'
 
-const initialValues: CreateRoomInitialValues = {
-    roomName: '',
-    floorNumber: '',
-    roomNumber: '',
-    height: '',
-    width: '',
-    useCase: '',
-    id: '',
-    lInch: '',
-    lFeet: '',
-    wInch: '',
-    wFeet: '',
-}
-const handleCreateSubmit = (): void => {}
 const UpdateRoom = (): JSX.Element => {
+    const { schoolId } = useParams()
+    const { branchId } = useParams()
+    const { franchiseId } = useParams()
+    const { roomId } = useParams()
+    console.log('id', schoolId, branchId, franchiseId, roomId)
+    console.log('ids', roomId)
+
+    // const { roomId } = useParams()
+    const { getbyroomid, handleUpdate } = useRoom()
+    const [Room, setRoom] = useState<RoomDataType | undefined>(undefined)
+    useEffect(() => {
+        const FetchDatd = async (): Promise<void> => {
+            const data = await getbyroomid(Number(roomId))
+            if (data) {
+                setRoom(data)
+            }
+        }
+        FetchDatd()
+    }, [])
+    const separateHeightValues = (
+        height: string | undefined
+    ): { feet: number; inches: number } => {
+        const defaultValues = { feet: 0, inches: 0 }
+
+        if (!height) {
+            return defaultValues
+        }
+
+        const match = height.match(/(\d+)'\s*(\d+)"/)
+
+        if (!match) {
+            console.error(`Invalid height format: ${height}`)
+            return defaultValues
+        }
+
+        const feet = parseInt(match[1], 10) || 0
+        const inches = parseInt(match[2], 10) || 0
+
+        return { feet, inches }
+    }
+
+    const { feet: lFeet, inches: lInch } = separateHeightValues(
+        String(Room?.height)
+    )
+
+    const { feet: wFeet, inches: wInch } = separateHeightValues(
+        String(Room?.width)
+    )
+    console.log('Width', wFeet, wInch)
+
+    console.log('height', lFeet, lInch)
+
+    const initialValues: CreateRoomInitialValues = {
+        roomName: Room ? Room.name : '',
+        floorNumber: Room ? Room.floorNumber : '',
+        roomNumber: Room ? Room.roomNumber : '',
+        height: Room ? Room.height : '',
+        width: Room ? Room.width : '',
+        useCase: Room ? Room.useCase : '',
+        id: Room ? Room.name : '',
+        lInch: Room ? Number(lInch) : '',
+        lFeet: Room ? Number(lFeet) : '',
+        wInch: Room ? Number(wInch) : '',
+        wFeet: Room ? Number(wFeet) : '',
+        roomId: Room ? Room.roomId : '',
+    }
+    // await handleUpdate(values)
+    const onSubmit = async (values: CreateRoomInitialValues): Promise<void> => {
+        if (schoolId) {
+            await handleUpdate({
+                ...values,
+                useCase: 'SCHOOL',
+                id: schoolId,
+            })
+        }
+        if (branchId) {
+            await handleUpdate({
+                ...values,
+                useCase: 'BRANCH',
+                id: branchId,
+            })
+        }
+        if (franchiseId) {
+            await handleUpdate({
+                ...values,
+                useCase: 'FRANCHISE',
+                id: franchiseId,
+            })
+        }
+    }
     return (
         <>
             <Head title="Room Update" />
@@ -34,10 +114,13 @@ const UpdateRoom = (): JSX.Element => {
                 <Formik
                     initialValues={initialValues}
                     // validationSchema={validationSchema}
-                    onSubmit={handleCreateSubmit}
+                    onSubmit={onSubmit}
+                    enableReinitialize
                 >
                     {(formik) => {
                         console.log('formik', formik.values)
+                        console.log('initial values', initialValues)
+
                         return (
                             <Form
                                 name="basic"
@@ -67,9 +150,9 @@ const UpdateRoom = (): JSX.Element => {
                                         </Col>
                                         <Col md="6" className="mt-20">
                                             <FormControl
-                                                control="select"
+                                                control="input"
                                                 type="text"
-                                                name="roomName"
+                                                name="floorNumber"
                                                 label="Floor Number"
                                                 fontSize="16px"
                                                 max={6}
@@ -84,9 +167,9 @@ const UpdateRoom = (): JSX.Element => {
                                         </Col>
                                         <Col md="6" className="mt-20">
                                             <FormControl
-                                                control="select"
+                                                control="input"
                                                 type="text"
-                                                name="roomName"
+                                                name="roomNumber"
                                                 label="Room Number"
                                                 fontSize="16px"
                                                 max={6}
@@ -104,9 +187,9 @@ const UpdateRoom = (): JSX.Element => {
                                                 control="numberField"
                                                 type="number"
                                                 label="Height"
-                                                inchName="hInch"
-                                                feetName="hFeet"
-                                                name="height"
+                                                inchName="lInch"
+                                                feetName="lFeet"
+                                                name="roomNumber"
                                                 inchPlaceholder="Inch"
                                                 feetPlaceholder="Feet"
                                                 className={

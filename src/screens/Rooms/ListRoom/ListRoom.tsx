@@ -110,14 +110,34 @@ const ListRoom = (): JSX.Element => {
     // } = useSelector((state: RootState) => state.appData.data)
     const navigation = (record: RoomDataType, redirectTo: string): void => {
         switch (redirectTo) {
-            case 'edit':
-                navigate(`/room/edit/${record.roomId}`, {
-                    state: {
-                        branchToEdit: record as RoomDataType,
-                    },
-                })
-                break
+            case 'edit': {
+                if (schoolInUpperCase === 'SCHOOL') {
+                    navigate(`/school/room/edit/${schoolId}/${record.roomId}`, {
+                        state: {
+                            branchToEdit: record as RoomDataType,
+                        },
+                    })
+                }
+                if (schoolInUpperCase === 'BRANCH') {
+                    navigate(`/branch/room/edit/${branchId}/${record.roomId}`, {
+                        state: {
+                            branchToEdit: record as RoomDataType,
+                        },
+                    })
+                }
+                if (schoolInUpperCase === 'FRANCHISE') {
+                    navigate(
+                        `/franchise/room/edit/${franchiseId}/${record.roomId}`,
+                        {
+                            state: {
+                                branchToEdit: record as RoomDataType,
+                            },
+                        }
+                    )
+                }
 
+                break
+            }
             case 'view':
                 navigate(`/room/view/${record.roomId}`, {
                     state: {
@@ -363,9 +383,30 @@ const ListRoom = (): JSX.Element => {
                                                     />
                                                 }
                                                 clicked={() => {
-                                                    navigate(
-                                                        `/room/create/${schoolId}`
-                                                    )
+                                                    if (
+                                                        schoolInUpperCase ===
+                                                        'SCHOOL'
+                                                    ) {
+                                                        navigate(
+                                                            `/school/room/create/${schoolId}`
+                                                        )
+                                                    }
+                                                    if (
+                                                        schoolInUpperCase ===
+                                                        'BRANCH'
+                                                    ) {
+                                                        navigate(
+                                                            `/branch/room/create/${branchId}`
+                                                        )
+                                                    }
+                                                    if (
+                                                        schoolInUpperCase ===
+                                                        'FRANCHISE'
+                                                    ) {
+                                                        navigate(
+                                                            `/franchise/room/create/${franchiseId}`
+                                                        )
+                                                    }
                                                 }}
                                             />
                                         </div>

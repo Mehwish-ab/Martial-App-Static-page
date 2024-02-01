@@ -10,7 +10,7 @@ import {
 import { loginDataTypes } from '../types'
 const localStorageData = localStorage.getItem('ennvision-admin:token')
 const loginData = JSON.parse(localStorageData as any)
-export interface userDataType {
+export interface UserDataType {
     userId: number | string
     emailAddress: string
     phoneNumber: string
@@ -23,160 +23,94 @@ export interface userDataType {
     schoolProfilePicture: string
 }
 export interface GetuserBySchoolResTypes {
-    data: userDataType[]
+    data: UserDataType[]
     totalItems: number
     totalPages: number
     currentPage: number
 }
-export interface userDataInitialState {
-    userData: userDataType
+export interface UserDataInitialState {
+    UserData: GetuserBySchoolResTypes
     loading: boolean
     error: string | undefined
 }
-const initialState: userDataInitialState = {
-    userData: {
-        userId: 0,
-        emailAddress: '',
-        phoneNumber: '',
-        profilePictureURL: '',
-        firstName: '',
-        lastName: '',
-        countryCode: '',
-        statusId: 0,
-        schoolBusinessName: '',
-        schoolProfilePicture: '',
+const initialState: UserDataInitialState = {
+    UserData: {
+        data: [
+            {
+                userId: 0,
+                emailAddress: '',
+                phoneNumber: '',
+                profilePictureURL: '',
+                firstName: '',
+                lastName: '',
+                countryCode: '',
+                statusId: 0,
+                schoolBusinessName: '',
+                schoolProfilePicture: '',
+            },
+        ],
+        totalItems: 0,
+        totalPages: 0,
+        currentPage: 0,
     },
 
     loading: false,
     error: '',
 }
 
-export const getuserBySchoolId = createAsyncThunk(
-    'userData/getuserBySchoolId',
-    async () => {
-        const state = store.getState()
-        try {
-            const { data } = await axios.post(
-                `${base_url}${get_branch_by_school_id_url}`,
-                {
-                    schoolId:
-                        // state.loginData?.data?.schoolIdl ||
-                        // state.dashboardData?.schoolData?.schoolId,
-                        loginData?.schoolId,
+export const getAllUsers = createAsyncThunk('userData/getuser', async () => {
+    const state = store.getState()
+    try {
+        const { data } = await axios.post(
+            `${base_url}api/auth/getAll`,
+            {
+                country: '',
+            },
+            {
+                headers: {
+                    ...authorizationToken(
+                        state.loginData.data as loginDataTypes
+                    ),
                 },
-                {
-                    headers: {
-                        ...authorizationToken(
-                            state.loginData.data as loginDataTypes
-                        ),
-                    },
-                }
-            )
-            return data.results
-        } catch (error: any) {
-            if (error.response && error.response.data) {
-                const obj = {
-                    name: 'AxiosError',
-                    message: error.response.data?.responseMessage,
-                    code: 'ERR_BAD_RESPONSE',
-                }
-                throw obj
             }
-            throw error
-        }
-    }
-)
-export const getuserById = createAsyncThunk(
-    'userData/getuserById',
-    async () => {
-        const state = store.getState()
-        try {
-            const { data } = await axios.post(
-                `${base_url}${get_branch_by_id_url}`,
-                {
-                    branchId: state.branchData.branchData.data.map((b) => {
-                        return b.branchId
-                    }),
-                },
-                {
-                    headers: {
-                        ...authorizationToken(
-                            state.loginData.data as loginDataTypes
-                        ),
-                    },
-                }
-            )
-            return data.result[0]
-        } catch (error: any) {
-            if (error.response && error.response.data) {
-                const obj = {
-                    name: 'AxiosError',
-                    message: error.response.data?.responseMessage,
-                    code: 'ERR_BAD_RESPONSE',
-                }
-                throw obj
+        )
+        return data.results
+    } catch (error: any) {
+        if (error.response && error.response.data) {
+            const obj = {
+                name: 'AxiosError',
+                message: error.response.data?.responseMessage,
+                code: 'ERR_BAD_RESPONSE',
             }
-            throw error
+            throw obj
         }
+        throw error
     }
-)
-export const getSchoolByUserId = createAsyncThunk(
-    'userData/getSchoolByUserId', // Use the correct action type
-    async () => {
-        // const userDetails: any = thunkAPI.getState().state.loginData.userDetails;
-        const state = store.getState()
-        try {
-            const { data } = await axios.post(
-                `${base_url}/api/auth/getAll`,
-                {
-                    userId: state.loginData?.data?.userDetails?.id,
-                },
-                {
-                    headers: {
-                        ...authorizationToken(
-                            state.loginData?.data as loginDataTypes
-                        ),
-                    },
-                }
-            )
-            return data.results
-        } catch (error: any) {
-            if (error.response && error.response.data) {
-                const obj = {
-                    name: 'AxiosError',
-                    message: error.response.data?.responseMessage,
-                    code: 'ERR_BAD_RESPONSE',
-                }
-                throw obj
-            }
-            throw error
-        }
-    }
-)
+})
 
-const UserDataSlice = createSlice({
+const UserSlice = createSlice({
     name: 'dashboardData',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(getSchoolByUserId.pending, (state) => {
-                state.userData = initialState.userData
+            .addCase(getAllUsers.pending, (state) => {
+                state.UserData = initialState.UserData
                 state.loading = true
                 state.error = ''
             })
-            .addCase(getSchoolByUserId.fulfilled, (state, action) => {
-                state.userData = action.payload
+            .addCase(getAllUsers.fulfilled, (state, action) => {
+                state.UserData = action.payload
                 state.loading = false
                 state.error = ''
             })
-            .addCase(getSchoolByUserId.rejected, (state, action) => {
+            .addCase(getAllUsers.rejected, (state, action) => {
                 console.log('action.error', action)
-                state.userData = initialState.userData
+                state.UserData = initialState.UserData
                 state.error = action.error.message
                 state.loading = false
             })
     },
 })
 
-export default UserDataSlice.reducer
+export default UserSlice.reducer

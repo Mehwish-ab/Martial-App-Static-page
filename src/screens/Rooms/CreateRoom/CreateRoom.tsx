@@ -33,52 +33,37 @@ const CreateRoom = (): JSX.Element => {
     const { branchId } = useParams()
     const { franchiseId } = useParams()
     console.log('id', schoolId, branchId, franchiseId)
-    const [isModalVisible, setIsModalVisible] = useState(false)
 
-    const { handleCreateSubmit, WarningModal } = useRoom()
+    const { handleCreateSubmit, Createmodal, WarningModal } = useRoom()
     const onSubmit = async (values: CreateRoomInitialValues): Promise<void> => {
-        setIsModalVisible(true)
-
-        try {
-            if (schoolId) {
-                await handleCreateSubmit({
-                    ...values,
-                    useCase: 'SCHOOL',
-                    id: schoolId,
-                })
-            }
-            if (branchId) {
-                await handleCreateSubmit({
-                    ...values,
-                    useCase: 'BRANCH',
-                    id: branchId,
-                })
-            }
-            if (franchiseId) {
-                try {
-                    await handleCreateSubmit({
-                        ...values,
-                        useCase: 'FRANCHISE',
-                        id: franchiseId,
-                    })
-                } catch (error) {
-                    // Show warning modal with custom message
-                    setIsModalVisible(false)
-                    const customMessage = 'Your custom error message here'
-                    WarningModal(customMessage).modalComponent
-                }
-            }
-        } catch (error) {
-            // Show warning modal with custom message
-            setIsModalVisible(false)
-            const customMessage = 'Your custom error message here'
-            WarningModal(customMessage).modalComponent
+        if (schoolId) {
+            await handleCreateSubmit({
+                ...values,
+                useCase: 'SCHOOL',
+                id: schoolId,
+            })
+        }
+        if (branchId) {
+            await handleCreateSubmit({
+                ...values,
+                useCase: 'BRANCH',
+                id: branchId,
+            })
+        }
+        if (franchiseId) {
+            await handleCreateSubmit({
+                ...values,
+                useCase: 'FRANCHISE',
+                id: franchiseId,
+            })
         }
     }
     return (
         <>
             <Head title="Room Create" />
-            {/* {WarningModal().modalComponent} */}
+            {WarningModal().modalComponent}
+            {Createmodal().modalComponent}
+
             <CreateRoomsStyle>
                 <Formik
                     initialValues={initialValues}

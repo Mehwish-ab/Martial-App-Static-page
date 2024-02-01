@@ -25,6 +25,7 @@ import ic_success from '../assets/images/ic_success.svg'
 import { getBranchBySchoolId } from '../redux/features/CLasses/ClassSlice'
 import { CreateRoomInitialValues } from '../screens/Rooms/constant'
 import { getRoomDataByUseCase } from '../redux/features/Room/RoomSlice'
+import CustomMessageModal from '../components/Modal/CustomMessageModal'
 
 interface IModalComponent {
     modalComponent: JSX.Element
@@ -53,7 +54,7 @@ interface IUseRoom {
         Id: number,
         schoolInUpperCase: string
     ) => Promise<any>
-    WarningModal: (customMessage: string) => IModalComponent
+    WarningModal: () => IModalComponent
 
     getClassbyid: (classid: number) => Promise<any>
     getallRoombyUC: (id: number, us: string) => Promise<any>
@@ -72,6 +73,11 @@ const useRoom = (): IUseRoom => {
     const [isShowModal, setIsShowModal] = useState(false)
     const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
     const navigate = useNavigate()
+
+    const [isShowSuccessModal, setIsShowSuccessModal] = useState(false)
+    const [isShowErrorModal, setIsShowErrorModal] = useState(false)
+    const [successMessage, setSuccessMessage] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
 
     const { loginData } = useSelector((state: RootState) => state)
     const setIsShowWarningModal = (
@@ -161,48 +167,26 @@ const useRoom = (): IUseRoom => {
                     ...authorizationToken(loginData.data as loginDataTypes),
                 },
             })
-            if (data1.responseCode === '500') {
-                toast(data1.responseMessage, {
-                    type: 'error',
-                    autoClose: 1000,
-                })
-                setLoading(false)
-                return
-            }
-            setIsShowModal(true)
+
+            setSuccessMessage(data1.responseMessage)
+            setIsShowSuccessModal(true)
+            setLoading(false)
             setTimeout(() => {
-                setLoading(false)
-                setIsShowModal(false)
+                setIsShowSuccessModal(false)
                 if (values.useCase === 'SCHOOL') {
                     const schoolId = values.id
                     navigate(`/school/room/list/${schoolId}`)
                 }
             }, 3000)
-            // toastId.current = toast(data.responseMessage, {
-            //   type: "success",
-            //   autoClose: 1000,
-            // });
-            //setLoading(false);
-            //setIsUploadImgVisible(true);
-            // navigate("/");
-            // eslint-disable-next-line @typescript-eslint/no-shadow
-        } catch (error: any) {
+        } catch (error2: any) {
             setLoading(false)
-            setError(error.response)
+            setError(error2.response)
+            setErrorMessage(error2.response?.data?.responseMessage)
+            setIsShowErrorModal(true)
             setTimeout(() => {
+                setIsShowErrorModal(false)
                 setError('')
             }, 2000)
-            toastId.current = toast(error.message, {
-                type: error.response?.data?.responseMessage,
-                autoClose: 1000,
-            })
-            const warningMessage =
-                error.response?.data?.responseMessage || 'An error occurred'
-            setIsShowWarningModal(true, warningMessage)
-            toastId.current = toast(error.message, {
-                type: 'error',
-                autoClose: 1000,
-            })
         }
     }
     const getInstructorstartenddate = async (
@@ -265,42 +249,25 @@ const useRoom = (): IUseRoom => {
                     ...authorizationToken(loginData.data as loginDataTypes),
                 },
             })
-            if (data1.responseCode === '500') {
-                toast(data1.responseMessage, {
-                    type: 'error',
-                    autoClose: 1000,
-                })
-                setLoading(false)
-                return
-            }
+            setSuccessMessage(data1.responseMessage)
+            setIsShowSuccessModal(true)
             setLoading(false)
-            setIsShowModal(true)
             setTimeout(() => {
-                setIsShowModal(false)
-
+                setIsShowSuccessModal(false)
                 if (values.useCase === 'SCHOOL') {
                     const schoolId = values.id
                     navigate(`/school/room/list/${schoolId}`)
                 }
             }, 3000)
-            // toastId.current = toast(data.responseMessage, {
-            //   type: "success",
-            //   autoClose: 1000,
-            // });
-            //setLoading(false);
-            //setIsUploadImgVisible(true);
-            // navigate("/");
-            // eslint-disable-next-line @typescript-eslint/no-shadow
-        } catch (error: any) {
+        } catch (error2: any) {
             setLoading(false)
-            setError(error.response)
+            setError(error2.response)
+            setErrorMessage(error2.response?.data?.responseMessage)
+            setIsShowErrorModal(true)
             setTimeout(() => {
+                setIsShowErrorModal(false)
                 setError('')
             }, 2000)
-            toastId.current = toast(error.message, {
-                type: 'error',
-                autoClose: 1000,
-            })
         }
     }
     const RoomStatus = async (
@@ -377,30 +344,13 @@ const useRoom = (): IUseRoom => {
     const Createmodal = (): IModalComponent => {
         return {
             modalComponent: (
-                <CustomModal
-                    isModalVisible={isShowModal}
-                    setIsModalVisible={setIsShowModal}
-                    showCloseBtn={true}
-                >
-                    <SchoolSuccessfulModals>
-                        <div className="mainContainer d-flex flex-column align-items-center">
-                            <img
-                                src={ic_success}
-                                alt="Success Icon"
-                                width={79}
-                                height={79}
-                            />
-                            <h3 className="mainContainer-heading text-center">
-                                Complete Successfully!
-                            </h3>
-                            <p className="mainContainer-subText text-center">
-                                Congratulations! Your profile has been
-                                successfully completed, ensuring a seamless
-                                experience within the Marital
-                            </p>
-                        </div>
-                    </SchoolSuccessfulModals>
-                </CustomModal>
+                <CustomMessageModal
+                    title="Success"
+                    description={successMessage}
+                    isModalVisible={isShowSuccessModal}
+                    setIsModalVisible={setIsShowSuccessModal}
+                    imageProp={'success'}
+                />
             ),
         }
     }
@@ -408,59 +358,27 @@ const useRoom = (): IUseRoom => {
     const UpdateModal = (): IModalComponent => {
         return {
             modalComponent: (
-                <CustomModal
-                    isModalVisible={isShowModal}
-                    setIsModalVisible={setIsShowModal}
-                    showCloseBtn={true}
-                >
-                    <SchoolSuccessfulModals>
-                        <div className="mainContainer d-flex flex-column align-items-center">
-                            <img
-                                src={ic_success}
-                                alt="Success Icon"
-                                width={79}
-                                height={79}
-                            />
-                            <h3 className="mainContainer-heading text-center">
-                                Update Successfully!
-                            </h3>
-                            <p className="mainContainer-subText text-center">
-                                Congratulations! on updating your profile! Your
-                                changes have been successfully saved, enhancing
-                                your experience within the Marital platform.
-                            </p>
-                        </div>
-                    </SchoolSuccessfulModals>
-                </CustomModal>
+                <CustomMessageModal
+                    title="Update"
+                    description={successMessage}
+                    isModalVisible={isShowSuccessModal}
+                    setIsModalVisible={setIsShowSuccessModal}
+                    imageProp={'success'}
+                />
             ),
         }
     }
 
-    const WarningModal = (customMessage: string): IModalComponent => {
+    const WarningModal = (): IModalComponent => {
         return {
             modalComponent: (
-                <CustomModal
-                    isModalVisible={isShowWarningModal}
-                    setIsModalVisible={() => setIsShowWarningModal(false)}
-                    showCloseBtn={true}
-                >
-                    <SchoolSuccessfulModals>
-                        <div className="mainContainer d-flex flex-column align-items-center">
-                            <img
-                                src={ic_error}
-                                alt="error Icon"
-                                width={79}
-                                height={79}
-                            />
-                            <h3 className="mainContainer-heading text-center">
-                                Warning!
-                            </h3>
-                            <p className="mainContainer-subText text-center">
-                                {customMessage}
-                            </p>
-                        </div>
-                    </SchoolSuccessfulModals>
-                </CustomModal>
+                <CustomMessageModal
+                    title="Warning"
+                    description={errorMessage}
+                    isModalVisible={isShowErrorModal}
+                    setIsModalVisible={setIsShowSuccessModal}
+                    imageProp={'error'}
+                />
             ),
         }
     }

@@ -85,8 +85,8 @@ const useCreateSchool = (): IUseSchool => {
             address: values.address || '',
             phoneNumber: values?.businessPhoneNumber || '',
             rank: values.rank === 1 ? true : false,
-            defaultLanguageId: values.defaultLanguage,
-            defaultCurrencyId: values.defaultCurrency,
+            defaultLanguageId: values.defaultLanguageId,
+            defaultCurrencyId: values.defaultCurrencyId,
             activities: values.selectedActivities.join(','),
             facilities: values.selectedFacilities.join(','),
             description: values.description,
@@ -225,8 +225,8 @@ const useCreateSchool = (): IUseSchool => {
                 address: values.address,
                 phoneNumber: values?.businessPhoneNumber || '',
                 rank: values.rank === 1 ? true : false,
-                defaultLanguageId: values.defaultLanguage,
-                defaultCurrencyId: values.defaultCurrency,
+                defaultLanguageId: values.defaultLanguageId,
+                defaultCurrencyId: values.defaultCurrencyId,
                 activities: values.selectedActivities.join(','),
                 facilities: values.selectedFacilities.join(','),
                 description: values.description,
@@ -249,7 +249,7 @@ const useCreateSchool = (): IUseSchool => {
             setLoading(false)
             setTimeout(() => {
                 setIsShowSuccessModal(false)
-                navigate('/school/view')
+                navigate('/school/list')
             }, 3000)
         } catch (error2: any) {
             setLoading(false)
@@ -285,7 +285,7 @@ const useCreateSchool = (): IUseSchool => {
             setTimeout(() => {
                 setIsShowSuccessModal(false)
             }, 2000)
-            return data3
+            return data3.results
         } catch (error2: any) {
             setLoading(false)
             setError(error2.response)

@@ -58,6 +58,11 @@ interface IUseRoom {
     deleteConfirmation: (id: number) => IModalComponent
     deleteRoom: (id: number) => Promise<void>
     setIsShowModal: (showModal: true) => void
+    getallRoombyUCPagination: (
+        Id: number,
+        us: string,
+        page: number
+    ) => Promise<any>
 }
 
 const useRoom = (): IUseRoom => {
@@ -239,6 +244,60 @@ const useRoom = (): IUseRoom => {
                 setIsShowErrorModal(false)
                 setError('')
             }, 2000)
+        }
+    }
+
+    const getallRoombyUCPagination = async (
+        Id: number,
+        us: string,
+        page: number
+    ): Promise<any> => {
+        // const url = get_branch_by_school_id_url
+        console.log('>> im in getallbranchbyschoolid')
+        try {
+            setLoading(true)
+            const { data: data3 } = await axios.post(
+                `rooms/byUC?pageNo=${page}`,
+                { useCase: us, id: Id },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            console.log('>>v', data3)
+
+            // setIsShowModal(true);
+            // setTimeout(() => {
+            //   setLoading(false);
+            //   setIsShowModal(false);
+            //   //navigate("/school/view");
+            // }, 3000);
+            // setIsShowModal(true)
+            // setTimeout(() => {
+            setLoading(false)
+            //     setIsShowModal(false)
+            //    // navigate('/branch/list')
+            // }, 3000)
+            // toastId.current = toast(data.responseMessage, {
+            //   type: "success",
+            //   autoClose: 1000,
+            // });
+            //setLoading(false);
+            console.log({ data3 })
+            return data3.results
+        } catch (e: any) {
+            setLoading(false)
+            // setError((errorMessage as any).response.data.responseMessage)
+            // setLoading(false)
+            // console.log(
+            //     (errorMessage as any).response.data.responseMessage,
+            //     'error in api data'
+            // )
+            // setError(
+            //     (errorMessage as any).response?.data?.responseMessage ||
+            //         'An error occurred'
+            // )
         }
     }
     const getInstructorstartenddate = async (
@@ -626,6 +685,7 @@ const useRoom = (): IUseRoom => {
         getallRoombyUC,
         WarningModal,
         getbyroomid,
+        getallRoombyUCPagination,
     }
 }
 

@@ -5,15 +5,14 @@ export type DataTypeWithIdAndCurrentLangLabel = {
 
 export type CreateSchoolInitialValues = {
     businessName: string
-    businessType: string
+    businessType: number | string
     address: string
     businessPhoneNumber: string
-    defaultLanguage: string | number
-    defaultCurrency: string | number
+    defaultLanguageId: string | number
+    defaultCurrencyId: string | number
     description: string
     rank: number | string
-    defaultCurrencyId: number
-    defaultLanguageId: number
+
     // stripePublishableKey: string;
     // stripeSecretKey: string;
     // cardAccessToken: string;

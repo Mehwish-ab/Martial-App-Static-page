@@ -8,7 +8,7 @@ import {
     edit_school_url,
 } from '../utils/api_urls'
 import { useSelector } from 'react-redux'
-import { RootState } from '../redux/store'
+import store, { RootState } from '../redux/store'
 import { useNavigate, useParams } from 'react-router-dom'
 import { loginDataTypes } from '../redux/features/types'
 import CustomModal from '../components/Modal/CustomModal'
@@ -24,6 +24,7 @@ import {
 } from '../components/GlobalStyle'
 import { Col, Row } from 'react-bootstrap'
 import { SchoolSuccessfulModals } from './PopupModalsStyling'
+import { getAllUsers } from '../redux/features/User/UserSlice'
 
 interface IModalComponent {
     modalComponent: JSX.Element
@@ -50,7 +51,8 @@ interface IuseUser {
     deleteConfirmation: (id: number) => IModalComponent
     setIsShowModal: (showModal: true) => void
     setIsShowWarningModal: (showModal: true) => void
-    getAllUser: (c: string) => Promise<void>
+    getAllUser: (c: string) => Promise<any>
+    getAllUserPagination: (c: string, page: number) => Promise<void>
 }
 
 const useUser = (): IuseUser => {
@@ -83,8 +85,8 @@ const useUser = (): IuseUser => {
             address: values.address || '',
             phoneNumber: values?.businessPhoneNumber || '',
             rank: values.rank === 1 ? true : false,
-            defaultLanguageId: values.defaultLanguage,
-            defaultCurrencyId: values.defaultCurrency,
+            defaultLanguageId: values.defaultLanguageId,
+            defaultCurrencyId: values.defaultCurrencyId,
             activities: values.selectedActivities.join(','),
             facilities: values.selectedFacilities.join(','),
             description: values.description,
@@ -183,6 +185,46 @@ const useUser = (): IuseUser => {
             })
         }
     }
+    const getAllUserPagination = async (
+        c: string,
+        page: number
+    ): Promise<any> => {
+        try {
+            setError('')
+            setLoading(true)
+            const { data: allschool } = await axios.post(
+                `api/auth/getAll?pageNo=${page}`,
+                { country: '' },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            if (allschool.responseCode === '500') {
+                setLoading(false)
+                return
+            }
+
+            setLoading(false)
+
+            return allschool.results
+        } catch (error: any) {
+            console.log({ error })
+            setLoading(false)
+            setError(error.response.data.responseMessage)
+            const id = setTimeout(() => {
+                setError('')
+            }, 3000)
+            if (!setIsShowModal) {
+                clearTimeout(id)
+            }
+            toastId.current = toast(error.response.data.errors, {
+                type: 'error',
+                autoClose: 1000,
+            })
+        }
+    }
 
     //to edit school
     const editSchool = async (
@@ -202,8 +244,8 @@ const useUser = (): IuseUser => {
                 address: values.address,
                 phoneNumber: values?.businessPhoneNumber || '',
                 rank: values.rank === 1 ? true : false,
-                defaultLanguageId: values.defaultLanguage,
-                defaultCurrencyId: values.defaultCurrency,
+                defaultLanguageId: values.defaultLanguageId,
+                defaultCurrencyId: values.defaultCurrencyId,
                 activities: values.selectedActivities.join(','),
                 facilities: values.selectedFacilities.join(','),
                 description: values.description,
@@ -508,6 +550,7 @@ const useUser = (): IuseUser => {
         WarningModal,
         setIsShowWarningModal,
         getAllUser,
+        getAllUserPagination,
     }
 }
 

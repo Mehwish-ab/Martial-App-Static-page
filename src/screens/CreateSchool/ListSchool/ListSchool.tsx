@@ -55,7 +55,6 @@ const ListSchool = (): JSX.Element => {
         | undefined
     >(undefined)
 
-    console.log('')
     const customItemRender = (
         current: any,
         type: any,
@@ -89,10 +88,10 @@ const ListSchool = (): JSX.Element => {
     const handlePaginationChange = async (page: number): Promise<void> => {
         try {
             setLoading(true)
-            page = page - 1
+            // page = page - 1
             const response = await getAllSchoolPagination(
                 String(loginData.data?.userDetails.countryName),
-                page
+                page - 1
             )
             setAllSchools(response)
             // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -122,7 +121,6 @@ const ListSchool = (): JSX.Element => {
         }
         fetchData(currentPage)
     }, [])
-    console.log('AllSchools', AllSchools)
 
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
@@ -214,7 +212,7 @@ const ListSchool = (): JSX.Element => {
             dataIndex: 'profilePicture',
             key: 'profilePicture',
             render: (Dummydatas) => {
-                if (Dummydatas === null) {
+                if (!Dummydatas) {
                     return <img src={defaultPic} width={44} height={44} />
                 } else {
                     return (
@@ -515,9 +513,9 @@ const ListSchool = (): JSX.Element => {
                         showTotal: (total, range) => (
                             <span
                                 dangerouslySetInnerHTML={{
-                                    __html: `Page <span className='paginationVal'>${
-                                        range[0]
-                                    }</span> of ${Math.ceil(total / pageSize)}`,
+                                    __html: `Page <span className='paginationVal'>${currentPage}</span> of ${Math.ceil(
+                                        total / pageSize
+                                    )}`,
                                 }}
                             />
                         ),

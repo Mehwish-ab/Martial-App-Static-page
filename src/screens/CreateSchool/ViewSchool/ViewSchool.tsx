@@ -43,8 +43,8 @@ const ViewSchool = (): JSX.Element => {
             try {
                 const response: any = await getSchoolbyId(Number(schoolId))
                 if (response) {
-                    setschoolData(response.results)
-                    setOwnerData(response.results.ownerData)
+                    setschoolData(response)
+                    setOwnerData(response.ownerData)
                 }
 
                 // eslint-disable-next-line @typescript-eslint/no-shadow

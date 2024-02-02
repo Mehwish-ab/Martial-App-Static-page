@@ -25,15 +25,29 @@ import useUser from '../../hooks/useUser'
 import { useSelector } from 'react-redux'
 import store, { RootState } from '../../redux/store'
 import { useEffect, useState } from 'react'
-import { UserDataType, getAllUsers } from '../../redux/features/User/UserSlice'
+import {
+    UserDataType,
+    UserDataTypess,
+    getAllUsers,
+} from '../../redux/features/User/UserSlice'
 import defaltimg from '../../assets/images/create_school_user_profile.svg'
+import { updateUser } from '../../redux/features/admin/user/updateUserStatusSlice'
 
 const UserList = (): JSX.Element => {
-    const { getAllUser } = useUser()
+    const { getAllUser, getAllUserPagination } = useUser()
     const [AllUSer, setAllUSer] = useState<
-        { data: UserDataType[] } | null | undefined
-    >(null)
-    const [error, setError] = useState('')
+        | {
+              currentPage: number
+              totalItems: number | undefined
+              data: UserDataType[]
+          }
+        | undefined
+    >(undefined)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [error, setError] = useState<string | undefined>(undefined)
+
+    const pageSize = 10
+
     const [loading, setLoading] = useState(true)
 
     // const { schoolData } = useSelector(
@@ -42,44 +56,46 @@ const UserList = (): JSX.Element => {
     const lengths: number = 0
     const { loginData } = useSelector((state: RootState) => state)
     const { UserData } = useSelector((state: RootState) => state.UserData)
+    const handlePaginationChange = async (page: number): Promise<void> => {
+        try {
+            setLoading(true)
+            // page = page - 1
 
+            const response: any = await getAllUserPagination(
+                String(loginData.data?.userDetails.countryName),
+                page - 1
+            )
+            setAllUSer(response)
+        } catch (errors: unknown) {
+            setError('Error fetching data')
+        } finally {
+            setLoading(false)
+        }
+        setCurrentPage(page)
+    }
     const navigate = useNavigate()
+
     // useEffect(() => {
-    //     const fetchData = async (): Promise<void> => {
-    //         try {
-    //             const response: any = await getAllUser(
-    //                 String(loginData.data?.userDetails.countryName)
-    //             )
-    //             if (response && response.data) {
-    //                 setAllUSer(response)
-
-    //                 // Update the lengths variable here
-    //                 lengths = response?.data?.length || 0
-    //             }
-    //             console.log('API response:', response)
-
-    //             // eslint-disable-next-line @typescript-eslint/no-shadow
-    //         } catch (error) {
-    //             setError('Error fetching data')
-    //         } finally {
-    //             setLoading(false)
-    //         }
-    //     }
-
-    //     fetchData()
+    //     store.dispatch(getAllUsers())
     // }, [])
-    console.log('Aabcdefg', UserData)
-    useEffect(() => {
-        store.dispatch(getAllUsers())
-    }, [])
-    // const { schoolData, loading } = useSelector(
-    //     (state: RootState) => state.schoolData
-    // )
 
-    // const {
-    //     dropdowns: { businessTypes },
-    // } = useSelector((state: RootState) => state.appData.data)
-    // console.log('AllUSer:', AllUSer)
+    useEffect(() => {
+        const fetchData = async (): Promise<any> => {
+            try {
+                const res = await getAllUser(
+                    String(loginData.data?.userDetails.countryName)
+                )
+
+                setAllUSer(res)
+            } catch (errors) {
+                /// setError('Error fetching data')
+            } finally {
+                //  setLoading(false)
+            }
+        }
+
+        fetchData()
+    }, [])
     const columns: ColumnsType<UserDataType> = [
         {
             title: 'Id',
@@ -284,47 +300,33 @@ const UserList = (): JSX.Element => {
         )
     }
 
-    // useEffect(() => {
-    //     store.dispatch(getBranchBySchoolId())
-    // }, [])
-
-    // const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
-    // const [current, setCurrent] = useState(1)
-
-    // const onSelectChange = (newSelectedRowKeys: React.Key[]): void => {
-    //     setSelectedRowKeys(newSelectedRowKeys)
-    // }
-
-    // const rowSelection = { selectedRowKeys, onChange: onSelectChange }
-
     return (
         <>
-            {/* {deletemodal().modalComponent}
-            {deleteConfirmation(Id).modalComponent} */}
-
-            {/* {loading && <LoadingOverlay message="" />} */}
             <Head title="User List" />
             <RenderTableTitle />
             <ListStudentStyling>
                 <Table
                     columns={columns}
                     // dataSource={
-                    //     schoolData?.data[0].studentId !== 0
-                    //         ? schoolData.data
-                    //         : []
+                    //     UserData?.data[0]?.userId !== 0 ? UserData?.data : []
                     // }
-                    dataSource={
-                        UserData?.data[0]?.userId !== 0 ? UserData?.data : []
-                    }
+                    dataSource={AllUSer ? AllUSer?.data : []}
                     scroll={{ x: true }}
                     pagination={{
+                        current: currentPage,
+                        total: AllUSer ? AllUSer.totalItems : 0,
+                        pageSize: pageSize,
                         showTotal: (total, range) => (
                             <span
                                 dangerouslySetInnerHTML={{
-                                    __html: `Page <span className='paginationVal'>${range[0]}</span> of ${range[1]}`,
+                                    __html: `Page <span className='paginationVal'>${currentPage}</span> of ${Math.ceil(
+                                        total / pageSize
+                                    )}`,
                                 }}
                             />
                         ),
+                        onChange: (page) => handlePaginationChange(page),
+                        // itemRender: customItemRender,
                     }}
                 />
             </ListStudentStyling>

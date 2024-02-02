@@ -9,7 +9,16 @@ import {
 } from '../../../utils/api_urls'
 import { loginDataTypes } from '../types'
 const localStorageData = localStorage.getItem('ennvision-admin:token')
+
 const loginData = JSON.parse(localStorageData as any)
+export interface UserDataTypess {
+    userId: number | string
+    emailAddress: string
+    phoneNumber: string
+    profilePictureURL: string
+    firstName: string
+    schoolProfilePicture: string
+}
 export interface UserDataType {
     userId: number | string
     emailAddress: string

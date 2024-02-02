@@ -54,12 +54,10 @@ const CreateSchool = (): JSX.Element => {
         address: '',
         businessPhoneNumber: '',
 
-        defaultLanguage: '',
-        defaultCurrency: '',
+        defaultLanguageId: '',
         description: '',
         rank: '',
-        defaultCurrencyId: 1,
-        defaultLanguageId: 1,
+        defaultCurrencyId: '',
         selectedActivities: [],
         selectedFacilities: [],
     }
@@ -386,9 +384,9 @@ const CreateSchool = (): JSX.Element => {
                                                         )}
                                                         className={
                                                             formik.errors
-                                                                .defaultLanguage &&
+                                                                .defaultLanguageId &&
                                                             formik.touched
-                                                                .defaultLanguage
+                                                                .defaultLanguageId
                                                                 ? 'is-invalid'
                                                                 : 'customInput'
                                                         }
@@ -413,9 +411,9 @@ const CreateSchool = (): JSX.Element => {
                                                         )}
                                                         className={
                                                             formik.errors
-                                                                .defaultCurrency &&
+                                                                .defaultCurrencyId &&
                                                             formik.touched
-                                                                .defaultCurrency
+                                                                .defaultCurrencyId
                                                                 ? 'is-invalid'
                                                                 : 'customInput'
                                                         }

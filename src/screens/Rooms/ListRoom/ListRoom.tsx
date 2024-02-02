@@ -38,22 +38,30 @@ const ListRoom = (): JSX.Element => {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
     const navigate = useNavigate()
-    const [Room, setRoom] = useState<{ data: RoomDataType[] } | undefined>(
-        undefined
-    )
+    const [currentPage, setCurrentPage] = useState(1)
+
+    const pageSize = 10
+
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | undefined>(undefined)
+    const [Room, setRoom] = useState<
+        | {
+              currentPage: number
+              totalItems: number | undefined
+              data: RoomDataType[]
+          }
+        | undefined
+    >(undefined)
     const { RoomData } = useSelector((state: RootState) => state.RoomData)
-    console.log('Nada', RoomData)
 
     const { pathname } = useLocation()
     const [, extractedSchool] = pathname.split('/')
 
     // Converting to uppercase
     const schoolInUpperCase = extractedSchool.toUpperCase()
-    console.log('Extracted School:', schoolInUpperCase)
 
     const { schoolId, branchId, franchiseId } = useParams()
 
-    console.log('ids', schoolId, branchId, franchiseId)
     let Id: string
     if (schoolId) {
         Id = schoolId
@@ -63,7 +71,7 @@ const ListRoom = (): JSX.Element => {
         Id = franchiseId
     }
 
-    const { getallRoombyUC, RoomStatus } = useRoom()
+    const { getallRoombyUC, RoomStatus, getallRoombyUCPagination } = useRoom()
 
     // const { schoolData, loading } = useSelector(
     //     (state: RootState) => state.schoolData
@@ -103,8 +111,40 @@ const ListRoom = (): JSX.Element => {
 
         fetchData()
     }, [])
-    console.log('room', Room)
+    const handlePaginationChange = async (page: number): Promise<void> => {
+        try {
+            setLoading(true)
+            if (schoolId) {
+                const response: any = await getallRoombyUCPagination(
+                    Number(schoolId),
+                    'SCHOOL',
+                    page - 1
+                )
+                setRoom(response)
+            } else if (branchId) {
+                const response: any = await getallRoombyUCPagination(
+                    Number(branchId),
+                    'BRANCH',
+                    page - 1
+                )
+                setRoom(response)
+            } else if (franchiseId) {
+                const response: any = await getallRoombyUCPagination(
+                    Number(franchiseId),
+                    'FRANCHISE',
+                    page - 1
+                )
+                setRoom(response)
+            }
 
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+        } catch (error: unknown) {
+            setError('Error fetching data')
+        } finally {
+            setLoading(false)
+        }
+        setCurrentPage(page)
+    }
     // const {
     //     dropdowns: { businessTypes },
     // } = useSelector((state: RootState) => state.appData.data)
@@ -461,16 +501,20 @@ const ListRoom = (): JSX.Element => {
                     // }
                     scroll={{ x: true }}
                     pagination={{
-                        showTotal: (totalItems, totalPages) => (
-                            <>
-                                {console.log(totalItems, totalPages, 'hi')}{' '}
-                                <span
-                                    dangerouslySetInnerHTML={{
-                                        __html: `Page <span className='paginationVal'>${totalPages[0]}</span> of ${totalPages[1]}`,
-                                    }}
-                                />
-                            </>
+                        current: currentPage,
+                        total: Room ? Room.totalItems : 0,
+                        pageSize: pageSize,
+                        showTotal: (total, range) => (
+                            <span
+                                dangerouslySetInnerHTML={{
+                                    __html: `Page <span className='paginationVal'>${currentPage}</span> of ${Math.ceil(
+                                        total / pageSize
+                                    )}`,
+                                }}
+                            />
                         ),
+                        onChange: (page) => handlePaginationChange(page),
+                        // itemRender: customItemRender,
                     }}
                 />
             </ListRoomsStyle>

@@ -293,6 +293,7 @@ const useCreateSchool = (): IUseSchool => {
             setIsShowErrorModal(true)
             setTimeout(() => {
                 setIsShowErrorModal(false)
+                navigate('/school/list')
                 setError('')
             }, 2000)
         }

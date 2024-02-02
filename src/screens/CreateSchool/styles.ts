@@ -109,6 +109,14 @@ export const CreateSchoolStyled = styled.div`
             line-height: normal;
         }
     }
+
+    .PhoneInput .PhoneInputCountry {
+        height: 50px !important;
+        margin-top: 1px !important;
+    }
+    .PhoneInput input {
+        height: 50px !important;
+    }
 `
 export const StudentViewStyling = styled.div`
     .ant-card-bordered {

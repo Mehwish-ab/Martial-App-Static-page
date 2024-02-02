@@ -89,7 +89,7 @@ const ViewSchool = (): JSX.Element => {
             +item.id == +Number(schoolData?.defaultCurrencyId)
     )
     const handleUpdateClick = (): void => {
-        navigate(`/school/edit/:${schoolData?.schoolId}`)
+        navigate(`/school/edit/${schoolData?.schoolId}`)
     }
 
     // const handleDeleteClick = async (): Promise<void> => {
@@ -179,10 +179,9 @@ const ViewSchool = (): JSX.Element => {
         <>
             <Head title="School Information" />
 
+            {WarningModal().modalComponent}
+            {SuccessModal().modalComponent}
             <ViewSchoolStyled>
-                {WarningModal().modalComponent}
-                {SuccessModal().modalComponent}
-
                 <OverlayImages
                     backgroundImg={schoolData?.bannerPicture || ''}
                     overlayImg={schoolData?.profilePicture || ''}
@@ -232,7 +231,7 @@ const ViewSchool = (): JSX.Element => {
                         </Col>
                     </Row>
                 </Card>
-                <h3>School Informations</h3>
+                <h3>School Information</h3>
                 <Card>
                     <Row>
                         <Col md="4">

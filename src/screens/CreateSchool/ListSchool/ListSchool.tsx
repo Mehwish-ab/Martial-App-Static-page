@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
 
-import { Dropdown, Menu, Space, Table, Pagination } from 'antd'
+import { Dropdown, Menu, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 
@@ -32,17 +32,24 @@ const ListSchool = (): JSX.Element => {
     // const { schoolData } = useSelector(
     //     (state: RootState) => state.dashboardData
     // )
-    const { deleteConfirmation, SuccessModal, WarningModal } = useCreateSchool()
+    const {
+        deleteConfirmation,
+        setIsShowModal,
+        SuccessModal,
+        WarningModal,
+        getAllSchool,
+        getAllSchoolPagination,
+    } = useCreateSchool()
     const {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
     const { schoolId } = useParams()
+    const [Id, setId] = useState(0)
 
     const navigate = useNavigate()
     const { loginData } = useSelector((state: RootState) => state)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | undefined>(undefined)
-    const { getAllSchool, getAllSchoolPagination } = useCreateSchool()
     const [currentPage, setCurrentPage] = useState(1)
     const pageSize = 10
 
@@ -314,10 +321,10 @@ const ListSchool = (): JSX.Element => {
                     {
                         key: '4',
                         label: 'Delete',
-                        // onClick: () => {
-                        //     setId(record.schoolId)
-                        //     setIsShowModal(true)
-                        // },
+                        onClick: () => {
+                            setId(record.schoolId)
+                            setIsShowModal(true)
+                        },
                     },
                     {
                         key: 'divider1',
@@ -498,7 +505,7 @@ const ListSchool = (): JSX.Element => {
             <Head title="School List" />
             {WarningModal().modalComponent}
             {SuccessModal().modalComponent}
-            {deleteConfirmation(Number(schoolId)).modalComponent}
+            {deleteConfirmation(Number(Id)).modalComponent}
             {/* {loading && <LoadingOverlay message="" />} */}
             <RenderTableTitle />
             <ListSchoolStyle>

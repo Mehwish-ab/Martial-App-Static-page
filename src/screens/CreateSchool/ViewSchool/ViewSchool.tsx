@@ -182,7 +182,6 @@ const ViewSchool = (): JSX.Element => {
             <ViewSchoolStyled>
                 {WarningModal().modalComponent}
                 {SuccessModal().modalComponent}
-                {deleteConfirmation(Number(schoolId)).modalComponent}
 
                 <OverlayImages
                     backgroundImg={schoolData?.bannerPicture || ''}

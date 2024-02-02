@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
@@ -16,7 +16,6 @@ import {
     tertiaryBlue2,
 } from '../../../components/GlobalStyle'
 import plusIcon from '../../../assets/icons/ic_plus.svg'
-import dummyData from './dummyData.json'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import RightArrow from '../../../assets/images/rightArrow.svg'
@@ -26,16 +25,19 @@ import { Form, Formik } from 'formik'
 import FormControl from '../../../components/FormControl'
 import { SchoolDataType } from '../../../redux/features/dashboard/dashboardDataSlice'
 import useCreateSchool from '../../../hooks/useCreateSchool'
-import { SetStateAction, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Head from '../../../components/Head/Head'
 
 const ListSchool = (): JSX.Element => {
     // const { schoolData } = useSelector(
     //     (state: RootState) => state.dashboardData
     // )
+    const { deleteConfirmation, SuccessModal, WarningModal } = useCreateSchool()
     const {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
+    const { schoolId } = useParams()
+
     const navigate = useNavigate()
     const { loginData } = useSelector((state: RootState) => state)
     const [loading, setLoading] = useState(true)
@@ -495,10 +497,10 @@ const ListSchool = (): JSX.Element => {
 
     return (
         <>
-            {/* {deletemodal().modalComponent}
-            {deleteConfirmation(Id).modalComponent} */}
             <Head title="School List" />
-
+            {WarningModal().modalComponent}
+            {SuccessModal().modalComponent}
+            {deleteConfirmation(Number(schoolId)).modalComponent}
             {/* {loading && <LoadingOverlay message="" />} */}
             <RenderTableTitle />
             <ListSchoolStyle>

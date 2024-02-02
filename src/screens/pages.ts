@@ -3,8 +3,8 @@ import VerifyOtp from '../components/VerifyOtp/VerifyOtp'
 import Dashboard from '../screens/Dashboard/Dashboard'
 import Home from '../screens/Home/Home'
 
-import CreateUser from '../screens/User/CreateUser/CreateUser'
-import UserList from './User/UsersList'
+import RegisterUser from './User/CreateUser/Register'
+// import UserList from './UsersList'
 import UpdateUser from './User/UpdateUser/UpdateUser'
 
 import Confirmaton from '../components/Confirmation/Confirmation'
@@ -15,9 +15,9 @@ import ErrorPage from './ErrorPages/ErrorPage'
 export {
     Login,
     Dashboard,
-    UserList,
+    // UserList,
     Home,
-    CreateUser,
+    RegisterUser,
     UpdateUser,
     Confirmaton,
     PaymentInfo,

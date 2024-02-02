@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-import { Login, Home, CreateUser, ErrorPage404 } from '../screens/pages'
+import { Login, Home, RegisterUser, ErrorPage404 } from '../screens/pages'
 import ForgetPassword from '../screens/ForgetPassword/ForgetPasword'
 import Otp from '../screens/ForgetPassword/Otp/Otp'
 import CreatePassword from '../screens/ForgetPassword/CreatePassword/CreatePassword'
@@ -60,6 +60,7 @@ import CreateRoom from '../screens/Rooms/CreateRoom/CreateRoom'
 import UpdateRoom from '../screens/Rooms/UpdateRoom/UpdateRoom'
 import ViewRoom from '../screens/Rooms/ViewRoom/ViewRoom'
 import Activity from '../screens/Activitity/activity'
+import CreateUser from '../screens/User/CreateUser/CreateUser'
 // import { RootState } from "../redux/store";
 
 function AppRoutes(): JSX.Element {
@@ -94,7 +95,7 @@ function AppRoutes(): JSX.Element {
       </div> */}
             <Routes>
                 <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<CreateUser />} />
+                <Route path="/register" element={<RegisterUser />} />
                 <Route path="/forgot-password" element={<ForgetPassword />} />
                 <Route path="/register/verify-otp" element={<Otp />} />
                 <Route path="/terms" element={<Terms />} />
@@ -116,6 +117,14 @@ function AppRoutes(): JSX.Element {
                     element={
                         <AppLayout>
                             <UserList />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/user/create"
+                    element={
+                        <AppLayout>
+                            <CreateUser />
                         </AppLayout>
                     }
                 />

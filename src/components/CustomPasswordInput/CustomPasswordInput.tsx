@@ -9,6 +9,7 @@ import hide_password_icon from '../../assets/icons/ic_hidePassword.svg'
 import {
     fontFamilyMedium,
     fontFamilyRegular,
+    lightDark2,
     tertiaryGrey24,
 } from '../GlobalStyle'
 import useScreenTranslation from '../../hooks/useScreenTranslation'
@@ -28,6 +29,7 @@ type CustomPasswordInputProps = {
     labelFont?: string
     labelFamily?: string
     labelMarginBottom?: string
+    placeholderColor?: string
 }
 
 const CustomPasswordInput = (props: CustomPasswordInputProps): JSX.Element => {
@@ -44,6 +46,7 @@ const CustomPasswordInput = (props: CustomPasswordInputProps): JSX.Element => {
         showErrorMessage = true,
         padding = '10px',
         placeholderFamily = fontFamilyRegular,
+        placeholderColor = `${lightDark2}`,
         placeholderFont = '16px',
         fontSize = '16px',
         ...rest
@@ -53,8 +56,9 @@ const CustomPasswordInput = (props: CustomPasswordInputProps): JSX.Element => {
         <CustomPasswordInputStyle
             fontFamily={fontFamily}
             border={border}
-            padding={padding}
             placeholderFamily={placeholderFamily}
+            placeholderColor={placeholderColor}
+            padding={padding}
             placeholderFont={placeholderFont}
             fontSize={fontSize}
             labelFamily={labelFamily}

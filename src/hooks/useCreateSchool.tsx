@@ -249,7 +249,7 @@ const useCreateSchool = (): IUseSchool => {
             setLoading(false)
             setTimeout(() => {
                 setIsShowSuccessModal(false)
-                navigate('/school/view')
+                navigate('/school/list')
             }, 3000)
         } catch (error2: any) {
             setLoading(false)
@@ -293,6 +293,7 @@ const useCreateSchool = (): IUseSchool => {
             setIsShowErrorModal(true)
             setTimeout(() => {
                 setIsShowErrorModal(false)
+                navigate('/school/list')
                 setError('')
             }, 2000)
         }

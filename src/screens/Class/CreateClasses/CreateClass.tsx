@@ -305,7 +305,7 @@ const CreateClass = (): JSX.Element => {
                                                                 />
                                                             </Col>
                                                             <Col
-                                                                md="6"
+                                                                md="12"
                                                                 className="mt-20"
                                                             >
                                                                 <FormControl
@@ -346,66 +346,28 @@ const CreateClass = (): JSX.Element => {
                                                                 </FormControl>
                                                             </Col>
                                                             <Col
-                                                                md="6"
-                                                                className="mt-20"
+                                                                md="12"
+                                                                className=""
                                                             >
-                                                                <FormControl
-                                                                    control="select"
-                                                                    type="text"
-                                                                    name="timeTableId"
+                                                                <CheckboxesSelect
+                                                                    name="activities"
                                                                     label={getLabelByKey(
-                                                                        'timeTable'
+                                                                        'activities'
                                                                     )}
-                                                                    padding="8px 10px"
-                                                                    fontFamily={
-                                                                        fontFamilyRegular
+                                                                    list={
+                                                                        activities
                                                                     }
-                                                                    fontSize="16px"
-                                                                    max={6}
-                                                                    placeholder={getLabelByKey(
-                                                                        'selectTimeTable'
+                                                                    showErrorMsgInList={
+                                                                        false
+                                                                    }
+                                                                    placeholder={showActivities(
+                                                                        formik
+                                                                            .values
+                                                                            .activities
                                                                     )}
-                                                                >
-                                                                    {timeTableData.data.map(
-                                                                        (
-                                                                            timetable
-                                                                        ) => (
-                                                                            <option
-                                                                                key={
-                                                                                    timetable.timeTableId
-                                                                                }
-                                                                                value={
-                                                                                    timetable.timeTableId
-                                                                                }
-                                                                            >
-                                                                                {
-                                                                                    timetable.title
-                                                                                }
-                                                                            </option>
-                                                                        )
-                                                                    )}
-                                                                </FormControl>
+                                                                />
                                                             </Col>
                                                         </Row>
-                                                    </Col>
-                                                    <Col
-                                                        md="12"
-                                                        className="mt-20"
-                                                    >
-                                                        <CheckboxesSelect
-                                                            name="activities"
-                                                            label={getLabelByKey(
-                                                                'activities'
-                                                            )}
-                                                            list={activities}
-                                                            showErrorMsgInList={
-                                                                false
-                                                            }
-                                                            placeholder={showActivities(
-                                                                formik.values
-                                                                    .activities
-                                                            )}
-                                                        />
                                                     </Col>
                                                 </Col>
 
@@ -425,7 +387,20 @@ const CreateClass = (): JSX.Element => {
                                                 </Col>
                                             </Row>
                                         </Col>
-                                        <Col md="2" className="mt-20">
+                                        <Col md="6" className="mt-20">
+                                            <FormControl
+                                                control="select"
+                                                type="text"
+                                                name="rooms"
+                                                label="Rooms"
+                                                padding="8px 10px"
+                                                fontFamily={fontFamilyRegular}
+                                                fontSize="16px"
+                                                max={6}
+                                                placeholder="Select Rooms"
+                                            />
+                                        </Col>
+                                        <Col md="3" className="mt-20">
                                             <FormControl
                                                 control="input"
                                                 type="number"
@@ -451,31 +426,29 @@ const CreateClass = (): JSX.Element => {
                                                 }
                                             />
                                         </Col>
-                                        {/* <Col md="2" className="mt-20">
+                                        <Col md="3" className="mt-20">
                                             <FormControl
                                                 control="input"
                                                 type="number"
                                                 name="fee"
                                                 fontFamily={fontFamilyRegular}
-                                                label={CurrencyType(_currency)}
+                                                label="New Class Fees"
                                                 padding="8px 10px"
-                                                placeholder={getLabelByKey(
-                                                    'classFeesPlaceholder'
-                                                )}
+                                                placeholder="Enter New Class Fees"
                                                 suffix={
-                                                    <img
-                                                        src={CurrencyType(
+                                                    <span
+                                                        style={{
+                                                            fontSize: '20px',
+                                                        }}
+                                                    >
+                                                        {CurrencyType(
                                                             _currency
                                                         )}
-                                                        alt=""
-                                                        width={13}
-                                                        height={27}
-                                                        //onClick={(type = "date")}
-                                                    />
+                                                    </span>
                                                 }
                                             />
-                                        </Col> */}
-                                        <Col md="2" className="mt-20">
+                                        </Col>
+                                        <Col md="3" className="mt-20">
                                             <FormControl
                                                 control="input"
                                                 type="number"
@@ -491,7 +464,7 @@ const CreateClass = (): JSX.Element => {
                                             />
                                         </Col>
 
-                                        <Col md="2" className="mt-20">
+                                        <Col md="3" className="mt-20">
                                             <FormControl
                                                 control="input"
                                                 type="number"

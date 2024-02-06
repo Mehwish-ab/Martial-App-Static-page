@@ -159,7 +159,7 @@ const ViewClass = (): JSX.Element => {
                                                 </div>
                                             </div>
                                         </Col>
-                                        <Col md="6">
+                                        <Col md="12">
                                             <div className="list-item">
                                                 <div className="list-item-title">
                                                     {getLabelByKey(
@@ -169,19 +169,6 @@ const ViewClass = (): JSX.Element => {
                                                 <div className="list-item-value">
                                                     {instructor
                                                         ? instructor.instructorName
-                                                        : '--'}
-                                                </div>
-                                            </div>
-                                        </Col>
-                                        <Col md="6">
-                                            <div className="list-item">
-                                                <div className="list-item-title">
-                                                    {getLabelByKey('timeTable')}
-                                                </div>
-                                                <div className="list-item-value">
-                                                    {timetable
-                                                        ? timetable.results
-                                                              .title
                                                         : '--'}
                                                 </div>
                                             </div>
@@ -200,26 +187,15 @@ const ViewClass = (): JSX.Element => {
                                                 </div>
                                             </div>
                                         </Col>
-                                        <Col md="6">
+                                        <Col md="12">
                                             <div className="list-item">
                                                 <div className="list-item-title">
-                                                    {getLabelByKey('classFees')}
+                                                    Rooms
                                                 </div>
                                                 <div className="list-item-value">
-                                                    {values ? values.fee : '--'}
-                                                </div>
-                                            </div>
-                                        </Col>
-                                        <Col md="6">
-                                            <div className="list-item">
-                                                <div className="list-item-title">
-                                                    {getLabelByKey(
-                                                        'classCapacity'
-                                                    )}
-                                                </div>
-                                                <div className="list-item-value">
-                                                    {values
-                                                        ? values.capacity
+                                                    {timetable
+                                                        ? timetable.results
+                                                              .title
                                                         : '--'}
                                                 </div>
                                             </div>
@@ -246,6 +222,36 @@ const ViewClass = (): JSX.Element => {
                                     </div>
                                 </Col>
                             </Row>
+                        </Col>
+                        <Col md="3">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('classFees')}
+                                </div>
+                                <div className="list-item-value">
+                                    {values ? values.fee : '--'}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="3">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    New Class Fees
+                                </div>
+                                <div className="list-item-value">
+                                    {values ? values.fee : '--'}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="3">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('classCapacity')}
+                                </div>
+                                <div className="list-item-value">
+                                    {values ? values.capacity : '--'}
+                                </div>
+                            </div>
                         </Col>
                         <Col md="3">
                             <div className="list-item">
@@ -359,7 +365,7 @@ const ViewClass = (): JSX.Element => {
                                 </div>
                             </div>
                         </Col>
-                        <Col md="4">
+                        <Col md="3">
                             <div className="list-item">
                                 <div className="list-item-title">
                                     {getLabelByKey('bookingCancellationEnd')}
@@ -374,7 +380,7 @@ const ViewClass = (): JSX.Element => {
                                 </div>
                             </div>
                         </Col>
-                        <Col md="4">
+                        <Col md="3">
                             <div className="list-item">
                                 <div className="list-item-title">
                                     {
@@ -396,7 +402,7 @@ const ViewClass = (): JSX.Element => {
                                 </div>
                             </div>
                         </Col>
-                        <Col md="4">
+                        <Col md="9">
                             <div className="list-item">
                                 <div className="list-item-title">
                                     {getLabelByKey('accommodate')}

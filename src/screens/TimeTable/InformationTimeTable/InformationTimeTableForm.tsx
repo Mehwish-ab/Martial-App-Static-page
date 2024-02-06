@@ -37,53 +37,56 @@ const InformationTimeTableForm: React.FC = () => {
                             </div>
                         </div>
                     </Col>
-                    <Col md="8">
-                        <Row>
-                            <Col md="4">
-                                <div className="list-item">
-                                    <div className="list-item-title">
-                                        Repeat Time Table
-                                    </div>
-                                    <div className="list-item-value">
-                                        {' '}
-                                        {allTimeTableDetail?.isRepeated ===
-                                        false
-                                            ? 'No'
-                                            : 'Yes'}
-                                    </div>
-                                </div>
-                            </Col>
-                            <Col md="4">
-                                <div className="list-item">
-                                    <div className="list-item-title">
-                                        Start Date
-                                    </div>
-                                    <div className="list-item-value">
-                                        {moment(
-                                            moment(
-                                                allTimeTableDetail?.startDate,
-                                                'YYYY-MM-DD'
-                                            )
-                                        ).format('dddd, MMM DD, YYYY')}
-                                    </div>
-                                </div>
-                            </Col>
-                            <Col md="4">
-                                <div className="list-item">
-                                    <div className="list-item-title">
-                                        End Date
-                                    </div>
-                                    <div className="list-item-value">
-                                        {moment(
-                                            moment(
-                                                allTimeTableDetail?.endDate,
-                                                'YYYY-MM-DD'
-                                            )
-                                        ).format('dddd, MMM DD, YYYY')}
-                                    </div>
-                                </div>
-                            </Col>
-                        </Row>
+                    <Col md="4">
+                        <div className="list-item">
+                            <div className="list-item-title">
+                                Repeat Time Table
+                            </div>
+                            <div className="list-item-value">
+                                {' '}
+                                {allTimeTableDetail?.isRepeated === false
+                                    ? 'No'
+                                    : 'Yes'}
+                            </div>
+                        </div>
+                    </Col>
+                    <Col md="4">
+                        <div className="list-item">
+                            <div className="list-item-title">Start Date</div>
+                            <div className="list-item-value">
+                                {moment(
+                                    moment(
+                                        allTimeTableDetail?.startDate,
+                                        'YYYY-MM-DD'
+                                    )
+                                ).format('dddd, MMM DD, YYYY')}
+                            </div>
+                        </div>
+                    </Col>
+                    <Col md="4">
+                        <div className="list-item">
+                            <div className="list-item-title">End Date</div>
+                            <div className="list-item-value">
+                                {moment(
+                                    moment(
+                                        allTimeTableDetail?.endDate,
+                                        'YYYY-MM-DD'
+                                    )
+                                ).format('dddd, MMM DD, YYYY')}
+                            </div>
+                        </div>
+                    </Col>
+                    <Col md="4">
+                        <div className="list-item">
+                            <div className="list-item-title">Activity</div>
+                            <div className="list-item-value">--</div>
+                        </div>
+                    </Col>
+                    <Col md="4">
+                        <div className="list-item">
+                            <div className="list-item-title">Rooms</div>
+                            <div className="list-item-value">--</div>
+                        </div>
                     </Col>
                 </Row>
             </InformationTimeTableFormStyle>

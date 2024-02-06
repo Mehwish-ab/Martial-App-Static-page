@@ -386,41 +386,6 @@ const UpdateClass = (): JSX.Element => {
                                                                 md="6"
                                                                 className="mt-20"
                                                             >
-                                                                {/* <FormControl
-                                                                    control="date"
-                                                                    type="date"
-                                                                    name="startDate"
-                                                                    fontFamily={
-                                                                        fontFamilyRegular
-                                                                    }
-                                                                    label={getLabelByKey(
-                                                                        'startDate'
-                                                                    )}
-                                                                    padding="8px 10px"
-                                                                    placeholder={getLabelByKey(
-                                                                        'startDatePlaceholder'
-                                                                    )}
-                                                                    defaultValue={
-                                                                        formik
-                                                                            .values
-                                                                            .startDate
-                                                                    }
-                                                                    suffix={
-                                                                        <img
-                                                                            src={
-                                                                                DateCalander
-                                                                            }
-                                                                            alt=""
-                                                                            width={
-                                                                                25
-                                                                            }
-                                                                            height={
-                                                                                25
-                                                                            }
-                                                                            //onClick={(type = "date")}
-                                                                        />
-                                                                    }
-                                                                /> */}
                                                                 <FormControl
                                                                     control="date"
                                                                     type="date"
@@ -476,7 +441,7 @@ const UpdateClass = (): JSX.Element => {
                                                                 />
                                                             </Col>
                                                             <Col
-                                                                md="6"
+                                                                md="12"
                                                                 className="mt-20"
                                                             >
                                                                 <FormControl
@@ -521,58 +486,9 @@ const UpdateClass = (): JSX.Element => {
                                                                     )}
                                                                 </FormControl>
                                                             </Col>
-                                                            <Col
-                                                                md="6"
-                                                                className="mt-20"
-                                                            >
-                                                                <FormControl
-                                                                    control="select"
-                                                                    type="text"
-                                                                    name="timeTableId"
-                                                                    label={getLabelByKey(
-                                                                        'timeTable'
-                                                                    )}
-                                                                    padding="8px 10px"
-                                                                    fontFamily={
-                                                                        fontFamilyRegular
-                                                                    }
-                                                                    fontSize="16px"
-                                                                    max={6}
-                                                                    placeholder={getLabelByKey(
-                                                                        'selectTimeTable'
-                                                                    )}
-                                                                    value={
-                                                                        formik
-                                                                            .values
-                                                                            .timeTableId
-                                                                    }
-                                                                >
-                                                                    {timeTableData.data.map(
-                                                                        (
-                                                                            timetables
-                                                                        ) => (
-                                                                            <option
-                                                                                key={
-                                                                                    timetables.timeTableId
-                                                                                }
-                                                                                value={
-                                                                                    timetables.timeTableId
-                                                                                }
-                                                                            >
-                                                                                {
-                                                                                    timetables.title
-                                                                                }
-                                                                            </option>
-                                                                        )
-                                                                    )}
-                                                                </FormControl>
-                                                            </Col>
                                                         </Row>
                                                     </Col>
-                                                    <Col
-                                                        md="12"
-                                                        className="mt-20"
-                                                    >
+                                                    <Col md="12">
                                                         <CheckboxesSelect
                                                             name="activities"
                                                             label={getLabelByKey(
@@ -589,7 +505,6 @@ const UpdateClass = (): JSX.Element => {
                                                         />
                                                     </Col>
                                                 </Col>
-
                                                 <Col md="6">
                                                     <Col
                                                         md="12"
@@ -611,38 +526,26 @@ const UpdateClass = (): JSX.Element => {
                                                             } // Pass existing banner picture as default image
                                                         />
                                                     </Col>
-
-                                                    {/* <Col
-                                                        md="12"
-                                                        className="mt-20"
-                                                    >
-                                                        <p className="bannerTitle ">
-                                                            {getLabelByKey(
-                                                                'bannerImage'
-                                                            )}
-                                                        </p>
-                                                        {vla.bannerPicture ? (
-                                                            // If vla.bannerPicture has a value, display the existing image
-                                                            <img
-                                                                src={`https://fistastore.com:444/${vla.bannerPicture}`}
-                                                                alt="Banner"
-                                                            />
-                                                        ) : (
-                                                            // If vla.bannerPicture is null or undefined, display the Images component
-                                                            <Images
-                                                                onSaveBanner={
-                                                                    handleSaveBanner
-                                                                }
-                                                                isEditable={
-                                                                    true
-                                                                } // Set isEditable to true or false based on your requirement
-                                                            />
-                                                        )}
-                                                    </Col> */}
                                                 </Col>
                                             </Row>
                                         </Col>
-                                        <Col md="2" className="mt-20">
+                                        <Col md="6" className="mt-20">
+                                            <FormControl
+                                                control="select"
+                                                type="text"
+                                                name="rooms"
+                                                label="Rooms"
+                                                padding="8px 10px"
+                                                fontFamily={fontFamilyRegular}
+                                                fontSize="16px"
+                                                max={6}
+                                                placeholder="Select Rooms"
+                                                value={
+                                                    formik.values.timeTableId
+                                                }
+                                            />
+                                        </Col>
+                                        <Col md="3" className="mt-20">
                                             <FormControl
                                                 control="input"
                                                 type="number"
@@ -666,7 +569,27 @@ const UpdateClass = (): JSX.Element => {
                                                 }
                                             />
                                         </Col>
-                                        <Col md="2" className="mt-20">
+                                        <Col md="3" className="mt-20">
+                                            <FormControl
+                                                control="input"
+                                                type="number"
+                                                name="fee"
+                                                fontFamily={fontFamilyRegular}
+                                                label="New Class Fees"
+                                                padding="8px 10px"
+                                                placeholder="Enter New Class Fees"
+                                                suffix={
+                                                    <img
+                                                        src={dollar}
+                                                        alt=""
+                                                        width={13}
+                                                        height={27}
+                                                        //onClick={(type = "date")}
+                                                    />
+                                                }
+                                            />
+                                        </Col>
+                                        <Col md="3" className="mt-20">
                                             <FormControl
                                                 control="input"
                                                 type="number"
@@ -682,7 +605,7 @@ const UpdateClass = (): JSX.Element => {
                                             />
                                         </Col>
 
-                                        <Col md="2" className="mt-20">
+                                        <Col md="3" className="mt-20">
                                             <FormControl
                                                 control="input"
                                                 type="number"

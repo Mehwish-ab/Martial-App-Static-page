@@ -72,7 +72,7 @@ const ListFranchise = (): JSX.Element => {
     ): void => {
         switch (redirectTo) {
             case 'edit':
-                navigate(`/school/edit/${record.franchiseId}`, {
+                navigate(`/franchise/edit/${record.franchiseId}`, {
                     state: {
                         branchToEdit: record as FranchiseDataType,
                     },
@@ -80,7 +80,7 @@ const ListFranchise = (): JSX.Element => {
                 break
 
             case 'view':
-                navigate(`/school/view/${record.franchiseId}`, {
+                navigate(`/franchise/view/${record.franchiseId}`, {
                     state: {
                         branch: record as FranchiseDataType,
                     },
@@ -88,7 +88,7 @@ const ListFranchise = (): JSX.Element => {
                 break
             case 'payment':
                 navigate(
-                    `/school/add-payment-information/${record.franchiseId}`,
+                    `/franchise/add-payment-information/${record.franchiseId}`,
                     {
                         state: {
                             branchToEdit: record as FranchiseDataType,
@@ -98,7 +98,7 @@ const ListFranchise = (): JSX.Element => {
                 break
 
             case 'delete':
-                navigate(`/school/delete/${record.franchiseId}`, {
+                navigate(`/franchise/delete/${record.franchiseId}`, {
                     state: {
                         branch: record as FranchiseDataType,
                     },
@@ -404,7 +404,9 @@ const ListFranchise = (): JSX.Element => {
                                                     />
                                                 }
                                                 clicked={() => {
-                                                    navigate(`/user/list`)
+                                                    navigate(
+                                                        `/franchise/create`
+                                                    )
                                                 }}
                                             />
                                         </div>

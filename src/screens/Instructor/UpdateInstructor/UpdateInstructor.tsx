@@ -337,104 +337,58 @@ const UpdateeInstructor = (): JSX.Element => {
                                                     <FormControl
                                                         control="select"
                                                         type="text"
-                                                        name="ranking"
+                                                        name="rankId"
                                                         fontFamily={
                                                             fontFamilyRegular
                                                         }
                                                         label={getLabelByKey(
-                                                            'ranking'
+                                                            'belts'
                                                         )}
                                                         placeholder={getLabelByKey(
-                                                            'PlaceholderRanking'
+                                                            'selectBelt'
                                                         )}
-                                                        options={
-                                                            BELTS_SELECT_OPTIONS
-                                                        }
-                                                        value={
-                                                            Number(
-                                                                formik.values
-                                                                    .rankId
-                                                            ) > 0
-                                                                ? 'Yes'
-                                                                : 'No'
+                                                        options={createOptions(
+                                                            adult
+                                                        )}
+                                                        defaultValue={
+                                                            instructorId
+                                                                ? createOptions(
+                                                                      adult
+                                                                  ).find(
+                                                                      (item) =>
+                                                                          item.value ===
+                                                                          initialValues.rankId
+                                                                  )?.value
+                                                                : undefined
                                                         }
                                                     />
                                                 </Col>
                                                 <Col md="4" className="mt-20">
-                                                    {formik.values.ranking ===
-                                                    1 ? (
-                                                        <>
-                                                            {
-                                                                (formik.values.yearsOfExperience = 0)
-                                                            }
-                                                            <FormControl
-                                                                control="select"
-                                                                type="text"
-                                                                name="rankId"
-                                                                fontFamily={
-                                                                    fontFamilyRegular
+                                                    <FormControl
+                                                        control="input"
+                                                        type="number"
+                                                        name="yearsOfExperience"
+                                                        fontFamily={
+                                                            fontFamilyRegular
+                                                        }
+                                                        label={getLabelByKey(
+                                                            'yearsOfExperience'
+                                                        )}
+                                                        padding="10px"
+                                                        suffix={
+                                                            <img
+                                                                src={
+                                                                    DateCalander as string
                                                                 }
-                                                                label={getLabelByKey(
-                                                                    'belts'
-                                                                )}
-                                                                placeholder={getLabelByKey(
-                                                                    'selectBelt'
-                                                                )}
-                                                                options={createOptions(
-                                                                    adult
-                                                                )}
-                                                                defaultValue={
-                                                                    instructorId
-                                                                        ? createOptions(
-                                                                              adult
-                                                                          ).find(
-                                                                              (
-                                                                                  item
-                                                                              ) =>
-                                                                                  item.value ===
-                                                                                  initialValues.rankId
-                                                                          )
-                                                                              ?.value
-                                                                        : undefined
-                                                                }
+                                                                alt="Calander"
+                                                                width={21}
+                                                                height={21}
                                                             />
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            {
-                                                                (formik.values.rankId = 0)
-                                                            }
-                                                            <FormControl
-                                                                control="input"
-                                                                type="number"
-                                                                name="yearsOfExperience"
-                                                                fontFamily={
-                                                                    fontFamilyRegular
-                                                                }
-                                                                label={getLabelByKey(
-                                                                    'yearsOfExperience'
-                                                                )}
-                                                                padding="10px"
-                                                                suffix={
-                                                                    <img
-                                                                        src={
-                                                                            DateCalander as string
-                                                                        }
-                                                                        alt="Calander"
-                                                                        width={
-                                                                            21
-                                                                        }
-                                                                        height={
-                                                                            21
-                                                                        }
-                                                                    />
-                                                                }
-                                                                placeholder={getLabelByKey(
-                                                                    'placeholderYearsOfExperience'
-                                                                )}
-                                                            />
-                                                        </>
-                                                    )}
+                                                        }
+                                                        placeholder={getLabelByKey(
+                                                            'placeholderYearsOfExperience'
+                                                        )}
+                                                    />
                                                 </Col>
                                                 <Col md="4" className="mt-20">
                                                     <FormControl

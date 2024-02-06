@@ -379,7 +379,7 @@ const CreateSchool = (): JSX.Element => {
                                         </Col>
                                         <Col md="8">
                                             <Row>
-                                                <Col md="4" className="mt-20">
+                                                {/* <Col md="4" className="mt-20">
                                                     <FormControl
                                                         control="select"
                                                         type="text"
@@ -404,8 +404,8 @@ const CreateSchool = (): JSX.Element => {
                                                             BELTS_SELECT_OPTIONS
                                                         }
                                                     />
-                                                </Col>
-                                                <Col md="4" className="mt-20">
+                                                </Col> */}
+                                                <Col md="6" className="mt-20">
                                                     <FormControl
                                                         control="select"
                                                         type="text"
@@ -432,7 +432,7 @@ const CreateSchool = (): JSX.Element => {
                                                         )}
                                                     />
                                                 </Col>
-                                                <Col md="4" className="mt-20">
+                                                <Col md="6" className="mt-20">
                                                     <FormControl
                                                         control="select"
                                                         type="text"

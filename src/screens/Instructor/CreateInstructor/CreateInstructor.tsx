@@ -277,79 +277,47 @@ const CreateInstructor = (): JSX.Element => {
                                                 <FormControl
                                                     control="select"
                                                     type="text"
-                                                    name="ranking"
+                                                    name="rankId"
                                                     fontFamily={
                                                         fontFamilyRegular
                                                     }
                                                     label={getLabelByKey(
-                                                        'ranking'
+                                                        'belts'
                                                     )}
                                                     placeholder={getLabelByKey(
-                                                        'PlaceholderRanking'
+                                                        'selectBelt'
                                                     )}
-                                                    options={
-                                                        BELTS_SELECT_OPTIONS
-                                                    }
+                                                    options={createOptions(
+                                                        adult
+                                                    )}
                                                 />
                                             </Col>
                                             <Col md="4" className="mt-20">
-                                                {formik.values.ranking === 1 ? (
-                                                    <>
-                                                        {
-                                                            (formik.values.yearsOfExperience =
-                                                                '')
-                                                        }
-                                                        <FormControl
-                                                            control="select"
-                                                            type="text"
-                                                            name="rankId"
-                                                            fontFamily={
-                                                                fontFamilyRegular
+                                                <FormControl
+                                                    control="input"
+                                                    type="number"
+                                                    name="yearsOfExperience"
+                                                    fontFamily={
+                                                        fontFamilyRegular
+                                                    }
+                                                    label={getLabelByKey(
+                                                        'yearsOfExperience'
+                                                    )}
+                                                    padding="10px"
+                                                    suffix={
+                                                        <img
+                                                            src={
+                                                                DateCalander as string
                                                             }
-                                                            label={getLabelByKey(
-                                                                'belts'
-                                                            )}
-                                                            placeholder={getLabelByKey(
-                                                                'selectBelt'
-                                                            )}
-                                                            options={createOptions(
-                                                                adult
-                                                            )}
+                                                            alt="Calander"
+                                                            width={21}
+                                                            height={21}
                                                         />
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        {
-                                                            (formik.values.rankId =
-                                                                '')
-                                                        }
-                                                        <FormControl
-                                                            control="input"
-                                                            type="number"
-                                                            name="yearsOfExperience"
-                                                            fontFamily={
-                                                                fontFamilyRegular
-                                                            }
-                                                            label={getLabelByKey(
-                                                                'yearsOfExperience'
-                                                            )}
-                                                            padding="10px"
-                                                            suffix={
-                                                                <img
-                                                                    src={
-                                                                        DateCalander as string
-                                                                    }
-                                                                    alt="Calander"
-                                                                    width={21}
-                                                                    height={21}
-                                                                />
-                                                            }
-                                                            placeholder={getLabelByKey(
-                                                                'placeholderYearsOfExperience'
-                                                            )}
-                                                        />
-                                                    </>
-                                                )}
+                                                    }
+                                                    placeholder={getLabelByKey(
+                                                        'placeholderYearsOfExperience'
+                                                    )}
+                                                />
                                             </Col>
                                             <Col md="4" className="mt-20">
                                                 <FormControl

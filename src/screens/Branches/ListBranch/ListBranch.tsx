@@ -108,6 +108,9 @@ const ListBranch = (): JSX.Element => {
             case 'rooms':
                 navigate(`/branch/room/list/${record.branchId}`)
                 break
+            case 'activity':
+                navigate(`/activity`)
+                break
         }
     }
     const showActivities = (_activities: string): string => {
@@ -242,11 +245,18 @@ const ListBranch = (): JSX.Element => {
                     },
                     {
                         key: '3',
+                        label: 'Activity',
+                        onClick: () => {
+                            navigation(record, 'activity')
+                        },
+                    },
+                    {
+                        key: '4',
                         label: 'Payment',
                         onClick: () => navigation(record, 'payment'),
                     },
                     {
-                        key: '4',
+                        key: '5',
                         label: 'Delete',
                         // onClick: () => {
                         //     setId(record.schoolId)
@@ -258,22 +268,22 @@ const ListBranch = (): JSX.Element => {
                         type: 'divider',
                     },
                     {
-                        key: '5',
+                        key: '6',
                         label: 'Classes',
                         onClick: () => navigation(record, 'class'),
                     },
                     {
-                        key: '6',
+                        key: '7',
                         label: 'TimeTable',
                         onClick: () => navigation(record, 'timeTable'),
                     },
                     {
-                        key: '7',
+                        key: '8',
                         label: 'Memberships',
                         onClick: () => navigation(record, 'membership'),
                     },
                     {
-                        key: '8',
+                        key: '9',
                         label: 'Rooms',
                         onClick: () => navigation(record, 'rooms'),
                     },
@@ -282,7 +292,7 @@ const ListBranch = (): JSX.Element => {
                         type: 'divider',
                     },
                     {
-                        key: '9',
+                        key: '10',
                         label: 'Reports',
                     },
                 ]

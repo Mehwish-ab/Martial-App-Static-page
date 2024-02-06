@@ -192,7 +192,7 @@ const ListSchool = (): JSX.Element => {
                 navigate(`/school/room/list/${record.schoolId}`)
                 break
             case 'activity':
-                navigate(`/school/activity`)
+                navigate(`/activity`)
                 break
         }
     }
@@ -324,11 +324,18 @@ const ListSchool = (): JSX.Element => {
                     },
                     {
                         key: '3',
+                        label: 'Activity',
+                        onClick: () => {
+                            navigation(record, 'activity')
+                        },
+                    },
+                    {
+                        key: '4',
                         label: 'Payment',
                         onClick: () => navigation(record, 'payment'),
                     },
                     {
-                        key: '4',
+                        key: '5',
                         label: 'Delete',
                         onClick: () => {
                             setId(record.schoolId)
@@ -340,39 +347,34 @@ const ListSchool = (): JSX.Element => {
                         type: 'divider',
                     },
                     {
-                        key: '5',
+                        key: '6',
                         label: 'Branches',
                         onClick: () => navigation(record, 'branch'),
                     },
                     {
-                        key: '6',
+                        key: '7',
                         label: 'Franchise',
                         onClick: () => navigation(record, 'franchise'),
                     },
                     {
-                        key: '7',
+                        key: '8',
                         label: 'Classes',
                         onClick: () => navigation(record, 'class'),
                     },
                     {
-                        key: '8',
+                        key: '9',
                         label: 'TimeTable',
                         onClick: () => navigation(record, 'timeTable'),
                     },
                     {
-                        key: '9',
+                        key: '10',
                         label: 'Memberships',
                         onClick: () => navigation(record, 'membership'),
                     },
                     {
-                        key: '10',
+                        key: '11',
                         label: 'Rooms',
                         onClick: () => navigation(record, 'rooms'),
-                    },
-                    {
-                        key: '11',
-                        label: 'Activity',
-                        onClick: () => navigation(record, 'activity'),
                     },
                     {
                         key: 'divider1',

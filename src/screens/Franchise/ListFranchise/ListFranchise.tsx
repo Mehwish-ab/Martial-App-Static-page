@@ -120,6 +120,9 @@ const ListFranchise = (): JSX.Element => {
             case 'membership':
                 navigate(`/membership/list/${record.franchiseId}`)
                 break
+            case 'activity':
+                navigate(`/activity`)
+                break
             case 'room':
                 navigate(`/franchise/room/list/${record.franchiseId}`)
         }
@@ -263,11 +266,18 @@ const ListFranchise = (): JSX.Element => {
                     },
                     {
                         key: '3',
+                        label: 'Activity',
+                        onClick: () => {
+                            navigation(record, 'activity')
+                        },
+                    },
+                    {
+                        key: '4',
                         label: 'Payment',
                         onClick: () => navigation(record, 'payment'),
                     },
                     {
-                        key: '4',
+                        key: '5',
                         label: 'Delete',
                         // onClick: () => {
                         //     setId(record.schoolId)
@@ -279,32 +289,32 @@ const ListFranchise = (): JSX.Element => {
                         type: 'divider',
                     },
                     {
-                        key: '5',
+                        key: '6',
                         label: 'Transaction',
                         onClick: () => navigation(record, 'branch'),
                     },
                     {
-                        key: '6',
+                        key: '7',
                         label: 'Subscription',
                         onClick: () => navigation(record, 'franchise'),
                     },
                     {
-                        key: '7',
+                        key: '8',
                         label: 'Classes',
                         onClick: () => navigation(record, 'class'),
                     },
                     {
-                        key: '8',
+                        key: '9',
                         label: 'TimeTable',
                         onClick: () => navigation(record, 'timeTable'),
                     },
                     {
-                        key: '9',
+                        key: '10',
                         label: 'Memberships',
                         onClick: () => navigation(record, 'membership'),
                     },
                     {
-                        key: '10',
+                        key: '11',
                         label: 'room',
                         onClick: () => navigation(record, 'room'),
                     },
@@ -313,7 +323,7 @@ const ListFranchise = (): JSX.Element => {
                         type: 'divider',
                     },
                     {
-                        key: '11',
+                        key: '12',
                         label: 'Reports',
                         onClick: () => navigation(record, 'Reports'),
                     },

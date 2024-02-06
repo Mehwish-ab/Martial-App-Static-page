@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react'
-import { toast } from 'react-toastify'
 import { CreateSchoolInitialValues } from '../screens/Home/constants'
 import axios from 'axios'
 import {
@@ -55,7 +54,6 @@ const useCreateSchool = (): IUseSchool => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [isUploadImgModalVisible, setIsUploadImgVisible] = useState(false)
-    const toastId = useRef<any>(null)
     const { schoolId } = useParams()
     const { data: logindata } = useAppSelector((state) => state.loginData)
     // const { schoolData } = useAppSelector((state) => state.dashboardData)
@@ -149,7 +147,7 @@ const useCreateSchool = (): IUseSchool => {
                 }
             )
             setSuccessMessage(allSchool.responseMessage)
-            setIsShowSuccessModal(true)
+            setIsShowSuccessModal(false)
             setLoading(false)
             setTimeout(() => {
                 setIsShowSuccessModal(false)
@@ -187,18 +185,12 @@ const useCreateSchool = (): IUseSchool => {
                     },
                 }
             )
-            setSuccessMessage(allSchool.responseMessage)
-            setIsShowSuccessModal(true)
-            setLoading(false)
-            setTimeout(() => {
-                setIsShowSuccessModal(false)
-            }, 3000)
             return allSchool.results
         } catch (error2: any) {
             setLoading(false)
             setError(error2.response)
             setErrorMessage(error2.response?.data?.responseMessage)
-            setIsShowErrorModal(true)
+            setIsShowErrorModal(false)
             const id = setTimeout(() => {
                 setIsShowErrorModal(false)
                 setError('')
@@ -257,6 +249,7 @@ const useCreateSchool = (): IUseSchool => {
             setLoading(false)
             setError(error2.response)
             setErrorMessage(error2.response?.data?.responseMessage)
+            setIsShowErrorModal(true)
             const id = setTimeout(() => {
                 setError('')
                 setIsShowErrorModal(false)
@@ -304,7 +297,6 @@ const useCreateSchool = (): IUseSchool => {
     //to delete school
     const deleteSchool = async (userId: number): Promise<void> => {
         const url = '/school/delete'
-
         try {
             setError('')
             setLoading(true)
@@ -317,9 +309,6 @@ const useCreateSchool = (): IUseSchool => {
                     },
                 }
             )
-            setLoading(false)
-            setIsShowModal(false) // Open the deletemodal
-            setIsShowDeleteModal(true)
             const storedObject = JSON.parse(
                 localStorage.getItem('ennvision-admin:token') as any
             )
@@ -328,14 +317,22 @@ const useCreateSchool = (): IUseSchool => {
                 'ennvision-admin:token',
                 JSON.stringify(storedObject)
             )
+            setLoading(false)
+            setSuccessMessage(data2.responseMessage)
+            setIsShowSuccessModal(true)
             setTimeout(() => {
-                setIsShowDeleteModal(false)
-                // setIsShowDeleteModal(true)
-                navigate('/school/create')
+                setIsShowSuccessModal(false)
+                navigate('/school/list')
             }, 3000)
         } catch (error2: any) {
-            setError(error2.response.data.responseMessage)
             setLoading(false)
+            setError(error2.response)
+            setErrorMessage(error2.response?.data?.responseMessage)
+            setIsShowErrorModal(true)
+            setTimeout(() => {
+                setIsShowErrorModal(false)
+                setError('')
+            }, 2000)
         }
     }
 
@@ -368,10 +365,9 @@ const useCreateSchool = (): IUseSchool => {
     }
 
     const deleteConfirmation = (_id: number): IModalComponent => {
-        const Deleteschool = async (id: number): Promise<void> => {
-            setIsShowModal(false) // Close any other modals
-            setIsShowDeleteModal(true)
-            await deleteSchool(id)
+        const DeleteSchool = async (id: number): Promise<void> => {
+            setIsShowModal(false)
+            await deleteSchool(Number(id))
         }
         return {
             modalComponent: (
@@ -421,7 +417,7 @@ const useCreateSchool = (): IUseSchool => {
                                         title="Confirmed"
                                         fontSize="16px"
                                         loading={false}
-                                        clicked={() => Deleteschool(_id)}
+                                        clicked={() => DeleteSchool(_id)}
                                     />
                                 </Col>
                             </Row>

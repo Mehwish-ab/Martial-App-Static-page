@@ -495,6 +495,7 @@ export type loginDataTypes = {
         userLastName: string
         countryCode: string
         countryName: string
+        roleName: string
     }
     schoolId: number
 }

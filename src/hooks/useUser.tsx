@@ -53,6 +53,7 @@ interface IuseUser {
     setIsShowWarningModal: (showModal: true) => void
     getAllUser: (c: string) => Promise<any>
     getAllUserPagination: (c: string, page: number) => Promise<void>
+    getUSerById: (Id: number) => Promise<any>
 }
 
 const useUser = (): IuseUser => {
@@ -156,6 +157,42 @@ const useUser = (): IuseUser => {
             const { data: allschool } = await axios.post(
                 'api/auth/getAll',
                 { country: '' },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            if (allschool.responseCode === '500') {
+                setLoading(false)
+                return
+            }
+
+            setLoading(false)
+            return allschool.results
+        } catch (error: any) {
+            console.log({ error })
+            setLoading(false)
+            setError(error.response.data.responseMessage)
+            const id = setTimeout(() => {
+                setError('')
+            }, 3000)
+            if (!setIsShowModal) {
+                clearTimeout(id)
+            }
+            toastId.current = toast(error.response.data.errors, {
+                type: 'error',
+                autoClose: 1000,
+            })
+        }
+    }
+    const getUSerById = async (Id: number): Promise<any> => {
+        try {
+            setError('')
+            setLoading(true)
+            const { data: allschool } = await axios.post(
+                'api/auth/getAll', //change it
+                { userId: Id },
                 {
                     headers: {
                         ...authorizationToken(loginData.data as loginDataTypes),
@@ -551,6 +588,7 @@ const useUser = (): IuseUser => {
         setIsShowWarningModal,
         getAllUser,
         getAllUserPagination,
+        getUSerById,
     }
 }
 

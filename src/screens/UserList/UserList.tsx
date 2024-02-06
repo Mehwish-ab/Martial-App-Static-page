@@ -32,9 +32,11 @@ import {
 } from '../../redux/features/User/UserSlice'
 import defaltimg from '../../assets/images/create_school_user_profile.svg'
 import { updateUser } from '../../redux/features/admin/user/updateUserStatusSlice'
+import useCreateSchool from '../../hooks/useCreateSchool'
 
 const UserList = (): JSX.Element => {
     const { getAllUser, getAllUserPagination } = useUser()
+    // const { han } = useCreateSchool()
     const [AllUSer, setAllUSer] = useState<
         | {
               currentPage: number
@@ -187,11 +189,9 @@ const UserList = (): JSX.Element => {
                 return (
                     <div className={'Active'}>
                         <button
-                        // onClick={() => {
-                        //     {
-                        //         BranchStatus(index.studentId, 2)
-                        //     }
-                        // }}
+                            onClick={() => {
+                                navigate(`/school/create/${index.userId}`)
+                            }}
                         >
                             Active
                         </button>
@@ -286,7 +286,7 @@ const UserList = (): JSX.Element => {
                                                     />
                                                 }
                                                 clicked={() => {
-                                                    navigate(`/register`)
+                                                    navigate(`/user/create`)
                                                 }}
                                             />
                                         </div>

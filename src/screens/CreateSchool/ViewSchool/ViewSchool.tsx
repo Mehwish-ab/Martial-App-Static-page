@@ -24,7 +24,11 @@ import {
 } from '../../../redux/features/dashboard/dashboardDataSlice'
 import Head from '../../../components/Head/Head'
 import { StudentViewStyling } from '../styles'
+import { useAppSelector } from '../../../app/hooks'
 const ViewSchool = (): JSX.Element => {
+    const { data: logindata } = useAppSelector((state) => state.loginData)
+    console.log('NAda', logindata)
+
     const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
     const { deleteConfirmation, SuccessModal, WarningModal, getSchoolbyId } =
@@ -100,17 +104,17 @@ const ViewSchool = (): JSX.Element => {
     //     // } else navigate('/school/create')
     // }
 
-    // useEffect(() => {
-    //     const localStorageData = localStorage.getItem('ennvision-admin:token')
-    //     const loginData = JSON.parse(localStorageData as any)
-    //     if (!loginData?.schoolId) {
-    //         navigate('/school/create')
-    //         return
-    //     }
-    // if (!schoolData || !schoolData.schoolId) {
-    //     store.dispatch(getSchoolByUserId())
-    // }
-    // }, [])
+    useEffect(() => {
+        const localStorageData = localStorage.getItem('ennvision-admin:token')
+        const loginData = JSON.parse(localStorageData as any)
+        if (!loginData?.schoolId) {
+            navigate('/school/create')
+            return
+        }
+        if (!schoolData || !schoolData.schoolId) {
+            store.dispatch(getSchoolByUserId())
+        }
+    }, [])
 
     // const handleDeleteClick = async (): Promise<void> => {
     //     if (schoolData.schoolId > 0) {

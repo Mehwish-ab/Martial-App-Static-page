@@ -27,6 +27,8 @@ import { SchoolDataType } from '../../../redux/features/dashboard/dashboardDataS
 import useCreateSchool from '../../../hooks/useCreateSchool'
 import { useEffect, useState } from 'react'
 import Head from '../../../components/Head/Head'
+import CreateSchool from '../CreateSchool'
+import { useAppSelector } from '../../../app/hooks'
 
 const ListSchool = (): JSX.Element => {
     // const { schoolData } = useSelector(
@@ -102,7 +104,7 @@ const ListSchool = (): JSX.Element => {
         }
         setCurrentPage(page)
     }
-
+    const { data: logindata } = useAppSelector((state) => state.loginData)
     useEffect(() => {
         const fetchData = async (page: number): Promise<void> => {
             try {
@@ -120,6 +122,9 @@ const ListSchool = (): JSX.Element => {
             }
         }
         fetchData(currentPage)
+        if (logindata?.userDetails.roleName === 'USER') {
+            navigate(`/school/view/${logindata.schoolId}`)
+        }
     }, [])
 
     const { selectedLanguage } = useSelector(
@@ -201,6 +206,7 @@ const ListSchool = (): JSX.Element => {
         }
         return activitiesName
     }
+
     const columns: ColumnsType<SchoolDataType> = [
         {
             title: 'Id',

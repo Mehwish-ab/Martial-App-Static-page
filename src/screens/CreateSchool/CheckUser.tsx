@@ -4,28 +4,19 @@ import { RootState } from '../../redux/store'
 import CreateSchool from '../CreateSchool/CreateSchool'
 import { useEffect } from 'react'
 import { useAppSelector } from '../../app/hooks'
-import { useNavigate } from 'react-router-dom'
-import ListSchool from '../CreateSchool/ListSchool/ListSchool'
 // import Profile from './Profile/Profile'
-const Home = (): JSX.Element => {
-    const { schoolData } = useSelector(
-        (state: RootState) => state.dashboardData
-    )
+const CheckUser = (): JSX.Element => {
     const { data: logindata } = useAppSelector((state) => state.loginData)
-    const navigate = useNavigate()
+    console.log('NAda', logindata)
 
     useEffect(() => {
         console.log('>>im Home page')
-        console.log('NAda', logindata?.userDetails.roleName)
     }, [])
-
     const localStorageData = localStorage.getItem('ennvision-admin:token')
     const loginData = JSON.parse(localStorageData as any)
-    if (logindata?.userDetails.roleName === 'ADMIN') {
-        {
-            navigate('/school/list')
-            return <ListSchool />
-        }
-    } else return <CreateSchool />
+    // if (schoolData.schoolId <= 0) {
+    //navigate('/school/create')
+    return <ViewSchool />
+    // } else return <ViewSchool />
 }
-export default Home
+export default CheckUser

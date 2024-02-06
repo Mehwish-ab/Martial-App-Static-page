@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import store, { RootState } from '../../../redux/store'
 import {
     BranchDataType,
@@ -36,6 +36,7 @@ import Head from '../../../components/Head/Head'
 const localStorageData = localStorage.getItem('ennvision-admin:token')
 const loginData = JSON.parse(localStorageData as any)
 const ListBranch = (): JSX.Element => {
+    const dispatch = useDispatch()
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
@@ -405,7 +406,23 @@ const ListBranch = (): JSX.Element => {
 
     useEffect(() => {
         store.dispatch(getBranchBySchoolId())
-    }, [])
+        // setTimeout(() => {
+        //  dispatch(getBranchBySchoolId())
+        // }, 2000)
+        const fetchData = async (): Promise<void> => {
+            try {
+                // Dispatch the thunk action using the useDispatch hook
+                store.dispatch(getBranchBySchoolId())
+                // The data is now updated in the Redux store
+            } catch (error) {
+                console.error('Error fetching branch data:', error)
+            }
+        }
+
+        // Call the fetchData function when the component mounts or the route changes
+        fetchData()
+    }, [dispatch])
+    console.log('location.pathname', location.pathname)
 
     // const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
     // const [current, setCurrent] = useState(1)

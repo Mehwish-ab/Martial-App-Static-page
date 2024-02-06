@@ -102,8 +102,8 @@ export const getBranchBySchoolId = createAsyncThunk(
                 `${base_url}${get_branch_by_school_id_url}`,
                 {
                     schoolId:
-                        // state.loginData?.data?.schoolIdl ||
-                        // state.dashboardData?.schoolData?.schoolId,
+                        state.loginData?.data?.schoolId ||
+                        state.dashboardData?.schoolData?.schoolId ||
                         loginData?.schoolId,
                 },
                 {

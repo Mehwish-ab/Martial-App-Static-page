@@ -145,6 +145,14 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
+                    path="/school/create/:userId"
+                    element={
+                        <AppLayout>
+                            <CreateSchool />
+                        </AppLayout>
+                    }
+                />
+                <Route
                     path="/school/view/:schoolId"
                     element={
                         <AppLayout>

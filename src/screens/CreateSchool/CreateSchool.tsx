@@ -6,7 +6,7 @@ import { Col, Row } from 'react-bootstrap'
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
 import useScreenTranslation from '../../hooks/useScreenTranslation'
-import { RootState } from '../../redux/store'
+import store, { RootState } from '../../redux/store'
 import useCreateSchool from '../../hooks/useCreateSchool'
 import {
     BELTS_SELECT_OPTIONS,
@@ -26,14 +26,15 @@ import CustomPhoneInput from '../../components/CustomPhoneInput/CustomPhoneInput
 import CustomButton from '../../components/CustomButton/CustomButton'
 import PlacesAutoCompleteInput from '../../maps/PlacesAutocomplete'
 import CheckboxesSelect from '../../components/CustomCheckbox/CheckboxesSelect'
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useAppSelector } from '../../app/hooks'
 import Head from '../../components/Head/Head'
 import { capitalize } from 'lodash'
+import useUser from '../../hooks/useUser'
+import { UserDataType } from '../../redux/features/User/UserSlice'
+import { getSchoolByUserId } from '../../redux/features/dashboard/dashboardDataSlice'
 
-const localStorageData = localStorage.getItem('ennvision-admin:token')
-const loginData = JSON.parse(localStorageData as any)
 const CreateSchool = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
 
@@ -44,7 +45,25 @@ const CreateSchool = (): JSX.Element => {
 
     const { schoolData } = useAppSelector((state) => state.dashboardData)
     const navigate = useNavigate()
+    const { userId } = useParams()
+    const { getUSerById } = useUser()
+    const [User, setUser] = useState<UserDataType | undefined>(undefined)
+    console.log('he', userId)
+    useEffect(() => {
+        const fetchData = async (): Promise<any> => {
+            try {
+                const res = await getUSerById(Number(userId))
 
+                setUser(res)
+            } catch (errors) {
+                /// setError('Error fetching data')
+            } finally {
+                //  setLoading(false)
+            }
+        }
+
+        fetchData()
+    }, [])
     const { handleCreateSubmit, loading, SuccessModal, WarningModal } =
         useCreateSchool()
 
@@ -60,6 +79,7 @@ const CreateSchool = (): JSX.Element => {
         defaultCurrencyId: '',
         selectedActivities: [],
         selectedFacilities: [],
+        UserId: Number(userId),
     }
 
     const { selectedLanguage } = useSelector(
@@ -121,10 +141,22 @@ const CreateSchool = (): JSX.Element => {
         })
         return options
     }
-    useEffect(() => {
-        if (schoolData.schoolId > 0) return navigate('/school/view')
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [schoolData, loginData])
+    // useEffect(() => {
+    //     if (logindata?.schoolId > 0)
+    //         return navigate(`/school/view/${schoolData.schoolId}`)
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [schoolData, loginData])
+    // useEffect(() => {
+    //     const localStorageData = localStorage.getItem('ennvision-admin:token')
+    //     const loginData = JSON.parse(localStorageData as any)
+    //     if (!loginData?.schoolId) {
+    //         navigate('/school/create')
+    //         return
+    //     }
+    //     if (!schoolData || !schoolData.schoolId) {
+    //         store.dispatch(getSchoolByUserId())
+    //     }
+    // }, [])
 
     const showActivities = (_activities: string[]): string => {
         let activitiesName = ''
@@ -178,7 +210,9 @@ const CreateSchool = (): JSX.Element => {
                                 <div className="list-item-title">
                                     Owner First Name
                                 </div>
-                                <div className="list-item-value">Adnan</div>
+                                <div className="list-item-value">
+                                    {User?.firstName || '--'}
+                                </div>
                             </div>
                         </Col>
                         <Col md="6">
@@ -186,14 +220,16 @@ const CreateSchool = (): JSX.Element => {
                                 <div className="list-item-title">
                                     Owner Last Name
                                 </div>
-                                <div className="list-item-value">Qureshi</div>
+                                <div className="list-item-value">
+                                    {User?.firstName || '--'}
+                                </div>
                             </div>
                         </Col>
                         <Col md="6">
                             <div className="list-item">
                                 <div className="list-item-title">Email</div>
                                 <div className="list-item-value">
-                                    adnan@gmail.com
+                                    {User?.emailAddress || '--'}
                                 </div>
                             </div>
                         </Col>
@@ -203,7 +239,7 @@ const CreateSchool = (): JSX.Element => {
                                     Phone Number
                                 </div>
                                 <div className="list-item-value">
-                                    +923000000000
+                                    {User?.phoneNumber || '--'}
                                 </div>
                             </div>
                         </Col>
@@ -215,10 +251,11 @@ const CreateSchool = (): JSX.Element => {
                 {WarningModal().modalComponent}
                 <Formik
                     initialValues={initialValues}
-                    validationSchema={validationSchema}
+                    // validationSchema={validationSchema}
                     onSubmit={handleCreateSubmit}
                 >
                     {(formik) => {
+                        console.log('for', formik.values)
                         return (
                             <Form
                                 name="basic"
@@ -372,7 +409,7 @@ const CreateSchool = (): JSX.Element => {
                                                     <FormControl
                                                         control="select"
                                                         type="text"
-                                                        name="defaultLanguage"
+                                                        name="defaultLanguageId"
                                                         fontFamily={
                                                             fontFamilyRegular
                                                         }
@@ -399,7 +436,7 @@ const CreateSchool = (): JSX.Element => {
                                                     <FormControl
                                                         control="select"
                                                         type="text"
-                                                        name="defaultCurrency"
+                                                        name="defaultCurrencyId"
                                                         fontFamily={
                                                             fontFamilyRegular
                                                         }
@@ -493,6 +530,9 @@ const CreateSchool = (): JSX.Element => {
                                         title={getLabelByKey('primaryButton')}
                                         fontSize="18px"
                                         loading={loading}
+                                        clicked={() => {
+                                            handleCreateSubmit
+                                        }}
                                     />
                                 </div>
                             </Form>

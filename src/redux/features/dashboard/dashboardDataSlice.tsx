@@ -93,11 +93,16 @@ export const getSchoolByUserId = createAsyncThunk(
     async () => {
         // const userDetails: any = thunkAPI.getState().state.loginData.userDetails;
         const state = store.getState()
+
         try {
+            console.log(state, 'state')
+
             const { data } = await axios.post(
                 `${base_url}${get_school_by_user_id_url}`,
                 {
-                    userId: state.loginData?.data?.userDetails?.id,
+                    schoolId:
+                        state.loginData.data?.schoolId ||
+                        state.dashboardData.schoolData.schoolId,
                 },
                 {
                     headers: {

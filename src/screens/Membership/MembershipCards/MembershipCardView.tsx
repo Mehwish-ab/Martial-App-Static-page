@@ -27,8 +27,7 @@ import { Form, Formik } from 'formik'
 import moment from 'moment'
 
 const MembershipCardView = (): JSX.Element => {
-    const { loginData } = useSelector((state: RootState) => state)
-    const schoolId = loginData.data?.schoolId
+    // const { loginData } = useSelector((state: RootState) => state)
     const { loading, handleCreateSubmit, Createmodal } = useMembership()
     const [selectedClassIds, setSelectedClassIds] = useState<string[]>([])
     const { getLabelByKey } = useScreenTranslation('createMembershipClass')
@@ -55,6 +54,10 @@ const MembershipCardView = (): JSX.Element => {
             setSelectedClassIds((prevIds: any) => [...prevIds, classId])
         }
     }
+    const { loginData } = useSelector((state: RootState) => state)
+    const schoolId = loginData.data?.schoolId
+
+    console.log('loginData', loginData.data?.schoolId, schoolId)
     const payload = {
         useCase: 'SCHOOL',
         classIds: selectedClassIds.join(','),
@@ -110,11 +113,13 @@ const MembershipCardView = (): JSX.Element => {
             <MembershipCardViewStyled>
                 <CustomDiv>
                     <Formik
-                        initialValues={initialValues}
+                        initialValues={payload}
                         // validationSchema={validationSchema}
                         onSubmit={handleCreateSubmits}
                     >
                         {(formik) => {
+                            console.log('init', payload)
+
                             return (
                                 <Form
                                     name="basic"

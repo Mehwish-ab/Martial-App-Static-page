@@ -79,7 +79,8 @@ const useCreateSchool = (): IUseSchool => {
         const userDetails = loginData.data?.userDetails
 
         const payload = {
-            userId: userDetails?.id || '',
+            // userId: userDetails?.id || '',
+            userId: values.UserId,
             businessName: values.businessName || '',
             businessType: values.businessType,
             address: values.address || '',
@@ -99,6 +100,7 @@ const useCreateSchool = (): IUseSchool => {
 
             ...(schoolId && { schoolId }), // Add schoolId conditionally
         }
+        console.log('payload', payload)
 
         try {
             setError('')

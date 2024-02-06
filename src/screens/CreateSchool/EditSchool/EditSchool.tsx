@@ -202,6 +202,7 @@ const EditSchool = (): JSX.Element => {
         selectedFacilities: schoolData
             ? schoolData.facilities?.split(',').map(String)
             : [],
+        UserId: Number(schoolData?.userId),
     }
     console.log('belte', initialValuesForEdit.rank)
 
@@ -462,7 +463,7 @@ const EditSchool = (): JSX.Element => {
                                             <FormControl
                                                 control="select"
                                                 type="text"
-                                                name="defaultLanguage"
+                                                name="defaultLanguageId"
                                                 fontFamily={fontFamilyRegular}
                                                 // prefix={<img src={lock_icon} alt="lock_icon" />}
                                                 label={getLabelByKey(
@@ -500,7 +501,7 @@ const EditSchool = (): JSX.Element => {
                                             <FormControl
                                                 control="select"
                                                 type="text"
-                                                name="defaultCurrency"
+                                                name="defaultCurrencyId"
                                                 fontFamily={fontFamilyRegular}
                                                 // prefix={<img src={lock_icon} alt="lock_icon" />}
                                                 label={getLabelByKey(
@@ -521,16 +522,8 @@ const EditSchool = (): JSX.Element => {
                                                     currency
                                                 )}
                                                 value={
-                                                    schoolId
-                                                        ? createOptions(
-                                                              currency
-                                                          ).find(
-                                                              (item) =>
-                                                                  item.value ===
-                                                                  formik.values
-                                                                      .defaultCurrencyId
-                                                          )?.value
-                                                        : undefined
+                                                    formik.values
+                                                        .defaultCurrencyId
                                                 }
                                             />
                                         </Col>

@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import { Form } from 'formik-antd'
 import { Col, Row } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../redux/store'
+import store, { RootState } from '../../../redux/store'
 import { useNavigate } from 'react-router-dom'
 import FormControl from '../../../components/FormControl'
 import {
@@ -23,6 +23,7 @@ import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/typ
 import * as Yup from 'yup'
 import { validationFinder } from '../../../utils/utilities'
 import Images from '../../Home/OverlayImages/images'
+import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
 
 const CreateMembership = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('createMembership')
@@ -55,8 +56,14 @@ const CreateMembership = (): JSX.Element => {
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
+    useEffect(() => {
+        store.dispatch(getSchoolByUserId())
+    }, [])
+    const _currency = schoolData.defaultCurrencyId
+    console.log('defaultCurrencyId', schoolData)
+    const { loginData } = useSelector((state: RootState) => state)
+    console.log('loginData', loginData.data?.schoolId)
 
-    const _currency = schoolData?.defaultCurrencyId
     const CurrencyType = (_CurrencyType: number): string => {
         const index = currency.findIndex(
             (curr: any) => curr.id === _CurrencyType

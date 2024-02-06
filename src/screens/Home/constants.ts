@@ -12,6 +12,7 @@ export type CreateSchoolInitialValues = {
     defaultCurrencyId: string | number
     description: string
     rank: number | string
+    UserId: number
 
     // stripePublishableKey: string;
     // stripeSecretKey: string;

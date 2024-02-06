@@ -183,6 +183,7 @@ const AddPaymentSchool: React.FC = () => {
 
         selectedActivities: [],
         selectedFacilities: [],
+        UserId: 0,
     }
 
     return (

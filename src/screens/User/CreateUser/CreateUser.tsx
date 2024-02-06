@@ -20,6 +20,8 @@ import { toast } from 'react-toastify'
 import MessageModal from '../../../components/Common/MessageModal/MessageModal'
 import { useNavigate } from 'react-router-dom'
 import CustomPhoneInput from '../../../components/CustomPhoneInput/CustomPhoneInput'
+import * as Yup from 'yup'
+import { validationFinder } from '../../../utils/utilities'
 
 type initialValuesType = {
     firstName: string
@@ -52,6 +54,37 @@ const CreateUser = (): JSX.Element => {
             results: { countryCode, name },
         },
     } = useAppSelector((state) => state.appData.data)
+    const firstName = validationFinder('USER_FIRSTNAME')!
+    const lastName = validationFinder('USER_LASTNAME')!
+    const emailAddress = validationFinder('EMAIL_ADDRESS')!
+    const phoneNumber = validationFinder('PHONE_NUMBER')!
+    const password = validationFinder('PASSWORD')!
+    // user regExpressions
+    const firstNameReg = new RegExp(firstName.pattern)
+    const lastNameReg = new RegExp(lastName.pattern)
+    const emailAddressReg = new RegExp(emailAddress.pattern)
+    const phoneNumberReg = new RegExp(phoneNumber.pattern)
+    const passwordReg = new RegExp(password.pattern)
+    const validationSchema = Yup.object({
+        firstName: Yup.string()
+            .required(firstName.notBlankMsgEn)
+            .matches(firstNameReg, firstName.patternMsgEn),
+        lastName: Yup.string()
+            .required(lastName.notBlankMsgEn)
+            .matches(lastNameReg, lastName.patternMsgEn),
+        emailAddress: Yup.string()
+            .required(emailAddress.notBlankMsgEn)
+            .matches(emailAddressReg, emailAddress.patternMsgEn),
+        phoneNumber: Yup.string()
+            .required(phoneNumber.notBlankMsgEn)
+            .matches(phoneNumberReg, phoneNumber.patternMsgEn),
+        password: Yup.string()
+            .required(password.notBlankMsgEn)
+            .matches(passwordReg, password.patternMsgEn),
+        confirmPassword: Yup.string()
+            .required('confirm password is required!')
+            .oneOf([Yup.ref('password')], 'passwords must match'),
+    })
     const onSubmit = async (values: initialValuesType): Promise<void> => {
         // get all values other than confirm password
         const allValues = {
@@ -99,14 +132,16 @@ const CreateUser = (): JSX.Element => {
     return (
         <>
             <CreateSchoolStyled>
-                {/* {SuccessModal().modalComponent} */}
-                {/* {WarningModal().modalComponent} */}
+                {/* {SuccessModal().modalComponent}
+                {WarningModal().modalComponent} */}
                 <Formik
                     initialValues={initialValues}
-                    // validationSchema={validationSchema}
+                    validationSchema={validationSchema}
                     onSubmit={onSubmit}
                 >
                     {(formik) => {
+                        console.log('formik values', formik.values)
+
                         return (
                             <Form
                                 name="basic"
@@ -196,7 +231,7 @@ const CreateUser = (): JSX.Element => {
                                                 label={getLabelByKey(
                                                     SCREEN_LABEL_KEYS.mobileFieldTitle
                                                 )}
-                                                name="businessPhoneNumber"
+                                                name="phoneNumber"
                                                 value={
                                                     formik.values.phoneNumber
                                                 }
@@ -206,14 +241,12 @@ const CreateUser = (): JSX.Element => {
                                                 limitMaxLength={true}
                                                 handleOnChange={(e: string) => {
                                                     formik.setFieldValue(
-                                                        'businessPhoneNumber',
+                                                        'phoneNumber',
                                                         e
                                                     )
                                                 }}
                                             />
-                                            <ErrorMessage
-                                                name={'businessPhoneNumber'}
-                                            >
+                                            <ErrorMessage name={'phoneNumber'}>
                                                 {(msg) => (
                                                     <div
                                                         className="error-message is-invalid"

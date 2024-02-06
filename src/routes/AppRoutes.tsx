@@ -265,7 +265,7 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/school/activity"
+                    path="/school/activity/:schoolId"
                     element={
                         <AppLayout>
                             <Activity />

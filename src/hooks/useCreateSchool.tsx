@@ -30,8 +30,10 @@ interface IModalComponent {
 interface IUseSchool {
     loading: boolean
     handleCreateSubmit: (
-        values: CreateSchoolInitialValues,
-        { resetForm }: any
+        id: number,
+        values: CreateSchoolInitialValues
+
+        // { resetForm }: any
     ) => Promise<void>
     editSchool: (
         _schoolId: number,
@@ -46,7 +48,7 @@ interface IUseSchool {
     deleteConfirmation: (id: number) => IModalComponent
     setIsShowModal: (showModal: true) => void
     getAllSchool: (country: string) => Promise<void>
-    getSchoolbyId: (schoolid: number) => Promise<void>
+    getSchoolbyId: (schoolid: number) => Promise<any>
     getAllSchoolPagination: (v: string, page: any) => Promise<any>
 }
 
@@ -71,14 +73,15 @@ const useCreateSchool = (): IUseSchool => {
 
     // Create School
     const handleCreateSubmit = async (
-        values: CreateSchoolInitialValues,
-        { resetForm }: any
+        id: number,
+        values: CreateSchoolInitialValues
+        // { resetForm }: any
     ): Promise<void> => {
         const userDetails = loginData.data?.userDetails
 
         const payload = {
             // userId: userDetails?.id || '',
-            userId: values.UserId,
+            userId: id,
             businessName: values.businessName || '',
             businessType: values.businessType,
             address: values.address || '',
@@ -119,7 +122,7 @@ const useCreateSchool = (): IUseSchool => {
                 setIsShowSuccessModal(false)
                 navigate('/school/view')
             }, 3000)
-            resetForm()
+            // resetForm()
         } catch (error2: any) {
             setLoading(false)
             setError(error2.response)
@@ -431,7 +434,6 @@ const useCreateSchool = (): IUseSchool => {
     return {
         loading,
         setIsShowModal,
-        handleCreateSubmit,
         editSchool,
         deleteSchool,
         errorMessage,
@@ -443,6 +445,7 @@ const useCreateSchool = (): IUseSchool => {
         getAllSchool,
         getSchoolbyId,
         getAllSchoolPagination,
+        handleCreateSubmit,
     }
 }
 

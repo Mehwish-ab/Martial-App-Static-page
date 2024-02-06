@@ -5,7 +5,7 @@ import FormControl from '../../components/FormControl'
 import { ActivityInitialValues } from './constant'
 import { ActivityStyle } from './styles'
 import ImagesUpload from '../../components/ImagesUpload/ImagesUpload'
-import { SetStateAction, useState } from 'react'
+import { SetStateAction, useEffect, useState } from 'react'
 import {
     fontFamilyMedium,
     fontFamilyRegular,
@@ -16,10 +16,20 @@ import FileSubmit from '../../assets/icons/ic_fileSubmit.svg'
 import CustomButton from '../../components/CustomButton/CustomButton'
 import Head from '../../components/Head/Head'
 import CustomMessageModal from '../../components/Modal/CustomMessageModal'
-
+import { useParams } from 'react-router-dom'
+import useCreateSchool from '../../hooks/useCreateSchool'
+import { setLoginData } from '../../redux/features/loginDataSlice'
+import { SchoolDataType } from '../../redux/features/dashboard/dashboardDataSlice'
+import { RootState } from '../../redux/store'
+import { useSelector } from 'react-redux'
+import { DataTypesWithIdAndMultipleLangLabel } from '../../redux/features/types'
+import { SelectOptionsDataTypes } from '../Home/constants'
 const Activity = (): JSX.Element => {
     const [isModalVisible, setIsModalVisible] = useState(false)
+    const { schoolId } = useParams()
+    const [school, setSchool] = useState<SchoolDataType | undefined>(undefined)
 
+    const { getSchoolbyId } = useCreateSchool()
     const initialValues: ActivityInitialValues = {
         selectBelt: '',
         latestCertification: '',
@@ -30,11 +40,59 @@ const Activity = (): JSX.Element => {
         // After successful form submission, show the modal
         setIsModalVisible(true)
     }
-
+    useEffect(() => {
+        const Fetchdata = async (): Promise<any> => {
+            const data = await getSchoolbyId(Number(schoolId))
+            setSchool(data)
+        }
+        Fetchdata()
+    }, [])
     const [selectedFiles, setSelectedFiless] = useState<FileList | null>(null)
 
     const handleImagesUpload = (selectedFiless: any): void => {
         setSelectedFiless(selectedFiless)
+    }
+    const { activities } = useSelector(
+        (state: RootState) => state.appData.data.statusData
+    )
+    const { selectedLanguage } = useSelector(
+        (state: RootState) => state.selectedLanguage
+    )
+    const {
+        belts: { adult },
+    } = useSelector((state: RootState) => state.appData.data)
+    const createOptions = (
+        list: DataTypesWithIdAndMultipleLangLabel[]
+    ): SelectOptionsDataTypes[] => {
+        const options: SelectOptionsDataTypes[] = []
+        list.forEach((item) => {
+            const obj = {
+                label: (item as any)[selectedLanguage],
+                value: item.id,
+            }
+
+            options.push(obj)
+        })
+
+        return options
+    }
+    const showActivities = (_activities: string): string => {
+        const activitiesArr = _activities.split(',')
+
+        let activitiesName = ''
+        activitiesArr.map((activity) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                activitiesName =
+                    activitiesName === ''
+                        ? (activities[index] as any)[selectedLanguage]
+                        : `${activitiesName}, ${
+                              (activities[index] as any)[selectedLanguage]
+                          }`
+            }
+        })
+        if (activitiesName !== '') return activitiesName
+        return '--'
     }
     return (
         <>
@@ -67,7 +125,11 @@ const Activity = (): JSX.Element => {
                                                     Activity
                                                 </div>
                                                 <div className="list-item-value">
-                                                    {'--'}
+                                                    {showActivities(
+                                                        String(
+                                                            school?.activities
+                                                        )
+                                                    )}
                                                 </div>
                                             </div>
                                         </Col>
@@ -86,6 +148,7 @@ const Activity = (): JSX.Element => {
                                                         ? 'is-invalid'
                                                         : 'customInput'
                                                 }
+                                                options={createOptions(adult)}
                                             />
                                         </Col>
                                         <Col

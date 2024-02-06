@@ -47,6 +47,29 @@ const CreateSchool = (): JSX.Element => {
     const navigate = useNavigate()
     const { userId } = useParams()
     const { getUSerById } = useUser()
+    // const [OwnerData, setOwnerData] = useState<OwnerDataTypes>()
+
+    const { schoolId } = useParams()
+    const { data: loginData } = useAppSelector((state) => state.loginData)
+    console.log('login', loginData)
+
+    // useEffect(() => {
+    //     const fetchData = async (): Promise<void> => {
+    //         try {
+    //             const response: any = await getSchoolbyId(Number(schoolId))
+    //             if (response) {
+    //                 setschoolData(response)
+    //                 setOwnerData(response.ownerData)
+    //             }
+
+    //             // eslint-disable-next-line @typescript-eslint/no-shadow
+    //         } catch (error) {
+    //         } finally {
+    //         }
+    //     }
+
+    //     fetchData()
+    // }, [schoolId])
     const [User, setUser] = useState<UserDataType | undefined>(undefined)
     console.log('he', userId)
     useEffect(() => {
@@ -127,7 +150,11 @@ const CreateSchool = (): JSX.Element => {
             .of(Yup.string().required('Select at least one facility'))
             .min(1, 'Select at least one facility'),
     })
-
+    const onsubmit = async (
+        values: CreateSchoolInitialValues
+    ): Promise<void> => {
+        await handleCreateSubmit(Number(userId), values)
+    }
     const createOptions = (
         list: DataTypesWithIdAndMultipleLangLabel[]
     ): SelectOptionsDataTypes[] => {
@@ -252,7 +279,7 @@ const CreateSchool = (): JSX.Element => {
                 <Formik
                     initialValues={initialValues}
                     // validationSchema={validationSchema}
-                    onSubmit={handleCreateSubmit}
+                    onSubmit={onsubmit}
                 >
                     {(formik) => {
                         console.log('for', formik.values)
@@ -531,7 +558,7 @@ const CreateSchool = (): JSX.Element => {
                                         fontSize="18px"
                                         loading={loading}
                                         clicked={() => {
-                                            handleCreateSubmit
+                                            onsubmit
                                         }}
                                     />
                                 </div>

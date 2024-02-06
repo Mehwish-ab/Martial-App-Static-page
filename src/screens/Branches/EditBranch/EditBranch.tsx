@@ -412,9 +412,8 @@ const EditBranch = (): JSX.Element => {
                                                 value={formik.values.address}
                                             />
                                         </Col>
-                                        <Col md="8">
-                                            <Row>
-                                                <Col md="4" className="mt-20">
+
+                                        {/* <Col md="4" className="mt-20">
                                                     <FormControl
                                                         control="select"
                                                         type="text"
@@ -457,101 +456,66 @@ const EditBranch = (): JSX.Element => {
                                                         //         : undefined
                                                         // }
                                                     />
-                                                </Col>
-                                                <Col md="4" className="mt-20">
-                                                    <FormControl
-                                                        control="select"
-                                                        type="text"
-                                                        name="defaultLanguage"
-                                                        fontFamily={
-                                                            fontFamilyRegular
-                                                        }
-                                                        // prefix={<img src={lock_icon} alt="lock_icon" />}
-                                                        label={getLabelByKey(
-                                                            'defaultLanguage'
-                                                        )}
-                                                        placeholder={getLabelByKey(
-                                                            'defaultLanguage'
-                                                        )}
-                                                        className={
-                                                            formik.errors
-                                                                .defaultLanguage &&
-                                                            formik.touched
-                                                                .defaultLanguage
-                                                                ? 'is-invalid'
-                                                                : 'customInput'
-                                                        }
-                                                        options={createOptions(
-                                                            language
-                                                        )}
-                                                        value={
-                                                            formik.values
-                                                                .defaultLanguage
-                                                        }
-                                                        // defaultValue={
-                                                        //     branchId
-                                                        //         ? createOptions(
-                                                        //               language
-                                                        //           ).find((item) => {
-                                                        //               if (
-                                                        //                   item.value ===
-                                                        //                   branchDatas?.defaultCurrencyId
-                                                        //               )
-                                                        //                   console.log(
-                                                        //                       item
-                                                        //                   )
-                                                        //           })?.label
-                                                        //         : undefined
-                                                        // }
-                                                    />
-                                                </Col>
-                                                <Col md="4" className="mt-20">
-                                                    <FormControl
-                                                        control="select"
-                                                        type="text"
-                                                        name="defaultCurrency"
-                                                        fontFamily={
-                                                            fontFamilyRegular
-                                                        }
-                                                        // prefix={<img src={lock_icon} alt="lock_icon" />}
-                                                        label={getLabelByKey(
-                                                            'defaultCurrency'
-                                                        )}
-                                                        placeholder={getLabelByKey(
-                                                            'defaultCurrency'
-                                                        )}
-                                                        className={
-                                                            formik.errors
-                                                                .defaultCurrency &&
-                                                            formik.touched
-                                                                .defaultCurrency
-                                                                ? 'is-invalid'
-                                                                : 'customInput'
-                                                        }
-                                                        options={createOptions(
-                                                            currency
-                                                        )}
-                                                        value={
-                                                            formik.values
-                                                                .defaultCurrency
-                                                        }
-                                                        // defaultValue={
-                                                        //     branchDatas
-                                                        //         ? createOptions(
-                                                        //               language
-                                                        //           ).find((item) => {
-                                                        //               item.value ===
-                                                        //                   formik
-                                                        //                       .values
-                                                        //                       .defaultCurrency
-                                                        //           })?.label
-                                                        //         : undefined
-                                                        // }
-                                                    />
-                                                </Col>
-                                            </Row>
+                                                </Col> */}
+                                        <Col md="4" className="mt-20">
+                                            <FormControl
+                                                control="select"
+                                                type="text"
+                                                name="defaultLanguage"
+                                                fontFamily={fontFamilyRegular}
+                                                label={getLabelByKey(
+                                                    'defaultLanguage'
+                                                )}
+                                                placeholder={getLabelByKey(
+                                                    'defaultLanguage'
+                                                )}
+                                                className={
+                                                    formik.errors
+                                                        .defaultLanguage &&
+                                                    formik.touched
+                                                        .defaultLanguage
+                                                        ? 'is-invalid'
+                                                        : 'customInput'
+                                                }
+                                                options={createOptions(
+                                                    language
+                                                )}
+                                                value={
+                                                    formik.values
+                                                        .defaultLanguage
+                                                }
+                                            />
                                         </Col>
-
+                                        <Col md="4" className="mt-20">
+                                            <FormControl
+                                                control="select"
+                                                type="text"
+                                                name="defaultCurrency"
+                                                fontFamily={fontFamilyRegular}
+                                                // prefix={<img src={lock_icon} alt="lock_icon" />}
+                                                label={getLabelByKey(
+                                                    'defaultCurrency'
+                                                )}
+                                                placeholder={getLabelByKey(
+                                                    'defaultCurrency'
+                                                )}
+                                                className={
+                                                    formik.errors
+                                                        .defaultCurrency &&
+                                                    formik.touched
+                                                        .defaultCurrency
+                                                        ? 'is-invalid'
+                                                        : 'customInput'
+                                                }
+                                                options={createOptions(
+                                                    currency
+                                                )}
+                                                value={
+                                                    formik.values
+                                                        .defaultCurrency
+                                                }
+                                            />
+                                        </Col>
                                         <Col md="6">
                                             <CheckboxesSelect
                                                 list={activities}

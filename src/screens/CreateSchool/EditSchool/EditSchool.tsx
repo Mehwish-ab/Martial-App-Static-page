@@ -406,20 +406,13 @@ const EditSchool = (): JSX.Element => {
                                                 value={formik.values.address}
                                             />
                                         </Col>
-                                        <Col md="2" className="mt-20">
+                                        {/* <Col md="2" className="mt-20">
                                             <FormControl
                                                 control="select"
                                                 type="text"
                                                 name="rank"
                                                 fontFamily={fontFamilyRegular}
-                                                // prefix={<img src={lock_icon} alt="lock_icon" />}
                                                 label={getLabelByKey('belts')}
-                                                // value={
-                                                //     initialValuesForEdit?.rank ===
-                                                //     1
-                                                //         ? 'Yes'
-                                                //         : 'No'
-                                                // }
                                                 placeholder={getLabelByKey(
                                                     'beltsPlaceholder'
                                                 )}
@@ -441,31 +434,13 @@ const EditSchool = (): JSX.Element => {
                                                         : undefined
                                                 }
                                             />
-
-                                            {/* //   control="select"
-                    //   type="text"
-                    //   name="belts"
-                    //   fontFamily={fontFamilyMedium}
-                    //   // prefix={<img src={lock_icon} alt="lock_icon" />}
-                    //   label={getLabelByKey("belts")}
-                    //   padding="10px"
-                    //   value={schoolData.belts === false ? "Yes" : "No"}
-                    //   placeholder={getLabelByKey("beltsPlaceholder")}
-                    //   className={
-                    //     formik.errors.rank && formik.touched.rank
-                    //       ? "is-invalid"
-                    //       : "customInput"
-                    //   }
-                    //   options={BELTS_SELECT_OPTIONS}
-                    // /> */}
-                                        </Col>
-                                        <Col md="3" className="mt-20">
+                                        </Col> */}
+                                        <Col md="4" className="mt-20">
                                             <FormControl
                                                 control="select"
                                                 type="text"
                                                 name="defaultLanguageId"
                                                 fontFamily={fontFamilyRegular}
-                                                // prefix={<img src={lock_icon} alt="lock_icon" />}
                                                 label={getLabelByKey(
                                                     'defaultLanguage'
                                                 )}
@@ -497,13 +472,12 @@ const EditSchool = (): JSX.Element => {
                                                 }
                                             />
                                         </Col>
-                                        <Col md="3" className="mt-20">
+                                        <Col md="4" className="mt-20">
                                             <FormControl
                                                 control="select"
                                                 type="text"
                                                 name="defaultCurrencyId"
                                                 fontFamily={fontFamilyRegular}
-                                                // prefix={<img src={lock_icon} alt="lock_icon" />}
                                                 label={getLabelByKey(
                                                     'defaultCurrency'
                                                 )}

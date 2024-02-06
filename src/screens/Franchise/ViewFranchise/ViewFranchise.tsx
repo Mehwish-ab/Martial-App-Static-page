@@ -369,47 +369,33 @@ const ViewFranchise = (): JSX.Element => {
                                 </div>
                             </div>
                         </Col>
-                        <Col md="8">
-                            <Row>
-                                <Col md="4">
-                                    <div className="list-item">
-                                        <div className="list-item-title">
-                                            {getLabelByKey('ranking')}
-                                        </div>
-                                        <div className="list-item-value">
-                                            {franchisedata?.rank ? 'Yes' : 'No'}
-                                        </div>
-                                    </div>
-                                </Col>
-                                <Col md="4">
-                                    <div className="list-item">
-                                        <div className="list-item-title">
-                                            {getLabelByKey('defaultLanguage')}
-                                        </div>
-                                        <div className="list-item-value">
-                                            {(defaultLanguage &&
-                                                (defaultLanguage as any)[
-                                                    selectedLanguage
-                                                ]) ||
-                                                '--'}
-                                        </div>
-                                    </div>
-                                </Col>
-                                <Col md="4">
-                                    <div className="list-item">
-                                        <div className="list-item-title">
-                                            {getLabelByKey('defaultCurrency')}
-                                        </div>
-                                        <div className="list-item-value">
-                                            {(defaultCurrency &&
-                                                (defaultCurrency as any)[
-                                                    selectedLanguage
-                                                ]) ||
-                                                '--'}
-                                        </div>
-                                    </div>
-                                </Col>
-                            </Row>
+                        <Col md="4">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('defaultLanguage')}
+                                </div>
+                                <div className="list-item-value">
+                                    {(defaultLanguage &&
+                                        (defaultLanguage as any)[
+                                            selectedLanguage
+                                        ]) ||
+                                        '--'}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="4">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('defaultCurrency')}
+                                </div>
+                                <div className="list-item-value">
+                                    {(defaultCurrency &&
+                                        (defaultCurrency as any)[
+                                            selectedLanguage
+                                        ]) ||
+                                        '--'}
+                                </div>
+                            </div>
                         </Col>
                         <Col md="6">
                             <div className="list-item">

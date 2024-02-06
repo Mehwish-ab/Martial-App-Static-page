@@ -186,7 +186,7 @@ const ViewBranch = (): JSX.Element => {
                             </div>
                         </div>
                     </Col>
-                    <Col md="3">
+                    <Col md="4">
                         <div className="list-item">
                             <div className="list-item-title">
                                 Address
@@ -197,18 +197,7 @@ const ViewBranch = (): JSX.Element => {
                             </div>
                         </div>
                     </Col>
-                    <Col md="3">
-                        <div className="list-item">
-                            <div className="list-item-title">
-                                {/* {getLabelByKey("belts")} */}
-                                Belts
-                            </div>
-                            <div className="list-item-value">
-                                {Branch?.rank === true ? 'Yes' : 'No'}
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md="3">
+                    <Col md="4">
                         <div className="list-item">
                             <div className="list-item-title">
                                 {/* {getLabelByKey("defaultLanguage")} */}
@@ -223,7 +212,7 @@ const ViewBranch = (): JSX.Element => {
                             </div>
                         </div>
                     </Col>
-                    <Col md="3">
+                    <Col md="4">
                         <div className="list-item">
                             <div className="list-item-title">
                                 {/* {getLabelByKey("defaultCurrency")} */}

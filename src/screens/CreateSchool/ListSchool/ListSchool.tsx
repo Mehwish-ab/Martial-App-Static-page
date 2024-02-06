@@ -191,6 +191,9 @@ const ListSchool = (): JSX.Element => {
             case 'rooms':
                 navigate(`/school/room/list/${record.schoolId}`)
                 break
+            case 'activity':
+                navigate(`/school/activity`)
+                break
         }
     }
     const showActivities = (_activities: string): string => {
@@ -367,11 +370,16 @@ const ListSchool = (): JSX.Element => {
                         onClick: () => navigation(record, 'rooms'),
                     },
                     {
+                        key: '11',
+                        label: 'Activity',
+                        onClick: () => navigation(record, 'activity'),
+                    },
+                    {
                         key: 'divider1',
                         type: 'divider',
                     },
                     {
-                        key: '11',
+                        key: '12',
                         label: 'Reports',
                     },
                 ]

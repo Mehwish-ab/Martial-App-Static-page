@@ -23,4 +23,8 @@ export const MessageModalStyled = styled.div`
         font-family: ${fontFamilyRegular};
         margin: 0px 0px 10px 0px;
     }
+    .modal_content > img {
+        width: 79px;
+        height: 79px;
+    }
 `

@@ -22,7 +22,9 @@ const MessageModal = ({
                     src={
                         (type === 'success' ? successIcon : errorIcon) as string
                     }
-                    alt=""
+                    alt="icon"
+                    width={79}
+                    height={79}
                 />
                 <h4 className="message">{message}</h4>
                 <p className="description">{description}</p>

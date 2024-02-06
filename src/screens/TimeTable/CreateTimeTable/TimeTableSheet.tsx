@@ -139,35 +139,35 @@ const TimeTableSheet: React.FC = () => {
 
         setTableDataSource(updatedTableDateSource)
     }
-    const handleDuplicateDay = (_recordIndex: number): void => {
-        if (!allTimeTableDetail) return
+    // const handleDuplicateDay = (_recordIndex: number): void => {
+    //     if (!allTimeTableDetail) return
 
-        const updatedTableDateSource: TableDateSourceProps[] =
-            cloneDeep(tableDataSource)
+    //     const updatedTableDateSource: TableDateSourceProps[] =
+    //         cloneDeep(tableDataSource)
 
-        const sourceDayIndex = _recordIndex
-        const destinationDayIndex = _recordIndex + 1
+    //     const sourceDayIndex = _recordIndex
+    //     const destinationDayIndex = _recordIndex + 1
 
-        if (destinationDayIndex < updatedTableDateSource.length) {
-            const clonedTimeEntries = cloneDeep(
-                updatedTableDateSource[sourceDayIndex].timeEntries
-            )
-            const duplicatedTimeEntries = clonedTimeEntries.map(
-                (timeEntry) => ({
-                    ...timeEntry,
-                    startTime: undefined,
-                    endTime: undefined,
-                    startBreak: undefined,
-                    endBreak: undefined,
-                })
-            )
+    //     if (destinationDayIndex < updatedTableDateSource.length) {
+    //         const clonedTimeEntries = cloneDeep(
+    //             updatedTableDateSource[sourceDayIndex].timeEntries
+    //         )
+    //         const duplicatedTimeEntries = clonedTimeEntries.map(
+    //             (timeEntry) => ({
+    //                 ...timeEntry,
+    //                 startTime: undefined,
+    //                 endTime: undefined,
+    //                 startBreak: undefined,
+    //                 endBreak: undefined,
+    //             })
+    //         )
 
-            updatedTableDateSource[destinationDayIndex].timeEntries =
-                duplicatedTimeEntries
+    //         updatedTableDateSource[destinationDayIndex].timeEntries =
+    //             duplicatedTimeEntries
 
-            setTableDataSource(updatedTableDateSource)
-        }
-    }
+    //         setTableDataSource(updatedTableDateSource)
+    //     }
+    // }
 
     console.log('tableDataSource', tableDataSource)
 
@@ -217,7 +217,7 @@ const TimeTableSheet: React.FC = () => {
     //     })
     //     setTableDataSource(updatedTableDateSource)
     // }
-    const addNewSlot = (): void => {
+    const addNewSlot = async (): Promise<void> => {
         if (!allTimeTableDetail) return
 
         const currentDate = new Date(allTimeTableDetail.startDate)
@@ -233,7 +233,7 @@ const TimeTableSheet: React.FC = () => {
             timeTableId: Number(timeTableId),
             endBreak: undefined,
             isActive: allTimeTableDetail.isActive,
-            dayOfWeek: String(undefined),
+            dayOfWeek: dayOfWeek,
         }
 
         // Find the correct index based on activeTab
@@ -242,31 +242,52 @@ const TimeTableSheet: React.FC = () => {
         // Add the new time entry to the correct day
         updatedTableDateSource[tabIdx].timeEntries.push(newTimeEntry)
 
+        // Set the updated state
+        setTableDataSource(updatedTableDateSource)
+
         // Call createSlots with the updated data
         createSlots({
             timeTableId: allTimeTableDetail.timeTableId,
-            startTime:
-                moment(newTimeEntry.startTime, 'hh:mm A').format('HH:mm:ss') ||
-                '',
-            endTime:
-                moment(newTimeEntry.endTime, 'hh:mm A').format('HH:mm:ss') ||
-                '',
-            startBreak:
-                moment(newTimeEntry.startBreak, 'hh:mm A').format('HH:mm:ss') ||
-                '',
-            endBreak:
-                moment(newTimeEntry.endBreak, 'hh:mm A').format('HH:mm:ss') ||
-                '',
+            startTime: newTimeEntry.startTime || '',
+            endTime: newTimeEntry.endTime || '',
+            startBreak: newTimeEntry.startBreak || '',
+            endBreak: newTimeEntry.endBreak || '',
             dayOfWeek: newTimeEntry.dayOfWeek || '',
         })
-
-        setTableDataSource(updatedTableDateSource)
     }
 
+    // const slots = async (slotData: any): Promise<void> => {
+    //     try {
+    //         // Assuming your API call to create slots here
+    //         const response = await createSlots(slotData)
+    //         // Handle the response as needed
+    //         console.log('createSlots response:', response)
+    //     } catch (error) {
+    //         // Handle errors
+    //         console.error('Error creating slots:', error)
+    //     }
+    // }
     const slots = async (slotData: any): Promise<void> => {
         try {
+            console.log('Slot data to be sent:', slotData) // Log the data
             // Assuming your API call to create slots here
-            const response = await createSlots(slotData)
+            const response = await createSlots({
+                ...slotData,
+                // Format date as needed by your API
+                startTime:
+                    moment(slotData.startTime, 'hh:mm A').format('HH:mm:ss') ||
+                    '',
+                endTime:
+                    moment(slotData.endTime, 'hh:mm A').format('HH:mm:ss') ||
+                    '',
+                startBreak:
+                    moment(slotData.startBreak, 'hh:mm A').format('HH:mm:ss') ||
+                    '',
+                endBreak:
+                    moment(slotData.endBreak, 'hh:mm A').format('HH:mm:ss') ||
+                    '',
+            })
+
             // Handle the response as needed
             console.log('createSlots response:', response)
         } catch (error) {
@@ -274,7 +295,108 @@ const TimeTableSheet: React.FC = () => {
             console.error('Error creating slots:', error)
         }
     }
+
     const { getLabelByKey } = useScreenTranslation('createTImeTable')
+    // const handleDuplicateDay = (_recordIndex: number): void => {
+    //     if (!allTimeTableDetail) return
+
+    //     const updatedTableDateSource: TableDateSourceProps[] =
+    //         cloneDeep(tableDataSource)
+
+    //     const sourceDayIndex = _recordIndex
+    //     const destinationDayIndex = _recordIndex + 1
+
+    //     if (destinationDayIndex < updatedTableDateSource.length) {
+    //         const clonedTimeEntries = cloneDeep(
+    //             updatedTableDateSource[sourceDayIndex].timeEntries
+    //         )
+    //         const duplicatedTimeEntries = clonedTimeEntries.map(
+    //             (timeEntry) => ({
+    //                 ...timeEntry,
+    //                 startTime: undefined,
+    //                 endTime: undefined,
+    //                 startBreak: undefined,
+    //                 endBreak: undefined,
+    //             })
+    //         )
+
+    //         updatedTableDateSource[destinationDayIndex].timeEntries =
+    //             duplicatedTimeEntries
+
+    //         setTableDataSource(updatedTableDateSource)
+    //     }
+    // }
+    // const handleDuplicateDay = (_recordIndex: number): void => {
+    //     if (!allTimeTableDetail) return
+
+    //     const updatedTableDateSource: TableDateSourceProps[] =
+    //         cloneDeep(tableDataSource)
+
+    //     const sourceDayIndex = _recordIndex
+    //     const destinationDayIndex = _recordIndex + 1
+
+    //     if (destinationDayIndex < updatedTableDateSource.length) {
+    //         const clonedTimeEntries = cloneDeep(
+    //             updatedTableDateSource[sourceDayIndex].timeEntries
+    //         )
+    //         const duplicatedTimeEntries = clonedTimeEntries.map(
+    //             (timeEntry) => ({
+    //                 ...timeEntry,
+    //                 // Duplicate the previous values
+    //                 startTime: timeEntry.startTime,
+    //                 endTime: timeEntry.endTime,
+    //                 startBreak: timeEntry.startBreak,
+    //                 endBreak: timeEntry.endBreak,
+    //             })
+    //         )
+
+    //         // Add the duplicated time entries to the destination day
+    //         updatedTableDateSource[destinationDayIndex].timeEntries =
+    //             duplicatedTimeEntries
+
+    //         setTableDataSource(updatedTableDateSource)
+    //     }
+    // }
+    const handleDuplicateDay = (_recordIndex: any): void => {
+        if (!allTimeTableDetail) return
+        console.log('_recordIndex', _recordIndex.length)
+
+        const currentDate = new Date(allTimeTableDetail.startDate)
+        currentDate.setDate(currentDate.getDate() + parseInt(activeTab, 10))
+        const dayOfWeek = daysOfWeek[currentDate.getDay()]
+
+        const updatedTableDateSource: TableDateSourceProps[] =
+            cloneDeep(tableDataSource)
+        const newTimeEntry: TimeEntryProps = {
+            startTime: _recordIndex.startTime,
+            endTime: _recordIndex.endTime,
+            startBreak: _recordIndex.startBreak,
+            timeTableId: Number(timeTableId),
+            endBreak: _recordIndex.endBreak,
+            isActive: allTimeTableDetail.isActive,
+            dayOfWeek: dayOfWeek,
+        }
+        console.log('newTimeEntry', newTimeEntry)
+
+        // Find the correct index based on activeTab
+        const tabIdx = parseInt(activeTab, 10)
+
+        // Add the new time entry to the correct day
+        updatedTableDateSource[tabIdx].timeEntries.push(newTimeEntry)
+
+        // Set the updated state
+        setTableDataSource(updatedTableDateSource)
+
+        // Call createSlots with the updated data
+        createSlots({
+            timeTableId: allTimeTableDetail.timeTableId,
+            startTime: newTimeEntry.startTime || '',
+            endTime: newTimeEntry.endTime || '',
+            startBreak: newTimeEntry.startBreak || '',
+            endBreak: newTimeEntry.endBreak || '',
+            dayOfWeek: newTimeEntry.dayOfWeek || '',
+        })
+    }
 
     const columns: ColumnsType<any> = [
         {
@@ -290,7 +412,11 @@ const TimeTableSheet: React.FC = () => {
             dataIndex: 'createTimeTableStartDate',
             key: 'createTimeTableStartDate',
             render: (_, record, recordIndex) => {
-                console.log('checking record.timeEntries: ', record.timeEntries)
+                console.log(
+                    'checking record.timeEntries: ',
+                    record.timeEntries,
+                    recordIndex
+                )
 
                 return record.timeEntries.map(
                     (timeEntry: TimeEntryProps, rowIndex: number) => (
@@ -364,25 +490,32 @@ const TimeTableSheet: React.FC = () => {
             dataIndex: 'createTimeTableSlot',
             key: 'createTimeTableSlot',
             //improving-screens
-            render: (_, record, recordIndex) => {
+            render: (v, record, recordIndex) => {
                 return record.timeEntries.map(
                     (timeEntry: TimeEntryProps, rowIndex: number) => (
                         <div key={`${recordIndex}-${rowIndex}`}>
                             <button
                                 onClick={() => {
-                                    console.log('nada', timeEntry, recordIndex)
+                                    console.log(
+                                        'timeEntry',
+                                        timeEntry,
+                                        'recordIndex',
+                                        recordIndex,
+                                        'record',
+                                        record
+                                    )
 
-                                    // if (
-                                    //     !timeEntry.timeTableId ||
-                                    //     !timeEntry.startTime ||
-                                    //     !timeEntry.endTime ||
-                                    //     !timeEntry.startBreak ||
-                                    //     !timeEntry.endBreak ||
-                                    //     !timeEntry.dayOfWeek
-                                    // ) {
-                                    //     alert('Please fill out the time slot')
-                                    //     return
-                                    // }
+                                    if (
+                                        !timeEntry.timeTableId ||
+                                        !timeEntry.startTime ||
+                                        !timeEntry.endTime ||
+                                        !timeEntry.startBreak ||
+                                        !timeEntry.endBreak ||
+                                        !timeEntry.dayOfWeek
+                                    ) {
+                                        alert('Please fill out the time slot')
+                                        return
+                                    }
                                     slots({
                                         timeTableId: timeTableId,
                                         startTime:
@@ -420,12 +553,14 @@ const TimeTableSheet: React.FC = () => {
         {
             title: getLabelByKey('actions'),
             key: 'timeTableAction',
-            render: (_, record, recordIndex) => {
+            render: (s, record, recordIndex) => {
+                // console.log('o', record, recordIndex, s)
+
                 const items = [
                     {
                         key: '1',
                         label: 'Duplicate',
-                        onClick: () => handleDuplicateDay(recordIndex),
+                        onClick: () => handleDuplicateDay(record.timeEntries),
                     },
                     {
                         key: '2',

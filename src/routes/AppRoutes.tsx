@@ -137,7 +137,7 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/school/create"
+                    path="/school/create/"
                     element={
                         <AppLayout>
                             <CreateSchool />

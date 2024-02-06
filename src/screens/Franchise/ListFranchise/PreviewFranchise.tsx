@@ -7,7 +7,6 @@ import { ListFranchiseStyled } from './styles'
 import { useSelector } from 'react-redux'
 import store, { RootState } from '../../../redux/store'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
-import { getBranchBySchoolId } from '../../../redux/features/branch/branchSlice'
 import defaltimg from '../../../assets/images/create_school_user_profile.svg'
 import {
     FranchiseDataType,
@@ -135,7 +134,9 @@ const PreviewFranchise = (): JSX.Element => {
             dataIndex: 'franchiseType',
             key: 'franchiseType',
             render: (_, { franchiseType }) => {
-                const item = businessTypes.find((b) => b.id === franchiseType)
+                const item = businessTypes.find(
+                    (b: { id: string | number }) => b.id === franchiseType
+                )
                 return <p>{item?.en}</p>
             },
         },
@@ -193,7 +194,7 @@ const PreviewFranchise = (): JSX.Element => {
         },
     ]
     useEffect(() => {
-        store.dispatch(getBranchBySchoolId())
+        store.dispatch(getfranchiseBySchoolId())
     }, [])
 
     return (

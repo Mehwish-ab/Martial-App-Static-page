@@ -281,6 +281,14 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
+                    path="/branch/list/:schoolId"
+                    element={
+                        <AppLayout>
+                            <ListBranch />
+                        </AppLayout>
+                    }
+                />
+                <Route
                     path="/branch/information"
                     element={
                         <AppLayout>
@@ -290,6 +298,14 @@ function AppRoutes(): JSX.Element {
                 />
                 <Route
                     path="/branch/create"
+                    element={
+                        <AppLayout>
+                            <CreateBranch />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/branch/create/:schoolId"
                     element={
                         <AppLayout>
                             <CreateBranch />

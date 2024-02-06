@@ -8,6 +8,7 @@ import {
     authorizationToken,
 } from '../../../utils/api_urls'
 import { loginDataTypes } from '../types'
+import { useParams } from 'react-router-dom'
 const localStorageData = localStorage.getItem('ennvision-admin:token')
 const loginData = JSON.parse(localStorageData as any)
 export interface BranchDataType {
@@ -93,9 +94,51 @@ const initialState: BranchDataInitialState = {
     error: '',
 }
 
+export const getBranchBySchoolIds = createAsyncThunk(
+    'branchData/getBranchBySchoolId',
+    async (id: number) => {
+        const state = store.getState()
+        try {
+            const { data } = await axios.post(
+                `${base_url}${get_branch_by_school_id_url}`,
+                {
+                    schoolId:
+                        id ||
+                        // state.loginData?.data?.schoolId ||
+                        // state.dashboardData?.schoolData?.schoolId ||
+                        loginData?.schoolId,
+                },
+                {
+                    headers: {
+                        ...authorizationToken(
+                            state.loginData.data as loginDataTypes
+                        ),
+                    },
+                }
+            )
+            console.log('kajol', id, data, state)
+
+            return data.results
+        } catch (error: any) {
+            if (error.response && error.response.data) {
+                const obj = {
+                    name: 'AxiosError',
+                    message: error.response.data?.responseMessage,
+                    code: 'ERR_BAD_RESPONSE',
+                }
+                console.log(error, 'asdf')
+
+                throw obj
+            }
+            throw error
+        }
+    }
+)
+
 export const getBranchBySchoolId = createAsyncThunk(
     'branchData/getBranchBySchoolId',
     async () => {
+        const { schoolId } = useParams()
         const state = store.getState()
         try {
             const { data } = await axios.post(
@@ -114,6 +157,8 @@ export const getBranchBySchoolId = createAsyncThunk(
                     },
                 }
             )
+            console.log('kajol', schoolId, data, state)
+
             return data.results
         } catch (error: any) {
             if (error.response && error.response.data) {
@@ -122,6 +167,8 @@ export const getBranchBySchoolId = createAsyncThunk(
                     message: error.response.data?.responseMessage,
                     code: 'ERR_BAD_RESPONSE',
                 }
+                console.log(error, 'asdf')
+
                 throw obj
             }
             throw error
@@ -195,38 +242,6 @@ const branchSlice = createSlice({
             })
     },
 })
-
-// export const getPyment = createAsyncThunk(
-//   "branchData/paymentMethod",
-//   async (branchId) => {
-//     const state = store.getState();
-//     try {
-//       const { data } = await axios.post(
-//         `${base_url}/paymentMethod/get`,
-//         {
-//           businessUC: "BRANCH",
-//           branchId: branchId,
-//         },
-//         {
-//           headers: {
-//             ...authorizationToken(state.loginData.data as loginDataTypes),
-//           },
-//         }
-//       );
-//       return data.result[0];
-//     } catch (error: any) {
-//       if (error.response && error.response.data) {
-//         let obj = {
-//           name: "AxiosError",
-//           message: error.response.data?.responseMessage,
-//           code: "ERR_BAD_RESPONSE",
-//         };
-//         throw obj;
-//       }
-//       throw error;
-//     }
-//   }
-// );
 
 export const { updateBranch } = branchSlice.actions
 

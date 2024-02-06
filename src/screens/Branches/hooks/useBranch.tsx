@@ -35,9 +35,9 @@ interface IModalComponent {
 interface IUseBranch {
     loading: boolean
     handleSubmit: (
-        values: CreateBranchInitialValues,
-        { resetForm }: any
-    ) => Promise<void>
+        id: number,
+        values: CreateBranchInitialValues
+    ) => Promise<any>
     editSchool: (
         id: number,
         values: CreateBranchInitialValues,
@@ -84,13 +84,13 @@ const useBranch = (): IUseBranch => {
     // const dispatch = useDispatch()
 
     const handleSubmit = async (
-        values: CreateBranchInitialValues,
-        { resetForm }: any
-    ): Promise<void> => {
+        id: number,
+        values: CreateBranchInitialValues
+    ): Promise<any> => {
         const userDetails = loginData.data?.userDetails
         console.log('values', values)
         const payload = {
-            userId: userDetails?.id || '',
+            schoolId: id ? id : loginData.data?.schoolId,
             branchName: values.branchName,
             branchType: values.branchType,
             address: values.address,
@@ -105,7 +105,7 @@ const useBranch = (): IUseBranch => {
             gclClientId: values.cardClientId,
             gclWebHook: values.cardWebHook,
             gclClientSecret: values.cardClientSecret,
-            schoolId: schoolData.schoolId || loginData.data?.schoolId,
+            // schoolId: schoolData.schoolId || loginData.data?.schoolId,
             schoolStripeMethod: values.schoolStripeMethod,
             schoolGclMethod: values.schoolGclMethod,
             defaultLanguageId: values.defaultLanguage,
@@ -144,7 +144,6 @@ const useBranch = (): IUseBranch => {
                 setIsShowModal(false)
                 navigate('/branch/list')
             }, 3000)
-            resetForm()
         } catch (e: any) {
             console.error('Error:', e)
             setLoading(false)

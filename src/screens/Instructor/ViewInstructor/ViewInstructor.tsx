@@ -209,6 +209,7 @@ const ViewInstructor = (): JSX.Element => {
                                         <span
                                             className="certificateLink"
                                             onClick={() =>
+                                                values?.certificationURL &&
                                                 openModal(
                                                     values?.certificationURL
                                                 )

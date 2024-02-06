@@ -30,10 +30,12 @@ import useBranch from '../hooks/useBranch'
 import PlacesAutoCompleteInput from '../../../maps/PlacesAutocomplete'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
 import Head from '../../../components/Head/Head'
+import { useParams } from 'react-router-dom'
 // import { useNavigate } from 'react-router-dom'
 // import { useEffect } from 'react'
 
 const CreateBranch = (): JSX.Element => {
+    const { schoolId } = useParams()
     const { getLabelByKey } = useScreenTranslation('branchCreate')
     // const navigate = useNavigate()
     // const { schoolData } = useSelector(
@@ -96,7 +98,7 @@ const CreateBranch = (): JSX.Element => {
             'Please select default currency'
         ),
         // belts: Yup.string().required("Please select belts"),
-        rank: Yup.string().required('Please select ranks'),
+        // rank: Yup.string().required('Please select ranks'),
         description: Yup.string().required('Please enter description'),
         // stripePublishableKey: Yup.string().when("schoolStripeMethod", {
         //   is: false,
@@ -197,6 +199,11 @@ const CreateBranch = (): JSX.Element => {
         }
         return facilitiesName || getLabelByKey('facilities')
     }
+    const onsubmit = async (
+        values: CreateBranchInitialValues
+    ): Promise<void> => {
+        await handleSubmit(Number(schoolId), values)
+    }
     return (
         <>
             <Head title="Branch Create" />
@@ -246,7 +253,7 @@ const CreateBranch = (): JSX.Element => {
                 <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}
-                    onSubmit={handleSubmit}
+                    onSubmit={onsubmit}
                 >
                     {(formik) => {
                         console.log('formik values: ', formik.values)

@@ -174,7 +174,7 @@ const ListSchool = (): JSX.Element => {
                 break
 
             case 'branch':
-                navigate(`/branch/list/`)
+                navigate(`/branch/list/${record.schoolId}`)
                 break
             case 'franchise':
                 navigate(`/franchise/list/`)
@@ -192,7 +192,7 @@ const ListSchool = (): JSX.Element => {
                 navigate(`/school/room/list/${record.schoolId}`)
                 break
             case 'activity':
-                navigate(`/activity`)
+                navigate(`/school/activity/${record.schoolId}`)
                 break
         }
     }

@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
 import store, { RootState } from '../../../redux/store'
 import {
     BranchDataType,
     getBranchBySchoolId,
+    getBranchBySchoolIds,
 } from '../../../redux/features/branch/branchSlice'
 
 import { Dropdown, Form, Menu, Space, Table } from 'antd'
@@ -43,11 +44,13 @@ const ListBranch = (): JSX.Element => {
     const {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
+    const { schoolId } = useParams()
     // const { getLabelByKey } = useScreenTranslation("BranchList");
     const navigate = useNavigate()
     const { deletemodal, deleteConfirmation, setIsShowModal, BranchStatus } =
         useBranch()
     const [Id, setId] = useState(0)
+    console.log('id', schoolId)
 
     // const [branch, setbranch] = useState()
     const { branchData, loading } = useSelector(
@@ -400,7 +403,9 @@ const ListBranch = (): JSX.Element => {
                                                     />
                                                 }
                                                 clicked={() => {
-                                                    navigate(`/branch/create`)
+                                                    navigate(
+                                                        `/branch/create/${schoolId}`
+                                                    )
                                                 }}
                                             />
                                         </div>
@@ -415,23 +420,18 @@ const ListBranch = (): JSX.Element => {
     }
 
     useEffect(() => {
-        store.dispatch(getBranchBySchoolId())
-        // setTimeout(() => {
-        //  dispatch(getBranchBySchoolId())
-        // }, 2000)
+        store.dispatch(getBranchBySchoolIds(Number(schoolId)))
+
         const fetchData = async (): Promise<void> => {
             try {
-                // Dispatch the thunk action using the useDispatch hook
-                store.dispatch(getBranchBySchoolId())
-                // The data is now updated in the Redux store
+                store.dispatch(getBranchBySchoolIds(Number(schoolId)))
             } catch (error) {
                 console.error('Error fetching branch data:', error)
             }
         }
 
-        // Call the fetchData function when the component mounts or the route changes
         fetchData()
-    }, [dispatch])
+    }, [dispatch, schoolId])
     console.log('location.pathname', location.pathname)
 
     // const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])

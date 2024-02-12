@@ -1,11 +1,11 @@
 import React from 'react'
-import { Dropdown, Space, Table } from 'antd'
+import { Dropdown, Form, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { ListRulesStyled } from './styles'
 import CustomButton from '../../../components/CustomButton/CustomButton'
-import { CustomDiv } from './CustomDiv'
 import {
     fontFamilyMedium,
+    fontFamilyRegular,
     pureDark,
     tertiaryBlue2,
 } from '../../../components/GlobalStyle'
@@ -18,74 +18,92 @@ import DummyData from './dummyData.json'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
-import DateCalander from '../../../assets/images/dateCalander.svg'
+import { Formik } from 'formik'
+import FormControl from '../../../components/FormControl'
+import { CustomDiv } from '../../CreateSchool/ListSchool/CustomDiv'
+
+const initialValues = (): void => {}
+const handleCreateSubmit = (): void => {}
 
 const RenderTableTitle = (): JSX.Element => {
     const navigate = useNavigate()
-
     return (
-        <>
-            <div className="d-flex justify-content-between">
-                <h3 className="table-heading">Classes</h3>
-                <CustomDiv>
-                    <div className="instructorDateSection">
-                        <div className="mainarrow">
-                            <div className="arrowright">
-                                <img
-                                    src={LeftArrow as string}
-                                    alt="Date"
-                                    width={18}
-                                    height={12}
-                                />
+        <CustomDiv>
+            <Formik
+                initialValues={initialValues}
+                // validationSchema={validationSchema}
+                onSubmit={handleCreateSubmit}
+            >
+                {(formik) => {
+                    return (
+                        <Form
+                            name="basic"
+                            // onFinish={formik.handleSubmit}
+                            autoComplete="off"
+                        >
+                            <div className="mainWrapper">
+                                <h3 className="table-heading">Rules</h3>
+                                <div className="FilterMainContainer">
+                                    <div className="arrowsMain">
+                                        <div className="arrowRight">
+                                            <img
+                                                src={LeftArrow}
+                                                alt="Date"
+                                                width={18}
+                                                height={12}
+                                            />
+                                        </div>
+                                        <div className="arrowLeft">
+                                            <img
+                                                src={RightArrow}
+                                                alt="Date"
+                                                width={18}
+                                                height={12}
+                                            />
+                                        </div>
+                                    </div>
+                                    <FormControl
+                                        control="startEndDate"
+                                        type="startEndDate"
+                                        name="startDate"
+                                        fontFamily={fontFamilyRegular}
+                                        padding="8px 10px"
+                                    />
+                                    <div className="todayPlusContainer">
+                                        <div className="dateToday">
+                                            <p>Today</p>
+                                        </div>
+                                        <CustomButton
+                                            bgcolor={tertiaryBlue2}
+                                            textTransform="Captilize"
+                                            color={pureDark}
+                                            padding="6.5px 0px"
+                                            fontFamily={`${fontFamilyMedium}`}
+                                            width="40px"
+                                            type="submit"
+                                            title=""
+                                            fontSize="17px"
+                                            // loading={loading}
+                                            icon={
+                                                <img
+                                                    src={plusIcon}
+                                                    alt="edit icon"
+                                                    width={17}
+                                                    height={17}
+                                                />
+                                            }
+                                            // clicked={() => {
+                                            //     navigate(`/user/list`)
+                                            // }}
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                            <div className="arrowleft">
-                                <img
-                                    src={RightArrow as string}
-                                    alt="Date"
-                                    width={18}
-                                    height={12}
-                                />
-                            </div>
-                        </div>
-                        <div className="dateRange">
-                            <p>
-                                <span>Mon,</span> Sep 11, 2023 -{' '}
-                                <span>Thu,</span> Sep 21, 2023
-                            </p>
-                            <img
-                                src={DateCalander as string}
-                                alt="Calander"
-                                width={21}
-                                height={21}
-                            />
-                        </div>
-                        <div className="dateToday">Today</div>
-                    </div>
-                    <CustomButton
-                        bgcolor={tertiaryBlue2}
-                        textTransform="Captilize"
-                        color={pureDark}
-                        padding="6.5px 0px"
-                        fontFamily={`${fontFamilyMedium}`}
-                        width="40px"
-                        type="submit"
-                        title=""
-                        fontSize="17px"
-                        icon={
-                            <img
-                                src={plusIcon as string}
-                                alt="edit icon"
-                                width={17}
-                                height={17}
-                            />
-                        }
-                        clicked={() => {
-                            navigate(`/Rules/create`)
-                        }}
-                    />
-                </CustomDiv>
-            </div>
-        </>
+                        </Form>
+                    )
+                }}
+            </Formik>
+        </CustomDiv>
     )
 }
 
@@ -213,6 +231,7 @@ const ListRules: React.FC = () => {
     return (
         <>
             {loading && <LoadingOverlay message="" />}
+            <RenderTableTitle />
             <ListRulesStyled>
                 <Table
                     columns={columns}
@@ -222,7 +241,6 @@ const ListRules: React.FC = () => {
                             key: item.RulesID,
                         })) as unknown as RulesDataType[]
                     }
-                    title={() => <RenderTableTitle />}
                     pagination={{
                         showTotal: (total, range) => (
                             <span

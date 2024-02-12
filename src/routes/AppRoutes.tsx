@@ -61,6 +61,7 @@ import UpdateRoom from '../screens/Rooms/UpdateRoom/UpdateRoom'
 import ViewRoom from '../screens/Rooms/ViewRoom/ViewRoom'
 import Activity from '../screens/Activitity/activity'
 import CreateUser from '../screens/User/CreateUser/CreateUser'
+import ReportList from '../screens/Reports/ReportList/ReportList'
 // import { RootState } from "../redux/store";
 
 function AppRoutes(): JSX.Element {
@@ -607,6 +608,14 @@ function AppRoutes(): JSX.Element {
                     element={
                         <AppLayout>
                             <Currency />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/reports/list"
+                    element={
+                        <AppLayout>
+                            <ReportList />
                         </AppLayout>
                     }
                 />

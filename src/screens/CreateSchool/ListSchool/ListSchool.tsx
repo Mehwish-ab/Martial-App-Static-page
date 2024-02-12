@@ -29,6 +29,10 @@ import { useEffect, useState } from 'react'
 import Head from '../../../components/Head/Head'
 import CreateSchool from '../CreateSchool'
 import { useAppSelector } from '../../../app/hooks'
+import CustomModal from '../../../components/Modal/CustomModal'
+import CustomMessageModal from '../../../components/Modal/CustomMessageModal'
+import ReportCreate from '../../Reports/ReportCreate/ReportCreate'
+import ReportSubmit from '../../Reports/ReportCreate/ReportSubmit'
 
 const ListSchool = (): JSX.Element => {
     // const { schoolData } = useSelector(
@@ -140,6 +144,15 @@ const ListSchool = (): JSX.Element => {
     // const {
     //     dropdowns: { businessTypes },
     // } = useSelector((state: RootState) => state.appData.data)
+
+    const [isReportCreateModalVisible, setIsReportCreateModalVisible] =
+        useState(false)
+    const [isReportSubmitModalVisible, setIsReportSubmitModalVisible] =
+        useState(false)
+    const handleReportModalVisible = (): void => {
+        setIsReportCreateModalVisible(true)
+    }
+
     const navigation = (record: SchoolDataType, redirectTo: string): void => {
         switch (redirectTo) {
             case 'edit':
@@ -194,8 +207,15 @@ const ListSchool = (): JSX.Element => {
             case 'activity':
                 navigate(`/school/activity/${record.schoolId}`)
                 break
+            case 'activity':
+                navigate(`/school/activity/${record.schoolId}`)
+                break
+            case 'report':
+                handleReportModalVisible()
+                break
         }
     }
+
     const showActivities = (_activities: string): string => {
         const activitiesArr = _activities.split(',')
 
@@ -383,6 +403,7 @@ const ListSchool = (): JSX.Element => {
                     {
                         key: '12',
                         label: 'Reports',
+                        onClick: () => navigation(record, 'report'),
                     },
                 ]
                 const menu = (
@@ -546,6 +567,25 @@ const ListSchool = (): JSX.Element => {
                         // itemRender: customItemRender,
                     }}
                 />
+                {isReportCreateModalVisible && (
+                    <ReportCreate
+                        isReportCreateModalVisible={isReportCreateModalVisible}
+                        setIsReportCreateModalVisible={
+                            setIsReportCreateModalVisible
+                        }
+                        setIsReportSubmitModalVisible={
+                            setIsReportSubmitModalVisible
+                        }
+                    />
+                )}
+                {isReportSubmitModalVisible && (
+                    <ReportSubmit
+                        isReportSubmitModalVisible={isReportSubmitModalVisible}
+                        setIsReportSubmitModalVisible={
+                            setIsReportSubmitModalVisible
+                        }
+                    />
+                )}
             </ListSchoolStyle>
         </>
     )

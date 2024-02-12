@@ -63,7 +63,6 @@ const useCreateSchool = (): IUseSchool => {
     const navigate = useNavigate()
 
     const [isShowModal, setIsShowModal] = useState(false)
-    const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
     const { loginData } = useSelector((state: RootState) => state)
 
     const [isShowSuccessModal, setIsShowSuccessModal] = useState(false)

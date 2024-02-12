@@ -26,6 +26,7 @@ const menuLinks: any = {
     setting: '/settings',
     user: '/user/list',
     attendance: '',
+    reports: '/reports/list',
 }
 
 const menuLinksKeys: any = {

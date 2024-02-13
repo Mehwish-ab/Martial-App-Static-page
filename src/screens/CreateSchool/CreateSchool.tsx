@@ -9,7 +9,6 @@ import useScreenTranslation from '../../hooks/useScreenTranslation'
 import store, { RootState } from '../../redux/store'
 import useCreateSchool from '../../hooks/useCreateSchool'
 import {
-    BELTS_SELECT_OPTIONS,
     CreateSchoolInitialValues,
     SelectOptionsDataTypes,
 } from '../Home/constants'
@@ -30,7 +29,6 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAppSelector } from '../../app/hooks'
 import Head from '../../components/Head/Head'
-import { capitalize } from 'lodash'
 import useUser from '../../hooks/useUser'
 import { UserDataType } from '../../redux/features/User/UserSlice'
 import { getSchoolByUserId } from '../../redux/features/dashboard/dashboardDataSlice'
@@ -46,12 +44,14 @@ const CreateSchool = (): JSX.Element => {
     const { schoolData } = useAppSelector((state) => state.dashboardData)
     const navigate = useNavigate()
     const { userId } = useParams()
-    const { getUSerById } = useUser()
+    // const { getUSerById } = useUser()
+    const { data: loginData } = useAppSelector((state) => state.loginData)
+    console.log('login', loginData)
     // const [OwnerData, setOwnerData] = useState<OwnerDataTypes>()
 
     const { schoolId } = useParams()
-    const { data: loginData } = useAppSelector((state) => state.loginData)
-    console.log('login', loginData)
+    // const { data: loginData } = useAppSelector((state) => state.loginData)
+    // console.log('login', loginData)
 
     // useEffect(() => {
     //     const fetchData = async (): Promise<void> => {
@@ -72,21 +72,21 @@ const CreateSchool = (): JSX.Element => {
     // }, [schoolId])
     const [User, setUser] = useState<UserDataType | undefined>(undefined)
     console.log('he', userId)
-    useEffect(() => {
-        const fetchData = async (): Promise<any> => {
-            try {
-                const res = await getUSerById(Number(userId))
+    // useEffect(() => {
+    //     const fetchData = async (): Promise<any> => {
+    //         try {
+    //             const res = await getUSerById(Number(userId))
 
-                setUser(res)
-            } catch (errors) {
-                /// setError('Error fetching data')
-            } finally {
-                //  setLoading(false)
-            }
-        }
+    //             setUser(res)
+    //         } catch (errors) {
+    //             /// setError('Error fetching data')
+    //         } finally {
+    //             //  setLoading(false)
+    //         }
+    //     }
 
-        fetchData()
-    }, [])
+    //     fetchData()
+    // }, [])
     const { handleCreateSubmit, loading, SuccessModal, WarningModal } =
         useCreateSchool()
 
@@ -111,27 +111,23 @@ const CreateSchool = (): JSX.Element => {
 
     const businessName = validationFinder('BUSINESS_NAME')!
     const businessNameReg = new RegExp(businessName.pattern)
-    // const address = validationFinder('ADDRESS')!
-    // const addressReg = new RegExp(address.pattern)
+    const address = validationFinder('ADDRESS')!
     const businessPhoneNumber = validationFinder('PHONE_NUMBER')!
 
     const validationSchema = Yup.object({
         businessName: Yup.string()
             .required(businessName.notBlankMsgEn)
             .matches(businessNameReg, businessName.patternMsgEn),
-        // address: Yup.string()
-        //   .required(address.notBlankMsgEn)
-        //   .matches(addressReg, address.patternMsgEn),
+        address: Yup.string().required(address.notBlankMsgEn),
 
         businessType: Yup.string().required('Please select business type'),
         businessPhoneNumber: Yup.string().required(
             businessPhoneNumber.notBlankMsgEn
         ),
-        rank: Yup.string().required('Please select rank'),
-        defaultLanguage: Yup.string().required(
+        defaultLanguageId: Yup.string().required(
             'Please select default language'
         ),
-        defaultCurrency: Yup.string().required(
+        defaultCurrencyId: Yup.string().required(
             'Please select default currency'
         ),
         description: Yup.string().required('Please enter description'),
@@ -153,7 +149,7 @@ const CreateSchool = (): JSX.Element => {
     const onsubmit = async (
         values: CreateSchoolInitialValues
     ): Promise<void> => {
-        await handleCreateSubmit(Number(userId), values)
+        await handleCreateSubmit(Number(loginData?.userDetails.id), values)
     }
     const createOptions = (
         list: DataTypesWithIdAndMultipleLangLabel[]
@@ -173,17 +169,17 @@ const CreateSchool = (): JSX.Element => {
     //         return navigate(`/school/view/${schoolData.schoolId}`)
     //     // eslint-disable-next-line react-hooks/exhaustive-deps
     // }, [schoolData, loginData])
-    // useEffect(() => {
-    //     const localStorageData = localStorage.getItem('ennvision-admin:token')
-    //     const loginData = JSON.parse(localStorageData as any)
-    //     if (!loginData?.schoolId) {
-    //         navigate('/school/create')
-    //         return
-    //     }
-    //     if (!schoolData || !schoolData.schoolId) {
-    //         store.dispatch(getSchoolByUserId())
-    //     }
-    // }, [])
+    useEffect(() => {
+        // const localStorageData = localStorage.getItem('ennvision-admin:token')
+        //const loginData = JSON.parse(localStorageData as any)
+        if (!loginData?.schoolId) {
+            navigate('/school/create')
+            return
+        }
+        if (!schoolData || !schoolData.schoolId) {
+            store.dispatch(getSchoolByUserId())
+        }
+    }, [])
 
     const showActivities = (_activities: string[]): string => {
         let activitiesName = ''

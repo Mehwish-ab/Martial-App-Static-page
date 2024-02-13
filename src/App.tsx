@@ -71,7 +71,8 @@ function App(): JSX.Element {
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
     }, [pathname])
-
+    const localStorageData = localStorage.getItem('ennvision-admin:token')
+    const logindata = JSON.parse(localStorageData as any)
     useEffect(() => {
         const regex = /\bregister\b/
         const register = regex.test(pathname)
@@ -79,7 +80,7 @@ function App(): JSX.Element {
             if (loginData && schoolData?.schoolId !== 0) {
                 return navigate('/')
             } else if (loginData && schoolData?.schoolId === 0) {
-                return navigate('/school/create')
+                return navigate(`/school/create/${logindata?.userDetails.id}`)
             }
         }
         if (!loginData) {

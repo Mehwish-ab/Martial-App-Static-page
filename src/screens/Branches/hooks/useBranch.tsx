@@ -53,6 +53,10 @@ interface IUseBranch {
     get_cash: (businessUC: any, id: number) => Promise<any>
     getbranchbyid: (_branchId: number) => Promise<any>
     getallbranchbyschoolid: (schoolId: number) => Promise<any>
+    getallbranchbyschoolidPagination: (
+        schoolid: number,
+        page: number
+    ) => Promise<any>
     BranchStatus: (timeTableid: number, statusid: number) => Promise<any>
     deletebranch: (_branchId: number) => Promise<void>
     deletePayment: (paymentMethod: string, id: number) => Promise<void>
@@ -214,13 +218,12 @@ const useBranch = (): IUseBranch => {
         }
     }
     const getallbranch = async (schoolid: number): Promise<any> => {
-        const url = get_branch_by_school_id_url
         console.log('>> im in getall branch button')
         try {
             setError('')
             setLoading(true)
             const { data: data3 } = await axios.post(
-                url,
+                `branch/getBySchoolId`,
                 { schoolId: schoolid },
                 {
                     headers: {
@@ -288,7 +291,60 @@ const useBranch = (): IUseBranch => {
             // });
             //setLoading(false);
             console.log({ data })
-            return data3
+            return data3.results
+        } catch (e: any) {
+            setLoading(false)
+            // setError((errorMessage as any).response.data.responseMessage)
+            // setLoading(false)
+            // console.log(
+            //     (errorMessage as any).response.data.responseMessage,
+            //     'error in api data'
+            // )
+            // setError(
+            //     (errorMessage as any).response?.data?.responseMessage ||
+            //         'An error occurred'
+            // )
+        }
+    }
+    const getallbranchbyschoolidPagination = async (
+        schoolid: number,
+        page: number
+    ): Promise<any> => {
+        // const url = get_branch_by_school_id_url
+        console.log('>> im in getallbranchbyschoolid')
+        try {
+            setLoading(true)
+            const { data: data3 } = await axios.post(
+                `branch/getBySchoolId?pageNo=${page}`,
+                { schoolId: schoolid },
+                {
+                    headers: {
+                        ...authorizationToken(logindata!),
+                    },
+                }
+            )
+            console.log('v', data)
+            console.log('>>v', data3)
+
+            // setIsShowModal(true);
+            // setTimeout(() => {
+            //   setLoading(false);
+            //   setIsShowModal(false);
+            //   //navigate("/school/view");
+            // }, 3000);
+            // setIsShowModal(true)
+            // setTimeout(() => {
+            setLoading(false)
+            //     setIsShowModal(false)
+            //    // navigate('/branch/list')
+            // }, 3000)
+            // toastId.current = toast(data.responseMessage, {
+            //   type: "success",
+            //   autoClose: 1000,
+            // });
+            //setLoading(false);
+            console.log({ data })
+            return data3.results
         } catch (e: any) {
             setLoading(false)
             // setError((errorMessage as any).response.data.responseMessage)
@@ -828,6 +884,7 @@ const useBranch = (): IUseBranch => {
         deleteConfirmation,
         setIsShowModal,
         getallbranchbyschoolid,
+        getallbranchbyschoolidPagination,
     }
 }
 

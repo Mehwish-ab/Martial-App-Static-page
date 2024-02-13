@@ -21,11 +21,16 @@ const Home = (): JSX.Element => {
 
     const localStorageData = localStorage.getItem('ennvision-admin:token')
     const loginData = JSON.parse(localStorageData as any)
+    console.log('b', loginData)
+
     if (logindata?.userDetails.roleName === 'ADMIN') {
         {
-            navigate('/school/list')
+            //navigate('/school/list')
             return <ListSchool />
         }
-    } else return <CreateSchool />
+    } else {
+        navigate(`/school/create/${loginData?.userDetails.id}`)
+        return <ViewSchool />
+    }
 }
 export default Home

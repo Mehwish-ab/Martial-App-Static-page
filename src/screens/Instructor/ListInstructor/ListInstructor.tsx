@@ -42,6 +42,7 @@ const RenderTableTitle = (): JSX.Element => {
     const [startDate, setStartDate] = useState(null)
     const [endDate, setEndDate] = useState(null)
     const { getInstructorstartenddate } = useInstructor()
+
     const getparam = async (startdate: any, enddate: any): Promise<void> => {
         await getInstructorstartenddate(startdate, enddate)
     }
@@ -145,7 +146,14 @@ const ListInstructor: React.FC = () => {
     const {
         belts: { adult },
     } = useSelector((state: RootState) => state.appData.data)
-
+    const [AllInstructor, setAllInstructor] = useState<
+        | {
+              currentPage: number
+              totalItems: number | undefined
+              data: InstructorDataType[]
+          }
+        | undefined
+    >(undefined)
     const navigate = useNavigate()
     const navigation = (
         record: InstructorDataType,
@@ -182,11 +190,30 @@ const ListInstructor: React.FC = () => {
         deleteConfirmation,
         setIsShowModal,
         InstructorStatus,
+        getInstructorbyid,
     } = useInstructor()
     const { instructorData, loading } = useSelector(
         (state: RootState) => state.instructorData
     )
+    const { loginData } = useSelector((state: RootState) => state)
 
+    // useEffect(() => {
+    //     const fetchData = async (): Promise<void> => {
+    //         try {
+    //             const response: any = await getInstructorbyid(
+    //                 String(loginData.data?.userDetails.countryName)
+    //             )
+    //             setAllInstructor(response)
+    //             // eslint-disable-next-line @typescript-eslint/no-shadow
+    //         } catch (error) {
+    //             // setError('Error fetching data')
+    //         } finally {
+    //             // setLoading(false)
+    //         }
+    //     }
+
+    //     fetchData()
+    // }, [])
     console.log('<<instructordata', instructorData)
     useEffect(() => {
         store.dispatch(getInstructorByUserId())

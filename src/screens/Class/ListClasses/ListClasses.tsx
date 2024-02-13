@@ -10,7 +10,7 @@ import {
     pureDark,
     tertiaryBlue2,
 } from '../../../components/GlobalStyle'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import plusIcon from '../../../assets/icons/ic_plus.svg'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 import { useSelector } from 'react-redux'
@@ -37,6 +37,7 @@ import { nextDay } from 'date-fns'
 const ListClass = (): JSX.Element => {
     const { ClassData } = useSelector((state: RootState) => state.ClassData)
     const navigate = useNavigate()
+    const { schoolId, branchId, franchiseId } = useParams()
     const { ClassStatus, deletemodal, deleteConfirmation, setIsShowModal } =
         useClass()
     const [Id, setId] = useState(0)
@@ -49,7 +50,6 @@ const ListClass = (): JSX.Element => {
         ClassDataType[] | undefined
     >(undefined)
     const [Flag, setFlag] = useState(false)
-    const schoolId = loginData.data?.schoolId
     const calculateDaysDifference = (st: string, en: string): number => {
         const start = new Date(st)
         const end = new Date(en)
@@ -65,14 +65,62 @@ const ListClass = (): JSX.Element => {
             return 1
         }
     }
-    const { getInstructorstartenddate } = useClass()
+    const [AllClass, setAllClass] = useState<
+        | {
+              currentPage: number
+              totalItems: number | undefined
+              data: ClassDataType[]
+          }
+        | undefined
+    >(undefined)
+    const [error, setError] = useState<string | undefined>(undefined)
+    const [currentPage, setCurrentPage] = useState(1)
+    const pageSize = 10
+    const {
+        getInstructorstartenddate,
+        getClassPegination,
+        getClassbyschoolId,
+    } = useClass()
+    const handlePaginationChange = async (page: number): Promise<any> => {
+        try {
+            //setLoading(true)
+            // page = page - 1
+            const response = await getClassPegination(
+                Number(schoolId || loginData.data?.schoolId),
+                page - 1
+            )
+            setAllClass(response)
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+        } catch (error: unknown) {
+            setError('Error fetching data')
+        } finally {
+            //  setLoading(false)
+        }
+        setCurrentPage(page)
+    }
     // const { g}=useCreateSchool()
 
     const { getLabelByKey } = useScreenTranslation('classesList')
     useEffect(() => {
         store.dispatch(getBranchBySchoolId())
     }, [])
+    useEffect(() => {
+        const fetchData = async (): Promise<any> => {
+            try {
+                const res = await getClassbyschoolId(
+                    Number(schoolId || loginData.data?.schoolId)
+                )
 
+                setAllClass(res)
+            } catch (errors) {
+                /// setError('Error fetching data')
+            } finally {
+                //  setLoading(false)
+            }
+        }
+
+        fetchData()
+    }, [])
     const getparam = async (
         startdate: string,
         enddate: string
@@ -88,7 +136,6 @@ const ListClass = (): JSX.Element => {
     const handleDateChange = async (dates: any): Promise<void> => {
         setFlag(true)
 
-        console.log('shaza', dates)
         setCalculateDay(0)
         const [start, end] = dates.map((date: any) =>
             moment(date).format('YYYY-MM-DD')
@@ -402,24 +449,32 @@ const ListClass = (): JSX.Element => {
             <ListClassStyled>
                 <Table
                     columns={columns}
-                    dataSource={
-                        Flag === false
-                            ? ClassData?.data[0].id !== 0
-                                ? ClassData.data
-                                : []
-                            : calenderData === undefined
-                              ? []
-                              : calenderData
-                    }
+                    // dataSource={
+                    //     Flag === false
+                    //         ? ClassData?.data[0].id !== 0
+                    //             ? ClassData.data
+                    //             : []
+                    //         : calenderData === undefined
+                    //           ? []
+                    //           : calenderData
+                    // }
+                    dataSource={AllClass ? AllClass?.data : []}
                     // scroll={{ x: true }}
                     pagination={{
+                        current: currentPage,
+                        total: AllClass ? AllClass.totalItems : 0,
+                        pageSize: pageSize,
                         showTotal: (total, range) => (
                             <span
                                 dangerouslySetInnerHTML={{
-                                    __html: `Page <span className='paginationVal'>${range[0]}</span> of ${range[1]}`,
+                                    __html: `Page <span className='paginationVal'>${currentPage}</span> of ${Math.ceil(
+                                        total / pageSize
+                                    )}`,
                                 }}
                             />
                         ),
+                        onChange: (page) => handlePaginationChange(page),
+                        // itemRender: customItemRender,
                     }}
                 />
             </ListClassStyled>

@@ -10,7 +10,7 @@ import {
     pureDark,
     tertiaryBlue2,
 } from '../../../components/GlobalStyle'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import plusIcon from '../../../assets/icons/ic_plus.svg'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 
@@ -21,6 +21,7 @@ import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
 import defaltimg from '../../../assets/images/create_school_user_profile.svg'
 import {
     FranchiseDataType,
+    getfranchiseBySchoolIds,
     getfranchiseBySchoolId,
 } from '../../../redux/features/franchise/franchiseSlice'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
@@ -32,18 +33,38 @@ import { Formik } from 'formik'
 import FormControl from '../../../components/FormControl'
 import { CustomDiv } from '../../CreateSchool/ListSchool/CustomDiv'
 import Head from '../../../components/Head/Head'
-
 const ListFranchise = (): JSX.Element => {
     const {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
-    const { deletemodal, setIsShowModal, deleteConfirmation, FranchiseStatus } =
-        useFranchise()
+    const {
+        deletemodal,
+        setIsShowModal,
+        deleteConfirmation,
+        FranchiseStatus,
+        viewFranchisebySchoolid,
+    } = useFranchise()
     const [Id, setId] = useState(0)
     const navigate = useNavigate()
+    const { schoolId } = useParams()
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
+
+    useEffect(() => {
+        store.dispatch(getfranchiseBySchoolIds(schoolId))
+
+        // const fetchData = async (): Promise<void> => {
+        //     try {
+        //         store.dispatch(viewFranchisebySchoolids(schoolId))
+        //     } catch (error) {
+        //         console.error('Error fetching branch data:', error)
+        //     }
+        // }
+
+        // fetchData()
+    }, [schoolId])
+    console.log('location.pathname', location.pathname)
     const showActivities = (_activities: string): string => {
         const activitiesArr = _activities.split(',')
 
@@ -130,9 +151,9 @@ const ListFranchise = (): JSX.Element => {
     const { franchiseData, loading } = useSelector(
         (state: RootState) => state.franchiseData
     )
-    useEffect(() => {
-        store.dispatch(getfranchiseBySchoolId())
-    }, [])
+    // useEffect(() => {
+    //     store.dispatch(getfranchiseBySchoolId())
+    // }, [])
 
     const {
         dropdowns: { businessTypes },
@@ -359,7 +380,7 @@ const ListFranchise = (): JSX.Element => {
                         return (
                             <Form
                                 name="basic"
-                                // onFinish={formik.handleSubmit}
+                                // onFinish={formik.}
                                 autoComplete="off"
                             >
                                 <div className="mainWrapper">

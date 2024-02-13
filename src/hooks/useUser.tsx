@@ -25,6 +25,8 @@ import {
 import { Col, Row } from 'react-bootstrap'
 import { SchoolSuccessfulModals } from './PopupModalsStyling'
 import { getAllUsers } from '../redux/features/User/UserSlice'
+import CustomMessageModal from '../components/Modal/CustomMessageModal'
+import { initialValuesType } from '../screens/User/constant'
 
 interface IModalComponent {
     modalComponent: JSX.Element
@@ -32,15 +34,8 @@ interface IModalComponent {
 
 interface IuseUser {
     loading: boolean
-    handleCreateSubmit: (
-        values: CreateSchoolInitialValues,
-        { resetForm }: any
-    ) => Promise<void>
-    editSchool: (
-        _schoolId: number,
-        values: CreateSchoolInitialValues
-    ) => Promise<void>
-    deleteSchool: (userId: number) => Promise<void>
+    CreateSubmit: (values: any) => Promise<void>
+
     errorMessage: string
     isUploadImgModalVisible: boolean
     setIsUploadImgVisible: (param: boolean) => void
@@ -48,6 +43,8 @@ interface IuseUser {
     Createmodal: () => IModalComponent
     UpdateModal: () => IModalComponent
     WarningModal: () => IModalComponent
+    SuccessModal: () => IModalComponent
+
     deleteConfirmation: (id: number) => IModalComponent
     setIsShowModal: (showModal: true) => void
     setIsShowWarningModal: (showModal: true) => void
@@ -58,11 +55,13 @@ interface IuseUser {
 
 const useUser = (): IuseUser => {
     const [loading, setLoading] = useState(false)
-    const [errorMessage, setError] = useState('')
+    const [Error, setError] = useState('')
     const [isUploadImgModalVisible, setIsUploadImgVisible] = useState(false)
     const toastId = useRef<any>(null)
     const { schoolId } = useParams()
-    const { data: logindata } = useAppSelector((state) => state.loginData)
+    const { data: logindata } = useAppSelector(
+        (state: RootState) => state.loginData
+    )
     // const { schoolData } = useAppSelector((state) => state.dashboardData)
 
     const navigate = useNavigate()
@@ -70,42 +69,36 @@ const useUser = (): IuseUser => {
     const [isShowModal, setIsShowModal] = useState(false)
     const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
     const [isShowWarningModal, setIsShowWarningModal] = useState(false)
+    const [isShowSuccessModal, setIsShowSuccessModal] = useState(false)
+    const [isShowErrorModal, setIsShowErrorModal] = useState(false)
+    const [successMessage, setSuccessMessage] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
+
     const { loginData } = useSelector((state: RootState) => state)
 
-    // to create School
-    const handleCreateSubmit = async (
-        values: CreateSchoolInitialValues,
-        { resetForm }: any
-    ): Promise<void> => {
-        const userDetails = loginData.data?.userDetails
+    // to create user
+    const CreateSubmit = async (values: initialValuesType): Promise<void> => {
+        console.log('welcome')
 
         const payload = {
-            userId: userDetails?.id || '',
-            businessName: values.businessName || '',
-            businessType: values.businessType,
-            address: values.address || '',
-            phoneNumber: values?.businessPhoneNumber || '',
-            rank: values.rank === 1 ? true : false,
-            defaultLanguageId: values.defaultLanguageId,
-            defaultCurrencyId: values.defaultCurrencyId,
-            activities: values.selectedActivities.join(','),
-            facilities: values.selectedFacilities.join(','),
-            description: values.description,
-            stripePublicKey: '',
-            stripeSecretKey: '',
-            gclAccessToken: '',
-            gclClientId: '',
-            gclWebHook: '',
-            gclClientSecret: '',
-
-            ...(schoolId && { schoolId }), // Add schoolId conditionally
+            firstName: values.firstName || '',
+            lastName: values.lastName,
+            emailAddress: values.emailAddress || '',
+            phoneNumber: values?.phoneNumber || '',
+            roleId: values.roleId,
+            password: values.password,
+            address: values.address,
+            city: values.city,
+            state: values.state,
+            countryName: values.countryName,
+            channel: values.channel,
+            countryCode: values.countryCode,
         }
-
         try {
             setError('')
             setLoading(true)
             const { data: data2 } = await axios.post(
-                create_school_url,
+                '/api/auth/signup',
                 payload,
                 {
                     headers: {
@@ -113,43 +106,40 @@ const useUser = (): IuseUser => {
                     },
                 }
             )
-            if (data2.responseCode === '500') {
-                toast(data2.responseMessage, {
-                    type: 'error',
-                    autoClose: 1000,
-                })
-                setLoading(false)
-                return
-            }
-            setIsShowModal(true)
+
+            setSuccessMessage(data2.responseMessage)
+            setIsShowSuccessModal(true)
+            setLoading(false)
             setTimeout(() => {
-                setLoading(false)
-                setIsShowModal(false)
-                navigate('/school/view')
+                setIsShowSuccessModal(false)
+                navigate('/user/list')
             }, 3000)
-            // toastId.current = toast(data.responseMessage, {
-            //   type: "success",
-            //   autoClose: 1000,
-            // });
-            //setLoading(false);
             console.log('data', { data: data2 })
             //setIsUploadImgVisible(true);
             // navigate("/");
-            resetForm()
         } catch (error2: any) {
-            console.log('error', { error: error2 })
+            console.log('error', error2.response?.data?.errors.length)
+            const errorMessages = error2.response?.data?.errors.map(
+                (err: { field: string; errorMessage: string }) =>
+                    `<strong>${err.field}</strong> : ${err.errorMessage}`
+            )
             setLoading(false)
-            setError(error2.response.data.responseMessage)
+            setError(error2.response)
+            console.log('errorss', errorMessages.length)
+
+            if (errorMessages.length >= 1) {
+                setErrorMessage(`${errorMessages.join('<br />')}`)
+            } else {
+                setErrorMessage(error2.response?.data?.responseMessage)
+            }
+            setIsShowErrorModal(true)
             setTimeout(() => {
+                setIsShowErrorModal(false)
                 setError('')
-            }, 2000)
-            toastId.current = toast(error2.message, {
-                type: 'error',
-                autoClose: 1000,
-            })
+            }, 10000)
         }
     }
-
+    //get all users list
     const getAllUser = async (c: string): Promise<any> => {
         try {
             setError('')
@@ -186,6 +176,8 @@ const useUser = (): IuseUser => {
             })
         }
     }
+
+    //getUser by id
     const getUSerById = async (Id: number): Promise<any> => {
         try {
             setError('')
@@ -222,6 +214,8 @@ const useUser = (): IuseUser => {
             })
         }
     }
+
+    //get all user pagenation
     const getAllUserPagination = async (
         c: string,
         page: number
@@ -263,72 +257,7 @@ const useUser = (): IuseUser => {
         }
     }
 
-    //to edit school
-    const editSchool = async (
-        _schoolId: number,
-        values: CreateSchoolInitialValues
-    ): Promise<any> => {
-        const url = edit_school_url
-        const userDetails = loginData.data?.userDetails
-
-        try {
-            setError('')
-            setLoading(true)
-            const payload = {
-                userId: userDetails?.id || '',
-                businessName: values.businessName,
-                businessType: values.businessType,
-                address: values.address,
-                phoneNumber: values?.businessPhoneNumber || '',
-                rank: values.rank === 1 ? true : false,
-                defaultLanguageId: values.defaultLanguageId,
-                defaultCurrencyId: values.defaultCurrencyId,
-                activities: values.selectedActivities.join(','),
-                facilities: values.selectedFacilities.join(','),
-                description: values.description,
-                stripePublicKey: '',
-                stripeSecretKey: '',
-                gclAccessToken: '',
-                gclClientId: '',
-                gclWebHook: '',
-                gclClientSecret: '',
-
-                ...(_schoolId && { schoolId: _schoolId }), // Add schoolId conditionally
-            }
-            const { data: data2 } = await axios.post(url, payload, {
-                headers: {
-                    ...authorizationToken(loginData.data as loginDataTypes),
-                },
-            })
-            if (data2.responseCode === '500') {
-                setLoading(false)
-                return
-            }
-            setLoading(false)
-            setIsShowModal(true)
-            setTimeout(() => {
-                setIsShowModal(false)
-                navigate('/school/view')
-            }, 3000)
-
-            console.log({ data: data2 })
-        } catch (error2: any) {
-            console.log({ error: error2 })
-            setLoading(false)
-            setError(error2.response.data.responseMessage)
-            const id = setTimeout(() => {
-                setError('')
-            }, 3000)
-            if (!setIsShowModal) {
-                clearTimeout(id)
-            }
-            toastId.current = toast(error2.response.data.errors, {
-                type: 'error',
-                autoClose: 1000,
-            })
-        }
-    }
-
+    //delete Modal
     const deletemodal = (): IModalComponent => {
         return {
             modalComponent: (
@@ -358,60 +287,6 @@ const useUser = (): IuseUser => {
                     </SchoolSuccessfulModals>
                 </CustomModal>
             ),
-        }
-    }
-
-    //to delete school
-    const deleteSchool = async (userId: number): Promise<void> => {
-        const url = '/school/delete'
-
-        try {
-            setError('')
-            setLoading(true)
-
-            const { data: data2 } = await axios.post(
-                url,
-                { schoolId: userId },
-                {
-                    headers: {
-                        ...authorizationToken(logindata!),
-                    },
-                }
-            )
-            if (data2.responseCode === '500') {
-                toast(data2.responseMessage, {
-                    type: 'error',
-                    autoClose: 1000,
-                })
-                setLoading(false)
-                return
-            }
-
-            setLoading(false)
-            setIsShowModal(false) // Open the deletemodal
-            setIsShowDeleteModal(true)
-            const storedObject = JSON.parse(
-                localStorage.getItem('ennvision-admin:token') as any
-            )
-            storedObject.schoolId = null
-            localStorage.setItem(
-                'ennvision-admin:token',
-                JSON.stringify(storedObject)
-            )
-            setTimeout(() => {
-                setIsShowDeleteModal(false)
-                // setIsShowDeleteModal(true)
-                navigate('/school/create')
-            }, 3000)
-            // console.log('data', { data: data2 })
-        } catch (error2: any) {
-            console.log('api error', error2)
-            setError(error2.response.data.responseMessage)
-            setLoading(false)
-            console.log(
-                error2.response.data.responseMessage,
-                'error in api data'
-            )
         }
     }
 
@@ -477,40 +352,38 @@ const useUser = (): IuseUser => {
         }
     }
 
-    const WarningModal = (): IModalComponent => {
+    const SuccessModal = (): IModalComponent => {
         return {
             modalComponent: (
-                <CustomModal
-                    isModalVisible={isShowWarningModal}
-                    setIsModalVisible={setIsShowWarningModal}
-                    showCloseBtn={true}
-                >
-                    <SchoolSuccessfulModals>
-                        <div className="mainContainer d-flex flex-column align-items-center">
-                            <img
-                                src={ic_error}
-                                alt="error Icon"
-                                width={79}
-                                height={79}
-                            />
-                            <h3 className="mainContainer-heading text-center">
-                                Warning!
-                            </h3>
-                            <p className="mainContainer-subText text-center">
-                                Please remove the first Branches and Franchise.
-                            </p>
-                        </div>
-                    </SchoolSuccessfulModals>
-                </CustomModal>
+                <CustomMessageModal
+                    title="Success"
+                    description={successMessage}
+                    isModalVisible={isShowSuccessModal}
+                    setIsModalVisible={setIsShowSuccessModal}
+                    imageProp={'success'}
+                />
             ),
         }
     }
 
+    const WarningModal = (): IModalComponent => {
+        return {
+            modalComponent: (
+                <CustomMessageModal
+                    title="Warning"
+                    description={errorMessage}
+                    isModalVisible={isShowErrorModal}
+                    setIsModalVisible={setIsShowSuccessModal}
+                    imageProp={'error'}
+                />
+            ),
+        }
+    }
     const deleteConfirmation = (_id: number): IModalComponent => {
         const Deleteschool = async (id: number): Promise<void> => {
             setIsShowModal(false) // Close any other modals
             setIsShowDeleteModal(true)
-            await deleteSchool(id)
+            //   await deleteSchool(id)
         }
         return {
             modalComponent: (
@@ -574,9 +447,8 @@ const useUser = (): IuseUser => {
     return {
         loading,
         setIsShowModal,
-        handleCreateSubmit,
-        editSchool,
-        deleteSchool,
+        CreateSubmit,
+        SuccessModal,
         errorMessage,
         isUploadImgModalVisible,
         setIsUploadImgVisible,

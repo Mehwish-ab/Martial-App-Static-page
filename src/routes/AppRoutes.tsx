@@ -347,6 +347,14 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
+                    path="/franchise/list/:schoolId"
+                    element={
+                        <AppLayout>
+                            <ListFranchise />
+                        </AppLayout>
+                    }
+                />
+                <Route
                     path="/franchise/create"
                     element={
                         <AppLayout>

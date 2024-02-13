@@ -55,6 +55,8 @@ interface IUseClass {
     deleteConfirmation: (id: number) => IModalComponent
     deleteClass: (id: number) => Promise<void>
     setIsShowModal: (showModal: true) => void
+    getClassPegination: (schoolid: number, page: number) => Promise<any>
+    getClassbyschoolId: (schoolid: number) => Promise<any>
 }
 
 const useClass = (): IUseClass => {
@@ -193,6 +195,69 @@ const useClass = (): IUseClass => {
             )
             setLoading(false)
             return data.results.data
+        } catch (error2: any) {
+            console.log('error', error2)
+            setLoading(false)
+            setError(error2)
+        }
+    }
+    const getClassPegination = async (
+        schoolid: number,
+        page: number
+    ): Promise<any> => {
+        try {
+            setError('')
+            setLoading(true)
+            const { data } = await axios.post(
+                `/classes/getSchoolId?pageNo=${page}`,
+                { schoolId: schoolid },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+
+            if (data.responseCode === '500') {
+                setLoading(false)
+                return
+            }
+            console.log(
+                'classes info according to pagination',
+                data.results.data
+            )
+            setLoading(false)
+            return data.results
+        } catch (error2: any) {
+            console.log('error', error2)
+            setLoading(false)
+            setError(error2)
+        }
+    }
+    const getClassbyschoolId = async (schoolid: number): Promise<any> => {
+        try {
+            setError('')
+            setLoading(true)
+            const { data } = await axios.post(
+                `/classes/getSchoolId`,
+                { schoolId: schoolid },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+
+            if (data.responseCode === '500') {
+                setLoading(false)
+                return
+            }
+            console.log(
+                'classes info according to pagination',
+                data.results.data
+            )
+            setLoading(false)
+            return data.results
         } catch (error2: any) {
             console.log('error', error2)
             setLoading(false)
@@ -614,6 +679,8 @@ const useClass = (): IUseClass => {
         deleteClass,
         setIsShowModal,
         getInstructorstartenddate,
+        getClassPegination,
+        getClassbyschoolId,
     }
 }
 

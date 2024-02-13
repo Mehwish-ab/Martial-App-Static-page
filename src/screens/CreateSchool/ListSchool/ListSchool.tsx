@@ -190,10 +190,10 @@ const ListSchool = (): JSX.Element => {
                 navigate(`/branch/list/${record.schoolId}`)
                 break
             case 'franchise':
-                navigate(`/franchise/list/`)
+                navigate(`/franchise/list/${record.schoolId}`)
                 break
             case 'class':
-                navigate(`/class/list/`)
+                navigate(`/class/list/${record.schoolId}`)
                 break
             case 'timeTable':
                 navigate(`/timeTable/list/`)

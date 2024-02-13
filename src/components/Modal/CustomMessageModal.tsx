@@ -73,9 +73,11 @@ const CustomMessageModal: React.FC<CustomMessageModalPropsTypes> = ({
                         </h6>
                     )}
                     {description && (
-                        <p className="mainContainer-subText text-center">
-                            {description}
-                        </p>
+                        <p
+                            className="mainContainer-subText text-left"
+                            dangerouslySetInnerHTML={{ __html: description }}
+                        />
+                        // Use dangerouslySetInnerHTML for rendering HTML in the description
                     )}
                 </div>
             </CustomMessageModalStyle>

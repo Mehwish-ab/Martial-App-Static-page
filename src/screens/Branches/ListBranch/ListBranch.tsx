@@ -47,11 +47,27 @@ const ListBranch = (): JSX.Element => {
     const { schoolId } = useParams()
     // const { getLabelByKey } = useScreenTranslation("BranchList");
     const navigate = useNavigate()
-    const { deletemodal, deleteConfirmation, setIsShowModal, BranchStatus } =
-        useBranch()
+    const {
+        deletemodal,
+        deleteConfirmation,
+        setIsShowModal,
+        BranchStatus,
+        getallbranchbyschoolidPagination,
+        getallbranchbyschoolid,
+    } = useBranch()
     const [Id, setId] = useState(0)
     console.log('id', schoolId)
 
+    const [AllBranches, setAllBranches] = useState<
+        | {
+              currentPage: number
+              totalItems: number | undefined
+              data: BranchDataType[]
+          }
+        | undefined
+    >(undefined)
+    const [currentPage, setCurrentPage] = useState(1)
+    const pageSize = 10
     // const [branch, setbranch] = useState()
     const { branchData, loading } = useSelector(
         (state: RootState) => state.branchData
@@ -419,20 +435,57 @@ const ListBranch = (): JSX.Element => {
         )
     }
 
-    useEffect(() => {
-        store.dispatch(getBranchBySchoolIds(Number(schoolId)))
+    // useEffect(() => {
+    //     store.dispatch(getBranchBySchoolIds(Number(schoolId)))
 
-        const fetchData = async (): Promise<void> => {
+    //     const fetchData = async (): Promise<void> => {
+    //         try {
+    //             store.dispatch(getBranchBySchoolIds(Number(schoolId)))
+    //         } catch (error) {
+    //             console.error('Error fetching branch data:', error)
+    //         }
+    //     }
+
+    //     fetchData()
+    // }, [dispatch, schoolId])
+
+    useEffect(() => {
+        const fetchData = async (): Promise<any> => {
             try {
-                store.dispatch(getBranchBySchoolIds(Number(schoolId)))
-            } catch (error) {
-                console.error('Error fetching branch data:', error)
+                const res = await getallbranchbyschoolid(
+                    Number(schoolId || loginData.schoolId)
+                )
+                console.log('res', res)
+
+                setAllBranches(res)
+            } catch (errors) {
+                /// setError('Error fetching data')
+            } finally {
+                //  setLoading(false)
             }
         }
 
         fetchData()
-    }, [dispatch, schoolId])
-    console.log('location.pathname', location.pathname)
+    }, [])
+    console.log('location.pathname', AllBranches)
+    const [error, setError] = useState<string | undefined>(undefined)
+    const handlePaginationChange = async (page: number): Promise<any> => {
+        try {
+            //setLoading(true)
+            // page = page - 1
+            const response = await getallbranchbyschoolidPagination(
+                Number(schoolId || loginData?.schoolId),
+                page - 1
+            )
+            setAllBranches(response)
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+        } catch (error: unknown) {
+            setError('Error fetching data')
+        } finally {
+            //  setLoading(false)
+        }
+        setCurrentPage(page)
+    }
 
     // const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
     // const [current, setCurrent] = useState(1)
@@ -456,20 +509,32 @@ const ListBranch = (): JSX.Element => {
             <ListBranchStyled>
                 <Table
                     columns={columns}
-                    dataSource={
-                        branchData?.data[0].branchId !== 0
-                            ? branchData.data
-                            : []
-                    }
+                    dataSource={AllBranches ? AllBranches?.data : []}
                     scroll={{ x: true }}
+                    // pagination={{
+                    //     showTotal: (total, range) => (
+                    //         <span
+                    //             dangerouslySetInnerHTML={{
+                    //                 __html: `Page <span className='paginationVal'>${range[0]}</span> of ${range[1]}`,
+                    //             }}
+                    //         />
+                    //     ),
+                    // }}
                     pagination={{
+                        current: currentPage,
+                        total: AllBranches ? AllBranches.totalItems : 0,
+                        pageSize: pageSize,
                         showTotal: (total, range) => (
                             <span
                                 dangerouslySetInnerHTML={{
-                                    __html: `Page <span className='paginationVal'>${range[0]}</span> of ${range[1]}`,
+                                    __html: `Page <span className='paginationVal'>${currentPage}</span> of ${Math.ceil(
+                                        total / pageSize
+                                    )}`,
                                 }}
                             />
                         ),
+                        onChange: (page) => handlePaginationChange(page),
+                        // itemRender: customItemRender,
                     }}
                 />
             </ListBranchStyled>

@@ -123,14 +123,25 @@ const useCreateSchool = (): IUseSchool => {
             }, 3000)
             // resetForm()
         } catch (error2: any) {
+            console.log('error', error2.response?.data?.errors.length)
+            const errorMessages = error2.response?.data?.errors.map(
+                (err: { field: string; errorMessage: string }) =>
+                    `<strong>${err.field}</strong> : ${err.errorMessage}`
+            )
             setLoading(false)
             setError(error2.response)
-            setErrorMessage(error2.response?.data?.responseMessage)
+            console.log('errorss', errorMessages.length)
+
+            if (errorMessages.length > 1) {
+                setErrorMessage(`${errorMessages.join('<br />')}`)
+            } else {
+                setErrorMessage(error2.response?.data?.responseMessage)
+            }
             setIsShowErrorModal(true)
             setTimeout(() => {
                 setIsShowErrorModal(false)
                 setError('')
-            }, 2000)
+            }, 10000)
         }
     }
 

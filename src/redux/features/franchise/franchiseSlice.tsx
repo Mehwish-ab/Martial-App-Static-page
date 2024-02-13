@@ -74,6 +74,42 @@ const initialState: franchiseDataInitialState = {
     loading: false,
     error: '',
 }
+export const getfranchiseBySchoolIds: any = createAsyncThunk(
+    'franchiseData/getfranchiseBySchoolId',
+    async (id: number) => {
+        const state = store.getState()
+        console.log('state', state)
+        try {
+            const { data } = await axios.post(
+                `${base_url}${get_franchise_by_school_id_url}`,
+                {
+                    // schoolId: state.dashboardData.schoolData.schoolId,
+                    schoolId: id || loginData?.schoolId,
+                },
+                {
+                    headers: {
+                        ...authorizationToken(
+                            state.loginData.data as loginDataTypes
+                        ),
+                    },
+                }
+            )
+            console.log(data.results, 'data')
+
+            return data.results
+        } catch (error: any) {
+            if (error.response && error.response.data) {
+                const obj = {
+                    name: 'AxiosError',
+                    message: error.response.data?.responseMessage,
+                    code: 'ERR_BAD_RESPONSE',
+                }
+                throw obj
+            }
+            throw error
+        }
+    }
+)
 export const getfranchiseBySchoolId: any = createAsyncThunk(
     'franchiseData/getfranchiseBySchoolId',
     async () => {
@@ -110,7 +146,6 @@ export const getfranchiseBySchoolId: any = createAsyncThunk(
         }
     }
 )
-
 const franchiseSlice = createSlice({
     name: 'franchiseData',
     initialState,

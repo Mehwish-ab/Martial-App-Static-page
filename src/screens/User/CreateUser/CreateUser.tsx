@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom'
 import CustomPhoneInput from '../../../components/CustomPhoneInput/CustomPhoneInput'
 import * as Yup from 'yup'
 import { validationFinder } from '../../../utils/utilities'
+import useUser from '../../../hooks/useUser'
 
 type initialValuesType = {
     firstName: string
@@ -85,8 +86,9 @@ const CreateUser = (): JSX.Element => {
             .required('confirm password is required!')
             .oneOf([Yup.ref('password')], 'passwords must match'),
     })
+    const { CreateSubmit, loading, SuccessModal, WarningModal } = useUser()
+
     const onSubmit = async (values: initialValuesType): Promise<void> => {
-        // get all values other than confirm password
         const allValues = {
             ...values,
         }
@@ -105,43 +107,21 @@ const CreateUser = (): JSX.Element => {
             city: userLocation?.city,
             state: userLocation?.state,
         }
-        try {
-            setIsLoading(true)
-            await axios.post(signup_url, userData)
-            // const successMessage = response.data.responseMessage;
-            toast(
-                <MessageModal
-                    message="Account Created Successfully!"
-                    description="Thank You For Joining Us And We're Excited To Have You On Board"
-                    type="success"
-                />,
-                {
-                    autoClose: 1000,
-                }
-            )
-            setIsLoading(false)
-        } catch (error: any) {
-            setIsLoading(false)
-            const errorMessage = error.response?.data?.responseMessage
-            toast(errorMessage, {
-                type: 'error',
-                autoClose: 1000,
-            })
-        }
+        console.log('Nada', userData)
+
+        await CreateSubmit(userData)
     }
     return (
         <>
             <CreateSchoolStyled>
-                {/* {SuccessModal().modalComponent}
-                {WarningModal().modalComponent} */}
+                {SuccessModal().modalComponent}
+                {WarningModal().modalComponent}
                 <Formik
                     initialValues={initialValues}
-                    validationSchema={validationSchema}
+                    // validationSchema={validationSchema}
                     onSubmit={onSubmit}
                 >
                     {(formik) => {
-                        console.log('formik values', formik.values)
-
                         return (
                             <Form
                                 name="basic"
@@ -328,7 +308,10 @@ const CreateUser = (): JSX.Element => {
                                             SCREEN_LABEL_KEYS.registerButton
                                         )}
                                         fontSize="18px"
-                                        loading={isLoading}
+                                        loading={loading}
+                                        clicked={() => {
+                                            onSubmit
+                                        }}
                                     />
                                 </div>
                             </Form>

@@ -1,5 +1,11 @@
 import { Routes, Route } from 'react-router-dom'
-import { Login, Home, RegisterUser, ErrorPage404 } from '../screens/pages'
+import {
+    Login,
+    Home,
+    RegisterUser,
+    ErrorPage404,
+    Dashboard,
+} from '../screens/pages'
 import ForgetPassword from '../screens/ForgetPassword/ForgetPasword'
 import Otp from '../screens/ForgetPassword/Otp/Otp'
 import CreatePassword from '../screens/ForgetPassword/CreatePassword/CreatePassword'
@@ -624,6 +630,14 @@ function AppRoutes(): JSX.Element {
                     element={
                         <AppLayout>
                             <ReportList />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/dashboard"
+                    element={
+                        <AppLayout>
+                            <Dashboard />
                         </AppLayout>
                     }
                 />

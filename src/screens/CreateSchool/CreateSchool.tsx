@@ -6,7 +6,7 @@ import { Col, Row } from 'react-bootstrap'
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
 import useScreenTranslation from '../../hooks/useScreenTranslation'
-import { RootState } from '../../redux/store'
+import store, { RootState } from '../../redux/store'
 import useCreateSchool from '../../hooks/useCreateSchool'
 import {
     CreateSchoolInitialValues,
@@ -29,8 +29,8 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAppSelector } from '../../app/hooks'
 import Head from '../../components/Head/Head'
-import useUser from '../../hooks/useUser'
 import { UserDataType } from '../../redux/features/User/UserSlice'
+import { getSchoolByUserId } from '../../redux/features/dashboard/dashboardDataSlice'
 
 const CreateSchool = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('schoolCreate')

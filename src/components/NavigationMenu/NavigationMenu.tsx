@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 type MenuItem = Required<MenuProps>['items'][number]
 
 const menuLinks: any = {
-    dashboard: '/',
+    dashboard: '/dashboard',
     createSchool: '/school/list',
     classes: '/class/list',
     timeTable: '/timetable/list',

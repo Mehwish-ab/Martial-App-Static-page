@@ -30,9 +30,6 @@ import useClass from '../../../hooks/useClass'
 import moment from 'moment'
 import FormControl from '../../../components/FormControl'
 import { Form, Formik } from 'formik'
-import useCreateSchool from '../../../hooks/useCreateSchool'
-import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
-import { nextDay } from 'date-fns'
 
 const ListClass = (): JSX.Element => {
     const { ClassData } = useSelector((state: RootState) => state.ClassData)

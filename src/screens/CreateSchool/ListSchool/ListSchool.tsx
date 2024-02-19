@@ -207,9 +207,6 @@ const ListSchool = (): JSX.Element => {
             case 'activity':
                 navigate(`/school/activity/${record.schoolId}`)
                 break
-            case 'activity':
-                navigate(`/school/activity/${record.schoolId}`)
-                break
             case 'report':
                 handleReportModalVisible()
                 break

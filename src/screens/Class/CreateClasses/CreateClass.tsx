@@ -269,8 +269,8 @@ const CreateClass = (): JSX.Element => {
                                                                 className="mt-20"
                                                             >
                                                                 <FormControl
-                                                                    control="date"
-                                                                    type="date"
+                                                                    control="dateTime"
+                                                                    type="dateTime"
                                                                     name="startDate"
                                                                     fontFamily={
                                                                         fontFamilyRegular
@@ -292,6 +292,7 @@ const CreateClass = (): JSX.Element => {
                                                                     control="date"
                                                                     type="date"
                                                                     name="endDate"
+                                                                    showTime
                                                                     fontFamily={
                                                                         fontFamilyRegular
                                                                     }
@@ -430,7 +431,7 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="input"
                                                 type="number"
-                                                name="fee"
+                                                name="fees"
                                                 fontFamily={fontFamilyRegular}
                                                 label="New Class Fees"
                                                 padding="8px 10px"

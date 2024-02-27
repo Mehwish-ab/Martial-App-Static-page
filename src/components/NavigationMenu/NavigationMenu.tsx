@@ -76,9 +76,9 @@ const NavigationMenu = (): JSX.Element => {
         {
             key: menuLinksKeys.dashboard,
             label: getLabel(
-                'Dasboard',
+                'Dashboard',
                 menuLinks.dashboard,
-                menuLinks.dashboard
+                menuLinksKeys.dashboard
             ),
         },
         {

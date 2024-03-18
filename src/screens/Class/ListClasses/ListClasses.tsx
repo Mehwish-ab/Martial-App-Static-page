@@ -10,7 +10,7 @@ import {
     pureDark,
     tertiaryBlue2,
 } from '../../../components/GlobalStyle'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import plusIcon from '../../../assets/icons/ic_plus.svg'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 import { useSelector } from 'react-redux'
@@ -34,14 +34,160 @@ import { Form, Formik } from 'formik'
 const ListClass = (): JSX.Element => {
     const { ClassData } = useSelector((state: RootState) => state.ClassData)
     const navigate = useNavigate()
+    const { schoolId, branchId, franchiseId } = useParams()
     const { ClassStatus, deletemodal, deleteConfirmation, setIsShowModal } =
         useClass()
     const [Id, setId] = useState(0)
+    const [startDate, setStartDate] = useState('')
+    const [endDate, setEndDate] = useState('')
+    const [CalculateDay, setCalculateDay] = useState(0)
+    const [NextDays, setNextDays] = useState('')
+    const { loginData } = useSelector((state: RootState) => state)
+    const [calenderData, setcalenderData] = useState<
+        ClassDataType[] | undefined
+    >(undefined)
+    const [Flag, setFlag] = useState(false)
+    const calculateDaysDifference = (st: string, en: string): number => {
+        const start = new Date(st)
+        const end = new Date(en)
+        console.log('as', st, en)
+
+        if (endDate != null) {
+            const differenceInTime = end.getTime() - start.getTime() + 1
+            const differenceInDays = Math.ceil(
+                differenceInTime / (1000 * 3600 * 24)
+            )
+            return differenceInDays
+        } else {
+            return 1
+        }
+    }
+    const [AllClass, setAllClass] = useState<
+        | {
+              currentPage: number
+              totalItems: number | undefined
+              data: ClassDataType[]
+          }
+        | undefined
+    >(undefined)
+    const [error, setError] = useState<string | undefined>(undefined)
+    const [currentPage, setCurrentPage] = useState(1)
+    const pageSize = 10
+    const {
+        getInstructorstartenddate,
+        getClassPegination,
+        getClassbyschoolId,
+    } = useClass()
+    const handlePaginationChange = async (page: number): Promise<any> => {
+        try {
+            //setLoading(true)
+            // page = page - 1
+            const response = await getClassPegination(
+                Number(schoolId || loginData.data?.schoolId),
+                page - 1
+            )
+            setAllClass(response)
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+        } catch (error: unknown) {
+            setError('Error fetching data')
+        } finally {
+            //  setLoading(false)
+        }
+        setCurrentPage(page)
+    }
+    // const { g}=useCreateSchool()
 
     const { getLabelByKey } = useScreenTranslation('classesList')
     useEffect(() => {
         store.dispatch(getBranchBySchoolId())
     }, [])
+    useEffect(() => {
+        const fetchData = async (): Promise<any> => {
+            try {
+                const res = await getClassbyschoolId(
+                    Number(schoolId || loginData.data?.schoolId)
+                )
+
+                setAllClass(res)
+            } catch (errors) {
+                /// setError('Error fetching data')
+            } finally {
+                //  setLoading(false)
+            }
+        }
+
+        fetchData()
+    }, [])
+    const getparam = async (
+        startdate: string,
+        enddate: string
+    ): Promise<void> => {
+        const data = await getInstructorstartenddate(
+            startdate,
+            enddate,
+            Number(schoolId)
+        )
+        setcalenderData(data)
+    }
+
+    const handleDateChange = async (dates: any): Promise<void> => {
+        setFlag(true)
+
+        setCalculateDay(0)
+        const [start, end] = dates.map((date: any) =>
+            moment(date).format('YYYY-MM-DD')
+        )
+        setStartDate(start)
+        setEndDate(end)
+        console.log('Start Date:', start)
+        console.log('End Date:', end)
+
+        await getparam(start, end)
+
+        setCalculateDay(calculateDaysDifference(startDate, endDate))
+        console.log('next day count', CalculateDay)
+
+        const days = moment(endDate, 'YYYY-MM-DD').add(CalculateDay, 'd')
+        console.log('zx', days)
+
+        // Check the validity of the 'days' moment object
+        console.log('Is Valid:', days.isValid())
+
+        // If the 'days' object is valid, format the date
+        if (days.isValid()) {
+            const formattedDays = days.format('YYYY-MM-DD')
+            console.log('Formatted Days:', formattedDays)
+            setNextDays(formattedDays)
+            console.log('nada', NextDays)
+        } else {
+            console.log('Invalid date')
+        }
+    }
+
+    const handlenextdates = async (): Promise<void> => {
+        console.log('next date', endDate, NextDays)
+        console.log('day count', CalculateDay)
+
+        const dataaa = await getparam(endDate, NextDays)
+        console.log('p', dataaa)
+
+        const days = moment(endDate, 'YYYY-MM-DD').add(CalculateDay, 'd')
+        console.log('zx', days)
+        // Check the validity of the 'days' moment object
+        console.log('Is Valid:', days.isValid())
+
+        // If the 'days' object is valid, format the date
+        if (days.isValid()) {
+            const formattedDays = days.format('YYYY-MM-DD')
+            console.log('Formatted Days:', formattedDays)
+            setEndDate(NextDays)
+            setNextDays(formattedDays)
+            console.log('nada', NextDays)
+        } else {
+            console.log('Invalid date')
+        }
+    }
+
     const { loading } = useSelector((state: RootState) => state.ClassData)
     const navigation = (record: ClassDataType, redirectTo: string): void => {
         switch (redirectTo) {
@@ -103,12 +249,17 @@ const ListClass = (): JSX.Element => {
                                                 />
                                             </div>
                                             <div className="arrowLeft">
-                                                <img
-                                                    src={RightArrow}
-                                                    alt="Date"
-                                                    width={18}
-                                                    height={12}
-                                                />
+                                                <button
+                                                    onClick={handlenextdates}
+                                                >
+                                                    {' '}
+                                                    <img
+                                                        src={RightArrow}
+                                                        alt="Date"
+                                                        width={18}
+                                                        height={12}
+                                                    />
+                                                </button>{' '}
                                             </div>
                                         </div>
                                         <FormControl
@@ -117,6 +268,9 @@ const ListClass = (): JSX.Element => {
                                             name="startDate"
                                             fontFamily={fontFamilyRegular}
                                             padding="8px 10px"
+                                            onChange={(dates: any) => {
+                                                handleDateChange(dates)
+                                            }}
                                         />
                                         <div className="todayPlusContainer">
                                             <div className="dateToday">
@@ -176,6 +330,7 @@ const ListClass = (): JSX.Element => {
             title: getLabelByKey('startDate'),
             dataIndex: 'startDate',
             key: 'startDate',
+            // eslint-disable-next-line @typescript-eslint/no-shadow
             render: (startDate) => {
                 return (
                     <div className="list-item mb-0">
@@ -190,6 +345,7 @@ const ListClass = (): JSX.Element => {
             title: getLabelByKey('endDate'),
             dataIndex: 'endDate',
             key: 'endDate',
+            // eslint-disable-next-line @typescript-eslint/no-shadow
             render: (endDate) => {
                 return (
                     <div>
@@ -290,18 +446,32 @@ const ListClass = (): JSX.Element => {
             <ListClassStyled>
                 <Table
                     columns={columns}
-                    dataSource={
-                        ClassData?.data[0].id !== 0 ? ClassData.data : []
-                    }
+                    // dataSource={
+                    //     Flag === false
+                    //         ? ClassData?.data[0].id !== 0
+                    //             ? ClassData.data
+                    //             : []
+                    //         : calenderData === undefined
+                    //           ? []
+                    //           : calenderData
+                    // }
+                    dataSource={AllClass ? AllClass?.data : []}
                     // scroll={{ x: true }}
                     pagination={{
+                        current: currentPage,
+                        total: AllClass ? AllClass.totalItems : 0,
+                        pageSize: pageSize,
                         showTotal: (total, range) => (
                             <span
                                 dangerouslySetInnerHTML={{
-                                    __html: `Page <span className='paginationVal'>${range[0]}</span> of ${range[1]}`,
+                                    __html: `Page <span className='paginationVal'>${currentPage}</span> of ${Math.ceil(
+                                        total / pageSize
+                                    )}`,
                                 }}
                             />
                         ),
+                        onChange: (page) => handlePaginationChange(page),
+                        // itemRender: customItemRender,
                     }}
                 />
             </ListClassStyled>

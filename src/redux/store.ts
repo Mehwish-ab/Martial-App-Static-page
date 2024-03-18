@@ -15,6 +15,8 @@ import instructorSlice from './features/instructor/instructorSlice'
 import MembershipSlice from './features/Membership/MembershipSlice'
 import ClassSlice from './features/CLasses/ClassSlice'
 import franchiseSlice from './features/franchise/franchiseSlice'
+import RoomSlice from './features/Room/RoomSlice'
+import UserSlice from './features/User/UserSlice'
 const store = configureStore({
     reducer: {
         userLocation: locationSlice,
@@ -33,6 +35,8 @@ const store = configureStore({
         MembershipData: MembershipSlice,
         ClassData: ClassSlice,
         franchiseData: franchiseSlice,
+        RoomData: RoomSlice,
+        UserData: UserSlice,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

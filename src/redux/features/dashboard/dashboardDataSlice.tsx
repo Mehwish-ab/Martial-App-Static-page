@@ -30,10 +30,21 @@ export interface SchoolDataType {
     bannerPicture: string | null | undefined
     profilePicture: string | null | undefined
     emailAddress: string
+    countryName: string
+    totalItems: number
+    totalPages: number
+    currentPage: number
 }
-
+export interface OwnerDataTypes {
+    firstName: string
+    lastName: string
+    emailAddress: string
+    phoneNumber: string
+    id: number | string
+}
 export interface DashboardDataInitialState {
     schoolData: SchoolDataType
+    ownerData: OwnerDataTypes
     loading: boolean
     error: string | undefined
 }
@@ -61,9 +72,20 @@ const initialState: DashboardDataInitialState = {
         bannerPicture: '',
         profilePicture: '',
         emailAddress: '',
+        countryName: '',
+        currentPage: 0,
+        totalItems: 0,
+        totalPages: 0,
     },
     loading: false,
     error: '',
+    ownerData: {
+        firstName: '',
+        lastName: '',
+        emailAddress: '',
+        phoneNumber: '',
+        id: 0,
+    },
 }
 
 export const getSchoolByUserId = createAsyncThunk(
@@ -71,11 +93,16 @@ export const getSchoolByUserId = createAsyncThunk(
     async () => {
         // const userDetails: any = thunkAPI.getState().state.loginData.userDetails;
         const state = store.getState()
+
         try {
+            console.log(state, 'state')
+
             const { data } = await axios.post(
                 `${base_url}${get_school_by_user_id_url}`,
                 {
-                    userId: state.loginData?.data?.userDetails?.id,
+                    schoolId:
+                        state.loginData.data?.schoolId ||
+                        state.dashboardData.schoolData.schoolId,
                 },
                 {
                     headers: {

@@ -5,15 +5,15 @@ export type DataTypeWithIdAndCurrentLangLabel = {
 
 export type CreateSchoolInitialValues = {
     businessName: string
-    businessType: string
+    businessType: number | string
     address: string
     businessPhoneNumber: string
-    defaultLanguage: string | number
-    defaultCurrency: string | number
+    defaultLanguageId: string | number
+    defaultCurrencyId: string | number
     description: string
     rank: number | string
-    defaultCurrencyId: number
-    defaultLanguageId: number
+    UserId: number
+
     // stripePublishableKey: string;
     // stripeSecretKey: string;
     // cardAccessToken: string;
@@ -37,16 +37,5 @@ export const BELTS_SELECT_OPTIONS: SelectOptionsDataTypes[] = [
     {
         value: 2,
         label: 'No',
-    },
-]
-
-export const VISIBILITY_SELECT_OPTIONS: SelectOptionsDataTypes[] = [
-    {
-        value: 1,
-        label: 'Public',
-    },
-    {
-        value: 2,
-        label: 'Private',
     },
 ]

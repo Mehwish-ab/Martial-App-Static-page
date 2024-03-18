@@ -68,6 +68,8 @@ interface IUseTimetable {
     getTimetableSlot: (timeTableid: number) => Promise<any>
     getAllTimetable: (userid: number) => Promise<any>
     getTimetableById: (timeTableId: number) => Promise<any>
+    getAllUserPagination: (userid:number, page: number) => Promise<any>
+
 
     //     CreateSlots: (
     //         timeTableId: any,
@@ -162,17 +164,9 @@ const useTimetable = (): IUseTimetable => {
 
             setTimeout(() => {
                 setLoading(false)
-                // navigate('/school/view')
             }, 3000)
-            // toastId.current = toast(data.responseMessage, {
-            //   type: "success",
-            //   autoClose: 1000,
-            // });
-            //setLoading(false);
             console.log('data', { data: data2 })
-            //setIsUploadImgVisible(true);
-            // navigate("/");
-            // resetForm()
+          
             return data2.results
         } catch (error2: any) {
             console.log('error', { error: error2 })
@@ -214,6 +208,7 @@ const useTimetable = (): IUseTimetable => {
                 return
             }
             // setIsShowModal(true)
+        store.dispatch(getTimetableByUserId())
 
             setTimeout(() => {
                 setLoading(false)
@@ -322,9 +317,9 @@ const useTimetable = (): IUseTimetable => {
                 return data3.results.data
             }
             setLoading(false)
-            setIsShowModal(true)
+            //setIsShowModal(true)
             setTimeout(() => {
-                setIsShowModal(false)
+             //   setIsShowModal(false)
                 //navigate("/school/view");
             }, 3000)
 
@@ -334,7 +329,7 @@ const useTimetable = (): IUseTimetable => {
             //     return pic;
             //   })
             // );
-            return data3
+            return data3.results
         } catch (e: any) {
             console.log('api error', errorMessage)
             setError((errorMessage as any).response.data.responseMessage)
@@ -372,7 +367,7 @@ const useTimetable = (): IUseTimetable => {
                 setLoading(false)
                 console.log('add timetable list', data3.results.data)
 
-                return data3
+                return data3.results
             }
             setLoading(false)
             setTimeout(() => {
@@ -401,7 +396,46 @@ const useTimetable = (): IUseTimetable => {
             )
         }
     }
+ const getAllUserPagination = async (
+        userid: number,
+        page: number
+    ): Promise<any> => {
+        try {
+            setError('')
+            setLoading(true)
+            const { data: allschool } = await axios.post(
+                `timetable/getAll?pageNo=${page}`,
+                { userId: userid },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            if (allschool.responseCode === '500') {
+                setLoading(false)
+                return
+            }
 
+            setLoading(false)
+
+            return allschool.results
+        } catch (error: any) {
+            console.log({ error })
+            setLoading(false)
+            setError(error.response.data.responseMessage)
+            const id = setTimeout(() => {
+                setError('')
+            }, 3000)
+            if (!setIsShowModal) {
+                clearTimeout(id)
+            }
+            toastId.current = toast(error.response.data.errors, {
+                type: 'error',
+                autoClose: 1000,
+            })
+        }
+    }
     const createSlots = async (params: CreateSlotsProps): Promise<any> => {
         const payload = {
             ...params,
@@ -472,8 +506,8 @@ const useTimetable = (): IUseTimetable => {
                 address: values.address,
                 phoneNumber: values?.businessPhoneNumber || '',
                 rank: values.rank === 1 ? true : false,
-                defaultLanguageId: values.defaultLanguage,
-                defaultCurrencyId: values.defaultCurrency,
+                defaultLanguageId: values.defaultLanguageId,
+                defaultCurrencyId: values.defaultCurrencyId,
                 activities: values.selectedActivities.join(','),
                 facilities: values.selectedFacilities.join(','),
                 description: values.description,
@@ -592,8 +626,9 @@ const useTimetable = (): IUseTimetable => {
             setTimeout(() => {
                 setIsShowDeleteModal(false)
                 // setIsShowDeleteModal(true)
-                navigate('/school/create')
             }, 3000)
+                    store.dispatch(getTimetableByUserId())
+
             // console.log('data', { data: data2 })
         } catch (error2: any) {
             console.log('api error', error2)
@@ -782,10 +817,11 @@ const useTimetable = (): IUseTimetable => {
         getTimetableSlot,
         getAllTimetable,
         WarningModal,
-        getTimetableById: getTimetableById,
+        getTimetableById,
         createSlots,
         setIsShowWarningModal,
         TimeTableStatus,
+        getAllUserPagination
     }
 }
 

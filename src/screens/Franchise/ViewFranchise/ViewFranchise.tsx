@@ -14,6 +14,7 @@ import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/typ
 import { FranchiseDataType } from '../../../redux/features/franchise/franchiseSlice'
 import { useEffect, useState } from 'react'
 import AddPaymentFranchise from '../AddPaymentFranchise/AddPaymentFranchise'
+import Head from '../../../components/Head/Head'
 const ViewFranchise = (): JSX.Element => {
     // const navigate = useNavigate()
     const { schoolData } = useSelector(
@@ -239,226 +240,252 @@ const ViewFranchise = (): JSX.Element => {
     const facilitiesToShow = franchisedata?.facilities || ''
     const FranchiseTypeToShow = franchisedata?.franchiseType || ''
     return (
-        <ViewFranchiseStyled>
-            <OverlayImages
-                backgroundImg={franchisedata?.bannerPicture || ''}
-                overlayImg={franchisedata?.profilePicture || ''}
-                isEditable={true}
-            />
+        <>
+            <Head title="Franchise Information" />
+            <ViewFranchiseStyled>
+                <OverlayImages
+                    backgroundImg={franchisedata?.bannerPicture || ''}
+                    overlayImg={franchisedata?.profilePicture || ''}
+                    isEditable={true}
+                />
+                <h3>Owner Information</h3>
+                <Card>
+                    <Row>
+                        <Col md="6">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    Owner First Name
+                                </div>
+                                <div className="list-item-value">Adnan</div>
+                            </div>
+                        </Col>
+                        <Col md="6">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    Owner Last Name
+                                </div>
+                                <div className="list-item-value">Qureshi</div>
+                            </div>
+                        </Col>
+                        <Col md="6">
+                            <div className="list-item">
+                                <div className="list-item-title">Email</div>
+                                <div className="list-item-value">
+                                    adnan@gmail.com
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="6">
+                            <div className="list-item ">
+                                <div className="list-item-title">
+                                    Phone Number
+                                </div>
+                                <div className="list-item-value">
+                                    +923000000000
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                </Card>
+                <h3>Affiliated Schoool Information</h3>
+                <Card>
+                    <Row>
+                        <Col md="4">
+                            <div className="list-item mb-0">
+                                <div className="list-item-title">
+                                    {getLabelByKey('franchiseName')}
+                                </div>
+                                <div className="list-item-value">
+                                    {schoolData.businessName || '--'}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="4">
+                            <div className="list-item mb-0">
+                                <div className="list-item-title">
+                                    {getLabelByKey('franchiseName')}
+                                </div>
+                                <div className="list-item-value">
+                                    {schoolData.address || '--'}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="4">
+                            <div className="list-item mb-0">
+                                <div className="list-item-title">
+                                    {getLabelByKey('franchiseName')}
+                                </div>
+                                <div className="list-item-value">
+                                    {showBusinessType(
+                                        schoolData.businessType as number
+                                    )}
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                </Card>
+                <h3>Franchise Information</h3>
+                <Card>
+                    <Row>
+                        <Col md="4">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('franchiseName')}
+                                </div>
+                                <div className="list-item-value">
+                                    {franchisedata?.franchiseName}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="4">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('franchiseType')}
+                                </div>
+                                <div className="list-item-value">
+                                    {showBusinessType(
+                                        FranchiseTypeToShow as number
+                                    )}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="4">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('franchisePhoneNumber')}
+                                </div>
+                                <div className="list-item-value">
+                                    {franchisedata?.phoneNumber || '--'}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="4">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('address')}
+                                </div>
+                                <div className="list-item-value">
+                                    {franchisedata?.address || '--'}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="4">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('defaultLanguage')}
+                                </div>
+                                <div className="list-item-value">
+                                    {(defaultLanguage &&
+                                        (defaultLanguage as any)[
+                                            selectedLanguage
+                                        ]) ||
+                                        '--'}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="4">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('defaultCurrency')}
+                                </div>
+                                <div className="list-item-value">
+                                    {(defaultCurrency &&
+                                        (defaultCurrency as any)[
+                                            selectedLanguage
+                                        ]) ||
+                                        '--'}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="6">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('activity')}
+                                </div>
+                                <div className="list-item-value">
+                                    {showActivities(activitiesToShow)}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="6">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('facilities')}
+                                </div>
+                                <div className="list-item-value">
+                                    {showFacilities(facilitiesToShow)}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="12">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('description')}
+                                </div>
+                                <div className="list-item-value">
+                                    {franchisedata?.description || '--'}
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                </Card>
 
-            <h3>Affiliated Schoool Information</h3>
-            <Card>
-                <Row>
-                    <Col md="4">
-                        <div className="list-item mb-0">
-                            <div className="list-item-title">
-                                {getLabelByKey('franchiseName')}
-                            </div>
-                            <div className="list-item-value">
-                                {schoolData.businessName || '--'}
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md="4">
-                        <div className="list-item mb-0">
-                            <div className="list-item-title">
-                                {getLabelByKey('franchiseName')}
-                            </div>
-                            <div className="list-item-value">
-                                {schoolData.address || '--'}
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md="4">
-                        <div className="list-item mb-0">
-                            <div className="list-item-title">
-                                {getLabelByKey('franchiseName')}
-                            </div>
-                            <div className="list-item-value">
-                                {showBusinessType(
-                                    schoolData.businessType as number
-                                )}
-                            </div>
-                        </div>
-                    </Col>
-                </Row>
-            </Card>
-            <h3>Franchise Information</h3>
-            <Card>
-                <Row>
-                    <Col md="4">
-                        <div className="list-item">
-                            <div className="list-item-title">
-                                {getLabelByKey('franchiseName')}
-                            </div>
-                            <div className="list-item-value">
-                                {franchisedata?.franchiseName}
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md="4">
-                        <div className="list-item">
-                            <div className="list-item-title">
-                                {getLabelByKey('franchiseType')}
-                            </div>
-                            <div className="list-item-value">
-                                {showBusinessType(
-                                    FranchiseTypeToShow as number
-                                )}
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md="4">
-                        <div className="list-item">
-                            <div className="list-item-title">
-                                {getLabelByKey('franchisePhoneNumber')}
-                            </div>
-                            <div className="list-item-value">
-                                {franchisedata?.phoneNumber || '--'}
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md="4">
-                        <div className="list-item">
-                            <div className="list-item-title">
-                                {getLabelByKey('address')}
-                            </div>
-                            <div className="list-item-value">
-                                {franchisedata?.address || '--'}
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md="8">
-                        <Row>
-                            <Col md="4">
-                                <div className="list-item">
-                                    <div className="list-item-title">
-                                        {getLabelByKey('ranking')}
-                                    </div>
-                                    <div className="list-item-value">
-                                        {franchisedata?.rank ? 'Yes' : 'No'}
-                                    </div>
+                <h3>Franchise Plans Subscribed</h3>
+                <Card>
+                    <Row>
+                        <Col md="3">
+                            <div className="list-item mb-0">
+                                <div className="list-item-title">
+                                    {getLabelByKey('franchiseName')}
                                 </div>
-                            </Col>
-                            <Col md="4">
-                                <div className="list-item">
-                                    <div className="list-item-title">
-                                        {getLabelByKey('defaultLanguage')}
-                                    </div>
-                                    <div className="list-item-value">
-                                        {(defaultLanguage &&
-                                            (defaultLanguage as any)[
-                                                selectedLanguage
-                                            ]) ||
-                                            '--'}
-                                    </div>
+                                <div className="list-item-value">
+                                    {'IMAS - Innovative Martial Arts Systems' ||
+                                        // branch.branchName
+                                        '--'}
                                 </div>
-                            </Col>
-                            <Col md="4">
-                                <div className="list-item">
-                                    <div className="list-item-title">
-                                        {getLabelByKey('defaultCurrency')}
-                                    </div>
-                                    <div className="list-item-value">
-                                        {(defaultCurrency &&
-                                            (defaultCurrency as any)[
-                                                selectedLanguage
-                                            ]) ||
-                                            '--'}
-                                    </div>
+                            </div>
+                        </Col>
+                        <Col md="3">
+                            <div className="list-item mb-0">
+                                <div className="list-item-title">
+                                    {/* {getLabelByKey("franchiseName")} */}
+                                    Price
                                 </div>
-                            </Col>
-                        </Row>
-                    </Col>
-                    <Col md="6">
-                        <div className="list-item">
-                            <div className="list-item-title">
-                                {getLabelByKey('activity')}
+                                <div className="list-item-value">
+                                    {'Hutton, United Kingdom' ||
+                                        // branch.branchName
+                                        '--'}
+                                </div>
                             </div>
-                            <div className="list-item-value">
-                                {showActivities(activitiesToShow)}
+                        </Col>
+                        <Col md="3">
+                            <div className="list-item mb-0">
+                                <div className="list-item-title">
+                                    {getLabelByKey('franchiseName')}
+                                </div>
+                                <div className="list-item-value">
+                                    {'Monday, 17th October 2023' ||
+                                        // branch.branchName
+                                        '--'}
+                                </div>
                             </div>
-                        </div>
-                    </Col>
-                    <Col md="6">
-                        <div className="list-item">
-                            <div className="list-item-title">
-                                {getLabelByKey('facilities')}
+                        </Col>
+                        <Col md="3">
+                            <div className="list-item mb-0">
+                                <div className="list-item-title">
+                                    {getLabelByKey('franchiseName')}
+                                </div>
+                                <div className="list-item-value">
+                                    {'Auto Renew' ||
+                                        // branch.branchName
+                                        '--'}
+                                </div>
                             </div>
-                            <div className="list-item-value">
-                                {showFacilities(facilitiesToShow)}
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md="12">
-                        <div className="list-item">
-                            <div className="list-item-title">
-                                {getLabelByKey('description')}
-                            </div>
-                            <div className="list-item-value">
-                                {franchisedata?.description || '--'}
-                            </div>
-                        </div>
-                    </Col>
-                </Row>
-            </Card>
-
-            <h3>Franchise Plans Subscribed</h3>
-            <Card>
-                <Row>
-                    <Col md="3">
-                        <div className="list-item mb-0">
-                            <div className="list-item-title">
-                                {getLabelByKey('franchiseName')}
-                            </div>
-                            <div className="list-item-value">
-                                {'IMAS - Innovative Martial Arts Systems' ||
-                                    // branch.branchName
-                                    '--'}
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md="3">
-                        <div className="list-item mb-0">
-                            <div className="list-item-title">
-                                {/* {getLabelByKey("franchiseName")} */}
-                                Price
-                            </div>
-                            <div className="list-item-value">
-                                {'Hutton, United Kingdom' ||
-                                    // branch.branchName
-                                    '--'}
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md="3">
-                        <div className="list-item mb-0">
-                            <div className="list-item-title">
-                                {getLabelByKey('franchiseName')}
-                            </div>
-                            <div className="list-item-value">
-                                {'Monday, 17th October 2023' ||
-                                    // branch.branchName
-                                    '--'}
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md="3">
-                        <div className="list-item mb-0">
-                            <div className="list-item-title">
-                                {getLabelByKey('franchiseName')}
-                            </div>
-                            <div className="list-item-value">
-                                {'Auto Renew' ||
-                                    // branch.branchName
-                                    '--'}
-                            </div>
-                        </div>
-                    </Col>
-                </Row>
-            </Card>
-            <AddPaymentFranchise />
-            {/* <AddPaymentMethod>
+                        </Col>
+                    </Row>
+                </Card>
+                <AddPaymentFranchise />
+                {/* <AddPaymentMethod>
         {loading && <LoadingOverlay message="" />}
         <h3 className="table-heading">Payment Information</h3>
         <Table
@@ -467,7 +494,8 @@ const ViewFranchise = (): JSX.Element => {
           scroll={{ x: true }}
         />
       </AddPaymentMethod> */}
-        </ViewFranchiseStyled>
+            </ViewFranchiseStyled>
+        </>
     )
 }
 

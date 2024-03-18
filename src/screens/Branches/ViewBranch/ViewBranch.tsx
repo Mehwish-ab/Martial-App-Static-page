@@ -114,7 +114,41 @@ const ViewBranch = (): JSX.Element => {
                 overlayImg={Branch?.profilePicture || ''}
                 isEditable={true}
             />
-
+            <h3>Owner Information</h3>
+            <Card>
+                <Row>
+                    <Col md="6">
+                        <div className="list-item">
+                            <div className="list-item-title">
+                                Owner First Name
+                            </div>
+                            <div className="list-item-value">Adnan</div>
+                        </div>
+                    </Col>
+                    <Col md="6">
+                        <div className="list-item">
+                            <div className="list-item-title">
+                                Owner Last Name
+                            </div>
+                            <div className="list-item-value">Qureshi</div>
+                        </div>
+                    </Col>
+                    <Col md="6">
+                        <div className="list-item">
+                            <div className="list-item-title">Email</div>
+                            <div className="list-item-value">
+                                adnan@gmail.com
+                            </div>
+                        </div>
+                    </Col>
+                    <Col md="6">
+                        <div className="list-item ">
+                            <div className="list-item-title">Phone Number</div>
+                            <div className="list-item-value">+923000000000</div>
+                        </div>
+                    </Col>
+                </Row>
+            </Card>
             <h3>Branch Information</h3>
 
             <Card>
@@ -152,7 +186,7 @@ const ViewBranch = (): JSX.Element => {
                             </div>
                         </div>
                     </Col>
-                    <Col md="3">
+                    <Col md="4">
                         <div className="list-item">
                             <div className="list-item-title">
                                 Address
@@ -163,18 +197,7 @@ const ViewBranch = (): JSX.Element => {
                             </div>
                         </div>
                     </Col>
-                    <Col md="3">
-                        <div className="list-item">
-                            <div className="list-item-title">
-                                {/* {getLabelByKey("belts")} */}
-                                Belts
-                            </div>
-                            <div className="list-item-value">
-                                {Branch?.rank === true ? 'Yes' : 'No'}
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md="3">
+                    <Col md="4">
                         <div className="list-item">
                             <div className="list-item-title">
                                 {/* {getLabelByKey("defaultLanguage")} */}
@@ -189,7 +212,7 @@ const ViewBranch = (): JSX.Element => {
                             </div>
                         </div>
                     </Col>
-                    <Col md="3">
+                    <Col md="4">
                         <div className="list-item">
                             <div className="list-item-title">
                                 {/* {getLabelByKey("defaultCurrency")} */}

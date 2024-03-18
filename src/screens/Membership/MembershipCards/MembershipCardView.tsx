@@ -15,7 +15,6 @@ import {
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
-import DateCalander from '../../../assets/images/dateCalander.svg'
 import FilterIcon from '../../../assets/icons/ic_filter.svg'
 import { CustomDiv } from './CustomDiv'
 import Head from '../../../components/Head/Head'
@@ -25,20 +24,24 @@ import store, { RootState } from '../../../redux/store'
 import { getBranchBySchoolId } from '../../../redux/features/CLasses/ClassSlice'
 import useMembership from '../../../hooks/useMembership'
 import { Form, Formik } from 'formik'
+import moment from 'moment'
 
 const MembershipCardView = (): JSX.Element => {
-    const navigate = useNavigate()
-    const { loading } = useMembership()
+    // const { loginData } = useSelector((state: RootState) => state)
+    const { loading, handleCreateSubmit, Createmodal } = useMembership()
     const [selectedClassIds, setSelectedClassIds] = useState<string[]>([])
     const { getLabelByKey } = useScreenTranslation('createMembershipClass')
     const { ClassData } = useSelector((state: RootState) => state.ClassData)
     useEffect(() => {
         store.dispatch(getBranchBySchoolId())
     }, [])
+    const navigate = useNavigate()
+
     console.log('Selected Class IDs:', selectedClassIds)
     const location = useLocation()
     const data = location.state && location.state.data
     console.log('Received data:', data)
+    const receivingImage = location.state && location.state.bannerImages
 
     const handleCheckboxChange = (classId: string): void => {
         const isSelected = selectedClassIds.includes(classId)
@@ -51,19 +54,72 @@ const MembershipCardView = (): JSX.Element => {
             setSelectedClassIds((prevIds: any) => [...prevIds, classId])
         }
     }
+    const { loginData } = useSelector((state: RootState) => state)
+    const schoolId = loginData.data?.schoolId
+
+    console.log('loginData', loginData.data?.schoolId, schoolId)
+    const payload = {
+        useCase: 'SCHOOL',
+        classIds: selectedClassIds.join(','),
+        id: Number(schoolId),
+        title: data.title,
+        startDate: moment(data.startDate, 'dddd, MMM DD, YYYY').format(
+            'YYYY-MM-DD'
+        ),
+        endDate: moment(data.endDate, 'dddd, MMM DD, YYYY').format(
+            'YYYY-MM-DD'
+        ),
+        visibility: data.visibility,
+        // subscriptionType: data.subscriptionType,
+        subscriptionType: 1,
+        membershipFee: data.membershipFee,
+        minimumStudent: data.minimumStudent,
+        dailySubsFee: data.dailySubsFee,
+        weeklySubsFee: data.weeklySubsFee,
+        monthlySubsFee: data.monthlySubsFee,
+        annuallySubsFee: data.annuallySubsFee,
+        allowStudentCancel: moment(
+            data.allowStudentCancel,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD'),
+        refundDate: moment(data.refundDate, 'dddd, MMM DD, YYYY').format(
+            'YYYY-MM-DD'
+        ),
+        bookingCancelStartDate: moment(
+            data.bookingCancelStartDate,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD'),
+        bookingCancelEndDate: moment(
+            data.bookingCancelEndDate,
+            'dddd, MMM DD, YYYY'
+        ).format('YYYY-MM-DD'),
+        cancellationCharges: data.cancellationCharges,
+        accommodation: data.accommodation.join(','),
+        description: data.description,
+        bannerPicture: '',
+    }
+
+    const onSubmit = async (): Promise<void> => {
+        await handleCreateSubmit(payload, receivingImage)
+    }
+    console.log(ClassData, 'll')
+
     const initialValues = (): void => {}
-    const handleCreateSubmit = (): void => {}
+    const handleCreateSubmits = (): void => {}
     return (
         <>
             <Head title="Membership Class" />
+            {Createmodal().modalComponent}
             <MembershipCardViewStyled>
                 <CustomDiv>
                     <Formik
-                        initialValues={initialValues}
+                        initialValues={payload}
                         // validationSchema={validationSchema}
-                        onSubmit={handleCreateSubmit}
+                        onSubmit={handleCreateSubmits}
                     >
                         {(formik) => {
+                            console.log('init', payload)
+
                             return (
                                 <Form
                                     name="basic"
@@ -114,7 +170,6 @@ const MembershipCardView = (): JSX.Element => {
                                                     type="submit"
                                                     title=""
                                                     fontSize="17px"
-                                                    loading={loading}
                                                     icon={
                                                         <img
                                                             src={FilterIcon}
@@ -123,11 +178,6 @@ const MembershipCardView = (): JSX.Element => {
                                                             height={17}
                                                         />
                                                     }
-                                                    clicked={() => {
-                                                        navigate(
-                                                            `/membership/create`
-                                                        )
-                                                    }}
                                                 />
                                             </div>
                                         </div>
@@ -157,6 +207,7 @@ const MembershipCardView = (): JSX.Element => {
                                         }
                                         alt="CardImg"
                                         id="cardImg"
+                                        // {onClick: () => navigation(`/class/view${}`)}
                                     />
                                     <FormControl
                                         control="checkbox"
@@ -205,7 +256,7 @@ const MembershipCardView = (): JSX.Element => {
                         title={getLabelByKey('primaryButton')}
                         fontSize="18px"
                         loading={loading}
-                        // clicked={}
+                        clicked={onSubmit}
                     />
                 </div>
                 <div>

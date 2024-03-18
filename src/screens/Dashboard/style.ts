@@ -1,69 +1,74 @@
 import styled from 'styled-components'
 import {
     fontFamilyMedium,
-    lightGrey4,
-    primaryColor,
-    secondaryDark3,
-    tertiaryDark,
-    whiteColor,
+    fontFamilyRegular,
+    lightDark,
+    lightDark2,
+    pureDark2,
 } from '../../components/GlobalStyle'
 
-export const RoleAndCommisionsSytled = styled.div`
-    margin-top: 24px;
-
-    p {
-        font-size: 12px;
-        margin-bottom: 0;
-        color: ${secondaryDark3};
-        font-family: ${fontFamilyMedium};
-    }
-    .row:not(:first-child) {
-        .card {
-            margin-top: 26px;
-            padding: 10px;
-            background: ${whiteColor};
-            box-shadow: 0px 0px 2px ${tertiaryDark};
-            border-radius: 2px;
-            border: none;
-            cursor: pointer;
-        }
-    }
-    .row:first-child {
-        margin-top: 12px;
-    }
-`
-export const WeeklyTotalIncomeStyled = styled.div`
-    .red-line {
-        height: 2px;
-        background-color: ${primaryColor};
-        max-width: 120px;
-    }
-    margin-top: 24px;
-    p {
-        font-size: 12px;
-        margin-bottom: 0;
-        color: ${secondaryDark3};
-        font-family: ${fontFamilyMedium};
-    }
-    .card {
-        cursor: pointer;
+export const DashboardStyle = styled.div`
+    .boxBG {
         .title {
+            font-size: 18px;
             font-family: ${fontFamilyMedium};
-            font-size: 14px;
+            color: ${pureDark2};
+            font-weight: 500;
         }
-        .sub_title {
-            color: ${lightGrey4};
+        p {
+            font-size: 16px;
+            font-family: ${fontFamilyRegular};
+            color: ${lightDark2};
         }
     }
-    .row:not(:first-child) {
-        .card {
-            margin-top: 26px;
-            padding: 10px;
-            background: ${whiteColor};
-            box-shadow: 0px 0px 2px ${tertiaryDark};
-            border-radius: 2px;
-            border: none;
+    p {
+        margin: 0px;
+    }
+    .boxes {
+        background-color: white;
+        border-radius: 8px;
+        padding: 16px;
+        height: 167px;
+        &-title {
+            margin-top: 10px;
+            font-size: 18px;
+            font-family: ${fontFamilyMedium};
+            color: ${pureDark2};
+            font-weight: 500;
+        }
+        .threeDots {
+            padding: 0px 4px;
             cursor: pointer;
         }
+
+        .totalSchool {
+            font-size: 14px;
+            font-family: ${fontFamilyMedium};
+            color: ${pureDark2};
+            font-weight: 500;
+        }
+        .totalSchool_users {
+            font-size: 22px;
+            font-family: ${fontFamilyMedium};
+            color: ${pureDark2};
+            font-weight: 500;
+        }
+    }
+
+    .BoxDiv {
+        background-color: white;
+        padding: 16px;
+        border-radius: 8px;
+    }
+
+    .sub-text {
+        color: #804eea;
+    }
+
+    .bottom-text {
+        text-align: center;
+        color: ${lightDark};
+        font-family: ${fontFamilyRegular};
+        font-size: 16px;
     }
 `

@@ -20,6 +20,9 @@ import { useAppSelector } from '../../../app/hooks'
 import { useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
 import Head from '../../../components/Head/Head'
+import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../redux/store'
 
 interface TimeTableFormProps {
     setNewTimetable: React.Dispatch<React.SetStateAction<any>>
@@ -84,7 +87,35 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
         const timeTableId = data?.timeTableId
         setNewTimetable(data)
         setIsShowModal(true)
-        navigate(`/timetable/slots/${timeTableId}`)
+        navigate(`/timetable/slotss/${timeTableId}`)
+    }
+    const {
+        statusData: { activities, facilities },
+        dropdowns: { currency, language, businessTypes },
+    } = useSelector((state: RootState) => state.appData.data)
+
+    const { selectedLanguage } = useSelector(
+        (state: RootState) => state.selectedLanguage
+    )
+
+    const showActivities = (_activities: string[]): string => {
+        let activitiesName = ''
+        _activities.forEach((activity) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                const activityLabel = (activities[index] as any)[
+                    selectedLanguage
+                ]
+                activitiesName =
+                    activitiesName === ''
+                        ? activityLabel
+                        : `${activitiesName}, ${activityLabel}`
+            }
+        })
+        if (activitiesName.length > 35) {
+            return `${activitiesName.slice(0, 35)}...`
+        }
+        return activitiesName || getLabelByKey('activity')
     }
 
     return (
@@ -179,6 +210,31 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                                 placeholder={getLabelByKey(
                                                     'endDatePlaceholder'
                                                 )}
+                                            />
+                                        </Col>
+                                        <Col md="6">
+                                            <CheckboxesSelect
+                                                list={activities}
+                                                name="selectedActivities"
+                                                label="Activity"
+                                                showErrorMsgInList={false}
+                                                // placeholder={showActivities(
+                                                //     formik.values
+                                                //         .selectedActivities
+                                                // )}
+                                            />
+                                        </Col>
+                                        <Col md="6" className="mt-20">
+                                            <FormControl
+                                                control="select"
+                                                type="text"
+                                                name="rooms"
+                                                label="Rooms"
+                                                padding="8px 10px"
+                                                fontFamily={fontFamilyRegular}
+                                                fontSize="16px"
+                                                max={6}
+                                                placeholder="Select Rooms"
                                             />
                                         </Col>
                                     </Row>

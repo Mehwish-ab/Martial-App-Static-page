@@ -11,6 +11,7 @@ type CustomPasswordInputTypes = {
     labelMarginBottom: string
     labelFont: string
     labelFamily: string
+    placeholderColor: string
 }
 
 export const CustomPasswordInputStyle = styled.div<CustomPasswordInputTypes>`
@@ -26,6 +27,7 @@ export const CustomPasswordInputStyle = styled.div<CustomPasswordInputTypes>`
         &::placeholder {
             font-family: ${(props) => props.placeholderFamily};
             font-size: ${(props) => props.placeholderFont};
+            color: ${(props) => props.placeholderColor};
         }
     }
 

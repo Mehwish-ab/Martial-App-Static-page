@@ -1,6 +1,6 @@
-import { CreateSchoolStyled } from '../styles'
+import { CreateSchoolStyled, StudentViewStyling } from '../styles'
 import { ErrorMessage, Formik } from 'formik'
-import { Form } from 'antd'
+import { Card, Form } from 'antd'
 import { Col, Row } from 'react-bootstrap'
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
@@ -27,9 +27,15 @@ import CustomButton from '../../../components/CustomButton/CustomButton'
 import PlacesAutoCompleteInput from '../../../maps/PlacesAutocomplete'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
 import Head from '../../../components/Head/Head'
+import { useEffect, useState } from 'react'
+import {
+    OwnerDataTypes,
+    SchoolDataType,
+} from '../../../redux/features/dashboard/dashboardDataSlice'
 
 const EditSchool = (): JSX.Element => {
-    const { editSchool, loading, UpdateModal } = useSchool()
+    const { editSchool, loading, SuccessModal, WarningModal, getSchoolbyId } =
+        useSchool()
     const { activities } = useSelector(
         (state: RootState) => state.appData.data.statusData
     )
@@ -46,10 +52,11 @@ const EditSchool = (): JSX.Element => {
     const {
         dropdowns: { currency, language, businessTypes },
     } = useSelector((state: RootState) => state.appData.data)
-    const { schoolData } = useSelector(
-        (state: RootState) => state.dashboardData
-    )
+    const [schoolData, setschoolData] = useState<SchoolDataType>()
+    const [OwnerData, setOwnerData] = useState<OwnerDataTypes>()
+
     const { schoolId } = useParams()
+    console.log('schoolID', schoolData)
 
     // const businessName = validationFinder('BUSINESS_NAME')!
     // const businessNameReg = new RegExp(businessName.pattern)
@@ -94,7 +101,7 @@ const EditSchool = (): JSX.Element => {
         if (!value.selectedActivities[0] || !value.selectedFacilities[0]) {
             return
         }
-        await editSchool(schoolData.schoolId, value)
+        await editSchool(Number(schoolId), value)
     }
     const createOptions = (
         list: DataTypesWithIdAndMultipleLangLabel[]
@@ -152,55 +159,122 @@ const EditSchool = (): JSX.Element => {
         }
         return facilitiesName || getLabelByKey('facilities')
     }
+    useEffect(() => {
+        const fetchData = async (): Promise<void> => {
+            try {
+                const response: any = await getSchoolbyId(Number(schoolId))
+                setschoolData(response)
+                setOwnerData(response.ownerData)
+
+                console.log('response', response)
+
+                // eslint-disable-next-line @typescript-eslint/no-shadow
+            } catch (error) {
+                // setError('Error fetching data')
+            } finally {
+                // setLoading(false)
+            }
+        }
+
+        fetchData()
+    }, [])
+    console.log('school dat', schoolData?.rank)
 
     const initialValuesForEdit: CreateSchoolInitialValues = {
-        businessName: schoolData.businessName,
-        businessType: schoolData.businessType.toString(),
-        address: schoolData.address,
-        businessPhoneNumber: schoolData.phoneNumber,
-        defaultLanguage: schoolData.defaultLanguageId,
-        defaultCurrency: schoolData.defaultCurrencyId,
-        description: schoolData.description,
-        rank: schoolData.rank ? 1 : 2,
-        defaultCurrencyId: schoolData.defaultCurrencyId,
-        defaultLanguageId: schoolData.defaultLanguageId,
+        businessName: schoolData ? schoolData.businessName : '--',
+        businessType: schoolData ? schoolData.businessType : 0,
+        address: schoolData ? schoolData.address : '--',
+        businessPhoneNumber: schoolData ? schoolData.phoneNumber : '--',
+        defaultLanguageId: schoolData ? schoolData.defaultLanguageId : '--',
+        defaultCurrencyId: schoolData ? schoolData.defaultCurrencyId : '--',
+        description: schoolData ? schoolData.description : '--',
+        rank: schoolData?.rank === true ? 1 : 2,
+
         // stripePublishableKey: schoolData.stripePublicKey,
         // stripeSecretKey: schoolData.stripeSecretKey,
         // cardAccessToken: schoolData.gclAccessToken,
         // cardClientId: schoolData.gclClientId,
         // cardWebHook: schoolData.gclWebHook,
         // cardClientSecret: schoolData.gclClientSecret,
-        selectedActivities: schoolData.activities.split(',').map(String),
-        selectedFacilities: schoolData.facilities.split(',').map(String),
+        selectedActivities: schoolData
+            ? schoolData?.activities?.split(',').map(String)
+            : [],
+        selectedFacilities: schoolData
+            ? schoolData.facilities?.split(',').map(String)
+            : [],
+        UserId: Number(schoolData?.userId),
     }
+    console.log('belte', initialValuesForEdit.rank)
+
     return (
         <>
             <Head title="Update School" />
+            <StudentViewStyling>
+                <Card>
+                    <h3>Owner Information</h3>
+                    <Row className="mt-20">
+                        <Col md="6">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    Owner First Name
+                                </div>
+                                <div className="list-item-value">
+                                    {OwnerData?.firstName}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="6">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    Owner Last Name
+                                </div>
+                                <div className="list-item-value">
+                                    {OwnerData?.lastName}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="6">
+                            <div className="list-item">
+                                <div className="list-item-title">Email</div>
+                                <div className="list-item-value">
+                                    {OwnerData?.emailAddress}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="6">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    Phone Number
+                                </div>
+                                <div className="list-item-value">
+                                    {OwnerData?.phoneNumber}
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                </Card>
+            </StudentViewStyling>
             <CreateSchoolStyled>
-                {/* {UpdateModal().modalComponent}
-      <OverlayImages
-        backgroundImg={schoolData.bannerPicture || ""}
-        overlayImg={schoolData.profilePicture || ""}
-        isEditable={true}
-      /> */}
-                {UpdateModal().modalComponent}
+                {SuccessModal().modalComponent}
+                {WarningModal().modalComponent}
                 <Formik
                     initialValues={initialValuesForEdit}
                     validationSchema={validationSchema}
                     validateOnMount
+                    enableReinitialize
                     onSubmit={(values) => handleEditSchool(values)}
                 >
                     {(formik) => {
+                        console.log('asdf', formik.values)
+
                         return (
                             <Form
                                 name="basic"
                                 onFinish={formik.handleSubmit}
                                 autoComplete="off"
                             >
-                                <h3 className="ps-3">
-                                    {getTitleLabelByKey('title')}
-                                </h3>
-                                <div className="bg-white form mt-10">
+                                <div className="bg-white form mt-20">
+                                    <h3>{getTitleLabelByKey('title')}</h3>
                                     <Row>
                                         <Col md="4" className="mt-20">
                                             <FormControl
@@ -233,6 +307,7 @@ const EditSchool = (): JSX.Element => {
                                                 control="select"
                                                 type="text"
                                                 name="businessType"
+                                                fontFamily={fontFamilyRegular}
                                                 // prefix={<img src={lock_icon} alt="lock_icon" />}
                                                 label={getLabelByKey(
                                                     'businessType'
@@ -250,15 +325,16 @@ const EditSchool = (): JSX.Element => {
                                                 options={createOptions(
                                                     businessTypes
                                                 )}
-                                                defaultValue={
+                                                value={
                                                     schoolId
                                                         ? createOptions(
                                                               businessTypes
                                                           ).find(
                                                               (item) =>
                                                                   item.value ===
-                                                                  schoolData.businessType
-                                                          )?.label
+                                                                  formik.values
+                                                                      .businessType
+                                                          )?.value
                                                         : undefined
                                                 }
                                             />
@@ -330,15 +406,13 @@ const EditSchool = (): JSX.Element => {
                                                 value={formik.values.address}
                                             />
                                         </Col>
-                                        <Col md="2" className="mt-20">
+                                        {/* <Col md="2" className="mt-20">
                                             <FormControl
                                                 control="select"
                                                 type="text"
                                                 name="rank"
                                                 fontFamily={fontFamilyRegular}
-                                                // prefix={<img src={lock_icon} alt="lock_icon" />}
                                                 label={getLabelByKey('belts')}
-                                                // defaultValue={schoolData.rank === true ? "Yes" : "No"}
                                                 placeholder={getLabelByKey(
                                                     'beltsPlaceholder'
                                                 )}
@@ -349,41 +423,24 @@ const EditSchool = (): JSX.Element => {
                                                         : 'customInput'
                                                 }
                                                 options={BELTS_SELECT_OPTIONS}
-                                                defaultValue={
+                                                value={
                                                     schoolId
                                                         ? BELTS_SELECT_OPTIONS.find(
                                                               (item) =>
                                                                   item.value ===
-                                                                  initialValuesForEdit.rank
+                                                                  formik.values
+                                                                      .rank
                                                           )?.label
                                                         : undefined
                                                 }
                                             />
-
-                                            {/* //   control="select"
-                    //   type="text"
-                    //   name="belts"
-                    //   fontFamily={fontFamilyMedium}
-                    //   // prefix={<img src={lock_icon} alt="lock_icon" />}
-                    //   label={getLabelByKey("belts")}
-                    //   padding="10px"
-                    //   value={schoolData.belts === false ? "Yes" : "No"}
-                    //   placeholder={getLabelByKey("beltsPlaceholder")}
-                    //   className={
-                    //     formik.errors.rank && formik.touched.rank
-                    //       ? "is-invalid"
-                    //       : "customInput"
-                    //   }
-                    //   options={BELTS_SELECT_OPTIONS}
-                    // /> */}
-                                        </Col>
-                                        <Col md="3" className="mt-20">
+                                        </Col> */}
+                                        <Col md="4" className="mt-20">
                                             <FormControl
                                                 control="select"
                                                 type="text"
-                                                name="defaultLanguage"
+                                                name="defaultLanguageId"
                                                 fontFamily={fontFamilyRegular}
-                                                // prefix={<img src={lock_icon} alt="lock_icon" />}
                                                 label={getLabelByKey(
                                                     'defaultLanguage'
                                                 )}
@@ -392,35 +449,35 @@ const EditSchool = (): JSX.Element => {
                                                 )}
                                                 className={
                                                     formik.errors
-                                                        .defaultLanguage &&
+                                                        .defaultLanguageId &&
                                                     formik.touched
-                                                        .defaultLanguage
+                                                        .defaultLanguageId
                                                         ? 'is-invalid'
                                                         : 'customInput'
                                                 }
                                                 options={createOptions(
                                                     language
                                                 )}
-                                                defaultValue={
+                                                value={
                                                     schoolId
                                                         ? createOptions(
                                                               language
                                                           ).find(
                                                               (item) =>
                                                                   item.value ===
-                                                                  schoolData.defaultLanguageId
+                                                                  formik.values
+                                                                      .defaultLanguageId
                                                           )?.label
                                                         : undefined
                                                 }
                                             />
                                         </Col>
-                                        <Col md="3" className="mt-20">
+                                        <Col md="4" className="mt-20">
                                             <FormControl
                                                 control="select"
                                                 type="text"
-                                                name="defaultCurrency"
+                                                name="defaultCurrencyId"
                                                 fontFamily={fontFamilyRegular}
-                                                // prefix={<img src={lock_icon} alt="lock_icon" />}
                                                 label={getLabelByKey(
                                                     'defaultCurrency'
                                                 )}
@@ -429,25 +486,18 @@ const EditSchool = (): JSX.Element => {
                                                 )}
                                                 className={
                                                     formik.errors
-                                                        .defaultCurrency &&
+                                                        .defaultCurrencyId &&
                                                     formik.touched
-                                                        .defaultCurrency
+                                                        .defaultCurrencyId
                                                         ? 'is-invalid'
                                                         : 'customInput'
                                                 }
                                                 options={createOptions(
                                                     currency
                                                 )}
-                                                defaultValue={
-                                                    schoolId
-                                                        ? createOptions(
-                                                              currency
-                                                          ).find(
-                                                              (item) =>
-                                                                  item.value ===
-                                                                  schoolData.defaultCurrencyId
-                                                          )?.value
-                                                        : undefined
+                                                value={
+                                                    formik.values
+                                                        .defaultCurrencyId
                                                 }
                                             />
                                         </Col>

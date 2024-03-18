@@ -1,15 +1,16 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 
-import { Dropdown, Space, Table } from 'antd'
+import { Dropdown, Form, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { ListFranchiseStyled } from './styles'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import {
     fontFamilyMedium,
+    fontFamilyRegular,
     pureDark,
     tertiaryBlue2,
 } from '../../../components/GlobalStyle'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import plusIcon from '../../../assets/icons/ic_plus.svg'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 
@@ -20,26 +21,50 @@ import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
 import defaltimg from '../../../assets/images/create_school_user_profile.svg'
 import {
     FranchiseDataType,
+    getfranchiseBySchoolIds,
     getfranchiseBySchoolId,
 } from '../../../redux/features/franchise/franchiseSlice'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
 import DateCalander from '../../../assets/images/dateCalander.svg'
-import { CustomDiv } from './CustomDiv'
 import useFranchise from '../hooks/useFranchise'
-
+import { Formik } from 'formik'
+import FormControl from '../../../components/FormControl'
+import { CustomDiv } from '../../CreateSchool/ListSchool/CustomDiv'
+import Head from '../../../components/Head/Head'
 const ListFranchise = (): JSX.Element => {
     const {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
-    const { deletemodal, setIsShowModal, deleteConfirmation, FranchiseStatus } =
-        useFranchise()
+    const {
+        deletemodal,
+        setIsShowModal,
+        deleteConfirmation,
+        FranchiseStatus,
+        viewFranchisebySchoolid,
+    } = useFranchise()
     const [Id, setId] = useState(0)
     const navigate = useNavigate()
+    const { schoolId } = useParams()
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
+
+    useEffect(() => {
+        store.dispatch(getfranchiseBySchoolIds(schoolId))
+
+        // const fetchData = async (): Promise<void> => {
+        //     try {
+        //         store.dispatch(viewFranchisebySchoolids(schoolId))
+        //     } catch (error) {
+        //         console.error('Error fetching branch data:', error)
+        //     }
+        // }
+
+        // fetchData()
+    }, [schoolId])
+    console.log('location.pathname', location.pathname)
     const showActivities = (_activities: string): string => {
         const activitiesArr = _activities.split(',')
 
@@ -70,7 +95,7 @@ const ListFranchise = (): JSX.Element => {
             case 'edit':
                 navigate(`/franchise/edit/${record.franchiseId}`, {
                     state: {
-                        franchiseToEdit: record as FranchiseDataType,
+                        branchToEdit: record as FranchiseDataType,
                     },
                 })
                 break
@@ -82,40 +107,53 @@ const ListFranchise = (): JSX.Element => {
                     },
                 })
                 break
-
             case 'payment':
                 navigate(
                     `/franchise/add-payment-information/${record.franchiseId}`,
                     {
                         state: {
-                            branch: record as FranchiseDataType,
+                            branchToEdit: record as FranchiseDataType,
                         },
                     }
                 )
                 break
 
-            case 'subscribe':
-                navigate(`/franchise/subscribe/${record.franchiseId}`, {
+            case 'delete':
+                navigate(`/franchise/delete/${record.franchiseId}`, {
                     state: {
                         branch: record as FranchiseDataType,
                     },
                 })
                 break
 
-            case 'delete':
-                navigate(`/franchise/delete/${9}`, {
-                    state: {
-                        branch: record as FranchiseDataType,
-                    },
-                })
+            case 'Transaction':
+                navigate(`/Transaction/list/${record.franchiseId}`)
+                break
+            case 'Subscription':
+                navigate(`/franchise/list/${record.franchiseId}`)
+                break
+            case 'Classes':
+                navigate(`/class/list/${record.franchiseId}`)
+                break
+            case 'timeTable':
+                navigate(`/timeTable/list/${record.franchiseId}`)
+                break
+            case 'membership':
+                navigate(`/membership/list/${record.franchiseId}`)
+                break
+            case 'activity':
+                navigate(`/activity`)
+                break
+            case 'room':
+                navigate(`/franchise/room/list/${record.franchiseId}`)
         }
     }
     const { franchiseData, loading } = useSelector(
         (state: RootState) => state.franchiseData
     )
-    useEffect(() => {
-        store.dispatch(getfranchiseBySchoolId())
-    }, [])
+    // useEffect(() => {
+    //     store.dispatch(getfranchiseBySchoolId())
+    // }, [])
 
     const {
         dropdowns: { businessTypes },
@@ -236,7 +274,6 @@ const ListFranchise = (): JSX.Element => {
             title: 'Action',
             key: 'action',
             render: (value: unknown, record: FranchiseDataType): ReactNode => {
-                console.log(record, 'keyyyyss')
                 const items = [
                     {
                         key: '1',
@@ -250,26 +287,66 @@ const ListFranchise = (): JSX.Element => {
                     },
                     {
                         key: '3',
+                        label: 'Activity',
+                        onClick: () => {
+                            navigation(record, 'activity')
+                        },
+                    },
+                    {
+                        key: '4',
                         label: 'Payment',
                         onClick: () => navigation(record, 'payment'),
                     },
                     {
-                        key: '4',
-                        label: 'Subscribe',
-                        onClick: () => navigation(record, 'subscribe'),
-                    },
-                    {
                         key: '5',
                         label: 'Delete',
-                        // onClick: () =>
-                        //     //navigation(record, "delete"),
-                        //     {
-                        //         handleDelete(record.franchiseId)
-                        //     },
-                        onClick: () => {
-                            setId(record.franchiseId)
-                            setIsShowModal(true)
-                        },
+                        // onClick: () => {
+                        //     setId(record.schoolId)
+                        //     setIsShowModal(true)
+                        // },
+                    },
+                    {
+                        key: 'divider1',
+                        type: 'divider',
+                    },
+                    {
+                        key: '6',
+                        label: 'Transaction',
+                        onClick: () => navigation(record, 'branch'),
+                    },
+                    {
+                        key: '7',
+                        label: 'Subscription',
+                        onClick: () => navigation(record, 'franchise'),
+                    },
+                    {
+                        key: '8',
+                        label: 'Classes',
+                        onClick: () => navigation(record, 'class'),
+                    },
+                    {
+                        key: '9',
+                        label: 'TimeTable',
+                        onClick: () => navigation(record, 'timeTable'),
+                    },
+                    {
+                        key: '10',
+                        label: 'Memberships',
+                        onClick: () => navigation(record, 'membership'),
+                    },
+                    {
+                        key: '11',
+                        label: 'room',
+                        onClick: () => navigation(record, 'room'),
+                    },
+                    {
+                        key: 'divider1',
+                        type: 'divider',
+                    },
+                    {
+                        key: '12',
+                        label: 'Reports',
+                        onClick: () => navigation(record, 'Reports'),
                     },
                 ]
 
@@ -288,69 +365,89 @@ const ListFranchise = (): JSX.Element => {
         },
     ]
 
+    const initialValues = (): void => {}
+    const handleCreateSubmit = (): void => {}
+
     const RenderTableTitle = (): JSX.Element => {
         return (
-            <div className="d-flex justify-content-between align-center">
-                {/* <h3 className="table-heading">{getLabelByKey("title")}</h3> */}
-                <h3 className="table-heading">Franchise</h3>
-                <CustomDiv>
-                    <div className="instructorDateSection">
-                        <div className="mainarrow">
-                            <div className="arrowright">
-                                <img
-                                    src={LeftArrow as string}
-                                    alt="Date"
-                                    width={18}
-                                    height={12}
-                                />
-                            </div>
-                            <div className="arrowleft">
-                                <img
-                                    src={RightArrow as string}
-                                    alt="Date"
-                                    width={18}
-                                    height={12}
-                                />
-                            </div>
-                        </div>
-                        <div className="dateRange">
-                            <p>
-                                <span>Mon,</span> Sep 11, 2023 -{' '}
-                                <span>Thu,</span> Sep 21, 2023
-                            </p>
-                            <img
-                                src={DateCalander as string}
-                                alt="Calander"
-                                width={21}
-                                height={21}
-                            />
-                        </div>
-                        <div className="dateToday">Today</div>
-                    </div>
-                    <CustomButton
-                        bgcolor={tertiaryBlue2}
-                        textTransform="Captilize"
-                        color={pureDark}
-                        padding="6.5px 0px"
-                        fontFamily={`${fontFamilyMedium}`}
-                        width="40px"
-                        type="submit"
-                        title=""
-                        fontSize="17px"
-                        icon={
-                            <img
-                                src={plusIcon as string}
-                                alt="edit icon"
-                                width={17}
-                                height={17}
-                            />
-                        }
-                        clicked={() => {
-                            navigate(`/franchise/create`)
-                        }}
-                    />
-                </CustomDiv>
-            </div>
+            <CustomDiv>
+                <Formik
+                    initialValues={initialValues}
+                    // validationSchema={validationSchema}
+                    onSubmit={handleCreateSubmit}
+                >
+                    {(formik) => {
+                        return (
+                            <Form
+                                name="basic"
+                                // onFinish={formik.}
+                                autoComplete="off"
+                            >
+                                <div className="mainWrapper">
+                                    <h3 className="table-heading">Franchise</h3>
+                                    <div className="FilterMainContainer">
+                                        <div className="arrowsMain">
+                                            <div className="arrowRight">
+                                                <img
+                                                    src={LeftArrow}
+                                                    alt="Date"
+                                                    width={18}
+                                                    height={12}
+                                                />
+                                            </div>
+                                            <div className="arrowLeft">
+                                                <img
+                                                    src={RightArrow}
+                                                    alt="Date"
+                                                    width={18}
+                                                    height={12}
+                                                />
+                                            </div>
+                                        </div>
+                                        <FormControl
+                                            control="startEndDate"
+                                            type="startEndDate"
+                                            name="startDate"
+                                            fontFamily={fontFamilyRegular}
+                                            padding="8px 10px"
+                                        />
+                                        <div className="todayPlusContainer">
+                                            <div className="dateToday">
+                                                <p>Today</p>
+                                            </div>
+                                            <CustomButton
+                                                bgcolor={tertiaryBlue2}
+                                                textTransform="Captilize"
+                                                color={pureDark}
+                                                padding="6.5px 0px"
+                                                fontFamily={`${fontFamilyMedium}`}
+                                                width="40px"
+                                                type="submit"
+                                                title=""
+                                                fontSize="17px"
+                                                // loading={loading}
+                                                icon={
+                                                    <img
+                                                        src={plusIcon}
+                                                        alt="edit icon"
+                                                        width={17}
+                                                        height={17}
+                                                    />
+                                                }
+                                                clicked={() => {
+                                                    navigate(
+                                                        `/franchise/create`
+                                                    )
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </Form>
+                        )
+                    }}
+                </Formik>
+            </CustomDiv>
         )
     }
 
@@ -363,6 +460,8 @@ const ListFranchise = (): JSX.Element => {
             {deletemodal().modalComponent}
             {deleteConfirmation(Id).modalComponent}
             {loading && <LoadingOverlay message="" />}
+            <Head title="Franchise List" />
+            <RenderTableTitle />
             <ListFranchiseStyled>
                 <Table
                     columns={columns}
@@ -371,7 +470,6 @@ const ListFranchise = (): JSX.Element => {
                             ? franchiseData?.data
                             : []
                     }
-                    title={() => <RenderTableTitle />}
                     scroll={{ x: true }}
                     pagination={{
                         showTotal: (total, range) => (

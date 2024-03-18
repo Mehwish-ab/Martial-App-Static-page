@@ -16,19 +16,31 @@ import { ListBranchStyled } from './styles'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import defaltimg from '../../../assets/images/create_school_user_profile.svg'
 import useBranch from '../hooks/useBranch'
+import { useParams } from 'react-router-dom'
 
 const PreviewBranch = (): JSX.Element => {
+    const { schoolId } = useParams()
     const {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
+    const [branchData, setbranchData] = useState<
+        BranchDataType[] | undefined | null
+    >(undefined)
+
     // const { getLabelByKey } = useScreenTranslation("BranchList");
-    const { deletemodal, deleteConfirmation, BranchStatus } = useBranch()
+    const {
+        deletemodal,
+        deleteConfirmation,
+        BranchStatus,
+        getallbranchbyschoolid,
+        loading,
+    } = useBranch()
     const [Id] = useState(0)
 
     // const [branch, setbranch] = useState()
-    const { branchData, loading } = useSelector(
-        (state: RootState) => state.branchData
-    )
+    // const { branchData, loading } = useSelector(
+    //     (state: RootState) => state.branchData
+    // )
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
@@ -139,6 +151,7 @@ const PreviewBranch = (): JSX.Element => {
                                 onClick={() => {
                                     {
                                         BranchStatus(index.branchId, 2)
+                                        store.dispatch(getBranchBySchoolId())
                                     }
                                 }}
                             >
@@ -153,6 +166,7 @@ const PreviewBranch = (): JSX.Element => {
                             <button
                                 onClick={() => {
                                     BranchStatus(index.branchId, 1)
+                                    store.dispatch(getBranchBySchoolId())
                                 }}
                             >
                                 De-Active
@@ -164,10 +178,28 @@ const PreviewBranch = (): JSX.Element => {
             },
         },
     ]
-
+    let length: number = 0
     useEffect(() => {
-        store.dispatch(getBranchBySchoolId())
-    }, [])
+        const fetchData = async (): Promise<void> => {
+            try {
+                const response: any = await getallbranchbyschoolid(
+                    Number(schoolId)
+                )
+                if (response.results !== null) {
+                    setbranchData(response.results.data)
+                    length = response.results.data.length
+                }
+                length = 0
+                console.log(' api Nada', response)
+
+                // eslint-disable-next-line @typescript-eslint/no-shadow
+            } catch (error) {
+            } finally {
+            }
+        }
+
+        fetchData()
+    }, [schoolId])
 
     // const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
     // const [current, setCurrent] = useState(1)
@@ -180,8 +212,8 @@ const PreviewBranch = (): JSX.Element => {
 
     return (
         <>
-            {deletemodal().modalComponent}
-            {deleteConfirmation(Id).modalComponent}
+            {/* {deletemodal().modalComponent}
+            {deleteConfirmation(Id).modalComponent} */}
 
             {/* {deleteConfirmation(record.branchId).modalComponent}  */}
 
@@ -189,11 +221,7 @@ const PreviewBranch = (): JSX.Element => {
             <ListBranchStyled>
                 <Table
                     columns={columns}
-                    dataSource={
-                        branchData?.data[0].branchId !== 0
-                            ? branchData.data
-                            : []
-                    }
+                    dataSource={branchData ? branchData : []}
                     // scroll={{ x: true }}
                     pagination={{
                         showTotal: (total, range) => (

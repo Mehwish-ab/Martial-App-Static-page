@@ -1,5 +1,11 @@
 import { Routes, Route } from 'react-router-dom'
-import { Login, Home, CreateUser, ErrorPage404 } from '../screens/pages'
+import {
+    Login,
+    Home,
+    RegisterUser,
+    ErrorPage404,
+    Dashboard,
+} from '../screens/pages'
 import ForgetPassword from '../screens/ForgetPassword/ForgetPasword'
 import Otp from '../screens/ForgetPassword/Otp/Otp'
 import CreatePassword from '../screens/ForgetPassword/CreatePassword/CreatePassword'
@@ -53,7 +59,15 @@ import ViewClass from '../screens/Class/ViewClass/ViewClass'
 import UpdateMembership from '../screens/Membership/UpdateMembership/UpdateMembership'
 import ViewMembership from '../screens/Membership/ViewMembership/ViewMembership'
 import NewTimeTable from '../screens/TimeTable/NewTimeTableCreate/NewTimeTableCreate'
-// import { useDispatch, useSelector } from "react-redux";
+import ListSchool from '../screens/CreateSchool/ListSchool/ListSchool'
+import UserList from '../screens/UserList/UserList'
+import ListRoom from '../screens/Rooms/ListRoom/ListRoom'
+import CreateRoom from '../screens/Rooms/CreateRoom/CreateRoom'
+import UpdateRoom from '../screens/Rooms/UpdateRoom/UpdateRoom'
+import ViewRoom from '../screens/Rooms/ViewRoom/ViewRoom'
+import Activity from '../screens/Activitity/activity'
+import CreateUser from '../screens/User/CreateUser/CreateUser'
+import ReportList from '../screens/Reports/ReportList/ReportList'
 // import { RootState } from "../redux/store";
 
 function AppRoutes(): JSX.Element {
@@ -88,7 +102,7 @@ function AppRoutes(): JSX.Element {
       </div> */}
             <Routes>
                 <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<CreateUser />} />
+                <Route path="/register" element={<RegisterUser />} />
                 <Route path="/forgot-password" element={<ForgetPassword />} />
                 <Route path="/register/verify-otp" element={<Otp />} />
                 <Route path="/terms" element={<Terms />} />
@@ -106,7 +120,31 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/school/create"
+                    path="/user/list"
+                    element={
+                        <AppLayout>
+                            <UserList />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/user/create"
+                    element={
+                        <AppLayout>
+                            <CreateUser />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/school/list"
+                    element={
+                        <AppLayout>
+                            <ListSchool />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/school/create/"
                     element={
                         <AppLayout>
                             <CreateSchool />
@@ -114,7 +152,15 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/school/view"
+                    path="/school/create/:userId"
+                    element={
+                        <AppLayout>
+                            <CreateSchool />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/school/view/:schoolId"
                     element={
                         <AppLayout>
                             <ViewSchool />
@@ -146,7 +192,103 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
+                    path="/school/room/list/:schoolId"
+                    element={
+                        <AppLayout>
+                            <ListRoom />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/branch/room/list/:branchId"
+                    element={
+                        <AppLayout>
+                            <ListRoom />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/franchise/room/list/:franchiseId"
+                    element={
+                        <AppLayout>
+                            <ListRoom />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/school/room/create/:schoolId"
+                    element={
+                        <AppLayout>
+                            <CreateRoom />
+                        </AppLayout>
+                    }
+                />{' '}
+                <Route
+                    path="/branch/room/create/:branchId"
+                    element={
+                        <AppLayout>
+                            <CreateRoom />
+                        </AppLayout>
+                    }
+                />{' '}
+                <Route
+                    path="/franchise/room/create/:franchiseId"
+                    element={
+                        <AppLayout>
+                            <CreateRoom />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/school/room/edit/:schoolId/:roomId"
+                    element={
+                        <AppLayout>
+                            <UpdateRoom />
+                        </AppLayout>
+                    }
+                />{' '}
+                <Route
+                    path="/branch/room/edit/:branchId/:roomId"
+                    element={
+                        <AppLayout>
+                            <UpdateRoom />
+                        </AppLayout>
+                    }
+                />{' '}
+                <Route
+                    path="/franchise/room/edit/:franchiseId/:roomId"
+                    element={
+                        <AppLayout>
+                            <UpdateRoom />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/room/view/:roomId"
+                    element={
+                        <AppLayout>
+                            <ViewRoom />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/school/activity/:schoolId"
+                    element={
+                        <AppLayout>
+                            <Activity />
+                        </AppLayout>
+                    }
+                />
+                <Route
                     path="/branch/list"
+                    element={
+                        <AppLayout>
+                            <ListBranch />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/branch/list/:schoolId"
                     element={
                         <AppLayout>
                             <ListBranch />
@@ -163,6 +305,14 @@ function AppRoutes(): JSX.Element {
                 />
                 <Route
                     path="/branch/create"
+                    element={
+                        <AppLayout>
+                            <CreateBranch />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/branch/create/:schoolId"
                     element={
                         <AppLayout>
                             <CreateBranch />
@@ -197,6 +347,14 @@ function AppRoutes(): JSX.Element {
                 />
                 <Route
                     path="/franchise/list"
+                    element={
+                        <AppLayout>
+                            <ListFranchise />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/franchise/list/:schoolId"
                     element={
                         <AppLayout>
                             <ListFranchise />
@@ -299,8 +457,24 @@ function AppRoutes(): JSX.Element {
                         </AppLayout>
                     }
                 />
+                {/* <Route
+                    path="/timetable/slots/:timeTableId"
+                    element={
+                        <AppLayout>
+                            <TimeTableSheet />
+                        </AppLayout>
+                    }
+                /> */}
                 <Route
                     path="/timetable/slots/:timeTableId"
+                    element={
+                        <AppLayout>
+                            <NewTimeTable />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/timetable/slotss/:timeTableId"
                     element={
                         <AppLayout>
                             <TimeTableSheet />
@@ -452,10 +626,18 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/NewTimeTable"
+                    path="/reports/list"
                     element={
                         <AppLayout>
-                            <NewTimeTable />
+                            <ReportList />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/dashboard"
+                    element={
+                        <AppLayout>
+                            <Dashboard />
                         </AppLayout>
                     }
                 />

@@ -8,8 +8,8 @@ import { useEffect, useState } from 'react'
 type MenuItem = Required<MenuProps>['items'][number]
 
 const menuLinks: any = {
-    dashboard: '/',
-    createSchool: '/school/create',
+    dashboard: '/dashboard',
+    createSchool: '/school/list',
     classes: '/class/list',
     timeTable: '/timetable/list',
     transactionsHistory: '/transaction-history/list',
@@ -24,8 +24,9 @@ const menuLinks: any = {
     language: '/language',
     qrCode: '/qr-code',
     setting: '/settings',
-    user: '',
+    user: '/user/list',
     attendance: '',
+    reports: '/reports/list',
 }
 
 const menuLinksKeys: any = {
@@ -75,9 +76,9 @@ const NavigationMenu = (): JSX.Element => {
         {
             key: menuLinksKeys.dashboard,
             label: getLabel(
-                'Dasboard',
+                'Dashboard',
                 menuLinks.dashboard,
-                menuLinks.dashboard
+                menuLinksKeys.dashboard
             ),
         },
         {

@@ -54,7 +54,7 @@ const AddPaymentSchool: React.FC = () => {
 
     //   console.log(defaultLanguage, defaultCurrency);
 
-    const navigation = (record: BranchDataType, redirectTo: string) => {
+    const navigation = (record: BranchDataType, redirectTo: string): void => {
         switch (redirectTo) {
             case 'detail':
                 setModelVisible(true)
@@ -101,10 +101,10 @@ const AddPaymentSchool: React.FC = () => {
             title: 'Mode',
             dataIndex: 'mode',
             key: 'mode',
-            render: (DummyData) => {
+            render: (DummyData1) => {
                 return (
-                    <div className={DummyData}>
-                        <button>{DummyData}</button>
+                    <div className={DummyData1}>
+                        <button>{DummyData1}</button>
                         <img src={StatusActiveError} alt="images" />
                     </div>
                 )
@@ -114,10 +114,10 @@ const AddPaymentSchool: React.FC = () => {
             title: 'Status',
             dataIndex: 'status',
             key: 'Staus',
-            render: (DummyData) => {
+            render: (DummyData2) => {
                 return (
-                    <div className={DummyData}>
-                        <button>{DummyData}</button>
+                    <div className={DummyData2}>
+                        <button>{DummyData2}</button>
                         <img src={StatusActiveError} alt="images" />
                     </div>
                 )
@@ -164,7 +164,7 @@ const AddPaymentSchool: React.FC = () => {
         },
     ]
 
-    const { handleCreateSubmit, Createmodal } = useCreateSchool()
+    const { handleCreateSubmit, SuccessModal } = useCreateSchool()
 
     const businessName = {
         notBlankMsgEn: 'Business name cannot be blank',
@@ -176,14 +176,14 @@ const AddPaymentSchool: React.FC = () => {
         businessType: '',
         address: '',
         businessPhoneNumber: '',
-        defaultLanguage: '',
-        defaultCurrency: '',
+        defaultLanguageId: '',
+        defaultCurrencyId: '',
         description: '',
         rank: 0,
-        defaultCurrencyId: 0,
-        defaultLanguageId: 0,
+
         selectedActivities: [],
         selectedFacilities: [],
+        UserId: 0,
     }
 
     return (

@@ -35,5 +35,6 @@
         "deletebranch",
         "deletemodal",
         "formik"
-    ] // Unix
+    ],
+    "editor.formatOnPaste": true // Unix
 }

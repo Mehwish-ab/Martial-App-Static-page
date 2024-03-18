@@ -31,7 +31,6 @@ const CustomInputStyle = styled.div<InputStyleProps>`
     .ant-input {
         height: 50px;
         padding: ${(props) => props.padding};
-        border: 'none';
         font-weight: 400;
         color: ${lightDark2};
         font-family: ${(props) => props.fontFamily};

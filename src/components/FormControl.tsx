@@ -1,6 +1,5 @@
 import Input from './CustomInput/CustomInput'
 import Select from './CustomSelect/CustomSelect'
-import DatePicker from './CustomDatePicker/CustomDatePicker'
 import Textarea from './CustomTextArea/CustomTextarea'
 // import Checkbox from "./Checkbox";
 import CustomSearchSelect from './CustomSearchSelect'
@@ -8,11 +7,13 @@ import CustomMultiSelect from './CustomMultiSelect/Index'
 import CustomPasswordInput from './CustomPasswordInput/CustomPasswordInput'
 import { Checkbox, Radio } from 'antd'
 import CustomFileInput from './CustomFileInput/CustomFileInput'
-import CustomDate from './CustomDatePicker/CustomDate'
 import CustomSelects from './CustomSelect/CustomSelects'
 import CustomTimePicker from './CustomDateTimePicker/Index'
 import CustomTimePickerNew from './CustomTimePicker/CustomTimePicker'
 import CustomDateRangePicker from './CustomDateRangePicker/CustomDateRangePicker'
+import CustomNumberField from './CustomNumberField/CustomNumberField'
+import CustomDatePicker from './CustomDatePicker/CustomDatePicker'
+import CustomDateTimePicker from './CustomDatePicker/CustomDateTime'
 export interface FieldStyleBasicProps {
     padding: string
     bgColor: string
@@ -58,9 +59,9 @@ const FormControl: React.FC<formControlProps> = (props) => {
         case 'radio':
             return <Radio {...rest} />
         case 'date':
-            return <DatePicker {...rest} />
-        case 'dates':
-            return <CustomDate {...rest} />
+            return <CustomDatePicker {...rest} />
+        case 'dateTime':
+            return <CustomDateTimePicker {...rest} />
         case 'file':
             return <CustomFileInput {...rest} />
         case 'TimePicker':
@@ -69,6 +70,8 @@ const FormControl: React.FC<formControlProps> = (props) => {
             return <CustomTimePickerNew {...rest} />
         case 'startEndDate':
             return <CustomDateRangePicker {...rest} />
+        case 'numberField':
+            return <CustomNumberField {...rest} />
         default:
             return null
     }

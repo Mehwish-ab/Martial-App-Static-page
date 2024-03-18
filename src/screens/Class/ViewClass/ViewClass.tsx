@@ -34,82 +34,26 @@ const ViewClass = (): JSX.Element => {
     const {
         dropdowns: { schoolAccommodation },
     } = useSelector((state: RootState) => state.appData.data)
-    // const showAccommodation = (_accommodate: string[]): string => {
-    //     const AccommodateName = _accommodate.reduce(
-    //         (a: string, accommodate_id: string) => {
-    //             const index = schoolAccommodation.findIndex(
-    //                 (facts: any) => facts.id === +accommodate_id
-    //             )
 
-    //             if (index === -1) {
-    //                 return a
-    //             }
-
-    //             const accommodateLabel = (schoolAccommodation[index] as any)[
-    //                 selectedLanguage
-    //             ]
-    //             return `${a} ${accommodateLabel},`
-    //         },
-    //         ''
-    //     )
-
-    //     if (AccommodateName.length > 35) {
-    //         return `${AccommodateName.slice(0, 35)}...`
-    //     }
-
-    //     return AccommodateName || getLabelByKey('selectAccommodationOptions')
-    // }
     const convertedAccommodation = schoolAccommodation.map((accommodation) => ({
         ...accommodation,
         id: accommodation.id.toString(),
     }))
-    // const showAccommodation = (_accommodate: string[]): string => {
-    //     if (!Array.isArray(_accommodate)) {
-    //         return getLabelByKey('selectAccommodationOptions')
-    //     }
-    //     console.log('acc', _accommodate)
+    const showAccommodation = (_Accommodation: string): string => {
+        const activitiesArr = _Accommodation.split(',')
 
-    //     const AccommodateName = _accommodate.reduce(
-    //         (a: string, accommodate_id: string) => {
-    //             const index = convertedAccommodation.findIndex(
-    //                 (facts: any) => facts.id === +accommodate_id
-    //             )
-
-    //             if (index === -1) {
-    //                 return a
-    //             }
-
-    //             const accommodateLabel = (convertedAccommodation[index] as any)[
-    //                 selectedLanguage
-    //             ]
-    //             return `${a} ${accommodateLabel},`
-    //         },
-    //         ''
-    //     )
-
-    //     if (AccommodateName.length > 35) {
-    //         return `${AccommodateName.slice(0, 35)}...`
-    //         console.log('acc', AccommodateName)
-    //     }
-    //     console.log('acc', AccommodateName)
-
-    //     return AccommodateName || getLabelByKey('selectAccommodationOptions')
-    // }
-    const showAccommodation = (_Facilities: string): string => {
-        const activitiesArr = _Facilities.split(',')
-
-        let activitiesName = ''
+        let AccommodationName = ''
         activitiesArr.map((accommodation) => {
             const index = convertedAccommodation.findIndex(
                 (acc: any) => acc.id === accommodation
             )
             if (index !== -1) {
-                activitiesName =
-                    activitiesName === ''
+                AccommodationName =
+                    AccommodationName === ''
                         ? (convertedAccommodation[index] as any)[
                               selectedLanguage
                           ]
-                        : `${activitiesName},${
+                        : `${AccommodationName},${
                               (convertedAccommodation[index] as any)[
                                   selectedLanguage
                               ]
@@ -117,7 +61,7 @@ const ViewClass = (): JSX.Element => {
             }
         })
 
-        if (activitiesName !== '') return activitiesName
+        if (AccommodationName !== '') return AccommodationName
         return '--'
     }
     useEffect(() => {
@@ -215,7 +159,7 @@ const ViewClass = (): JSX.Element => {
                                                 </div>
                                             </div>
                                         </Col>
-                                        <Col md="6">
+                                        <Col md="12">
                                             <div className="list-item">
                                                 <div className="list-item-title">
                                                     {getLabelByKey(
@@ -225,20 +169,6 @@ const ViewClass = (): JSX.Element => {
                                                 <div className="list-item-value">
                                                     {instructor
                                                         ? instructor.instructorName
-                                                        : '--'}
-                                                </div>
-                                            </div>
-                                        </Col>
-                                        <Col md="6">
-                                            <div className="list-item">
-                                                <div className="list-item-title">
-                                                    {/* {getLabelByKey('classFees')} */}
-                                                    TimeTable
-                                                </div>
-                                                <div className="list-item-value">
-                                                    {timetable
-                                                        ? timetable.results
-                                                              .title
                                                         : '--'}
                                                 </div>
                                             </div>
@@ -257,26 +187,15 @@ const ViewClass = (): JSX.Element => {
                                                 </div>
                                             </div>
                                         </Col>
-                                        <Col md="6">
+                                        <Col md="12">
                                             <div className="list-item">
                                                 <div className="list-item-title">
-                                                    {getLabelByKey('classFees')}
+                                                    Rooms
                                                 </div>
                                                 <div className="list-item-value">
-                                                    {values ? values.fee : '--'}
-                                                </div>
-                                            </div>
-                                        </Col>
-                                        <Col md="6">
-                                            <div className="list-item">
-                                                <div className="list-item-title">
-                                                    {getLabelByKey(
-                                                        'classCapacity'
-                                                    )}
-                                                </div>
-                                                <div className="list-item-value">
-                                                    {values
-                                                        ? values.capacity
+                                                    {timetable
+                                                        ? timetable.results
+                                                              .title
                                                         : '--'}
                                                 </div>
                                             </div>
@@ -303,6 +222,36 @@ const ViewClass = (): JSX.Element => {
                                     </div>
                                 </Col>
                             </Row>
+                        </Col>
+                        <Col md="3">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('classFees')}
+                                </div>
+                                <div className="list-item-value">
+                                    {values ? values.fee : '--'}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="3">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    New Class Fees
+                                </div>
+                                <div className="list-item-value">
+                                    {values ? values.fee : '--'}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md="3">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('classCapacity')}
+                                </div>
+                                <div className="list-item-value">
+                                    {values ? values.capacity : '--'}
+                                </div>
+                            </div>
                         </Col>
                         <Col md="3">
                             <div className="list-item">
@@ -416,7 +365,7 @@ const ViewClass = (): JSX.Element => {
                                 </div>
                             </div>
                         </Col>
-                        <Col md="4">
+                        <Col md="3">
                             <div className="list-item">
                                 <div className="list-item-title">
                                     {getLabelByKey('bookingCancellationEnd')}
@@ -431,7 +380,7 @@ const ViewClass = (): JSX.Element => {
                                 </div>
                             </div>
                         </Col>
-                        <Col md="4">
+                        <Col md="3">
                             <div className="list-item">
                                 <div className="list-item-title">
                                     {
@@ -453,10 +402,10 @@ const ViewClass = (): JSX.Element => {
                                 </div>
                             </div>
                         </Col>
-                        <Col md="4">
+                        <Col md="9">
                             <div className="list-item">
                                 <div className="list-item-title">
-                                    {getLabelByKey('activities')}
+                                    {getLabelByKey('accommodate')}
                                 </div>
                                 <div className="list-item-value">
                                     {showAccommodation(accommodationToShow)}

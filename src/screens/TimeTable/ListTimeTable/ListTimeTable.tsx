@@ -108,26 +108,58 @@ const RenderTableTitle = (): JSX.Element => {
     )
 }
 const ListTimeTable: React.FC = () => {
+    const [currentPage, setCurrentPage] = useState(1)
+    const pageSize = 10
     const { getLabelByKey } = useScreenTranslation('timeTableList')
 
     const { timeTableData } = useSelector(
         (state: RootState) => state.timeTableData
     )
     const [Id, setId] = useState(0)
+    const [AllTimetable, setAllTimetable] = useState<
+        | {
+              currentPage: number
+              totalItems: number | undefined
+              data: TimeTableDataType[]
+          }
+        | undefined
+    >(undefined)
     const {
         deletemodal,
         deleteConfirmation,
         setIsShowModal,
         WarningModal,
         TimeTableStatus,
+        getAllTimetable,
+        getAllUserPagination,
         loading,
     } = useTimetable()
+    const { loginData } = useSelector((state: RootState) => state)
+
     useEffect(() => {
         console.log('hi use effect')
         store.dispatch(getTimetableByUserId())
     }, [])
+    // const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | undefined>(undefined)
     console.log('timetable', timeTableData)
-
+    const handlePaginationChange = async (page: number): Promise<any> => {
+        try {
+            //setLoading(true)
+            // page = page - 1
+            const response = await getAllUserPagination(
+                Number(loginData.data?.userDetails.id),
+                page - 1
+            )
+            setAllTimetable(response)
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+        } catch (error: unknown) {
+            setError('Error fetching data')
+        } finally {
+            //  setLoading(false)
+        }
+        setCurrentPage(page)
+    }
     const navigate = useNavigate()
 
     const navigation = (
@@ -160,7 +192,23 @@ const ListTimeTable: React.FC = () => {
         }
     }
     // const { loading } = useSelector((state: RootState) => state.timeTableData)
+    useEffect(() => {
+        const fetchData = async (): Promise<any> => {
+            try {
+                const res = await getAllTimetable(
+                    Number(loginData.data?.userDetails.id)
+                )
 
+                setAllTimetable(res)
+            } catch (errors) {
+                /// setError('Error fetching data')
+            } finally {
+                //  setLoading(false)
+            }
+        }
+
+        fetchData()
+    }, [])
     const columns: ColumnsType<TimeTableDataType> = [
         {
             title: getLabelByKey('id'),
@@ -195,15 +243,23 @@ const ListTimeTable: React.FC = () => {
             dataIndex: 'endDate',
             key: 'endDate',
             render: (endDate) => {
-                return (
-                    <div className="list-item mb-0">
-                        <div className="list-item-value ms-2">
-                            {moment(moment(endDate, 'YYYY-MM-DD')).format(
-                                'dddd, MMM DD, YYYY'
-                            )}
+                if (endDate !== null) {
+                    return (
+                        <div className="list-item mb-0">
+                            <div className="list-item-value ms-2">
+                                {moment(moment(endDate, 'YYYY-MM-DD')).format(
+                                    'dddd, MMM DD, YYYY'
+                                )}
+                            </div>
                         </div>
-                    </div>
-                )
+                    )
+                } else {
+                    return (
+                        <div className="list-item mb-0">
+                            <div className="list-item-value ms-2">{'--'}</div>
+                        </div>
+                    )
+                }
             },
         },
         {
@@ -325,19 +381,25 @@ const ListTimeTable: React.FC = () => {
                     //     return data
                     // })}
                     dataSource={
-                        timeTableData?.data[0].timeTableId !== 0
-                            ? timeTableData.data
-                            : []
+                        AllTimetable ? AllTimetable?.data : []
+                        // timeTableData?.data.length > 0 ? timeTableData.data : []
                     }
                     // scroll={{ x: true }}
                     pagination={{
+                        current: currentPage,
+                        total: AllTimetable ? AllTimetable.totalItems : 0,
+                        pageSize: pageSize,
                         showTotal: (total, range) => (
                             <span
                                 dangerouslySetInnerHTML={{
-                                    __html: `Page <span className='paginationVal'>${range[0]}</span> of ${range[1]}`,
+                                    __html: `Page <span className='paginationVal'>${currentPage}</span> of ${Math.ceil(
+                                        total / pageSize
+                                    )}`,
                                 }}
                             />
                         ),
+                        onChange: (page) => handlePaginationChange(page),
+                        // itemRender: customItemRender,
                     }}
                 />
             </ListTimeTableStyled>

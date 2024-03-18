@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { Formik } from 'formik'
 import { Form } from 'antd'
+import * as Yup from 'yup'
 
 import { Col, Row } from 'react-bootstrap'
 // import * as Yup from 'yup'
@@ -32,10 +33,12 @@ import {
 } from '../../Home/constants'
 import ImagesUpload from '../../../components/ImagesUpload/ImagesUpload'
 import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
+import { validationFinder } from '../../../utils/utilities'
 
 const UpdateeInstructor = (): JSX.Element => {
     const { instructorId } = useParams()
     const [selectedFiles, setSelectedFiless] = useState<FileList | null>(null)
+    const [bannerImages, setBannerImages] = useState<File | null>(null)
 
     const { getLabelByKey } = useScreenTranslation('instructorUpdate')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
@@ -49,10 +52,16 @@ const UpdateeInstructor = (): JSX.Element => {
     >()
 
     const handleupdate = async (values: any): Promise<void> => {
-        await updateInstructor(Number(instructorId), values, selectedFiles)
+        await updateInstructor(
+            Number(instructorId),
+            values,
+            selectedFiles,
+            bannerImages
+        )
     }
     const handleImagesUpload = (selectedFiless: any): void => {
         setSelectedFiless(selectedFiless)
+        setBannerImages(selectedFiless)
     }
 
     useEffect(() => {
@@ -73,7 +82,9 @@ const UpdateeInstructor = (): JSX.Element => {
         address: instructorData ? instructorData.address : '--',
         yearsOfExperience: instructorData?.experience || '--',
         rankId: Number(instructorData?.rankId) || 0, // or a default value
-        latestCertification: instructorData?.certificationURL || '--',
+        latestCertification: instructorData?.certificationURL
+            ? 'uploaded'
+            : '--',
         description: instructorData ? instructorData.description : '--',
         activities: instructorData
             ? instructorData?.activities?.split(',').map(String)
@@ -84,44 +95,63 @@ const UpdateeInstructor = (): JSX.Element => {
         termCondition: '',
         ranking: Number(instructorData?.rankId) > 0 ? 1 : 2,
     }
+    const instructorName = validationFinder('BUSINESS_NAME')!
+    const franchiseNameReg = new RegExp(instructorName.pattern)
+    const address = validationFinder('ADDRESS')!
+    const addressReg = new RegExp(address.pattern)
+    const emailAddress = validationFinder('EMAIL_ADDRESS')!
+    const emailAddressReg = new RegExp(emailAddress.pattern)
+    const instructorPhoneNumber = validationFinder('PHONE_NUMBER')!
 
-    // const franchiseName = validationFinder('BUSINESS_NAME')!
-    // const franchiseNameReg = new RegExp(franchiseName.pattern)
-    // const address = validationFinder('ADDRESS')!
-    // const addressReg = new RegExp(address.pattern)
-    // const emailAddress = validationFinder('EMAIL_ADDRESS')!
-    // const emailAddressReg = new RegExp(emailAddress.pattern)
+    const validationSchemas = Yup.object({
+        in: Yup.string()
+            .required(instructorName.notBlankMsgEn)
+            .matches(franchiseNameReg, instructorName.patternMsgEn),
+        address: Yup.string()
+            .required(address.notBlankMsgEn)
+            .matches(addressReg, address.patternMsgEn),
+        emailAddress: Yup.string()
+            .required(emailAddress.notBlankMsgEn)
+            .matches(emailAddressReg, emailAddress.patternMsgEn),
+        instructorPhoneNumber: Yup.string().required(
+            instructorPhoneNumber.notBlankMsgEn
+        ),
+        // latestCertification: Yup.mixed().test(
+        //     'fileType',
+        //     'Unsupported File Format',
+        //     function (value) {
+        //         if (value) {
+        //             const allowedTypes = [
+        //                 'image/jpeg',
+        //                 'image/png',
+        //                 'image/webp',
+        //                 'image/jpg',
+        //                 'image/bmp',
+        //                 'image/tiff',
+        //             ]
+        //             const isAllowedType = allowedTypes.includes(value.type)
 
-    // const franchisePhoneNumber = validationFinder('PHONE_NUMBER')!
+        //             return isAllowedType
+        //         }
+        //         return true
+        //     }
+        // ),
+        rankId: Yup.string().required('Please select belts'),
+        description: Yup.string().required('Please enter description'),
+        yearsOfExperience: Yup.string().required(
+            'Please select years Of Experience'
+        ),
 
-    // const validationSchema = Yup.object({
-    //     franchiseName: Yup.string()
-    //         .required(franchiseName.notBlankMsgEn)
-    //         .matches(franchiseNameReg, franchiseName.patternMsgEn),
-    //     // address: Yup.string()
-    //     //   .required(address.notBlankMsgEn)
-    //     //   .matches(addressReg, address.patternMsgEn),
-    //     emailAddress: Yup.string()
-    //         .required(emailAddress.notBlankMsgEn)
-    //         .matches(emailAddressReg, emailAddress.patternMsgEn),
-    //     franchisePhoneNumber: Yup.string().required(
-    //         franchisePhoneNumber.notBlankMsgEn
-    //     ),
-    //     rankId: Yup.string().required('Please select belts'),
-    //     description: Yup.string().required('Please enter description'),
-    //     defaultLanguage: Yup.string().required(
-    //         'Please select default language'
-    //     ),
-    //     defaultCurrency: Yup.string().required(
-    //         'Please select default currency'
-    //     ),
-    //     activities: Yup.array()
-    //         .of(Yup.string().required('Select an activity'))
-    //         .min(1, 'Select at least one activity'),
-    //     specializations: Yup.array()
-    //         .of(Yup.string().required('Select an activity'))
-    //         .min(1, 'Select at least one facility'),
-    // })
+        defaultCurrency: Yup.string().required(
+            'Please select default currency'
+        ),
+        activities: Yup.array()
+            .of(Yup.string().required('Select an activity'))
+            .min(1, 'Select at least one activity'),
+        specializations: Yup.array()
+            .of(Yup.string().required('Select an specilization'))
+            .min(1, 'Select at least one specilization'),
+    })
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
@@ -191,7 +221,7 @@ const UpdateeInstructor = (): JSX.Element => {
             <CreateSchoolStyled>
                 <Formik
                     initialValues={initialValues}
-                    // validationSchema={validationSchema}
+                    // validationSchema={validationSchemas}
                     onSubmit={handleupdate}
                     enableReinitialize
                 >
@@ -307,105 +337,58 @@ const UpdateeInstructor = (): JSX.Element => {
                                                     <FormControl
                                                         control="select"
                                                         type="text"
-                                                        name="ranking"
+                                                        name="rankId"
                                                         fontFamily={
                                                             fontFamilyRegular
                                                         }
                                                         label={getLabelByKey(
-                                                            'ranking'
+                                                            'belts'
                                                         )}
                                                         placeholder={getLabelByKey(
-                                                            'PlaceholderRanking'
+                                                            'selectBelt'
                                                         )}
-                                                        options={
-                                                            BELTS_SELECT_OPTIONS
-                                                        }
-                                                        value={
-                                                            Number(
-                                                                formik.values
-                                                                    .rankId
-                                                            ) > 0
-                                                                ? 'Yes'
-                                                                : 'No'
+                                                        options={createOptions(
+                                                            adult
+                                                        )}
+                                                        defaultValue={
+                                                            instructorId
+                                                                ? createOptions(
+                                                                      adult
+                                                                  ).find(
+                                                                      (item) =>
+                                                                          item.value ===
+                                                                          initialValues.rankId
+                                                                  )?.value
+                                                                : undefined
                                                         }
                                                     />
                                                 </Col>
                                                 <Col md="4" className="mt-20">
-                                                    {formik.values.ranking ===
-                                                    1 ? (
-                                                        <>
-                                                            {
-                                                                (formik.values.yearsOfExperience = 0)
-                                                            }
-                                                            <FormControl
-                                                                control="select"
-                                                                type="text"
-                                                                name="rankId"
-                                                                fontFamily={
-                                                                    fontFamilyRegular
+                                                    <FormControl
+                                                        control="input"
+                                                        type="number"
+                                                        name="yearsOfExperience"
+                                                        fontFamily={
+                                                            fontFamilyRegular
+                                                        }
+                                                        label={getLabelByKey(
+                                                            'yearsOfExperience'
+                                                        )}
+                                                        padding="10px"
+                                                        suffix={
+                                                            <img
+                                                                src={
+                                                                    DateCalander as string
                                                                 }
-                                                                label={getLabelByKey(
-                                                                    'belts'
-                                                                )}
-                                                                placeholder={getLabelByKey(
-                                                                    'selectBelt'
-                                                                )}
-                                                                options={createOptions(
-                                                                    adult
-                                                                )}
-                                                                defaultValue={
-                                                                    instructorId
-                                                                        ? createOptions(
-                                                                              adult
-                                                                          ).find(
-                                                                              (
-                                                                                  item
-                                                                              ) =>
-                                                                                  item.value ===
-                                                                                  initialValues.rankId
-                                                                          )
-                                                                              ?.value
-                                                                        : undefined
-                                                                }
+                                                                alt="Calander"
+                                                                width={21}
+                                                                height={21}
                                                             />
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            {
-                                                                (formik.values.rankId =
-                                                                    '')
-                                                            }
-                                                            <FormControl
-                                                                control="input"
-                                                                type="number"
-                                                                name="yearsOfExperience"
-                                                                fontFamily={
-                                                                    fontFamilyRegular
-                                                                }
-                                                                label={getLabelByKey(
-                                                                    'yearsOfExperience'
-                                                                )}
-                                                                padding="10px"
-                                                                suffix={
-                                                                    <img
-                                                                        src={
-                                                                            DateCalander as string
-                                                                        }
-                                                                        alt="Calander"
-                                                                        width={
-                                                                            21
-                                                                        }
-                                                                        height={
-                                                                            21
-                                                                        }
-                                                                    />
-                                                                }
-                                                                placeholder={getLabelByKey(
-                                                                    'placeholderYearsOfExperience'
-                                                                )}
-                                                            />
-                                                        </>
-                                                    )}
+                                                        }
+                                                        placeholder={getLabelByKey(
+                                                            'placeholderYearsOfExperience'
+                                                        )}
+                                                    />
                                                 </Col>
                                                 <Col md="4" className="mt-20">
                                                     <FormControl
@@ -566,6 +549,9 @@ const UpdateeInstructor = (): JSX.Element => {
                                         title={getLabelByKey('primaryButton')}
                                         fontSize="18px"
                                         loading={loading}
+                                        // clicked={() => {
+                                        //     updateInstructor
+                                        // }}
                                     />
                                 </div>
                             </Form>

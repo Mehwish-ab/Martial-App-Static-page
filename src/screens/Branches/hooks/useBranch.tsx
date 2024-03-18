@@ -35,9 +35,9 @@ interface IModalComponent {
 interface IUseBranch {
     loading: boolean
     handleSubmit: (
-        values: CreateBranchInitialValues,
-        { resetForm }: any
-    ) => Promise<void>
+        id: number,
+        values: CreateBranchInitialValues
+    ) => Promise<any>
     editSchool: (
         id: number,
         values: CreateBranchInitialValues,
@@ -53,6 +53,10 @@ interface IUseBranch {
     get_cash: (businessUC: any, id: number) => Promise<any>
     getbranchbyid: (_branchId: number) => Promise<any>
     getallbranchbyschoolid: (schoolId: number) => Promise<any>
+    getallbranchbyschoolidPagination: (
+        schoolid: number,
+        page: number
+    ) => Promise<any>
     BranchStatus: (timeTableid: number, statusid: number) => Promise<any>
     deletebranch: (_branchId: number) => Promise<void>
     deletePayment: (paymentMethod: string, id: number) => Promise<void>
@@ -84,13 +88,13 @@ const useBranch = (): IUseBranch => {
     // const dispatch = useDispatch()
 
     const handleSubmit = async (
-        values: CreateBranchInitialValues,
-        { resetForm }: any
-    ): Promise<void> => {
+        id: number,
+        values: CreateBranchInitialValues
+    ): Promise<any> => {
         const userDetails = loginData.data?.userDetails
         console.log('values', values)
         const payload = {
-            userId: userDetails?.id || '',
+            schoolId: id ? id : loginData.data?.schoolId,
             branchName: values.branchName,
             branchType: values.branchType,
             address: values.address,
@@ -105,7 +109,7 @@ const useBranch = (): IUseBranch => {
             gclClientId: values.cardClientId,
             gclWebHook: values.cardWebHook,
             gclClientSecret: values.cardClientSecret,
-            schoolId: schoolData.schoolId || loginData.data?.schoolId,
+            // schoolId: schoolData.schoolId || loginData.data?.schoolId,
             schoolStripeMethod: values.schoolStripeMethod,
             schoolGclMethod: values.schoolGclMethod,
             defaultLanguageId: values.defaultLanguage,
@@ -144,7 +148,6 @@ const useBranch = (): IUseBranch => {
                 setIsShowModal(false)
                 navigate('/branch/list')
             }, 3000)
-            resetForm()
         } catch (e: any) {
             console.error('Error:', e)
             setLoading(false)
@@ -180,6 +183,7 @@ const useBranch = (): IUseBranch => {
                     autoClose: 1000,
                 })
                 setLoading(false)
+
                 return
             }
 
@@ -214,13 +218,12 @@ const useBranch = (): IUseBranch => {
         }
     }
     const getallbranch = async (schoolid: number): Promise<any> => {
-        const url = get_branch_by_school_id_url
         console.log('>> im in getall branch button')
         try {
             setError('')
             setLoading(true)
             const { data: data3 } = await axios.post(
-                url,
+                `branch/getBySchoolId`,
                 { schoolId: schoolid },
                 {
                     headers: {
@@ -255,7 +258,7 @@ const useBranch = (): IUseBranch => {
     }
     const getallbranchbyschoolid = async (schoolid: number): Promise<any> => {
         // const url = get_branch_by_school_id_url
-        console.log('>> im in getall branch button')
+        console.log('>> im in getallbranchbyschoolid')
         try {
             setLoading(true)
             const { data: data3 } = await axios.post(
@@ -263,38 +266,87 @@ const useBranch = (): IUseBranch => {
                 { schoolId: schoolid },
                 {
                     headers: {
-                        ...authorizationToken(loginData.data as loginDataTypes),
+                        ...authorizationToken(logindata!),
                     },
                 }
             )
-            if (data3.responseCode === '500') {
-                toast(data.responseMessage, {
-                    type: 'error',
-                    autoClose: 1000,
-                })
-                setLoading(false)
-                return data3
-            }
+            console.log('v', data)
+            console.log('>>v', data3)
+
             // setIsShowModal(true);
             // setTimeout(() => {
             //   setLoading(false);
             //   setIsShowModal(false);
             //   //navigate("/school/view");
             // }, 3000);
-            setIsShowModal(true)
-            setTimeout(() => {
-                setLoading(false)
-                setIsShowModal(false)
-                navigate('/branch/list')
-            }, 3000)
+            // setIsShowModal(true)
+            // setTimeout(() => {
+            setLoading(false)
+            //     setIsShowModal(false)
+            //    // navigate('/branch/list')
+            // }, 3000)
             // toastId.current = toast(data.responseMessage, {
             //   type: "success",
             //   autoClose: 1000,
             // });
             //setLoading(false);
             console.log({ data })
-            return data3
+            return data3.results
         } catch (e: any) {
+            setLoading(false)
+            // setError((errorMessage as any).response.data.responseMessage)
+            // setLoading(false)
+            // console.log(
+            //     (errorMessage as any).response.data.responseMessage,
+            //     'error in api data'
+            // )
+            // setError(
+            //     (errorMessage as any).response?.data?.responseMessage ||
+            //         'An error occurred'
+            // )
+        }
+    }
+    const getallbranchbyschoolidPagination = async (
+        schoolid: number,
+        page: number
+    ): Promise<any> => {
+        // const url = get_branch_by_school_id_url
+        console.log('>> im in getallbranchbyschoolid')
+        try {
+            setLoading(true)
+            const { data: data3 } = await axios.post(
+                `branch/getBySchoolId?pageNo=${page}`,
+                { schoolId: schoolid },
+                {
+                    headers: {
+                        ...authorizationToken(logindata!),
+                    },
+                }
+            )
+            console.log('v', data)
+            console.log('>>v', data3)
+
+            // setIsShowModal(true);
+            // setTimeout(() => {
+            //   setLoading(false);
+            //   setIsShowModal(false);
+            //   //navigate("/school/view");
+            // }, 3000);
+            // setIsShowModal(true)
+            // setTimeout(() => {
+            setLoading(false)
+            //     setIsShowModal(false)
+            //    // navigate('/branch/list')
+            // }, 3000)
+            // toastId.current = toast(data.responseMessage, {
+            //   type: "success",
+            //   autoClose: 1000,
+            // });
+            //setLoading(false);
+            console.log({ data })
+            return data3.results
+        } catch (e: any) {
+            setLoading(false)
             // setError((errorMessage as any).response.data.responseMessage)
             // setLoading(false)
             // console.log(
@@ -832,6 +884,7 @@ const useBranch = (): IUseBranch => {
         deleteConfirmation,
         setIsShowModal,
         getallbranchbyschoolid,
+        getallbranchbyschoolidPagination,
     }
 }
 

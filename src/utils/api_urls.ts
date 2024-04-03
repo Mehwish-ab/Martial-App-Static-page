@@ -155,3 +155,9 @@ export const get_class_by_school_id_url = 'classes/getSchoolId'
 
 // key of token data in local storage of browser
 export const auth_token_key = 'ennvision-admin:token'
+
+//activity endpoints
+export const edit_activity_url = 'activityInfo/edit'
+export const get_all_activities = 'activityInfo/getList'
+export const create_activity = 'activityInfo/create'
+export const delete_activity = 'activityInfo/delete'

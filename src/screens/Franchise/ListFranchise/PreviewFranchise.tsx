@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { ListFranchiseStyled } from './styles'
-
+import DefaultBannerImage from '../../../assets/images/defaultProfileImage.svg'
 import { useSelector } from 'react-redux'
 import store, { RootState } from '../../../redux/store'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
@@ -93,11 +93,6 @@ const PreviewFranchise = (): JSX.Element => {
     // }
     const columns: ColumnsType<FranchiseDataType> = [
         {
-            title: 'Id',
-            dataIndex: 'franchiseId',
-            key: 'franchiseId',
-        },
-        {
             title: 'Image',
             // dataIndex: 'profilePicture',
             // key: 'profilePicture',
@@ -112,7 +107,14 @@ const PreviewFranchise = (): JSX.Element => {
             // ),
             render: (Dummydatas) => {
                 if (Dummydatas.profilePicture === null) {
-                    return <img src={defaltimg} width={44} height={44} />
+                    return (
+                        <img
+                            src={DefaultBannerImage}
+                            width={44}
+                            height={44}
+                            alt={defaltimg}
+                        />
+                    )
                 } else {
                     return (
                         <img

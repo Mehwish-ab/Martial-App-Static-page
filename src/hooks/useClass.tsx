@@ -36,8 +36,7 @@ interface IUseClass {
     handleUpdate: (
         id: number,
         values: CreateClassInitialValues,
-        file: any,
-        bannerImages: any
+        file: any
     ) => Promise<void>
     error: string
     isUploadImgModalVisible: boolean
@@ -85,7 +84,8 @@ const useClass = (): IUseClass => {
             title: values.title || '',
             startDate: values.startDate,
             endDate: values.endDate || '',
-            instructorId: values.instructorId,
+            instructorIds: values.instructorId,
+            roomIds: values.roomId,
             fee: `${values.fee}` || '',
             activities: values.activities.join(','),
             capacity: values.capacity,
@@ -102,16 +102,15 @@ const useClass = (): IUseClass => {
             accommodation: values.accommodation.join(','),
             description: values.description || '',
             timeTableId: values.timeTableId,
-
             ...(schoolId && { schoolId }), // Add schoolId conditionally
         }
+
         console.log('payload', payload)
 
-        // const endpoint = schoolId ? edit_school_url : create_school_url
-        const datas = JSON.stringify(payload)
         try {
             setError('')
             setLoading(true)
+
             const formData = new FormData()
             formData.append(
                 'data',
@@ -119,28 +118,25 @@ const useClass = (): IUseClass => {
                     type: 'application/json',
                 })
             )
-            // .formData.append('file', (file as any).file)
-            formData.append('file', file)
-            // formData.append('file', String(values?.latestCertification))
 
-            const { data: data1 } = await axios.post(
-                '/classes/create',
-                formData,
-                {
-                    headers: {
-                        ...authorizationToken(loginData.data as loginDataTypes),
-                        'Content-Type': 'multipart/form-data',
-                    },
-                }
-            )
-            if (data1.responseCode === '500') {
-                toast(data1.responseMessage, {
+            formData.append('file', file)
+
+            const response = await axios.post('/classes/create', formData, {
+                headers: {
+                    ...authorizationToken(loginData.data as loginDataTypes),
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
+
+            if (response.data.responseCode === '500') {
+                toast(response.data.responseMessage, {
                     type: 'error',
                     autoClose: 1000,
                 })
                 setLoading(false)
                 return
             }
+
             setIsShowModal(true)
             setTimeout(() => {
                 setLoading(false)
@@ -167,6 +163,7 @@ const useClass = (): IUseClass => {
             })
         }
     }
+
     const getInstructorstartenddate = async (
         startDate: string,
         endDate: string,
@@ -267,17 +264,15 @@ const useClass = (): IUseClass => {
     const handleUpdate = async (
         id: number,
         values: CreateClassInitialValues,
-        file: any,
-        bannerImages: any
+        file: any
     ): Promise<void> => {
-        const userDetails = loginData.data?.userDetails
-
         const payload = {
             classId: id,
             title: values.title || '',
             startDate: values.startDate,
             endDate: values.endDate || '',
-            instructorId: values.instructorId,
+            instructorIds: values.instructorId,
+            roomIds: values.roomId,
             fee: `${values.fee}` || '',
             activities: values.activities.join(','),
             capacity: values.capacity,
@@ -294,7 +289,7 @@ const useClass = (): IUseClass => {
             accommodation: values.accommodation.join(','),
             description: values.description || '',
             timeTableId: values.timeTableId,
-            ...(bannerImages === null && { bannerPicture: file }),
+            isKid: 'true',
             ...(schoolId && { schoolId }), // Add schoolId conditionally
         }
         try {
@@ -307,9 +302,7 @@ const useClass = (): IUseClass => {
                     type: 'application/json',
                 })
             )
-            if (bannerImages !== null) {
-                formData.append('file', bannerImages)
-            }
+            formData.append('file', file)
             const { data: data1 } = await axios.post(
                 '/classes/edit',
                 formData,

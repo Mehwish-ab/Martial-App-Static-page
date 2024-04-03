@@ -57,11 +57,6 @@ const ListTransactionHistory: React.FC = () => {
 
     const columns: ColumnsType<TransactionDataType> = [
         {
-            title: 'Id',
-            dataIndex: 'TransactionID',
-            key: 'TransactionID',
-        },
-        {
             title: 'Invoice',
             dataIndex: 'TransactionInvoice',
             key: 'TransactionInvoice',

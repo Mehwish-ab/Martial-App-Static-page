@@ -8,6 +8,7 @@ import {
 
 import store from '../../store'
 import { loginDataTypes } from '../types'
+import { boolean } from 'yup'
 export interface SchoolDataType {
     schoolId: number
     userId: number
@@ -35,6 +36,32 @@ export interface SchoolDataType {
     totalPages: number
     currentPage: number
 }
+
+export interface AllUserSchoolList {
+    activitiesId: number
+
+    address: string
+
+    bannerImg: string
+
+    description: string
+    emailAddress: string
+
+    hasClass: boolean
+
+    id: string
+
+    membership: boolean
+
+    name: string
+
+    phoneNumber: string
+
+    profileImg: string
+    totalItems: number
+    currentPage: number
+    totalpages: number
+}
 export interface OwnerDataTypes {
     firstName: string
     lastName: string
@@ -58,7 +85,7 @@ const initialState: DashboardDataInitialState = {
         address: '',
         phoneNumber: '',
         rank: false,
-        defaultCurrencyId: 0,
+        defaultCurrencyId: 1,
         defaultLanguageId: 0,
         activities: '',
         facilities: '',

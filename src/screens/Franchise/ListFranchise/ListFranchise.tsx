@@ -13,7 +13,7 @@ import {
 import { useNavigate, useParams } from 'react-router-dom'
 import plusIcon from '../../../assets/icons/ic_plus.svg'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
-
+import DefaultBannerImage from '../../../assets/images/defaultProfileImage.svg'
 import { useSelector } from 'react-redux'
 import store, { RootState } from '../../../redux/store'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
@@ -169,11 +169,11 @@ const ListFranchise = (): JSX.Element => {
     //     store.dispatch(getBranchBySchoolId())
     // }
     const columns: ColumnsType<FranchiseDataType> = [
-        {
-            title: 'Id',
-            dataIndex: 'franchiseId',
-            key: 'franchiseId',
-        },
+        // {
+        //     title: 'Id',
+        //     dataIndex: 'franchiseId',
+        //     key: 'franchiseId',
+        // },
         {
             title: 'Image',
             // dataIndex: 'profilePicture',
@@ -190,7 +190,9 @@ const ListFranchise = (): JSX.Element => {
             render: (Dummydatas) => {
                 console.log('>>images', Dummydatas?.profilePicture)
                 if (Dummydatas?.profilePicture === null) {
-                    return <img src={defaltimg} width={44} height={44} />
+                    return (
+                        <img src={DefaultBannerImage} width={44} height={44} />
+                    )
                 } else {
                     return (
                         <img

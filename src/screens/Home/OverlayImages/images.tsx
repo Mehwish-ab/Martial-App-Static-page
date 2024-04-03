@@ -32,7 +32,7 @@ const OverlayImages = ({
     const BannerImgUploadProps = {
         name: 'bannerImg',
         showUploadList: false,
-        accept: '.jpeg, .jpg, .webp, tiff, .bmp',
+        accept: '.jpeg, .jpg, .webp, tiff, .bmp, .png',
         beforeUpload: (file: File) => {
             // Define the allowed image types
             const allowedTypes = [
@@ -41,6 +41,7 @@ const OverlayImages = ({
                 'image/jpg',
                 'image/bmp',
                 'image/tiff',
+                'image/png',
             ]
 
             // Check if the file type is in the allowed list

@@ -4,7 +4,7 @@ import { Field, ErrorMessage } from 'formik'
 import { CustomDatePickerStyle } from '../CustomDatePicker/style'
 import ErrorMsg from '../ErrorMessage'
 import timeIcon from '../../assets/icons/ic_clock.svg'
-import moment from 'moment'
+
 const CustomTimePicker = (props: {
     [x: string]: any
     name: any

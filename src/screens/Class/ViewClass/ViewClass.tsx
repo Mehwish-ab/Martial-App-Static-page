@@ -69,10 +69,12 @@ const ViewClass = (): JSX.Element => {
             try {
                 // Assuming getClass, getInstructorbyid, and getTimetableById are asynchronous functions
                 const data = await getClassbyid(Number(classId))
+                console.log('calss data', values, data)
                 setValues(data)
                 if (data) {
                     const datas = await getInstructorbyid(data?.instructorId)
-                    setinstructor(datas)
+                    console.log('instructor', instructor)
+                    setinstructor(values)
                     const dataa = await getTimetableById(data?.timeTableId)
                     setTimetable(dataa)
                 }
@@ -167,8 +169,10 @@ const ViewClass = (): JSX.Element => {
                                                     )}
                                                 </div>
                                                 <div className="list-item-value">
-                                                    {instructor
-                                                        ? instructor.instructorName
+                                                    {values
+                                                        ? values
+                                                              ?.instructorsResponseDTOList[0]
+                                                              .instructorName
                                                         : '--'}
                                                 </div>
                                             </div>
@@ -193,9 +197,10 @@ const ViewClass = (): JSX.Element => {
                                                     Rooms
                                                 </div>
                                                 <div className="list-item-value">
-                                                    {timetable
-                                                        ? timetable.results
-                                                              .title
+                                                    {values
+                                                        ? values
+                                                              ?.roomResponseDTOList[0]
+                                                              .roomName
                                                         : '--'}
                                                 </div>
                                             </div>

@@ -12,10 +12,10 @@
         "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
     },
     "[typescript]": {
-        "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[typescriptreact]": {
-        "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[jsonc]": {
         "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"

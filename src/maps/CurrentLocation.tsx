@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { MAP_API } from '../App'
 
-const CurrentLocationMaps = () => {
+const CurrentLocationMaps = (): JSX.Element => {
     const [currentLocation, setCurrentLocation] = useState<{
         coords: { latitude: number; longitude: number }
         address: string | null
@@ -16,7 +16,7 @@ const CurrentLocationMaps = () => {
         country: null,
     })
 
-    const getCurrentLocation = () => {
+    const getCurrentLocation = (): void => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {

@@ -22,8 +22,12 @@ import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelec
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import Head from '../../../components/Head/Head'
 import { getInstructorByUserId } from '../../../redux/features/instructor/instructorSlice'
-import { getTimetableByUserId } from '../../../redux/features/TimeTable/TimeTableSlice'
 import moment from 'moment'
+import {
+    RoomDataType,
+    getRoomDataByUseCase,
+} from '../../../redux/features/Room/RoomSlice'
+import useRoom from '../../../hooks/useRoom'
 
 const CreateClass = (): JSX.Element => {
     const {
@@ -37,22 +41,49 @@ const CreateClass = (): JSX.Element => {
         id: accommodation.id.toString(),
     }))
 
+    //console.log({ activities })
     const { getLabelByKey } = useScreenTranslation('createClasses')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
     const { instructorData } = useSelector(
         (state: RootState) => state.instructorData
     )
-    const { timeTableData } = useSelector(
-        (state: RootState) => state.timeTableData
-    )
-    useEffect(() => {
-        store.dispatch(getInstructorByUserId())
-        store.dispatch(getTimetableByUserId())
-    }, [])
-    const { handleCreateSubmit, loading, Createmodal } = useClass()
     const { schoolData } = useSelector(
         (state: RootState) => state.dashboardData
     )
+    const { loginData } = useSelector((state: RootState) => state)
+    const { getallRoombyUC, RoomStatus, getallRoombyUCPagination } = useRoom()
+    const [Room, setRoom] = useState<
+        | {
+              currentPage: number
+              totalItems: number | undefined
+              data: RoomDataType[]
+          }
+        | undefined
+    >(undefined)
+    // eslint-disable-next-line
+    useEffect(() => {
+        const fetchData = async (): Promise<void> => {
+            store.dispatch(getInstructorByUserId())
+            try {
+                if (loginData.data?.schoolId) {
+                    const response: any = await getallRoombyUC(
+                        Number(loginData.data?.schoolId),
+                        'SCHOOL'
+                    )
+                    setRoom(response)
+                }
+                // eslint-disable-next-line @typescript-eslint/no-shadow
+            } catch (error) {
+                /// setError('Error fetching data')
+            } finally {
+                //  setLoading(false)
+            }
+        }
+
+        fetchData()
+    }, [])
+
+    const { handleCreateSubmit, loading, Createmodal } = useClass()
 
     const _currency = schoolData?.defaultCurrencyId
 
@@ -61,6 +92,7 @@ const CreateClass = (): JSX.Element => {
         startDate: '',
         endDate: '',
         instructorId: [],
+        roomId: [],
         fee: '',
         activities: [],
         capacity: '',
@@ -84,7 +116,6 @@ const CreateClass = (): JSX.Element => {
         id: 0,
         timeTableId: 0,
     }
-    const { loginData } = useSelector((state: RootState) => state)
 
     const [bannerImage, setBannerImage] = useState<File | null>(null)
 
@@ -99,24 +130,26 @@ const CreateClass = (): JSX.Element => {
         const index = currency.findIndex(
             (curr: any) => curr.id === _CurrencyType
         )
-
         if (index !== -1) {
-            const currencyInfo = currency[index] as any
             const symbolMap: { [key: number]: string } = {
                 1: '€', // Euro
                 2: '£', // Pound
                 3: '$', // United States Dollar
                 4: 'R$', // Brazil
             }
-
             return symbolMap[_CurrencyType]
         }
 
         return '--'
     }
     const money = CurrencyType(_currency)
+
     const submit = async (values: any): Promise<void> => {
         const schoolid = loginData.data?.schoolId
+        // Format other dates similarly
+
+        // Format other dates similarly
+
         const start = moment(values.startDate, 'dddd, MMM DD, YYYY').format(
             'YYYY-MM-DD'
         )
@@ -125,55 +158,61 @@ const CreateClass = (): JSX.Element => {
         )
         const bookingstart = moment(
             values.bookingStartDate,
-            'dddd, MMM DD, YYYY'
-        ).format('YYYY-MM-DD')
+            'YYYY-MM-DDTHH:mm:ss.SSS'
+        )
+            .utc() // Convert to UTC timezone
+            .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
         const bookingEnd = moment(
             values.bookingEndDate,
-            'dddd, MMM DD, YYYY'
-        ).format('YYYY-MM-DD')
+            'YYYY-MM-DDTHH:mm:ss.SSS'
+        )
+            .utc() // Convert to UTC timezone
+            .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
         const qrCodeStart = moment(
             values.qrCodeStartDate,
-            'dddd, MMM DD, YYYY'
-        ).format('YYYY-MM-DD')
+            'YYYY-MM-DDTHH:mm:ss.SSS'
+        )
+            .utc() // Convert to UTC timezone
+            .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
+
         const qrCodeEnd = moment(
             values.qrCodeEndDate,
-            'dddd, MMM DD, YYYY'
-        ).format('YYYY-MM-DD')
+            'YYYY-MM-DDTHH:mm:ss.SSS'
+        ).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
         const studentCancel = moment(
             values.allowStudentCancel,
-            'dddd, MMM DD, YYYY'
-        ).format('YYYY-MM-DD')
+            'YYYY-MM-DDTHH:mm:ss.SSS'
+        ).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
         const refundfee = moment(
             values.refundDate,
-            'dddd, MMM DD, YYYY'
-        ).format('YYYY-MM-DD')
+            'YYYY-MM-DDTHH:mm:ss.SSS'
+        ).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
         const bookingCancleStart = moment(
             values.bookingCancelStartDate,
-            'dddd, MMM DD, YYYY'
-        ).format('YYYY-MM-DD')
+            'YYYY-MM-DDTHH:mm:ss.SSS'
+        ).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
         const bookingCancleEnd = moment(
             values.bookingCancelEndDate,
-            'dddd, MMM DD, YYYY'
-        ).format('YYYY-MM-DD')
-        await handleCreateSubmit(
-            {
-                ...values,
-                fee: money + values.fee,
-                id: schoolid,
-                startDate: start,
-                endDate: end,
-                bookingStartDate: bookingstart,
-                bookingEndDate: bookingEnd,
-                qrCodeStartDate: qrCodeStart,
-                qrCodeEndDate: qrCodeEnd,
-                allowStudentCancel: studentCancel,
-                refundDate: refundfee,
-                bookingCancelStartDate: bookingCancleStart,
-                bookingCancelEndDate: bookingCancleEnd,
-                cancellationCharges: money + values.cancellationCharges,
-            },
-            bannerImage
-        )
+            'YYYY-MM-DDTHH:mm:ss.SSS'
+        ).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
+        console.log('data', 'values', { ...values }, values)
+        const formattedValues = {
+            ...values,
+            fee: money + values.fee,
+            id: schoolid,
+            startDate: start,
+            endDate: end,
+            bookingStartDate: bookingstart,
+            bookingEndDate: bookingEnd,
+            qrCodeStartDate: qrCodeStart,
+            qrCodeEndDate: qrCodeEnd,
+            allowStudentCancel: studentCancel,
+            refundDate: refundfee,
+            bookingCancelStartDate: bookingCancleStart,
+            bookingCancelEndDate: bookingCancleEnd,
+            cancellationCharges: money + values.cancellationCharges,
+        }
+        await handleCreateSubmit(formattedValues, bannerImage)
     }
 
     const showAccommodation = (_accommodate: string[]): string => {
@@ -220,7 +259,7 @@ const CreateClass = (): JSX.Element => {
         }
         return activitiesName || getLabelByKey('activitiesPlaceholder')
     }
-
+    console.log('data', activities)
     return (
         <>
             <Head title="Create Class" />
@@ -269,9 +308,10 @@ const CreateClass = (): JSX.Element => {
                                                                 className="mt-20"
                                                             >
                                                                 <FormControl
-                                                                    control="dateTime"
-                                                                    type="dateTime"
+                                                                    control="date"
+                                                                    type="date"
                                                                     name="startDate"
+                                                                    showTime
                                                                     fontFamily={
                                                                         fontFamilyRegular
                                                                     }
@@ -392,14 +432,23 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="select"
                                                 type="text"
-                                                name="rooms"
+                                                name="roomId"
                                                 label="Rooms"
                                                 padding="8px 10px"
                                                 fontFamily={fontFamilyRegular}
                                                 fontSize="16px"
                                                 max={6}
-                                                placeholder="Select Rooms"
-                                            />
+                                                placeholder="Select Room"
+                                            >
+                                                {Room?.data.map((room: any) => (
+                                                    <option
+                                                        key={room.roomId}
+                                                        value={room.roomId}
+                                                    >
+                                                        {room.roomNumber}
+                                                    </option>
+                                                ))}
+                                            </FormControl>
                                         </Col>
                                         <Col md="3" className="mt-20">
                                             <FormControl
@@ -482,9 +531,10 @@ const CreateClass = (): JSX.Element => {
                                         </Col>
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="date"
-                                                type="date"
+                                                control="dateTime"
+                                                type="dateTime"
                                                 name="bookingStartDate"
+                                                showTime
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'startBooking'
@@ -497,8 +547,8 @@ const CreateClass = (): JSX.Element => {
                                         </Col>
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="date"
-                                                type="date"
+                                                control="dateTime"
+                                                type="dateTime"
                                                 name="bookingEndDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
@@ -512,8 +562,8 @@ const CreateClass = (): JSX.Element => {
                                         </Col>
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="date"
-                                                type="date"
+                                                control="dateTime"
+                                                type="dateTime"
                                                 name="qrCodeStartDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
@@ -527,8 +577,8 @@ const CreateClass = (): JSX.Element => {
                                         </Col>
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="date"
-                                                type="date"
+                                                control="dateTime"
+                                                type="dateTime"
                                                 name="qrCodeEndDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
@@ -543,8 +593,8 @@ const CreateClass = (): JSX.Element => {
 
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="date"
-                                                type="date"
+                                                control="dateTime"
+                                                type="dateTime"
                                                 name="allowStudentCancel"
                                                 label={getLabelByKey(
                                                     'allowToStudentCancel'
@@ -561,8 +611,8 @@ const CreateClass = (): JSX.Element => {
 
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="date"
-                                                type="date"
+                                                control="dateTime"
+                                                type="dateTime"
                                                 name="refundDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
@@ -577,8 +627,8 @@ const CreateClass = (): JSX.Element => {
 
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="date"
-                                                type="date"
+                                                control="dateTime"
+                                                type="dateTime"
                                                 name="bookingCancelStartDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
@@ -593,8 +643,8 @@ const CreateClass = (): JSX.Element => {
 
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="date"
-                                                type="date"
+                                                control="dateTime"
+                                                type="dateTime"
                                                 name="bookingCancelEndDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(

@@ -15,24 +15,24 @@ import {
     pureDark,
     tertiaryBlue2,
 } from '../../../components/GlobalStyle'
+import DefaultBannerImage from '../../../assets/images/defaultProfileImage.svg'
 import plusIcon from '../../../assets/icons/ic_plus.svg'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
-import defaultPic from '../../../assets/images/create_school_user_profile.svg'
 import { Form, Formik } from 'formik'
 import FormControl from '../../../components/FormControl'
 import { SchoolDataType } from '../../../redux/features/dashboard/dashboardDataSlice'
 import useCreateSchool from '../../../hooks/useCreateSchool'
 import { useEffect, useState } from 'react'
 import Head from '../../../components/Head/Head'
-import CreateSchool from '../CreateSchool'
 import { useAppSelector } from '../../../app/hooks'
-import CustomModal from '../../../components/Modal/CustomModal'
-import CustomMessageModal from '../../../components/Modal/CustomMessageModal'
 import ReportCreate from '../../Reports/ReportCreate/ReportCreate'
 import ReportSubmit from '../../Reports/ReportCreate/ReportSubmit'
+import { RegisterUser } from '../../pages'
+import appDataSlice from '../../../redux/features/appDataSlice'
+import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
 
 const ListSchool = (): JSX.Element => {
     // const { schoolData } = useSelector(
@@ -51,7 +51,7 @@ const ListSchool = (): JSX.Element => {
     } = useSelector((state: RootState) => state.appData.data)
     const { schoolId } = useParams()
     const [Id, setId] = useState(0)
-
+    console.log('activites fro state', activities)
     const navigate = useNavigate()
     const { loginData } = useSelector((state: RootState) => state)
     const [loading, setLoading] = useState(true)
@@ -87,6 +87,7 @@ const ListSchool = (): JSX.Element => {
                 const response: any = await getAllSchool(
                     String(loginData.data?.userDetails.countryName)
                 )
+                console.log({ response })
                 setAllSchools(response)
                 // eslint-disable-next-line @typescript-eslint/no-shadow
             } catch (error) {
@@ -133,9 +134,11 @@ const ListSchool = (): JSX.Element => {
             }
         }
         fetchData(currentPage)
-        if (logindata?.userDetails.roleName === 'USER') {
-            navigate(`/school/view/${logindata.schoolId}`)
-        }
+        // if (logindata?.userDetails.roleName === 'USER' && logindata.schoolId) {
+        //     navigate(`/school/view/${logindata.schoolId}`)
+        // } else {
+        //     navigate(`/school/create/`)
+        // }
     }, [])
 
     const { selectedLanguage } = useSelector(
@@ -212,6 +215,9 @@ const ListSchool = (): JSX.Element => {
                 break
         }
     }
+    const { businessTypes } = useSelector(
+        (state: RootState) => state.appData.data.dropdowns
+    )
 
     const showActivities = (_activities: string): string => {
         const activitiesArr = _activities.split(',')
@@ -228,25 +234,34 @@ const ListSchool = (): JSX.Element => {
                           }`
             }
         })
-        if (activitiesName.length > 35) {
+        if (activitiesName?.length > 35) {
             return `${activitiesName.slice(0, 35)}...`
         }
         return activitiesName
     }
+    const showBusinessType = (_businessType: number): string => {
+        const index = businessTypes.findIndex((business: any) => {
+            return business.id === _businessType
+        })
+
+        if (index !== -1) {
+            return (businessTypes[index] as any)[selectedLanguage]
+        }
+
+        return '--'
+    }
+    // Function to get activity name by index and language
 
     const columns: ColumnsType<SchoolDataType> = [
-        {
-            title: 'Id',
-            dataIndex: 'schoolId',
-            key: 'schoolId',
-        },
         {
             title: 'Image',
             dataIndex: 'profilePicture',
             key: 'profilePicture',
             render: (Dummydatas) => {
                 if (!Dummydatas) {
-                    return <img src={defaultPic} width={44} height={44} />
+                    return (
+                        <img src={DefaultBannerImage} width={44} height={44} />
+                    )
                 } else {
                     return (
                         <img
@@ -270,17 +285,18 @@ const ListSchool = (): JSX.Element => {
             title: 'Type',
             dataIndex: 'businessType',
             key: 'businessType',
-            // render: (_, { schoolType }) => {
-            //     const item = businessTypes.find((b) => b.id === schoolType)
-            //     return <p>{item?.en}</p>
-            // },
+            render: (businessType) => {
+                return <p> {showBusinessType(businessType)}</p>
+            },
         },
         {
             title: 'Activity',
             dataIndex: 'activities',
             key: 'activities',
-            render: (DummyData) => {
-                return <p className="sub-title">{showActivities(DummyData)}</p>
+            render: (activityData) => {
+                return (
+                    <p className="sub-title">{showActivities(activityData)}</p>
+                )
             },
         },
         {
@@ -341,15 +357,10 @@ const ListSchool = (): JSX.Element => {
                     },
                     {
                         key: '3',
-                        label: 'Activity',
+                        label: 'Update Status',
                         onClick: () => {
                             navigation(record, 'activity')
                         },
-                    },
-                    {
-                        key: '4',
-                        label: 'Payment',
-                        onClick: () => navigation(record, 'payment'),
                     },
                     {
                         key: '5',
@@ -365,42 +376,8 @@ const ListSchool = (): JSX.Element => {
                     },
                     {
                         key: '6',
-                        label: 'Branches',
+                        label: 'Explore More',
                         onClick: () => navigation(record, 'branch'),
-                    },
-                    {
-                        key: '7',
-                        label: 'Franchise',
-                        onClick: () => navigation(record, 'franchise'),
-                    },
-                    {
-                        key: '8',
-                        label: 'Classes',
-                        onClick: () => navigation(record, 'class'),
-                    },
-                    {
-                        key: '9',
-                        label: 'TimeTable',
-                        onClick: () => navigation(record, 'timeTable'),
-                    },
-                    {
-                        key: '10',
-                        label: 'Memberships',
-                        onClick: () => navigation(record, 'membership'),
-                    },
-                    {
-                        key: '11',
-                        label: 'Rooms',
-                        onClick: () => navigation(record, 'rooms'),
-                    },
-                    {
-                        key: 'divider1',
-                        type: 'divider',
-                    },
-                    {
-                        key: '12',
-                        label: 'Reports',
-                        onClick: () => navigation(record, 'report'),
                     },
                 ]
                 const menu = (
@@ -436,10 +413,10 @@ const ListSchool = (): JSX.Element => {
             },
         },
     ]
-
+    const [schoolExist, setSchoolExist] = useState(false)
     const initialValues = (): void => {}
     const handleCreateSubmit = (): void => {}
-
+    console.log('school exist', schoolExist)
     const RenderTableTitle = (): JSX.Element => {
         return (
             <CustomDiv>
@@ -545,7 +522,7 @@ const ListSchool = (): JSX.Element => {
             <ListSchoolStyle>
                 <Table
                     columns={columns}
-                    dataSource={AllSchools ? AllSchools.data : []}
+                    dataSource={AllSchools ? AllSchools?.data : []}
                     scroll={{ x: true }}
                     pagination={{
                         current: currentPage,
@@ -584,6 +561,7 @@ const ListSchool = (): JSX.Element => {
                     />
                 )}
             </ListSchoolStyle>
+            {schoolExist && <RegisterUser />}
         </>
     )
 }

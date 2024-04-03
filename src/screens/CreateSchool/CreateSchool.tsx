@@ -44,11 +44,14 @@ const CreateSchool = (): JSX.Element => {
     const navigate = useNavigate()
     const { userId } = useParams()
     // const { getUSerById } = useUser()
-    const { data: loginData } = useAppSelector((state) => state.loginData)
-    console.log('login', loginData)
+    // const { data: loginData } = useAppSelector((state) => state.loginData)
+    const { UserData } = useAppSelector((state) => state.UserData)
+    // const {userId}=useAppSelector((state)=>s)
+
     // const [OwnerData, setOwnerData] = useState<OwnerDataTypes>()
 
     const { schoolId } = useParams()
+    console.log('school data', schoolData, schoolId)
     // const { data: loginData } = useAppSelector((state) => state.loginData)
     // console.log('login', loginData)
 
@@ -70,7 +73,7 @@ const CreateSchool = (): JSX.Element => {
     //     fetchData()
     // }, [schoolId])
     const [User, setUser] = useState<UserDataType | undefined>(undefined)
-    console.log('he', userId)
+    console.log('User', userId, User)
     // useEffect(() => {
     //     const fetchData = async (): Promise<any> => {
     //         try {
@@ -94,7 +97,6 @@ const CreateSchool = (): JSX.Element => {
         businessType: '',
         address: '',
         businessPhoneNumber: '',
-
         defaultLanguageId: '',
         description: '',
         rank: '',
@@ -145,10 +147,19 @@ const CreateSchool = (): JSX.Element => {
             .of(Yup.string().required('Select at least one facility'))
             .min(1, 'Select at least one facility'),
     })
+    const { loginData } = useSelector((state: RootState) => state)
     const onsubmit = async (
         values: CreateSchoolInitialValues
     ): Promise<void> => {
-        await handleCreateSubmit(Number(loginData?.userDetails.id), values)
+        let id = null
+        if (loginData.userId) {
+            id = loginData.userId
+        } else {
+            id = loginData.data?.userDetails.id
+        }
+
+        console.log('id of registered user', loginData, id)
+        await handleCreateSubmit(Number(id), values)
     }
     const createOptions = (
         list: DataTypesWithIdAndMultipleLangLabel[]
@@ -163,6 +174,7 @@ const CreateSchool = (): JSX.Element => {
         })
         return options
     }
+    console.log('login data', loginData)
     // useEffect(() => {
     //     if (logindata?.schoolId > 0)
     //         return navigate(`/school/view/${schoolData.schoolId}`)
@@ -171,13 +183,24 @@ const CreateSchool = (): JSX.Element => {
     useEffect(() => {
         // const localStorageData = localStorage.getItem('ennvision-admin:token')
         //const loginData = JSON.parse(localStorageData as any)
-        if (!loginData?.schoolId) {
-            navigate('/school/create')
-            return
+        if (
+            loginData?.data?.userDetails.roleName === 'USER' &&
+            loginData?.data.schoolId
+        ) {
+            console.log('loginData', loginData)
+            // navigate(`/school/view/${loginData.schoolId}`)
+            navigate('/activity/create/')
+        } else {
+            console.log('loginData', loginData)
+            navigate(`/school/create/`)
         }
-        if (!schoolData || !schoolData.schoolId) {
-            store.dispatch(getSchoolByUserId())
-        }
+        // if (!loginData?.schoolId) {
+        //     navigate('/school/create')
+        //     return
+        // }
+        // if (!schoolData || !schoolData.schoolId) {
+        //     store.dispatch(getSchoolByUserId())
+        // }
     }, [])
 
     const showActivities = (_activities: string[]): string => {
@@ -223,7 +246,7 @@ const CreateSchool = (): JSX.Element => {
     return (
         <>
             <Head title="Create School" />
-            <StudentViewStyling>
+            {/* <StudentViewStyling>
                 <Card>
                     <h3>Owner Information</h3>
                     <Row className="mt-20">
@@ -267,13 +290,13 @@ const CreateSchool = (): JSX.Element => {
                         </Col>
                     </Row>
                 </Card>
-            </StudentViewStyling>
+            </StudentViewStyling> */}
             <CreateSchoolStyled>
                 {SuccessModal().modalComponent}
                 {WarningModal().modalComponent}
                 <Formik
                     initialValues={initialValues}
-                    // validationSchema={validationSchema}
+                    validationSchema={validationSchema}
                     onSubmit={onsubmit}
                 >
                     {(formik) => {

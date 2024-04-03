@@ -29,7 +29,8 @@ const CheckboxesSelect = ({
                 overlayStyle={{
                     border: '1px solid #d9d9d9',
                     padding: 16,
-                    zIndex: 2,
+                    zIndex: 9999,
+                    top: 100,
                 }}
                 trigger={['click']}
             >

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Dropdown, Space, Table } from 'antd'
+import { Dropdown, Pagination, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { ListClassStyled } from './style'
 import CustomButton from '../../../components/CustomButton/CustomButton'
@@ -109,6 +109,7 @@ const ListClass = (): JSX.Element => {
                 )
 
                 setAllClass(res)
+                console.log({ res }, AllClass)
             } catch (errors) {
                 /// setError('Error fetching data')
             } finally {
@@ -312,11 +313,6 @@ const ListClass = (): JSX.Element => {
 
     const columns: ColumnsType<ClassDataType> = [
         {
-            title: getLabelByKey('id'),
-            dataIndex: 'classId',
-            key: 'classId',
-        },
-        {
             title: getLabelByKey('classTitle'),
             dataIndex: 'title',
             key: 'ClassTitle',
@@ -471,7 +467,7 @@ const ListClass = (): JSX.Element => {
                             />
                         ),
                         onChange: (page) => handlePaginationChange(page),
-                        // itemRender: customItemRender,
+                        position: ['bottomRight'],
                     }}
                 />
             </ListClassStyled>

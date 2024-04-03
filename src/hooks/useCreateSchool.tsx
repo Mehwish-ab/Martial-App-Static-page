@@ -49,6 +49,7 @@ interface IUseSchool {
     setIsShowModal: (showModal: true) => void
     getAllSchool: (country: string) => Promise<void>
     getSchoolbyId: (schoolid: number) => Promise<any>
+    getAllAppSchool: (page: any) => Promise<any>
     getAllSchoolPagination: (v: string, page: any) => Promise<any>
 }
 
@@ -114,13 +115,15 @@ const useCreateSchool = (): IUseSchool => {
                     },
                 }
             )
+            console.log('school is created', data1)
             setSuccessMessage(data1.responseMessage)
             setIsShowSuccessModal(true)
             setLoading(false)
-            setTimeout(() => {
-                setIsShowSuccessModal(false)
-                navigate('/school/view')
-            }, 3000)
+            navigate(`/activity/create/${data1.results.schoolId}`)
+            // setTimeout(() => {
+            //     setIsShowSuccessModal(false)
+            //     navigate(`/school/view/${data1.results.schoolId}`)
+            // }, 3000)
             // resetForm()
         } catch (error2: any) {
             console.log('error', error2.response?.data?.errors.length)
@@ -171,6 +174,73 @@ const useCreateSchool = (): IUseSchool => {
             setError(error2.response)
             setErrorMessage(error2.response?.data?.responseMessage)
             setIsShowErrorModal(true)
+            const id = setTimeout(() => {
+                setIsShowErrorModal(false)
+                setError('')
+            }, 2000)
+            if (!setIsShowModal) {
+                clearTimeout(id)
+            }
+        }
+    }
+
+    const getAllAppSchool = async (page: number): Promise<any> => {
+        try {
+            setError('')
+            setLoading(true)
+            const { data: allSchool } = await axios.post(
+                `/app/school/getAll?pageNo=${page}`,
+                { country: '' },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            setSuccessMessage(allSchool.responseMessage)
+            setIsShowSuccessModal(false)
+            setLoading(false)
+            setTimeout(() => {
+                setIsShowSuccessModal(false)
+            }, 3000)
+            return allSchool.results
+        } catch (error2: any) {
+            setLoading(false)
+            setError(error2.response)
+            setErrorMessage(error2.response?.data?.responseMessage)
+            setIsShowErrorModal(true)
+            const id = setTimeout(() => {
+                setIsShowErrorModal(false)
+                setError('')
+            }, 2000)
+            if (!setIsShowModal) {
+                clearTimeout(id)
+            }
+        }
+    }
+
+    const getAllUserSchoolPagination = async (
+        v: string,
+        page: number
+    ): Promise<any> => {
+        try {
+            setError('')
+            setLoading(true)
+            const { data: allSchool } = await axios.post(
+                `/school/getAll?pageNo=${page}`,
+                { country: '' },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            return allSchool.results
+        } catch (error2: any) {
+            setLoading(false)
+            setError(error2.response)
+            setErrorMessage(error2.response?.data?.responseMessage)
+            setIsShowErrorModal(false)
             const id = setTimeout(() => {
                 setIsShowErrorModal(false)
                 setError('')
@@ -256,7 +326,7 @@ const useCreateSchool = (): IUseSchool => {
             setLoading(false)
             setTimeout(() => {
                 setIsShowSuccessModal(false)
-                navigate('/school/list')
+                navigate(`/school/view/${data1.results.schoolId}`)
             }, 3000)
         } catch (error2: any) {
             setLoading(false)
@@ -452,6 +522,7 @@ const useCreateSchool = (): IUseSchool => {
         SuccessModal,
         deleteConfirmation,
         WarningModal,
+        getAllAppSchool,
         getAllSchool,
         getSchoolbyId,
         getAllSchoolPagination,

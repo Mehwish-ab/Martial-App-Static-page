@@ -3,6 +3,7 @@ import {
     Login,
     Home,
     RegisterUser,
+    Register,
     ErrorPage404,
     Dashboard,
 } from '../screens/pages'
@@ -65,15 +66,20 @@ import ListRoom from '../screens/Rooms/ListRoom/ListRoom'
 import CreateRoom from '../screens/Rooms/CreateRoom/CreateRoom'
 import UpdateRoom from '../screens/Rooms/UpdateRoom/UpdateRoom'
 import ViewRoom from '../screens/Rooms/ViewRoom/ViewRoom'
-import Activity from '../screens/Activitity/activity'
+import Activity from '../screens/Activitity/EditActivity/activityUpdateModal'
 import CreateUser from '../screens/User/CreateUser/CreateUser'
 import ReportList from '../screens/Reports/ReportList/ReportList'
+import CreateActivity from '../screens/Activitity/createActivity/activity'
+import UserSchoolList from '../screens/UserList/UserSchoolList/UserSchoolList'
+import { useAppSelector } from '../app/hooks'
+import { useSelector } from 'react-redux'
+import { RootState } from '../redux/store'
 // import { RootState } from "../redux/store";
 
 function AppRoutes(): JSX.Element {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [NewTimetable, setNewtimetable] = useState<any>()
-
+    const { loginData } = useSelector((state: RootState) => state)
     // const dispatch = useDispatch();
     // const handleChange = (value: string) => {
     //   dispatch(setLanguage(value));
@@ -102,7 +108,18 @@ function AppRoutes(): JSX.Element {
       </div> */}
             <Routes>
                 <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<RegisterUser />} />
+                <Route
+                    path="/register"
+                    element={
+                        loginData.data?.jwtDetails.token ? (
+                            <AppLayout>
+                                <RegisterUser />
+                            </AppLayout>
+                        ) : (
+                            <Register />
+                        )
+                    }
+                />
                 <Route path="/forgot-password" element={<ForgetPassword />} />
                 <Route path="/register/verify-otp" element={<Otp />} />
                 <Route path="/terms" element={<Terms />} />
@@ -144,10 +161,26 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
+                    path="/user/school/list"
+                    element={
+                        <AppLayout>
+                            <UserSchoolList />
+                        </AppLayout>
+                    }
+                />
+                <Route
                     path="/school/create/"
                     element={
                         <AppLayout>
                             <CreateSchool />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/activity/create/:schoolId"
+                    element={
+                        <AppLayout>
+                            <CreateActivity />
                         </AppLayout>
                     }
                 />

@@ -210,13 +210,13 @@ const ListTimeTable: React.FC = () => {
         fetchData()
     }, [])
     const columns: ColumnsType<TimeTableDataType> = [
-        {
-            title: getLabelByKey('id'),
-            dataIndex: 'timeTableId',
-            key: 'timeTableId',
-            defaultSortOrder: 'descend',
-            sorter: (a, b) => a.timeTableId - b.timeTableId,
-        },
+        // {
+        //     title: getLabelByKey('id'),
+        //     dataIndex: 'timeTableId',
+        //     key: 'timeTableId',
+        //     defaultSortOrder: 'descend',
+        //     sorter: (a, b) => a.timeTableId - b.timeTableId,
+        // },
         {
             title: getLabelByKey('title'),
             dataIndex: 'title',

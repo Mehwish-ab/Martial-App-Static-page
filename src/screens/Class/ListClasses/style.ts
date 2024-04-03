@@ -56,18 +56,18 @@ export const ListClassStyled = styled.div`
         line-height: normal;
     }
 
+    .ant-table-tbody > tr > td:nth-child(2),
     .ant-table-tbody > tr > td:nth-child(3),
-    .ant-table-tbody > tr > td:nth-child(4),
-    .ant-table-tbody > tr > td:nth-child(6),
-    .ant-table-tbody > tr > td:nth-child(5) {
+    .ant-table-tbody > tr > td:nth-child(5),
+    .ant-table-tbody > tr > td:nth-child(4) {
         color: #000;
     }
 
-    .ant-table-tbody > tr > td:nth-child(7) div {
+    .ant-table-tbody > tr > td:nth-child(6) div {
         position: relative;
         width: 95px;
     }
-    .ant-table-tbody > tr > td:nth-child(7) .Active button {
+    .ant-table-tbody > tr > td:nth-child(6) .Active button {
         font-style: normal;
         font-weight: 400;
         line-height: normal;
@@ -82,7 +82,7 @@ export const ListClassStyled = styled.div`
         position: relative;
         text-align: center;
     }
-    .ant-table-tbody > tr > td:nth-child(7) .De-Active button {
+    .ant-table-tbody > tr > td:nth-child(6) .De-Active button {
         font-style: normal;
         font-weight: 400;
         line-height: normal;
@@ -97,7 +97,7 @@ export const ListClassStyled = styled.div`
         position: relative;
         text-align: center;
     }
-    .ant-table-tbody > tr > td:nth-child(7) img {
+    .ant-table-tbody > tr > td:nth-child(6) img {
         position: absolute;
         right: -3px;
         top: -7px;
@@ -109,13 +109,13 @@ export const ListClassStyled = styled.div`
         background-color: #fff;
     }
 
-    .ant-table-tbody > tr > td:nth-child(8),
-    .ant-table-thead > tr > th:nth-child(8) {
+    .ant-table-tbody > tr > td:nth-child(7),
+    .ant-table-thead > tr > th:nth-child(7) {
         text-align: center;
     }
 
-    .ant-table-tbody > tr > td:nth-child(7),
-    .ant-table-thead > tr > th:nth-child(7) {
+    .ant-table-tbody > tr > td:nth-child(6),
+    .ant-table-thead > tr > th:nth-child(6) {
         padding-right: 0px;
         padding-left: 0px;
         width: fit-content;
@@ -128,33 +128,33 @@ export const ListClassStyled = styled.div`
     }
 
     @media screen and (max-width: 1230px) {
-        .ant-table-tbody > tr > td:nth-child(5),
-        .ant-table-thead > tr > th:nth-child(5) {
-            display: none;
-        }
-    }
-
-    @media screen and (max-width: 1050px) {
         .ant-table-tbody > tr > td:nth-child(4),
         .ant-table-thead > tr > th:nth-child(4) {
             display: none;
         }
     }
-    @media screen and ${mediaDeviceMax.tabletS} {
+
+    @media screen and (max-width: 1050px) {
         .ant-table-tbody > tr > td:nth-child(3),
         .ant-table-thead > tr > th:nth-child(3) {
             display: none;
         }
     }
+    @media screen and ${mediaDeviceMax.tabletS} {
+        .ant-table-tbody > tr > td:nth-child(2),
+        .ant-table-thead > tr > th:nth-child(2) {
+            display: none;
+        }
+    }
     @media screen and (max-width: 500px) {
-        .ant-table-tbody > tr > td:nth-child(6),
-        .ant-table-thead > tr > th:nth-child(6) {
+        .ant-table-tbody > tr > td:nth-child(5),
+        .ant-table-thead > tr > th:nth-child(5) {
             display: none;
         }
     }
     @media screen and ${mediaDeviceMax.mobileL} {
-        .ant-table-tbody > tr > td:nth-child(7),
-        .ant-table-thead > tr > th:nth-child(7) {
+        .ant-table-tbody > tr > td:nth-child(6),
+        .ant-table-thead > tr > th:nth-child(6) {
             display: none;
         }
     }

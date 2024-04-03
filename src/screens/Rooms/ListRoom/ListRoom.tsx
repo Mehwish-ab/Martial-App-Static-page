@@ -30,6 +30,7 @@ import {
 } from '../../../redux/features/Room/RoomSlice'
 import { log } from 'console'
 import Head from '../../../components/Head/Head'
+
 const ListRoom = (): JSX.Element => {
     // const { schoolData } = useSelector(
     //     (state: RootState) => state.dashboardData
@@ -53,13 +54,12 @@ const ListRoom = (): JSX.Element => {
         | undefined
     >(undefined)
     const { RoomData } = useSelector((state: RootState) => state.RoomData)
-
+    const { loginData } = useSelector((state: RootState) => state)
     const { pathname } = useLocation()
     const [, extractedSchool] = pathname.split('/')
-
-    // Converting to uppercase
+    console.log('RoomData', RoomData)
     const schoolInUpperCase = extractedSchool.toUpperCase()
-
+    const schoolid = loginData.data?.schoolId
     const { schoolId, branchId, franchiseId } = useParams()
 
     let Id: string
@@ -82,9 +82,9 @@ const ListRoom = (): JSX.Element => {
     useEffect(() => {
         const fetchData = async (): Promise<void> => {
             try {
-                if (schoolId) {
+                if (schoolid) {
                     const response: any = await getallRoombyUC(
-                        Number(schoolId),
+                        Number(schoolid),
                         'SCHOOL'
                     )
                     setRoom(response)
@@ -222,11 +222,6 @@ const ListRoom = (): JSX.Element => {
         return activitiesName
     }
     const columns: ColumnsType<RoomDataType> = [
-        {
-            title: 'Id',
-            dataIndex: 'roomId',
-            key: 'roomId',
-        },
         {
             title: 'Name',
             dataIndex: 'name',

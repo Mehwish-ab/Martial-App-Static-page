@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import {
     auth_token_key,
@@ -21,7 +21,7 @@ interface IUseOauthLogin {
     error: string
 }
 
-const useOauthLogin = (): IUseOauthLogin => {
+const UseOauthLogin = (): IUseOauthLogin => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
@@ -34,6 +34,7 @@ const useOauthLogin = (): IUseOauthLogin => {
         },
     } = useAppSelector((state: RootState) => state.appData.data)
     const { result } = useAppSelector((state: RootState) => state.userLocation)
+    console.log({ countryCode, name, result })
 
     // signin
     const handleSignin = async (values: OauthApiValueTypes): Promise<void> => {
@@ -69,7 +70,7 @@ const useOauthLogin = (): IUseOauthLogin => {
                 }
             )
             setLoading(false)
-            navigate('/school/create')
+            navigate('/dashboard')
             // navigate("/register/create-new-password", {
             //   state: {
             //     resetPasswordToken: data.results.resetPasswordToken,
@@ -106,10 +107,12 @@ const useOauthLogin = (): IUseOauthLogin => {
             countryName: name,
             channel: 'WEB',
         }
+        console.log('pay load', payload)
         try {
             setError('')
             setLoading(true)
             const { data } = await axios.post(oauth_signup_url, payload)
+            console.log('Api response', { data }, data.responseMessage)
             if (data.responseCode === '500') {
                 toast(data.responseMessage, {
                     type: 'error',
@@ -141,6 +144,7 @@ const useOauthLogin = (): IUseOauthLogin => {
             )
         }
     }
+
     return {
         loading,
         handleSignup,
@@ -149,4 +153,4 @@ const useOauthLogin = (): IUseOauthLogin => {
     }
 }
 
-export default useOauthLogin
+export default UseOauthLogin

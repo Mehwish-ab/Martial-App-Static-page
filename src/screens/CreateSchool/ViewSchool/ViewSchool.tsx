@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import useSchool from '../../../hooks/useCreateSchool'
 import SchoolViewTabs from './SchoolViewTabs'
+import Map from './GoogleMap'
 
 import {
     lightBlue3,
@@ -25,6 +26,7 @@ import {
 import Head from '../../../components/Head/Head'
 import { StudentViewStyling } from '../styles'
 import { useAppSelector } from '../../../app/hooks'
+import ViewActivity from '../../Activitity/viewActivity'
 const ViewSchool = (): JSX.Element => {
     const { data: logindata } = useAppSelector((state) => state.loginData)
     console.log('NAda', logindata)
@@ -33,10 +35,7 @@ const ViewSchool = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('schoolCreate')
     const { deleteConfirmation, SuccessModal, WarningModal, getSchoolbyId } =
         useSchool()
-    const { branchData } = useSelector((state: RootState) => state.branchData)
-    const { franchiseData } = useSelector(
-        (state: RootState) => state.franchiseData
-    )
+
     const [schoolData, setschoolData] = useState<SchoolDataType>()
     const [OwnerData, setOwnerData] = useState<OwnerDataTypes>()
 
@@ -52,12 +51,11 @@ const ViewSchool = (): JSX.Element => {
                 }
 
                 // eslint-disable-next-line @typescript-eslint/no-shadow
-            } catch (error) {
-            } finally {
-            }
+            } catch (error) {}
         }
-
-        fetchData()
+        if (schoolId) {
+            fetchData()
+        }
     }, [schoolId])
 
     // console.log('>>im view school', schoolData)
@@ -92,9 +90,9 @@ const ViewSchool = (): JSX.Element => {
         (item: DataTypesWithIdAndMultipleLangLabel) =>
             +item.id == +Number(schoolData?.defaultCurrencyId)
     )
-    const handleUpdateClick = (): void => {
-        navigate(`/school/edit/${schoolData?.schoolId}`)
-    }
+    // const handleUpdateClick = (): void => {
+    //     navigate(`/school/edit/${schoolData?.schoolId}`)
+    // }
 
     // const handleDeleteClick = async (): Promise<void> => {
     //     Createmodal().modalComponent
@@ -191,7 +189,7 @@ const ViewSchool = (): JSX.Element => {
                     overlayImg={schoolData?.profilePicture || ''}
                     isEditable={true}
                 />
-                <h3>Owner Information</h3>
+                {/* <h3>Owner Information</h3>
                 <Card>
                     <Row>
                         <Col md="6">
@@ -234,7 +232,7 @@ const ViewSchool = (): JSX.Element => {
                             </div>
                         </Col>
                     </Row>
-                </Card>
+                </Card> */}
                 <h3>School Information</h3>
                 <Card>
                     <Row>
@@ -385,21 +383,15 @@ const ViewSchool = (): JSX.Element => {
                             }}
                         />
                     </div> */}
-                    <CustomButton
-                        bgcolor={lightBlue3}
-                        textTransform="Capitalize"
-                        color={maastrichtBlue}
-                        padding="11px 40.50px"
-                        fontFamily={`${fontFamilyMedium}`}
-                        width="fit-content"
-                        type="submit"
-                        title="Edit Account"
-                        fontSize="18px"
-                        clicked={handleUpdateClick}
-                    />
                 </div>
             </ViewSchoolStyled>
-            <SchoolViewTabs />
+            {/* <SchoolViewTabs /> */}
+            <ViewActivity />
+            <Col md="12" className="mt-20">
+                <div className="BoxDiv">
+                    <Map />
+                </div>
+            </Col>
         </>
     )
 }

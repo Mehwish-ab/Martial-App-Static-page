@@ -9,7 +9,7 @@ type MenuItem = Required<MenuProps>['items'][number]
 
 const menuLinks: any = {
     dashboard: '/dashboard',
-    createSchool: '/school/list',
+    createSchool: '/school/create/',
     classes: '/class/list',
     timeTable: '/timetable/list',
     transactionsHistory: '/transaction-history/list',
@@ -54,7 +54,7 @@ const menuLinksKeys: any = {
     qrCode: 'qrCode',
 }
 
-const NavigationMenu = (): JSX.Element => {
+const SchoolNavigationMenu = (): JSX.Element => {
     const location = useLocation()
     const navigate = useNavigate()
 
@@ -255,4 +255,4 @@ const NavigationMenu = (): JSX.Element => {
     )
 }
 
-export default NavigationMenu
+export default SchoolNavigationMenu

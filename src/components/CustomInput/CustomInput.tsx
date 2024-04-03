@@ -44,6 +44,7 @@ const CustomInput: React.FC<CustomInputTypes> = ({
     placeholderFont = '16px',
     className,
     name,
+    value,
     fontSize = '16px',
     fontFamily = fontFamilyRegular,
     bgColor = 'white',
@@ -81,6 +82,7 @@ const CustomInput: React.FC<CustomInputTypes> = ({
                 {({ field }: any) => (
                     <Input
                         disabled={disabled}
+                        value={value}
                         prefix={prefix}
                         className={className}
                         type={type}
@@ -91,6 +93,7 @@ const CustomInput: React.FC<CustomInputTypes> = ({
                         {...field}
                         suffix={suffix}
                         onKeyUp={onKeyUp}
+                        //style={{ display: 'none' }}
                     />
                 )}
             </Field>

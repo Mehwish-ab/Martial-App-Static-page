@@ -12,7 +12,7 @@ import { useEffect } from 'react'
 import { getAllUsers } from '../User/UserSlice'
 export interface RoomDataType {
     useCase: string
-    id: number | string
+    id: string | undefined | number
     name: string
     floorNumber: number | string
     roomNumber: number | string
@@ -59,7 +59,10 @@ const initialState: ClassDataInitialState = {
 
 export const getRoomDataByUseCase = createAsyncThunk(
     'RoomData/getRoomDataByUseCase',
-    async ({ id, usecase }: { id: number; usecase: string }, thunkAPI) => {
+    async (
+        { id, usecase }: { id: number | string; usecase: string },
+        thunkAPI
+    ) => {
         const state = store.getState()
         try {
             const { data } = await axios.post(

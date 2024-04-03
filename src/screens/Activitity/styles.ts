@@ -1,5 +1,7 @@
 import Styled from 'styled-components'
 import {
+    darkBlue,
+    fontFamilyBold,
     fontFamilyMedium,
     fontFamilyRegular,
     lightDark2,
@@ -19,6 +21,14 @@ export const ActivityStyle = Styled.div`
         font-size: 18px;
         padding-left: 20px;
         font-family: ${fontFamilyMedium};
+    }
+       .table-title {
+        font-size: 23px !important;
+        font-family: ${fontFamilyBold} !important;
+        text-align:center
+    }
+    .p{
+            text-align:center
     }
     @media screen and ${mediaDeviceMax.mobileBS} {
         .gZsrvq {

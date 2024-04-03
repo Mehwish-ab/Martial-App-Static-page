@@ -56,7 +56,7 @@ export const ListRoomsStyle = styled.div`
     .ant-table-tbody > tr > td:first-child {
         text-align: center;
     }
-    .ant-table-thead > tr > th:nth-child(2),
+    .ant-table-thead > tr > th:nth-child(1),
     .ant-table-tbody > tr > td:nth-child(2) {
         width: 30%;
     }
@@ -115,31 +115,31 @@ export const ListRoomsStyle = styled.div`
     }
 
     // @media screen and ${mediaDeviceMax.tabletL} {
-    //     .ant-table-thead > tr > th:nth-child(6),
+    //     .ant-table-thead > tr > th:nth-child(5),
     //     .ant-table-tbody > tr > td:nth-child(6) {
     //         display: none;
     //     }
+    //     .ant-table-thead > tr > th:nth-child(2),
     //     .ant-table-thead > tr > th:nth-child(3),
     //     .ant-table-thead > tr > th:nth-child(4),
-    //     .ant-table-thead > tr > th:nth-child(5),
-    //     .ant-table-thead > tr > th:nth-child(6) {
+    //     .ant-table-thead > tr > th:nth-child(5) {
     //         width: 16.6%;
     //     }
     // }
     // @media screen and ${mediaDeviceMax.mobileBS} {
-    //     .ant-table-thead > tr > th:nth-child(5),
+    //     .ant-table-thead > tr > th:nth-child(4),
     //     .ant-table-tbody > tr > td:nth-child(5) {
     //         display: none;
     //     }
     // }
     // @media screen and ${mediaDeviceMax.mobileL} {
-    //     .ant-table-thead > tr > th:nth-child(4),
+    //     .ant-table-thead > tr > th:nth-child(3),
     //     .ant-table-tbody > tr > td:nth-child(4) {
     //         display: none;
     //     }
     // }
     // @media screen and ${mediaDeviceMax.mobileM} {
-    //     .ant-table-thead > tr > th:nth-child(5),
+    //     .ant-table-thead > tr > th:nth-child(4),
     //     .ant-table-tbody > tr > td:nth-child(5) {
     //         display: none;
     //     }

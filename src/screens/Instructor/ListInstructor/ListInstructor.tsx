@@ -15,6 +15,7 @@ import plusIcon from '../../../assets/icons/ic_plus.svg'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 import defaltimg from '../../../assets/images/create_school_user_profile.svg'
 import { useSelector } from 'react-redux'
+import DefaultBannerImage from '../../../assets/images/defaultProfileImage.svg'
 // import store, { RootState } from "../../../redux/store";
 import store, { RootState } from '../../../redux/store'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
@@ -249,17 +250,19 @@ const ListInstructor: React.FC = () => {
         return SpecializationName
     }
     const columns: ColumnsType<InstructorDataType> = [
-        {
-            title: getLabelByKey('Id'),
-            dataIndex: 'instructorId',
-            key: 'instructorId',
-        },
+        // {
+        //     title: getLabelByKey('Id'),
+        //     dataIndex: 'instructorId',
+        //     key: 'instructorId',
+        // },
         {
             title: getLabelByKey('Image'),
             render: (Dummydatas) => {
                 console.log('>>images', Dummydatas?.profilePicture)
                 if (Dummydatas.profilePicture === null) {
-                    return <img src={defaltimg} width={44} height={44} />
+                    return (
+                        <img src={DefaultBannerImage} width={44} height={44} />
+                    )
                 } else {
                     return (
                         <img

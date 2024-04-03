@@ -23,8 +23,11 @@ const CustomSelect = (props: any): JSX.Element => {
         fontSize = '16px',
         onChange,
         showErroMessage = true,
+        value,
         ...rest
     } = props
+
+    console.log('options', options, { value })
 
     return (
         <CustomSelectStyle
@@ -57,6 +60,7 @@ const CustomSelect = (props: any): JSX.Element => {
                                     />
                                 }
                                 defaultValue={defaultValue}
+                                value={value}
                                 {...rest}
                                 // onSelect={(val, event) => onSelect(val, event.key)}
                                 placeholder={placeholder}

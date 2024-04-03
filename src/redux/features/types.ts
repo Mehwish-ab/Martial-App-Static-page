@@ -400,9 +400,24 @@ export interface DropdownDataTypes {
 export interface StatusDataTypes {
     activities: DataTypesWithIdAndMultipleLangLabel[]
     facilities: DataTypesWithIdAndMultipleLangLabel[]
+    experienceLevel: DataTypesWithIdAndMultipleLangLabel[]
 }
 
 export interface DataTypesWithIdAndMultipleLangLabel {
+    active: false
+    belt: false
+    beltIds: null
+    descriptionAr: ''
+    descriptionEn: ''
+    descriptionEs: ''
+    descriptionPt: ''
+    descriptionUr: ''
+    experienceLevelIds: ''
+    precedence: 12
+    namePt: any
+    nameEs: any
+    nameAr: any
+    nameEn: any
     value: any
     label: any
     id: string
@@ -467,6 +482,11 @@ export interface Validation {
     patternMsgPt: string
     patternMsgAr: string
     patternMsgUr: string
+}
+
+// Register data types
+export type registerDataType = {
+    userId: number
 }
 
 // login data types

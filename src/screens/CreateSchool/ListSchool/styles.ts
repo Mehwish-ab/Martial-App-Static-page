@@ -53,13 +53,13 @@ export const ListSchoolStyle = styled.div`
         width: 3%;
         text-align: center;
     }
-    .ant-table-thead > tr > th:nth-child(2),
-    .ant-table-tbody > tr > td:nth-child(2) {
+    .ant-table-thead > tr > th:nth-child(1),
+    .ant-table-tbody > tr > td:nth-child(1) {
         width: 7%;
     }
 
-    .ant-table-thead > tr > th:nth-child(4),
-    .ant-table-tbody > tr > td:nth-child(4) {
+    .ant-table-thead > tr > th:nth-child(3),
+    .ant-table-tbody > tr > td:nth-child(3) {
         width: 8%;
     }
     .ant-table-tbody > tr > td:nth-child(5) p {
@@ -69,24 +69,23 @@ export const ListSchoolStyle = styled.div`
         text-overflow: ellipsis;
     }
 
+    .ant-table-thead > tr > th:nth-child(6),
+    .ant-table-tbody > tr > td:nth-child(6),
     .ant-table-thead > tr > th:nth-child(7),
-    .ant-table-tbody > tr > td:nth-child(7),
-    .ant-table-thead > tr > th:nth-child(8),
-    .ant-table-tbody > tr > td:nth-child(8) {
         width: 9%;
     }
 
-    .ant-table-thead > tr > th:nth-child(8),
-    .ant-table-tbody > tr > td:nth-child(8) {
+    .ant-table-thead > tr > th:nth-child(7),
+    .ant-table-tbody > tr > td:nth-child(7) {
         text-align: center;
     }
 
-    .ant-table-tbody > tr > td:nth-child(2),
-    .ant-table-tbody > tr > th:nth-child(3),
+    .ant-table-tbody > tr > td:nth-child(1),
+    .ant-table-tbody > tr > th:nth-child(2),
     .ant-table-tbody > tr > td:nth-child(3) {
         text-align: left;
     }
-    .ant-table-tbody > tr > td:nth-child(4) {
+    .ant-table-tbody > tr > td:nth-child(3) {
         color: #000 !important;
         font-size: 14px !important;
         font-style: normal;
@@ -95,11 +94,11 @@ export const ListSchoolStyle = styled.div`
         margin-bottom: 0 !important;
         position: relative;
     }
-    .ant-table-tbody > tr > td:nth-child(7) div {
+    .ant-table-tbody > tr > td:nth-child(6) div {
         position: relative;
         width: 107px;
     }
-    .ant-table-tbody > tr > td:nth-child(7) .Active button {
+    .ant-table-tbody > tr > td:nth-child(6) .Active button {
         font-style: normal;
         font-weight: 400;
         line-height: normal;
@@ -114,7 +113,7 @@ export const ListSchoolStyle = styled.div`
         position: relative;
         text-align: center;
     }
-    .ant-table-tbody > tr > td:nth-child(7) .De-Active button {
+    .ant-table-tbody > tr > td:nth-child(6) .De-Active button {
         font-style: normal;
         font-weight: 400;
         line-height: normal;
@@ -129,7 +128,7 @@ export const ListSchoolStyle = styled.div`
         position: relative;
         text-align: center;
     }
-    .ant-table-tbody > tr > td:nth-child(7) img {
+    .ant-table-tbody > tr > td:nth-child(6) img {
         position: absolute;
         right: 6%;
         top: -5px;
@@ -149,28 +148,28 @@ export const ListSchoolStyle = styled.div`
         .ant-table-tbody > tr > td:nth-child(6) {
             display: none;
         }
+        .ant-table-thead > tr > th:nth-child(2),
         .ant-table-thead > tr > th:nth-child(3),
         .ant-table-thead > tr > th:nth-child(4),
-        .ant-table-thead > tr > th:nth-child(5),
         .ant-table-thead > tr > th:nth-child(6) {
             width: 16.6%;
         }
     }
     @media screen and ${mediaDeviceMax.mobileBS} {
-        .ant-table-thead > tr > th:nth-child(5),
-        .ant-table-tbody > tr > td:nth-child(5) {
-            display: none;
-        }
-    }
-    @media screen and ${mediaDeviceMax.mobileL} {
         .ant-table-thead > tr > th:nth-child(4),
         .ant-table-tbody > tr > td:nth-child(4) {
             display: none;
         }
     }
+    @media screen and ${mediaDeviceMax.mobileL} {
+        .ant-table-thead > tr > th:nth-child(3),
+        .ant-table-tbody > tr > td:nth-child(3) {
+            display: none;
+        }
+    }
     @media screen and ${mediaDeviceMax.mobileM} {
-        .ant-table-thead > tr > th:nth-child(7),
-        .ant-table-tbody > tr > td:nth-child(7) {
+        .ant-table-thead > tr > th:nth-child(6),
+        .ant-table-tbody > tr > td:nth-child(6) {
             display: none;
         }
     }

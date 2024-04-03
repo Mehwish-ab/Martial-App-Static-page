@@ -140,11 +140,6 @@ const ListRules: React.FC = () => {
 
     const columns: ColumnsType<RulesDataType> = [
         {
-            title: 'Id',
-            dataIndex: 'RulesID',
-            key: 'RulesID',
-        },
-        {
             title: 'Title',
             dataIndex: 'RulesTitle',
             key: 'RulesTitle',

@@ -146,7 +146,7 @@ const useUser = (): IuseUser => {
             setLoading(true)
             const { data: allschool } = await axios.post(
                 'api/auth/getAll',
-                { country: '' },
+                { country: '', roleId: 1 },
                 {
                     headers: {
                         ...authorizationToken(loginData.data as loginDataTypes),

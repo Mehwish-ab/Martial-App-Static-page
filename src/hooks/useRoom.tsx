@@ -104,26 +104,9 @@ const useRoom = (): IUseRoom => {
                     },
                 }
             )
-            console.log('>>v', data3)
-
-            // setIsShowModal(true);
-            // setTimeout(() => {
-            //   setLoading(false);
-            //   setIsShowModal(false);
-            //   //navigate("/school/view");
-            // }, 3000);
-            // setIsShowModal(true)
-            // setTimeout(() => {
             setLoading(false)
-            //     setIsShowModal(false)
-            //    // navigate('/branch/list')
-            // }, 3000)
-            // toastId.current = toast(data.responseMessage, {
-            //   type: "success",
-            //   autoClose: 1000,
-            // });
-            //setLoading(false);
             console.log({ data3 })
+
             return data3.results
         } catch (e: any) {
             setLoading(false)

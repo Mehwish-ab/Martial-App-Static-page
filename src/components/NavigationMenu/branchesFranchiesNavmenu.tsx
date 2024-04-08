@@ -5,28 +5,9 @@ import { childListOfSetting } from '../Sidebar/constants'
 // import { SidebarStyle } from "../Sidebar/style";
 import { NavigationMenuStyled } from './styles'
 import { useEffect, useState } from 'react'
+import { RootState } from '../../redux/store'
+import { useSelector } from 'react-redux'
 type MenuItem = Required<MenuProps>['items'][number]
-const branchFranchiesMenuLinks: any = {
-    dashboard: '/dashboard',
-    // createSchool: '/school/list',
-    classes: '/class/list',
-    timeTable: '/timetable/list',
-    transactionsHistory: '/transaction-history/list',
-    listInstructor: '/instructor/list',
-    listBranch: '/branch/list',
-    listFranchise: '/franchise/list',
-    membership: '/membership/list',
-    payment: '/payment',
-    rules: '/rules/list',
-    helpAndSupport: '/help-support',
-    booking: '',
-    language: '/language',
-    qrCode: '/qr-code',
-    setting: '/settings',
-    user: '/user/list',
-    attendance: '',
-    reports: '/reports/list',
-}
 
 const menuLinksKeys: any = {
     dashboard: 'dashboard',
@@ -34,6 +15,7 @@ const menuLinksKeys: any = {
     listBranch: 'listBranch',
     listFranchise: 'listFranchise',
     listInstructor: 'listInstructor',
+    trainingRoom: 'trainingRoom',
     instructor: 'instructor',
     timeTable: 'timeTable',
     classes: 'classes',
@@ -56,6 +38,30 @@ const menuLinksKeys: any = {
 const BranchesFranchiesNavigationMenu = (): JSX.Element => {
     const location = useLocation()
     const navigate = useNavigate()
+
+    const { loginData } = useSelector((state: RootState) => state)
+    const branchFranchiesMenuLinks: any = {
+        dashboard: '/dashboard',
+        // createSchool: '/school/list',
+        classes: '/class/list',
+        timeTable: '/timetable/list',
+        transactionsHistory: '/transaction-history/list',
+        listInstructor: '/instructor/list',
+        listBranch: '/branch/list',
+        listFranchise: '/franchise/list',
+        membership: '/membership/list',
+        trainingRoom: `/school/room/list/${loginData.data?.schoolId}`,
+        payment: '/payment',
+        rules: '/rules/list',
+        helpAndSupport: '/help-support',
+        booking: '',
+        language: '/language',
+        qrCode: '/qr-code',
+        setting: '/settings',
+        user: '/user/list',
+        attendance: '',
+        reports: '/reports/list',
+    }
 
     // const getMenuIcon = (file: any) => <img src={file} alt="" />;
 
@@ -98,6 +104,15 @@ const BranchesFranchiesNavigationMenu = (): JSX.Element => {
                 menuLinksKeys.classes
             ),
         },
+
+        {
+            key: menuLinksKeys.membership,
+            label: getLabel(
+                'Memberships',
+                branchFranchiesMenuLinks.membership,
+                menuLinksKeys.membership
+            ),
+        },
         {
             key: menuLinksKeys.timeTable,
             label: getLabel(
@@ -107,11 +122,11 @@ const BranchesFranchiesNavigationMenu = (): JSX.Element => {
             ),
         },
         {
-            key: menuLinksKeys.membership,
+            key: menuLinksKeys.trainingRoom,
             label: getLabel(
-                'Memberships',
-                branchFranchiesMenuLinks.membership,
-                menuLinksKeys.membership
+                'Training Rooms',
+                branchFranchiesMenuLinks.trainingRoom,
+                menuLinksKeys.trainingRoom
             ),
         },
         {

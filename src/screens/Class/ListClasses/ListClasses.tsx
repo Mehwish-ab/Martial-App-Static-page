@@ -319,8 +319,11 @@ const ListClass = (): JSX.Element => {
         },
         {
             title: getLabelByKey('instructor'),
-            dataIndex: 'instructorId',
+            dataIndex: 'instructorName',
             key: 'instructorId',
+            render: (instructorName) => {
+                return <div>{instructorName}</div>
+            },
         },
         {
             title: getLabelByKey('startDate'),
@@ -453,22 +456,29 @@ const ListClass = (): JSX.Element => {
                     // }
                     dataSource={AllClass ? AllClass?.data : []}
                     // scroll={{ x: true }}
-                    pagination={{
-                        current: currentPage,
-                        total: AllClass ? AllClass.totalItems : 0,
-                        pageSize: pageSize,
-                        showTotal: (total, range) => (
-                            <span
-                                dangerouslySetInnerHTML={{
-                                    __html: `Page <span className='paginationVal'>${currentPage}</span> of ${Math.ceil(
-                                        total / pageSize
-                                    )}`,
-                                }}
-                            />
-                        ),
-                        onChange: (page) => handlePaginationChange(page),
-                        position: ['bottomRight'],
-                    }}
+                    pagination={
+                        AllClass &&
+                        AllClass.totalItems &&
+                        AllClass.totalItems > 10
+                            ? {
+                                  current: currentPage,
+                                  total: AllClass ? AllClass.totalItems : 0,
+                                  pageSize: pageSize,
+                                  showTotal: (total, range) => (
+                                      <span
+                                          dangerouslySetInnerHTML={{
+                                              __html: `Page <span className='paginationVal'>${currentPage}</span> of ${Math.ceil(
+                                                  total / pageSize
+                                              )}`,
+                                          }}
+                                      />
+                                  ),
+                                  onChange: (page) =>
+                                      handlePaginationChange(page),
+                                  position: ['bottomRight'],
+                              }
+                            : false
+                    }
                 />
             </ListClassStyled>
         </>

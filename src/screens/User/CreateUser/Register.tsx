@@ -20,26 +20,19 @@ import { useAppSelector } from '../../../app/hooks'
 import { validationFinder } from '../../../utils/utilities'
 import { toast } from 'react-toastify'
 import axios from 'axios'
-import {
-    auth_token_key,
-    base_url,
-    login_url,
-    signup_url,
-} from '../../../utils/api_urls'
+import { signup_url } from '../../../utils/api_urls'
 import Errormsg from '../../../components/ErrorMessage'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { SCREEN_LABEL_KEYS } from './constant'
 import Input from 'react-phone-number-input'
 
 import 'react-phone-number-input/style.css'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
 import OauthLogin from '../../../components/Common/OauthLogin/OauthLogin'
 import { OAUTH_USECASES } from '../../../components/Common/OauthLogin/constants'
 import TermsAndConditions from '../../../components/TermsAndConditions/TermsAndConditions'
 import MessageModal from '../../../components/Common/MessageModal/MessageModal'
-import AppLayout from '../../../components/Layout/Layout'
-import { setUserId } from '../../../redux/features/loginDataSlice'
 
 // create user initial values types
 type initialValuesType = {
@@ -57,7 +50,7 @@ const Register = (): JSX.Element => {
     const [terms, setTerms] = useState(false)
     const [showTermsError, setShowTermsError] = useState(false)
     const { getLabelByKey } = useScreenTranslation('registerScreen')
-    const { loginData } = useSelector((state: RootState) => state)
+
     const scrollViewRef = useRef<ScrollView>(null)
     const navigate = useNavigate()
     const { selectedLanguage } = useSelector(
@@ -86,7 +79,6 @@ const Register = (): JSX.Element => {
         const countrySelect = document.querySelector(
             '.PhoneInput .PhoneInputCountry'
         )
-        console.log('i am in  register form')
         const phoneNumberInput = document.querySelector('.PhoneInput input')
 
         if (countrySelect) {
@@ -159,7 +151,6 @@ const Register = (): JSX.Element => {
             .oneOf([Yup.ref('password')], 'passwords must match'),
     })
     // create user data submit
-    const dispatch = useDispatch()
     const onSubmit = async (values: initialValuesType): Promise<void> => {
         if (!terms) {
             setShowTermsError(true)
@@ -192,8 +183,8 @@ const Register = (): JSX.Element => {
         }
         try {
             setIsLoading(true)
-            const response = await axios.post(signup_url, userData)
-            console.log('response of register', response)
+            await axios.post(signup_url, userData)
+            // const successMessage = response.data.responseMessage;
             toast(
                 <MessageModal
                     message="Account Created Successfully!"
@@ -204,10 +195,7 @@ const Register = (): JSX.Element => {
                     autoClose: 1000,
                 }
             )
-            console.log('response', response)
-            dispatch(setUserId(response?.data?.results.userId))
-            navigate('/school/create')
-
+            navigate('/login')
             setIsLoading(false)
             // eslint-disable-next-line prettier/prettier, @typescript-eslint/no-explicit-any
         } catch (error: any) {
@@ -515,7 +503,6 @@ const Register = (): JSX.Element => {
                     </div>
                 </div>
             </CreateUserStyle>
-            {/* {loginData.data?.jwtDetails.token ? <AppLayout /> : null} */}
         </>
     )
 }

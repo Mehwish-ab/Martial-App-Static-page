@@ -224,7 +224,9 @@ const ListSchool = (): JSX.Element => {
 
         let activitiesName = ''
         activitiesArr.map((activity) => {
-            const index = activities.findIndex((act) => act.id === activity)
+            const index = activities.findIndex(
+                (act: any) => act.id === activity
+            )
             if (index !== -1) {
                 activitiesName =
                     activitiesName === ''
@@ -524,22 +526,29 @@ const ListSchool = (): JSX.Element => {
                     columns={columns}
                     dataSource={AllSchools ? AllSchools?.data : []}
                     scroll={{ x: true }}
-                    pagination={{
-                        current: currentPage,
-                        total: AllSchools ? AllSchools.totalItems : 0,
-                        pageSize: pageSize,
-                        showTotal: (total, range) => (
-                            <span
-                                dangerouslySetInnerHTML={{
-                                    __html: `Page <span className='paginationVal'>${currentPage}</span> of ${Math.ceil(
-                                        total / pageSize
-                                    )}`,
-                                }}
-                            />
-                        ),
-                        onChange: (page) => handlePaginationChange(page),
-                        // itemRender: customItemRender,
-                    }}
+                    pagination={
+                        AllSchools &&
+                        AllSchools?.totalItems &&
+                        AllSchools?.totalItems > 10
+                            ? {
+                                  current: currentPage,
+                                  total: AllSchools ? AllSchools.totalItems : 0,
+                                  pageSize: pageSize,
+                                  showTotal: (total, range) => (
+                                      <span
+                                          dangerouslySetInnerHTML={{
+                                              __html: `Page <span className='paginationVal'>${currentPage}</span> of ${Math.ceil(
+                                                  total / pageSize
+                                              )}`,
+                                          }}
+                                      />
+                                  ),
+                                  onChange: (page) =>
+                                      handlePaginationChange(page),
+                                  // itemRender: customItemRender,
+                              }
+                            : false
+                    }
                 />
                 {isReportCreateModalVisible && (
                     <ReportCreate

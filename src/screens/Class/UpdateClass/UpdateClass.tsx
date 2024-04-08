@@ -100,7 +100,7 @@ const UpdateClass = (): JSX.Element => {
         console.log('iamge file', file)
         setBannerImage(file)
     }
-
+    console.log('values', values)
     const InitialValues: CreateClassInitialValues = {
         title: values?.title,
         startDate: moment(values?.startDate, 'YYYY-MM-DD').format(
@@ -109,8 +109,9 @@ const UpdateClass = (): JSX.Element => {
         endDate: moment(values?.endDate, 'YYYY-MM-DD').format(
             'dddd, MMM DD, YYYY'
         ),
-        instructorId: values?.instructorId,
-        roomId: values?.roomId,
+        instructorId: values?.instructorIds,
+        isKid: values?.isKid,
+        roomId: values?.roomIds,
         fee: values?.fee,
         activities: values ? values.activities?.split(',').map(String) : [],
         accommodation: values
@@ -171,6 +172,10 @@ const UpdateClass = (): JSX.Element => {
         id: Number(loginData.data?.schoolId),
         timeTableId: values?.timeTableId,
     }
+    const Attendent = [
+        { label: 'Kids', value: true },
+        { label: 'Adults', value: false },
+    ]
     const validationSchemas = Yup.object({
         title: Yup.string().required('Please select title'),
         fee: Yup.string().required('Please enter description'),
@@ -760,6 +765,31 @@ const UpdateClass = (): JSX.Element => {
                                                     </span>
                                                 }
                                             />
+                                        </Col>
+                                        <Col md="3">
+                                            <Col className="mt-20">
+                                                <FormControl
+                                                    control="select"
+                                                    type="text"
+                                                    name="isKid"
+                                                    label={getLabelByKey(
+                                                        'attendant'
+                                                    )}
+                                                    fontSize="16px"
+                                                    max={6}
+                                                    value={formik.values.isKid}
+                                                    placeholder={
+                                                        formik.values.isKid
+                                                    }
+                                                    className={
+                                                        formik.errors.isKid &&
+                                                        formik.touched.isKid
+                                                            ? 'is-invalid'
+                                                            : 'customInput'
+                                                    }
+                                                    options={Attendent}
+                                                />
+                                            </Col>
                                         </Col>
 
                                         <Col md="3" className="  ">

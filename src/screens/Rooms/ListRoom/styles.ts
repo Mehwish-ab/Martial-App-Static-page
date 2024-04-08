@@ -56,8 +56,8 @@ export const ListRoomsStyle = styled.div`
     .ant-table-tbody > tr > td:first-child {
         text-align: center;
     }
-    .ant-table-thead > tr > th:nth-child(1),
-    .ant-table-tbody > tr > td:nth-child(2) {
+    .ant-table-thead > tr > th:nth-child(0),
+    .ant-table-tbody > tr > td:nth-child(5) {
         width: 30%;
     }
     .ant-table-thead > tr > th:last-child,
@@ -99,7 +99,7 @@ export const ListRoomsStyle = styled.div`
         position: relative;
         text-align: center;
     }
-    .ant-table-tbody > tr > td:nth-child(5) img {
+    .ant-table-tbody > tr > td:nth-child(2) img {
         position: absolute;
         right: 6%;
         top: -5px;
@@ -115,32 +115,32 @@ export const ListRoomsStyle = styled.div`
     }
 
     // @media screen and ${mediaDeviceMax.tabletL} {
-    //     .ant-table-thead > tr > th:nth-child(5),
-    //     .ant-table-tbody > tr > td:nth-child(6) {
+    //     .ant-table-thead > tr > th:nth-child(4),
+    //     .ant-table-tbody > tr > td:nth-child(3) {
     //         display: none;
     //     }
     //     .ant-table-thead > tr > th:nth-child(2),
+    //     .ant-table-thead > tr > th:nth-child(2),
     //     .ant-table-thead > tr > th:nth-child(3),
-    //     .ant-table-thead > tr > th:nth-child(4),
-    //     .ant-table-thead > tr > th:nth-child(5) {
+    //     .ant-table-thead > tr > th:nth-child(4) {
     //         width: 16.6%;
     //     }
     // }
     // @media screen and ${mediaDeviceMax.mobileBS} {
-    //     .ant-table-thead > tr > th:nth-child(4),
-    //     .ant-table-tbody > tr > td:nth-child(5) {
+    //     .ant-table-thead > tr > th:nth-child(3),
+    //     .ant-table-tbody > tr > td:nth-child(2) {
     //         display: none;
     //     }
     // }
     // @media screen and ${mediaDeviceMax.mobileL} {
-    //     .ant-table-thead > tr > th:nth-child(3),
-    //     .ant-table-tbody > tr > td:nth-child(4) {
+    //     .ant-table-thead > tr > th:nth-child(2),
+    //     .ant-table-tbody > tr > td:nth-child(1) {
     //         display: none;
     //     }
     // }
     // @media screen and ${mediaDeviceMax.mobileM} {
-    //     .ant-table-thead > tr > th:nth-child(4),
-    //     .ant-table-tbody > tr > td:nth-child(5) {
+    //     .ant-table-thead > tr > th:nth-child(3),
+    //     .ant-table-tbody > tr > td:nth-child(2) {
     //         display: none;
     //     }
     // }

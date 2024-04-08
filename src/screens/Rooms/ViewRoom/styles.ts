@@ -9,6 +9,9 @@ import {
 } from '../../../components/GlobalStyle'
 
 export const ViewRoomStyled = styled.div`
+    margin: 0 auto; /* Center align the component horizontally */
+    max-width: 600px; /* Adjust maximum width as needed */
+
     .ant-card-body {
         padding: 20px;
     }

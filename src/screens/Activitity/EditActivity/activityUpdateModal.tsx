@@ -76,28 +76,69 @@ const Activity = ({ closeModal, activityData }: any): JSX.Element => {
 
     const Belts = [...Adults, ...Kids]
     console.log('schoolID', schoolData)
-    const showExperience = (exp: any): any => {
-        const index = experienceLevel.findIndex((act) => act.id === exp)
+    const showExperience = (activityId: number): SelectOptionsDataTypes[] => {
+        const actIndex = activities.findIndex(
+            (act: any) => +act.id === activityId
+        )
+        const actData = activities[actIndex]
+        const activitiesArr = actData?.experienceLevelIds.split(',').map(Number)
+        let experienceItem = ''
 
-        if (index !== -1) {
-            return (experienceLevel[index] as any)[selectedLanguage]
-        }
-        return '--'
+        const options = activitiesArr?.reduce((accumulator, activity) => {
+            const index = experienceLevel.findIndex(
+                (act) => +act.id === activity
+            )
+
+            if (index !== -1) {
+                // return options
+                experienceItem = (experienceLevel[index] as any)[
+                    selectedLanguage
+                ]
+                return [
+                    ...accumulator,
+                    {
+                        value: (experienceLevel[index] as any)['id'],
+                        label: experienceItem,
+                    },
+                ]
+            }
+            return [...accumulator]
+        }, [] as any)
+        return options
     }
 
-    const showBelt = (beltId: any): any => {
-        console.log('Belts Id', beltId)
+    const showBelt = (activityId: any): SelectOptionsDataTypes[] => {
+        const actIndex = activities.findIndex(
+            (act: any) => +act.id === activityId
+        )
+        const actData = activities[actIndex]
+        const beltIds =
+            typeof actData?.beltIds === 'string' ? actData.beltIds : ''
+        const activitiesArr = beltIds.split(',').map(Number)
+        let experienceItem = ''
 
-        const index = Belts.findIndex((act) => act.id === beltId)
-        console.log('belts  index', index, Belts)
+        const options = activitiesArr?.reduce(
+            (accumulator: any, activity: any) => {
+                const index = Belts.findIndex((act) => +act.id === activity)
 
-        if (index !== -1) {
-            // return options
-            return (Belts[index] as any)[selectedLanguage]
-        }
-
-        return '--'
+                if (index !== -1) {
+                    // return options
+                    experienceItem = (Belts[index] as any)[selectedLanguage]
+                    return [
+                        ...accumulator,
+                        {
+                            value: (Belts[index] as any)['id'],
+                            label: experienceItem,
+                        },
+                    ]
+                }
+                return [...accumulator]
+            },
+            [] as any
+        )
+        return options
     }
+
     console.log('activityyyyy data', activityData)
     const onSubmit = async (values: ActivityInitialValues): Promise<void> => {
         // Perform your form submission logic here
@@ -327,9 +368,8 @@ const Activity = ({ closeModal, activityData }: any): JSX.Element => {
                                             </div>
                                         </Col>
                                         <Col className="mt-20">
-                                            {!!showBelt(
-                                                formik.values.selectBelt
-                                            ).length && (
+                                            {!!showBelt(activityData.activityId)
+                                                .length && (
                                                 <FormControl
                                                     control="select"
                                                     type="text"
@@ -342,9 +382,6 @@ const Activity = ({ closeModal, activityData }: any): JSX.Element => {
                                                     value={
                                                         formik.values.selectBelt
                                                     }
-                                                    placeholder={showBelt(
-                                                        formik.values.selectBelt
-                                                    )}
                                                     className={
                                                         formik.errors
                                                             .selectBelt &&
@@ -353,15 +390,15 @@ const Activity = ({ closeModal, activityData }: any): JSX.Element => {
                                                             ? 'is-invalid'
                                                             : 'customInput'
                                                     }
-                                                    options={createOptions(
-                                                        Belts
+                                                    options={showBelt(
+                                                        activityData.activityId
                                                     )}
                                                 />
                                             )}
                                         </Col>
                                         <Col className="mt-20">
                                             {!!showExperience(
-                                                formik.values.experience
+                                                activityData?.activityId
                                             ).length && (
                                                 <FormControl
                                                     control="select"
@@ -373,9 +410,6 @@ const Activity = ({ closeModal, activityData }: any): JSX.Element => {
                                                     value={
                                                         formik.values.experience
                                                     }
-                                                    placeholder={showExperience(
-                                                        formik.values.experience
-                                                    )}
                                                     className={
                                                         formik.errors
                                                             .experience &&
@@ -384,8 +418,8 @@ const Activity = ({ closeModal, activityData }: any): JSX.Element => {
                                                             ? 'is-invalid'
                                                             : 'customInput'
                                                     }
-                                                    options={createOptions(
-                                                        experienceLevel
+                                                    options={showExperience(
+                                                        activityData.activityId
                                                     )}
                                                 />
                                             )}

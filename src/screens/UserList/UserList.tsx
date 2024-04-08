@@ -29,6 +29,7 @@ import {
     UserDataType,
     UserDataTypess,
     getAllUsers,
+    setUserListId,
 } from '../../redux/features/User/UserSlice'
 import defaltimg from '../../assets/images/create_school_user_profile.svg'
 import { updateUser } from '../../redux/features/admin/user/updateUserStatusSlice'
@@ -183,20 +184,17 @@ const UserList = (): JSX.Element => {
         },
         {
             title: 'Action',
-            dataIndex: 'status',
+            dataIndex: 'userId',
             key: 'status',
-            render: (isActive, index) => {
+            render: (userId) => {
                 // if (index?.schoolStatusId === 1) {
                 return (
                     <div className="Active">
                         <button
                             style={{ background: '#006197' }}
                             onClick={() => {
-                                loginData.data?.schoolId
-                                    ? navigate(
-                                          `/school/view/${loginData.data.schoolId}`
-                                      )
-                                    : navigate(`/school/create/${index.userId}`)
+                                store.dispatch(setUserListId(userId))
+                                navigate('/school/create/')
                             }}
                         >
                             Create School
@@ -220,7 +218,7 @@ const UserList = (): JSX.Element => {
             },
         },
     ]
-
+    console.log('AllUSer', AllUSer)
     const initialValues = (): void => {}
     const handleCreateSubmit = (): void => {}
     const [schoolExist, setSchoolExist] = useState(false)

@@ -2,7 +2,6 @@ import { Menu, MenuProps } from 'antd'
 import { useLocation, useNavigate } from 'react-router-dom'
 import logo from '../../assets/icons/ic_logo.svg'
 import { childListOfSetting } from '../Sidebar/constants'
-// import { SidebarStyle } from "../Sidebar/style";
 import { NavigationMenuStyled } from './styles'
 import { useEffect, useState } from 'react'
 type MenuItem = Required<MenuProps>['items'][number]
@@ -27,6 +26,7 @@ const menuLinks: any = {
     user: '/user/list',
     attendance: '',
     reports: '/reports/list',
+    upgradeAccount: '/upgrade-account',
 }
 
 const menuLinksKeys: any = {
@@ -52,6 +52,7 @@ const menuLinksKeys: any = {
     user: 'user',
     attendance: 'attendance',
     qrCode: 'qrCode',
+    upgradeAccount: 'upgradeAccount',
 }
 
 const UserNavigationMenu = (): JSX.Element => {
@@ -68,10 +69,17 @@ const UserNavigationMenu = (): JSX.Element => {
     const getLabel = (
         label: string,
         link: string,
-        key: string
+        key: string,
+        customStyle?: React.CSSProperties
     ): JSX.Element => (
-        <div onClick={() => (link ? navigation(link, key) : '')}>{label}</div>
+        <div
+            onClick={() => (link ? navigation(link, key) : '')}
+            style={customStyle}
+        >
+            {label}
+        </div>
     )
+
     const sidebarData: MenuItem[] = [
         {
             key: menuLinksKeys.dashboard,
@@ -81,6 +89,7 @@ const UserNavigationMenu = (): JSX.Element => {
                 menuLinksKeys.dashboard
             ),
         },
+
         {
             key: menuLinksKeys.createSchool,
             label: getLabel(
@@ -222,6 +231,19 @@ const UserNavigationMenu = (): JSX.Element => {
                 'Customer Services',
                 menuLinks.customerServices,
                 menuLinksKeys.customerServices
+            ),
+        },
+        {
+            key: menuLinksKeys.upgradeAccount,
+            label: getLabel(
+                'Upgrade Account',
+                menuLinks.upgradeAccount,
+                menuLinksKeys.upgradeAccount,
+                {
+                    background: '#4DC9F5',
+                    textAlign: 'center',
+                    color: 'white',
+                }
             ),
         },
     ]

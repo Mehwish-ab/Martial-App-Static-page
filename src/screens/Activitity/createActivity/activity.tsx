@@ -16,9 +16,7 @@ import {
 import FileSubmit from '../../../assets/icons/ic_fileSubmit.svg'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import Head from '../../../components/Head/Head'
-import CustomMessageModal from '../../../components/Modal/CustomMessageModal'
 import { useNavigate, useParams } from 'react-router-dom'
-import useActivityUpdate from '../../../hooks/useActivity'
 import {
     OwnerDataTypes,
     SchoolDataType,
@@ -158,6 +156,11 @@ const CreateActivity = (): JSX.Element => {
                 return !!(exp && (exp.experienceLevelId || exp.beltId))
             })
             checkAllActivitites && navigate(`/school/view/${schoolId}`)
+            console.log(
+                { checkAllActivitites },
+                { selectedActivities },
+                { activityData }
+            )
         }
     }, [schoolId, selectedActivities])
 
@@ -193,8 +196,6 @@ const CreateActivity = (): JSX.Element => {
     }
 
     const showBelts = (activityId: any): SelectOptionsDataTypes[] => {
-        console.log('Belts Id', activityId)
-
         const actIndex = activities.findIndex(
             (act: any) => act.id === activityId
         )
@@ -202,13 +203,11 @@ const CreateActivity = (): JSX.Element => {
         const beltIds =
             typeof actData?.beltIds === 'string' ? actData.beltIds : ''
         const activitiesArr = beltIds.split(',').map(Number)
-        console.log('belts ', beltIds, activitiesArr)
         let experienceItem = ''
 
         const options = activitiesArr?.reduce(
             (accumulator: any, activity: any) => {
                 const index = Belts.findIndex((act) => +act.id === activity)
-                console.log('belts  index', index, Belts)
                 if (index !== -1) {
                     // return options
                     experienceItem = (Belts[index] as any)[selectedLanguage]

@@ -74,6 +74,7 @@ import UserSchoolList from '../screens/UserList/UserSchoolList/UserSchoolList'
 import { useAppSelector } from '../app/hooks'
 import { useSelector } from 'react-redux'
 import { RootState } from '../redux/store'
+import UpgradeAccount from '../screens/UpgradeAccount'
 // import { RootState } from "../redux/store";
 
 function AppRoutes(): JSX.Element {
@@ -132,7 +133,7 @@ function AppRoutes(): JSX.Element {
                     path={'/'}
                     element={
                         <AppLayout>
-                            <Home />
+                            <Dashboard />
                         </AppLayout>
                     }
                 />
@@ -333,6 +334,14 @@ function AppRoutes(): JSX.Element {
                     element={
                         <AppLayout>
                             <BranchInformation />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/upgrade-account"
+                    element={
+                        <AppLayout>
+                            <UpgradeAccount />
                         </AppLayout>
                     }
                 />

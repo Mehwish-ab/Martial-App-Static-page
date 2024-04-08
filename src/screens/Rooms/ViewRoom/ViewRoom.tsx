@@ -25,8 +25,8 @@ const ViewRoom = (): JSX.Element => {
         <>
             <Head title="Room Information" />
             <ViewRoomStyled>
-                <h3>Room Information</h3>
                 <Card>
+                    <h3 style={{ textAlign: 'center' }}>Room Information</h3>
                     <Row>
                         <Col md="12">
                             <div className="list-item">

@@ -32,6 +32,7 @@ interface IWarningModal {
 interface IUseRoom {
     loading: boolean
     handleCreateSubmit: (values: CreateRoomInitialValues) => Promise<void>
+    handleStatusUpdate: (payload: any) => Promise<void>
     handleUpdate: (values: CreateRoomInitialValues) => Promise<void>
     error: string
     isUploadImgModalVisible: boolean
@@ -45,9 +46,9 @@ interface IUseRoom {
     deletemodal: () => IModalComponent
     Createmodal: () => IModalComponent
     UpdateModal: () => IModalComponent
+    UpdateStatusModal: () => IModalComponent
     RoomStatus: (
-        classid: number,
-        classStatusid: boolean,
+        payload: any,
         Id: number,
         schoolInUpperCase: string
     ) => Promise<any>
@@ -72,7 +73,7 @@ const useRoom = (): IUseRoom => {
     const [isShowWarningModal, setIsShowWarningModalInternal] = useState(false)
     const [customWarningMessage, setCustomWarningMessage] = useState('')
     const toastId = useRef<any>(null)
-    const [isShowModal, setIsShowModal] = useState(false)
+    const [isShowModal, setIsShowModal] = useState(true)
     const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
     const navigate = useNavigate()
 
@@ -88,6 +89,38 @@ const useRoom = (): IUseRoom => {
     ): void => {
         setCustomWarningMessage(message)
         setIsShowWarningModalInternal(showModal)
+    }
+
+    const handleStatusUpdate = async (payload: any): Promise<any> => {
+        try {
+            setError('')
+            setLoading(true)
+            console.log('in handle update api')
+            const { data: data1 } = await axios.post(
+                '/rooms/updateStatus',
+                payload,
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            setSuccessMessage(data1.responseMessage)
+            setIsShowSuccessModal(true)
+            setLoading(false)
+            setTimeout(() => {
+                setIsShowSuccessModal(false)
+            }, 3000)
+        } catch (error2: any) {
+            setLoading(false)
+            setError(error2.response)
+            setErrorMessage(error2.response?.data?.responseMessage)
+            setIsShowErrorModal(true)
+            setTimeout(() => {
+                setIsShowErrorModal(false)
+                setError('')
+            }, 2000)
+        }
     }
 
     const getallRoombyUC = async (Id: number, us: string): Promise<any> => {
@@ -190,7 +223,7 @@ const useRoom = (): IUseRoom => {
         console.log('payload', payload)
 
         // const endpoint = schoolId ? edit_school_url : create_school_url
-        const datas = JSON.stringify(payload)
+
         try {
             setError('')
             setLoading(true)
@@ -371,8 +404,7 @@ const useRoom = (): IUseRoom => {
         }
     }
     const RoomStatus = async (
-        classid: number,
-        classStatusid: boolean,
+        payload: any,
         Id: number,
         schoolInUpperCase: string
     ): Promise<any> => {
@@ -381,7 +413,7 @@ const useRoom = (): IUseRoom => {
             setLoading(true)
             const { data: data2 } = await axios.post(
                 '/rooms/updateStatus',
-                { roomId: classid, isActive: classStatusid },
+                payload,
                 {
                     headers: {
                         ...authorizationToken(loginData.data as loginDataTypes),
@@ -396,18 +428,20 @@ const useRoom = (): IUseRoom => {
                 setLoading(false)
                 return
             }
-
+            setIsShowSuccessModal(true)
             setTimeout(() => {
                 setLoading(false)
-
-                // navigate('/school/view')
+                setIsShowSuccessModal(false)
+                location.reload()
+                // navigate(`/room/list/${payload.roomId}`)
             }, 3000)
-            await store.dispatch(
-                getRoomDataByUseCase({
-                    id: Id,
-                    usecase: schoolInUpperCase,
-                })
-            )
+
+            // await store.dispatch(
+            //     getRoomDataByUseCase({
+            //         id: Id,
+            //         usecase: schoolInUpperCase,
+            //     })
+            // )
             // store.dispatch(getBranchBySchoolId())
 
             // toastId.current = toast(data.responseMessage, {
@@ -468,6 +502,19 @@ const useRoom = (): IUseRoom => {
             ),
         }
     }
+    const UpdateStatusModal = (): IModalComponent => {
+        return {
+            modalComponent: (
+                <CustomMessageModal
+                    title="Update Status Successfully!"
+                    description="Account status updated successfully. Keep your records organized and up-to-date with this simple status update feature."
+                    isModalVisible={isShowSuccessModal}
+                    setIsModalVisible={setIsShowSuccessModal}
+                    imageProp={'success'}
+                />
+            ),
+        }
+    }
 
     const WarningModal = (): IModalComponent => {
         return {
@@ -498,6 +545,7 @@ const useRoom = (): IUseRoom => {
                     },
                 }
             )
+            console.log({ data2 })
             if (data2.responseCode === '500') {
                 toast(data2.responseMessage, {
                     type: 'error',
@@ -515,11 +563,12 @@ const useRoom = (): IUseRoom => {
             setIsShowDeleteModal(true)
             setTimeout(() => {
                 setIsShowDeleteModal(false)
+                location.reload()
                 // navigate('/branch/list')
             }, 3000)
             // setData('results: ' + data2)
             setLoading(false)
-            store.dispatch(getBranchBySchoolId())
+            //store.dispatch(getBranchBySchoolId())
             // navigate("/school");
         } catch (error2: any) {
             setError(error2.response.data.responseMessage)
@@ -544,13 +593,12 @@ const useRoom = (): IUseRoom => {
                                 height={79}
                             />
                             <h3 className="mainContainer-heading text-center">
-                                Successfully Account Removed
+                                 Account Delete Successfully!
                             </h3>
                             <p className="mainContainer-subText text-center">
-                                The student class has been successfully removed,
-                                and please note that any associated data will be
-                                retained for a period of 30 days before it is
-                                permanently deleted from our system.
+                                Account successfully deleted along with
+                                associated records. Sub-accounts detached. Need
+                                help? Just ask.
                             </p>
                         </div>
                     </SchoolSuccessfulModals>
@@ -559,10 +607,12 @@ const useRoom = (): IUseRoom => {
         }
     }
 
-    const deleteConfirmation = (_id: number): IModalComponent => {
+    const deleteConfirmation = (recordId: number): IModalComponent => {
+        console.log('i am in delete confirmation modal', recordId)
+        // setIsShowModal(true)
         const Deleteschool = async (id: number): Promise<void> => {
             setIsShowModal(false) // Close any other modals
-            setIsShowDeleteModal(true)
+            //setIsShowDeleteModal(true)
             await deleteRoom(id)
         }
         return {
@@ -575,15 +625,16 @@ const useRoom = (): IUseRoom => {
                     <SchoolSuccessfulModals>
                         <div className="mainContainer">
                             <h3 className="mainContainer-heading text-center">
-                                Want to Remove Account
+                                 Account Delete Confirmation
                             </h3>
                             <p className="mainContainer-subText text-center">
-                                Before proceeding with the removal of a student
-                                account, please be aware that once the removal
-                                is confirmed, all access will be permanently
-                                revoked. If the user still holds an active
-                                membership, the account cannot be removed until
-                                the membership is completed or canceled.
+                                Are you sure you want to delete the Account? You
+                                cannot undo this action. Deleting the Account
+                                will also delete all records under the Account
+                                (for example, profiles, opportunities,
+                                activities, payments, and contacts).
+                                Sub-accounts will be removed from the account,
+                                but not deleted.
                             </p>
                             <Row className="mt-20">
                                 <Col md="6">
@@ -603,17 +654,17 @@ const useRoom = (): IUseRoom => {
                                 </Col>
                                 <Col md="6">
                                     <CustomButton
-                                        bgcolor={lightBlue3}
+                                        bgcolor="red"
                                         textTransform="Captilize"
                                         color={maastrichtBlue}
                                         padding="10px 12.5px"
                                         fontFamily={fontFamilyMedium}
                                         width="100%"
                                         type="submit"
-                                        title="Confirmed"
+                                        title="Delete"
                                         fontSize="16px"
                                         loading={false}
-                                        clicked={() => Deleteschool(_id)}
+                                        clicked={() => Deleteschool(recordId)}
                                     />
                                 </Col>
                             </Row>
@@ -654,11 +705,13 @@ const useRoom = (): IUseRoom => {
         handleCreateSubmit,
         error,
         isUploadImgModalVisible,
+        handleStatusUpdate,
         setIsUploadImgVisible,
         deletemodal,
         Createmodal,
         UpdateModal,
         deleteConfirmation,
+        UpdateStatusModal,
         RoomStatus,
         getClassbyid,
         handleUpdate,

@@ -6,6 +6,7 @@ export interface CreateClassInitialValues {
     timeTableId: number
     endDate: string
     instructorId: string[]
+    isKid: boolean
     roomId: string[]
     fee: string | number
     activities: string[]

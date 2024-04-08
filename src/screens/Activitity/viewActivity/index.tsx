@@ -113,10 +113,7 @@ const ActivityList = (): JSX.Element => {
     const Belts = [...Adults, ...Kids]
 
     const showBelt = (beltId: number): string => {
-        console.log('Belts Id', beltId)
-
         const index = Belts.findIndex((act) => +act.id === beltId)
-        console.log('belts  index', index, Belts)
 
         if (index !== -1) {
             // return options
@@ -132,7 +129,6 @@ const ActivityList = (): JSX.Element => {
         const index = activities.findIndex(
             (act: any) => act.id === String(activityId)
         )
-        const activity = activities[index]
         if (index !== -1) {
             activitiesName =
                 activitiesName === ''
@@ -192,7 +188,8 @@ const ActivityList = (): JSX.Element => {
                             >
                                 <div className="mainWrapper">
                                     <h3 className="table-heading">
-                                        {getLabelByKey('title')}
+                                        Activity List
+                                        {/* {getLabelByKey('title')} */}
                                     </h3>
                                 </div>
                             </Form>
@@ -380,22 +377,29 @@ const ActivityList = (): JSX.Element => {
                     columns={columns}
                     dataSource={AllActivities ? AllActivities : []}
                     scroll={{ x: true }}
-                    pagination={{
-                        current: currentPage,
-                        total: AllActivities ? AllActivities : 0,
-                        pageSize: pageSize,
-                        showTotal: (total, range) => (
-                            <span
-                                dangerouslySetInnerHTML={{
-                                    __html: `Page <span className='paginationVal'>${currentPage}</span> of ${Math.ceil(
-                                        total / pageSize
-                                    )}`,
-                                }}
-                            />
-                        ),
-                        onChange: (page) => handlePaginationChange(page),
-                        // itemRender: customItemRender,
-                    }}
+                    pagination={
+                        AllActivities &&
+                        AllActivities.totalItems &&
+                        AllActivities.totalItems > 10
+                            ? {
+                                  current: currentPage,
+                                  total: AllActivities ? AllActivities : 0,
+                                  pageSize: pageSize,
+                                  showTotal: (total, range) => (
+                                      <span
+                                          dangerouslySetInnerHTML={{
+                                              __html: `Page <span className='paginationVal'>${currentPage}</span> of ${Math.ceil(
+                                                  total / pageSize
+                                              )}`,
+                                          }}
+                                      />
+                                  ),
+                                  onChange: (page) =>
+                                      handlePaginationChange(page),
+                                  // itemRender: customItemRender,
+                              }
+                            : false
+                    }
                 />
             </ListActivityStyle>
             {updateActivity && editData && (

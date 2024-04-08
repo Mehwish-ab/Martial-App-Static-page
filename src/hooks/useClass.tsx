@@ -85,6 +85,7 @@ const useClass = (): IUseClass => {
             startDate: values.startDate,
             endDate: values.endDate || '',
             instructorIds: values.instructorId,
+            isKid: values.isKid,
             roomIds: values.roomId,
             fee: `${values.fee}` || '',
             activities: values.activities.join(','),
@@ -289,7 +290,7 @@ const useClass = (): IUseClass => {
             accommodation: values.accommodation.join(','),
             description: values.description || '',
             timeTableId: values.timeTableId,
-            isKid: 'true',
+            isKid: values.isKid,
             ...(schoolId && { schoolId }), // Add schoolId conditionally
         }
         try {
@@ -582,7 +583,7 @@ const useClass = (): IUseClass => {
                     <SchoolSuccessfulModals>
                         <div className="mainContainer">
                             <h3 className="mainContainer-heading text-center">
-                                Want to Remove Account
+                                Do You Want to Delete Class?
                             </h3>
                             <p className="mainContainer-subText text-center">
                                 Before proceeding with the removal of a student
@@ -610,7 +611,7 @@ const useClass = (): IUseClass => {
                                 </Col>
                                 <Col md="6">
                                     <CustomButton
-                                        bgcolor={lightBlue3}
+                                        bgcolor="red"
                                         textTransform="Captilize"
                                         color={maastrichtBlue}
                                         padding="10px 12.5px"

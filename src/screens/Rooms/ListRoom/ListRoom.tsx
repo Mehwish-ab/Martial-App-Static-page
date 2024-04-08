@@ -30,6 +30,9 @@ import {
 } from '../../../redux/features/Room/RoomSlice'
 import { log } from 'console'
 import Head from '../../../components/Head/Head'
+import UpdateStatus from '../UpdateModal'
+import { ConsoleSqlOutlined } from '@ant-design/icons'
+import useScreenTranslation from '../../../hooks/useScreenTranslation'
 
 const ListRoom = (): JSX.Element => {
     // const { schoolData } = useSelector(
@@ -61,7 +64,7 @@ const ListRoom = (): JSX.Element => {
     const schoolInUpperCase = extractedSchool.toUpperCase()
     const schoolid = loginData.data?.schoolId
     const { schoolId, branchId, franchiseId } = useParams()
-
+    const { getLabelByKey } = useScreenTranslation('roomList')
     let Id: string
     if (schoolId) {
         Id = schoolId
@@ -71,9 +74,15 @@ const ListRoom = (): JSX.Element => {
         Id = franchiseId
     }
 
-    const { getallRoombyUC, RoomStatus, getallRoombyUCPagination } = useRoom()
+    const {
+        getallRoombyUC,
+        RoomStatus,
+        getallRoombyUCPagination,
+        deleteConfirmation,
+        deletemodal,
+    } = useRoom()
 
-    // const { schoolData, loading } = useSelector(
+    // const { schoolData, loading } = useSelector(';oiuy tre
     //     (state: RootState) => state.schoolData
     // )
     const { selectedLanguage } = useSelector(
@@ -185,12 +194,6 @@ const ListRoom = (): JSX.Element => {
                     },
                 })
                 break
-            case 'delete':
-                navigate(`/room/delete/${record.roomId}`, {
-                    state: {
-                        branch: record as RoomDataType,
-                    },
-                })
         }
     }
     useEffect(() => {
@@ -201,26 +204,14 @@ const ListRoom = (): JSX.Element => {
             })
         )
     }, [schoolInUpperCase])
-    const showActivities = (_activities: string): string => {
-        const activitiesArr = _activities.split(',')
-
-        let activitiesName = ''
-        activitiesArr.map((activity) => {
-            const index = activities.findIndex((act) => act.id === activity)
-            if (index !== -1) {
-                activitiesName =
-                    activitiesName === ''
-                        ? (activities[index] as any)[selectedLanguage]
-                        : `${activitiesName}, ${
-                              (activities[index] as any)[selectedLanguage]
-                          }`
-            }
-        })
-        if (activitiesName.length > 35) {
-            return `${activitiesName.slice(0, 35)}...`
-        }
-        return activitiesName
+    const [UpdateStatusModal, setUpdateStatus] = useState(false)
+    const [editStatusData, setEditData] = useState() as any
+    const closeModal = (): void => {
+        setUpdateStatus(false)
     }
+    console.log({ Room })
+    const [deleteId, setDeleteId] = useState() as any
+    const [deleteStatus, setDeleteStatus] = useState(false)
     const columns: ColumnsType<RoomDataType> = [
         {
             title: 'Name',
@@ -249,45 +240,33 @@ const ListRoom = (): JSX.Element => {
             // },
         },
         {
+            title: 'Size',
+            dataIndex: '',
+            key: 'size',
+            render: (_, record) => {
+                return (
+                    <p>
+                        H{record.height}XW{record.width}
+                    </p>
+                )
+            },
+        },
+        {
             title: 'Status',
-            dataIndex: 'status',
+            dataIndex: 'isActive',
             key: 'status',
             render: (isActive, index) => {
-                if (index?.isActive === true) {
+                if (isActive === true) {
                     return (
                         <div className={'Active'}>
-                            <button
-                                onClick={() => {
-                                    {
-                                        RoomStatus(
-                                            Number(index.roomId),
-                                            false,
-                                            Number(Id),
-                                            schoolInUpperCase
-                                        )
-                                    }
-                                }}
-                            >
-                                Active
-                            </button>
+                            Active
                             <img src={StatusActiveError} alt="image" />
                         </div>
                     )
                 } else {
                     return (
                         <div className={'De-Active'}>
-                            <button
-                                onClick={() => {
-                                    RoomStatus(
-                                        Number(index.roomId),
-                                        true,
-                                        Number(Id),
-                                        schoolInUpperCase
-                                    )
-                                }}
-                            >
-                                De-Active
-                            </button>
+                            De-Active
                             <img src={StatusActiveError} alt="image" />
                         </div>
                     )
@@ -312,10 +291,18 @@ const ListRoom = (): JSX.Element => {
                     {
                         key: '3',
                         label: 'Delete',
-                        // onClick: () => {
-                        //     setId(record.schoolId)
-                        //     setIsShowModal(true)
-                        // },
+                        onClick: () => {
+                            setDeleteStatus(true)
+                            setDeleteId(record.roomId)
+                        },
+                    },
+                    {
+                        key: '4',
+                        label: 'Update Status',
+                        onClick: () => {
+                            setUpdateStatus(true)
+                            setEditData(record.roomId)
+                        },
                     },
                 ]
                 const menu = (
@@ -347,6 +334,7 @@ const ListRoom = (): JSX.Element => {
             },
         },
     ]
+    console.log('delset id', deleteId)
 
     const initialValues = (): void => {}
     const handleCreateSubmit = (): void => {}
@@ -354,6 +342,10 @@ const ListRoom = (): JSX.Element => {
     const RenderTableTitle = (): JSX.Element => {
         return (
             <CustomDiv>
+                {deletemodal().modalComponent}
+                {deleteStatus &&
+                    deleteId &&
+                    deleteConfirmation(deleteId).modalComponent}
                 <Formik
                     initialValues={initialValues}
                     // validationSchema={validationSchema}
@@ -451,6 +443,12 @@ const ListRoom = (): JSX.Element => {
                         )
                     }}
                 </Formik>
+                {UpdateStatusModal && (
+                    <UpdateStatus
+                        closeModal={closeModal}
+                        roomId={editStatusData}
+                    />
+                )}
             </CustomDiv>
         )
     }
@@ -495,22 +493,26 @@ const ListRoom = (): JSX.Element => {
                     //     RoomData?.data[0].roomId !== 0 ? RoomData.data : []
                     // }
                     scroll={{ x: true }}
-                    pagination={{
-                        current: currentPage,
-                        total: Room ? Room.totalItems : 0,
-                        pageSize: pageSize,
-                        showTotal: (total, range) => (
-                            <span
-                                dangerouslySetInnerHTML={{
-                                    __html: `Page <span className='paginationVal'>${currentPage}</span> of ${Math.ceil(
-                                        total / pageSize
-                                    )}`,
-                                }}
-                            />
-                        ),
-                        onChange: (page) => handlePaginationChange(page),
-                        // itemRender: customItemRender,
-                    }}
+                    pagination={
+                        Room && Room.totalItems && Room.totalItems > 10
+                            ? {
+                                  current: currentPage,
+                                  total: Room ? Room.totalItems : 0,
+                                  pageSize: pageSize,
+                                  showTotal: (total, range) => (
+                                      <span
+                                          dangerouslySetInnerHTML={{
+                                              __html: `Page <span className='paginationVal'>${currentPage}</span> of ${Math.ceil(
+                                                  total / pageSize
+                                              )}`,
+                                          }}
+                                      />
+                                  ),
+                                  onChange: (page) =>
+                                      handlePaginationChange(page),
+                              }
+                            : false
+                    }
                 />
             </ListRoomsStyle>
         </>

@@ -86,12 +86,17 @@ const CreateClass = (): JSX.Element => {
     const { handleCreateSubmit, loading, Createmodal } = useClass()
 
     const _currency = schoolData?.defaultCurrencyId
+    const Attendent = [
+        { label: 'Kids', value: true },
+        { label: 'Adults', value: false },
+    ]
 
     const initialValues: CreateClassInitialValues = {
         title: '',
         startDate: '',
         endDate: '',
         instructorId: [],
+        isKid: false,
         roomId: [],
         fee: '',
         activities: [],
@@ -692,7 +697,29 @@ const CreateClass = (): JSX.Element => {
                                                 }
                                             />
                                         </Col>
-
+                                        <Col md="3">
+                                            <Col className="mt-20">
+                                                <FormControl
+                                                    control="select"
+                                                    type="text"
+                                                    name="isKid"
+                                                    label={getLabelByKey(
+                                                        'attendant'
+                                                    )}
+                                                    fontSize="16px"
+                                                    max={6}
+                                                    //value={formik.values.isActive}
+                                                    placeholder="Select Status"
+                                                    className={
+                                                        formik.errors.isKid &&
+                                                        formik.touched.isKid
+                                                            ? 'is-invalid'
+                                                            : 'customInput'
+                                                    }
+                                                    options={Attendent}
+                                                />
+                                            </Col>
+                                        </Col>
                                         <Col md="3">
                                             <CheckboxesSelect
                                                 name="accommodation"

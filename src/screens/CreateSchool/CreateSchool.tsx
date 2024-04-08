@@ -42,13 +42,7 @@ const CreateSchool = (): JSX.Element => {
 
     const { schoolData } = useAppSelector((state) => state.dashboardData)
     const navigate = useNavigate()
-    const { userId } = useParams()
-    // const { getUSerById } = useUser()
-    // const { data: loginData } = useAppSelector((state) => state.loginData)
     const { UserData } = useAppSelector((state) => state.UserData)
-    // const {userId}=useAppSelector((state)=>s)
-
-    // const [OwnerData, setOwnerData] = useState<OwnerDataTypes>()
 
     const { schoolId } = useParams()
     console.log('school data', schoolData, schoolId)
@@ -73,7 +67,7 @@ const CreateSchool = (): JSX.Element => {
     //     fetchData()
     // }, [schoolId])
     const [User, setUser] = useState<UserDataType | undefined>(undefined)
-    console.log('User', userId, User)
+
     // useEffect(() => {
     //     const fetchData = async (): Promise<any> => {
     //         try {
@@ -91,6 +85,8 @@ const CreateSchool = (): JSX.Element => {
     // }, [])
     const { handleCreateSubmit, loading, SuccessModal, WarningModal } =
         useCreateSchool()
+    const { loginData } = useSelector((state: RootState) => state)
+    const { userId } = useSelector((state: RootState) => state.UserData)
 
     const initialValues: CreateSchoolInitialValues = {
         businessName: '',
@@ -103,9 +99,9 @@ const CreateSchool = (): JSX.Element => {
         defaultCurrencyId: '',
         selectedActivities: [],
         selectedFacilities: [],
-        UserId: Number(userId),
+        UserId: userId ? Number(userId) : +loginData.userId,
     }
-
+    console.log('User', userId, User)
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
@@ -147,15 +143,20 @@ const CreateSchool = (): JSX.Element => {
             .of(Yup.string().required('Select at least one facility'))
             .min(1, 'Select at least one facility'),
     })
-    const { loginData } = useSelector((state: RootState) => state)
+
     const onsubmit = async (
         values: CreateSchoolInitialValues
     ): Promise<void> => {
         let id = null
         if (loginData.userId) {
             id = loginData.userId
+        } else if (
+            loginData.data?.userDetails.id &&
+            loginData.data.userDetails.roleName === 'USER'
+        ) {
+            id = loginData.data.userDetails.id
         } else {
-            id = loginData.data?.userDetails.id
+            id = userId
         }
 
         console.log('id of registered user', loginData, id)
@@ -175,24 +176,18 @@ const CreateSchool = (): JSX.Element => {
         return options
     }
     console.log('login data', loginData)
-    // useEffect(() => {
-    //     if (logindata?.schoolId > 0)
-    //         return navigate(`/school/view/${schoolData.schoolId}`)
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [schoolData, loginData])
+
     useEffect(() => {
-        // const localStorageData = localStorage.getItem('ennvision-admin:token')
-        //const loginData = JSON.parse(localStorageData as any)
         if (
             loginData?.data?.userDetails.roleName === 'USER' &&
             loginData?.data.schoolId
         ) {
-            console.log('loginData', loginData)
-            // navigate(`/school/view/${loginData.schoolId}`)
             navigate('/activity/create/')
-        } else {
-            console.log('loginData', loginData)
-            navigate(`/school/create/`)
+        } else if (
+            loginData?.data?.userDetails.roleName === 'SCHOOL' &&
+            loginData?.data.schoolId
+        ) {
+            navigate(`/school/view/${schoolId}`)
         }
         // if (!loginData?.schoolId) {
         //     navigate('/school/create')

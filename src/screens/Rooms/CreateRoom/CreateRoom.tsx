@@ -14,6 +14,7 @@ import Head from '../../../components/Head/Head'
 import useRoom from '../../../hooks/useRoom'
 import { useParams } from 'react-router-dom'
 import { useState } from 'react'
+import useScreenTranslation from '../../../hooks/useScreenTranslation'
 
 const initialValues: CreateRoomInitialValues = {
     roomName: '',
@@ -36,6 +37,7 @@ const CreateRoom = (): JSX.Element => {
     console.log('id', schoolId, branchId, franchiseId)
 
     const { handleCreateSubmit, Createmodal, WarningModal } = useRoom()
+    const { getLabelByKey } = useScreenTranslation('createRoom')
     const onSubmit = async (values: CreateRoomInitialValues): Promise<void> => {
         if (schoolId) {
             await handleCreateSubmit({
@@ -80,7 +82,7 @@ const CreateRoom = (): JSX.Element => {
                                 autoComplete="off"
                             >
                                 <div className="bg-white form mt-20">
-                                    <h3>Room Create</h3>
+                                    <h3>{getLabelByKey('title')}</h3>
 
                                     <Row>
                                         <Col md="12" className="mt-20">
@@ -88,10 +90,12 @@ const CreateRoom = (): JSX.Element => {
                                                 control="input"
                                                 type="text"
                                                 name="roomName"
-                                                label="Room Name"
+                                                label={getLabelByKey('name')}
                                                 fontSize="16px"
                                                 max={6}
-                                                placeholder="Enter Room Name"
+                                                placeholder={getLabelByKey(
+                                                    'enterRoomName'
+                                                )}
                                                 className={
                                                     formik.errors.roomName &&
                                                     formik.touched.roomName
@@ -105,10 +109,14 @@ const CreateRoom = (): JSX.Element => {
                                                 control="input"
                                                 type="text"
                                                 name="floorNumber"
-                                                label="Floor Number"
+                                                label={getLabelByKey(
+                                                    'floorNumber'
+                                                )}
                                                 fontSize="16px"
                                                 max={6}
-                                                placeholder="Enter Floor Number"
+                                                placeholder={getLabelByKey(
+                                                    'enterFloorNumber'
+                                                )}
                                                 className={
                                                     formik.errors.floorNumber &&
                                                     formik.touched.floorNumber
@@ -122,10 +130,14 @@ const CreateRoom = (): JSX.Element => {
                                                 control="input"
                                                 type="text"
                                                 name="roomNumber"
-                                                label="Room Number"
+                                                label={getLabelByKey(
+                                                    'roomNumber'
+                                                )}
                                                 fontSize="16px"
                                                 max={6}
-                                                placeholder="Select Room Number"
+                                                placeholder={getLabelByKey(
+                                                    'selectRoomNumber'
+                                                )}
                                                 className={
                                                     formik.errors.roomName &&
                                                     formik.touched.roomName
@@ -138,12 +150,16 @@ const CreateRoom = (): JSX.Element => {
                                             <FormControl
                                                 control="numberField"
                                                 type="number"
-                                                label="height"
+                                                label={getLabelByKey('height')}
                                                 inchName="lInch"
                                                 feetName="lFeet"
                                                 name="height"
-                                                inchPlaceholder="Inch"
-                                                feetPlaceholder="Feet"
+                                                inchPlaceholder={getLabelByKey(
+                                                    'inch'
+                                                )}
+                                                feetPlaceholder={getLabelByKey(
+                                                    'feet'
+                                                )}
                                                 className={
                                                     formik.errors.height &&
                                                     formik.touched.height
@@ -156,12 +172,16 @@ const CreateRoom = (): JSX.Element => {
                                             <FormControl
                                                 control="numberField"
                                                 type="number"
-                                                label="Width"
+                                                label={getLabelByKey('width')}
                                                 inchName="wInch"
                                                 feetName="wFeet"
                                                 name="width"
-                                                inchPlaceholder="Inch"
-                                                feetPlaceholder="Feet"
+                                                inchPlaceholder={getLabelByKey(
+                                                    'inch'
+                                                )}
+                                                feetPlaceholder={getLabelByKey(
+                                                    'feet'
+                                                )}
                                                 className={
                                                     formik.errors.width &&
                                                     formik.touched.width
@@ -170,21 +190,23 @@ const CreateRoom = (): JSX.Element => {
                                                 }
                                             />
                                         </Col>
+                                        <Col>
+                                            <div className="mt-20 d-flex justify-content-end">
+                                                <CustomButton
+                                                    bgcolor={lightBlue3}
+                                                    textTransform="Captilize"
+                                                    color={maastrichtBlue}
+                                                    padding="11px 40.50px"
+                                                    fontFamily={`${fontFamilyMedium}`}
+                                                    width="fit-content"
+                                                    type="submit"
+                                                    title="Submit"
+                                                    fontSize="18px"
+                                                    loading={false}
+                                                />
+                                            </div>
+                                        </Col>
                                     </Row>
-                                </div>
-                                <div className="mt-20 d-flex justify-content-end">
-                                    <CustomButton
-                                        bgcolor={lightBlue3}
-                                        textTransform="Captilize"
-                                        color={maastrichtBlue}
-                                        padding="11px 40.50px"
-                                        fontFamily={`${fontFamilyMedium}`}
-                                        width="fit-content"
-                                        type="submit"
-                                        title="Submit"
-                                        fontSize="18px"
-                                        loading={false}
-                                    />
                                 </div>
                             </Form>
                         )

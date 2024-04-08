@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 import store from '../../store'
 import {
@@ -7,7 +7,7 @@ import {
     get_branch_by_id_url,
     authorizationToken,
 } from '../../../utils/api_urls'
-import { loginDataTypes } from '../types'
+import { loginDataTypes, registerDataType } from '../types'
 const localStorageData = localStorage.getItem('ennvision-admin:token')
 
 const loginData = JSON.parse(localStorageData as any)
@@ -40,6 +40,7 @@ export interface GetuserBySchoolResTypes {
 export interface UserDataInitialState {
     UserData: GetuserBySchoolResTypes
     loading: boolean
+    userId: registerDataType
     error: string | undefined
 }
 const initialState: UserDataInitialState = {
@@ -62,7 +63,7 @@ const initialState: UserDataInitialState = {
         totalPages: 0,
         currentPage: 0,
     },
-
+    userId: null!,
     loading: false,
     error: '',
 }
@@ -74,6 +75,7 @@ export const getAllUsers = createAsyncThunk('userData/getuser', async () => {
             `${base_url}api/auth/getAll`,
             {
                 country: '',
+                roleId: 1,
             },
             {
                 headers: {
@@ -100,7 +102,11 @@ export const getAllUsers = createAsyncThunk('userData/getuser', async () => {
 const UserSlice = createSlice({
     name: 'dashboardData',
     initialState,
-    reducers: {},
+    reducers: {
+        setUserListId: (state, action: PayloadAction<registerDataType>) => {
+            state.userId = action.payload
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getAllUsers.pending, (state) => {
@@ -121,5 +127,5 @@ const UserSlice = createSlice({
             })
     },
 })
-
+export const { setUserListId } = UserSlice.actions
 export default UserSlice.reducer

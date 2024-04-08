@@ -5,64 +5,68 @@ import { childListOfSetting } from '../Sidebar/constants'
 // import { SidebarStyle } from "../Sidebar/style";
 import { NavigationMenuStyled } from './styles'
 import { useEffect, useState } from 'react'
+import { RootState } from '../../redux/store'
+import { useSelector } from 'react-redux'
 type MenuItem = Required<MenuProps>['items'][number]
-
-const menuLinks: any = {
-    dashboard: '/dashboard',
-    createSchool: '/school/create/',
-    classes: '/class/list',
-    timeTable: '/timetable/list',
-    transactionsHistory: '/transaction-history/list',
-    listInstructor: '/instructor/list',
-    listBranch: '/branch/list',
-    listFranchise: '/franchise/list',
-    membership: '/membership/list',
-    payment: '/payment',
-    rules: '/rules/list',
-    helpAndSupport: '/help-support',
-    booking: '',
-    language: '/language',
-    qrCode: '/qr-code',
-    setting: '/settings',
-    user: '/user/list',
-    attendance: '',
-    reports: '/reports/list',
-}
-
-const menuLinksKeys: any = {
-    dashboard: 'dashboard',
-    createSchool: 'createSchool',
-    listBranch: 'listBranch',
-    listFranchise: 'listFranchise',
-    listInstructor: 'listInstructor',
-    instructor: 'instructor',
-    timeTable: 'timeTable',
-    classes: 'classes',
-    membership: 'membership',
-    rules: 'rules',
-    notification: 'notification',
-    transactionsHistory: 'transactionsHistory',
-    subscriptionHistory: 'subscriptionHistory',
-    setting: 'setting',
-    language: 'language',
-    currency: 'currency',
-    helpAndSupport: 'helpAndSupport',
-    customerServices: 'customerServices',
-    reports: 'reports',
-    user: 'user',
-    attendance: 'attendance',
-    qrCode: 'qrCode',
-}
 
 const SchoolNavigationMenu = (): JSX.Element => {
     const location = useLocation()
     const navigate = useNavigate()
-
+    const { loginData } = useSelector((state: RootState) => state)
     // const getMenuIcon = (file: any) => <img src={file} alt="" />;
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const navigation = (link: string, key: string): void => {
         navigate(link)
+    }
+
+    const menuLinks: any = {
+        dashboard: '/dashboard',
+        createSchool: `/school/view/${loginData?.data?.schoolId}`,
+        classes: '/class/list',
+        timeTable: '/timetable/list',
+        trainingRoom: `/school/room/list/${loginData.data?.schoolId}`,
+        transactionsHistory: '/transaction-history/list',
+        listInstructor: '/instructor/list',
+        listBranch: '/branch/list',
+        listFranchise: '/franchise/list',
+        membership: '/membership/list',
+        payment: '/payment',
+        rules: '/rules/list',
+        helpAndSupport: '/help-support',
+        booking: '',
+        language: '/language',
+        qrCode: '/qr-code',
+        setting: '/settings',
+        user: '/user/list',
+        attendance: '',
+        reports: '/reports/list',
+    }
+
+    const menuLinksKeys: any = {
+        dashboard: 'dashboard',
+        createSchool: 'createSchool',
+        listBranch: 'listBranch',
+        listFranchise: 'listFranchise',
+        trainingRoom: 'trainingRoom',
+        listInstructor: 'listInstructor',
+        instructor: 'instructor',
+        timeTable: 'timeTable',
+        classes: 'classes',
+        membership: 'membership',
+        rules: 'rules',
+        notification: 'notification',
+        transactionsHistory: 'transactionsHistory',
+        subscriptionHistory: 'subscriptionHistory',
+        setting: 'setting',
+        language: 'language',
+        currency: 'currency',
+        helpAndSupport: 'helpAndSupport',
+        customerServices: 'customerServices',
+        reports: 'reports',
+        user: 'user',
+        attendance: 'attendance',
+        qrCode: 'qrCode',
     }
 
     const getLabel = (
@@ -107,6 +111,14 @@ const SchoolNavigationMenu = (): JSX.Element => {
                 'TimeTable',
                 menuLinks.timeTable,
                 menuLinksKeys.timeTable
+            ),
+        },
+        {
+            key: menuLinksKeys.trainingRoom,
+            label: getLabel(
+                'Training Rooms',
+                menuLinks.trainingRoom,
+                menuLinksKeys.trainingRoom
             ),
         },
         {

@@ -5,8 +5,11 @@ import {
     base_url,
     authorizationToken,
     get_all_activities,
+    create_activity,
+    edit_activity_url,
 } from '../../../utils/api_urls'
 import { loginDataTypes } from '../types'
+import { ActivityInitialValues } from '../../../screens/Activitity/constant'
 
 export interface ActivityDataType {
     activityId: number
@@ -85,6 +88,97 @@ export const getActivityBySchoolId = createAsyncThunk(
         }
     }
 )
+export const createActivityBySchoolId = createAsyncThunk(
+    'activityData/createActivityBySchoolId',
+    async (props: any) => {
+        const { payload, file } = props
+        const state = store.getState()
+        console.log('createActivityBySchoolId', file)
+
+        try {
+            const formData = new FormData()
+
+            formData.append(
+                'data',
+                new Blob([JSON.stringify(payload)], {
+                    type: 'application/json',
+                })
+            )
+
+            formData.append('file', file)
+
+            const { data } = await axios.post(
+                `${base_url}${create_activity}`,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        ...authorizationToken(
+                            state.loginData.data as loginDataTypes
+                        ),
+                    },
+                }
+            )
+            console.log('data', data)
+            return data.results
+        } catch (error: any) {
+            if (error.response && error.response.data) {
+                const obj = {
+                    name: 'AxiosError',
+                    message: error.response.data?.responseMessage,
+                    code: 'ERR_BAD_RESPONSE',
+                }
+                throw obj
+            }
+            throw error
+        }
+    }
+)
+export const updateActivityBySchoolId = createAsyncThunk(
+    'activityData/updateActivityBySchoolId',
+    async (props: any) => {
+        const { payload, file } = props
+        const state = store.getState()
+        console.log('updateActivityBySchoolId', file)
+
+        try {
+            const formData = new FormData()
+
+            formData.append(
+                'data',
+                new Blob([JSON.stringify(payload)], {
+                    type: 'application/json',
+                })
+            )
+
+            formData.append('file', file)
+
+            const { data } = await axios.post(
+                `${base_url}${edit_activity_url}`,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        ...authorizationToken(
+                            state.loginData.data as loginDataTypes
+                        ),
+                    },
+                }
+            )
+            return data.results
+        } catch (error: any) {
+            if (error.response && error.response.data) {
+                const obj = {
+                    name: 'AxiosError',
+                    message: error.response.data?.responseMessage,
+                    code: 'ERR_BAD_RESPONSE',
+                }
+                throw obj
+            }
+            throw error
+        }
+    }
+)
 const ActivitySlice = createSlice({
     name: 'ActivityData',
     initialState,
@@ -108,11 +202,22 @@ const ActivitySlice = createSlice({
                 state.loading = false
                 state.error = ''
             })
-            .addCase(getActivityBySchoolId.rejected, (state, action) => {
-                console.log('action.error', action)
-                state.activityData = initialState.activityData
-                state.error = action.error.message
+            .addCase(createActivityBySchoolId.fulfilled, (state, action) => {
+                state.activityData = [...state.activityData, action.payload]
                 state.loading = false
+                state.error = ''
+            })
+            .addCase(updateActivityBySchoolId.fulfilled, (state, action) => {
+                const { activityId } = action.payload
+                // Find the index of the activity with the given activityId
+                const index = state.activityData.findIndex(
+                    (act) => act.activityId === activityId
+                )
+                if (index !== -1) {
+                    state.activityData[index] = action.payload
+                }
+                state.loading = false
+                state.error = ''
             })
     },
 })

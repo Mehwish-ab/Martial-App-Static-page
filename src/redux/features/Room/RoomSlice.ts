@@ -94,6 +94,80 @@ export const getRoomDataByUseCase = createAsyncThunk(
     }
 )
 
+export const updateRoomStatusByUseCase = createAsyncThunk(
+    'RoomData/updateRoomStatusByUseCase',
+    async (
+        { id, usecase }: { id: number | string; usecase: string },
+        thunkAPI
+    ) => {
+        const state = store.getState()
+        try {
+            const { data } = await axios.post(
+                `${base_url}rooms/byUC`,
+                {
+                    id: id,
+                    useCase: usecase,
+                },
+                {
+                    headers: {
+                        ...authorizationToken(
+                            state.loginData?.data as loginDataTypes
+                        ),
+                    },
+                }
+            )
+            return data.results.data
+        } catch (error: any) {
+            if (error.response && error.response.data) {
+                const obj = {
+                    name: 'AxiosError',
+                    message: error.response.data?.responseMessage,
+                    code: 'ERR_BAD_RESPONSE',
+                }
+                throw obj
+            }
+            throw error
+        }
+    }
+)
+
+export const deleteRoomDataByUseCase = createAsyncThunk(
+    'RoomData/getRoomDataByUseCase',
+    async (
+        { id, usecase }: { id: number | string; usecase: string },
+        thunkAPI
+    ) => {
+        const state = store.getState()
+        try {
+            const { data } = await axios.post(
+                `${base_url}rooms/byUC`,
+                {
+                    id: id,
+                    useCase: usecase,
+                },
+                {
+                    headers: {
+                        ...authorizationToken(
+                            state.loginData?.data as loginDataTypes
+                        ),
+                    },
+                }
+            )
+            return data.results.data
+        } catch (error: any) {
+            if (error.response && error.response.data) {
+                const obj = {
+                    name: 'AxiosError',
+                    message: error.response.data?.responseMessage,
+                    code: 'ERR_BAD_RESPONSE',
+                }
+                throw obj
+            }
+            throw error
+        }
+    }
+)
+
 const RoomSlice = createSlice({
     name: 'instructorData',
     initialState,

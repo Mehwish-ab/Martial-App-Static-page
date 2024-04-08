@@ -25,7 +25,9 @@ import ic_success from '../assets/images/ic_success.svg'
 import { getBranchBySchoolId } from '../redux/features/CLasses/ClassSlice'
 import {
     ActivityDataInitialState,
+    createActivityBySchoolId,
     setActivityData,
+    updateActivityBySchoolId,
 } from '../redux/features/activity/activitySlice'
 import { ActivityInitialValues } from '../screens/Activitity/constant'
 
@@ -33,7 +35,7 @@ interface IModalComponent {
     modalComponent: JSX.Element
 }
 interface IUseActivity {
-    loading: boolean
+    loading1: boolean
     handleCreateSubmit: (
         values: ActivityInitialValues,
         file: any,
@@ -62,7 +64,7 @@ interface IUseActivity {
 }
 
 const useActivity = (): IUseActivity => {
-    const [loading, setLoading] = useState(false)
+    const [loading1, setloading1] = useState(false)
     const [error, setError] = useState('')
     const [isUploadImgModalVisible, setIsUploadImgVisible] = useState(false)
     const toastId = useRef<any>(null)
@@ -72,7 +74,9 @@ const useActivity = (): IUseActivity => {
     const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
     const navigate = useNavigate()
     const { loginData } = useSelector((state: RootState) => state)
+    const { loading } = useSelector((state: RootState) => state.activityData)
     // to create School
+    const dispatch = useDispatch()
     const handleCreateSubmit = async (
         values: ActivityInitialValues,
         file: any,
@@ -98,59 +102,25 @@ const useActivity = (): IUseActivity => {
 
         try {
             setError('')
-            setLoading(true)
-
-            const formData = new FormData()
-            formData.append(
-                'data',
-                new Blob([JSON.stringify(payload)], {
-                    type: 'application/json',
-                })
+            setloading1(true)
+            const response = store.dispatch(
+                createActivityBySchoolId({ payload, file })
             )
-
-            formData.append('file', file)
-
-            const response = await axios.post(
-                '/activityInfo/create',
-                formData,
-                {
-                    headers: {
-                        ...authorizationToken(loginData.data as loginDataTypes),
-                        'Content-Type': 'multipart/form-data',
-                    },
-                }
-            )
-
-            if (response.data.responseCode === '500') {
-                toast(response.data.responseMessage, {
-                    type: 'error',
-                    autoClose: 1000,
-                })
-                setLoading(false)
-                return
+            console.log('response', response, loading)
+            if (!loading) {
+                setloading1(false)
+                setIsShowModal(true)
+                setTimeout(() => {
+                    setIsShowModal(false)
+                }, 3000)
             }
-
-            setIsShowModal(true)
-            setTimeout(() => {
-                navigate(window.location.pathname, { replace: true })
-                setLoading(false)
-                setIsShowModal(false)
-            }, 3000)
-            // toastId.current = toast(data.responseMessage, {
-            //   type: "success",
-            //   autoClose: 1000,
-            // });
-            // setLoading(false);
-            // setIsUploadImgVisible(true);
-            //navigate("/");
-            // eslint-disable-next-line @typescript-eslint/no-shadow
-        } catch (error: any) {
-            setLoading(false)
-            setError(error.response)
+        } catch (errors: any) {
+            setloading1(false)
+            setError(errors.response)
             setTimeout(() => {
                 setError('')
             }, 2000)
-            toastId.current = toast(error.message, {
+            toastId.current = toast(errors.message, {
                 type: 'error',
                 autoClose: 1000,
             })
@@ -164,7 +134,7 @@ const useActivity = (): IUseActivity => {
     ): Promise<any> => {
         try {
             setError('')
-            setLoading(true)
+            setloading1(true)
             const { data } = await axios.post(
                 `/classes/getSchoolId?startDate=${startDate}&endDate=${endDate}`,
                 { schoolId: schoolid },
@@ -176,18 +146,18 @@ const useActivity = (): IUseActivity => {
             )
 
             if (data.responseCode === '500') {
-                setLoading(false)
+                setloading1(false)
                 return
             }
             console.log(
                 'classes info according to start date and end date',
                 data.results.data
             )
-            setLoading(false)
+            setloading1(false)
             return data.results.data
         } catch (error2: any) {
             console.log('error', error2)
-            setLoading(false)
+            setloading1(false)
             setError(error2)
         }
     }
@@ -197,7 +167,7 @@ const useActivity = (): IUseActivity => {
     ): Promise<any> => {
         try {
             setError('')
-            setLoading(true)
+            setloading1(true)
             const { data } = await axios.post(
                 `/classes/getSchoolId?pageNo=${page}`,
                 { schoolId: schoolid },
@@ -209,25 +179,25 @@ const useActivity = (): IUseActivity => {
             )
 
             if (data.responseCode === '500') {
-                setLoading(false)
+                setloading1(false)
                 return
             }
             console.log(
                 'classes info according to pagination',
                 data.results.data
             )
-            setLoading(false)
+            setloading1(false)
             return data.results
         } catch (error2: any) {
             console.log('error', error2)
-            setLoading(false)
+            setloading1(false)
             setError(error2)
         }
     }
     const getClassbyschoolId = async (schoolid: number): Promise<any> => {
         try {
             setError('')
-            setLoading(true)
+            setloading1(true)
             const { data } = await axios.post(
                 `/classes/getSchoolId`,
                 { schoolId: schoolid },
@@ -239,18 +209,18 @@ const useActivity = (): IUseActivity => {
             )
 
             if (data.responseCode === '500') {
-                setLoading(false)
+                setloading1(false)
                 return
             }
             console.log(
                 'classes info according to pagination',
                 data.results.data
             )
-            setLoading(false)
+            setloading1(false)
             return data.results
         } catch (error2: any) {
             console.log('error', error2)
-            setLoading(false)
+            setloading1(false)
             setError(error2)
         }
     }
@@ -276,43 +246,32 @@ const useActivity = (): IUseActivity => {
         }
         try {
             setError('')
-            setLoading(true)
-            const formData = new FormData()
-            formData.append(
-                'data',
-                new Blob([JSON.stringify(payload)], {
-                    type: 'application/json',
-                })
+            setloading1(true)
+
+            const response = store.dispatch(
+                updateActivityBySchoolId({ payload, file })
             )
-            formData.append('file', file)
-            const { data: data1 } = await axios.post(
-                '/activityInfo/edit',
-                formData,
-                {
-                    headers: {
-                        ...authorizationToken(loginData.data as loginDataTypes),
-                        'Content-Type': 'multipart/form-data',
-                    },
-                }
-            )
-            if (data1.responseCode === '500') {
-                toast(data1.responseMessage, {
-                    type: 'error',
-                    autoClose: 1000,
-                })
-                setLoading(false)
-                return
+            console.log('response in edit', response)
+            // if (data1.responseCode === '500') {
+            //     toast(data1.responseMessage, {
+            //         type: 'error',
+            //         autoClose: 1000,
+            //     })
+            //     setloading1(false)
+            //     return
+            // }
+            console.log('loadin in edit')
+            if (!loading) {
+                setloading1(false)
+                setIsShowModal(true)
+                setTimeout(() => {
+                    setIsShowModal(false)
+                }, 5000)
             }
 
-            setLoading(false)
-            setIsShowModal(true)
-            setTimeout(() => {
-                navigate(window.location.pathname, { replace: true })
-                setIsShowModal(false)
-            }, 5000)
             // eslint-disable-next-line @typescript-eslint/no-shadow
         } catch (error: any) {
-            setLoading(false)
+            setloading1(false)
             setError(error.response)
             setTimeout(() => {
                 setError('')
@@ -329,7 +288,7 @@ const useActivity = (): IUseActivity => {
     ): Promise<any> => {
         try {
             setError('')
-            setLoading(true)
+            setloading1(true)
             const { data: data2 } = await axios.post(
                 '/activityInfo/getList',
                 { useCase: useCase, useCaseId: useCaseId },
@@ -345,18 +304,18 @@ const useActivity = (): IUseActivity => {
                     type: 'error',
                     autoClose: 1000,
                 })
-                setLoading(false)
+                setloading1(false)
                 return
             }
 
             setTimeout(() => {
-                setLoading(false)
+                setloading1(false)
             }, 3000)
             store.dispatch(setActivityData(data2.results))
 
             return data2.results
         } catch (error2: any) {
-            setLoading(false)
+            setloading1(false)
             setError(error2.response.data.responseMessage)
             setTimeout(() => {
                 setError('')
@@ -374,7 +333,7 @@ const useActivity = (): IUseActivity => {
     ): Promise<any> => {
         try {
             setError('')
-            setLoading(true)
+            setloading1(true)
             const { data: data2 } = await axios.post(
                 '/classes/updateStatus',
                 { classId: classid, classStatusId: classStatusid },
@@ -389,12 +348,12 @@ const useActivity = (): IUseActivity => {
                     type: 'error',
                     autoClose: 1000,
                 })
-                setLoading(false)
+                setloading1(false)
                 return
             }
 
             setTimeout(() => {
-                setLoading(false)
+                setloading1(false)
                 // navigate('/school/view')
             }, 3000)
             store.dispatch(getBranchBySchoolId())
@@ -403,13 +362,13 @@ const useActivity = (): IUseActivity => {
             //   type: "success",
             //   autoClose: 1000,
             // });
-            //setLoading(false);
+            //setloading1(false);
             //setIsUploadImgVisible(true);
             // navigate("/");
             // resetForm()
             return data2.results
         } catch (error2: any) {
-            setLoading(false)
+            setloading1(false)
             setError(error2.response.data.responseMessage)
             setTimeout(() => {
                 setError('')
@@ -437,11 +396,11 @@ const useActivity = (): IUseActivity => {
                                 height={79}
                             />
                             <h3 className="mainContainer-heading text-center">
-                                Register Profile Sucessfully!
+                                Your Activities Added Successfully!
                             </h3>
                             <p className="mainContainer-subText text-center">
-                                Congratulations! Your profile has been
-                                successfully completed, ensuring a seamless
+                                Congratulations! Your activity information has
+                                been successfully completed, ensuring a seamless
                                 experience within the Marital
                             </p>
                         </div>
@@ -515,7 +474,7 @@ const useActivity = (): IUseActivity => {
 
         try {
             setError('')
-            setLoading(true)
+            setloading1(true)
             const { data: data2 } = await axios.post(
                 url,
                 { classId: id },
@@ -530,14 +489,14 @@ const useActivity = (): IUseActivity => {
                     type: 'error',
                     autoClose: 1000,
                 })
-                setLoading(false)
+                setloading1(false)
                 return
             }
             // toastId.current = toast(data.responseMessage, {
             //   type: "success",
             //   autoClose: 1000,
             // });
-            setLoading(false)
+            setloading1(false)
             setIsShowModal(false)
             setIsShowDeleteModal(true)
             setTimeout(() => {
@@ -545,12 +504,12 @@ const useActivity = (): IUseActivity => {
                 // navigate('/branch/list')
             }, 3000)
             // setData('results: ' + data2)
-            setLoading(false)
+            setloading1(false)
             store.dispatch(getBranchBySchoolId())
             // navigate("/school");
         } catch (error2: any) {
             setError(error2.response.data.responseMessage)
-            setLoading(false)
+            setloading1(false)
         }
     }
 
@@ -653,7 +612,7 @@ const useActivity = (): IUseActivity => {
     const getClassbyid = async (classid: number): Promise<any> => {
         try {
             setError('')
-            setLoading(true)
+            setloading1(true)
             const { data } = await axios.post(
                 '/classes/getDetailsById',
                 { classId: classid },
@@ -665,19 +624,19 @@ const useActivity = (): IUseActivity => {
             )
 
             if (data.responseCode === '500') {
-                setLoading(false)
+                setloading1(false)
                 return
             }
-            setLoading(false)
+            setloading1(false)
             return data.results
         } catch (error2: any) {
-            setLoading(false)
+            setloading1(false)
             setError(error2)
         }
     }
 
     return {
-        loading,
+        loading1,
         getAllActivities,
         handleCreateSubmit,
         error,

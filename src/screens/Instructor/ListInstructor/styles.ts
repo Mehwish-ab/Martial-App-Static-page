@@ -79,53 +79,53 @@ export const ListInstructorStyled = styled.div`
         width: 4%;
         text-align: center;
     }
-    .ant-table-thead > tr > th:nth-child(2),
-    .ant-table-tbody > tr > td:nth-child(2) {
+    .ant-table-thead > tr > th:nth-child(1),
+    .ant-table-tbody > tr > td:nth-child(1) {
         width: 6%;
     }
-    .ant-table-thead > tr > th:nth-child(3),
-    .ant-table-thead > tr > td:nth-child(3) {
+    .ant-table-thead > tr > th:nth-child(2),
+    .ant-table-thead > tr > td:nth-child(2) {
         width: 150px;
         white-space: nowrap;
         overflow: hidden;
     }
-    .ant-table-thead > tr > th:nth-child(6),
-    .ant-table-tbody > tr > td:nth-child(6) {
+    .ant-table-thead > tr > th:nth-child(5),
+    .ant-table-tbody > tr > td:nth-child(5) {
         width: 5%;
+    }
+    .ant-table-thead > tr > th:nth-child(4),
+    .ant-table-tbody > tr > td:nth-child(4) {
+        width: 12%;
     }
     .ant-table-thead > tr > th:nth-child(5),
     .ant-table-tbody > tr > td:nth-child(5) {
-        width: 12%;
-    }
-    .ant-table-thead > tr > th:nth-child(6),
-    .ant-table-tbody > tr > td:nth-child(6) {
         width: 10%;
         text-align: center;
     }
 
-    .ant-table-thead > tr > th:nth-child(7),
-    .ant-table-tbody > tr > td:nth-child(7) {
+    .ant-table-thead > tr > th:nth-child(6),
+    .ant-table-tbody > tr > td:nth-child(6) {
         width: 13%;
     }
-    .ant-table-thead > tr > th:nth-child(4),
-    .ant-table-tbody > tr > td:nth-child(4) {
+    .ant-table-thead > tr > th:nth-child(3),
+    .ant-table-tbody > tr > td:nth-child(3) {
         width: 17%;
     }
-    .ant-table-thead > tr > th:nth-child(8),
-    .ant-table-tbody > tr > td:nth-child(8) {
+    .ant-table-thead > tr > th:nth-child(7),
+    .ant-table-tbody > tr > td:nth-child(7) {
         width: 10%;
     }
 
-    .ant-table-tbody > tr > td:nth-child(2),
-    .ant-table-tbody > tr > td:nth-child(3) {
+    .ant-table-tbody > tr > td:nth-child(1),
+    .ant-table-tbody > tr > td:nth-child(2) {
         text-align: left;
     }
 
-    .ant-table-tbody > tr > td:nth-child(8) div {
+    .ant-table-tbody > tr > td:nth-child(7) div {
         position: relative;
         width: 95px;
     }
-    .ant-table-tbody > tr > td:nth-child(8) .Active button {
+    .ant-table-tbody > tr > td:nth-child(7) .Active button {
         font-style: normal;
         font-weight: 400;
         line-height: normal;
@@ -140,7 +140,7 @@ export const ListInstructorStyled = styled.div`
         position: relative;
         text-align: center;
     }
-    .ant-table-tbody > tr > td:nth-child(8) .De-Active button {
+    .ant-table-tbody > tr > td:nth-child(7) .De-Active button {
         font-style: normal;
         font-weight: 400;
         line-height: normal;
@@ -155,13 +155,13 @@ export const ListInstructorStyled = styled.div`
         position: relative;
         text-align: center;
     }
-    .ant-table-tbody > tr > td:nth-child(8) img {
+    .ant-table-tbody > tr > td:nth-child(7) img {
         position: absolute;
         right: -3px;
         top: -7px;
     }
-    .ant-table-thead > tr > th:nth-child(9),
-    .ant-table-tbody > tr > td:nth-child(9) {
+    .ant-table-thead > tr > th:nth-child(8),
+    .ant-table-tbody > tr > td:nth-child(8) {
         text-align: center;
     }
     .ant-table-tbody > tr:nth-child(odd) td {
@@ -175,32 +175,32 @@ export const ListInstructorStyled = styled.div`
     }
 
     @media screen and (max-width: 1380px) {
-        .ant-table-thead > tr > th:nth-child(4),
-        .ant-table-tbody > tr > td:nth-child(4) {
+        .ant-table-thead > tr > th:nth-child(3),
+        .ant-table-tbody > tr > td:nth-child(3) {
             display: none;
         }
     }
     @media screen and (max-width: 1120px) {
-        .ant-table-thead > tr > th:nth-child(7),
-        .ant-table-tbody > tr > td:nth-child(7) {
-            display: none;
-        }
-    }
-    @media screen and (max-width: 768px) {
         .ant-table-thead > tr > th:nth-child(6),
         .ant-table-tbody > tr > td:nth-child(6) {
             display: none;
         }
     }
-    @media screen and (max-width: 630px) {
+    @media screen and (max-width: 768px) {
         .ant-table-thead > tr > th:nth-child(5),
         .ant-table-tbody > tr > td:nth-child(5) {
             display: none;
         }
     }
+    @media screen and (max-width: 630px) {
+        .ant-table-thead > tr > th:nth-child(4),
+        .ant-table-tbody > tr > td:nth-child(4) {
+            display: none;
+        }
+    }
     @media screen and (max-width: 450px) {
-        .ant-table-thead > tr > th:nth-child(8),
-        .ant-table-tbody > tr > td:nth-child(8) {
+        .ant-table-thead > tr > th:nth-child(7),
+        .ant-table-tbody > tr > td:nth-child(7) {
             display: none;
         }
     }

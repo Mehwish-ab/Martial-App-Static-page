@@ -100,12 +100,12 @@ const ForgotPassword = (): JSX.Element => {
                 <div className="forget-password-container overflow-auto">
                     <div className="forget-password-container-card">
                         <div className="forget-password-container-card-inner position-relative ">
-                            <img
+                            {/* <img
                                 src={CloseBtn as string}
                                 alt=""
                                 className="closeButtonIcon"
                                 onClick={() => navigate('/login')}
-                            />
+                            /> */}
 
                             <h6 className="title text-center">
                                 {getLabelByKey(FORGOT_SCREEN_LABEL_KEYS.title)}

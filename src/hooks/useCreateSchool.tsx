@@ -22,6 +22,8 @@ import {
 import { Col, Row } from 'react-bootstrap'
 import { SchoolSuccessfulModals } from './PopupModalsStyling'
 import CustomMessageModal from '../components/Modal/CustomMessageModal'
+import { setUserRole } from '../redux/features/User/UserSlice'
+import store from '../redux/store'
 
 interface IModalComponent {
     modalComponent: JSX.Element
@@ -119,11 +121,12 @@ const useCreateSchool = (): IUseSchool => {
             setSuccessMessage(data1.responseMessage)
             setIsShowSuccessModal(true)
             setLoading(false)
-            navigate(`/activity/create/${data1.results.schoolId}`)
-            // setTimeout(() => {
-            //     setIsShowSuccessModal(false)
-            //     navigate(`/school/view/${data1.results.schoolId}`)
-            // }, 3000)
+            store.dispatch(setUserRole('school'))
+            //navigate(`/activity/create/${data1.results.schoolId}`)
+            setTimeout(() => {
+                setIsShowSuccessModal(false)
+                navigate(`/activity/create/${data1.results.schoolId}`)
+            }, 3000)
             // resetForm()
         } catch (error2: any) {
             console.log('error', error2.response?.data?.errors.length)

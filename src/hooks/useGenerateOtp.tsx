@@ -5,10 +5,15 @@ import { toast } from 'react-toastify'
 import { useGlobalContext } from '../context/context'
 import { generate_otp_url, useCaseForgetPassowrd } from '../utils/api_urls'
 import { forgetPasswordInitialTypes } from '../screens/ForgetPassword/ForgetPasword'
-
+import ic_success from '../assets/images/ic_success.svg'
+import { SchoolSuccessfulModals } from './PopupModalsStyling'
+import CustomModal from '../components/Modal/CustomModal'
+interface IModalComponent {
+    modalComponent: JSX.Element
+}
 interface IUseGenerator {
     loading: boolean
-    handleSubmit: (values: forgetPasswordInitialTypes) => Promise<void>
+    handleSubmit: (values: any) => Promise<void>
     error: string
 }
 
@@ -18,6 +23,8 @@ const useGenerateOtp = (): IUseGenerator => {
     const [error, setError] = useState('')
     const toastId = useRef<any>(null)
     const { setUserPhoneNumber } = useGlobalContext()
+    const [isShowModal, setIsShowModal] = useState(false)
+    const [msg, setMsg] = useState('')
     // get Validations from redux appData
     // const {
     //   countryName: {
@@ -47,7 +54,7 @@ const useGenerateOtp = (): IUseGenerator => {
         values: forgetPasswordInitialTypes
     ): Promise<void> => {
         setUserPhoneNumber(values.phoneNumber.toString())
-        console.log(values.phoneNumber, 'phone number')
+        console.log(values, 'phone number')
         const phoneData = {
             phoneNumber: values.phoneNumber.toString(),
             useCase: useCaseForgetPassowrd,
@@ -65,10 +72,16 @@ const useGenerateOtp = (): IUseGenerator => {
             //   setLoading(false);
             //   return;
             // }
-            toastId.current = toast(data.responseMessage, {
-                type: 'success',
-                autoClose: 1000,
-            })
+            // toastId.current = toast(data.responseMessage, {
+            //     type: 'success',
+            //     autoClose: 1000,
+            // })
+            setMsg(data.responseMessage)
+            setIsShowModal(true)
+            setTimeout(() => {
+                setIsShowModal(false)
+                setError('')
+            }, 3000)
             setLoading(false)
             navigate('/register/verify-otp')
             console.log({ data })
@@ -83,6 +96,34 @@ const useGenerateOtp = (): IUseGenerator => {
                 type: 'error',
                 autoClose: 1000,
             })
+        }
+    }
+    const UpdateModal = (): IModalComponent => {
+        return {
+            modalComponent: (
+                <CustomModal
+                    isModalVisible={isShowModal}
+                    setIsModalVisible={setIsShowModal}
+                    showCloseBtn={true}
+                >
+                    <SchoolSuccessfulModals>
+                        <div className="mainContainer d-flex flex-column align-items-center">
+                            <img
+                                src={ic_success}
+                                alt="Success Icon"
+                                width={79}
+                                height={79}
+                            />
+                            <h3 className="mainContainer-heading text-center">
+                                Update Password Successfully!
+                            </h3>
+                            <p className="mainContainer-subText text-center">
+                                {msg}
+                            </p>
+                        </div>
+                    </SchoolSuccessfulModals>
+                </CustomModal>
+            ),
         }
     }
     return {

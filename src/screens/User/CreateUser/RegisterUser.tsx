@@ -160,6 +160,7 @@ const RegisterUser = (): JSX.Element => {
     })
     // create user data submit
     const dispatch = useDispatch()
+    const { userRole } = useSelector((state: RootState) => state.UserData)
     const onSubmit = async (values: initialValuesType): Promise<void> => {
         // get all values other than confirm password
         const allValues = {
@@ -194,9 +195,13 @@ const RegisterUser = (): JSX.Element => {
                     autoClose: 1000,
                 }
             )
-            console.log('response', response)
+            console.log('response', response, userRole)
             dispatch(setUserId(response?.data?.results.userId))
-            navigate('/school/create')
+            if (userRole === 'school') {
+                navigate('/school/create')
+            } else if (userRole === 'instructor') {
+                navigate('/instructor/create')
+            }
 
             setIsLoading(false)
             // eslint-disable-next-line prettier/prettier, @typescript-eslint/no-explicit-any

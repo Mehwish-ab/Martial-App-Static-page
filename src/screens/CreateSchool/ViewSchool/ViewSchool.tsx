@@ -38,6 +38,7 @@ const ViewSchool = (): JSX.Element => {
 
     const [schoolData, setschoolData] = useState<SchoolDataType>()
     const [OwnerData, setOwnerData] = useState<OwnerDataTypes>()
+    const [AllActivities, setActivitiesData] = useState([] as any[])
 
     const { schoolId } = useParams()
 
@@ -46,7 +47,9 @@ const ViewSchool = (): JSX.Element => {
             try {
                 const response: any = await getSchoolbyId(Number(schoolId))
                 if (response) {
+                    console.log({ response })
                     setschoolData(response)
+                    setActivitiesData(response.activitiesData)
                     setOwnerData(response.ownerData)
                 }
 

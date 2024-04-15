@@ -246,7 +246,13 @@ const ListRoom = (): JSX.Element => {
             render: (_, record) => {
                 return (
                     <p>
-                        H{record.height}XW{record.width}
+                        <p
+                            style={{
+                                fontFamily: fontFamilyMedium,
+                            }}
+                        >
+                            H {record.height} {'-'} W {record.width}
+                        </p>{' '}
                     </p>
                 )
             },
@@ -259,14 +265,14 @@ const ListRoom = (): JSX.Element => {
                 if (isActive === true) {
                     return (
                         <div className={'Active'}>
-                            Active
+                            <button>Active</button>
                             <img src={StatusActiveError} alt="image" />
                         </div>
                     )
                 } else {
                     return (
                         <div className={'De-Active'}>
-                            De-Active
+                            <button>De-Active</button>
                             <img src={StatusActiveError} alt="image" />
                         </div>
                     )

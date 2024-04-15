@@ -56,10 +56,10 @@ export const ListRoomsStyle = styled.div`
     .ant-table-tbody > tr > td:first-child {
         text-align: center;
     }
-    .ant-table-thead > tr > th:nth-child(0),
-    .ant-table-tbody > tr > td:nth-child(5) {
-        width: 30%;
-    }
+    // .ant-table-thead > tr > th:nth-child(0),
+    // .ant-table-tbody > tr > td:nth-child(5) {
+    //     width: 30%;
+    // }
     .ant-table-thead > tr > th:last-child,
     .ant-table-tbody > tr > td:last-child {
         text-align: center;
@@ -99,7 +99,7 @@ export const ListRoomsStyle = styled.div`
         position: relative;
         text-align: center;
     }
-    .ant-table-tbody > tr > td:nth-child(2) img {
+    .ant-table-tbody > tr > td:nth-child(5) img {
         position: absolute;
         right: 6%;
         top: -5px;

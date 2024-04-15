@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Head from '../../../components/Head/Head'
 import ForgetPasswordStyle from '../style'
 import { Field, FieldProps, Formik } from 'formik'
@@ -11,6 +11,13 @@ import useVerifyOtp from '../../../hooks/useVerifyOtp'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { OTP_SCREEN_LABEL_KEYS } from '../constants'
 import { useGlobalContext } from '../../../context/context'
+import useGenerateOtp from '../../../hooks/useGenerateOtp'
+import { toast } from 'react-toastify'
+import {
+    generate_otp_url,
+    useCaseForgetPassowrd,
+} from '../../../utils/api_urls'
+import axios from 'axios'
 export interface OtpPropValues {
     input0: string
     input1: string
@@ -26,6 +33,7 @@ const Otp: React.FC = () => {
     }
     const { getLabelByKey } = useScreenTranslation('veriﬁcationPin')
     const { userPhoneNumber } = useGlobalContext()
+    //const { handleSubmit } = useGenerateOtp()
 
     const validationSchema = Yup.object().shape({
         input0: Yup.string()
@@ -46,8 +54,8 @@ const Otp: React.FC = () => {
     const [timer, setTimer] = useState(initialTimer)
     const [timerExpired, setTimerExpired] = useState(false)
     const [showButton, setShowButton] = useState(false)
-
-    const { handleSubmit, loading } = useVerifyOtp()
+    const toastId = useRef<any>(null)
+    const { handleOnSubmit, loading } = useVerifyOtp()
     const { minutes, seconds } = timer
 
     useEffect(() => {
@@ -105,7 +113,37 @@ const Otp: React.FC = () => {
 
         return timerText
     }
-    const handleButtonAction = (): void => {
+    const handleButtonAction = async (): Promise<void> => {
+        console.log('userPhoneNumber', userPhoneNumber)
+        const phoneData = {
+            phoneNumber: userPhoneNumber,
+            useCase: useCaseForgetPassowrd,
+        }
+        console.log('phoneData', userPhoneNumber)
+        try {
+            // setError('')
+            // setLoading(true)
+            const { data } = await axios.post(generate_otp_url, phoneData)
+            // if (data.responseCode === "500") {
+            //   toast(data.responseMessage, {
+            //     type: "error",
+            //     autoClose: 1000,
+            //   });
+            //   setLoading(false);
+            //   return;
+            // }
+            toastId.current = toast(data.responseMessage, {
+                type: 'success',
+                autoClose: 1000,
+            })
+            console.log({ data })
+        } catch (error2: any) {
+            console.log({ error: error2 })
+            toastId.current = toast(error2.response.data.responseMessage, {
+                type: 'error',
+                autoClose: 1000,
+            })
+        }
         console.log('Button clicked after OTP expiration')
     }
     return (
@@ -129,20 +167,70 @@ const Otp: React.FC = () => {
                                 <Formik
                                     initialValues={initialValues}
                                     validationSchema={validationSchema}
-                                    onSubmit={handleSubmit}
+                                    onSubmit={(values) => {
+                                        handleOnSubmit(values)
+                                    }}
                                 >
-                                    {({
-                                        // handleSubmit,
-                                        // errors,
-                                        // touched,
-                                        values,
-                                    }) => (
-                                        <Form onFinish={handleSubmit}>
-                                            <OtpInputsStyled>
-                                                {[0, 1, 2, 3].map((index) => {
-                                                    return (
-                                                        <>
-                                                            <Field
+                                    {(formik) => {
+                                        return (
+                                            <Form
+                                                onFinish={formik.handleSubmit}
+                                            >
+                                                <OtpInputsStyled>
+                                                    {[0, 1, 2, 3].map(
+                                                        (index) => {
+                                                            return (
+                                                                <>
+                                                                    <Field
+                                                                        name={`input${index}`}
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                    >
+                                                                        {({
+                                                                            field,
+                                                                        }: FieldProps<string>) => {
+                                                                            return (
+                                                                                <Input
+                                                                                    {...field}
+                                                                                    name={`input${index}`}
+                                                                                    className="customInput otp-input"
+                                                                                    placeholder="-"
+                                                                                    maxLength={
+                                                                                        1
+                                                                                    }
+                                                                                    onChange={(
+                                                                                        e
+                                                                                    ) => {
+                                                                                        // Set the value directly into Formik's values
+                                                                                        formik.setFieldValue(
+                                                                                            `input${index}`,
+                                                                                            e
+                                                                                                .target
+                                                                                                .value
+                                                                                        )
+
+                                                                                        // Move focus to the next input field if a digit is entered
+                                                                                        if (
+                                                                                            e.target.value.match(
+                                                                                                /^\d$/
+                                                                                            ) &&
+                                                                                            index <
+                                                                                                3
+                                                                                        ) {
+                                                                                            const nextField =
+                                                                                                document.getElementsByName(
+                                                                                                    `input${index + 1}`
+                                                                                                )[0]
+                                                                                            nextField?.focus()
+                                                                                        }
+                                                                                    }}
+                                                                                />
+                                                                            )
+                                                                        }}
+                                                                    </Field>
+
+                                                                    {/* <Field
                                                                 name={`input${index}`}
                                                                 key={index}
                                                             >
@@ -189,30 +277,32 @@ const Otp: React.FC = () => {
                                                                         }}
                                                                     />
                                                                 )}
-                                                            </Field>
-                                                        </>
-                                                    )
-                                                })}
-                                            </OtpInputsStyled>
-
-                                            <div className="mt-20">
-                                                <CustomButton
-                                                    bgcolor="#C0E9F9"
-                                                    textTransform="Captilize"
-                                                    color={pureDark}
-                                                    padding="13.5px"
-                                                    fontFamily={`${fontFamilyMedium}`}
-                                                    width="100%"
-                                                    type="submit"
-                                                    title={getLabelByKey(
-                                                        OTP_SCREEN_LABEL_KEYS.sumbitButton
+                                                            </Field> */}
+                                                                </>
+                                                            )
+                                                        }
                                                     )}
-                                                    fontSize="16px"
-                                                    loading={loading}
-                                                />
-                                            </div>
-                                        </Form>
-                                    )}
+                                                </OtpInputsStyled>
+
+                                                <div className="mt-20">
+                                                    <CustomButton
+                                                        bgcolor="#C0E9F9"
+                                                        textTransform="Captilize"
+                                                        color={pureDark}
+                                                        padding="13.5px"
+                                                        fontFamily={`${fontFamilyMedium}`}
+                                                        width="100%"
+                                                        type="submit"
+                                                        title={getLabelByKey(
+                                                            OTP_SCREEN_LABEL_KEYS.sumbitButton
+                                                        )}
+                                                        fontSize="16px"
+                                                        loading={loading}
+                                                    />
+                                                </div>
+                                            </Form>
+                                        )
+                                    }}
                                 </Formik>
                             </div>
                         </div>
@@ -221,13 +311,17 @@ const Otp: React.FC = () => {
                         <p className="text-center forget-password-OTPtext">
                             {formatTimer()}{' '}
                             {timerExpired && showButton && (
-                                <a
-                                    href=""
+                                <button
+                                    style={{
+                                        background: 'rgb(192, 233, 249)',
+                                        padding: '4px',
+                                        borderRadius: '2px',
+                                    }}
                                     className="expired-button-container"
                                     onClick={handleButtonAction}
                                 >
                                     {getLabelByKey('resendOtp')}
-                                </a>
+                                </button>
                             )}
                         </p>
                     </div>

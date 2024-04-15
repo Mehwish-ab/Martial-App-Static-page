@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../redux/store'
+import store, { RootState } from '../../../redux/store'
 
 import { Dropdown, Menu, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
@@ -31,8 +31,7 @@ import { useAppSelector } from '../../../app/hooks'
 import ReportCreate from '../../Reports/ReportCreate/ReportCreate'
 import ReportSubmit from '../../Reports/ReportCreate/ReportSubmit'
 import { RegisterUser } from '../../pages'
-import appDataSlice from '../../../redux/features/appDataSlice'
-import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
+import { setUserRole } from '../../../redux/features/User/UserSlice'
 
 const ListSchool = (): JSX.Element => {
     // const { schoolData } = useSelector(
@@ -350,7 +349,10 @@ const ListSchool = (): JSX.Element => {
                     {
                         key: '1',
                         label: 'View',
-                        onClick: () => navigation(record, 'view'),
+                        onClick: () => {
+                            store.dispatch(setUserRole('school')),
+                                navigation(record, 'view')
+                        },
                     },
                     {
                         key: '2',
@@ -486,6 +488,9 @@ const ListSchool = (): JSX.Element => {
                                                     />
                                                 }
                                                 clicked={() => {
+                                                    store.dispatch(
+                                                        setUserRole('school')
+                                                    )
                                                     navigate(`/user/list`)
                                                 }}
                                             />

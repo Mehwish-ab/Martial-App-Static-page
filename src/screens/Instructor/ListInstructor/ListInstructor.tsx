@@ -33,6 +33,7 @@ import BlueBelt from '../../../assets/icons/BlueBelt.svg'
 import { Form, Formik } from 'formik'
 import FormControl from '../../../components/FormControl'
 import moment from 'moment'
+import { setUserRole } from '../../../redux/features/User/UserSlice'
 
 const initialValues = (): void => {}
 const handleCreateSubmit = (): void => {}
@@ -128,7 +129,10 @@ const RenderTableTitle = (): JSX.Element => {
                                                 />
                                             }
                                             clicked={() => {
-                                                navigate(`/instructor/create`)
+                                                store.dispatch(
+                                                    setUserRole('instructor')
+                                                )
+                                                navigate(`/user/list`)
                                             }}
                                         />
                                     </div>
@@ -383,7 +387,10 @@ const ListInstructor: React.FC = () => {
                     {
                         key: '1',
                         label: 'View',
-                        onClick: () => navigation(record, 'view'),
+                        onClick: () => {
+                            store.dispatch(setUserRole('instructor'))
+                            navigation(record, 'view')
+                        },
                     },
                     {
                         key: '2',

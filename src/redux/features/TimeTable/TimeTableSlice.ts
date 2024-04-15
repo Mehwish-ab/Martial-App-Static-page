@@ -49,9 +49,9 @@ const initialState: TimeTableDataInitialState = {
 
 export const getTimetableByUserId = createAsyncThunk(
     'TimetableData/getTimetableByUserId',
-    async () => {
+    async (classId: any) => {
         const state = store.getState()
-        console.log('state', state)
+        console.log('state', state, classId)
         try {
             const { data } = await axios.post(
                 `${base_url}timetable/getAll`,
@@ -59,6 +59,7 @@ export const getTimetableByUserId = createAsyncThunk(
                     userId:
                         state.loginData.data?.userDetails.id ||
                         state.dashboardData.schoolData.userId,
+                    classId,
                 },
                 {
                     headers: {

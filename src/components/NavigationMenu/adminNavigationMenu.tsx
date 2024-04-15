@@ -59,7 +59,7 @@ const AdminNavigationMenu = (): JSX.Element => {
         createSchool: '/school/list',
         classes: '/class/list',
         membership: '/membership/list',
-        timeTable: '/timetable/list',
+        timeTable: '/class/list',
         trainingRoom: `/school/room/list/${loginData.data?.schoolId}`,
         listInstructor: '/instructor/list',
         transactionsHistory: '/transaction-history/list',
@@ -190,7 +190,6 @@ const AdminNavigationMenu = (): JSX.Element => {
                 adminMenuLinks.waiver,
                 menuLinksKeys.waiver
             ),
-            children: childListOfSetting,
         },
         {
             key: menuLinksKeys.setting,
@@ -199,7 +198,6 @@ const AdminNavigationMenu = (): JSX.Element => {
                 adminMenuLinks.setting,
                 menuLinksKeys.setting
             ),
-            children: childListOfSetting,
         },
         {
             key: menuLinksKeys.setting,
@@ -208,7 +206,6 @@ const AdminNavigationMenu = (): JSX.Element => {
                 adminMenuLinks.setting,
                 menuLinksKeys.setting
             ),
-            children: childListOfSetting,
         },
         {
             key: menuLinksKeys.setting,
@@ -217,7 +214,6 @@ const AdminNavigationMenu = (): JSX.Element => {
                 adminMenuLinks.setting,
                 menuLinksKeys.setting
             ),
-            children: childListOfSetting,
         },
         {
             key: menuLinksKeys.reports,

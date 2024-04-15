@@ -115,11 +115,11 @@ const CreateInstructor = (): JSX.Element => {
                 return true
             }
         ),
-        rankId: Yup.string().required('Please select belts'),
+        // rankId: Yup.string().required('Please select belts'),
         description: Yup.string().required('Please enter description'),
-        yearsOfExperience: Yup.string().required(
-            'Please select years Of Experience'
-        ),
+        // yearsOfExperience: Yup.string().required(
+        //     'Please select years Of Experience'
+        // ),
 
         defaultCurrency: Yup.string().required(
             'Please select default currency'
@@ -131,7 +131,26 @@ const CreateInstructor = (): JSX.Element => {
             .of(Yup.string().required('Select an specilization'))
             .min(1, 'Select at least one specilization'),
     })
+    const { userId } = useSelector((state: RootState) => state.UserData)
+    const { loginData } = useSelector((state: RootState) => state)
+    const onsubmit = async (
+        values: CreateInstructorInitialValues
+    ): Promise<void> => {
+        let id = null
+        if (loginData.userId) {
+            id = loginData.userId
+        } else if (
+            loginData.data?.userDetails.id &&
+            loginData.data.userDetails.roleName === 'USER'
+        ) {
+            id = loginData.data.userDetails.id
+        } else {
+            id = userId
+        }
 
+        console.log('id of registered user', id)
+        await handleSubmit(Number(id), values, selectedFiles)
+    }
     const showActivities = (_activities: string[]): string => {
         let activitiesName = ''
         _activities.forEach((activity) => {
@@ -179,7 +198,7 @@ const CreateInstructor = (): JSX.Element => {
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
-                onSubmit={handleSubmit}
+                onSubmit={onsubmit}
             >
                 {(formik) => {
                     console.log('formik values', formik.values)
@@ -248,7 +267,7 @@ const CreateInstructor = (): JSX.Element => {
                                         />
                                     </Col>
 
-                                    <Col md="4" className="mt-20">
+                                    <Col md="6" className="mt-20">
                                         <PlacesAutoCompleteInput
                                             label={getLabelByKey('address')}
                                             placeholder={getLabelByKey(
@@ -271,9 +290,9 @@ const CreateInstructor = (): JSX.Element => {
                                             value={formik.values.address}
                                         />
                                     </Col>
-                                    <Col md="8">
-                                        <Row>
-                                            <Col md="4" className="mt-20">
+                                    {/* <Col md="8"> */}
+                                    {/* <Row> */}
+                                    {/* <Col md="4" className="mt-20">
                                                 <FormControl
                                                     control="select"
                                                     type="text"
@@ -291,8 +310,8 @@ const CreateInstructor = (): JSX.Element => {
                                                         adult
                                                     )}
                                                 />
-                                            </Col>
-                                            <Col md="4" className="mt-20">
+                                            </Col> */}
+                                    {/* <Col md="4" className="mt-20">
                                                 <FormControl
                                                     control="input"
                                                     type="number"
@@ -318,64 +337,41 @@ const CreateInstructor = (): JSX.Element => {
                                                         'placeholderYearsOfExperience'
                                                     )}
                                                 />
-                                            </Col>
-                                            <Col md="4" className="mt-20">
-                                                <FormControl
-                                                    control="file"
-                                                    type="file"
-                                                    name="latestCertification"
-                                                    fontFamily={
-                                                        fontFamilyRegular
-                                                    }
-                                                    label={
-                                                        <>
-                                                            {getLabelByKey(
-                                                                'latestCertification'
-                                                            )}{' '}
-                                                            <span>
-                                                                {getLabelByKey(
-                                                                    'optional'
-                                                                )}
-                                                            </span>
-                                                        </>
-                                                    }
-                                                    src={FileSubmit}
-                                                    suffix={
-                                                        <ImagesUpload
-                                                            onImagesSelect={
-                                                                handleImagesUpload
-                                                            }
-                                                        />
-                                                    }
-                                                    padding="10px"
-                                                    placeholder={getLabelByKey(
-                                                        'PlaceholderLatestCertification'
-                                                    )}
-                                                />
-                                            </Col>
-                                        </Row>
-                                    </Col>
-                                    <Col md="6">
-                                        <CheckboxesSelect
-                                            name="specializations"
-                                            label={getLabelByKey(
-                                                'specializations'
-                                            )}
-                                            list={facilities}
-                                            showErrorMsgInList={false}
-                                            placeholder={
-                                                formik.values.specializations
-                                                    .length > 0
-                                                    ? showFacilities(
-                                                          formik.values
-                                                              .specializations
-                                                      )
-                                                    : getLabelByKey(
-                                                          'placeholderSpecializations'
-                                                      )
+                                            </Col> */}
+                                    <Col md="6" className="mt-20">
+                                        <FormControl
+                                            control="file"
+                                            type="file"
+                                            name="latestCertification"
+                                            fontFamily={fontFamilyRegular}
+                                            label={
+                                                <>
+                                                    {getLabelByKey(
+                                                        'latestCertification'
+                                                    )}{' '}
+                                                    <span>
+                                                        {getLabelByKey(
+                                                            'optional'
+                                                        )}
+                                                    </span>
+                                                </>
                                             }
+                                            src={FileSubmit}
+                                            suffix={
+                                                <ImagesUpload
+                                                    onImagesSelect={
+                                                        handleImagesUpload
+                                                    }
+                                                />
+                                            }
+                                            padding="10px"
+                                            placeholder={getLabelByKey(
+                                                'PlaceholderLatestCertification'
+                                            )}
                                         />
                                     </Col>
+                                    {/* </Row> */}
+                                    {/* </Col> */}
 
                                     <Col md="6">
                                         <CheckboxesSelect
@@ -403,6 +399,27 @@ const CreateInstructor = (): JSX.Element => {
                                                       )
                                                     : getLabelByKey(
                                                           'placeholderActivities'
+                                                      )
+                                            }
+                                        />
+                                    </Col>
+                                    <Col md="6">
+                                        <CheckboxesSelect
+                                            name="specializations"
+                                            label={getLabelByKey(
+                                                'specializations'
+                                            )}
+                                            list={activities}
+                                            showErrorMsgInList={false}
+                                            placeholder={
+                                                formik.values.specializations
+                                                    .length > 0
+                                                    ? showActivities(
+                                                          formik.values
+                                                              .specializations
+                                                      )
+                                                    : getLabelByKey(
+                                                          'placeholderSpecializations'
                                                       )
                                             }
                                         />
@@ -494,12 +511,7 @@ const CreateInstructor = (): JSX.Element => {
                                     title={getLabelByKey('primaryButton')}
                                     fontSize="18px"
                                     loading={loading}
-                                    clicked={() =>
-                                        handleSubmit(
-                                            formik.values,
-                                            selectedFiles
-                                        )
-                                    }
+                                    clicked={() => onsubmit(formik.values)}
                                 />
                             </div>
                         </Form>

@@ -52,6 +52,7 @@ const UpdateeInstructor = (): JSX.Element => {
     >()
 
     const handleupdate = async (values: any): Promise<void> => {
+        console.log('values', selectedFiles, bannerImages)
         await updateInstructor(
             Number(instructorId),
             values,

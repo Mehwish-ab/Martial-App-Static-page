@@ -178,7 +178,7 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/activity/create/:schoolId"
+                    path="/activity/create/:id"
                     element={
                         <AppLayout>
                             <CreateActivity />
@@ -484,7 +484,7 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/timetable/list"
+                    path="/timetable/list/:classId"
                     element={
                         <AppLayout>
                             <ListTimeTable />
@@ -499,14 +499,14 @@ function AppRoutes(): JSX.Element {
                         </AppLayout>
                     }
                 />
-                {/* <Route
+                <Route
                     path="/timetable/slots/:timeTableId"
                     element={
                         <AppLayout>
                             <TimeTableSheet />
                         </AppLayout>
                     }
-                /> */}
+                />
                 <Route
                     path="/timetable/slots/:timeTableId"
                     element={

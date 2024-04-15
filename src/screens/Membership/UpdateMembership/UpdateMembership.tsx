@@ -20,7 +20,7 @@ import {
 } from '../../../components/GlobalStyle'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import { CreateClassStyled } from '../../Class/CreateClasses/styles'
-import { CreateMembershipInitialValues } from '../constant'
+import { UpdateMembershipInitialValues } from '../constant'
 import CustomModal from '../../../components/Modal/CustomModal'
 import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import { SchoolSuccessfulModals } from '../../../hooks/PopupModalsStyling'
@@ -38,7 +38,7 @@ const UpdateMembership = (): JSX.Element => {
         (state: RootState) => state.MembershipData
     )
 
-    const initialValues: CreateMembershipInitialValues = {
+    const initialValues: UpdateMembershipInitialValues = {
         classIds: 0,
         useCase: '',
         id: 0,

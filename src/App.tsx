@@ -79,9 +79,10 @@ function App(): JSX.Element {
         if (pathname === '/login' || register || pathname === '/') {
             if (loginData && schoolData?.schoolId !== 0) {
                 return navigate('/')
-            } else if (loginData && schoolData?.schoolId === 0) {
-                return navigate(`/school/create/${logindata?.userDetails.id}`)
             }
+            //  else if (loginData && schoolData?.schoolId === 0) {
+            //     return navigate(`/school/create/${logindata?.userDetails.id}`)
+            // }
         }
         if (!loginData) {
             return navigate('/login')

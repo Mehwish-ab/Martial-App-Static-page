@@ -56,8 +56,7 @@ const UserList = (): JSX.Element => {
 
     const lengths: number = 0
     const { loginData } = useSelector((state: RootState) => state)
-    const { UserData } = useSelector((state: RootState) => state.UserData)
-
+    const { userRole } = useSelector((state: RootState) => state.UserData)
     const handlePaginationChange = async (page: number): Promise<void> => {
         try {
             setLoading(true)
@@ -188,33 +187,50 @@ const UserList = (): JSX.Element => {
             key: 'status',
             render: (userId) => {
                 // if (index?.schoolStatusId === 1) {
-                return (
-                    <div className="Active">
-                        <button
-                            style={{ background: '#006197' }}
-                            onClick={() => {
-                                store.dispatch(setUserListId(userId))
-                                navigate('/school/create/')
-                            }}
-                        >
-                            Create School
-                        </button>
-                    </div>
-                )
-                // } else {
-                return (
-                    <div className={'De-Active'}>
-                        <button
-                        // onClick={() => {
-                        //     BranchStatus(index.studentId, 1)
-                        // }}
-                        >
-                            De-Active
-                        </button>
-                        <img src={StatusActiveError} alt="image" />
-                    </div>
-                )
-                // }
+                console.log('UserId in userList', userId)
+                if (userRole === 'school') {
+                    return (
+                        <div className="Active">
+                            <button
+                                style={{ background: '#006197' }}
+                                onClick={() => {
+                                    store.dispatch(setUserListId(userId))
+                                    navigate('/school/create/')
+                                }}
+                            >
+                                Create School
+                            </button>
+                        </div>
+                    )
+                } else if (userRole === 'instructor') {
+                    return (
+                        <div>
+                            <button
+                                style={{
+                                    background: '#006197',
+                                    fontStyle: 'normal',
+                                    fontWeight: '400',
+                                    lineHeight: 'normal',
+                                    padding: '7px 10px',
+                                    borderRadius: '4px',
+                                    height: '30px',
+                                    color: 'rgb(255, 255, 255)',
+                                    fontSize: '14px !important',
+                                    display: 'block',
+                                    position: 'relative',
+                                    textAlign: 'center',
+                                    width: '130%',
+                                }}
+                                onClick={() => {
+                                    store.dispatch(setUserListId(userId))
+                                    navigate('/instructor/create/')
+                                }}
+                            >
+                                Create Instructor
+                            </button>
+                        </div>
+                    )
+                }
             },
         },
     ]

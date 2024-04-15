@@ -68,8 +68,7 @@ interface IUseTimetable {
     getTimetableSlot: (timeTableid: number) => Promise<any>
     getAllTimetable: (userid: number) => Promise<any>
     getTimetableById: (timeTableId: number) => Promise<any>
-    getAllUserPagination: (userid:number, page: number) => Promise<any>
-
+    getAllUserPagination: (userid: number, page: number) => Promise<any>
 
     //     CreateSlots: (
     //         timeTableId: any,
@@ -166,7 +165,7 @@ const useTimetable = (): IUseTimetable => {
                 setLoading(false)
             }, 3000)
             console.log('data', { data: data2 })
-          
+
             return data2.results
         } catch (error2: any) {
             console.log('error', { error: error2 })
@@ -208,11 +207,11 @@ const useTimetable = (): IUseTimetable => {
                 return
             }
             // setIsShowModal(true)
-        store.dispatch(getTimetableByUserId())
+            // store.dispatch(getTimetableByUserId())
 
             setTimeout(() => {
                 setLoading(false)
-                store.dispatch(getTimetableByUserId())
+                //store.dispatch(getTimetableByUserId())
 
                 // navigate('/school/view')
             }, 3000)
@@ -319,7 +318,7 @@ const useTimetable = (): IUseTimetable => {
             setLoading(false)
             //setIsShowModal(true)
             setTimeout(() => {
-             //   setIsShowModal(false)
+                //   setIsShowModal(false)
                 //navigate("/school/view");
             }, 3000)
 
@@ -396,7 +395,7 @@ const useTimetable = (): IUseTimetable => {
             )
         }
     }
- const getAllUserPagination = async (
+    const getAllUserPagination = async (
         userid: number,
         page: number
     ): Promise<any> => {
@@ -627,7 +626,7 @@ const useTimetable = (): IUseTimetable => {
                 setIsShowDeleteModal(false)
                 // setIsShowDeleteModal(true)
             }, 3000)
-                    store.dispatch(getTimetableByUserId())
+            //  store.dispatch(getTimetableByUserId())
 
             // console.log('data', { data: data2 })
         } catch (error2: any) {
@@ -821,7 +820,7 @@ const useTimetable = (): IUseTimetable => {
         createSlots,
         setIsShowWarningModal,
         TimeTableStatus,
-        getAllUserPagination
+        getAllUserPagination,
     }
 }
 

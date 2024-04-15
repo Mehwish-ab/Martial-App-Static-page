@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 import { useAppSelector } from '../../app/hooks'
 import { useNavigate } from 'react-router-dom'
 import ListSchool from '../CreateSchool/ListSchool/ListSchool'
+import { Dashboard } from '../pages'
 // import Profile from './Profile/Profile'
 const Home = (): JSX.Element => {
     const { schoolData } = useSelector(
@@ -26,11 +27,11 @@ const Home = (): JSX.Element => {
     if (logindata?.userDetails.roleName === 'ADMIN') {
         {
             //navigate('/school/list')
-            return <ListSchool />
+            return <Dashboard />
         }
     } else {
-        navigate(`/school/create/${loginData?.userDetails.id}`)
-        return <ViewSchool />
+        navigate('/')
+        return <Dashboard />
     }
 }
 export default Home

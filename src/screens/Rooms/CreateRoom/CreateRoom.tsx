@@ -175,6 +175,7 @@ const CreateRoom = (): JSX.Element => {
                                                 label={getLabelByKey('width')}
                                                 inchName="wInch"
                                                 feetName="wFeet"
+                                                maxLength="11"
                                                 name="width"
                                                 inchPlaceholder={getLabelByKey(
                                                     'inch'
@@ -182,6 +183,7 @@ const CreateRoom = (): JSX.Element => {
                                                 feetPlaceholder={getLabelByKey(
                                                     'feet'
                                                 )}
+                                                max="11"
                                                 className={
                                                     formik.errors.width &&
                                                     formik.touched.width

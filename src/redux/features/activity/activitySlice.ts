@@ -49,20 +49,16 @@ const initialState: ActivityDataInitialState = {
 
 export const getActivityBySchoolId = createAsyncThunk(
     'activityData/getActivityBySchoolId',
-    async (schoolId: string) => {
+    async (payload: any) => {
         const state = store.getState()
-        console.log(
-            'state',
-            state,
-            state.loginData.data?.schoolId,
-            state.dashboardData.schoolData.schoolId
-        )
+        const { useCase, roleId } = payload
+        console.log(payload)
         try {
             const { data } = await axios.post(
                 `${base_url}${get_all_activities}`,
                 {
-                    useCase: 'SCHOOL',
-                    useCaseId: schoolId,
+                    useCase: useCase,
+                    useCaseId: roleId,
                     // state.loginData.data?.schoolId ||
                     // state.dashboardData.schoolData.schoolId,
                 },
@@ -197,11 +193,11 @@ const ActivitySlice = createSlice({
                 state.loading = true
                 state.error = ''
             })
-            .addCase(getActivityBySchoolId.fulfilled, (state, action) => {
-                state.activityData = action.payload
-                state.loading = false
-                state.error = ''
-            })
+            // .addCase(getActivityBySchoolId.fulfilled, (state, action) => {
+            //     state.activityData = action.payload
+            //     state.loading = false
+            //     state.error = ''
+            // })
             .addCase(createActivityBySchoolId.fulfilled, (state, action) => {
                 state.activityData = [...state.activityData, action.payload]
                 state.loading = false

@@ -29,7 +29,7 @@ import { SelectOptionsDataTypes } from '../../Home/constants'
 const ActivityList = (): JSX.Element => {
     const { ClassData } = useSelector((state: RootState) => state.ClassData)
     const navigate = useNavigate()
-    const { schoolId, branchId, franchiseId } = useParams()
+    const { schoolId, branchId, franchiseId, instructorId } = useParams()
     const { ClassStatus, deletemodal, deleteConfirmation, setIsShowModal } =
         useClass()
     const [Id, setId] = useState(0)
@@ -49,7 +49,7 @@ const ActivityList = (): JSX.Element => {
                 Number(schoolId || loginData.data?.schoolId),
                 page - 1
             )
-            setAllActivities(response)
+            //setAllActivities(response)
             // eslint-disable-next-line @typescript-eslint/no-shadow
         } catch (error: unknown) {
             setError('Error fetching data')
@@ -73,29 +73,6 @@ const ActivityList = (): JSX.Element => {
         (state: RootState) => state.appData.data.belts
     )
 
-    const { getSchoolbyId } = useSchool()
-    const [schoolData, setschoolData] = useState<SchoolDataType>()
-    useEffect(() => {
-        const fetchData = async (): Promise<void> => {
-            try {
-                const response: any = await getSchoolbyId(Number(schoolId))
-                setschoolData(response)
-
-                console.log('response of school ', response)
-
-                // eslint-disable-next-line @typescript-eslint/no-shadow
-            } catch (error) {
-                // setError('Error fetching data')
-            } finally {
-                // setLoading(false)
-            }
-        }
-
-        fetchData()
-    }, [])
-
-    const [isBelt, setIsBelt] = useState(false)
-    const [experiencelevel, setExperienceLevel] = useState(0)
     const showExperience = (exp: number): string => {
         const index = experienceLevel.findIndex((act) => +act.id === exp)
 
@@ -142,24 +119,52 @@ const ActivityList = (): JSX.Element => {
     }
     const { getLabelByKey } = useScreenTranslation('activityList')
     useEffect(() => {
-        store.dispatch(getActivityBySchoolId(schoolId as string))
+        let payload = {} as any
+        if (schoolId) {
+            payload = {
+                useCase: 'SCHOOL',
+                roleId: schoolId,
+            }
+        } else if (instructorId) {
+            payload = {
+                useCase: 'INSTRUCTOR',
+                roleId: instructorId,
+            }
+        }
+
+        store.dispatch(getActivityBySchoolId(payload))
     }, [schoolId])
 
     console.log(AllActivities)
 
     useEffect(() => {
         const fetchData = async (): Promise<void> => {
-            try {
-                const response: any = await getAllActivities(
-                    'SCHOOL',
-                    Number(schoolId || loginData.data?.schoolId)
-                )
+            if (schoolId) {
+                try {
+                    const response: any = await getAllActivities(
+                        'SCHOOL',
+                        Number(schoolId || loginData.data?.schoolId)
+                    )
+                    console.log('activities Dataaa', response)
+                    setAllActivities(response)
+                    // eslint-disable-next-line @typescript-eslint/no-shadow
+                } catch (error) {
+                    setError('Error fetching data')
+                } finally {
+                }
+            } else if (instructorId) {
+                try {
+                    const response: any = await getAllActivities(
+                        'INSTRUCTOR',
+                        Number(instructorId)
+                    )
 
-                setAllActivities(response)
-                // eslint-disable-next-line @typescript-eslint/no-shadow
-            } catch (error) {
-                setError('Error fetching data')
-            } finally {
+                    //setAllActivities(response)
+                    // eslint-disable-next-line @typescript-eslint/no-shadow
+                } catch (error) {
+                    setError('Error fetching data')
+                } finally {
+                }
             }
         }
         handleModalClosed()
@@ -282,6 +287,7 @@ const ActivityList = (): JSX.Element => {
                 return (
                     <div>
                         <a
+                            style={{ color: 'blue' }}
                             href={certificateURL}
                             target="_blank"
                             rel="noreferrer"
@@ -302,11 +308,11 @@ const ActivityList = (): JSX.Element => {
                     return (
                         <div className={'Active'}>
                             <button
-                                onClick={() => {
-                                    {
-                                        ClassStatus(index.id, 2)
-                                    }
-                                }}
+                            // onClick={() => {
+                            //     {
+                            //         ClassStatus(index.id, 2)
+                            //     }
+                            // }}
                             >
                                 Active
                             </button>
@@ -317,9 +323,9 @@ const ActivityList = (): JSX.Element => {
                     return (
                         <div className={'De-Active'}>
                             <button
-                                onClick={() => {
-                                    ClassStatus(index.id, 1)
-                                }}
+                            // onClick={() => {
+                            //     ClassStatus(index.id, 1)
+                            // }}
                             >
                                 De-Active
                             </button>

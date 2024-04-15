@@ -208,12 +208,8 @@ const ListClass = (): JSX.Element => {
                 })
                 break
 
-            case 'delete':
-                navigate(`/Class/subscribe/${record.classId}`, {
-                    state: {
-                        branch: record as ClassDataType,
-                    },
-                })
+            case 'timeTable':
+                navigate(`/timetable/list${record.classId}`)
         }
     }
 
@@ -419,6 +415,11 @@ const ListClass = (): JSX.Element => {
                             setId(record.classId)
                             setIsShowModal(true)
                         },
+                    },
+                    {
+                        key: '4',
+                        label: 'TimeTable',
+                        onClick: () => navigation(record, 'timeTable'),
                     },
                 ]
                 return (

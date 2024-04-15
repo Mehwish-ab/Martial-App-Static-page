@@ -39,7 +39,8 @@ interface IUseActivity {
     handleCreateSubmit: (
         values: ActivityInitialValues,
         file: any,
-        useCaseId: any
+        useCaseId: any,
+        useCase: string
     ) => Promise<void>
     handleUpdate: (id: any, values: any, file: any) => Promise<void>
     error: string
@@ -80,7 +81,8 @@ const useActivity = (): IUseActivity => {
     const handleCreateSubmit = async (
         values: ActivityInitialValues,
         file: any,
-        useCaseId: any
+        useCaseId: any,
+        useCase: string
     ): Promise<void> => {
         const userDetails = loginData.data?.userDetails
         console.log('file', file)
@@ -93,7 +95,7 @@ const useActivity = (): IUseActivity => {
             certificateURL: values.latestCertification
                 ? URL.createObjectURL(values.latestCertification)
                 : '',
-            useCase: 'SCHOOL',
+            useCase: useCase,
             useCaseId: useCaseId,
             // Add schoolId conditionally
         }
@@ -110,10 +112,10 @@ const useActivity = (): IUseActivity => {
             if (!loading) {
                 setloading1(false)
                 setIsShowModal(true)
-                setTimeout(() => {
-                    setIsShowModal(false)
-                }, 3000)
             }
+            setTimeout(() => {
+                setIsShowModal(false)
+            }, 5000)
         } catch (errors: any) {
             setloading1(false)
             setError(errors.response)

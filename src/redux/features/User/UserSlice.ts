@@ -41,6 +41,7 @@ export interface UserDataInitialState {
     UserData: GetuserBySchoolResTypes
     loading: boolean
     userId: registerDataType
+    userRole: string
     error: string | undefined
 }
 const initialState: UserDataInitialState = {
@@ -63,6 +64,7 @@ const initialState: UserDataInitialState = {
         totalPages: 0,
         currentPage: 0,
     },
+    userRole: null!,
     userId: null!,
     loading: false,
     error: '',
@@ -106,6 +108,9 @@ const UserSlice = createSlice({
         setUserListId: (state, action: PayloadAction<registerDataType>) => {
             state.userId = action.payload
         },
+        setUserRole: (state, action: PayloadAction<string>) => {
+            state.userRole = action.payload
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -127,5 +132,5 @@ const UserSlice = createSlice({
             })
     },
 })
-export const { setUserListId } = UserSlice.actions
+export const { setUserListId, setUserRole } = UserSlice.actions
 export default UserSlice.reducer

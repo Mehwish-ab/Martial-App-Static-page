@@ -30,11 +30,13 @@ import { useAppSelector } from '../../../app/hooks'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import useActivity from '../../../hooks/useActivity'
 import { getActivityBySchoolId } from '../../../redux/features/activity/activitySlice'
+import useInstructor from '../../../hooks/useInstructor'
 
 const CreateActivity = (): JSX.Element => {
-    const { schoolId } = useParams()
+    const { id } = useParams()
     const [isShowModal, setIsShowModal] = useState(false)
-
+    const { userRole } = useSelector((state: RootState) => state.UserData)
+    console.log('id from param', id)
     const initialValues: ActivityInitialValues = {
         activityId: '',
         selectedActivities: '',
@@ -48,8 +50,18 @@ const CreateActivity = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('createActivity')
     const navigate = useNavigate()
     const { getSchoolbyId } = useSchool()
+    const { getInstructorbyid } = useInstructor()
     const [selectedFiles, setSelectedFiless] = useState<File | null>(null)
     const { handleCreateSubmit, Createmodal } = useActivity()
+    let roleId = null as any
+    let useCase = ''
+    if (userRole === 'school') {
+        roleId = id
+        useCase = 'SCHOOL'
+    } else if (userRole === 'instructor') {
+        roleId = id
+        useCase = 'Instructor'
+    }
     const onSubmit = async (values: ActivityInitialValues): Promise<void> => {
         // Perform your form submission logic here
 
@@ -62,7 +74,8 @@ const CreateActivity = (): JSX.Element => {
         const file = values.latestCertification
             ? values.latestCertification
             : ' '
-        await handleCreateSubmit(formattedValues, file, schoolId)
+        console.log('roleId', roleId)
+        await handleCreateSubmit(formattedValues, file, roleId, useCase)
         // After successful form submission, show the modal
         setIsShowModal(true)
         //setIsActivityModalVisible(true)
@@ -113,26 +126,56 @@ const CreateActivity = (): JSX.Element => {
     const { activityData } = useSelector(
         (state: RootState) => state.activityData
     )
-    console.log('activity data from redux', activityData)
+    console.log('activity data from redux', userRole)
     const [schoolData, setschoolData] = useState<SchoolDataType>()
     const [OwnerData, setOwnerData] = useState<OwnerDataTypes>()
     useEffect(() => {
-        store.dispatch(getActivityBySchoolId(schoolId as string))
-    }, [schoolId])
+        if (userRole === 'school') {
+            const payload = {
+                roleId,
+                useCase,
+            }
+            store.dispatch(getActivityBySchoolId(payload))
+        } else if (userRole === 'instructor') {
+            const payload = {
+                roleId,
+                useCase,
+            }
+            store.dispatch(getActivityBySchoolId(payload))
+        }
+    }, [roleId])
     useEffect(() => {
         const fetchData = async (): Promise<void> => {
-            try {
-                const response: any = await getSchoolbyId(Number(schoolId))
-                setschoolData(response)
-                setOwnerData(response.ownerData)
+            if (userRole === 'school') {
+                try {
+                    const response: any = await getSchoolbyId(Number(roleId))
+                    setschoolData(response)
+                    setOwnerData(response.ownerData)
 
-                console.log('response of school ', response)
+                    console.log('response of school ', response)
 
-                // eslint-disable-next-line @typescript-eslint/no-shadow
-            } catch (error) {
-                // setError('Error fetching data')
-            } finally {
-                // setLoading(false)
+                    // eslint-disable-next-line @typescript-eslint/no-shadow
+                } catch (error) {
+                    // setError('Error fetching data')
+                } finally {
+                    // setLoading(false)
+                }
+            } else if (userRole === 'instructor') {
+                try {
+                    const response: any = await getInstructorbyid(
+                        Number(roleId)
+                    )
+                    setschoolData(response)
+                    setOwnerData(response.ownerData)
+
+                    console.log('response of instructor ', response)
+
+                    // eslint-disable-next-line @typescript-eslint/no-shadow
+                } catch (error) {
+                    // setError('Error fetching data')
+                } finally {
+                    // setLoading(false)
+                }
             }
         }
 
@@ -155,14 +198,13 @@ const CreateActivity = (): JSX.Element => {
                 console.log({ exp })
                 return !!(exp && (exp.experienceLevelId || exp.beltId))
             })
-            checkAllActivitites && navigate(`/school/view/${schoolId}`)
-            console.log(
-                { checkAllActivitites },
-                { selectedActivities },
-                { activityData }
-            )
+            if (userRole === 'school') {
+                checkAllActivitites && navigate(`/school/view/${roleId}`)
+            } else if (userRole === 'instructor') {
+                checkAllActivitites && navigate(`/instructor/view/${roleId}`)
+            }
         }
-    }, [schoolId, selectedActivities])
+    }, [roleId, selectedActivities])
 
     const showExperience = (activityId: string): SelectOptionsDataTypes[] => {
         const actIndex = activities.findIndex(

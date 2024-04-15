@@ -9,7 +9,7 @@ import {
     pureDark,
     tertiaryBlue2,
 } from '../../../components/GlobalStyle'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import plusIcon from '../../../assets/icons/ic_plus.svg'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 import { useSelector } from 'react-redux'
@@ -115,6 +115,7 @@ const ListTimeTable: React.FC = () => {
     const { timeTableData } = useSelector(
         (state: RootState) => state.timeTableData
     )
+    const { classId } = useParams()
     const [Id, setId] = useState(0)
     const [AllTimetable, setAllTimetable] = useState<
         | {
@@ -138,7 +139,7 @@ const ListTimeTable: React.FC = () => {
 
     useEffect(() => {
         console.log('hi use effect')
-        store.dispatch(getTimetableByUserId())
+        store.dispatch(getTimetableByUserId(classId))
     }, [])
     // const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | undefined>(undefined)

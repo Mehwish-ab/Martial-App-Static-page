@@ -44,7 +44,7 @@ const InformationTimeTableSheet: React.FC = () => {
         fetchTimeTableSlots()
     }, [])
 
-    const { loading } = useSelector((state: RootState) => state.timeTableData)
+    // const { loading } = useSelector((state: RootState) => state.timeTableData)
 
     const navigation = (
         record: TimeTableDataType,
@@ -217,7 +217,7 @@ const InformationTimeTableSheet: React.FC = () => {
 
     return (
         <>
-            {loading && <LoadingOverlay message="" />}
+            {/* {loading && <LoadingOverlay message="" />} */}
             <InformationTimeTableStyle>
                 <Table
                     columns={columns}

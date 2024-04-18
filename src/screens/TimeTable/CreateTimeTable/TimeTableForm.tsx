@@ -17,12 +17,14 @@ import { Formik } from 'formik'
 import { CreateTimeTableInitialValues } from '../constant'
 import { Form } from 'antd'
 import { useAppSelector } from '../../../app/hooks'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import * as Yup from 'yup'
 import Head from '../../../components/Head/Head'
 import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../redux/store'
+import store, { RootState } from '../../../redux/store'
+import useRoom from '../../../hooks/useRoom'
+import { getInstructorByUserId } from '../../../redux/features/instructor/instructorSlice'
 
 interface TimeTableFormProps {
     setNewTimetable: React.Dispatch<React.SetStateAction<any>>
@@ -33,9 +35,11 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
     const { getLabelByKey } = useScreenTranslation('createTImeTable')
 
     const { data: loginData } = useAppSelector((state) => state.loginData)
-
+    const { classId } = useParams()
     const navigate = useNavigate()
-
+    const { instructorData } = useSelector(
+        (state: RootState) => state.instructorData
+    )
     useEffect(() => {}, [])
     const { handleCreateSubmit, Createmodal, loading, setIsShowModal } =
         useTimetable()
@@ -46,8 +50,12 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
         isRepeated: 0,
         startDate: '',
         endDate: '',
+        activities: [],
+        roomId: '',
+        instructorId: '',
     }
 
+    const { getallRoombyUC, room } = useRoom()
     const validationSchema = Yup.object({
         title: Yup.string().required('Please Enter Valid Name'),
         isRepeated: Yup.string()
@@ -74,13 +82,15 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
             values.startDate,
             'dddd, MMM DD, YYYY'
         ).format('YYYY-MM-DD')
+        console.log('values of timetable', values)
         const data = await handleCreateSubmit(
             {
                 ...values,
                 startDate: backendFormattedstartDate,
                 endDate: backendFormattedDate,
             },
-            Number(loginData?.userDetails.id)
+            Number(loginData?.userDetails.id),
+            Number(classId)
         )
 
         console.log(data.timetableId, 'dataaa')
@@ -97,6 +107,23 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
+    useEffect(() => {
+        const fetchData = async (): Promise<void> => {
+            store.dispatch(getInstructorByUserId())
+            try {
+                if (loginData?.schoolId) {
+                    await getallRoombyUC(Number(loginData?.schoolId), 'SCHOOL')
+                }
+                // eslint-disable-next-line @typescript-eslint/no-shadow
+            } catch (error) {
+                /// setError('Error fetching data')
+            } finally {
+                //  setLoading(false)
+            }
+        }
+
+        fetchData()
+    }, [])
 
     const showActivities = (_activities: string[]): string => {
         let activitiesName = ''
@@ -197,10 +224,10 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                         <Col md="6" className="mt-20">
                                             <FormControl
                                                 control="date"
-                                                disabled={
-                                                    formik.values.isRepeated !==
-                                                    1
-                                                }
+                                                // disabled={
+                                                //     formik.values.isRepeated !==
+                                                //     1
+                                                // }
                                                 type="date"
                                                 name="endDate"
                                                 labelFamily={fontFamilyRegular}
@@ -214,28 +241,74 @@ const TimeTableForm: React.FC<TimeTableFormProps> = ({
                                         </Col>
                                         <Col md="6">
                                             <CheckboxesSelect
+                                                name="activities"
+                                                label={getLabelByKey(
+                                                    'activites'
+                                                )}
                                                 list={activities}
-                                                name="selectedActivities"
-                                                label="Activity"
                                                 showErrorMsgInList={false}
-                                                // placeholder={showActivities(
-                                                //     formik.values
-                                                //         .selectedActivities
-                                                // )}
+                                                placeholder={showActivities(
+                                                    formik.values.activities
+                                                )}
                                             />
                                         </Col>
                                         <Col md="6" className="mt-20">
                                             <FormControl
                                                 control="select"
                                                 type="text"
-                                                name="rooms"
-                                                label="Rooms"
+                                                name="roomId"
+                                                label={getLabelByKey('room')}
                                                 padding="8px 10px"
                                                 fontFamily={fontFamilyRegular}
                                                 fontSize="16px"
                                                 max={6}
-                                                placeholder="Select Rooms"
-                                            />
+                                                placeholder={getLabelByKey(
+                                                    'roomPlaceholder'
+                                                )}
+                                            >
+                                                {room?.data.map((Room: any) => (
+                                                    <option
+                                                        key={Room.roomId}
+                                                        value={Room.roomId}
+                                                    >
+                                                        {Room.roomNumber}
+                                                    </option>
+                                                ))}
+                                            </FormControl>
+                                        </Col>
+                                        <Col md="6" className="mt-20">
+                                            <FormControl
+                                                control="select"
+                                                type="text"
+                                                name="instructorId"
+                                                label={getLabelByKey(
+                                                    'instructors'
+                                                )}
+                                                padding="8px 10px"
+                                                fontFamily={fontFamilyRegular}
+                                                fontSize="16px"
+                                                max={6}
+                                                placeholder={getLabelByKey(
+                                                    'InstructorsPlaceholder'
+                                                )}
+                                            >
+                                                {instructorData.data.map(
+                                                    (instructor) => (
+                                                        <option
+                                                            key={
+                                                                instructor.instructorId
+                                                            }
+                                                            value={
+                                                                instructor.instructorId
+                                                            }
+                                                        >
+                                                            {
+                                                                instructor.instructorName
+                                                            }
+                                                        </option>
+                                                    )
+                                                )}
+                                            </FormControl>
                                         </Col>
                                     </Row>
                                     <div className="mt-20 d-flex justify-content-end">

@@ -5,6 +5,7 @@ import FormControl from '../../../components/FormControl'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import CreateUserStyle from './style'
 import { ScrollView } from 'react-native'
+import ic_success from '../../../assets/images/ic_success.svg'
 
 import {
     fontFamilyMedium,
@@ -15,17 +16,12 @@ import Head from '../../../components/Head/Head'
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 // import EnnvisionModal from "../../../components/CustomModals/EnnvisionModal";
-// import CustomModal from "../../../components/Modal/CustomModal";
+import CustomModal from '../../../components/Modal/CustomModal'
 import { useAppSelector } from '../../../app/hooks'
 import { validationFinder } from '../../../utils/utilities'
 import { toast } from 'react-toastify'
 import axios from 'axios'
-import {
-    auth_token_key,
-    base_url,
-    login_url,
-    signup_url,
-} from '../../../utils/api_urls'
+import { signup_url } from '../../../utils/api_urls'
 import Errormsg from '../../../components/ErrorMessage'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { SCREEN_LABEL_KEYS } from './constant'
@@ -34,12 +30,8 @@ import Input from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
-import OauthLogin from '../../../components/Common/OauthLogin/OauthLogin'
-import { OAUTH_USECASES } from '../../../components/Common/OauthLogin/constants'
-import TermsAndConditions from '../../../components/TermsAndConditions/TermsAndConditions'
-import MessageModal from '../../../components/Common/MessageModal/MessageModal'
-import AppLayout from '../../../components/Layout/Layout'
 import { setUserId } from '../../../redux/features/loginDataSlice'
+import { SchoolSuccessfulModals } from '../../../hooks/PopupModalsStyling'
 
 // create user initial values types
 type initialValuesType = {
@@ -59,10 +51,12 @@ const RegisterUser = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('registerScreen')
     const { loginData } = useSelector((state: RootState) => state)
     const scrollViewRef = useRef<ScrollView>(null)
+    const [showModal, setShowModal] = useState(false)
     const navigate = useNavigate()
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
+
     const initialValues: initialValuesType = {
         firstName: '',
         lastName: '',
@@ -185,25 +179,21 @@ const RegisterUser = (): JSX.Element => {
             setIsLoading(true)
             const response = await axios.post(signup_url, userData)
             console.log('response of register', response)
-            toast(
-                <MessageModal
-                    message="Account Created Successfully!"
-                    description="Thank You For Joining Us And We're Excited To Have You On Board"
-                    type="success"
-                />,
-                {
-                    autoClose: 1000,
-                }
-            )
-            console.log('response', response, userRole)
-            dispatch(setUserId(response?.data?.results.userId))
-            if (userRole === 'school') {
-                navigate('/school/create')
-            } else if (userRole === 'instructor') {
-                navigate('/instructor/create')
+            if (response.data.responseCode === 200) {
+                setShowModal(true)
+                setTimeout(() => {
+                    setShowModal(false)
+                    dispatch(setUserId(response?.data?.results.userId))
+                    if (userRole === 'school') {
+                        navigate('/school/create')
+                    } else if (userRole === 'instructor') {
+                        navigate('/instructor/create')
+                    }
+
+                    setIsLoading(false)
+                }, 2000)
             }
 
-            setIsLoading(false)
             // eslint-disable-next-line prettier/prettier, @typescript-eslint/no-explicit-any
         } catch (error: any) {
             setIsLoading(false)
@@ -218,6 +208,28 @@ const RegisterUser = (): JSX.Element => {
     return (
         <>
             <Head title="Register" />
+            <CustomModal
+                isModalVisible={showModal}
+                setIsModalVisible={setShowModal}
+            >
+                <SchoolSuccessfulModals>
+                    <div className="mainContainer d-flex flex-column align-items-center">
+                        <img
+                            src={ic_success}
+                            alt="error Icon"
+                            width={65}
+                            height={65}
+                        />
+                        <h3 className="mainContainer-heading text-center">
+                            Account Created Successfully!
+                        </h3>
+                        <p className="mainContainer-subText text-center">
+                            Thank You For Joining Us And We are Excited To Have
+                            You On Board
+                        </p>
+                    </div>
+                </SchoolSuccessfulModals>
+            </CustomModal>
             <CreateUserStyle>
                 <div className="inner-container">
                     <div className="inner-container-card">

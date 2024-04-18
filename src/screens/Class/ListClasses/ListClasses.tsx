@@ -209,7 +209,7 @@ const ListClass = (): JSX.Element => {
                 break
 
             case 'timeTable':
-                navigate(`/timetable/list${record.classId}`)
+                navigate(`/timetable/list/${record.classId}`)
         }
     }
 

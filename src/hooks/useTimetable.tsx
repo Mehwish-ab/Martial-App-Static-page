@@ -23,7 +23,7 @@ import {
 import { Col, Row } from 'react-bootstrap'
 import { SchoolSuccessfulModals } from './PopupModalsStyling'
 import { CreateTimeTableInitialValues } from '../screens/TimeTable/constant'
-import { getTimetableByUserId } from '../redux/features/TimeTable/TimeTableSlice'
+import { TimeTableDataType } from '../redux/features/TimeTable/TimeTableSlice'
 
 interface CommonResponseProps {
     responseCode: number
@@ -61,12 +61,13 @@ interface IUseTimetable {
     loading: boolean
     handleCreateSubmit: (
         values: CreateTimeTableInitialValues,
-        schoolId: number
+        userId: number,
+        classId: number
     ) => Promise<any>
 
     createSlots: (props: CreateSlotsProps) => Promise<any>
     getTimetableSlot: (timeTableid: number) => Promise<any>
-    getAllTimetable: (userid: number) => Promise<any>
+    getAllTimetable: (userid: number, classId: number) => Promise<any>
     getTimetableById: (timeTableId: number) => Promise<any>
     getAllUserPagination: (userid: number, page: number) => Promise<any>
 
@@ -98,6 +99,7 @@ interface IUseTimetable {
     deleteConfirmation: (id: number) => IModalComponent
     setIsShowModal: (showModal: true) => void
     setIsShowWarningModal: (showModal: true) => void
+    AllTimetable: any
 }
 
 const useTimetable = (): IUseTimetable => {
@@ -105,6 +107,14 @@ const useTimetable = (): IUseTimetable => {
     const [errorMessage, setError] = useState('')
     const [isUploadImgModalVisible, setIsUploadImgVisible] = useState(false)
     const [isShowWarningModal, setIsShowWarningModal] = useState(false)
+    const [AllTimetable, setAllTimetable] = useState<
+        | {
+              currentPage: number
+              totalItems: number | undefined
+              data: TimeTableDataType[]
+          }
+        | undefined
+    >(undefined)
 
     const toastId = useRef<any>(null)
     const { data: logindata } = useAppSelector(
@@ -122,7 +132,8 @@ const useTimetable = (): IUseTimetable => {
     // to create timetable
     const handleCreateSubmit = async (
         values: CreateTimeTableInitialValues,
-        schoolId: number
+        userId: number,
+        classId: number
     ): Promise<any> => {
         // const userDetails = loginData.data?.userDetails
         let valu = null
@@ -130,11 +141,15 @@ const useTimetable = (): IUseTimetable => {
         if (values.endDate === 'Invalid date') valu = null
         else valu = values.endDate
         const payload = {
-            userId: schoolId,
+            userId: userId,
             title: values.title,
             isRepeated: values.isRepeated === 1 ? true : false,
             startDate: values.startDate,
-            endDate: valu,
+            endDate: values.endDate,
+            activities: values.activities.join(','),
+            roomIds: values.roomId,
+            instructorIds: values.instructorId,
+            classId: classId,
 
             // ...(schoolId && { schoolId }), // Add schoolId conditionally
         }
@@ -290,7 +305,10 @@ const useTimetable = (): IUseTimetable => {
         }
     }
     //get all timetable of user
-    const getAllTimetable = async (userid: number): Promise<any> => {
+    const getAllTimetable = async (
+        userid: number,
+        classId: number
+    ): Promise<any> => {
         const url = '/timetable/getAll'
         console.log('>> im in getAllTimetable button')
         try {
@@ -298,7 +316,7 @@ const useTimetable = (): IUseTimetable => {
             setLoading(true)
             const { data: data3 } = await axios.post(
                 url,
-                { userId: userid },
+                { userId: userid, classId: classId },
                 {
                     headers: {
                         ...authorizationToken(loginData.data as loginDataTypes),
@@ -312,15 +330,9 @@ const useTimetable = (): IUseTimetable => {
                 })
                 setLoading(false)
                 console.log('add timetable list', data3.results.data)
-
-                return data3.results.data
             }
             setLoading(false)
-            //setIsShowModal(true)
-            setTimeout(() => {
-                //   setIsShowModal(false)
-                //navigate("/school/view");
-            }, 3000)
+            setAllTimetable(data3.results)
 
             // console.log(
             //   "hello",
@@ -328,7 +340,7 @@ const useTimetable = (): IUseTimetable => {
             //     return pic;
             //   })
             // );
-            return data3.results
+            // return data3.results
         } catch (e: any) {
             console.log('api error', errorMessage)
             setError((errorMessage as any).response.data.responseMessage)
@@ -417,8 +429,7 @@ const useTimetable = (): IUseTimetable => {
             }
 
             setLoading(false)
-
-            return allschool.results
+            setAllTimetable(allschool.results)
         } catch (error: any) {
             console.log({ error })
             setLoading(false)
@@ -808,6 +819,7 @@ const useTimetable = (): IUseTimetable => {
         deleteTimeTable,
         errorMessage,
         isUploadImgModalVisible,
+        AllTimetable,
         setIsUploadImgVisible,
         deletemodal,
         Createmodal,

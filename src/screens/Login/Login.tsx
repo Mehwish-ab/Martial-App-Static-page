@@ -4,6 +4,7 @@ import * as Yup from 'yup'
 import { Form } from 'antd'
 import FormControl from '../../components/FormControl'
 import CustomButton from '../../components/CustomButton/CustomButton'
+import ic_error from '../../assets/icons/ic_error.svg'
 import {
     fontFamilyMedium,
     lightBlue3,
@@ -26,10 +27,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import store, { RootState } from '../../redux/store'
 import MessageModal from '../../components/Common/MessageModal/MessageModal'
 import { setLoginData } from '../../redux/features/loginDataSlice'
-import UseOauthLogin from '../../hooks/useOauthLogin'
 import { getSchoolByUserId } from '../../redux/features/dashboard/dashboardDataSlice'
 import logo from '../../assets/icons/ic_logo_login.svg'
 import Loader from '../../components/Loader/Loader'
+import CustomModal from '../../components/Modal/CustomModal'
+import ic_success from '../../assets/images/ic_success.svg'
+import { SchoolSuccessfulModals } from '../../hooks/PopupModalsStyling'
 
 // initial values types
 type loginValuesType = {
@@ -39,17 +42,13 @@ type loginValuesType = {
 
 const Login = (): JSX.Element => {
     const navigate = useNavigate()
-    const [terms, setTerms] = useState(false)
-    const [showTermsError] = useState(false)
     const [loading, setloading] = useState(false)
     const { getLabelByKey } = useScreenTranslation('loginScreen')
-    const { loading: oAuthLoading } = UseOauthLogin()
+    const [errorModal, setErrorModal] = useState(false)
+    const [showModal, setShowModal] = useState(false)
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
-    console.log('login 5')
-    // console.log("screenTranslation", screenTranslation);
-    // initial values
     const initialValues: loginValuesType = {
         emailAddress: '',
         password: '',
@@ -92,46 +91,79 @@ const Login = (): JSX.Element => {
         // }
         try {
             setloading(true)
-            const {
-                data: { results },
-            } = await axios.post(base_url + login_url, values)
-            localStorage.setItem(auth_token_key, JSON.stringify(results))
-            dispatch(setLoginData(results))
-            toast(
-                <MessageModal
-                    message="Successful"
-                    description="You are successfully logged in to your account."
-                    type="success"
-                />,
-                {
-                    autoClose: 1000,
-                }
+            const response = await axios.post(base_url + login_url, values)
+            console.log('login results', response.data.results)
+            localStorage.setItem(
+                auth_token_key,
+                JSON.stringify(response.data.results)
             )
+            dispatch(setLoginData(response.data.results))
+            if (response.data.responseCode === 200) {
+                setShowModal(true)
+                setTimeout(() => {
+                    setShowModal(false)
+                    if (response.data?.results.schoolId)
+                        store.dispatch(getSchoolByUserId())
+                    navigate('/dashboard')
+                }, 1000)
+            }
             setloading(false)
-            if (results.schoolId) store.dispatch(getSchoolByUserId())
-            navigate('/dashboard')
         } catch (error: any) {
             setloading(false)
             if (error.code) {
-                toast(
-                    <MessageModal
-                        message={error.response.data.responseMessage}
-                        description="Please enter correct email or password"
-                        type="error"
-                    />
-                )
-                return
+                setErrorModal(true)
+                setTimeout(() => {
+                    setErrorModal(false)
+                }, 1000)
             }
-            toast(error.response.data.responseMessage, {
-                type: 'error',
-                autoClose: 1000,
-            })
         }
     }
 
     return (
         <>
             <Head title="Login" />
+            <CustomModal
+                isModalVisible={showModal || errorModal}
+                setIsModalVisible={setShowModal || setErrorModal}
+            >
+                <SchoolSuccessfulModals>
+                    <div className="mainContainer d-flex flex-column align-items-center">
+                        <img
+                            src={ic_success}
+                            alt="error Icon"
+                            width={29}
+                            height={29}
+                        />
+                        <h3 className="mainContainer-heading text-center">
+                            Account Log in Successfully!
+                        </h3>
+                        <p className="mainContainer-subText text-center">
+                            You are successfully logged in to your account.
+                        </p>
+                    </div>
+                </SchoolSuccessfulModals>
+            </CustomModal>
+            <CustomModal
+                isModalVisible={errorModal}
+                setIsModalVisible={setErrorModal}
+            >
+                <SchoolSuccessfulModals>
+                    <div className="mainContainer d-flex flex-column align-items-center">
+                        <img
+                            src={ic_error}
+                            alt="error Icon"
+                            width={29}
+                            height={29}
+                        />
+                        <h3 className="mainContainer-heading text-center">
+                            BAD_REQUEST
+                        </h3>
+                        <p className="mainContainer-subText text-center">
+                            Please enter correct email or password
+                        </p>
+                    </div>
+                </SchoolSuccessfulModals>
+            </CustomModal>
             <LoginStyle>
                 <div className="login-container overflow-auto">
                     <div className="login-container-card">

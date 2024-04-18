@@ -42,14 +42,17 @@ const ListSchool = (): JSX.Element => {
         setIsShowModal,
         SuccessModal,
         WarningModal,
+        AllSchools,
         getAllSchool,
         getAllSchoolPagination,
     } = useCreateSchool()
+
     const {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
     const { schoolId } = useParams()
     const [Id, setId] = useState(0)
+
     console.log('activites fro state', activities)
     const navigate = useNavigate()
     const { loginData } = useSelector((state: RootState) => state)
@@ -57,15 +60,6 @@ const ListSchool = (): JSX.Element => {
     const [error, setError] = useState<string | undefined>(undefined)
     const [currentPage, setCurrentPage] = useState(1)
     const pageSize = 10
-
-    const [AllSchools, setAllSchools] = useState<
-        | {
-              currentPage: number
-              totalItems: number | undefined
-              data: SchoolDataType[]
-          }
-        | undefined
-    >(undefined)
 
     const customItemRender = (
         current: any,
@@ -80,14 +74,16 @@ const ListSchool = (): JSX.Element => {
         }
         return originalElement
     }
+
     useEffect(() => {
         const fetchData = async (): Promise<void> => {
             try {
-                const response: any = await getAllSchool(
+                await getAllSchool(
                     String(loginData.data?.userDetails.countryName)
                 )
-                console.log({ response })
-                setAllSchools(response)
+                // console.log({ response })
+
+                // setAllSchools(response)
                 // eslint-disable-next-line @typescript-eslint/no-shadow
             } catch (error) {
                 setError('Error fetching data')
@@ -98,6 +94,7 @@ const ListSchool = (): JSX.Element => {
 
         fetchData()
     }, [])
+
     const handlePaginationChange = async (page: number): Promise<void> => {
         try {
             setLoading(true)
@@ -106,7 +103,7 @@ const ListSchool = (): JSX.Element => {
                 String(loginData.data?.userDetails.countryName),
                 page - 1
             )
-            setAllSchools(response)
+            // setAllSchools(response)
             // eslint-disable-next-line @typescript-eslint/no-shadow
         } catch (error: unknown) {
             setError('Error fetching data')
@@ -116,6 +113,7 @@ const ListSchool = (): JSX.Element => {
         setCurrentPage(page)
     }
     const { data: logindata } = useAppSelector((state) => state.loginData)
+
     useEffect(() => {
         const fetchData = async (page: number): Promise<void> => {
             try {
@@ -124,7 +122,8 @@ const ListSchool = (): JSX.Element => {
                     String(loginData.data?.userDetails.countryName),
                     page
                 )
-                setAllSchools(response)
+
+                //setAllSchools(response)
                 // eslint-disable-next-line @typescript-eslint/no-shadow
             } catch (error) {
                 setError('Error fetching data')
@@ -214,6 +213,7 @@ const ListSchool = (): JSX.Element => {
                 break
         }
     }
+
     const { businessTypes } = useSelector(
         (state: RootState) => state.appData.data.dropdowns
     )
@@ -240,6 +240,7 @@ const ListSchool = (): JSX.Element => {
         }
         return activitiesName
     }
+
     const showBusinessType = (_businessType: number): string => {
         const index = businessTypes.findIndex((business: any) => {
             return business.id === _businessType
@@ -252,6 +253,95 @@ const ListSchool = (): JSX.Element => {
         return '--'
     }
     // Function to get activity name by index and language
+
+    const [schoolExist, setSchoolExist] = useState(false)
+    const initialValues = (): void => {}
+    const handleCreateSubmit = (): void => {}
+    console.log('school exist', schoolExist)
+
+    const RenderTableTitle = (): JSX.Element => {
+        return (
+            <CustomDiv>
+                <Formik
+                    initialValues={initialValues}
+                    // validationSchema={validationSchema}
+                    onSubmit={handleCreateSubmit}
+                >
+                    {(formik) => {
+                        return (
+                            <Form
+                                name="basic"
+                                // onFinish={formik.handleSubmit}
+                                autoComplete="off"
+                            >
+                                <div className="mainWrapper">
+                                    <h3 className="table-heading">Schools</h3>
+                                    <div className="FilterMainContainer">
+                                        <div className="arrowsMain">
+                                            <div className="arrowRight">
+                                                <img
+                                                    src={LeftArrow}
+                                                    alt="Date"
+                                                    width={18}
+                                                    height={12}
+                                                />
+                                            </div>
+                                            <div className="arrowLeft">
+                                                <img
+                                                    src={RightArrow}
+                                                    alt="Date"
+                                                    width={18}
+                                                    height={12}
+                                                />
+                                            </div>
+                                        </div>
+                                        <FormControl
+                                            control="startEndDate"
+                                            type="startEndDate"
+                                            name="startDate"
+                                            fontFamily={fontFamilyRegular}
+                                            padding="8px 10px"
+                                        />
+                                        <div className="todayPlusContainer">
+                                            <div className="dateToday">
+                                                <p>Today</p>
+                                            </div>
+                                            <CustomButton
+                                                bgcolor={tertiaryBlue2}
+                                                textTransform="Captilize"
+                                                color={pureDark}
+                                                padding="6.5px 0px"
+                                                fontFamily={`${fontFamilyMedium}`}
+                                                width="40px"
+                                                type="submit"
+                                                title=""
+                                                fontSize="17px"
+                                                // loading={loading}
+                                                icon={
+                                                    <img
+                                                        src={plusIcon}
+                                                        alt="edit icon"
+                                                        width={17}
+                                                        height={17}
+                                                    />
+                                                }
+                                                clicked={() => {
+                                                    store.dispatch(
+                                                        setUserRole('school')
+                                                    )
+                                                    navigate(`/user/list`)
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </Form>
+                        )
+                    }}
+                </Formik>
+            </CustomDiv>
+        )
+    }
 
     const columns: ColumnsType<SchoolDataType> = [
         {
@@ -362,9 +452,9 @@ const ListSchool = (): JSX.Element => {
                     {
                         key: '3',
                         label: 'Update Status',
-                        onClick: () => {
-                            navigation(record, 'activity')
-                        },
+                        // onClick: () => {
+                        //     navigation(record, 'activity')
+                        // },
                     },
                     {
                         key: '5',
@@ -381,7 +471,7 @@ const ListSchool = (): JSX.Element => {
                     {
                         key: '6',
                         label: 'Explore More',
-                        onClick: () => navigation(record, 'branch'),
+                        // onClick: () => navigation(record, 'branch'),
                     },
                 ]
                 const menu = (
@@ -417,93 +507,6 @@ const ListSchool = (): JSX.Element => {
             },
         },
     ]
-    const [schoolExist, setSchoolExist] = useState(false)
-    const initialValues = (): void => {}
-    const handleCreateSubmit = (): void => {}
-    console.log('school exist', schoolExist)
-    const RenderTableTitle = (): JSX.Element => {
-        return (
-            <CustomDiv>
-                <Formik
-                    initialValues={initialValues}
-                    // validationSchema={validationSchema}
-                    onSubmit={handleCreateSubmit}
-                >
-                    {(formik) => {
-                        return (
-                            <Form
-                                name="basic"
-                                // onFinish={formik.handleSubmit}
-                                autoComplete="off"
-                            >
-                                <div className="mainWrapper">
-                                    <h3 className="table-heading">Schools</h3>
-                                    <div className="FilterMainContainer">
-                                        <div className="arrowsMain">
-                                            <div className="arrowRight">
-                                                <img
-                                                    src={LeftArrow}
-                                                    alt="Date"
-                                                    width={18}
-                                                    height={12}
-                                                />
-                                            </div>
-                                            <div className="arrowLeft">
-                                                <img
-                                                    src={RightArrow}
-                                                    alt="Date"
-                                                    width={18}
-                                                    height={12}
-                                                />
-                                            </div>
-                                        </div>
-                                        <FormControl
-                                            control="startEndDate"
-                                            type="startEndDate"
-                                            name="startDate"
-                                            fontFamily={fontFamilyRegular}
-                                            padding="8px 10px"
-                                        />
-                                        <div className="todayPlusContainer">
-                                            <div className="dateToday">
-                                                <p>Today</p>
-                                            </div>
-                                            <CustomButton
-                                                bgcolor={tertiaryBlue2}
-                                                textTransform="Captilize"
-                                                color={pureDark}
-                                                padding="6.5px 0px"
-                                                fontFamily={`${fontFamilyMedium}`}
-                                                width="40px"
-                                                type="submit"
-                                                title=""
-                                                fontSize="17px"
-                                                // loading={loading}
-                                                icon={
-                                                    <img
-                                                        src={plusIcon}
-                                                        alt="edit icon"
-                                                        width={17}
-                                                        height={17}
-                                                    />
-                                                }
-                                                clicked={() => {
-                                                    store.dispatch(
-                                                        setUserRole('school')
-                                                    )
-                                                    navigate(`/user/list`)
-                                                }}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </Form>
-                        )
-                    }}
-                </Formik>
-            </CustomDiv>
-        )
-    }
 
     // useEffect(() => {
     //     store.dispatch(getBranchBySchoolId())
@@ -517,7 +520,7 @@ const ListSchool = (): JSX.Element => {
     // }
 
     // const rowSelection = { selectedRowKeys, onChange: onSelectChange }
-
+    console.log('AllSchools', AllSchools)
     return (
         <>
             <Head title="School List" />

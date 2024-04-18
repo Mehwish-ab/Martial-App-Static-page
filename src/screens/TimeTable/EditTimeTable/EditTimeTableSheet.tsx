@@ -126,7 +126,7 @@ const EditTimeTableSheet: React.FC = () => {
         TableDateSourceProps[]
     >([])
 
-    const { loading } = useSelector((state: RootState) => state.timeTableData)
+    // const { loading } = useSelector((state: RootState) => state.timeTableData)
 
     const handleUpdateTableDataSource = (
         _recordIndex: number,
@@ -423,7 +423,7 @@ const EditTimeTableSheet: React.FC = () => {
 
     return (
         <>
-            {loading && <LoadingOverlay message="" />}
+            {/* {loading && <LoadingOverlay message="" />} */}
             <CreateTimeTableStyled>
                 {Createmodal().modalComponent}
                 <Table

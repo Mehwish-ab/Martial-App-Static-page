@@ -492,7 +492,7 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/timetable/create"
+                    path="/timetable/create/:classId"
                     element={
                         <AppLayout>
                             <TimeTableForm setNewTimetable={setNewtimetable} />

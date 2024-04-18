@@ -15,6 +15,8 @@ export interface SchoolDataType {
     businessName: string
     businessType: number | string
     address: string
+    latitude: number
+    longitude: number
     phoneNumber: string
     rank: boolean
     defaultLanguageId: number
@@ -83,6 +85,8 @@ const initialState: DashboardDataInitialState = {
         businessName: '',
         businessType: '0',
         address: '',
+        latitude: 0,
+        longitude: 0,
         phoneNumber: '',
         rank: false,
         defaultCurrencyId: 1,

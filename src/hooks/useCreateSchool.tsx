@@ -24,6 +24,7 @@ import { SchoolSuccessfulModals } from './PopupModalsStyling'
 import CustomMessageModal from '../components/Modal/CustomMessageModal'
 import { setUserRole } from '../redux/features/User/UserSlice'
 import store from '../redux/store'
+import { SchoolDataType } from '../redux/features/dashboard/dashboardDataSlice'
 
 interface IModalComponent {
     modalComponent: JSX.Element
@@ -42,6 +43,7 @@ interface IUseSchool {
         values: CreateSchoolInitialValues
     ) => Promise<void>
     deleteSchool: (userId: number) => Promise<void>
+    AllSchools: any
     errorMessage: string
     isUploadImgModalVisible: boolean
     setIsUploadImgVisible: (param: boolean) => void
@@ -56,6 +58,14 @@ interface IUseSchool {
 }
 
 const useCreateSchool = (): IUseSchool => {
+    const [AllSchools, setAllSchools] = useState<
+        | {
+              currentPage: number
+              totalItems: number | undefined
+              data: SchoolDataType[]
+          }
+        | undefined
+    >(undefined)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [isUploadImgModalVisible, setIsUploadImgVisible] = useState(false)
@@ -87,6 +97,8 @@ const useCreateSchool = (): IUseSchool => {
             businessName: values.businessName || '',
             businessType: values.businessType,
             address: values.address || '',
+            latitude: values.latitude,
+            longitude: values.longitude,
             phoneNumber: values?.businessPhoneNumber || '',
             rank: values.rank === 1 ? true : false,
             defaultLanguageId: values.defaultLanguageId,
@@ -156,6 +168,9 @@ const useCreateSchool = (): IUseSchool => {
         try {
             setError('')
             setLoading(true)
+
+            // const response = store.dispatch(getAllSchoolData(v))
+
             const { data: allSchool } = await axios.post(
                 '/school/getAll',
                 { country: '' },
@@ -165,13 +180,14 @@ const useCreateSchool = (): IUseSchool => {
                     },
                 }
             )
+            setAllSchools(allSchool.results)
             setSuccessMessage(allSchool.responseMessage)
             setIsShowSuccessModal(false)
             setLoading(false)
             setTimeout(() => {
                 setIsShowSuccessModal(false)
             }, 3000)
-            return allSchool.results
+            // return response
         } catch (error2: any) {
             setLoading(false)
             setError(error2.response)
@@ -271,7 +287,8 @@ const useCreateSchool = (): IUseSchool => {
                     },
                 }
             )
-            return allSchool.results
+            setAllSchools(allSchool.results)
+            // return allSchool.results
         } catch (error2: any) {
             setLoading(false)
             setError(error2.response)
@@ -303,6 +320,8 @@ const useCreateSchool = (): IUseSchool => {
                 businessName: values.businessName,
                 businessType: values.businessType,
                 address: values.address,
+                latitude: values.latitude,
+                longitude: values.longitude,
                 phoneNumber: values?.businessPhoneNumber || '',
                 rank: values.rank === 1 ? true : false,
                 defaultLanguageId: values.defaultLanguageId,
@@ -395,6 +414,30 @@ const useCreateSchool = (): IUseSchool => {
                     },
                 }
             )
+
+            const index = AllSchools?.data.findIndex(
+                (school) => school.schoolId === data2.results.id
+            )
+
+            console.log('index of school', index)
+            // If the school is found, remove it from the array
+            if (index !== -1 && index !== undefined) {
+                if (AllSchools) {
+                    const newData = [...AllSchools.data] // Create a copy of the data array
+                    const removedItems = newData.splice(index, 1) // Remove the item at the specified index
+                    if (removedItems.length > 0) {
+                        // Check if any item was removed
+                        setAllSchools({
+                            ...AllSchools,
+                            data: newData, // Update the state with the new array
+                        })
+                    }
+                }
+                //     const AllData = AllSchools?.data.splice(index, 1)
+                //    setAllSchools({ ...AllSchools, data:  AllData})
+            }
+
+            // store.dispatch(deleteSchoolData(data2.results.id))
             const storedObject = JSON.parse(
                 localStorage.getItem('ennvision-admin:token') as any
             )
@@ -408,7 +451,7 @@ const useCreateSchool = (): IUseSchool => {
             setIsShowSuccessModal(true)
             setTimeout(() => {
                 setIsShowSuccessModal(false)
-                navigate('/school/list')
+                // navigate('/school/list')
             }, 3000)
         } catch (error2: any) {
             setLoading(false)
@@ -519,6 +562,7 @@ const useCreateSchool = (): IUseSchool => {
         setIsShowModal,
         editSchool,
         deleteSchool,
+        AllSchools,
         errorMessage,
         isUploadImgModalVisible,
         setIsUploadImgVisible,

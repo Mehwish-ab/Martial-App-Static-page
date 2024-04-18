@@ -398,7 +398,15 @@ const EditBranch = (): JSX.Element => {
                                                 handleChange={(val: any) => {
                                                     formik.setFieldValue(
                                                         'address',
-                                                        val
+                                                        val.selectedAddress
+                                                    )
+                                                    formik.setFieldValue(
+                                                        'latitude',
+                                                        val.latitude
+                                                    )
+                                                    formik.setFieldValue(
+                                                        'longitude',
+                                                        val.longitude
                                                     )
                                                 }}
                                                 className={

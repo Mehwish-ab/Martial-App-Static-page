@@ -9,7 +9,7 @@ import EditTimeTableForm from './EditTimeTableForm'
 import EditTimeTableSheet from './EditTimeTableSheet'
 
 const EditTimeTable: React.FC = () => {
-    const { loading } = useSelector((state: RootState) => state.timeTableData)
+    // const { loading } = useSelector((state: RootState) => state.timeTableData)
 
     const initialValues: CreateTimeTableInitialValues = {
         userId: 0,
@@ -17,10 +17,13 @@ const EditTimeTable: React.FC = () => {
         isRepeated: '',
         startDate: '',
         endDate: '',
+        activities: [],
+        roomId: 0,
+        instructorId: 0,
     }
     return (
         <>
-            {loading && <LoadingOverlay message="" />}
+            {/* {loading && <LoadingOverlay message="" />} */}
             <Formik
                 initialValues={initialValues as FormikValues}
                 onSubmit={() => {}}

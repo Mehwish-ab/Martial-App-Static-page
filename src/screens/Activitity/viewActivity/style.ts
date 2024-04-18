@@ -57,6 +57,7 @@ export const ListActivityStyle = styled.div`
     .ant-table-thead > tr > th:first-child,
     .ant-table-tbody > tr > td:first-child {
         text-align: left;
+        padding: 0px 0px 0px 5px;
     }
     // .ant-table-thead > tr > th:nth-child(0),
     // .ant-table-tbody > tr > td:nth-child(5) {

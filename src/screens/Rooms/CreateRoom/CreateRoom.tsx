@@ -151,9 +151,11 @@ const CreateRoom = (): JSX.Element => {
                                                 control="numberField"
                                                 type="number"
                                                 label={getLabelByKey('height')}
+                                                maxLength="11"
                                                 inchName="lInch"
                                                 feetName="lFeet"
                                                 name="height"
+                                                max="11"
                                                 inchPlaceholder={getLabelByKey(
                                                     'inch'
                                                 )}
@@ -174,16 +176,16 @@ const CreateRoom = (): JSX.Element => {
                                                 type="number"
                                                 label={getLabelByKey('width')}
                                                 inchName="wInch"
-                                                feetName="wFeet"
                                                 maxLength="11"
+                                                feetName="wFeet"
                                                 name="width"
                                                 inchPlaceholder={getLabelByKey(
                                                     'inch'
                                                 )}
+                                                max="11"
                                                 feetPlaceholder={getLabelByKey(
                                                     'feet'
                                                 )}
-                                                max="11"
                                                 className={
                                                     formik.errors.width &&
                                                     formik.touched.width

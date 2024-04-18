@@ -2,14 +2,18 @@
 import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import axios from 'axios'
-import { authorizationToken, edit_school_url } from '../utils/api_urls'
+import {
+    authorizationToken,
+    base_url,
+    create_activity,
+    edit_activity_url,
+    edit_school_url,
+} from '../utils/api_urls'
 import { useDispatch, useSelector } from 'react-redux'
 import store, { RootState } from '../redux/store'
 import { useNavigate, useParams } from 'react-router-dom'
 import { loginDataTypes } from '../redux/features/types'
 
-import { useAppSelector } from '../app/hooks'
-import { CreateClassInitialValues } from '../screens/Class/constant'
 import { Col, Row } from 'react-bootstrap'
 import {
     fontFamilyMedium,
@@ -30,6 +34,7 @@ import {
     updateActivityBySchoolId,
 } from '../redux/features/activity/activitySlice'
 import { ActivityInitialValues } from '../screens/Activitity/constant'
+import CustomMessageModal from '../components/Modal/CustomMessageModal'
 
 interface IModalComponent {
     modalComponent: JSX.Element
@@ -54,14 +59,16 @@ interface IUseActivity {
     ) => Promise<any>
     deletemodal: () => IModalComponent
     Createmodal: () => IModalComponent
-    UpdateModal: () => IModalComponent
+    WarningModal: () => IModalComponent
     ClassStatus: (classid: number, classStatusid: number) => Promise<any>
     getClassbyid: (classid: number) => Promise<any>
     deleteConfirmation: (id: number) => IModalComponent
-    deleteClass: (id: number) => Promise<void>
+    deleteActivity: (id: number) => Promise<void>
     setIsShowModal: (showModal: true) => void
     getClassPegination: (schoolid: number, page: number) => Promise<any>
     getClassbyschoolId: (schoolid: number) => Promise<any>
+    getActivitybySchoolId: (schoolid: number) => Promise<any>
+    AllActivities: any
 }
 
 const useActivity = (): IUseActivity => {
@@ -69,63 +76,121 @@ const useActivity = (): IUseActivity => {
     const [error, setError] = useState('')
     const [isUploadImgModalVisible, setIsUploadImgVisible] = useState(false)
     const toastId = useRef<any>(null)
-    const { schoolId } = useParams()
-    const [isShowWarningModal, setIsShowWarningModal] = useState(false)
     const [isShowModal, setIsShowModal] = useState(false)
     const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
     const navigate = useNavigate()
     const { loginData } = useSelector((state: RootState) => state)
+    const [AllActivities, setAllActivities] = useState([] as any)
+    const [isUpdateModal, setIsUpdateModal] = useState(false)
+    const [isShowSuccessModal, setIsShowSuccessModal] = useState(false)
+    const [isShowErrorModal, setIsShowErrorModal] = useState(false)
+    const [successMessage, setSuccessMessage] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
     const { loading } = useSelector((state: RootState) => state.activityData)
     // to create School
-    const dispatch = useDispatch()
     const handleCreateSubmit = async (
         values: ActivityInitialValues,
         file: any,
         useCaseId: any,
         useCase: string
     ): Promise<void> => {
-        const userDetails = loginData.data?.userDetails
-        console.log('file', file)
-        const payload = {
-            beltId: values.selectBelt ? values.selectBelt : '',
-            activityId: values.activityId,
-            startDate: '2024-02-24',
-            endDate: '2024-02-24',
-            experienceLevelId: values.experience,
-            certificateURL: values.latestCertification
-                ? URL.createObjectURL(values.latestCertification)
-                : '',
-            useCase: useCase,
-            useCaseId: useCaseId,
-            // Add schoolId conditionally
+        try {
+            const payload = {
+                beltId: values.selectBelt ? values.selectBelt : '',
+                activityId: values.activityId,
+                startDate: '2024-02-24',
+                endDate: '2024-02-24',
+                experienceLevelId: values.experience,
+                certificateURL: values.latestCertification
+                    ? URL.createObjectURL(values.latestCertification)
+                    : '',
+                useCase: useCase,
+                useCaseId: useCaseId,
+                // Add schoolId conditionally
+            }
+
+            setError('')
+            setloading1(true)
+            const formData = new FormData()
+
+            formData.append(
+                'data',
+                new Blob([JSON.stringify(payload)], {
+                    type: 'application/json',
+                })
+            )
+
+            formData.append('file', file)
+
+            const response = await axios.post(
+                `${base_url}${create_activity}`,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            console.log('response', response, loading)
+
+            // Updating the state with the new activity added to the existing list
+            if (response.data.responseCode === 200) {
+                setSuccessMessage(response.data.responseMessage)
+                setIsShowSuccessModal(true)
+                setloading1(false)
+                console.log('isUpdate Modal', isUpdateModal)
+                setTimeout(() => {
+                    setIsShowSuccessModal(false)
+                    const newActivity = response.data.results
+                    setAllActivities((prevActivities: any) => [
+                        ...prevActivities,
+                        newActivity,
+                    ])
+                    console.log('isUpdate in time out Modal', isUpdateModal)
+                }, 1000)
+            }
+        } catch (errors: any) {
+            console.log('error', errors.response?.data?.errors.length)
+            const errorMessages = errors.response?.data?.errors.map(
+                (err: { field: string; errorMessage: string }) =>
+                    `<strong>${err.field}</strong> : ${err.errorMessage}`
+            )
+            setloading1(false)
+            setError(errors.response)
+            console.log('errorss', errorMessages.length)
+
+            if (errorMessages.length > 1) {
+                setErrorMessage(`${errorMessages.join('<br />')}`)
+            } else {
+                setErrorMessage(errors.response?.data?.responseMessage)
+            }
+            setIsShowErrorModal(true)
+            setTimeout(() => {
+                setIsShowErrorModal(false)
+                setError('')
+            }, 10000)
         }
+    }
 
-        console.log('payload', payload)
-
+    const getActivitybySchoolId = async (schoolid: number): Promise<any> => {
         try {
             setError('')
             setloading1(true)
-            const response = store.dispatch(
-                createActivityBySchoolId({ payload, file })
+            const { data: data3 } = await axios.post(
+                '/school/getById',
+                { schoolId: schoolid },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
             )
-            console.log('response', response, loading)
-            if (!loading) {
-                setloading1(false)
-                setIsShowModal(true)
-            }
-            setTimeout(() => {
-                setIsShowModal(false)
-            }, 5000)
-        } catch (errors: any) {
-            setloading1(false)
-            setError(errors.response)
-            setTimeout(() => {
-                setError('')
-            }, 2000)
-            toastId.current = toast(errors.message, {
-                type: 'error',
-                autoClose: 1000,
-            })
+            console.log('dataa 3', data3)
+            setAllActivities(data3.results.activitiesData)
+            // return data3.results
+        } catch (error2: any) {
+            console.log({ error })
         }
     }
 
@@ -249,11 +314,64 @@ const useActivity = (): IUseActivity => {
         try {
             setError('')
             setloading1(true)
+            const formData = new FormData()
 
-            const response = store.dispatch(
-                updateActivityBySchoolId({ payload, file })
+            formData.append(
+                'data',
+                new Blob([JSON.stringify(payload)], {
+                    type: 'application/json',
+                })
+            )
+
+            formData.append('file', file)
+
+            const response = await axios.post(
+                `${base_url}${edit_activity_url}`,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
             )
             console.log('response in edit', response)
+            console.log('isUpdate  beore Modal', isUpdateModal)
+            if (response.data.responseCode === 200) {
+                setSuccessMessage(response.data.responseMessage)
+                setIsShowSuccessModal(true)
+                setloading1(false)
+                console.log('isUpdate Modal', isUpdateModal)
+                setTimeout(() => {
+                    setIsShowSuccessModal(false)
+                    console.log('isUpdate in time out Modal', isUpdateModal)
+                }, 3000)
+            }
+            console.log('response in edit', response)
+            const updatedid = response.data.results.id
+            console.log('updatedid in edit', updatedid, AllActivities)
+            const index = AllActivities?.findIndex(
+                (act: any) => act.id === updatedid
+            )
+
+            console.log('index', index)
+            if (index !== -1) {
+                // Create a new array with the updated item
+                const updatedActivities = [
+                    ...AllActivities.slice(0, index), // All items before the updated item
+                    response.data.results, // Updated item
+                    ...AllActivities.slice(index + 1), // All items after the updated item
+                ]
+
+                console.log(
+                    'index',
+                    index,
+                    updatedActivities,
+                    AllActivities[index] == response.data.results
+                )
+                // Update the state with the new array
+                setAllActivities(updatedActivities)
+            }
             // if (data1.responseCode === '500') {
             //     toast(data1.responseMessage, {
             //         type: 'error',
@@ -263,25 +381,20 @@ const useActivity = (): IUseActivity => {
             //     return
             // }
             console.log('loadin in edit')
-            if (!loading) {
-                setloading1(false)
-                setIsShowModal(true)
-                setTimeout(() => {
-                    setIsShowModal(false)
-                }, 5000)
-            }
 
             // eslint-disable-next-line @typescript-eslint/no-shadow
         } catch (error: any) {
             setloading1(false)
             setError(error.response)
-            setTimeout(() => {
+            setErrorMessage(error.response?.data?.responseMessage)
+            setIsShowErrorModal(true)
+            const timeId = setTimeout(() => {
                 setError('')
-            }, 2000)
-            toastId.current = toast(error.message, {
-                type: 'error',
-                autoClose: 1000,
-            })
+                setIsShowErrorModal(false)
+            }, 3000)
+            if (!setIsShowModal) {
+                clearTimeout(timeId)
+            }
         }
     }
     const getAllActivities = async (
@@ -384,61 +497,13 @@ const useActivity = (): IUseActivity => {
     const Createmodal = (): IModalComponent => {
         return {
             modalComponent: (
-                <CustomModal
-                    isModalVisible={isShowModal}
-                    setIsModalVisible={setIsShowModal}
-                    showCloseBtn={true}
-                >
-                    <SchoolSuccessfulModals>
-                        <div className="mainContainer d-flex flex-column align-items-center">
-                            <img
-                                src={ic_success}
-                                alt="Success Icon"
-                                width={79}
-                                height={79}
-                            />
-                            <h3 className="mainContainer-heading text-center">
-                                Your Activities Added Successfully!
-                            </h3>
-                            <p className="mainContainer-subText text-center">
-                                Congratulations! Your activity information has
-                                been successfully completed, ensuring a seamless
-                                experience within the Marital
-                            </p>
-                        </div>
-                    </SchoolSuccessfulModals>
-                </CustomModal>
-            ),
-        }
-    }
-
-    const UpdateModal = (): IModalComponent => {
-        return {
-            modalComponent: (
-                <CustomModal
-                    isModalVisible={isShowModal}
-                    setIsModalVisible={setIsShowModal}
-                    showCloseBtn={true}
-                >
-                    <SchoolSuccessfulModals>
-                        <div className="mainContainer d-flex flex-column align-items-center">
-                            <img
-                                src={ic_success}
-                                alt="Success Icon"
-                                width={79}
-                                height={79}
-                            />
-                            <h3 className="mainContainer-heading text-center">
-                                Update Profile Successfully!
-                            </h3>
-                            <p className="mainContainer-subText text-center">
-                                Congratulations! Your profile has been
-                                successfully completed, ensuring a seamless
-                                experience within the Marital.
-                            </p>
-                        </div>
-                    </SchoolSuccessfulModals>
-                </CustomModal>
+                <CustomMessageModal
+                    title="Success"
+                    description={successMessage}
+                    isModalVisible={isShowSuccessModal}
+                    setIsModalVisible={setIsShowSuccessModal}
+                    imageProp={'success'}
+                />
             ),
         }
     }
@@ -446,46 +511,47 @@ const useActivity = (): IUseActivity => {
     const WarningModal = (): IModalComponent => {
         return {
             modalComponent: (
-                <CustomModal
-                    isModalVisible={isShowWarningModal}
-                    setIsModalVisible={setIsShowWarningModal}
-                    showCloseBtn={true}
-                >
-                    <SchoolSuccessfulModals>
-                        <div className="mainContainer d-flex flex-column align-items-center">
-                            <img
-                                src={ic_error}
-                                alt="error Icon"
-                                width={79}
-                                height={79}
-                            />
-                            <h3 className="mainContainer-heading text-center">
-                                Warning!
-                            </h3>
-                            <p className="mainContainer-subText text-center">
-                                Please remove the first Branches and Franchise.
-                            </p>
-                        </div>
-                    </SchoolSuccessfulModals>
-                </CustomModal>
+                <CustomMessageModal
+                    title="Warning"
+                    description={errorMessage}
+                    isModalVisible={isShowErrorModal}
+                    setIsModalVisible={setIsShowSuccessModal}
+                    imageProp={'error'}
+                />
             ),
         }
     }
-    const deleteClass = async (id: number): Promise<void> => {
-        const url = '/classes/delete'
-
+    const deleteActivity = async (id: number): Promise<void> => {
+        const url = '/activityInfo/delete'
         try {
             setError('')
             setloading1(true)
             const { data: data2 } = await axios.post(
                 url,
-                { classId: id },
+                { id },
                 {
                     headers: {
                         ...authorizationToken(loginData.data as loginDataTypes),
                     },
                 }
             )
+            const index = AllActivities?.findIndex(
+                (act: any) => act.id === data2.results.id
+            )
+
+            console.log('index of school', index)
+            // If the school is found, remove it from the array
+            if (index !== -1 && index !== undefined) {
+                if (AllActivities) {
+                    const newData = [...AllActivities] // Create a copy of the data array
+                    const removedItems = newData.splice(index, 1) // Remove the item at the specified index
+                    console.log('removed item of school', removedItems, newData)
+                    if (removedItems.length > 0) {
+                        // Check if any item was removed
+                        setAllActivities(newData) // Update the state with the new array
+                    }
+                }
+            }
             if (data2.responseCode === '500') {
                 toast(data2.responseMessage, {
                     type: 'error',
@@ -528,15 +594,15 @@ const useActivity = (): IUseActivity => {
                             <img
                                 src={ic_success}
                                 alt="Success Icon"
-                                width={79}
-                                height={79}
+                                width={65}
+                                height={65}
                             />
                             <h3 className="mainContainer-heading text-center">
-                                Successfully Account Removed
+                                Successfully Activity Removed
                             </h3>
                             <p className="mainContainer-subText text-center">
-                                The student class has been successfully removed,
-                                and please note that any associated data will be
+                                The Activity has been successfully removed, and
+                                please note that any associated data will be
                                 retained for a period of 30 days before it is
                                 permanently deleted from our system.
                             </p>
@@ -548,10 +614,11 @@ const useActivity = (): IUseActivity => {
     }
 
     const deleteConfirmation = (_id: number): IModalComponent => {
+        console.log('in delete confirmation of activity', _id)
         const Deleteschool = async (id: number): Promise<void> => {
             setIsShowModal(false) // Close any other modals
             setIsShowDeleteModal(true)
-            await deleteClass(id)
+            await deleteActivity(id)
         }
         return {
             modalComponent: (
@@ -563,15 +630,13 @@ const useActivity = (): IUseActivity => {
                     <SchoolSuccessfulModals>
                         <div className="mainContainer">
                             <h3 className="mainContainer-heading text-center">
-                                Want to Remove Account
+                                Want to Delete An Activity
                             </h3>
                             <p className="mainContainer-subText text-center">
-                                Before proceeding with the removal of a student
-                                account, please be aware that once the removal
-                                is confirmed, all access will be permanently
-                                revoked. If the user still holds an active
-                                membership, the account cannot be removed until
-                                the membership is completed or canceled.
+                                Before proceeding with the removal of a activity
+                                , please be aware that once the removal is
+                                confirmed, all access will be permanently
+                                revoked.
                             </p>
                             <Row className="mt-20">
                                 <Col md="6">
@@ -641,17 +706,20 @@ const useActivity = (): IUseActivity => {
         loading1,
         getAllActivities,
         handleCreateSubmit,
+        AllActivities,
+        getActivitybySchoolId,
         error,
         isUploadImgModalVisible,
         setIsUploadImgVisible,
         deletemodal,
         Createmodal,
-        UpdateModal,
+        WarningModal,
+
         deleteConfirmation,
         ClassStatus,
         getClassbyid,
         handleUpdate,
-        deleteClass,
+        deleteActivity,
         setIsShowModal,
         getInstructorstartenddate,
         getClassPegination,

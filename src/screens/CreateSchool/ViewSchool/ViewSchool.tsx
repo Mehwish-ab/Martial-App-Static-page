@@ -38,7 +38,6 @@ const ViewSchool = (): JSX.Element => {
 
     const [schoolData, setschoolData] = useState<SchoolDataType>()
     const [OwnerData, setOwnerData] = useState<OwnerDataTypes>()
-    const [AllActivities, setActivitiesData] = useState([] as any[])
 
     const { schoolId } = useParams()
 
@@ -49,7 +48,7 @@ const ViewSchool = (): JSX.Element => {
                 if (response) {
                     console.log({ response })
                     setschoolData(response)
-                    setActivitiesData(response.activitiesData)
+
                     setOwnerData(response.ownerData)
                 }
 
@@ -392,7 +391,13 @@ const ViewSchool = (): JSX.Element => {
             <ViewActivity />
             <Col md="12" className="mt-20">
                 <div className="BoxDiv">
-                    <Map />
+                    {schoolData && (
+                        <Map
+                            address={schoolData.address}
+                            latitude={schoolData.latitude}
+                            longitude={schoolData.longitude}
+                        />
+                    )}
                 </div>
             </Col>
         </>

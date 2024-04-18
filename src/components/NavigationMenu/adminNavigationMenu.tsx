@@ -60,7 +60,7 @@ const AdminNavigationMenu = (): JSX.Element => {
         classes: '/class/list',
         membership: '/membership/list',
         timeTable: '/class/list',
-        trainingRoom: `/school/room/list/${loginData.data?.schoolId}`,
+        // trainingRoom: `/school/room/list/${loginData.data?.schoolId}`,
         listInstructor: '/instructor/list',
         transactionsHistory: '/transaction-history/list',
         payment: '/payment',
@@ -94,51 +94,51 @@ const AdminNavigationMenu = (): JSX.Element => {
                 menuLinksKeys.createSchool
             ),
         },
-        {
-            key: menuLinksKeys.classes,
-            label: getLabel(
-                'Classes',
-                adminMenuLinks.classes,
-                menuLinksKeys.classes
-            ),
-        },
+        // {
+        //     key: menuLinksKeys.classes,
+        //     label: getLabel(
+        //         'Classes',
+        //         adminMenuLinks.classes,
+        //         menuLinksKeys.classes
+        //     ),
+        // },
         // {
         //     key: menuLinksKeys.user,
         //     label: getLabel('Users', adminMenuLinks.user, menuLinksKeys.user),
         // },
-        {
-            key: menuLinksKeys.membership,
-            label: getLabel(
-                'Memberships',
-                adminMenuLinks.membership,
-                menuLinksKeys.membership
-            ),
-        },
-        {
-            key: menuLinksKeys.timeTable,
-            label: getLabel(
-                'TimeTable',
-                adminMenuLinks.timeTable,
-                menuLinksKeys.timeTable
-            ),
-        },
-        {
-            key: menuLinksKeys.trainingRoom,
-            label: getLabel(
-                'Training Rooms',
-                adminMenuLinks.trainingRoom,
-                menuLinksKeys.trainingRoom
-            ),
-        },
+        // {
+        //     key: menuLinksKeys.membership,
+        //     label: getLabel(
+        //         'Memberships',
+        //         adminMenuLinks.membership,
+        //         menuLinksKeys.membership
+        //     ),
+        // },
+        // {
+        //     key: menuLinksKeys.timeTable,
+        //     label: getLabel(
+        //         'TimeTable',
+        //         adminMenuLinks.timeTable,
+        //         menuLinksKeys.timeTable
+        //     ),
+        // },
+        // {
+        //     key: menuLinksKeys.trainingRoom,
+        //     label: getLabel(
+        //         'Training Rooms',
+        //         adminMenuLinks.trainingRoom,
+        //         menuLinksKeys.trainingRoom
+        //     ),
+        // },
 
-        {
-            key: menuLinksKeys.listInstructor,
-            label: getLabel(
-                'Instructors',
-                adminMenuLinks.listInstructor,
-                menuLinksKeys.listInstructor
-            ),
-        },
+        // {
+        //     key: menuLinksKeys.listInstructor,
+        //     label: getLabel(
+        //         'Instructors',
+        //         adminMenuLinks.listInstructor,
+        //         menuLinksKeys.listInstructor
+        //     ),
+        // },
         {
             key: menuLinksKeys.subscriptionHistory,
             label: getLabel(

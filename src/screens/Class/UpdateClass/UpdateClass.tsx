@@ -23,7 +23,7 @@ import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelec
 import useClass from '../../../hooks/useClass'
 import { useParams } from 'react-router-dom'
 import moment from 'moment'
-import { getTimetableByUserId } from '../../../redux/features/TimeTable/TimeTableSlice'
+
 import { getInstructorByUserId } from '../../../redux/features/instructor/instructorSlice'
 
 import * as Yup from 'yup'

@@ -99,7 +99,7 @@ const TimeTableSheet: React.FC = () => {
     const [tableDataSource, setTableDataSource] = useState<
         TableDateSourceProps[]
     >([])
-    const { loading } = useSelector((state: RootState) => state.timeTableData)
+    // const { loading } = useSelector((state: RootState) => state.timeTableData)
     const [activeTab, setActiveTab] = useState<string>('0') // Default to the first day
 
     const handleTabChange = (key: string): void => {
@@ -541,6 +541,7 @@ const TimeTableSheet: React.FC = () => {
                                         dayOfWeek: timeEntry.dayOfWeek || '',
                                     })
                                     setIsShowModal(true)
+                                    addNewSlot()
                                 }}
                             >
                                 {'Add'}
@@ -630,7 +631,10 @@ const TimeTableSheet: React.FC = () => {
                 }
             }
         }
-        if (timeTableId && !allTimeTableDetail?.timeTableId) {
+        //   if (timeTableId && !allTimeTableDetail?.timeTableId) {
+        //       fetchTimeTableById()
+        //   }
+        if (timeTableId) {
             fetchTimeTableById()
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -688,7 +692,7 @@ const TimeTableSheet: React.FC = () => {
         <>
             <Head title="TimeTable Slots" />
             {Createmodal().modalComponent}
-            {loading && <LoadingOverlay message="" />}
+            {/* {loading && <LoadingOverlay message="" />} */}
             <RenderTableTitle />
             <CreateTimeTableStyled>
                 <Tabs

@@ -183,6 +183,7 @@ const UserList = (): JSX.Element => {
         },
         {
             title: 'Action',
+
             dataIndex: 'userId',
             key: 'status',
             render: (userId) => {

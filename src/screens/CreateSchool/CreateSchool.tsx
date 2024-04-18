@@ -92,6 +92,8 @@ const CreateSchool = (): JSX.Element => {
         businessName: '',
         businessType: '',
         address: '',
+        latitude: 0,
+        longitude: 0,
         businessPhoneNumber: '',
         defaultLanguageId: '',
         description: '',
@@ -403,7 +405,15 @@ const CreateSchool = (): JSX.Element => {
                                                 handleChange={(val) => {
                                                     formik.setFieldValue(
                                                         'address',
-                                                        val
+                                                        val.selectedAddress
+                                                    )
+                                                    formik.setFieldValue(
+                                                        'latitude',
+                                                        val.latitude
+                                                    )
+                                                    formik.setFieldValue(
+                                                        'longitude',
+                                                        val.longitude
                                                     )
                                                 }}
                                                 className={

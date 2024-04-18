@@ -141,7 +141,7 @@ const CreateInstructor = (): JSX.Element => {
             id = loginData.userId
         } else if (
             loginData.data?.userDetails.id &&
-            loginData.data.userDetails.roleName === 'USER'
+            loginData.data.userDetails.roleName === 'SCHOOL'
         ) {
             id = loginData.data.userDetails.id
         } else {
@@ -273,10 +273,18 @@ const CreateInstructor = (): JSX.Element => {
                                             placeholder={getLabelByKey(
                                                 'placeholderAddress'
                                             )}
-                                            handleChange={(val: unknown) => {
+                                            handleChange={(val) => {
                                                 formik.setFieldValue(
                                                     'address',
-                                                    val
+                                                    val.selectedAddress
+                                                )
+                                                formik.setFieldValue(
+                                                    'latitude',
+                                                    val.latitude
+                                                )
+                                                formik.setFieldValue(
+                                                    'longitude',
+                                                    val.longitude
                                                 )
                                             }}
                                             className={

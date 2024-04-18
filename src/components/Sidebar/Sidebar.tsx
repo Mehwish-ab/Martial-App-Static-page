@@ -14,6 +14,7 @@ import UserNavigationMenu from '../NavigationMenu/userNavigationMenu'
 import SchoolNavigationMenu from '../NavigationMenu/schoolNavigationMenu'
 import BranchesFranchiesNavigationMenu from '../NavigationMenu/branchesFranchiesNavmenu'
 import { useParams } from 'react-router-dom'
+import InstructorNavigationMenu from '../NavigationMenu/instructorNavigationMenu'
 const { Sider } = Layout
 
 const Sidebar = (): JSX.Element => {
@@ -41,6 +42,8 @@ const Sidebar = (): JSX.Element => {
         logindata?.userDetails.roleName === 'FRANCHIES'
     ) {
         NavigationMenu = <BranchesFranchiesNavigationMenu />
+    } else if (logindata && logindata.userDetails.roleName === 'INSTRUCTOR') {
+        NavigationMenu = <InstructorNavigationMenu />
     }
     console.log('naviigation menu', NavigationMenu)
 

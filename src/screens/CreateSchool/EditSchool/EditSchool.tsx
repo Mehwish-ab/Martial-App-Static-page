@@ -184,6 +184,8 @@ const EditSchool = (): JSX.Element => {
         businessName: schoolData ? schoolData.businessName : '--',
         businessType: schoolData ? schoolData.businessType : 0,
         address: schoolData ? schoolData.address : '--',
+        latitude: schoolData ? schoolData.latitude : 0,
+        longitude: schoolData ? schoolData.longitude : 0,
         businessPhoneNumber: schoolData ? schoolData.phoneNumber : '--',
         defaultLanguageId: schoolData ? schoolData.defaultLanguageId : '--',
         defaultCurrencyId: schoolData ? schoolData.defaultCurrencyId : '--',
@@ -391,7 +393,15 @@ const EditSchool = (): JSX.Element => {
                                                 handleChange={(val: any) => {
                                                     formik.setFieldValue(
                                                         'address',
-                                                        val
+                                                        val.selectedAddress
+                                                    )
+                                                    formik.setFieldValue(
+                                                        'latitude',
+                                                        val.latitude
+                                                    )
+                                                    formik.setFieldValue(
+                                                        'longitude',
+                                                        val.longitude
                                                     )
                                                 }}
                                                 className={

@@ -9,48 +9,28 @@ import { RootState } from '../../redux/store'
 import { useSelector } from 'react-redux'
 type MenuItem = Required<MenuProps>['items'][number]
 
-const menuLinksKeys: any = {
-    dashboard: 'dashboard',
-    createSchool: 'createSchool',
-    listBranch: 'listBranch',
-    listFranchise: 'listFranchise',
-    listInstructor: 'listInstructor',
-    trainingRoom: 'trainingRoom',
-    instructor: 'instructor',
-    timeTable: 'timeTable',
-    classes: 'classes',
-    membership: 'membership',
-    rules: 'rules',
-    notification: 'notification',
-    transactionsHistory: 'transactionsHistory',
-    subscriptionHistory: 'subscriptionHistory',
-    setting: 'setting',
-    language: 'language',
-    currency: 'currency',
-    helpAndSupport: 'helpAndSupport',
-    customerServices: 'customerServices',
-    reports: 'reports',
-    user: 'user',
-    attendance: 'attendance',
-    qrCode: 'qrCode',
-}
-
-const BranchesFranchiesNavigationMenu = (): JSX.Element => {
+const InstructorNavigationMenu = (): JSX.Element => {
     const location = useLocation()
     const navigate = useNavigate()
-
     const { loginData } = useSelector((state: RootState) => state)
-    const branchFranchiesMenuLinks: any = {
+    // const getMenuIcon = (file: any) => <img src={file} alt="" />;
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const navigation = (link: string, key: string): void => {
+        navigate(link)
+    }
+
+    const menuLinks: any = {
         dashboard: '/dashboard',
-        // createSchool: '/school/list',
+        createSchool: `/school/view/${loginData?.data?.schoolId}`,
         classes: '/class/list',
         timeTable: '/timetable/list',
+        trainingRoom: `/school/room/list/${loginData.data?.schoolId}`,
         transactionsHistory: '/transaction-history/list',
         listInstructor: '/instructor/list',
         listBranch: '/branch/list',
         listFranchise: '/franchise/list',
         membership: '/membership/list',
-        trainingRoom: `/school/room/list/${loginData.data?.schoolId}`,
         payment: '/payment',
         rules: '/rules/list',
         helpAndSupport: '/help-support',
@@ -58,16 +38,35 @@ const BranchesFranchiesNavigationMenu = (): JSX.Element => {
         language: '/language',
         qrCode: '/qr-code',
         setting: '/settings',
-        user: '/user/list',
+        // user: '/user/list',
         attendance: '',
         reports: '/reports/list',
     }
 
-    // const getMenuIcon = (file: any) => <img src={file} alt="" />;
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const navigation = (link: string, key: string): void => {
-        navigate(link)
+    const menuLinksKeys: any = {
+        dashboard: 'dashboard',
+        createSchool: 'createSchool',
+        listBranch: 'listBranch',
+        listFranchise: 'listFranchise',
+        trainingRoom: 'trainingRoom',
+        listInstructor: 'listInstructor',
+        instructor: 'instructor',
+        timeTable: 'timeTable',
+        classes: 'classes',
+        membership: 'membership',
+        rules: 'rules',
+        notification: 'notification',
+        transactionsHistory: 'transactionsHistory',
+        subscriptionHistory: 'subscriptionHistory',
+        setting: 'setting',
+        language: 'language',
+        currency: 'currency',
+        helpAndSupport: 'helpAndSupport',
+        customerServices: 'customerServices',
+        reports: 'reports',
+        user: 'user',
+        attendance: 'attendance',
+        qrCode: 'qrCode',
     }
 
     const getLabel = (
@@ -77,47 +76,40 @@ const BranchesFranchiesNavigationMenu = (): JSX.Element => {
     ): JSX.Element => (
         <div onClick={() => (link ? navigation(link, key) : '')}>{label}</div>
     )
-
-    const [selectedKey, setSelectedKey] = useState('')
-    const branchFranchiesSidebarData: MenuItem[] = [
+    const sidebarData: MenuItem[] = [
         {
             key: menuLinksKeys.dashboard,
             label: getLabel(
                 'Dashboard',
-                branchFranchiesMenuLinks.dashboard,
+                menuLinks.dashboard,
                 menuLinksKeys.dashboard
+            ),
+        },
+        {
+            key: menuLinksKeys.createSchool,
+            label: getLabel(
+                'School',
+                menuLinks.createSchool,
+                menuLinksKeys.createSchool
             ),
         },
         // {
         //     key: menuLinksKeys.user,
-        //     label: getLabel(
-        //         'Users',
-        //         branchFranchiesMenuLinks.user,
-        //         menuLinksKeys.user
-        //     ),
+        //     label: getLabel('Users', menuLinks.user, menuLinksKeys.user),
         // },
         {
             key: menuLinksKeys.classes,
             label: getLabel(
                 'Classes',
-                branchFranchiesMenuLinks.classes,
+                menuLinks.classes,
                 menuLinksKeys.classes
-            ),
-        },
-
-        {
-            key: menuLinksKeys.membership,
-            label: getLabel(
-                'Memberships',
-                branchFranchiesMenuLinks.membership,
-                menuLinksKeys.membership
             ),
         },
         {
             key: menuLinksKeys.timeTable,
             label: getLabel(
                 'TimeTable',
-                branchFranchiesMenuLinks.timeTable,
+                menuLinks.timeTable,
                 menuLinksKeys.timeTable
             ),
         },
@@ -125,15 +117,23 @@ const BranchesFranchiesNavigationMenu = (): JSX.Element => {
             key: menuLinksKeys.trainingRoom,
             label: getLabel(
                 'Training Rooms',
-                branchFranchiesMenuLinks.trainingRoom,
+                menuLinks.trainingRoom,
                 menuLinksKeys.trainingRoom
+            ),
+        },
+        {
+            key: menuLinksKeys.membership,
+            label: getLabel(
+                'Memberships',
+                menuLinks.membership,
+                menuLinksKeys.membership
             ),
         },
         {
             key: menuLinksKeys.listInstructor,
             label: getLabel(
                 'Instructors',
-                branchFranchiesMenuLinks.listInstructor,
+                menuLinks.listInstructor,
                 menuLinksKeys.listInstructor
             ),
         },
@@ -141,7 +141,7 @@ const BranchesFranchiesNavigationMenu = (): JSX.Element => {
             key: menuLinksKeys.transactionsHistory,
             label: getLabel(
                 'Transactions History',
-                branchFranchiesMenuLinks.transactionsHistory,
+                menuLinks.transactionsHistory,
                 menuLinksKeys.transactionsHistory
             ),
             // children: childListOfBooking,
@@ -150,7 +150,7 @@ const BranchesFranchiesNavigationMenu = (): JSX.Element => {
             key: menuLinksKeys.subscriptionHistory,
             label: getLabel(
                 'Subscription History',
-                branchFranchiesMenuLinks.subscriptionHistory,
+                menuLinks.subscriptionHistory,
                 menuLinksKeys.subscriptionHistory
             ),
             // children: childListOfBooking,
@@ -159,7 +159,7 @@ const BranchesFranchiesNavigationMenu = (): JSX.Element => {
             key: menuLinksKeys.notification,
             label: getLabel(
                 'Notifications',
-                branchFranchiesMenuLinks.notification,
+                menuLinks.notification,
                 menuLinksKeys.notification
             ),
         },
@@ -167,7 +167,7 @@ const BranchesFranchiesNavigationMenu = (): JSX.Element => {
             key: menuLinksKeys.reports,
             label: getLabel(
                 'Reports',
-                branchFranchiesMenuLinks.reports,
+                menuLinks.reports,
                 menuLinksKeys.reports
             ),
         },
@@ -175,31 +175,23 @@ const BranchesFranchiesNavigationMenu = (): JSX.Element => {
             key: menuLinksKeys.attendance,
             label: getLabel(
                 'Attendance ',
-                branchFranchiesMenuLinks.attendance,
+                menuLinks.attendance,
                 menuLinksKeys.attendance
             ),
         },
         {
             key: menuLinksKeys.qrCode,
-            label: getLabel(
-                'QR Code',
-                branchFranchiesMenuLinks.qrCode,
-                menuLinksKeys.qrCode
-            ),
+            label: getLabel('QR Code', menuLinks.qrCode, menuLinksKeys.qrCode),
         },
         {
             key: menuLinksKeys.rules,
-            label: getLabel(
-                'Rules',
-                branchFranchiesMenuLinks.rules,
-                menuLinksKeys.rules
-            ),
+            label: getLabel('Rules', menuLinks.rules, menuLinksKeys.rules),
         },
         {
             key: menuLinksKeys.listBranch,
             label: getLabel(
                 'Branches',
-                branchFranchiesMenuLinks.listBranch,
+                menuLinks.listBranch,
                 menuLinksKeys.listBranch
             ),
         },
@@ -207,7 +199,7 @@ const BranchesFranchiesNavigationMenu = (): JSX.Element => {
             key: menuLinksKeys.listFranchise,
             label: getLabel(
                 'Franchises',
-                branchFranchiesMenuLinks.listFranchise,
+                menuLinks.listFranchise,
                 menuLinksKeys.listFranchise
             ),
         },
@@ -215,7 +207,7 @@ const BranchesFranchiesNavigationMenu = (): JSX.Element => {
             key: menuLinksKeys.setting,
             label: getLabel(
                 'Settings',
-                branchFranchiesMenuLinks.setting,
+                menuLinks.setting,
                 menuLinksKeys.setting
             ),
             children: childListOfSetting,
@@ -224,7 +216,7 @@ const BranchesFranchiesNavigationMenu = (): JSX.Element => {
             key: menuLinksKeys.language,
             label: getLabel(
                 'Language',
-                branchFranchiesMenuLinks.language,
+                menuLinks.language,
                 menuLinksKeys.language
             ),
         },
@@ -232,7 +224,7 @@ const BranchesFranchiesNavigationMenu = (): JSX.Element => {
             key: menuLinksKeys.helpAndSupport,
             label: getLabel(
                 'Help & Support',
-                branchFranchiesMenuLinks.helpAndSupport,
+                menuLinks.helpAndSupport,
                 menuLinksKeys.helpAndSupport
             ),
         },
@@ -240,23 +232,23 @@ const BranchesFranchiesNavigationMenu = (): JSX.Element => {
             key: menuLinksKeys.customerServices,
             label: getLabel(
                 'Customer Services',
-                branchFranchiesMenuLinks.customerServices,
+                menuLinks.customerServices,
                 menuLinksKeys.customerServices
             ),
         },
     ]
 
+    const [selectedKey, setSelectedKey] = useState('')
+
     useEffect(() => {
         if (location.pathname !== '/') {
-            const tempSidebar = [...branchFranchiesSidebarData]
+            const tempSidebar = [...sidebarData]
             const listWithNoDashboard = tempSidebar.filter(
                 (item: any) => item.key !== 'dashboard'
             )
             const key =
                 listWithNoDashboard.find((item: any) => {
-                    return location.pathname.startsWith(
-                        branchFranchiesMenuLinks[item.key]
-                    )
+                    return location.pathname.startsWith(menuLinks[item.key])
                 })?.key || ''
             setSelectedKey(key.toString())
         }
@@ -269,10 +261,10 @@ const BranchesFranchiesNavigationMenu = (): JSX.Element => {
             <Menu
                 defaultSelectedKeys={[selectedKey]}
                 mode="inline"
-                items={branchFranchiesSidebarData}
+                items={sidebarData}
             />
         </NavigationMenuStyled>
     )
 }
 
-export default BranchesFranchiesNavigationMenu
+export default InstructorNavigationMenu

@@ -9,7 +9,7 @@ import { RootState } from '../../../redux/store'
 // import TimeTableSheet from './TimeTableSheet'
 
 const CreateTimeTable: React.FC = () => {
-    const { loading } = useSelector((state: RootState) => state.timeTableData)
+    // const { loading } = useSelector((state: RootState) => state.timeTableData)
     // const [NewTimetable, setNewtimetable] = useState<any>()
     // const initialValues: CreateTimeTableInitialValues = {
     //     userId: 0,
@@ -20,7 +20,7 @@ const CreateTimeTable: React.FC = () => {
     // }
     return (
         <>
-            {loading && <LoadingOverlay message="" />}
+            {/* {loading && <LoadingOverlay message="" />} */}
 
             {/* <TimeTableForm setNewTimetable={setNewtimetable} />
             <TimeTableSheet setNewTimetable={NewTimetable} /> */}

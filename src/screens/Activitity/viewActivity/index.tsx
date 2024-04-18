@@ -9,7 +9,7 @@ import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.
 import { useSelector } from 'react-redux'
 import store, { RootState } from '../../../redux/store'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
-import useSchool from '../../../hooks/useCreateSchool'
+
 import {
     ActivityDataType,
     getActivityBySchoolId,
@@ -17,30 +17,34 @@ import {
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import Head from '../../../components/Head/Head'
-import useClass from '../../../hooks/useClass'
-import moment from 'moment'
-import FormControl from '../../../components/FormControl'
 import { Form, Formik } from 'formik'
 import useActivity from '../../../hooks/useActivity'
-import { SchoolDataType } from '../../../redux/features/dashboard/dashboardDataSlice'
-import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
-import { SelectOptionsDataTypes } from '../../Home/constants'
+import CustomModal from '../../../components/Modal/CustomModal'
+import { setUserRole } from '../../../redux/features/User/UserSlice'
+import useCreateSchool from '../../../hooks/useCreateSchool'
 
 const ActivityList = (): JSX.Element => {
-    const { ClassData } = useSelector((state: RootState) => state.ClassData)
     const navigate = useNavigate()
     const { schoolId, branchId, franchiseId, instructorId } = useParams()
-    const { ClassStatus, deletemodal, deleteConfirmation, setIsShowModal } =
-        useClass()
     const [Id, setId] = useState(0)
     const { loginData } = useSelector((state: RootState) => state)
-    const [AllActivities, setAllActivities] = useState([] as any)
+    //const [AllActivities, setAllActivities] = useState([] as any)
 
     const [error, setError] = useState<string | undefined>(undefined)
     const [currentPage, setCurrentPage] = useState(1)
     const pageSize = 10
 
-    const { getAllActivities, getClassPegination } = useActivity()
+    const {
+        getClassPegination,
+        deletemodal,
+        deleteConfirmation,
+        getActivitybySchoolId,
+        AllActivities,
+        setIsShowModal,
+        handleUpdate,
+        Createmodal,
+        WarningModal,
+    } = useActivity()
     const handlePaginationChange = async (page: number): Promise<any> => {
         try {
             //setLoading(true)
@@ -66,6 +70,7 @@ const ActivityList = (): JSX.Element => {
     const { activities, experienceLevel } = useSelector(
         (state: RootState) => state.appData.data.statusData
     )
+
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
@@ -94,7 +99,8 @@ const ActivityList = (): JSX.Element => {
 
         if (index !== -1) {
             // return options
-            return (Belts[index] as any)[selectedLanguage]
+            // const beltImg = Belts[index].imageUrl
+            return Belts[index].imageUrl
         }
 
         return '--'
@@ -117,36 +123,17 @@ const ActivityList = (): JSX.Element => {
         if (activitiesName !== '') return activitiesName
         return '--'
     }
+
     const { getLabelByKey } = useScreenTranslation('activityList')
-    useEffect(() => {
-        let payload = {} as any
-        if (schoolId) {
-            payload = {
-                useCase: 'SCHOOL',
-                roleId: schoolId,
-            }
-        } else if (instructorId) {
-            payload = {
-                useCase: 'INSTRUCTOR',
-                roleId: instructorId,
-            }
-        }
-
-        store.dispatch(getActivityBySchoolId(payload))
-    }, [schoolId])
-
-    console.log(AllActivities)
-
     useEffect(() => {
         const fetchData = async (): Promise<void> => {
             if (schoolId) {
                 try {
-                    const response: any = await getAllActivities(
-                        'SCHOOL',
+                    await getActivitybySchoolId(
                         Number(schoolId || loginData.data?.schoolId)
                     )
-                    console.log('activities Dataaa', response)
-                    setAllActivities(response)
+                    // console.log('activities Dataaa', response)
+                    // setAllActivities(response)
                     // eslint-disable-next-line @typescript-eslint/no-shadow
                 } catch (error) {
                     setError('Error fetching data')
@@ -154,10 +141,7 @@ const ActivityList = (): JSX.Element => {
                 }
             } else if (instructorId) {
                 try {
-                    const response: any = await getAllActivities(
-                        'INSTRUCTOR',
-                        Number(instructorId)
-                    )
+                    await getActivitybySchoolId(Number(instructorId))
 
                     //setAllActivities(response)
                     // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -209,7 +193,19 @@ const ActivityList = (): JSX.Element => {
         console.log('data', data)
         setEditData(data)
     }
+    const [createData, setCreateData] = useState(null as any)
+    const [certificateModal, setCertificateModal] = useState(false)
+    const [certificateId, setCertificationId] = useState()
+    const handleShowCertificate = (): void => {
+        // setCertificationId(id)
+        setCertificateModal(true)
+    }
 
+    const handleClick = (id: any): void => {
+        store.dispatch(setUserRole('school'))
+        // setCreateData(record.activityId)
+        navigate(`/activity/create/${schoolId}?actId=${id}`)
+    }
     const columns: ColumnsType<ActivityDataType> = [
         {
             title: getLabelByKey('activityName'),
@@ -243,9 +239,20 @@ const ActivityList = (): JSX.Element => {
                 dataIndex: 'beltId',
                 key: 'belts',
                 render: (beltId) => {
-                    return (
-                        <div className="list-item mb-0">{showBelt(beltId)}</div>
-                    )
+                    if (beltId !== null) {
+                        return (
+                            <img
+                                className="list-item mb-0"
+                                src={
+                                    showBelt(beltId)
+                                        ? `https://fistastore.com:444${showBelt(beltId)}`
+                                        : ' '
+                                }
+                            />
+                        )
+                    } else {
+                        return '--'
+                    }
                 },
             }),
         },
@@ -286,14 +293,43 @@ const ActivityList = (): JSX.Element => {
             render: (certificateURL) => {
                 return (
                     <div>
-                        <a
-                            style={{ color: 'blue' }}
-                            href={certificateURL}
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            Certificate.png
-                        </a>
+                        {certificateURL !== null ? (
+                            <a
+                                style={{ color: 'blue' }}
+                                rel="noreferrer"
+                                onClick={handleShowCertificate}
+                            >
+                                Certificate.png
+                            </a>
+                        ) : (
+                            '--'
+                        )}
+                        {certificateModal && (
+                            <CustomModal
+                                isModalVisible={certificateModal}
+                                setIsModalVisible={setCertificateModal}
+                                onCancel={() => {
+                                    setCertificateModal(false)
+                                }}
+                                width="700px"
+                            >
+                                {' '}
+                                <img
+                                    style={{
+                                        margin: 'auto',
+                                        display: ' block',
+                                        width: '1170PX',
+                                        maxWidth: '3000px',
+                                    }}
+                                    src={
+                                        certificateURL
+                                            ? `https://fistastore.com:444/${certificateURL}`
+                                            : '--'
+                                    }
+                                    alt="bannerImg"
+                                />
+                            </CustomModal>
+                        )}
                     </div>
                 )
             },
@@ -339,24 +375,50 @@ const ActivityList = (): JSX.Element => {
             title: getLabelByKey('action'),
             key: 'action',
             render: (_, record, index) => {
-                const items = [
-                    {
-                        key: '1',
-                        label: 'Edit',
-                        onClick: () => {
-                            setUpdateActivity(true)
-                            setEditData(() => handleEditData(record))
+                let items
+                if (record.id) {
+                    items = [
+                        {
+                            key: '1',
+                            label: 'Edit',
+                            onClick: () => {
+                                setUpdateActivity(true)
+                                setEditData(() => handleEditData(record))
+                            },
                         },
-                    },
-                    {
-                        key: '2',
-                        label: 'Delete',
-                        onClick: () => {
-                            setId(record.id)
-                            setIsShowModal(true)
+                        {
+                            key: '2',
+                            label: 'Delete',
+                            onClick: () => {
+                                setId(record.id)
+                                setIsShowModal(true)
+                            },
                         },
-                    },
-                ]
+                    ]
+                } else {
+                    return (
+                        <div>
+                            <button
+                                style={{
+                                    fontWeight: '400',
+                                    padding: ' 7px 10px',
+                                    borderRadius: '4px',
+                                    background: ' rgb(0, 97, 151)',
+                                    //width: '90px',
+                                    // height: ' 30px',
+                                    color: 'rgb(255, 255, 255)',
+                                    fontSize: '14px',
+
+                                    textAlign: 'center',
+                                }}
+                                onClick={() => handleClick(record.activityId)}
+                            >
+                                Create
+                            </button>
+                        </div>
+                    )
+                }
+
                 return (
                     <Space size="middle">
                         <Dropdown menu={{ items }}>
@@ -371,17 +433,20 @@ const ActivityList = (): JSX.Element => {
             },
         },
     ]
+    console.log({ AllActivities })
     return (
         <>
             <Head title="Activity List" />
             {deletemodal().modalComponent}
             {deleteConfirmation(Id).modalComponent}
             {loading && <LoadingOverlay message="" />}
+            {Createmodal().modalComponent}
+            {WarningModal().modalComponent}
             <RenderTableTitle />
             <ListActivityStyle>
                 <Table
                     columns={columns}
-                    dataSource={AllActivities ? AllActivities : []}
+                    dataSource={AllActivities || []}
                     scroll={{ x: true }}
                     pagination={
                         AllActivities &&
@@ -389,7 +454,9 @@ const ActivityList = (): JSX.Element => {
                         AllActivities.totalItems > 10
                             ? {
                                   current: currentPage,
-                                  total: AllActivities ? AllActivities : 0,
+                                  total: AllActivities
+                                      ? AllActivities.totalItems
+                                      : 0,
                                   pageSize: pageSize,
                                   showTotal: (total, range) => (
                                       <span
@@ -408,10 +475,14 @@ const ActivityList = (): JSX.Element => {
                     }
                 />
             </ListActivityStyle>
+            {/* {createData && <CreateActivity activityID={createData} />} */}
             {updateActivity && editData && (
                 <Activity
                     closeModal={handleModalClosed}
                     activityData={editData}
+                    handleUpdate={handleUpdate}
+                    Createmodal={Createmodal}
+                    WarningModal={WarningModal}
                 />
             )}
             {/* </div> */}

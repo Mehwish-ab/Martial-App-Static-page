@@ -20,7 +20,10 @@ import CustomModal from '../components/Modal/CustomModal'
 import ic_success from '../assets/images/ic_success.svg'
 import { getBranchBySchoolId } from '../redux/features/CLasses/ClassSlice'
 import { CreateRoomInitialValues } from '../screens/Rooms/constant'
-import { getRoomDataByUseCase } from '../redux/features/Room/RoomSlice'
+import {
+    RoomDataType,
+    getRoomDataByUseCase,
+} from '../redux/features/Room/RoomSlice'
 import CustomMessageModal from '../components/Modal/CustomMessageModal'
 
 interface IModalComponent {
@@ -58,6 +61,7 @@ interface IUseRoom {
     getallRoombyUC: (id: number, us: string) => Promise<any>
     deleteConfirmation: (id: number) => IModalComponent
     deleteRoom: (id: number) => Promise<void>
+    room: any
     setIsShowModal: (showModal: true) => void
     getallRoombyUCPagination: (
         Id: number,
@@ -76,6 +80,14 @@ const useRoom = (): IUseRoom => {
     const [isShowModal, setIsShowModal] = useState(true)
     const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
     const navigate = useNavigate()
+    const [room, setRoom] = useState<
+        | {
+              currentPage: number
+              totalItems: number | undefined
+              data: RoomDataType[]
+          }
+        | undefined
+    >(undefined)
 
     const [isShowSuccessModal, setIsShowSuccessModal] = useState(false)
     const [isShowErrorModal, setIsShowErrorModal] = useState(false)
@@ -139,8 +151,8 @@ const useRoom = (): IUseRoom => {
             )
             setLoading(false)
             console.log({ data3 })
-
-            return data3.results
+            setRoom(data3.results)
+            // return
         } catch (e: any) {
             setLoading(false)
             // setError((errorMessage as any).response.data.responseMessage)
@@ -656,7 +668,7 @@ const useRoom = (): IUseRoom => {
                                     <CustomButton
                                         bgcolor="red"
                                         textTransform="Captilize"
-                                        color={maastrichtBlue}
+                                        color="white"
                                         padding="10px 12.5px"
                                         fontFamily={fontFamilyMedium}
                                         width="100%"
@@ -707,6 +719,7 @@ const useRoom = (): IUseRoom => {
         isUploadImgModalVisible,
         handleStatusUpdate,
         setIsUploadImgVisible,
+        room,
         deletemodal,
         Createmodal,
         UpdateModal,

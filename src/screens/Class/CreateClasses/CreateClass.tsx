@@ -51,26 +51,17 @@ const CreateClass = (): JSX.Element => {
         (state: RootState) => state.dashboardData
     )
     const { loginData } = useSelector((state: RootState) => state)
-    const { getallRoombyUC, RoomStatus, getallRoombyUCPagination } = useRoom()
-    const [Room, setRoom] = useState<
-        | {
-              currentPage: number
-              totalItems: number | undefined
-              data: RoomDataType[]
-          }
-        | undefined
-    >(undefined)
+    const { getallRoombyUC, room } = useRoom()
     // eslint-disable-next-line
     useEffect(() => {
         const fetchData = async (): Promise<void> => {
             store.dispatch(getInstructorByUserId())
             try {
                 if (loginData.data?.schoolId) {
-                    const response: any = await getallRoombyUC(
+                    await getallRoombyUC(
                         Number(loginData.data?.schoolId),
                         'SCHOOL'
                     )
-                    setRoom(response)
                 }
                 // eslint-disable-next-line @typescript-eslint/no-shadow
             } catch (error) {
@@ -445,12 +436,12 @@ const CreateClass = (): JSX.Element => {
                                                 max={6}
                                                 placeholder="Select Room"
                                             >
-                                                {Room?.data.map((room: any) => (
+                                                {room?.data.map((Room: any) => (
                                                     <option
-                                                        key={room.roomId}
-                                                        value={room.roomId}
+                                                        key={Room.roomId}
+                                                        value={Room.roomId}
                                                     >
-                                                        {room.roomNumber}
+                                                        {Room.roomNumber}
                                                     </option>
                                                 ))}
                                             </FormControl>

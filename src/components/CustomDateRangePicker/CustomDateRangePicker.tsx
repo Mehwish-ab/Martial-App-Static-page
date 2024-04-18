@@ -21,6 +21,8 @@ interface CustomDateRangePickerProps {
     labelFamily?: 'EnnVisions'
     marginBottom?: '10px'
     onChange: (value: RangeValue) => void
+    onApply?: () => void // Callback for apply button
+    onCancel?: () => void // Callback for cancel button
     showErrorMessage?: true
 }
 
@@ -38,11 +40,45 @@ const CustomDateRangePicker = (
         labelFamily = 'EnnVisions',
         marginBottom = '10px',
         onChange,
+        onApply,
+        onCancel,
         showErrorMessage = true,
         ...rest
     } = props
 
     const [dates, setDates] = useState<RangeValue>()
+
+    const renderExtraFooter = (): JSX.Element => (
+        <div style={{ display: 'flex', justifyContent: ' flex-end' }}>
+            <button
+                style={{
+                    padding: '3px 20px',
+                    background: '#C0E9F9',
+                    margin: '5px',
+                    fontSize: '15px',
+                    color: 'black',
+                    borderRadius: '7px',
+                }}
+                onClick={onApply}
+            >
+                Apply
+            </button>
+            <button
+                style={{
+                    padding: '3px 20px',
+                    background: '#EFEFEF',
+                    margin: '5px',
+                    fontSize: '15px',
+                    color: 'black',
+                    borderRadius: '7px',
+                }}
+                className="cancelButton"
+                onClick={onCancel}
+            >
+                Cancel
+            </button>
+        </div>
+    )
 
     return (
         <CustomDateRangePickerStyle
@@ -59,7 +95,6 @@ const CustomDateRangePicker = (
                         allowClear={false}
                         value={dates}
                         name={name}
-                        // disabledDate={disabledDate}
                         onCalendarChange={(val) => {
                             setDates(val)
                         }}
@@ -72,9 +107,11 @@ const CustomDateRangePicker = (
                             }
                         }}
                         suffixIcon={<img src={dateIcon} alt="calender-icon" />}
+                        renderExtraFooter={renderExtraFooter}
                     />
                 )}
             </Field>
+
             {showErrorMessage && (
                 <ErrorMessage name={name} component={ErrorMsg} />
             )}

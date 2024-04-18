@@ -77,6 +77,7 @@ const ListRoom = (): JSX.Element => {
     const {
         getallRoombyUC,
         RoomStatus,
+        room,
         getallRoombyUCPagination,
         deleteConfirmation,
         deletemodal,
@@ -96,19 +97,19 @@ const ListRoom = (): JSX.Element => {
                         Number(schoolid),
                         'SCHOOL'
                     )
-                    setRoom(response)
+                    //setRoom(response)
                 } else if (branchId) {
                     const response: any = await getallRoombyUC(
                         Number(branchId),
                         'BRANCH'
                     )
-                    setRoom(response)
+                    //setRoom(response)
                 } else if (franchiseId) {
                     const response: any = await getallRoombyUC(
                         Number(franchiseId),
                         'FRANCHISE'
                     )
-                    setRoom(response)
+                    // setRoom(response)
                 }
                 // eslint-disable-next-line @typescript-eslint/no-shadow
             } catch (error) {
@@ -209,7 +210,7 @@ const ListRoom = (): JSX.Element => {
     const closeModal = (): void => {
         setUpdateStatus(false)
     }
-    console.log({ Room })
+    console.log({ room })
     const [deleteId, setDeleteId] = useState() as any
     const [deleteStatus, setDeleteStatus] = useState(false)
     const columns: ColumnsType<RoomDataType> = [
@@ -494,16 +495,16 @@ const ListRoom = (): JSX.Element => {
                     //         key: item.schoolId,
                     //     })) as any
                     // }
-                    dataSource={Room ? Room?.data : []}
+                    dataSource={room ? room?.data : []}
                     // dataSource={
                     //     RoomData?.data[0].roomId !== 0 ? RoomData.data : []
                     // }
                     scroll={{ x: true }}
                     pagination={
-                        Room && Room.totalItems && Room.totalItems > 10
+                        room && room.totalItems && room.totalItems > 10
                             ? {
                                   current: currentPage,
-                                  total: Room ? Room.totalItems : 0,
+                                  total: room ? room.totalItems : 0,
                                   pageSize: pageSize,
                                   showTotal: (total, range) => (
                                       <span

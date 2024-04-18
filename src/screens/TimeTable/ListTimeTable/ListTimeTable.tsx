@@ -15,10 +15,7 @@ import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.
 import { useSelector } from 'react-redux'
 import store, { RootState } from '../../../redux/store'
 // import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
-import {
-    TimeTableDataType,
-    getTimetableByUserId,
-} from '../../../redux/features/TimeTable/TimeTableSlice'
+import { TimeTableDataType } from '../../../redux/features/TimeTable/TimeTableSlice'
 // import DummyData from './dummyData.json'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import RightArrow from '../../../assets/images/rightArrow.svg'
@@ -32,6 +29,7 @@ import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
 const RenderTableTitle = (): JSX.Element => {
     const navigate = useNavigate()
     const { getLabelByKey } = useScreenTranslation('timeTableList')
+    const { classId } = useParams()
 
     return (
         <>
@@ -97,7 +95,7 @@ const RenderTableTitle = (): JSX.Element => {
                                     />
                                 }
                                 clicked={() => {
-                                    navigate(`/timetable/create`)
+                                    navigate(`/timetable/create/${classId}`)
                                 }}
                             />
                         </div>
@@ -112,38 +110,33 @@ const ListTimeTable: React.FC = () => {
     const pageSize = 10
     const { getLabelByKey } = useScreenTranslation('timeTableList')
 
-    const { timeTableData } = useSelector(
-        (state: RootState) => state.timeTableData
-    )
+    // const { timeTableData } = useSelector(
+    //     (state: RootState) => state.timeTableData
+    // )
     const { classId } = useParams()
     const [Id, setId] = useState(0)
-    const [AllTimetable, setAllTimetable] = useState<
-        | {
-              currentPage: number
-              totalItems: number | undefined
-              data: TimeTableDataType[]
-          }
-        | undefined
-    >(undefined)
+
     const {
         deletemodal,
         deleteConfirmation,
         setIsShowModal,
         WarningModal,
         TimeTableStatus,
+        AllTimetable,
         getAllTimetable,
         getAllUserPagination,
         loading,
     } = useTimetable()
+    console.log('timeTableData', AllTimetable)
     const { loginData } = useSelector((state: RootState) => state)
 
-    useEffect(() => {
-        console.log('hi use effect')
-        store.dispatch(getTimetableByUserId(classId))
-    }, [])
+    // useEffect(() => {
+    //     console.log('hi use effect')
+    //     store.dispatch(getTimetableByUserId(classId))
+    // }, [])
     // const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | undefined>(undefined)
-    console.log('timetable', timeTableData)
+    console.log('timetable', AllTimetable)
     const handlePaginationChange = async (page: number): Promise<any> => {
         try {
             //setLoading(true)
@@ -152,7 +145,7 @@ const ListTimeTable: React.FC = () => {
                 Number(loginData.data?.userDetails.id),
                 page - 1
             )
-            setAllTimetable(response)
+            // setAllTimetable(response)
             // eslint-disable-next-line @typescript-eslint/no-shadow
         } catch (error: unknown) {
             setError('Error fetching data')
@@ -196,11 +189,12 @@ const ListTimeTable: React.FC = () => {
     useEffect(() => {
         const fetchData = async (): Promise<any> => {
             try {
-                const res = await getAllTimetable(
-                    Number(loginData.data?.userDetails.id)
+                await getAllTimetable(
+                    Number(loginData.data?.userDetails.id),
+                    Number(classId)
                 )
 
-                setAllTimetable(res)
+                //  setAllTimetable(res)
             } catch (errors) {
                 /// setError('Error fetching data')
             } finally {
@@ -218,10 +212,25 @@ const ListTimeTable: React.FC = () => {
         //     defaultSortOrder: 'descend',
         //     sorter: (a, b) => a.timeTableId - b.timeTableId,
         // },
+        // {
+        //     title: getLabelByKey('title'),
+        //     dataIndex: 'title',
+        //     key: 'title',
+        // },
         {
-            title: getLabelByKey('title'),
-            dataIndex: 'title',
-            key: 'title',
+            title: getLabelByKey('roomName'),
+            dataIndex: 'roomIds',
+            key: 'roomName',
+        },
+        {
+            title: getLabelByKey('instructorName'),
+            dataIndex: 'instructorIds',
+            key: 'instructorName',
+        },
+        {
+            title: getLabelByKey('activities'),
+            dataIndex: 'activities',
+            key: 'Activities',
         },
         {
             title: getLabelByKey('startDate'),
@@ -230,7 +239,7 @@ const ListTimeTable: React.FC = () => {
             render: (startDate) => {
                 return (
                     <div className="list-item mb-0">
-                        <div className="list-item-value ms-2">
+                        <div className="list-item-value ">
                             {moment(moment(startDate, 'YYYY-MM-DD')).format(
                                 'dddd, MMM DD, YYYY'
                             )}
@@ -247,7 +256,7 @@ const ListTimeTable: React.FC = () => {
                 if (endDate !== null) {
                     return (
                         <div className="list-item mb-0">
-                            <div className="list-item-value ms-2">
+                            <div className="list-item-value ">
                                 {moment(moment(endDate, 'YYYY-MM-DD')).format(
                                     'dddd, MMM DD, YYYY'
                                 )}
@@ -263,26 +272,26 @@ const ListTimeTable: React.FC = () => {
                 }
             },
         },
-        {
-            title: getLabelByKey('type'),
-            dataIndex: 'isRepeated',
-            key: 'isRepeated',
-            render: (isRepeated) => {
-                if (isRepeated === true) {
-                    return (
-                        <div>
-                            <text>{'Repeat'}</text>
-                        </div>
-                    )
-                } else {
-                    return (
-                        <div>
-                            <text>{'No Repeat'}</text>
-                        </div>
-                    )
-                }
-            },
-        },
+        // {
+        //     title: getLabelByKey('type'),
+        //     dataIndex: 'isRepeated',
+        //     key: 'isRepeated',
+        //     render: (isRepeated) => {
+        //         if (isRepeated === true) {
+        //             return (
+        //                 <div>
+        //                     <text>{'Repeat'}</text>
+        //                 </div>
+        //             )
+        //         } else {
+        //             return (
+        //                 <div>
+        //                     <text>{'No Repeat'}</text>
+        //                 </div>
+        //             )
+        //         }
+        //     },
+        // },
         {
             title: getLabelByKey('status'),
             dataIndex: 'isActive',

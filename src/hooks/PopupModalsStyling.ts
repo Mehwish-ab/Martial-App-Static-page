@@ -9,12 +9,12 @@ import {
 export const SchoolSuccessfulModals = styled.div`
     .mainContainer {
         img {
-            height: 79px;
-            width: 79px;
+            height: 49px;
+            width: 49px;
 
             @media screen and ${mediaDeviceMax.mobileBS} {
-                height: 50px;
-                width: 50px;
+                height: 30px;
+                width: 30px;
             }
         }
         &-heading {

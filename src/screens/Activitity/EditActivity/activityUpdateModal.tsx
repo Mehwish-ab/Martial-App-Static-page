@@ -3,7 +3,6 @@ import { ActivityStyle } from '../styles'
 import ImagesUpload from '../../../components/ImagesUpload/ImagesUpload'
 import FileSubmit from '../../../assets/icons/ic_fileSubmit.svg'
 import CustomModal from '../../../components/Modal/CustomModal'
-import { useAppSelector } from '../../../app/hooks'
 import { ErrorMessage, Formik } from 'formik'
 import { Card, Form } from 'antd'
 import { Col, Row } from 'react-bootstrap'
@@ -13,11 +12,7 @@ import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import { RootState } from '../../../redux/store'
 import useSchool from '../../../hooks/useCreateSchool'
 import { useParams } from 'react-router-dom'
-import {
-    CreateSchoolInitialValues,
-    SelectOptionsDataTypes,
-} from '../../Home/constants'
-import { validationFinder } from '../../../utils/utilities'
+import { SelectOptionsDataTypes } from '../../Home/constants'
 import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
 import FormControl from '../../../components/FormControl'
 import {
@@ -30,19 +25,28 @@ import CustomButton from '../../../components/CustomButton/CustomButton'
 import Head from '../../../components/Head/Head'
 import { useEffect, useState } from 'react'
 import { SchoolDataType } from '../../../redux/features/dashboard/dashboardDataSlice'
-import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
-import moment from 'moment'
-import useActivity from '../../../hooks/useActivity'
 import { Input } from 'formik-antd'
 
-const Activity = ({ closeModal, activityData }: any): JSX.Element => {
+interface IModalComponent {
+    modalComponent: JSX.Element
+}
+interface Props {
+    closeModal: () => void
+    activityData: any // Define the type for activityData
+    handleUpdate: () => void
+}
+
+const Activity = ({
+    closeModal,
+    activityData,
+    handleUpdate,
+}: any): JSX.Element => {
     const [isActivityModalVisible, setIsActivityModalVisible] = useState(false)
     const { schoolId } = useParams()
     const [school, setSchool] = useState<SchoolDataType | undefined>(undefined)
     const [isShowModal, setIsShowModal] = useState(false)
-    const { handleUpdate, UpdateModal } = useActivity()
     const [selectedFiles, setSelectedFiless] = useState<File | null>(null)
-    const { loading, SuccessModal, WarningModal, getSchoolbyId } = useSchool()
+    const { getSchoolbyId } = useSchool()
     const initialValuesForEdit: ActivityInitialValues = {
         activityId: activityData ? activityData.activityId : '',
         selectBelt: activityData ? activityData.beltId : null!,
@@ -248,26 +252,6 @@ const Activity = ({ closeModal, activityData }: any): JSX.Element => {
         if (activitiesName !== '') return activitiesName
         return '--'
     }
-    // const showActivities = (_activities: string[]): string => {
-    //     let activitiesName = ''
-    //     _activities.map((activity) => {
-    //         const index = activities.findIndex((act) => act.id === activity)
-    //         const belt = activities[index]
-    //         setIsBelt(belt.belt)
-    //         if (index !== -1) {
-    //             activitiesName =
-    //                 activitiesName === ''
-    //                     ? (activities[index] as any)[selectedLanguage]
-    //                     : `${activitiesName}, ${
-    //                           (activities[index] as any)[selectedLanguage]
-    //                       }`
-    //         }
-    //     })
-    //     if (activitiesName.length > 40) {
-    //         return `${activitiesName.slice(0, 40)}...`
-    //     }
-    //     return activitiesName || getLabelByKey('activity')
-    // }
 
     return (
         <>
@@ -278,16 +262,6 @@ const Activity = ({ closeModal, activityData }: any): JSX.Element => {
             >
                 <Head title="Activity" />
                 <ActivityStyle>
-                    {/* {SuccessModal().modalComponent}
-                    {WarningModal().modalComponent} */}
-                    {/* <CustomMessageModal
-                        isModalVisible={isShowModal}
-                        setIsModalVisible={setIsShowModal}
-                        description="Congratulations! Your profile has been successfully completed, ensuring a seamless experience within the Marital "
-                        title="Register Profile Successfully"
-                        imageProp={'success'}
-                    /> */}
-                    {UpdateModal().modalComponent}
                     <Formik
                         initialValues={initialValuesForEdit}
                         validationSchema={validationSchema}

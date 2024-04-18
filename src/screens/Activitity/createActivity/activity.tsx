@@ -11,12 +11,13 @@ import {
     fontFamilyMedium,
     fontFamilyRegular,
     lightBlue3,
+    lightGrey,
     maastrichtBlue,
 } from '../../../components/GlobalStyle'
 import FileSubmit from '../../../assets/icons/ic_fileSubmit.svg'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import Head from '../../../components/Head/Head'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import {
     OwnerDataTypes,
     SchoolDataType,
@@ -34,9 +35,12 @@ import useInstructor from '../../../hooks/useInstructor'
 
 const CreateActivity = (): JSX.Element => {
     const { id } = useParams()
-    const [isShowModal, setIsShowModal] = useState(false)
+    //const [isShowModal, setIsShowModal] = useState(false)
     const { userRole } = useSelector((state: RootState) => state.UserData)
-    console.log('id from param', id)
+    const location = useLocation()
+    const queryParams = new URLSearchParams(location.search)
+    const actId = queryParams.get('actId')
+
     const initialValues: ActivityInitialValues = {
         activityId: '',
         selectedActivities: '',
@@ -52,7 +56,8 @@ const CreateActivity = (): JSX.Element => {
     const { getSchoolbyId } = useSchool()
     const { getInstructorbyid } = useInstructor()
     const [selectedFiles, setSelectedFiless] = useState<File | null>(null)
-    const { handleCreateSubmit, Createmodal } = useActivity()
+    const { handleCreateSubmit, Createmodal, AllActivities, WarningModal } =
+        useActivity()
     let roleId = null as any
     let useCase = ''
     if (userRole === 'school') {
@@ -76,12 +81,18 @@ const CreateActivity = (): JSX.Element => {
             : ' '
         console.log('roleId', roleId)
         await handleCreateSubmit(formattedValues, file, roleId, useCase)
+
+        // if (userRole === 'school') {
+        //     actId && navigate(`/school/view/${roleId}`)
+        // } else if (userRole === 'instructor') {
+        //     actId && navigate(`/instructor/view/${roleId}`)
+        // }
         // After successful form submission, show the modal
-        setIsShowModal(true)
+        // setIsShowModal(true)
         //setIsActivityModalVisible(true)
-        setTimeout(() => {
-            setIsShowModal(false)
-        }, 2000)
+        // setTimeout(() => {
+        //     setIsShowModal(false)
+        // }, 2000)
 
         // await editSchool(Number(loginData?.userDetails.id), values)
     }
@@ -123,9 +134,9 @@ const CreateActivity = (): JSX.Element => {
     const Kids = kids.map((k) => ({ ...k, isKid: true }))
 
     const Belts = [...Adults, ...Kids]
-    const { activityData } = useSelector(
-        (state: RootState) => state.activityData
-    )
+    // const { activityData } = useSelector(
+    //     (state: RootState) => state.activityData
+    // )
     console.log('activity data from redux', userRole)
     const [schoolData, setschoolData] = useState<SchoolDataType>()
     const [OwnerData, setOwnerData] = useState<OwnerDataTypes>()
@@ -191,13 +202,16 @@ const CreateActivity = (): JSX.Element => {
 
     useEffect(() => {
         if (selectedActivities.length > 0) {
-            const checkAllActivitites = selectedActivities?.every((act) => {
-                const exp = activityData.find(
-                    (activity) => activity.activityId === +act
-                )
-                console.log({ exp })
-                return !!(exp && (exp.experienceLevelId || exp.beltId))
-            })
+            const checkAllActivitites = selectedActivities
+                ?.filter((act) => (actId ? act === actId : true))
+                .every((act) => {
+                    const exp = AllActivities.find(
+                        (activity: any) => activity.activityId === +act
+                    )
+                    console.log({ exp })
+                    return !!(exp && (exp.experienceLevelId || exp.beltId))
+                })
+
             if (userRole === 'school') {
                 checkAllActivitites && navigate(`/school/view/${roleId}`)
             } else if (userRole === 'instructor') {
@@ -291,15 +305,19 @@ const CreateActivity = (): JSX.Element => {
         return '--'
     }
 
-    console.log('activityData.data', activityData, selectedActivities)
+    console.log('AllActivities.data', AllActivities, selectedActivities)
 
     const handleSubmitButton = (activityId: string): boolean => {
-        const exp = activityData.find((act) => act.activityId === +activityId)
+        const exp = AllActivities.find(
+            (act: any) => act.activityId === +activityId
+        )
         console.log('exp', exp)
         return !!(exp && (exp.experienceLevelId || exp.beltId))
     }
     const getIntialValues = (activityId: string): ActivityInitialValues => {
-        const exp = activityData.find((act) => act.activityId === +activityId)
+        const exp = AllActivities.find(
+            (act: any) => act.activityId === +activityId
+        )
 
         return {
             ...initialValues,
@@ -309,193 +327,466 @@ const CreateActivity = (): JSX.Element => {
             }),
         }
     }
-
     return (
         <>
-            {Createmodal().modalComponent}
             <Head title="Activity" />
             <ActivityStyle>
                 <div className="mainWrapper">
                     <h3 className="tableTitle">{getLabelByKey('title')}</h3>
                 </div>
             </ActivityStyle>
-            {selectedActivities?.map((act) => {
-                const exp = activityData.find(
-                    (activity) => activity.activityId === +act
-                )
-                if (!!(exp && (exp.experienceLevelId || exp.beltId))) return
-                return (
-                    <ActivityStyle key={act}>
-                        <Formik
-                            initialValues={getIntialValues(act)}
-                            validationSchema={validationSchema}
-                            onSubmit={(values) => {
-                                // Add 'activityName' to the submitted values using 'act'
-                                const submittedValues = {
-                                    ...values,
-                                    activityId: act,
-                                }
-                                onSubmit(submittedValues) // Call the onSubmit function with the modified values
-                            }}
-                        >
-                            {(formik) => {
-                                return (
-                                    <Form
-                                        name="basic"
-                                        onFinish={formik.handleSubmit}
-                                        autoComplete="off"
-                                    >
-                                        <div className="bg-white form">
-                                            <Row>
-                                                <Col className="mt-20">
-                                                    <FormControl
-                                                        type="text"
-                                                        onChange={() => {}}
-                                                        control="input"
-                                                        className={
-                                                            fontFamilyRegular
-                                                        }
-                                                        name="activityId"
-                                                        label={getLabelByKey(
-                                                            'activityName'
-                                                        )}
-                                                        padding="8px 10px"
-                                                        placeholder={showActivities(
-                                                            act
-                                                        )}
-                                                        disabled // Disable the input
-                                                        style={{
-                                                            pointerEvents:
-                                                                'none',
-                                                            backgroundColor:
-                                                                'white',
-                                                            border: 'none', // Remove other borders
-                                                            borderBottom:
-                                                                '1px solid black', // Show only the bottom border
-                                                        }}
-                                                    />
-                                                </Col>
-                                                {!!showBelts(act).length && (
-                                                    <Col className="mt-20">
-                                                        <FormControl
-                                                            control="select"
-                                                            type="text"
-                                                            name="selectBelt"
-                                                            label={getLabelByKey(
-                                                                'belts'
-                                                            )}
-                                                            fontSize="16px"
-                                                            max={6}
-                                                            placeholder="Select belt"
-                                                            value={
-                                                                formik.values
-                                                                    .selectBelt
-                                                            }
-                                                            className={
-                                                                formik.errors
-                                                                    .selectBelt &&
-                                                                formik.touched
-                                                                    .selectBelt
-                                                                    ? 'is-invalid'
-                                                                    : 'customInput'
-                                                            }
-                                                            options={showBelts(
-                                                                act
-                                                            )}
-                                                        />
-                                                    </Col>
-                                                )}
-                                                {!!showExperience(act)
-                                                    .length && (
-                                                    <Col className="mt-20">
-                                                        <FormControl
-                                                            control="select"
-                                                            type="text"
-                                                            name="experience"
-                                                            label="Experience Level"
-                                                            value={
-                                                                formik.values
-                                                                    .experience
-                                                            }
-                                                            fontSize="16px"
-                                                            max={6}
-                                                            placeholder="Select Experience"
-                                                            className={
-                                                                formik.errors
-                                                                    .experience &&
-                                                                formik.touched
-                                                                    .experience
-                                                                    ? 'is-invalid'
-                                                                    : 'customInput'
-                                                            }
-                                                            options={showExperience(
-                                                                act
-                                                            )}
-                                                        />
-                                                    </Col>
-                                                )}
-                                                <Col
-                                                    md="3"
-                                                    className="certificate mt-20"
-                                                >
-                                                    <FormControl
-                                                        control="file"
-                                                        type="file"
-                                                        name="latestCertification"
-                                                        fontFamily={
-                                                            fontFamilyRegular
-                                                        }
-                                                        label={
-                                                            <>
-                                                                {getLabelByKey(
-                                                                    'latestCertifications'
-                                                                )}
-                                                                <span className="ml-2">
-                                                                    (optional)
-                                                                </span>
-                                                            </>
-                                                        }
-                                                        src={FileSubmit}
-                                                        suffix={
-                                                            <ImagesUpload
-                                                                onImagesSelect={
-                                                                    handleImagesUpload
+            {Createmodal().modalComponent}
+            {WarningModal().modalComponent}
+            {selectedActivities
+                ?.filter((act) => (actId ? act === actId : true))
+                .map((act) => {
+                    const exp = AllActivities.find(
+                        (activity: any) => activity.activityId === +act
+                    )
+                    if (actId && act === actId) {
+                        console.log('actId', act, actId)
+                        return (
+                            <ActivityStyle key={act}>
+                                <Formik
+                                    initialValues={getIntialValues(act)}
+                                    validationSchema={validationSchema}
+                                    onSubmit={(values) => {
+                                        // Add 'activityName' to the submitted values using 'act'
+                                        const submittedValues = {
+                                            ...values,
+                                            activityId: act,
+                                        }
+                                        onSubmit(submittedValues) // Call the onSubmit function with the modified values
+                                    }}
+                                >
+                                    {(formik) => {
+                                        return (
+                                            <Form
+                                                name="basic"
+                                                onFinish={formik.handleSubmit}
+                                                autoComplete="off"
+                                            >
+                                                <div className="bg-white form">
+                                                    <Row>
+                                                        <Col
+                                                            md="3"
+                                                            className="mt-20"
+                                                        >
+                                                            <FormControl
+                                                                type="text"
+                                                                onChange={() => {}}
+                                                                control="input"
+                                                                className={
+                                                                    fontFamilyRegular
                                                                 }
+                                                                name="activityId"
+                                                                label={getLabelByKey(
+                                                                    'activityName'
+                                                                )}
+                                                                padding="8px 10px"
+                                                                placeholder={showActivities(
+                                                                    act
+                                                                )}
+                                                                disabled // Disable the input
+                                                                style={{
+                                                                    pointerEvents:
+                                                                        'none',
+                                                                    backgroundColor:
+                                                                        'white',
+                                                                    border: 'none', // Remove other borders
+                                                                    borderBottom:
+                                                                        '1px solid black', // Show only the bottom border
+                                                                }}
                                                             />
-                                                        }
-                                                        padding="10px"
-                                                        placeholder="Upload Certificate"
-                                                    />
-                                                </Col>
-                                                <Col md="2" className="mt-5 ">
-                                                    <CustomButton
-                                                        bgcolor={lightBlue3}
-                                                        textTransform="Captilize"
-                                                        color={maastrichtBlue}
-                                                        padding="11px 40.50px"
-                                                        fontFamily={`${fontFamilyMedium}`}
-                                                        width="fit-content"
-                                                        type="submit"
-                                                        title="Submit"
-                                                        fontSize="18px"
-                                                        disabled={handleSubmitButton(
-                                                            act
+                                                        </Col>
+                                                        {!!showBelts(act)
+                                                            .length && (
+                                                            <Col
+                                                                md={
+                                                                    !!showBelts(
+                                                                        act
+                                                                    ).length &&
+                                                                    !!showExperience(
+                                                                        act
+                                                                    ).length
+                                                                        ? '2'
+                                                                        : '4'
+                                                                }
+                                                                className="mt-20"
+                                                            >
+                                                                <FormControl
+                                                                    control="select"
+                                                                    type="text"
+                                                                    name="selectBelt"
+                                                                    label={getLabelByKey(
+                                                                        'belts'
+                                                                    )}
+                                                                    fontSize="16px"
+                                                                    max={6}
+                                                                    placeholder="Select belt"
+                                                                    value={
+                                                                        formik
+                                                                            .values
+                                                                            .selectBelt
+                                                                    }
+                                                                    className={
+                                                                        formik
+                                                                            .errors
+                                                                            .selectBelt &&
+                                                                        formik
+                                                                            .touched
+                                                                            .selectBelt
+                                                                            ? 'is-invalid'
+                                                                            : 'customInput'
+                                                                    }
+                                                                    options={showBelts(
+                                                                        act
+                                                                    )}
+                                                                />
+                                                            </Col>
                                                         )}
-                                                        loading={false}
-                                                        clicked={() => {
-                                                            onsubmit
+                                                        {!!showExperience(act)
+                                                            .length && (
+                                                            <Col
+                                                                md={
+                                                                    !!showBelts(
+                                                                        act
+                                                                    ).length &&
+                                                                    !!showExperience(
+                                                                        act
+                                                                    ).length
+                                                                        ? '2'
+                                                                        : '4'
+                                                                }
+                                                                className="mt-20"
+                                                            >
+                                                                <FormControl
+                                                                    control="select"
+                                                                    type="text"
+                                                                    name="experience"
+                                                                    label="Experience Level"
+                                                                    value={
+                                                                        formik
+                                                                            .values
+                                                                            .experience
+                                                                    }
+                                                                    fontSize="16px"
+                                                                    max={6}
+                                                                    placeholder="Select Experience"
+                                                                    className={
+                                                                        formik
+                                                                            .errors
+                                                                            .experience &&
+                                                                        formik
+                                                                            .touched
+                                                                            .experience
+                                                                            ? 'is-invalid'
+                                                                            : 'customInput'
+                                                                    }
+                                                                    options={showExperience(
+                                                                        act
+                                                                    )}
+                                                                />
+                                                            </Col>
+                                                        )}
+                                                        <Col
+                                                            md="3"
+                                                            className="certificate mt-20"
+                                                        >
+                                                            <FormControl
+                                                                control="file"
+                                                                type="file"
+                                                                name="latestCertification"
+                                                                fontFamily={
+                                                                    fontFamilyRegular
+                                                                }
+                                                                label={
+                                                                    <>
+                                                                        {getLabelByKey(
+                                                                            'latestCertifications'
+                                                                        )}
+                                                                        <span className="ml-2">
+                                                                            (optional)
+                                                                        </span>
+                                                                    </>
+                                                                }
+                                                                src={FileSubmit}
+                                                                suffix={
+                                                                    <ImagesUpload
+                                                                        onImagesSelect={
+                                                                            handleImagesUpload
+                                                                        }
+                                                                    />
+                                                                }
+                                                                padding="10px"
+                                                                placeholder="Upload Certificate"
+                                                            />
+                                                        </Col>
+                                                        <Col
+                                                            style={{
+                                                                marginTop:
+                                                                    '3.3rem',
+                                                            }}
+                                                            md="2"
+                                                            // className="mt-5"
+                                                        >
+                                                            <CustomButton
+                                                                bgcolor={
+                                                                    exp?.id !==
+                                                                    null
+                                                                        ? lightBlue3
+                                                                        : lightGrey
+                                                                }
+                                                                textTransform="Captilize"
+                                                                color={
+                                                                    maastrichtBlue
+                                                                }
+                                                                padding="11px 40.50px"
+                                                                fontFamily={`${fontFamilyMedium}`}
+                                                                width="fit-content"
+                                                                type="submit"
+                                                                title="Submit"
+                                                                fontSize="18px"
+                                                                disabled={
+                                                                    !!exp?.id
+                                                                }
+                                                                // disabled={handleSubmitButton(
+                                                                //     act
+                                                                // )}
+                                                                loading={false}
+                                                                clicked={() => {
+                                                                    onsubmit
+                                                                }}
+                                                            />
+                                                        </Col>
+                                                    </Row>
+                                                </div>
+                                            </Form>
+                                        )
+                                    }}
+                                </Formik>
+                            </ActivityStyle>
+                        )
+                    }
+
+                    if (!!(exp && (exp.experienceLevelId || exp.beltId))) return
+                    return (
+                        <ActivityStyle key={act}>
+                            <Formik
+                                initialValues={getIntialValues(act)}
+                                validationSchema={validationSchema}
+                                onSubmit={(values) => {
+                                    // Add 'activityName' to the submitted values using 'act'
+                                    const submittedValues = {
+                                        ...values,
+                                        activityId: act,
+                                    }
+                                    onSubmit(submittedValues) // Call the onSubmit function with the modified values
+                                }}
+                            >
+                                {(formik) => {
+                                    return (
+                                        <Form
+                                            name="basic"
+                                            onFinish={formik.handleSubmit}
+                                            autoComplete="off"
+                                        >
+                                            <div className="bg-white form">
+                                                <Row>
+                                                    <Col
+                                                        md="3"
+                                                        className="mt-20"
+                                                    >
+                                                        <FormControl
+                                                            type="text"
+                                                            onChange={() => {}}
+                                                            control="input"
+                                                            className={
+                                                                fontFamilyRegular
+                                                            }
+                                                            name="activityId"
+                                                            label={getLabelByKey(
+                                                                'activityName'
+                                                            )}
+                                                            padding="8px 10px"
+                                                            placeholder={showActivities(
+                                                                act
+                                                            )}
+                                                            disabled // Disable the input
+                                                            style={{
+                                                                pointerEvents:
+                                                                    'none',
+                                                                backgroundColor:
+                                                                    'white',
+                                                                border: 'none', // Remove other borders
+                                                                borderBottom:
+                                                                    '1px solid black', // Show only the bottom border
+                                                            }}
+                                                        />
+                                                    </Col>
+                                                    {!!showBelts(act)
+                                                        .length && (
+                                                        <Col
+                                                            md={
+                                                                !!showBelts(act)
+                                                                    .length &&
+                                                                !!showExperience(
+                                                                    act
+                                                                ).length
+                                                                    ? '2'
+                                                                    : '4'
+                                                            }
+                                                            className="mt-20"
+                                                        >
+                                                            <FormControl
+                                                                control="select"
+                                                                type="text"
+                                                                name="selectBelt"
+                                                                label={getLabelByKey(
+                                                                    'belts'
+                                                                )}
+                                                                fontSize="16px"
+                                                                max={6}
+                                                                placeholder="Select belt"
+                                                                value={
+                                                                    formik
+                                                                        .values
+                                                                        .selectBelt
+                                                                }
+                                                                className={
+                                                                    formik
+                                                                        .errors
+                                                                        .selectBelt &&
+                                                                    formik
+                                                                        .touched
+                                                                        .selectBelt
+                                                                        ? 'is-invalid'
+                                                                        : 'customInput'
+                                                                }
+                                                                options={showBelts(
+                                                                    act
+                                                                )}
+                                                            />
+                                                        </Col>
+                                                    )}
+                                                    {!!showExperience(act)
+                                                        .length && (
+                                                        <Col
+                                                            md={
+                                                                !!showBelts(act)
+                                                                    .length &&
+                                                                !!showExperience(
+                                                                    act
+                                                                ).length
+                                                                    ? '2'
+                                                                    : '4'
+                                                            }
+                                                            className="mt-20"
+                                                        >
+                                                            <FormControl
+                                                                control="select"
+                                                                type="text"
+                                                                name="experience"
+                                                                label="Experience Level"
+                                                                value={
+                                                                    formik
+                                                                        .values
+                                                                        .experience
+                                                                }
+                                                                fontSize="16px"
+                                                                max={6}
+                                                                placeholder="Select Experience"
+                                                                className={
+                                                                    formik
+                                                                        .errors
+                                                                        .experience &&
+                                                                    formik
+                                                                        .touched
+                                                                        .experience
+                                                                        ? 'is-invalid'
+                                                                        : 'customInput'
+                                                                }
+                                                                options={showExperience(
+                                                                    act
+                                                                )}
+                                                            />
+                                                        </Col>
+                                                    )}
+                                                    <Col
+                                                        md="3"
+                                                        className="certificate mt-20"
+                                                    >
+                                                        <FormControl
+                                                            control="file"
+                                                            type="file"
+                                                            name="latestCertification"
+                                                            fontFamily={
+                                                                fontFamilyRegular
+                                                            }
+                                                            label={
+                                                                <>
+                                                                    {getLabelByKey(
+                                                                        'latestCertifications'
+                                                                    )}
+                                                                    <span className="ml-2">
+                                                                        (optional)
+                                                                    </span>
+                                                                </>
+                                                            }
+                                                            src={FileSubmit}
+                                                            suffix={
+                                                                <ImagesUpload
+                                                                    onImagesSelect={
+                                                                        handleImagesUpload
+                                                                    }
+                                                                />
+                                                            }
+                                                            padding="10px"
+                                                            placeholder="Upload Certificate"
+                                                        />
+                                                    </Col>
+                                                    <Col
+                                                        style={{
+                                                            marginTop: '3.3rem',
                                                         }}
-                                                    />
-                                                </Col>
-                                            </Row>
-                                        </div>
-                                    </Form>
-                                )
-                            }}
-                        </Formik>
-                    </ActivityStyle>
-                )
-            })}
+                                                        md="2"
+                                                        // className="mt-5"
+                                                    >
+                                                        <CustomButton
+                                                            bgcolor={
+                                                                exp?.id !== null
+                                                                    ? lightBlue3
+                                                                    : lightGrey
+                                                            }
+                                                            textTransform="Captilize"
+                                                            color={
+                                                                maastrichtBlue
+                                                            }
+                                                            padding="11px 40.50px"
+                                                            fontFamily={`${fontFamilyMedium}`}
+                                                            width="fit-content"
+                                                            type="submit"
+                                                            title="Submit"
+                                                            fontSize="18px"
+                                                            disabled={!!exp?.id}
+                                                            // disabled={handleSubmitButton(
+                                                            //     act
+                                                            // )}
+                                                            loading={false}
+                                                            clicked={() => {
+                                                                onsubmit
+                                                            }}
+                                                        />
+                                                    </Col>
+                                                </Row>
+                                            </div>
+                                        </Form>
+                                    )
+                                }}
+                            </Formik>
+                        </ActivityStyle>
+                    )
+                })}
         </>
     )
 }

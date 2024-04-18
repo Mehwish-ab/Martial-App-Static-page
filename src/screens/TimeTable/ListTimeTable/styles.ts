@@ -67,7 +67,7 @@ export const ListTimeTableStyled = styled.div`
     }
 
     .ant-table-tbody > tr > td:nth-child(1),
-    .ant-table-tbody > tr > th:nth-child(2),
+    .ant-table-tbody > tr > th:nth-child(0),
     .ant-table-tbody > tr > td:nth-child(2) {
         text-align: left;
     }
@@ -85,12 +85,12 @@ export const ListTimeTableStyled = styled.div`
         color: ${lightDark3};
     }
 
-    .ant-table-tbody > tr > td:nth-child(5),
-    .ant-table-tbody > tr > td:nth-child(5) div {
+    .ant-table-tbody > tr > td:nth-child(6),
+    .ant-table-tbody > tr > td:nth-child(6) div {
         position: relative;
         width: 95px;
     }
-    .ant-table-tbody > tr > td:nth-child(5) button {
+    .ant-table-tbody > tr > td:nth-child(6) button {
         font-style: normal;
         font-weight: 400;
         line-height: normal;
@@ -105,13 +105,13 @@ export const ListTimeTableStyled = styled.div`
         position: relative;
         text-align: center;
     }
-    .ant-table-tbody > tr > td:nth-child(5) img {
+    .ant-table-tbody > tr > td:nth-child(6) img {
         position: absolute;
         right: -3px;
         top: -7px;
     }
-    .ant-table-thead > tr > th:nth-child(5),
-    .ant-table-tbody > tr > td:nth-child(6) {
+    .ant-table-thead > tr > td:nth-child(3),
+    .ant-table-tbody > tr > td:nth-child(7) {
         text-align: center;
     }
     .ant-table-tbody > tr:nth-child(odd) td {
@@ -129,26 +129,26 @@ export const ListTimeTableStyled = styled.div`
 
     @media screen and (max-width: 1120px) {
         .ant-table-tbody > tr > td:nth-child(3),
-        .ant-table-thead > tr > th:nth-child(2) {
+        .ant-table-thead > tr > th:nth-child(0) {
             display: none;
         }
     }
 
     @media screen and (max-width: 700px) {
         .ant-table-tbody > tr > td:nth-child(4),
-        .ant-table-thead > tr > th:nth-child(3) {
+        .ant-table-thead > tr > th:nth-child(1) {
             display: none;
         }
     }
     @media screen and (max-width: 620px) {
         .ant-table-tbody > tr > td:nth-child(2),
-        .ant-table-thead > tr > th:nth-child(2) {
+        .ant-table-thead > tr > th:nth-child(0) {
             display: none;
         }
     }
     @media screen and (max-width: 430px) {
-        .ant-table-tbody > tr > td:nth-child(5),
-        .ant-table-thead > tr > th:nth-child(4) {
+        .ant-table-tbody > tr > td:nth-child(6),
+        .ant-table-thead > tr > th:nth-child(2) {
             display: none;
         }
     }
@@ -245,7 +245,7 @@ export const ListTimeTableStyled = styled.div`
             margin: 0px 10px;
         }
     }
-    .ant-table-tbody > tr > td:nth-child(5) .Active button {
+    .ant-table-tbody > tr > td:nth-child(6) .Active button {
         font-style: normal;
         font-weight: 400;
         line-height: normal;
@@ -260,7 +260,7 @@ export const ListTimeTableStyled = styled.div`
         position: relative;
         text-align: center;
     }
-    .ant-table-tbody > tr > td:nth-child(5) .De-Active button {
+    .ant-table-tbody > tr > td:nth-child(6) .De-Active button {
         font-style: normal;
         font-weight: 400;
         line-height: normal;

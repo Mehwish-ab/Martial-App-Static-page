@@ -23,7 +23,7 @@ const menuLinks: any = {
     language: '/language',
     qrCode: '/qr-code',
     setting: '/settings',
-    user: '/user/list',
+    // user: '/user/list',
     attendance: '',
     reports: '/reports/list',
     upgradeAccount: '/upgrade-account',
@@ -98,10 +98,10 @@ const UserNavigationMenu = (): JSX.Element => {
                 menuLinksKeys.createSchool
             ),
         },
-        {
-            key: menuLinksKeys.user,
-            label: getLabel('Users', menuLinks.user, menuLinksKeys.user),
-        },
+        // {
+        //     key: menuLinksKeys.user,
+        //     label: getLabel('Users', menuLinks.user, menuLinksKeys.user),
+        // },
         {
             key: menuLinksKeys.classes,
             label: getLabel(

@@ -16,8 +16,7 @@ const ViewMembership = (): JSX.Element => {
     const { memberShipPlanId } = useParams()
     const { getLabelByKey } = useScreenTranslation('detailMembership')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
-    const { getMembershipbyid } = useMembership()
-    const [memberShipValue, setMemberShipValue] = useState<any>()
+    const { getMembershipbyid, memberShipValue } = useMembership()
     const { visibility, subscriptionType } = useSelector(
         (state: RootState) => state.appData.data.dropdowns
     )
@@ -84,8 +83,8 @@ const ViewMembership = (): JSX.Element => {
     useEffect(() => {
         const fetchData = async (): Promise<void> => {
             if (memberShipPlanId !== undefined) {
-                const data = await getMembershipbyid(Number(memberShipPlanId))
-                setMemberShipValue(data)
+                await getMembershipbyid(Number(memberShipPlanId))
+                //  setMemberShipValue(data)
             }
         }
 

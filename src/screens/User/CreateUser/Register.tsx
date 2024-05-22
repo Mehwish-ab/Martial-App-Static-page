@@ -5,6 +5,7 @@ import FormControl from '../../../components/FormControl'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import CreateUserStyle from './style'
 import { ScrollView } from 'react-native'
+import ic_success from '../../../assets/images/ic_success.svg'
 
 import {
     fontFamilyMedium,
@@ -33,6 +34,8 @@ import OauthLogin from '../../../components/Common/OauthLogin/OauthLogin'
 import { OAUTH_USECASES } from '../../../components/Common/OauthLogin/constants'
 import TermsAndConditions from '../../../components/TermsAndConditions/TermsAndConditions'
 import MessageModal from '../../../components/Common/MessageModal/MessageModal'
+import CustomModal from '../../../components/Modal/CustomModal'
+import { SchoolSuccessfulModals } from '../../../hooks/PopupModalsStyling'
 
 // create user initial values types
 type initialValuesType = {
@@ -44,13 +47,13 @@ type initialValuesType = {
     confirmPassword?: string
 }
 
-const RegisterUser = (): JSX.Element => {
-    // const [isShowModal, setIsShowModal] = useState(false);
+const Register = (): JSX.Element => {
+    const [errorModal, setErrorModal] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [terms, setTerms] = useState(false)
     const [showTermsError, setShowTermsError] = useState(false)
     const { getLabelByKey } = useScreenTranslation('registerScreen')
-
+    const [showModal, setShowModal] = useState(false)
     const scrollViewRef = useRef<ScrollView>(null)
     const navigate = useNavigate()
     const { selectedLanguage } = useSelector(
@@ -183,19 +186,15 @@ const RegisterUser = (): JSX.Element => {
         }
         try {
             setIsLoading(true)
-            await axios.post(signup_url, userData)
-            // const successMessage = response.data.responseMessage;
-            toast(
-                <MessageModal
-                    message="Account Created Successfully!"
-                    description="Thank You For Joining Us And We're Excited To Have You On Board"
-                    type="success"
-                />,
-                {
-                    autoClose: 1000,
-                }
-            )
-            navigate('/login')
+            const response = await axios.post(signup_url, userData)
+            if (response.data.responseCode === 200) {
+                setShowModal(true)
+                setTimeout(() => {
+                    setShowModal(false)
+                    navigate('/login')
+                }, 2000)
+            }
+
             setIsLoading(false)
             // eslint-disable-next-line prettier/prettier, @typescript-eslint/no-explicit-any
         } catch (error: any) {
@@ -211,6 +210,28 @@ const RegisterUser = (): JSX.Element => {
     return (
         <>
             <Head title="Register" />
+            <CustomModal
+                isModalVisible={showModal}
+                setIsModalVisible={setShowModal}
+            >
+                <SchoolSuccessfulModals>
+                    <div className="mainContainer d-flex flex-column align-items-center">
+                        <img
+                            src={ic_success}
+                            alt="error Icon"
+                            width={89}
+                            height={89}
+                        />
+                        <h3 className="mainContainer-heading text-center">
+                            Account Created Successfully!
+                        </h3>
+                        <p className="mainContainer-subText text-center">
+                            Thank You For Joining Us And We are Excited To Have
+                            You On Board
+                        </p>
+                    </div>
+                </SchoolSuccessfulModals>
+            </CustomModal>
             <CreateUserStyle>
                 <div className="inner-container">
                     <div className="inner-container-card">
@@ -507,4 +528,4 @@ const RegisterUser = (): JSX.Element => {
     )
 }
 
-export default RegisterUser
+export default Register

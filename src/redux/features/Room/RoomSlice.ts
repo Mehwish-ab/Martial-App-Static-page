@@ -12,7 +12,7 @@ import { useEffect } from 'react'
 import { getAllUsers } from '../User/UserSlice'
 export interface RoomDataType {
     useCase: string
-    id: number | string
+    id: string | undefined | number
     name: string
     floorNumber: number | string
     roomNumber: number | string
@@ -59,7 +59,84 @@ const initialState: ClassDataInitialState = {
 
 export const getRoomDataByUseCase = createAsyncThunk(
     'RoomData/getRoomDataByUseCase',
-    async ({ id, usecase }: { id: number; usecase: string }, thunkAPI) => {
+    async (
+        { id, usecase }: { id: number | string; usecase: string },
+        thunkAPI
+    ) => {
+        const state = store.getState()
+        try {
+            const { data } = await axios.post(
+                `${base_url}rooms/byUC`,
+                {
+                    id: id,
+                    useCase: usecase,
+                },
+                {
+                    headers: {
+                        ...authorizationToken(
+                            state.loginData?.data as loginDataTypes
+                        ),
+                    },
+                }
+            )
+            return data.results.data
+        } catch (error: any) {
+            if (error.response && error.response.data) {
+                const obj = {
+                    name: 'AxiosError',
+                    message: error.response.data?.responseMessage,
+                    code: 'ERR_BAD_RESPONSE',
+                }
+                throw obj
+            }
+            throw error
+        }
+    }
+)
+
+export const updateRoomStatusByUseCase = createAsyncThunk(
+    'RoomData/updateRoomStatusByUseCase',
+    async (
+        { id, usecase }: { id: number | string; usecase: string },
+        thunkAPI
+    ) => {
+        const state = store.getState()
+        try {
+            const { data } = await axios.post(
+                `${base_url}rooms/byUC`,
+                {
+                    id: id,
+                    useCase: usecase,
+                },
+                {
+                    headers: {
+                        ...authorizationToken(
+                            state.loginData?.data as loginDataTypes
+                        ),
+                    },
+                }
+            )
+            return data.results.data
+        } catch (error: any) {
+            if (error.response && error.response.data) {
+                const obj = {
+                    name: 'AxiosError',
+                    message: error.response.data?.responseMessage,
+                    code: 'ERR_BAD_RESPONSE',
+                }
+                throw obj
+            }
+            throw error
+        }
+    }
+)
+
+export const deleteRoomDataByUseCase = createAsyncThunk(
+    'RoomData/getRoomDataByUseCase',
+    async (
+        { id, usecase }: { id: number | string; usecase: string },
+        thunkAPI
+    ) => {
         const state = store.getState()
         try {
             const { data } = await axios.post(

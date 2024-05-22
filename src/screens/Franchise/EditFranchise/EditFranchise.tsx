@@ -387,12 +387,18 @@ const EditFranchise = (): JSX.Element => {
                                                 placeholder={getLabelByKey(
                                                     'enterCompleteAddress'
                                                 )}
-                                                handleChange={(
-                                                    val: unknown
-                                                ) => {
+                                                handleChange={(val) => {
                                                     formik.setFieldValue(
                                                         'address',
-                                                        val
+                                                        val.selectedAddress
+                                                    )
+                                                    formik.setFieldValue(
+                                                        'latitude',
+                                                        val.latitude
+                                                    )
+                                                    formik.setFieldValue(
+                                                        'longitude',
+                                                        val.longitude
                                                     )
                                                 }}
                                                 className={

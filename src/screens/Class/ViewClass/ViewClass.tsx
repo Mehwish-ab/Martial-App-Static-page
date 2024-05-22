@@ -25,10 +25,10 @@ const ViewClass = (): JSX.Element => {
     const { activities } = useSelector(
         (state: RootState) => state.appData.data.statusData
     )
-    const { getClassbyid } = useClass()
+    const { getClassbyid, classData } = useClass()
     const { getTimetableById } = useTimetable()
     const { getInstructorbyid } = useInstructor()
-    const [values, setValues] = useState<any>(undefined)
+    // const [classData, setValues] = useState<any>(undefined)
     const [timetable, setTimetable] = useState<any>(undefined)
     const [instructor, setinstructor] = useState<any>(undefined)
     const {
@@ -68,14 +68,15 @@ const ViewClass = (): JSX.Element => {
         const fetchData = async (): Promise<void> => {
             try {
                 // Assuming getClass, getInstructorbyid, and getTimetableById are asynchronous functions
-                const data = await getClassbyid(Number(classId))
-                setValues(data)
-                if (data) {
-                    const datas = await getInstructorbyid(data?.instructorId)
-                    setinstructor(datas)
-                    const dataa = await getTimetableById(data?.timeTableId)
-                    setTimetable(dataa)
-                }
+                await getClassbyid(Number(classId))
+
+                // if (data) {
+                //     const datas = await getInstructorbyid(data?.instructorId)
+                //     console.log('instructor', instructor)
+                //     setinstructor(classData)
+                //     const dataa = await getTimetableById(data?.timeTableId)
+                //     setTimetable(dataa)
+                // }
             } catch (error) {
                 console.error('Error fetching data:', error)
             }
@@ -101,8 +102,8 @@ const ViewClass = (): JSX.Element => {
         if (activitiesName !== '') return activitiesName
         return '--'
     }
-    const activitiesToShow = values?.activities || ''
-    const accommodationToShow = values?.accommodation || ''
+    const activitiesToShow = classData?.activities || ''
+    const accommodationToShow = classData?.accommodation || ''
 
     return (
         <>
@@ -121,7 +122,7 @@ const ViewClass = (): JSX.Element => {
                                                     {getLabelByKey('title')}
                                                 </div>
                                                 <div className="list-item-value">
-                                                    {values?.title}
+                                                    {classData?.title}
                                                 </div>
                                             </div>
                                         </Col>
@@ -133,7 +134,7 @@ const ViewClass = (): JSX.Element => {
                                                 <div className="list-item-value">
                                                     {moment(
                                                         moment(
-                                                            values?.startDate,
+                                                            classData?.startDate,
                                                             'YYYY-MM-DD'
                                                         )
                                                     ).format(
@@ -150,7 +151,7 @@ const ViewClass = (): JSX.Element => {
                                                 <div className="list-item-value">
                                                     {moment(
                                                         moment(
-                                                            values?.endDate,
+                                                            classData?.endDate,
                                                             'YYYY-MM-DD'
                                                         )
                                                     ).format(
@@ -167,8 +168,10 @@ const ViewClass = (): JSX.Element => {
                                                     )}
                                                 </div>
                                                 <div className="list-item-value">
-                                                    {instructor
-                                                        ? instructor.instructorName
+                                                    {classData
+                                                        ? classData
+                                                              ?.instructorsResponseDTOList[0]
+                                                              .instructorName
                                                         : '--'}
                                                 </div>
                                             </div>
@@ -193,9 +196,10 @@ const ViewClass = (): JSX.Element => {
                                                     Rooms
                                                 </div>
                                                 <div className="list-item-value">
-                                                    {timetable
-                                                        ? timetable.results
-                                                              .title
+                                                    {classData
+                                                        ? classData
+                                                              ?.roomResponseDTOList[0]
+                                                              .roomName
                                                         : '--'}
                                                 </div>
                                             </div>
@@ -212,7 +216,7 @@ const ViewClass = (): JSX.Element => {
                                                 // onSaveBanner={null}
                                                 isEditable={false}
                                                 defaultImage={
-                                                    values?.bannerPicture
+                                                    classData?.bannerPicture
                                                 } // Pass existing banner picture as default image
                                                 onSaveBanner={(
                                                     file: File
@@ -229,7 +233,7 @@ const ViewClass = (): JSX.Element => {
                                     {getLabelByKey('classFees')}
                                 </div>
                                 <div className="list-item-value">
-                                    {values ? values.fee : '--'}
+                                    {classData ? classData.fee : '--'}
                                 </div>
                             </div>
                         </Col>
@@ -239,7 +243,7 @@ const ViewClass = (): JSX.Element => {
                                     New Class Fees
                                 </div>
                                 <div className="list-item-value">
-                                    {values ? values.fee : '--'}
+                                    {classData ? classData.fee : '--'}
                                 </div>
                             </div>
                         </Col>
@@ -249,7 +253,7 @@ const ViewClass = (): JSX.Element => {
                                     {getLabelByKey('classCapacity')}
                                 </div>
                                 <div className="list-item-value">
-                                    {values ? values.capacity : '--'}
+                                    {classData ? classData.capacity : '--'}
                                 </div>
                             </div>
                         </Col>
@@ -259,7 +263,9 @@ const ViewClass = (): JSX.Element => {
                                     {getLabelByKey('minimumStudent')}
                                 </div>
                                 <div className="list-item-value">
-                                    {values ? values.minimumStudent : '--'}
+                                    {classData
+                                        ? classData.minimumStudent
+                                        : '--'}
                                 </div>
                             </div>
                         </Col>
@@ -271,7 +277,7 @@ const ViewClass = (): JSX.Element => {
                                 <div className="list-item-value">
                                     {moment(
                                         moment(
-                                            values?.bookingStartDate,
+                                            classData?.bookingStartDate,
                                             'YYYY-MM-DD'
                                         )
                                     ).format('dddd, MMM DD, YYYY')}
@@ -286,7 +292,7 @@ const ViewClass = (): JSX.Element => {
                                 <div className="list-item-value">
                                     {moment(
                                         moment(
-                                            values?.bookingEndDate,
+                                            classData?.bookingEndDate,
                                             'YYYY-MM-DD'
                                         )
                                     ).format('dddd, MMM DD, YYYY')}
@@ -301,7 +307,7 @@ const ViewClass = (): JSX.Element => {
                                 <div className="list-item-value">
                                     {moment(
                                         moment(
-                                            values?.qrCodeStartDate,
+                                            classData?.qrCodeStartDate,
                                             'YYYY-MM-DD'
                                         )
                                     ).format('dddd, MMM DD, YYYY')}
@@ -316,7 +322,7 @@ const ViewClass = (): JSX.Element => {
                                 <div className="list-item-value">
                                     {moment(
                                         moment(
-                                            values?.qrCodeEndDate,
+                                            classData?.qrCodeEndDate,
                                             'YYYY-MM-DD'
                                         )
                                     ).format('dddd, MMM DD, YYYY')}
@@ -331,7 +337,7 @@ const ViewClass = (): JSX.Element => {
                                 <div className="list-item-value">
                                     {moment(
                                         moment(
-                                            values?.allowStudentCancel,
+                                            classData?.allowStudentCancel,
                                             'YYYY-MM-DD'
                                         )
                                     ).format('dddd, MMM DD, YYYY')}
@@ -345,7 +351,10 @@ const ViewClass = (): JSX.Element => {
                                 </div>
                                 <div className="list-item-value">
                                     {moment(
-                                        moment(values?.refundDate, 'YYYY-MM-DD')
+                                        moment(
+                                            classData?.refundDate,
+                                            'YYYY-MM-DD'
+                                        )
                                     ).format('dddd, MMM DD, YYYY')}
                                 </div>
                             </div>
@@ -358,7 +367,7 @@ const ViewClass = (): JSX.Element => {
                                 <div className="list-item-value">
                                     {moment(
                                         moment(
-                                            values?.bookingCancelStartDate,
+                                            classData?.bookingCancelStartDate,
                                             'YYYY-MM-DD'
                                         )
                                     ).format('dddd, MMM DD, YYYY')}
@@ -373,7 +382,7 @@ const ViewClass = (): JSX.Element => {
                                 <div className="list-item-value">
                                     {moment(
                                         moment(
-                                            values?.bookingCancelEndDate,
+                                            classData?.bookingCancelEndDate,
                                             'YYYY-MM-DD'
                                         )
                                     ).format('dddd, MMM DD, YYYY')}
@@ -398,7 +407,9 @@ const ViewClass = (): JSX.Element => {
                                 </div>
                                 <div className="list-item-value">
                                     {' '}
-                                    {values ? values.cancellationCharges : '--'}
+                                    {classData
+                                        ? classData.cancellationCharges
+                                        : '--'}
                                 </div>
                             </div>
                         </Col>
@@ -412,7 +423,7 @@ const ViewClass = (): JSX.Element => {
                                 </div>
                                 {/* <div className="list-item-value">
                                     {' showAccommodation'}
-                                    {values ? values.accommodation : '--'}
+                                    {classData ? classData.accommodation : '--'}
                                 </div> */}
                             </div>
                         </Col>
@@ -424,7 +435,7 @@ const ViewClass = (): JSX.Element => {
                                 </div>
                                 <div className="list-item-value">
                                     {' '}
-                                    {values ? values.description : '--'}
+                                    {classData ? classData.description : '--'}
                                 </div>
                             </div>
                         </Col>

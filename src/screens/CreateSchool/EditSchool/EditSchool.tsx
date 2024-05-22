@@ -58,18 +58,18 @@ const EditSchool = (): JSX.Element => {
     const { schoolId } = useParams()
     console.log('schoolID', schoolData)
 
-    // const businessName = validationFinder('BUSINESS_NAME')!
-    // const businessNameReg = new RegExp(businessName.pattern)
-    // const address = validationFinder('ADDRESS')!
-    // const addressReg = new RegExp(address.pattern)
+    const businessName = validationFinder('BUSINESS_NAME')!
+    const businessNameReg = new RegExp(businessName.pattern)
+    const address = validationFinder('ADDRESS')!
+    const addressReg = new RegExp(address.pattern)
     const businessPhoneNumber = validationFinder('PHONE_NUMBER')!
     const validationSchema = Yup.object({
-        // businessName: Yup.string()
-        //     .required(businessName.notBlankMsgEn)
-        //     .matches(businessNameReg, businessName.patternMsgEn),
-        // address: Yup.string()
-        //   .required(address.notBlankMsgEn)
-        //   .matches(addressReg, address.patternMsgEn),
+        businessName: Yup.string()
+            .required(businessName.notBlankMsgEn)
+            .matches(businessNameReg, businessName.patternMsgEn),
+        address: Yup.string()
+            .required(address.notBlankMsgEn)
+            .matches(addressReg, address.patternMsgEn),
         businessType: Yup.string().required('Please select business type'),
         businessPhoneNumber: Yup.string().required(
             businessPhoneNumber.notBlankMsgEn
@@ -166,7 +166,7 @@ const EditSchool = (): JSX.Element => {
                 setschoolData(response)
                 setOwnerData(response.ownerData)
 
-                console.log('response', response)
+                console.log('response of', response)
 
                 // eslint-disable-next-line @typescript-eslint/no-shadow
             } catch (error) {
@@ -184,6 +184,8 @@ const EditSchool = (): JSX.Element => {
         businessName: schoolData ? schoolData.businessName : '--',
         businessType: schoolData ? schoolData.businessType : 0,
         address: schoolData ? schoolData.address : '--',
+        latitude: schoolData ? schoolData.latitude : 0,
+        longitude: schoolData ? schoolData.longitude : 0,
         businessPhoneNumber: schoolData ? schoolData.phoneNumber : '--',
         defaultLanguageId: schoolData ? schoolData.defaultLanguageId : '--',
         defaultCurrencyId: schoolData ? schoolData.defaultCurrencyId : '--',
@@ -204,7 +206,6 @@ const EditSchool = (): JSX.Element => {
             : [],
         UserId: Number(schoolData?.userId),
     }
-    console.log('belte', initialValuesForEdit.rank)
 
     return (
         <>
@@ -392,7 +393,15 @@ const EditSchool = (): JSX.Element => {
                                                 handleChange={(val: any) => {
                                                     formik.setFieldValue(
                                                         'address',
-                                                        val
+                                                        val.selectedAddress
+                                                    )
+                                                    formik.setFieldValue(
+                                                        'latitude',
+                                                        val.latitude
+                                                    )
+                                                    formik.setFieldValue(
+                                                        'longitude',
+                                                        val.longitude
                                                     )
                                                 }}
                                                 className={

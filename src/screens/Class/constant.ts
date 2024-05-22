@@ -5,7 +5,10 @@ export interface CreateClassInitialValues {
     startDate: string
     timeTableId: number
     endDate: string
+    newFee: number | string
     instructorId: string[]
+    isKid: boolean
+    roomId: string[]
     fee: string | number
     activities: string[]
     capacity: number | string

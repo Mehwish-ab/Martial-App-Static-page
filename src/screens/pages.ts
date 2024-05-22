@@ -2,8 +2,8 @@ import Login from '../screens/Login/Login'
 import VerifyOtp from '../components/VerifyOtp/VerifyOtp'
 import Dashboard from '../screens/Dashboard/Dashboard'
 import Home from '../screens/Home/Home'
-
-import RegisterUser from './User/CreateUser/Register'
+import RegisterUser from './User/CreateUser/RegisterUser'
+import Register from './User/CreateUser/Register'
 // import UserList from './UsersList'
 import UpdateUser from './User/UpdateUser/UpdateUser'
 
@@ -18,6 +18,7 @@ export {
     // UserList,
     Home,
     RegisterUser,
+    Register,
     UpdateUser,
     Confirmaton,
     PaymentInfo,

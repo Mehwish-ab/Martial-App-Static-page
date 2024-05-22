@@ -3,8 +3,9 @@ import { ErrorMessage, Field } from 'formik'
 import { CustomDatePickerStyle } from './style'
 import ErrorMsg from '../ErrorMessage'
 import dateIcon from '../../assets/images/dateCalander.svg'
-import moment from 'moment'
+import moment, { Moment } from 'moment'
 import { fontFamilyRegular, tertiaryGrey24 } from '../GlobalStyle'
+import { RangePickerProps } from 'rc-picker/lib/RangePicker'
 
 const CustomDateTimePicker = (props: {
     [x: string]: any
@@ -40,13 +41,13 @@ const CustomDateTimePicker = (props: {
         ...rest
     } = props
 
-    // const disabledDate: RangePickerProps<Moment>['disabledDate'] = (
-    //     current
-    // ) => {
-    //     // Use Moment type for current parameter
-    //     // Can not select days before today and today
-    //     return current && current < moment().startOf('day')
-    // }
+    const disabledDate: RangePickerProps<Moment>['disabledDate'] = (
+        current: any
+    ) => {
+        // Use Moment type for current parameter
+        // Can not select days before today and today
+        return current && current < moment().startOf('day')
+    }
     return (
         <CustomDatePickerStyle
             fontFamily={fontFamily}
@@ -69,7 +70,7 @@ const CustomDateTimePicker = (props: {
                             name={name}
                             format="DD-MM-YY / hh:mm A"
                             {...rest}
-                            // disabledDate={disabledDate}
+                            disabledDate={disabledDate}
                             showTime={true} // Set showTime to false to exclude the time part                            disabledDate={disabledDate}
                             onChange={(_, dateString) => {
                                 if (onChange) {

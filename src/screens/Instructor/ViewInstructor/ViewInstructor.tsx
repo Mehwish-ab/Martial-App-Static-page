@@ -11,6 +11,7 @@ import { InstructorDataType } from '../../../redux/features/instructor/instructo
 import { RootState } from '../../../redux/store'
 import { useSelector } from 'react-redux'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
+import ViewActivity from '../../Activitity/viewActivity'
 
 const ViewInstructor = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('instructorInformation')
@@ -30,6 +31,7 @@ const ViewInstructor = (): JSX.Element => {
         (state: RootState) => state?.selectedLanguage
     )
     const instructor: InstructorDataType = location.state?.branch
+    console.log('instructor is setting')
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const getInstructor = async (): Promise<void> => {
         if (instructor) {
@@ -121,203 +123,214 @@ const ViewInstructor = (): JSX.Element => {
     // }
 
     return (
-        <ViewInstructorStyled>
-            {ImageModal().modalComponent}
-            <OverlayImages
-                overlayImg={values?.profilePicture || ''}
-                backgroundImg={values?.bannerPicture || ''}
-                isEditable={true}
-            />
+        <>
+            <ViewInstructorStyled>
+                {ImageModal().modalComponent}
+                <OverlayImages
+                    overlayImg={values?.profilePicture || ''}
+                    backgroundImg={values?.bannerPicture || ''}
+                    isEditable={true}
+                />
 
-            <h3 className="ms-4">{getLabelByKey('title')}</h3>
-            <Card>
-                <Row>
-                    <Col md="4">
-                        <div className="list-item">
-                            <div className="list-item-title">
-                                {getLabelByKey('instructorName')}
+                <h3 className="ms-4">{getLabelByKey('title')}</h3>
+                <Card>
+                    <Row>
+                        <Col md="4">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('instructorName')}
+                                </div>
+                                <div className="list-item-value">
+                                    {values?.instructorName}
+                                </div>
                             </div>
-                            <div className="list-item-value">
-                                {values?.instructorName}
+                        </Col>
+                        <Col md="4">
+                            <div className="list-item">
+                                {/* <div className="list-item-title">{getLabelByKey('emailAddress')}</div> */}
+                                <div className="list-item-title">
+                                    Email Address
+                                </div>
+                                <div className="list-item-value">
+                                    {values?.emailAddress}
+                                </div>
                             </div>
-                        </div>
-                    </Col>
-                    <Col md="4">
-                        <div className="list-item">
-                            {/* <div className="list-item-title">{getLabelByKey('emailAddress')}</div> */}
-                            <div className="list-item-title">Email Address</div>
-                            <div className="list-item-value">
-                                {values?.emailAddress}
+                        </Col>
+                        <Col md="4">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('instructorMobileNumber')}
+                                </div>
+                                <div className="list-item-value">
+                                    {values?.phoneNumber}
+                                </div>
                             </div>
-                        </div>
-                    </Col>
-                    <Col md="4">
-                        <div className="list-item">
-                            <div className="list-item-title">
-                                {getLabelByKey('instructorMobileNumber')}
-                            </div>
-                            <div className="list-item-value">
-                                {values?.phoneNumber}
-                            </div>
-                        </div>
-                    </Col>
+                        </Col>
 
-                    <Col md="4">
-                        <div className="list-item">
-                            <div className="list-item-title">
-                                {getLabelByKey('address')}
-                            </div>
-                            <div className="list-item-value">
-                                {values?.address}
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md="8">
-                        <Row>
-                            <Col md="4">
-                                <div className="list-item">
-                                    <div className="list-item-title">
-                                        {getLabelByKey('belts')}
-                                    </div>
-                                    <div className="list-item-value">
-                                        {Number(values?.rankId) > 1
-                                            ? showBusinessType(values?.rankId)
-                                            : '--'}
-                                    </div>
+                        <Col md="4">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('address')}
                                 </div>
-                            </Col>
-                            <Col md="4">
-                                <div className="list-item">
-                                    <div className="list-item-title">
-                                        {getLabelByKey('yearsOfExperience')}
-                                    </div>
-                                    <div className="list-item-value">
-                                        {Number(values?.experience) > 0
-                                            ? values?.experience
-                                            : '--'}
-                                    </div>
+                                <div className="list-item-value">
+                                    {values?.address}
                                 </div>
-                            </Col>
-                            <Col md="4">
-                                <div className="list-item">
-                                    <div className="list-item-title">
-                                        {getLabelByKey(
-                                            'latestCertificationOptional'
-                                        )}
-                                    </div>
-                                    <div className="list-item-value ">
-                                        <span
-                                            className="certificateLink"
-                                            onClick={() =>
-                                                values?.certificationURL &&
-                                                openModal(
-                                                    values?.certificationURL
-                                                )
-                                            }
-                                        >
-                                            {values?.certificationURL
-                                                ? 'Certificate'
+                            </div>
+                        </Col>
+                        <Col md="8">
+                            <Row>
+                                <Col md="4">
+                                    <div className="list-item">
+                                        <div className="list-item-title">
+                                            {getLabelByKey('belts')}
+                                        </div>
+                                        <div className="list-item-value">
+                                            {Number(values?.rankId) > 1
+                                                ? showBusinessType(
+                                                      values?.rankId
+                                                  )
                                                 : '--'}
-                                        </span>
+                                        </div>
                                     </div>
+                                </Col>
+                                <Col md="4">
+                                    <div className="list-item">
+                                        <div className="list-item-title">
+                                            {getLabelByKey('yearsOfExperience')}
+                                        </div>
+                                        <div className="list-item-value">
+                                            {Number(values?.experience) > 0
+                                                ? values?.experience
+                                                : '--'}
+                                        </div>
+                                    </div>
+                                </Col>
+                                <Col md="4">
+                                    <div className="list-item">
+                                        <div className="list-item-title">
+                                            {getLabelByKey(
+                                                'latestCertificationOptional'
+                                            )}
+                                        </div>
+                                        <div className="list-item-value ">
+                                            <span
+                                                className="certificateLink"
+                                                onClick={() =>
+                                                    values?.certificationURL &&
+                                                    openModal(
+                                                        values?.certificationURL
+                                                    )
+                                                }
+                                            >
+                                                {values?.certificationURL
+                                                    ? 'Certificate'
+                                                    : '--'}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </Col>
+                        <Col md="6">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('specialisations')}
                                 </div>
-                            </Col>
-                        </Row>
-                    </Col>
-                    <Col md="6">
-                        <div className="list-item">
-                            <div className="list-item-title">
-                                {getLabelByKey('specialisations')}
+                                <div className="list-item-value">
+                                    {showFacilities(facilitiesToShow)}
+                                </div>
                             </div>
-                            <div className="list-item-value">
-                                {showFacilities(facilitiesToShow)}
+                        </Col>
+                        <Col md="6">
+                            <div className="list-item">
+                                <div className="list-item-title">
+                                    {getLabelByKey('activities')}{' '}
+                                    {getLabelByKey('toInstructWithin')}
+                                </div>
+                                <div className="list-item-value">
+                                    {showActivities(activitiesToShow)}
+                                </div>
                             </div>
+                        </Col>
+                        <Col md="12">
+                            <div className="list-item mb-0">
+                                <div className="list-item-title">
+                                    {getLabelByKey('description')}
+                                </div>
+                                <div className="list-item-value">
+                                    {values ? values.description : '--'}
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Formik
+                        initialValues={initialValues}
+                        onSubmit={() => {
+                            console.log('')
+                        }}
+                    >
+                        <div className="d-flex flex-column">
+                            <label htmlFor="termCondition">
+                                <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
+                                    <FormControl
+                                        control="checkbox"
+                                        type="checkbox"
+                                        id="termsAndConditions"
+                                        name="termsAndConditions"
+                                        checked
+                                    />
+                                    <p
+                                        className="checkBoxPara"
+                                        id="termsAndConditions"
+                                    >
+                                        {getLegalLabelByKey(
+                                            'termsAndConditions'
+                                        )}
+                                    </p>
+                                </form>
+                            </label>
+                            <label htmlFor="agreement">
+                                <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
+                                    <FormControl
+                                        control="checkbox"
+                                        type="checkbox"
+                                        id="AgreementGuidelines"
+                                        name="AgreementGuidelines"
+                                        checked
+                                    />
+                                    <p
+                                        className="checkBoxPara"
+                                        id="AgreementGuidelines"
+                                    >
+                                        {getLegalLabelByKey(
+                                            'AgreementGuidelines'
+                                        )}
+                                    </p>
+                                </form>
+                            </label>
+                            <label htmlFor="liability">
+                                <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
+                                    <FormControl
+                                        control="checkbox"
+                                        type="checkbox"
+                                        id="liabilityWaivers"
+                                        name="liabilityWaivers"
+                                        checked
+                                    />
+                                    <p
+                                        className="checkBoxPara"
+                                        id="liabilityWaivers"
+                                    >
+                                        {getLegalLabelByKey('liabilityWaivers')}
+                                    </p>
+                                </form>
+                            </label>
                         </div>
-                    </Col>
-                    <Col md="6">
-                        <div className="list-item">
-                            <div className="list-item-title">
-                                {getLabelByKey('activities')}{' '}
-                                {getLabelByKey('toInstructWithin')}
-                            </div>
-                            <div className="list-item-value">
-                                {showActivities(activitiesToShow)}
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md="12">
-                        <div className="list-item mb-0">
-                            <div className="list-item-title">
-                                {getLabelByKey('description')}
-                            </div>
-                            <div className="list-item-value">
-                                {values ? values.description : '--'}
-                            </div>
-                        </div>
-                    </Col>
-                </Row>
-                <Formik
-                    initialValues={initialValues}
-                    onSubmit={() => {
-                        console.log('')
-                    }}
-                >
-                    <div className="d-flex flex-column">
-                        <label htmlFor="termCondition">
-                            <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
-                                <FormControl
-                                    control="checkbox"
-                                    type="checkbox"
-                                    id="termsAndConditions"
-                                    name="termsAndConditions"
-                                    checked
-                                />
-                                <p
-                                    className="checkBoxPara"
-                                    id="termsAndConditions"
-                                >
-                                    {getLegalLabelByKey('termsAndConditions')}
-                                </p>
-                            </form>
-                        </label>
-                        <label htmlFor="agreement">
-                            <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
-                                <FormControl
-                                    control="checkbox"
-                                    type="checkbox"
-                                    id="AgreementGuidelines"
-                                    name="AgreementGuidelines"
-                                    checked
-                                />
-                                <p
-                                    className="checkBoxPara"
-                                    id="AgreementGuidelines"
-                                >
-                                    {getLegalLabelByKey('AgreementGuidelines')}
-                                </p>
-                            </form>
-                        </label>
-                        <label htmlFor="liability">
-                            <form className="mt-3 d-flex align-items-center justify-content-start column-gap-2">
-                                <FormControl
-                                    control="checkbox"
-                                    type="checkbox"
-                                    id="liabilityWaivers"
-                                    name="liabilityWaivers"
-                                    checked
-                                />
-                                <p
-                                    className="checkBoxPara"
-                                    id="liabilityWaivers"
-                                >
-                                    {getLegalLabelByKey('liabilityWaivers')}
-                                </p>
-                            </form>
-                        </label>
-                    </div>
-                </Formik>
-            </Card>
-        </ViewInstructorStyled>
+                    </Formik>
+                </Card>
+            </ViewInstructorStyled>
+            {/* <ViewActivity /> */}
+        </>
     )
 }
 

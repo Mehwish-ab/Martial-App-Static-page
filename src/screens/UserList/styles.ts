@@ -11,7 +11,6 @@ import {
     pureDark2,
     whiteColor,
 } from '../../components/GlobalStyle'
-
 export const ListStudentStyling = styled.div`
     background-color: #fff;
     padding: 16px 0px;
@@ -53,44 +52,44 @@ export const ListStudentStyling = styled.div`
         width: 3%;
         text-align: center;
     }
-    .ant-table-thead > tr > th:nth-child(2),
-    .ant-table-tbody > tr > td:nth-child(2) {
+    .ant-table-thead > tr > th:nth-child(1),
+    .ant-table-tbody > tr > td:nth-child(1) {
         width: 7%;
     }
 
+    // .ant-table-thead > tr > td:nth-child(2),
+    // .ant-table-tbody > tr > td:nth-child(2) {
+    //     width: 8%;
+    // }
     // .ant-table-thead > tr > th:nth-child(3),
     // .ant-table-tbody > tr > td:nth-child(3) {
     //     width: 8%;
     // }
-    // .ant-table-thead > tr > th:nth-child(4),
-    // .ant-table-tbody > tr > td:nth-child(4) {
-    //     width: 8%;
-    // }
-    .ant-table-tbody > tr > td:nth-child(4) p {
+    .ant-table-tbody > tr > td:nth-child(3) p {
         width: 100%;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
-    // .ant-table-thead > tr > th:nth-child(5),
-    // .ant-table-tbody > tr > td:nth-child(5),
-    // .ant-table-thead > tr > th:nth-child(7),
-    // .ant-table-tbody > tr > td:nth-child(7) {
+    // .ant-table-thead > tr > th:nth-child(4),
+    // .ant-table-tbody > tr > td:nth-child(4),
+    // .ant-table-thead > tr > th:nth-child(6),
+    // .ant-table-tbody > tr > td:nth-child(6) {
     //     width: 9%;
     // }
 
-    // .ant-table-thead > tr > th:nth-child(7),
-    // .ant-table-tbody > tr > td:nth-child(7) {
+    // .ant-table-thead > tr > th:nth-child(6),
+    // .ant-table-tbody > tr > td:nth-child(6) {
     //     text-align: center;
     // }
 
+    .ant-table-tbody > tr > td:nth-child(1),
     .ant-table-tbody > tr > td:nth-child(2),
-    .ant-table-tbody > tr > th:nth-child(3),
-    .ant-table-tbody > tr > td:nth-child(3) {
+    .ant-table-tbody > tr > td:nth-child(2) {
         text-align: left;
     }
-    .ant-table-tbody > tr > td:nth-child(4) {
+    .ant-table-tbody > tr > td:nth-child(3) {
         color: #000 !important;
         font-size: 14px !important;
         font-style: normal;
@@ -98,6 +97,45 @@ export const ListStudentStyling = styled.div`
         line-height: normal;
         margin-bottom: 0 !important;
         position: relative;
+    }
+    .ant-table-tbody > tr > td:nth-child(5) div {
+        position: relative;
+        width: 107px;
+    }
+    .ant-table-tbody > tr > td:nth-child(5) .Active button {
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        padding: 7px 10px;
+        border-radius: 4px;
+        background: rgb(76, 175, 80);
+        width: 90px;
+        height: 30px;
+        color: rgb(255, 255, 255) !important;
+        font-size: 14px !important;
+        display: block;
+        position: relative;
+        text-align: center;
+    }
+    .ant-table-tbody > tr > td:nth-child(5) .De-Active button {
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        padding: 7px 10px;
+        border-radius: 4px;
+        background: ${AlizarinCrimson};
+        width: 90px;
+        height: 30px;
+        color: rgb(255, 255, 255);
+        font-size: 14px;
+        display: block;
+        position: relative;
+        text-align: center;
+    }
+    .ant-table-tbody > tr > td:nth-child(5) img {
+        position: absolute;
+        right: 6%;
+        top: -5px;
     }
     .ant-table-tbody > tr > td:nth-child(6) div {
         position: relative;
@@ -110,7 +148,7 @@ export const ListStudentStyling = styled.div`
         padding: 7px 10px;
         border-radius: 4px;
         background: rgb(76, 175, 80);
-        width: 90px;
+        width: 110px;
         height: 30px;
         color: rgb(255, 255, 255) !important;
         font-size: 14px !important;
@@ -138,45 +176,6 @@ export const ListStudentStyling = styled.div`
         right: 6%;
         top: -5px;
     }
-    .ant-table-tbody > tr > td:nth-child(7) div {
-        position: relative;
-        width: 107px;
-    }
-    .ant-table-tbody > tr > td:nth-child(7) .Active button {
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-        padding: 7px 10px;
-        border-radius: 4px;
-        background: rgb(76, 175, 80);
-        width: 90px;
-        height: 30px;
-        color: rgb(255, 255, 255) !important;
-        font-size: 14px !important;
-        display: block;
-        position: relative;
-        text-align: center;
-    }
-    .ant-table-tbody > tr > td:nth-child(7) .De-Active button {
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-        padding: 7px 10px;
-        border-radius: 4px;
-        background: ${AlizarinCrimson};
-        width: 90px;
-        height: 30px;
-        color: rgb(255, 255, 255);
-        font-size: 14px;
-        display: block;
-        position: relative;
-        text-align: center;
-    }
-    .ant-table-tbody > tr > td:nth-child(7) img {
-        position: absolute;
-        right: 6%;
-        top: -5px;
-    }
     .ant-table-tbody > tr:nth-child(even) td {
         background-color: #fafafa;
     }
@@ -188,32 +187,32 @@ export const ListStudentStyling = styled.div`
     }
 
     // @media screen and ${mediaDeviceMax.tabletL} {
-    //     .ant-table-thead > tr > th:nth-child(6),
-    //     .ant-table-tbody > tr > td:nth-child(6) {
-    //         display: none;
-    //     }
-    //     .ant-table-thead > tr > th:nth-child(3),
-    //     .ant-table-thead > tr > th:nth-child(4),
-    //     .ant-table-thead > tr > th:nth-child(5),
-    //     .ant-table-thead > tr > th:nth-child(6) {
-    //         width: 16.6%;
-    //     }
-    // }
-    // @media screen and ${mediaDeviceMax.mobileBS} {
     //     .ant-table-thead > tr > th:nth-child(5),
     //     .ant-table-tbody > tr > td:nth-child(5) {
     //         display: none;
     //     }
+    //     .ant-table-thead > tr > td:nth-child(2),
+    //     .ant-table-thead > tr > th:nth-child(3),
+    //     .ant-table-thead > tr > th:nth-child(4),
+    //     .ant-table-thead > tr > th:nth-child(5) {
+    //         width: 16.6%;
+    //     }
     // }
-    // @media screen and ${mediaDeviceMax.mobileL} {
+    // @media screen and ${mediaDeviceMax.mobileBS} {
     //     .ant-table-thead > tr > th:nth-child(4),
     //     .ant-table-tbody > tr > td:nth-child(4) {
     //         display: none;
     //     }
     // }
+    // @media screen and ${mediaDeviceMax.mobileL} {
+    //     .ant-table-thead > tr > th:nth-child(3),
+    //     .ant-table-tbody > tr > td:nth-child(3) {
+    //         display: none;
+    //     }
+    // }
     // @media screen and ${mediaDeviceMax.mobileM} {
-    //     .ant-table-thead > tr > th:nth-child(6),
-    //     .ant-table-tbody > tr > td:nth-child(6) {
+    //     .ant-table-thead > tr > th:nth-child(5),
+    //     .ant-table-tbody > tr > td:nth-child(5) {
     //         display: none;
     //     }
     // }

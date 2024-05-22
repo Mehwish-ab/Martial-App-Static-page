@@ -1,14 +1,17 @@
 import { SidebarStyle } from './style'
-
 import { Layout } from 'antd'
 import CustomButton from '../CustomButton/CustomButton'
 import { fontFamilyMedium, pureDark, tertiaryBlue } from '../GlobalStyle'
-
 import { auth_token_key } from '../../utils/api_urls'
 import { removeLoginData } from '../../redux/features/loginDataSlice'
 import { removeUserLogin } from '../../redux/features/admin/user/loginDataSlice'
 import { useDispatch } from 'react-redux'
-import NavigationMenu from '../NavigationMenu/NavigationMenu'
+import { useAppSelector } from '../../app/hooks'
+import AdminNavigationMenu from '../NavigationMenu/adminNavigationMenu'
+import UserNavigationMenu from '../NavigationMenu/userNavigationMenu'
+import SchoolNavigationMenu from '../NavigationMenu/schoolNavigationMenu'
+import BranchesFranchiesNavigationMenu from '../NavigationMenu/branchesFranchiesNavmenu'
+import InstructorNavigationMenu from '../NavigationMenu/instructorNavigationMenu'
 const { Sider } = Layout
 
 const Sidebar = (): JSX.Element => {
@@ -19,6 +22,27 @@ const Sidebar = (): JSX.Element => {
         dispatch(removeLoginData())
         window.location.reload()
     }
+    const { data: logindata } = useAppSelector((state) => state.loginData)
+    let NavigationMenu
+
+    if (
+        (logindata && logindata.userDetails.roleName === 'ADMIN') ||
+        logindata?.userDetails.roleName === 'SUPER_ADMIN'
+    ) {
+        NavigationMenu = <AdminNavigationMenu />
+    } else if (logindata && logindata.userDetails.roleName === 'USER') {
+        NavigationMenu = <UserNavigationMenu />
+    } else if (logindata && logindata.userDetails.roleName === 'SCHOOL') {
+        NavigationMenu = <SchoolNavigationMenu />
+    } else if (
+        (logindata && logindata.userDetails.roleName === 'BRANCH') ||
+        logindata?.userDetails.roleName === 'FRANCHIES'
+    ) {
+        NavigationMenu = <BranchesFranchiesNavigationMenu />
+    } else if (logindata && logindata.userDetails.roleName === 'INSTRUCTOR') {
+        NavigationMenu = <InstructorNavigationMenu />
+    }
+    console.log('naviigation menu', NavigationMenu)
 
     return (
         <Sider
@@ -46,7 +70,7 @@ const Sidebar = (): JSX.Element => {
                         paddingTop: 9,
                     }}
                 >
-                    <NavigationMenu />
+                    {NavigationMenu}
                     <div className="logout-btn-container">
                         <CustomButton
                             bgcolor={tertiaryBlue}

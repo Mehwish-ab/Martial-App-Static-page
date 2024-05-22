@@ -28,7 +28,8 @@ import moment from 'moment'
 
 const MembershipCardView = (): JSX.Element => {
     // const { loginData } = useSelector((state: RootState) => state)
-    const { loading, handleCreateSubmit, Createmodal } = useMembership()
+    const { loading, handleCreateSubmit, Createmodal, handleUpdate } =
+        useMembership()
     const [selectedClassIds, setSelectedClassIds] = useState<string[]>([])
     const { getLabelByKey } = useScreenTranslation('createMembershipClass')
     const { ClassData } = useSelector((state: RootState) => state.ClassData)
@@ -44,13 +45,16 @@ const MembershipCardView = (): JSX.Element => {
     const receivingImage = location.state && location.state.bannerImages
 
     const handleCheckboxChange = (classId: string): void => {
+        console.log('classIdsssssssssss', classId)
         const isSelected = selectedClassIds.includes(classId)
 
         if (isSelected) {
+            console.log('in if classIdsssssssssss', classId)
             setSelectedClassIds((prevIds: any[]) =>
                 prevIds.filter((id) => id !== classId)
             )
         } else {
+            console.log(' in else classIdsssssssssss', classId)
             setSelectedClassIds((prevIds: any) => [...prevIds, classId])
         }
     }
@@ -60,7 +64,10 @@ const MembershipCardView = (): JSX.Element => {
     console.log('loginData', loginData.data?.schoolId, schoolId)
     const payload = {
         useCase: 'SCHOOL',
-        classIds: selectedClassIds.join(','),
+        classIds:
+            selectedClassIds.length > 0
+                ? selectedClassIds.join(',')
+                : data?.classIds,
         id: Number(schoolId),
         title: data.title,
         startDate: moment(data.startDate, 'dddd, MMM DD, YYYY').format(
@@ -71,7 +78,7 @@ const MembershipCardView = (): JSX.Element => {
         ),
         visibility: data.visibility,
         // subscriptionType: data.subscriptionType,
-        subscriptionType: 1,
+        subscriptionType: data.subscriptionType,
         membershipFee: data.membershipFee,
         minimumStudent: data.minimumStudent,
         dailySubsFee: data.dailySubsFee,
@@ -96,13 +103,26 @@ const MembershipCardView = (): JSX.Element => {
         cancellationCharges: data.cancellationCharges,
         accommodation: data.accommodation.join(','),
         description: data.description,
-        bannerPicture: '',
+        bannerPicture: data.bannerPicture,
     }
 
     const onSubmit = async (): Promise<void> => {
-        await handleCreateSubmit(payload, receivingImage)
+        if (data.memberShipPlanId) {
+            await handleUpdate(data.memberShipPlanId, payload, receivingImage)
+        } else {
+            await handleCreateSubmit(payload, receivingImage)
+        }
     }
-    console.log(ClassData, 'll')
+
+    const [selectedClassId, setSelectedClassId] = useState([]) as any
+
+    // Parse the string into an array of class IDs
+    useEffect(() => {
+        if (data?.classIds) {
+            const classIdsArray = data.classIds.split(',')
+            setSelectedClassIds(classIdsArray)
+        }
+    }, [data])
 
     const initialValues = (): void => {}
     const handleCreateSubmits = (): void => {}
@@ -187,9 +207,16 @@ const MembershipCardView = (): JSX.Element => {
                         }}
                     </Formik>
                 </CustomDiv>
-                <div className="custom_card_list d-flex flex-wrap justify-content-center">
+                <div className="custom_card_list d-flex flex-wrap justify-content-left">
                     {/* branchData?.data[0].branchId !== 0 ? branchData.data : [] */}
                     {ClassData?.data.map((classItem) => {
+                        const isChecked = [
+                            // ...selectedClassId,
+                            ...selectedClassIds,
+                        ]?.includes(String(classItem.classId))
+
+                        console.log('isChecked', isChecked)
+
                         return (
                             <div
                                 className="custom_card"
@@ -214,6 +241,7 @@ const MembershipCardView = (): JSX.Element => {
                                         type="checkbox"
                                         id="cardImg"
                                         name="cardImg"
+                                        checked={isChecked}
                                         className="custom_card_checkbox"
                                         onChange={() =>
                                             handleCheckboxChange(

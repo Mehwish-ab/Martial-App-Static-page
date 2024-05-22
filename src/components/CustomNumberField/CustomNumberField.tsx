@@ -35,6 +35,7 @@ type CustomNumberField = {
     marginBottom?: string
     borderRadius?: string
     labelFont?: string
+    max: string
 }
 
 const CustomNumberField: React.FC<CustomNumberField> = ({
@@ -65,6 +66,7 @@ const CustomNumberField: React.FC<CustomNumberField> = ({
     type = 'text',
     marginBottom = '10px',
     borderRadius = '10px',
+    max,
     onKeyUp,
 }: CustomNumberField) => {
     return (
@@ -110,6 +112,7 @@ const CustomNumberField: React.FC<CustomNumberField> = ({
                             type={type}
                             readOnly={readyOnly}
                             maxLength={12}
+                            max={max}
                             placeholder={inchPlaceholder}
                             defaultValue={defaultValue}
                             {...field}

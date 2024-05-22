@@ -13,6 +13,7 @@ import { Dropdown, Form, Menu, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import LoadingOverlay from '../../../components/Modal/LoadingOverlay'
+import DefaultBannerImage from '../../../assets/images/defaultProfileImage.svg'
 
 import { ListBranchStyled } from './styles'
 import {
@@ -156,16 +157,13 @@ const ListBranch = (): JSX.Element => {
     }
     const columns: ColumnsType<BranchDataType> = [
         {
-            title: 'Id',
-            dataIndex: 'branchId',
-            key: 'branchId',
-        },
-        {
             title: 'Image',
             render: (Dummydatas) => {
                 console.log('>>images', Dummydatas?.profilePicture)
                 if (Dummydatas.profilePicture === null) {
-                    return <img src={defaltimg} width={44} height={44} />
+                    return (
+                        <img src={DefaultBannerImage} width={44} height={44} />
+                    )
                 } else {
                     return (
                         <img

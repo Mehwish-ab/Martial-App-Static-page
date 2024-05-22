@@ -42,13 +42,10 @@ const CreateSchool = (): JSX.Element => {
 
     const { schoolData } = useAppSelector((state) => state.dashboardData)
     const navigate = useNavigate()
-    const { userId } = useParams()
-    // const { getUSerById } = useUser()
-    const { data: loginData } = useAppSelector((state) => state.loginData)
-    console.log('login', loginData)
-    // const [OwnerData, setOwnerData] = useState<OwnerDataTypes>()
+    const { UserData } = useAppSelector((state) => state.UserData)
 
     const { schoolId } = useParams()
+    console.log('school data', schoolData, schoolId)
     // const { data: loginData } = useAppSelector((state) => state.loginData)
     // console.log('login', loginData)
 
@@ -70,7 +67,7 @@ const CreateSchool = (): JSX.Element => {
     //     fetchData()
     // }, [schoolId])
     const [User, setUser] = useState<UserDataType | undefined>(undefined)
-    console.log('he', userId)
+
     // useEffect(() => {
     //     const fetchData = async (): Promise<any> => {
     //         try {
@@ -88,22 +85,25 @@ const CreateSchool = (): JSX.Element => {
     // }, [])
     const { handleCreateSubmit, loading, SuccessModal, WarningModal } =
         useCreateSchool()
+    const { loginData } = useSelector((state: RootState) => state)
+    const { userId } = useSelector((state: RootState) => state.UserData)
 
     const initialValues: CreateSchoolInitialValues = {
         businessName: '',
         businessType: '',
         address: '',
+        latitude: 0,
+        longitude: 0,
         businessPhoneNumber: '',
-
         defaultLanguageId: '',
         description: '',
         rank: '',
         defaultCurrencyId: '',
         selectedActivities: [],
         selectedFacilities: [],
-        UserId: Number(userId),
+        UserId: userId ? Number(userId) : +loginData.userId,
     }
-
+    console.log('User', userId, User)
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
@@ -145,10 +145,24 @@ const CreateSchool = (): JSX.Element => {
             .of(Yup.string().required('Select at least one facility'))
             .min(1, 'Select at least one facility'),
     })
+
     const onsubmit = async (
         values: CreateSchoolInitialValues
     ): Promise<void> => {
-        await handleCreateSubmit(Number(loginData?.userDetails.id), values)
+        let id = null
+        if (loginData.userId) {
+            id = loginData.userId
+        } else if (
+            loginData.data?.userDetails.id &&
+            loginData.data.userDetails.roleName === 'USER'
+        ) {
+            id = loginData.data.userDetails.id
+        } else {
+            id = userId
+        }
+
+        console.log('id of registered user', loginData, id)
+        await handleCreateSubmit(Number(id), values)
     }
     const createOptions = (
         list: DataTypesWithIdAndMultipleLangLabel[]
@@ -163,21 +177,27 @@ const CreateSchool = (): JSX.Element => {
         })
         return options
     }
-    // useEffect(() => {
-    //     if (logindata?.schoolId > 0)
-    //         return navigate(`/school/view/${schoolData.schoolId}`)
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [schoolData, loginData])
+    console.log('login data', loginData)
+
     useEffect(() => {
-        // const localStorageData = localStorage.getItem('ennvision-admin:token')
-        //const loginData = JSON.parse(localStorageData as any)
-        if (!loginData?.schoolId) {
-            navigate('/school/create')
-            return
+        if (
+            loginData?.data?.userDetails.roleName === 'USER' &&
+            loginData?.data.schoolId
+        ) {
+            navigate('/activity/create/')
+        } else if (
+            loginData?.data?.userDetails.roleName === 'SCHOOL' &&
+            loginData?.data.schoolId
+        ) {
+            navigate(`/school/view/${schoolId}`)
         }
-        if (!schoolData || !schoolData.schoolId) {
-            store.dispatch(getSchoolByUserId())
-        }
+        // if (!loginData?.schoolId) {
+        //     navigate('/school/create')
+        //     return
+        // }
+        // if (!schoolData || !schoolData.schoolId) {
+        //     store.dispatch(getSchoolByUserId())
+        // }
     }, [])
 
     const showActivities = (_activities: string[]): string => {
@@ -223,7 +243,7 @@ const CreateSchool = (): JSX.Element => {
     return (
         <>
             <Head title="Create School" />
-            <StudentViewStyling>
+            {/* <StudentViewStyling>
                 <Card>
                     <h3>Owner Information</h3>
                     <Row className="mt-20">
@@ -267,13 +287,13 @@ const CreateSchool = (): JSX.Element => {
                         </Col>
                     </Row>
                 </Card>
-            </StudentViewStyling>
+            </StudentViewStyling> */}
             <CreateSchoolStyled>
                 {SuccessModal().modalComponent}
                 {WarningModal().modalComponent}
                 <Formik
                     initialValues={initialValues}
-                    // validationSchema={validationSchema}
+                    validationSchema={validationSchema}
                     onSubmit={onsubmit}
                 >
                     {(formik) => {
@@ -385,7 +405,15 @@ const CreateSchool = (): JSX.Element => {
                                                 handleChange={(val) => {
                                                     formik.setFieldValue(
                                                         'address',
-                                                        val
+                                                        val.selectedAddress
+                                                    )
+                                                    formik.setFieldValue(
+                                                        'latitude',
+                                                        val.latitude
+                                                    )
+                                                    formik.setFieldValue(
+                                                        'longitude',
+                                                        val.longitude
                                                     )
                                                 }}
                                                 className={

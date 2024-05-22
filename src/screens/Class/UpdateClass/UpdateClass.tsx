@@ -4,7 +4,7 @@ import { Form } from 'antd'
 import { Col, Row } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import FormControl from '../../../components/FormControl'
-import DateCalander from '../../../assets/images/dateCalander.svg'
+import * as yup from 'yup'
 import {
     fontFamilyMedium,
     fontFamilyRegular,
@@ -23,12 +23,9 @@ import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelec
 import useClass from '../../../hooks/useClass'
 import { useParams } from 'react-router-dom'
 import moment from 'moment'
-import { getTimetableByUserId } from '../../../redux/features/TimeTable/TimeTableSlice'
+
 import { getInstructorByUserId } from '../../../redux/features/instructor/instructorSlice'
-import useTimetable from '../../../hooks/useTimetable'
-import useInstructor from '../../../hooks/useInstructor'
-import { initial } from 'lodash'
-import * as Yup from 'yup'
+import useRoom from '../../../hooks/useRoom'
 
 const UpdateClass = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('updateClasses')
@@ -36,15 +33,16 @@ const UpdateClass = (): JSX.Element => {
     const { classId } = useParams()
     const { loginData } = useSelector((state: RootState) => state)
 
-    const { getClassbyid, loading, UpdateModal, handleUpdate } = useClass()
+    const { getClassbyid, loading, UpdateModal, handleUpdate, classData } =
+        useClass()
     const {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
-    const [values, setValues] = useState<any>()
-    const [timetable, setTimetable] = useState<any>(undefined)
-    const [instructor, setinstructor] = useState<any>(undefined)
-    const { getTimetableById } = useTimetable()
-    const { getInstructorbyid } = useInstructor()
+    const { getallRoombyUC, room } = useRoom()
+
+    //const [values, setValues] = useState<any>()
+    const [roomId, setRoom] = useState<any>([])
+    const [instructor, setinstructor] = useState<any>([])
     const {
         dropdowns: { schoolAccommodation },
     } = useSelector((state: RootState) => state.appData.data)
@@ -57,15 +55,34 @@ const UpdateClass = (): JSX.Element => {
     }))
     useEffect(() => {
         const fetchData = async (): Promise<void> => {
+            store.dispatch(getInstructorByUserId())
             try {
-                const data = await getClassbyid(Number(classId))
-                setValues(data)
+                if (loginData.data?.schoolId) {
+                    await getallRoombyUC(
+                        Number(loginData.data?.schoolId),
+                        'SCHOOL'
+                    )
+                }
+                // eslint-disable-next-line @typescript-eslint/no-shadow
+            } catch (error) {
+                /// setError('Error fetching data')
+            } finally {
+                //  setLoading(false)
+            }
+        }
 
-                if (data) {
-                    const datas = await getInstructorbyid(data?.instructorId)
-                    setinstructor(datas)
-                    const dataa = await getTimetableById(data?.timeTableId)
-                    setTimetable(dataa)
+        fetchData()
+    }, [loginData.data?.schoolId])
+
+    useEffect(() => {
+        const fetchData = async (): Promise<void> => {
+            try {
+                await getClassbyid(Number(classId))
+                console.log('Api data response', classData)
+
+                if (classData) {
+                    setinstructor(classData.instructorsResponseDTOList)
+                    setRoom(classData.roomResponseDTOList)
                 }
             } catch (error) {
                 console.error('Error fetching data:', error)
@@ -73,34 +90,8 @@ const UpdateClass = (): JSX.Element => {
         }
 
         fetchData()
-    }, [])
-    const [bannerImage, setBannerImage] = useState<File | null>(null)
-    const [bannerImages, setBannerImages] = useState<File | null>(null)
+    }, [classId])
 
-    // const showAccommodation = (_accommodate: string[]): string => {
-    //     const AccommodateName = _accommodate.reduce(
-    //         (a: string, accommodate_id: string) => {
-    //             const index = convertedAccommodation.findIndex(
-    //                 (facts: any) => facts.id === +accommodate_id
-    //             )
-
-    //             if (index === -1) {
-    //                 return a
-    //             }
-
-    //             const accommodateLabel = (convertedAccommodation[index] as any)[
-    //                 selectedLanguage
-    //             ]
-    //             return `${a} ${accommodateLabel},`
-    //         },
-    //         ''
-    //     )
-
-    //     if (AccommodateName.length > 35) {
-    //         return `${AccommodateName.slice(0, 35)}...`
-    //     }
-
-    //     return AccommodateName || getLabelByKey('selectAccommodationOptions')
     // }
     const showAccommodation = (_facilities: string[]): string => {
         let facilitiesName = ''
@@ -127,114 +118,348 @@ const UpdateClass = (): JSX.Element => {
         }
         return facilitiesName || getLabelByKey('facilities')
     }
+    const [bannerImage, setBannerImage] = useState<File | null>(null)
     const handleSaveBanner = (file: File): void => {
+        console.log('iamge file', file)
         setBannerImage(file)
-        setBannerImages(file)
     }
 
     const InitialValues: CreateClassInitialValues = {
-        title: values?.title,
-        startDate: moment(values?.startDate, 'YYYY-MM-DD').format(
+        title: classData?.title,
+        startDate: moment(classData?.startDate, 'YYYY-MM-DD').format(
             'dddd, MMM DD, YYYY'
         ),
-        endDate: moment(values?.endDate, 'YYYY-MM-DD').format(
+        newFee: classData?.newFee,
+        endDate: moment(classData?.endDate, 'YYYY-MM-DD').format(
             'dddd, MMM DD, YYYY'
         ),
-        instructorId: values?.instructorId,
-        fee: values?.fee,
-        activities: values ? values.activities?.split(',').map(String) : [],
-        accommodation: values
-            ? values.accommodation?.split(',').map(String)
+        instructorId: classData?.instructorIds,
+        isKid: classData?.isKid,
+        roomId: classData?.roomIds,
+        fee: classData?.fee,
+        activities: classData
+            ? classData.activities?.split(',').map(String)
+            : [],
+        accommodation: classData
+            ? classData.accommodation?.split(',').map(String)
             : [],
 
-        capacity: values?.capacity,
-        minimumStudent: values?.minimumStudent,
-        bookingStartDate: moment(values?.bookingStartDate, 'YYYY-MM-DD').format(
-            'dddd, MMM DD, YYYY'
-        ),
-        bookingEndDate: moment(values?.bookingEndDate, 'YYYY-MM-DD').format(
-            'dddd, MMM DD, YYYY'
-        ),
-        qrCodeStartDate: moment(values?.qrCodeStartDate, 'YYYY-MM-DD').format(
-            'dddd, MMM DD, YYYY'
-        ),
-        qrCodeEndDate: moment(values?.qrCodeEndDate, 'YYYY-MM-DD').format(
-            'dddd, MMM DD, YYYY'
-        ),
+        capacity: classData?.capacity,
+        minimumStudent: classData?.minimumStudent,
+        bookingStartDate: moment(
+            classData?.bookingStartDate,
+            'YYYY-MM-DDTHH:mm:ss.SSS[Z]'
+        )
+            .utc() // Convert to UTC timezone
+            .format('DD-MM-YY / h:mm A'),
+        bookingEndDate: moment(
+            classData?.bookingEndDate,
+            'YYYY-MM-DDTHH:mm:ss.SSS[Z]'
+        )
+            .utc() // Convert to UTC timezone
+            .format('DD-MM-YY / h:mm A'),
+        qrCodeStartDate: moment(
+            classData?.qrCodeStartDate,
+            'YYYY-MM-DDTHH:mm:ss.SSS[Z]'
+        )
+            .utc() // Convert to UTC timezone
+            .format('DD-MM-YY / h:mm A'),
+        qrCodeEndDate: moment(
+            classData?.qrCodeEndDate,
+            'YYYY-MM-DDTHH:mm:ss.SSS[Z]'
+        )
+            .utc() // Convert to UTC timezone
+            .format('DD-MM-YY / h:mm A'),
         allowStudentCancel: moment(
-            values?.allowStudentCancel,
-            'YYYY-MM-DD'
-        ).format('dddd, MMM DD, YYYY'),
-        refundDate: moment(values?.refundDate, 'YYYY-MM-DD').format(
-            'dddd, MMM DD, YYYY'
-        ),
+            classData?.allowStudentCancel,
+            'YYYY-MM-DDTHH:mm:ss.SSS[Z]'
+        )
+            .utc() // Convert to UTC timezone
+            .format('DD-MM-YY / h:mm A'),
+        refundDate: moment(classData?.refundDate, 'YYYY-MM-DDTHH:mm:ss.SSS[Z]')
+            .utc() // Convert to UTC timezone
+            .format('DD-MM-YY / h:mm A'),
         bookingCancelStartDate: moment(
-            values?.bookingCancelStartDate,
-            'YYYY-MM-DD'
-        ).format('dddd, MMM DD, YYYY'),
+            classData?.bookingCancelStartDate,
+            'YYYY-MM-DDTHH:mm:ss.SSS[Z]'
+        )
+            .utc() // Convert to UTC timezone
+            .format('DD-MM-YY / h:mm A'),
         bookingCancelEndDate: moment(
-            values?.bookingCancelEndDate,
-            'YYYY-MM-DD'
-        ).format('dddd, MMM DD, YYYY'),
-        cancellationCharges: values?.cancellationCharges,
-        description: values?.description,
+            classData?.bookingCancelEndDate,
+            'YYYY-MM-DDTHH:mm:ss.SSS[Z]'
+        )
+            .utc() // Convert to UTC timezone
+            .format('DD-MM-YY / h:mm A'),
+        cancellationCharges: classData?.cancellationCharges,
+        description: classData?.description,
         Agreement: '',
         termCondition: '',
         Liabilitywaivers: '',
-        bannerPicture: values?.bannerPicture,
+        bannerPicture: classData?.bannerPicture,
         useCase: 'SCHOOL',
         id: Number(loginData.data?.schoolId),
-        timeTableId: values?.timeTableId,
+        timeTableId: classData?.timeTableId,
     }
-    const validationSchemas = Yup.object({
-        // in: Yup.string()
-        //     .required(instructorName.notBlankMsgEn)
-        //     .matches(franchiseNameReg, instructorName.patternMsgEn),
-        // address: Yup.string()
-        //     .required(address.notBlankMsgEn)
-        //     .matches(addressReg, address.patternMsgEn),
-        // emailAddress: Yup.string()
-        //     .required(emailAddress.notBlankMsgEn)
-        //     .matches(emailAddressReg, emailAddress.patternMsgEn),
-        // instructorPhoneNumber: Yup.string().required(
-        //     instructorPhoneNumber.notBlankMsgEn
-        // ),
-        // latestCertification: Yup.mixed().test(
-        //     'fileType',
-        //     'Unsupported File Format',
-        //     function (value) {
-        //         if (value) {
-        //             const allowedTypes = [
-        //                 'image/jpeg',
-        //                 'image/png',
-        //                 'image/webp',
-        //                 'image/jpg',
-        //                 'image/bmp',
-        //                 'image/tiff',
-        //             ]
-        //             const isAllowedType = allowedTypes.includes(value.type)
+    const Attendent = [
+        { label: 'Kids', value: true },
+        { label: 'Adults', value: false },
+    ]
 
-        //             return isAllowedType
-        //         }
-        //         return true
+    const validationHandler = (d: any): any => {
+        const originalDateFormat = 'dddd, MMM D, YYYY'
+
+        // Define the desired date format
+        const desiredDateFormat = 'DD-MM-YY / h:mm A'
+
+        // Parse the original date string using moment with the original format
+        const date = moment(d, originalDateFormat)
+
+        // Convert the date to the desired format
+        return date.format(desiredDateFormat)
+    }
+    const today = moment()
+    const validationSchema = yup.object({
+        startDate: yup.string().required('Start date is required.'),
+        // .test(
+        //     'is-not-in-past',
+        //     'start date cannot be in the past.',
+        //     function (value) {
+        //         // Compare with today's date
+        //         return moment(value, 'DD-MM-YY / h:mm A').isSameOrAfter(
+        //             today
+        //         )
         //     }
         // ),
-        title: Yup.string().required('Please select title'),
-        fee: Yup.string().required('Please enter description'),
-        // yearsOfExperience: Yup.string().required(
-        //     'Please select years Of Experience'
-        // ),
+        endDate: yup
+            .string()
+            .required('End date is required.')
+            .test(
+                'is-greater-than-start-date',
+                'End date must be greater than or equal to start date.',
+                function (value) {
+                    const { startDate } = this.parent // Accessing parent context
 
-        // defaultCurrency: Yup.string().required(
-        //     'Please select default currency'
+                    if (!startDate || !value) {
+                        return true // Skip validation if either date is missing
+                    }
+
+                    // Compare dates using moment
+                    return (
+                        moment(value).isAfter(startDate) ||
+                        moment(value).isSame(startDate)
+                    )
+                }
+            ),
+        // .test(
+        //     'is-not-in-past',
+        //     'End date cannot be in the past.',
+        //     function (value) {
+        //         // Compare with today's date
+        //         return moment(value, 'DD-MM-YY / h:mm A').isSameOrAfter(
+        //             today
+        //         )
+        //     }
         // ),
-        // activities: Yup.array()
-        //     .of(Yup.string().required('Select an activity'))
-        //     .min(1, 'Select at least one activity'),
-        // specializations: Yup.array()
-        //     .of(Yup.string().required('Select an specilization'))
-        //     .min(1, 'Select at least one specilization'),
+        qrCodeStartDate: yup
+            .string()
+            .required('QR code start date is required.')
+            .test(
+                'is-greater-than-bookingStartDate',
+                'QR code start date cannot be earlier than the Booking start date.',
+                function (value) {
+                    const { bookingStartDate } = this.parent
+                    return moment(value, 'DD-MM-YY / h:mm A').isSameOrAfter(
+                        moment(bookingStartDate, 'DD-MM-YY / h:mm A')
+                    )
+                }
+            ),
+        qrCodeEndDate: yup
+            .string()
+            .required('QR code end date is required.')
+            .test(
+                'is-less-than-end-date',
+                'QR code end date cannot be later than the End date.',
+                function (value) {
+                    const { endDate } = this.parent
+
+                    return moment(value, 'DD-MM-YY / h:mm A').isSameOrBefore(
+                        moment(validationHandler(endDate), 'DD-MM-YY / h:mm A')
+                    )
+                }
+            ),
+        bookingStartDate: yup
+            .string()
+            .required('Booking start date is required.')
+            .test(
+                'is-less-than-end-date',
+                'Booking start date cannot be greater than the End date.',
+                function (value) {
+                    const { endDate } = this.parent
+                    return (
+                        moment(value, 'DD-MM-YY / h:mm A').isBefore(
+                            moment(
+                                validationHandler(endDate),
+                                'DD-MM-YY / h:mm A'
+                            )
+                        ) ||
+                        moment(value, 'DD-MM-YY / h:mm A').isSame(
+                            moment(
+                                validationHandler(endDate),
+                                'DD-MM-YY / h:mm A'
+                            )
+                        )
+                    )
+                }
+            ),
+        bookingEndDate: yup
+            .string()
+            .required('Booking end date is required.')
+            .test(
+                'is-less-than-end-date',
+                'Booking end date cannot be greater than the End date.',
+                function (value) {
+                    const { endDate } = this.parent
+                    return moment(value, 'DD-MM-YY / h:mm A').isSameOrBefore(
+                        moment(validationHandler(endDate), 'DD-MM-YY / h:mm A')
+                    )
+                }
+            ),
+        bookingCancelStartDate: yup
+            .string()
+            .required('Booking cancel start date is required.')
+            .test(
+                'is-greater-than-bookingStartDate',
+                'Booking cancel start date must be greater than the Booking start date.',
+                function (value) {
+                    const { bookingStartDate } = this.parent
+                    return moment(value, 'DD-MM-YY / h:mm A').isSameOrAfter(
+                        moment(bookingStartDate, 'DD-MM-YY / h:mm A')
+                    )
+                }
+            )
+            .test(
+                'is-less-than-end-date',
+                'Booking cancel start date must be less than the End date.',
+                function (value) {
+                    const { endDate } = this.parent
+                    return moment(value, 'DD-MM-YY / h:mm A').isSameOrBefore(
+                        moment(validationHandler(endDate), 'DD-MM-YY / h:mm A')
+                    )
+                }
+            ),
+        bookingCancelEndDate: yup
+            .string()
+            .required('Booking cancel end date is required.')
+            .test(
+                'is-greater-than-cancelStart',
+                'Booking cancel end date must be greater than the cancel start date.',
+                function (value) {
+                    const { bookingCancelStartDate } = this.parent
+
+                    return moment(value, 'DD-MM-YY / h:mm A').isAfter(
+                        moment(bookingCancelStartDate, 'DD-MM-YY / h:mm A')
+                    )
+                }
+            )
+            .test(
+                'is-greater-than-bookingStartDate',
+                'Booking cancel end date must be greater than the Booking start date.',
+                function (value) {
+                    const { bookingStartDate } = this.parent
+                    return moment(value, 'DD-MM-YY / h:mm A').isSameOrAfter(
+                        moment(bookingStartDate, 'DD-MM-YY / h:mm A')
+                    )
+                }
+            )
+            .test(
+                'is-less-than-end-date',
+                'Booking cancel end date must be less than the End date.',
+                function (value) {
+                    const { endDate } = this.parent
+                    return moment(value, 'DD-MM-YY / h:mm A').isSameOrBefore(
+                        moment(validationHandler(endDate), 'DD-MM-YY / h:mm A')
+                    )
+                }
+            ),
+        refundDate: yup
+            .string()
+            .required('Refund date is required.')
+            .test(
+                'is-after-bookingStartDate',
+                'Refund date must be after the Booking start date.',
+                function (value) {
+                    const { bookingStartDate } = this.parent
+                    return moment(value, 'DD-MM-YY / h:mm A').isAfter(
+                        moment(bookingStartDate, 'DD-MM-YY / h:mm A')
+                    )
+                }
+            ),
+        allowStudentCancel: yup
+            .string()
+            .required('Refund date is required.')
+            .test(
+                'is-after-startDate',
+                'Allow StudentCancel must be greater then the  start date.',
+                function (value) {
+                    const { startDate } = this.parent
+                    return moment(value, 'DD-MM-YY / h:mm A').isAfter(
+                        moment(
+                            validationHandler(startDate),
+                            'DD-MM-YY / h:mm A'
+                        )
+                    )
+                }
+            )
+            .test(
+                'is-before-endDate',
+                'Allow StudentCancel must be less then the  end date.',
+                function (value) {
+                    const { endDate } = this.parent
+                    return moment(value, 'DD-MM-YY / h:mm A').isBefore(
+                        moment(validationHandler(endDate), 'DD-MM-YY / h:mm A')
+                    )
+                }
+            ),
+
+        title: yup.string().required('title is required.'),
+        // instructorId: yup.array().required('Instructor is required.'),
+        isKid: yup.boolean().required('Attendent is required.'),
+        // roomId: yup.array().required('Room is required.'),
+        fee: yup.string().required('Fee is required.'),
+        activities: yup.array().required('Activity is required.'),
+        capacity: yup.string().required('Capacity is required.'),
+        minimumStudent: yup.string().required('Student is required.'),
+        cancellationCharges: yup
+            .string()
+            .required('cancellationCharges are required.'),
+        accommodation: yup.array().required('Accommodation is required.'),
+        description: yup.string().required(' description is required.'),
     })
+    const { schoolData } = useSelector(
+        (state: RootState) => state.dashboardData
+    )
+    const {
+        dropdowns: { currency },
+    } = useSelector((state: RootState) => state.appData.data)
+    const _currency = schoolData?.defaultCurrencyId
+    const CurrencyType = (_CurrencyType: number): string => {
+        const index = currency.findIndex(
+            (curr: any) => curr.id === _CurrencyType
+        )
+        if (index !== -1) {
+            const symbolMap: { [key: number]: string } = {
+                1: '€', // Euro
+                2: '£', // Pound
+                3: '$', // United States Dollar
+                4: 'R$', // Brazil
+            }
+            return symbolMap[_CurrencyType]
+        }
+
+        return '--'
+    }
+    const money = CurrencyType(_currency)
     const showActivities = (_activities: string[]): string => {
         let activitiesName = ''
         _activities.forEach((activity) => {
@@ -257,56 +482,59 @@ const UpdateClass = (): JSX.Element => {
     const { instructorData } = useSelector(
         (state: RootState) => state.instructorData
     )
-    const { timeTableData } = useSelector(
-        (state: RootState) => state.timeTableData
-    )
     useEffect(() => {
         store.dispatch(getInstructorByUserId())
-        store.dispatch(getTimetableByUserId())
     }, [])
     const onSubmit = async (valuess: any): Promise<void> => {
-        const start = moment(valuess.startDate, 'dddd, MMM DD, YYYY').format(
-            'YYYY-MM-DD'
-        )
+        console.log('valuessss', valuess)
+        const start = valuess.startDate
+            ? moment(valuess.startDate, 'dddd, MMM DD, YYYY').format(
+                  'YYYY-MM-DD'
+              )
+            : InitialValues.startDate
+        console.log('start', start, InitialValues.startDate)
         const end = moment(valuess.endDate, 'dddd, MMM DD, YYYY').format(
             'YYYY-MM-DD'
         )
         const bookingstart = moment(
             valuess.bookingStartDate,
-            'dddd, MMM DD, YYYY'
-        ).format('YYYY-MM-DD')
-        const bookingEnd = moment(
-            valuess.bookingEndDate,
-            'dddd, MMM DD, YYYY'
-        ).format('YYYY-MM-DD')
-        const qrCodeStart = moment(
-            valuess.qrCodeStartDate,
-            'dddd, MMM DD, YYYY'
-        ).format('YYYY-MM-DD')
-        const qrCodeEnd = moment(
-            valuess.qrCodeEndDate,
-            'dddd, MMM DD, YYYY'
-        ).format('YYYY-MM-DD')
+            'DD-MM-YY / h:mm A'
+        )
+            .utc() // Convert to UTC timezone
+            .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
+        const bookingEnd = moment(valuess.bookingEndDate, 'DD-MM-YY / h:mm A')
+            .utc() // Convert to UTC timezone
+            .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
+        const qrCodeStart = moment(valuess.qrCodeStartDate, 'DD-MM-YY / h:mm A')
+            .utc() // Convert to UTC timezone
+            .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
+        const qrCodeEnd = moment(valuess.qrCodeEndDate, 'DD-MM-YY / h:mm A')
+            .utc() // Convert to UTC timezone
+            .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
         const studentCancel = moment(
             valuess.allowStudentCancel,
-            'dddd, MMM DD, YYYY'
-        ).format('YYYY-MM-DD')
-        const refundfee = moment(
-            valuess.refundDate,
-            'dddd, MMM DD, YYYY'
-        ).format('YYYY-MM-DD')
+            'DD-MM-YY / h:mm A'
+        )
+            .utc() // Convert to UTC timezone
+            .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
+        const refundfee = moment(valuess.refundDate, 'DD-MM-YY / h:mm A')
+            .utc() // Convert to UTC timezone
+            .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
         const bookingCancleStart = moment(
             valuess.bookingCancelStartDate,
-            'dddd, MMM DD, YYYY'
-        ).format('YYYY-MM-DD')
+            'DD-MM-YY / h:mm A'
+        )
+            .utc() // Convert to UTC timezone
+            .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
         const bookingCancleEnd = moment(
             valuess.bookingCancelEndDate,
-            'dddd, MMM DD, YYYY'
-        ).format('YYYY-MM-DD')
-        const bannerImageToSend = bannerImage
+            'DD-MM-YY / h:mm A'
+        )
+            .utc() // Convert to UTC timezone
+            .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
+        const BannerImage = bannerImage
             ? bannerImage
             : InitialValues.bannerPicture
-
         handleUpdate(
             Number(classId),
             {
@@ -322,8 +550,7 @@ const UpdateClass = (): JSX.Element => {
                 bookingCancelStartDate: bookingCancleStart,
                 bookingCancelEndDate: bookingCancleEnd,
             },
-            bannerImageToSend,
-            bannerImages
+            BannerImage
         )
     }
     return (
@@ -335,8 +562,8 @@ const UpdateClass = (): JSX.Element => {
                 <Formik
                     initialValues={InitialValues}
                     onSubmit={onSubmit}
-                    validationSchema={validationSchemas}
-                    enableReinitialize
+                    validationSchema={validationSchema}
+                    enableReinitialize={true}
                 >
                     {(formik) => {
                         console.log('initial', InitialValues)
@@ -373,10 +600,10 @@ const UpdateClass = (): JSX.Element => {
                                                             placeholder={getLabelByKey(
                                                                 'titlePlaceholder'
                                                             )}
-                                                            // defaultValue={
-                                                            //     formik.values
-                                                            //         .title
-                                                            // }
+                                                            value={
+                                                                formik.values
+                                                                    .title
+                                                            }
                                                         />
                                                     </Col>
 
@@ -400,9 +627,11 @@ const UpdateClass = (): JSX.Element => {
                                                                         'startDate'
                                                                     )}
                                                                     fontSize="16px"
-                                                                    placeholder={getLabelByKey(
-                                                                        'startDatePlaceholder'
-                                                                    )}
+                                                                    placeholder={
+                                                                        formik
+                                                                            .values
+                                                                            .startDate
+                                                                    }
                                                                 />
                                                             </Col>
                                                             <Col
@@ -420,23 +649,10 @@ const UpdateClass = (): JSX.Element => {
                                                                         'endDate'
                                                                     )}
                                                                     padding="8px 10px"
-                                                                    placeholder={getLabelByKey(
-                                                                        'endDatePlaceholder'
-                                                                    )}
-                                                                    suffix={
-                                                                        <img
-                                                                            src={
-                                                                                DateCalander
-                                                                            }
-                                                                            alt=""
-                                                                            width={
-                                                                                25
-                                                                            }
-                                                                            height={
-                                                                                25
-                                                                            }
-                                                                            //onClick={(type = "date")}
-                                                                        />
+                                                                    placeholder={
+                                                                        formik
+                                                                            .values
+                                                                            .endDate
                                                                     }
                                                                 />
                                                             </Col>
@@ -457,18 +673,19 @@ const UpdateClass = (): JSX.Element => {
                                                                     }
                                                                     fontSize="16px"
                                                                     max={6}
-                                                                    placeholder={getLabelByKey(
-                                                                        'InstructorsPlaceholder'
-                                                                    )}
-                                                                    value={
-                                                                        formik
-                                                                            .values
-                                                                            .instructorId
-                                                                    } // Set value to the selected instructor ID
-                                                                >
-                                                                    {instructorData.data.map(
+                                                                    selectionMode="multiple"
+                                                                    placeholder={classData?.instructorsResponseDTOList?.map(
                                                                         (
-                                                                            instructors
+                                                                            instructors: any
+                                                                        ) =>
+                                                                            instructors.instructorName
+                                                                    )}
+
+                                                                    // Set value to the selected instructor ID
+                                                                >
+                                                                    {instructorData?.data.map(
+                                                                        (
+                                                                            instructors: any
                                                                         ) => (
                                                                             <option
                                                                                 key={
@@ -533,17 +750,27 @@ const UpdateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="select"
                                                 type="text"
-                                                name="rooms"
+                                                name="roomId"
                                                 label="Rooms"
                                                 padding="8px 10px"
                                                 fontFamily={fontFamilyRegular}
                                                 fontSize="16px"
                                                 max={6}
-                                                placeholder="Select Rooms"
-                                                value={
-                                                    formik.values.timeTableId
-                                                }
-                                            />
+                                                selectionMode="multiple"
+                                                placeholder={classData?.roomResponseDTOList?.map(
+                                                    (r: any) => r.roomName
+                                                )}
+                                                //value={formik.values.roomId}
+                                            >
+                                                {room?.data.map((r: any) => (
+                                                    <option
+                                                        key={r.roomId}
+                                                        value={r.roomId}
+                                                    >
+                                                        {r.name}
+                                                    </option>
+                                                ))}
+                                            </FormControl>
                                         </Col>
                                         <Col md="3" className="mt-20">
                                             <FormControl
@@ -555,17 +782,17 @@ const UpdateClass = (): JSX.Element => {
                                                     'classFees'
                                                 )}
                                                 padding="8px 10px"
-                                                placeholder={getLabelByKey(
-                                                    'classFeesPlaceholder'
-                                                )}
+                                                placeholder={formik.values.fee}
                                                 suffix={
-                                                    <img
-                                                        src={dollar}
-                                                        alt=""
-                                                        width={13}
-                                                        height={27}
-                                                        //onClick={(type = "date")}
-                                                    />
+                                                    <span
+                                                        style={{
+                                                            fontSize: '20px',
+                                                        }}
+                                                    >
+                                                        {CurrencyType(
+                                                            _currency
+                                                        )}
+                                                    </span>
                                                 }
                                             />
                                         </Col>
@@ -573,19 +800,21 @@ const UpdateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="input"
                                                 type="number"
-                                                name="fee"
+                                                name="fees"
                                                 fontFamily={fontFamilyRegular}
                                                 label="New Class Fees"
                                                 padding="8px 10px"
                                                 placeholder="Enter New Class Fees"
                                                 suffix={
-                                                    <img
-                                                        src={dollar}
-                                                        alt=""
-                                                        width={13}
-                                                        height={27}
-                                                        //onClick={(type = "date")}
-                                                    />
+                                                    <span
+                                                        style={{
+                                                            fontSize: '20px',
+                                                        }}
+                                                    >
+                                                        {CurrencyType(
+                                                            _currency
+                                                        )}
+                                                    </span>
                                                 }
                                             />
                                         </Col>
@@ -602,6 +831,7 @@ const UpdateClass = (): JSX.Element => {
                                                 placeholder={getLabelByKey(
                                                     'classCapacityPlaceholder'
                                                 )}
+                                                value={formik.values.capacity}
                                             />
                                         </Col>
 
@@ -622,69 +852,71 @@ const UpdateClass = (): JSX.Element => {
                                         </Col>
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="date"
-                                                type="date"
+                                                control="dateTime"
+                                                type="dateTime"
                                                 name="bookingStartDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'startBooking'
                                                 )}
                                                 padding="8px 10px"
-                                                placeholder={getLabelByKey(
-                                                    'startBookingPlaceholder'
-                                                )}
+                                                placeholder={
+                                                    formik.values
+                                                        .bookingStartDate
+                                                }
                                             />
                                         </Col>
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="date"
-                                                type="date"
+                                                control="dateTime"
+                                                type="dateTime"
                                                 name="bookingEndDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'endBooking'
                                                 )}
                                                 padding="8px 10px"
-                                                placeholder={getLabelByKey(
-                                                    'endBookingPlaceholder'
-                                                )}
+                                                placeholder={
+                                                    formik.values.bookingEndDate
+                                                }
                                             />
                                         </Col>
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="date"
-                                                type="date"
+                                                control="dateTime"
+                                                type="dateTime"
                                                 name="qrCodeStartDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'qrCodeAttendanceStart'
                                                 )}
                                                 padding="8px 10px"
-                                                placeholder={getLabelByKey(
-                                                    'qrCodeAttendanceStartPlaceholder'
-                                                )}
+                                                placeholder={
+                                                    formik.values
+                                                        .qrCodeStartDate
+                                                }
                                             />
                                         </Col>
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="date"
-                                                type="date"
+                                                control="dateTime"
+                                                type="dateTime"
                                                 name="qrCodeEndDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'qrCodeAttendanceEnd'
                                                 )}
                                                 padding="8px 10px"
-                                                placeholder={getLabelByKey(
-                                                    'qrCodeAttendanceEndPlaceholder'
-                                                )}
+                                                placeholder={
+                                                    formik.values.qrCodeEndDate
+                                                }
                                             />
                                         </Col>
 
                                         <Col md="3" className=" fill mt-20 ">
                                             <FormControl
-                                                control="date"
-                                                type="date"
+                                                control="dateTime"
+                                                type="dateTime"
                                                 name="allowStudentCancel"
                                                 label={getLabelByKey(
                                                     'allowToStudentCancel'
@@ -693,57 +925,60 @@ const UpdateClass = (): JSX.Element => {
                                                 fontFamily={fontFamilyRegular}
                                                 fontSize="16px"
                                                 max={6}
-                                                placeholder={getLabelByKey(
-                                                    'allowToStudentCancelPlaceholder'
-                                                )}
+                                                placeholder={
+                                                    formik.values
+                                                        .allowStudentCancel
+                                                }
                                             />
                                         </Col>
 
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="date"
-                                                type="date"
+                                                control="dateTime"
+                                                type="dateTime"
                                                 name="refundDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'refundFeesDate'
                                                 )}
                                                 padding="8px 10px"
-                                                placeholder={getLabelByKey(
-                                                    'refundFeesDatePlacholder'
-                                                )}
+                                                placeholder={
+                                                    formik.values.refundDate
+                                                }
                                             />
                                         </Col>
 
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="date"
-                                                type="date"
+                                                control="dateTime"
+                                                type="dateTime"
                                                 name="bookingCancelStartDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'bookingCancellationStart'
                                                 )}
                                                 padding="8px 10px"
-                                                placeholder={getLabelByKey(
-                                                    'bookingCancellationStartPlaceholder'
-                                                )}
+                                                placeholder={
+                                                    formik.values
+                                                        .bookingCancelStartDate
+                                                }
                                             />
                                         </Col>
 
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="date"
-                                                type="date"
+                                                control="dateTime"
+                                                type="dateTime"
                                                 name="bookingCancelEndDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'bookingCancellationEnd'
                                                 )}
                                                 padding="8px 10px"
-                                                placeholder={getLabelByKey(
-                                                    'bookingCancellationEndPlaceholder'
-                                                )}
+                                                placeholder={
+                                                    formik.values
+                                                        .bookingCancelEndDate
+                                                }
                                             />
                                         </Col>
 
@@ -766,19 +1001,47 @@ const UpdateClass = (): JSX.Element => {
                                                     </>
                                                 }
                                                 padding="8px 10px"
-                                                placeholder={getLabelByKey(
-                                                    'cancellationChargePlaceholder'
-                                                )}
+                                                placeholder={
+                                                    formik.values
+                                                        .cancellationCharges
+                                                }
                                                 suffix={
-                                                    <img
-                                                        src={dollar}
-                                                        alt="dollar"
-                                                        width={13}
-                                                        height={27}
-                                                        //onClick={(type = "date")}
-                                                    />
+                                                    <span
+                                                        style={{
+                                                            fontSize: '20px',
+                                                        }}
+                                                    >
+                                                        {CurrencyType(
+                                                            _currency
+                                                        )}
+                                                    </span>
                                                 }
                                             />
+                                        </Col>
+                                        <Col md="3">
+                                            <Col className="mt-20">
+                                                <FormControl
+                                                    control="select"
+                                                    type="text"
+                                                    name="isKid"
+                                                    label={getLabelByKey(
+                                                        'attendant'
+                                                    )}
+                                                    fontSize="16px"
+                                                    max={6}
+                                                    value={formik.values.isKid}
+                                                    placeholder={
+                                                        formik.values.isKid
+                                                    }
+                                                    className={
+                                                        formik.errors.isKid &&
+                                                        formik.touched.isKid
+                                                            ? 'is-invalid'
+                                                            : 'customInput'
+                                                    }
+                                                    options={Attendent}
+                                                />
+                                            </Col>
                                         </Col>
 
                                         <Col md="3" className="  ">

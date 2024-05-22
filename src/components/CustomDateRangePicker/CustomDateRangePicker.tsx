@@ -21,7 +21,11 @@ interface CustomDateRangePickerProps {
     labelFamily?: 'EnnVisions'
     marginBottom?: '10px'
     onChange: (value: RangeValue) => void
+    onApply: (value: RangeValue) => any // Callback for apply button
+    onCancel?: () => void // Callback for cancel button
     showErrorMessage?: true
+    startDate: any
+    endDate: any
 }
 
 const CustomDateRangePicker = (
@@ -37,12 +41,60 @@ const CustomDateRangePicker = (
         fontFamily = 'EnnVisions',
         labelFamily = 'EnnVisions',
         marginBottom = '10px',
-        onChange,
+        onApply,
         showErrorMessage = true,
+        startDate,
+        endDate,
         ...rest
     } = props
 
-    const [dates, setDates] = useState<RangeValue>()
+    const [dates, setDates] = useState<RangeValue>(null)
+    const [isPickerOpen, setPickerOpen] = useState<boolean>(false)
+
+    const handleApply = (): void => {
+        if (dates) {
+            onApply(dates)
+        }
+    }
+
+    const handleCancel = (): void => {
+        if (!dates || (!dates[0] && !dates[1])) {
+            setDates(null)
+        }
+        setPickerOpen(false)
+    }
+
+    const renderExtraFooter = (): JSX.Element => (
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <button
+                style={{
+                    padding: '3px 20px',
+                    background: '#C0E9F9',
+                    margin: '5px',
+                    fontSize: '15px',
+                    color: 'black',
+                    borderRadius: '7px',
+                }}
+                onClick={handleApply}
+            >
+                Apply
+            </button>
+            <button
+                style={{
+                    padding: '3px 20px',
+                    background: '#EFEFEF',
+                    margin: '5px',
+                    fontSize: '15px',
+                    color: 'black',
+                    borderRadius: '7px',
+                }}
+                className="cancelButton"
+                onClick={handleCancel}
+            >
+                Cancel
+            </button>
+        </div>
+    )
 
     return (
         <CustomDateRangePickerStyle
@@ -55,26 +107,28 @@ const CustomDateRangePicker = (
             {label && <label htmlFor={name}>{label}</label>}
             <Field name={name} id={name} {...rest}>
                 {({ field, form }: FieldProps) => (
-                    <RangePicker
-                        allowClear={false}
-                        value={dates}
-                        name={name}
-                        // disabledDate={disabledDate}
-                        onCalendarChange={(val) => {
-                            setDates(val)
-                        }}
-                        format="ddd, MMM DD, YYYY"
-                        onChange={(val) => {
-                            if (onChange) {
-                                onChange(val)
-                            } else {
+                    <div onClick={() => setPickerOpen(true)}>
+                        <RangePicker
+                            allowClear={false}
+                            value={dates}
+                            open={isPickerOpen} // Updated visibility condition
+                            name={name}
+                            onCalendarChange={(val) => {
+                                setDates(val)
+                            }}
+                            format="ddd, MMM DD, YYYY"
+                            onChange={(val) => {
                                 form.setFieldValue(field.name, val)
+                            }}
+                            suffixIcon={
+                                <img src={dateIcon} alt="calender-icon" />
                             }
-                        }}
-                        suffixIcon={<img src={dateIcon} alt="calender-icon" />}
-                    />
+                            renderExtraFooter={renderExtraFooter}
+                        />
+                    </div>
                 )}
             </Field>
+
             {showErrorMessage && (
                 <ErrorMessage name={name} component={ErrorMsg} />
             )}

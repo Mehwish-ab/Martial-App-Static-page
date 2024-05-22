@@ -175,6 +175,8 @@ const AddPaymentSchool: React.FC = () => {
         businessName: '',
         businessType: '',
         address: '',
+        latitude: 0,
+        longitude: 0,
         businessPhoneNumber: '',
         defaultLanguageId: '',
         defaultCurrencyId: '',

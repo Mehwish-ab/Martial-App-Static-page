@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom'
 import { Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import CustomButton from '../../components/CustomButton/CustomButton'
-
 import { ListStudentStyling } from './styles'
 import {
     fontFamilyMedium,
@@ -15,6 +14,7 @@ import dummyData from './dummyData.json'
 import StatusActiveError from '../../assets/images/activeBtnError.svg'
 import RightArrow from '../../assets/images/rightArrow.svg'
 import LeftArrow from '../../assets/images/leftArrow.svg'
+import DefaultImage from '../../assets/images/defaultProfileImage.svg'
 import defaultPic from '../../assets/images/create_school_user_profile.svg'
 import { Form, Formik } from 'formik'
 import FormControl from '../../components/FormControl'
@@ -29,14 +29,18 @@ import {
     UserDataType,
     UserDataTypess,
     getAllUsers,
+    setUserListId,
 } from '../../redux/features/User/UserSlice'
 import defaltimg from '../../assets/images/create_school_user_profile.svg'
 import { updateUser } from '../../redux/features/admin/user/updateUserStatusSlice'
 import useCreateSchool from '../../hooks/useCreateSchool'
+import { RegisterUser } from '../pages'
+import { Console } from 'console'
+import CustomModal from '../../components/Modal/CustomModal'
+import InviteUser from './InviteUser/inviteUser'
 
 const UserList = (): JSX.Element => {
     const { getAllUser, getAllUserPagination } = useUser()
-    // const { han } = useCreateSchool()
     const [AllUSer, setAllUSer] = useState<
         | {
               currentPage: number
@@ -52,12 +56,10 @@ const UserList = (): JSX.Element => {
 
     const [loading, setLoading] = useState(true)
 
-    // const { schoolData } = useSelector(
-    //     (state: RootState) => state.dashboardData
-    // )
     const lengths: number = 0
     const { loginData } = useSelector((state: RootState) => state)
-    const { UserData } = useSelector((state: RootState) => state.UserData)
+    const { userRole } = useSelector((state: RootState) => state.UserData)
+    const [invite, sendInvitation] = useState(false)
     const handlePaginationChange = async (page: number): Promise<void> => {
         try {
             setLoading(true)
@@ -77,9 +79,9 @@ const UserList = (): JSX.Element => {
     }
     const navigate = useNavigate()
 
-    // useEffect(() => {
-    //     store.dispatch(getAllUsers())
-    // }, [])
+    useEffect(() => {
+        store.dispatch(getAllUsers())
+    }, [])
 
     useEffect(() => {
         const fetchData = async (): Promise<any> => {
@@ -87,7 +89,7 @@ const UserList = (): JSX.Element => {
                 const res = await getAllUser(
                     String(loginData.data?.userDetails.countryName)
                 )
-
+                console.log('resposne', res)
                 setAllUSer(res)
             } catch (errors) {
                 /// setError('Error fetching data')
@@ -100,17 +102,19 @@ const UserList = (): JSX.Element => {
     }, [])
     const columns: ColumnsType<UserDataType> = [
         {
-            title: 'Id',
-            dataIndex: 'userId',
-            key: 'userId',
-        },
-        {
             title: 'Image',
             dataIndex: 'schoolProfilePicture',
             key: 'schoolProfilePicture',
             render: (Dummydatas) => {
-                if (Dummydatas === null || Dummydatas === null) {
-                    return <img src={defaltimg} width={44} height={44} />
+                if (!Dummydatas) {
+                    return (
+                        <img
+                            // src={DefaultImage}
+                            src={DefaultImage}
+                            width={44}
+                            height={44}
+                        />
+                    )
                 } else {
                     return (
                         <img
@@ -182,43 +186,91 @@ const UserList = (): JSX.Element => {
         },
         {
             title: 'Action',
-            dataIndex: 'status',
+
+            dataIndex: 'userId',
             key: 'status',
-            render: (isActive, index) => {
+            render: (userId) => {
                 // if (index?.schoolStatusId === 1) {
-                return (
-                    <div className={'Active'}>
-                        <button
-                            onClick={() => {
-                                navigate(`/school/create/${index.userId}`)
-                            }}
-                        >
-                            Active
-                        </button>
-                        <img src={StatusActiveError} alt="image" />
-                    </div>
-                )
-                // } else {
-                return (
-                    <div className={'De-Active'}>
-                        <button
-                        // onClick={() => {
-                        //     BranchStatus(index.studentId, 1)
-                        // }}
-                        >
-                            De-Active
-                        </button>
-                        <img src={StatusActiveError} alt="image" />
-                    </div>
-                )
-                // }
+                console.log('UserId in userList', userId)
+                if (userRole === 'school') {
+                    return (
+                        <div className="Active">
+                            <button
+                                style={{ background: '#006197' }}
+                                onClick={() => {
+                                    store.dispatch(setUserListId(userId))
+                                    navigate('/school/create/')
+                                }}
+                            >
+                                Create School
+                            </button>
+                        </div>
+                    )
+                } else if (userRole === 'instructor') {
+                    return (
+                        <div>
+                            <button
+                                style={{
+                                    background: '#006197',
+                                    fontStyle: 'normal',
+                                    fontWeight: '400',
+                                    lineHeight: 'normal',
+                                    padding: '7px 10px',
+                                    borderRadius: '4px',
+                                    height: '30px',
+                                    color: 'rgb(255, 255, 255)',
+                                    fontSize: '14px !important',
+                                    display: 'block',
+                                    position: 'relative',
+                                    textAlign: 'center',
+                                    width: '130%',
+                                }}
+                                onClick={() => {
+                                    store.dispatch(setUserListId(userId))
+                                    navigate('/instructor/create/')
+                                }}
+                            >
+                                Create Instructor
+                            </button>
+                        </div>
+                    )
+                } else if (userRole === 'invite') {
+                    return (
+                        <div>
+                            <button
+                                style={{
+                                    background: '#006197',
+                                    fontStyle: 'normal',
+                                    fontWeight: '400',
+                                    lineHeight: 'normal',
+                                    padding: '7px 10px',
+                                    borderRadius: '4px',
+                                    height: '30px',
+                                    color: 'rgb(255, 255, 255)',
+                                    fontSize: '14px !important',
+                                    display: 'block',
+                                    position: 'relative',
+                                    textAlign: 'center',
+                                    width: '130%',
+                                }}
+                                onClick={() => {
+                                    store.dispatch(setUserListId(userId))
+                                    sendInvitation(true)
+                                }}
+                            >
+                                Send Invitation
+                            </button>
+                        </div>
+                    )
+                }
             },
         },
     ]
-
+    console.log('AllUSer', AllUSer)
     const initialValues = (): void => {}
     const handleCreateSubmit = (): void => {}
-
+    const [schoolExist, setSchoolExist] = useState(false)
+    console.log('school exist', schoolExist)
     const RenderTableTitle = (): JSX.Element => {
         return (
             <CustomDiv>
@@ -286,7 +338,9 @@ const UserList = (): JSX.Element => {
                                                     />
                                                 }
                                                 clicked={() => {
-                                                    navigate(`/user/create`)
+                                                    loginData.data?.userDetails
+                                                        .roleName === 'ADMIN' &&
+                                                        navigate('/register')
                                                 }}
                                             />
                                         </div>
@@ -299,6 +353,7 @@ const UserList = (): JSX.Element => {
             </CustomDiv>
         )
     }
+    console.log('all the class data', AllUSer)
 
     return (
         <>
@@ -330,6 +385,16 @@ const UserList = (): JSX.Element => {
                     }}
                 />
             </ListStudentStyling>
+            {schoolExist && <RegisterUser />}
+            {invite && (
+                <CustomModal
+                    isModalVisible={invite}
+                    setIsModalVisible={sendInvitation}
+                >
+                    {' '}
+                    <InviteUser />{' '}
+                </CustomModal>
+            )}
         </>
     )
 }

@@ -11,7 +11,7 @@ import MagnifiedIcon from '../assets/icons/ic_search.svg'
 
 type placesAutoCompleteInputProps = {
     label?: string
-    handleChange: (value: string) => void
+    handleChange: (value: any) => void
     showLabel?: boolean
     placeholder: string
     className: string
@@ -83,8 +83,14 @@ const PlacesAutoCompleteInput: React.FC<placesAutoCompleteInputProps> = ({
     // Function to handle when a place is selected from the autocomplete suggestions
     const handlePlaceSelect = (place: any): void => {
         const selectedAddress = place.formatted_address
-        handleChange(selectedAddress)
-        formik.setFieldValue(name, selectedAddress)
+        const latitude = place.geometry.location.lat()
+        const longitude = place.geometry.location.lng()
+        const completeAdress = {
+            selectedAddress,
+            latitude,
+            longitude,
+        }
+        handleChange(completeAdress)
     }
 
     return (

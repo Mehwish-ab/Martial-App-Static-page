@@ -25,7 +25,7 @@ export const MembershipCardViewStyled = styled.div`
     gap: 20px;
   }
   .custom_card {
-    width: 333px;
+    width: 260px;
     max-height: 340px;
     border: 0.6px solid #EAEAEA;
     border-radius: 5px;

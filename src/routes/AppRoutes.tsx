@@ -3,6 +3,7 @@ import {
     Login,
     Home,
     RegisterUser,
+    Register,
     ErrorPage404,
     Dashboard,
 } from '../screens/pages'
@@ -65,15 +66,34 @@ import ListRoom from '../screens/Rooms/ListRoom/ListRoom'
 import CreateRoom from '../screens/Rooms/CreateRoom/CreateRoom'
 import UpdateRoom from '../screens/Rooms/UpdateRoom/UpdateRoom'
 import ViewRoom from '../screens/Rooms/ViewRoom/ViewRoom'
-import Activity from '../screens/Activitity/activity'
+import Activity from '../screens/Activitity/EditActivity/activityUpdateModal'
 import CreateUser from '../screens/User/CreateUser/CreateUser'
 import ReportList from '../screens/Reports/ReportList/ReportList'
+import CreateActivity from '../screens/Activitity/createActivity/activity'
+import UserSchoolList from '../screens/UserList/UserSchoolList/UserSchoolList'
+import { useAppSelector } from '../app/hooks'
+import { useSelector } from 'react-redux'
+import { RootState } from '../redux/store'
+import UpgradeAccount from '../screens/UpgradeAccount'
+import PaymentAndWallet from '../screens/PaymentAndWallet/PaymentAndWallet'
+import ClassList from '../screens/Class/UserClassView/UserClassList'
+import MembershipList from '../screens/Membership/UserMemberShipView/UserMembershipList'
+import AllSchool from '../screens/UserList/AllSchoolList/AllSchool'
+import LiveSchool from '../screens/CreateSchool/LiveSchoolList/LiveSchool'
+import Welcome from '../screens/Welcome/welcome'
+import WelcomeExplore from '../screens/Explore/WelcomeExplore'
+import DetailPage from '../screens/Explore/DetailPage'
+import StudentJoinedClass from '../screens/Class/StudentJoindClasses'
+import VideoDetail from '../screens/Video/VideoDetailandPreview/videoDetail'
+import EditVideo from '../screens/Video/EditVideo/editVideo'
+import CreateVideo from '../screens/Video/CreateVideo/createVideo'
+import VideoList from '../screens/Video/VideoList/videoList'
 // import { RootState } from "../redux/store";
 
 function AppRoutes(): JSX.Element {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [NewTimetable, setNewtimetable] = useState<any>()
-
+    const { loginData } = useSelector((state: RootState) => state)
     // const dispatch = useDispatch();
     // const handleChange = (value: string) => {
     //   dispatch(setLanguage(value));
@@ -102,7 +122,18 @@ function AppRoutes(): JSX.Element {
       </div> */}
             <Routes>
                 <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<RegisterUser />} />
+                <Route
+                    path="/register"
+                    element={
+                        loginData.data?.jwtDetails.token ? (
+                            <AppLayout>
+                                <RegisterUser />
+                            </AppLayout>
+                        ) : (
+                            <Register />
+                        )
+                    }
+                />
                 <Route path="/forgot-password" element={<ForgetPassword />} />
                 <Route path="/register/verify-otp" element={<Otp />} />
                 <Route path="/terms" element={<Terms />} />
@@ -115,15 +146,27 @@ function AppRoutes(): JSX.Element {
                     path={'/'}
                     element={
                         <AppLayout>
-                            <Home />
+                            <Dashboard />
                         </AppLayout>
                     }
                 />
+                <Route path={'/welcome'} element={<Welcome />} />
+                <Route path={'/Home'} element={<WelcomeExplore />} />
+                <Route path={'/details/:SchoolId'} element={<DetailPage />} />
+                <Route path={'/membership'} element={<MembershipList />} />
                 <Route
                     path="/user/list"
                     element={
                         <AppLayout>
                             <UserList />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/studentClassess"
+                    element={
+                        <AppLayout>
+                            <StudentJoinedClass />
                         </AppLayout>
                     }
                 />
@@ -144,10 +187,58 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
+                    path="/liveSchool/list"
+                    element={
+                        <AppLayout>
+                            <LiveSchool />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/user/school/list"
+                    element={
+                        <AppLayout>
+                            <UserSchoolList />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/user/AllSchool"
+                    element={
+                        <AppLayout>
+                            <AllSchool />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/user/memberShip/list"
+                    element={
+                        <AppLayout>
+                            <MembershipList />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/user/class/list/:schoolID"
+                    element={
+                        <AppLayout>
+                            <ClassList />
+                        </AppLayout>
+                    }
+                />
+                <Route
                     path="/school/create/"
                     element={
                         <AppLayout>
                             <CreateSchool />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/activity/create/:id"
+                    element={
+                        <AppLayout>
+                            <CreateActivity />
                         </AppLayout>
                     }
                 />
@@ -304,6 +395,14 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
+                    path="/upgrade-account"
+                    element={
+                        <AppLayout>
+                            <UpgradeAccount />
+                        </AppLayout>
+                    }
+                />
+                <Route
                     path="/branch/create"
                     element={
                         <AppLayout>
@@ -442,7 +541,7 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/timetable/list"
+                    path="/timetable/list/:classId"
                     element={
                         <AppLayout>
                             <ListTimeTable />
@@ -450,21 +549,21 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/timetable/create"
+                    path="/timetable/create/:classId"
                     element={
                         <AppLayout>
                             <TimeTableForm setNewTimetable={setNewtimetable} />
                         </AppLayout>
                     }
                 />
-                {/* <Route
+                <Route
                     path="/timetable/slots/:timeTableId"
                     element={
                         <AppLayout>
                             <TimeTableSheet />
                         </AppLayout>
                     }
-                /> */}
+                />
                 <Route
                     path="/timetable/slots/:timeTableId"
                     element={
@@ -514,7 +613,7 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/membership/update"
+                    path="/membership/update/:memberShipPlanId"
                     element={
                         <AppLayout>
                             <UpdateMembership />
@@ -586,6 +685,14 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
+                    path="/payment"
+                    element={
+                        <AppLayout>
+                            <PaymentAndWallet />
+                        </AppLayout>
+                    }
+                />
+                <Route
                     path="/settings"
                     element={
                         <AppLayout>
@@ -638,6 +745,46 @@ function AppRoutes(): JSX.Element {
                     element={
                         <AppLayout>
                             <Dashboard />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/subscriptionPlan"
+                    element={
+                        <AppLayout>
+                            <SubscribeFranchise />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/video-list"
+                    element={
+                        <AppLayout>
+                            <VideoList />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/video-create"
+                    element={
+                        <AppLayout>
+                            <CreateVideo />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/video-detail/:id"
+                    element={
+                        <AppLayout>
+                            <VideoDetail />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/video/edit/:id"
+                    element={
+                        <AppLayout>
+                            <EditVideo />
                         </AppLayout>
                     }
                 />

@@ -165,7 +165,12 @@ export const ErrorText = styled.p`
     color: ${primaryRed};
     text-align: right;
 `
-
+export const SmallHeadingBlack = styled.h4`
+    font-size: 15px;
+    font-weight: 500;
+    color: ${pureDark};
+    font-family: ${fontFamilyRegular};
+`
 export const PrimaryHeading2 = styled.h3`
     text-align: left;
     font-family: ${fontFamilyMedium};

@@ -21,6 +21,7 @@ import {
     lightColor1,
     maastrichtBlue,
 } from '../components/GlobalStyle'
+import { setUserRole } from '../redux/features/User/UserSlice'
 
 interface IModalComponent {
     modalComponent: JSX.Element
@@ -28,6 +29,7 @@ interface IModalComponent {
 interface IUseInstructor {
     loading: boolean
     handleSubmit: (
+        id: number,
         values: CreateInstructorInitialValues,
         file: any
     ) => Promise<void>
@@ -62,7 +64,7 @@ const useInstructor = (): IUseInstructor => {
     const [errorMessage, setError] = useState('')
     const toastId = useRef<any>(null)
     const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
-
+    const { userId } = useSelector((state: RootState) => state.UserData)
     const navigate = useNavigate()
     const { loginData } = useSelector((state: RootState) => state)
     //   const { data: logindata } = useAppSelector((state) => state.loginData);
@@ -73,10 +75,11 @@ const useInstructor = (): IUseInstructor => {
     // const dispatch = useDispatch()
     //{{local}}/instructor/getByUserId?startDate=2023-12-03&endDate=2024-12-05
     const handleSubmit = async (
+        id: number,
         values: CreateInstructorInitialValues,
         file: any
     ): Promise<void> => {
-        console.log('values from form:', values, 'hu', file)
+        console.log('userId', id)
         const Payload = {
             instructorName: values.instructorName,
             emailAddress: values.emailAddress,
@@ -87,6 +90,7 @@ const useInstructor = (): IUseInstructor => {
             specializations: values.specializations.join(','),
             activities: values.activities.join(','),
             description: values.description,
+            userId: id,
         }
         // const val= values.File
         try {
@@ -121,12 +125,13 @@ const useInstructor = (): IUseInstructor => {
                 setLoading(false)
                 return
             }
-
+            store.dispatch(setUserRole('instructor'))
+            navigate(`/activity/create/${data.results.instructorId}`)
             setIsShowModal(true)
             setTimeout(() => {
                 setLoading(false)
                 setIsShowModal(false)
-                navigate('/instructor/list')
+                // navigate('/instructor/list')
             }, 3000)
 
             console.log({ data })
@@ -144,7 +149,6 @@ const useInstructor = (): IUseInstructor => {
         }
     }
     const deleteInstructor = async (instructorId: number): Promise<void> => {
-        console.log('<<instructor id to delete', instructorId)
         const url = '/instructor/delete'
         try {
             setError('')
@@ -256,7 +260,14 @@ const useInstructor = (): IUseInstructor => {
         file: any,
         bannerImages: any
     ): Promise<void> => {
-        console.log('values from form:', values, 'hu', file)
+        console.log(
+            'values from form:',
+            values,
+            'hu',
+            file,
+            'picsss',
+            values.latestCertification
+        )
         const Payload = {
             instructorId: id,
             instructorName: values.instructorName,
@@ -282,9 +293,9 @@ const useInstructor = (): IUseInstructor => {
                     type: 'application/json',
                 })
             )
-            if (bannerImages !== null) {
-                formData.append('file', bannerImages)
-            }
+
+            formData.append('file', values.latestCertification)
+
             const { data } = await axios.post('/instructor/edit', formData, {
                 headers: {
                     ...authorizationToken(loginData.data as loginDataTypes),
@@ -308,7 +319,7 @@ const useInstructor = (): IUseInstructor => {
                 navigate('/instructor/list')
             }, 3000)
 
-            console.log({ data })
+            // console.log({ data })
         } catch (error2: any) {
             console.error('Error:', error2.response.data.error)
             setLoading(false)

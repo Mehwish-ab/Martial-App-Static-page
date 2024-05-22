@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../redux/store'
+import store, { RootState } from '../../../redux/store'
 
 import { Dropdown, Menu, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
@@ -15,24 +15,25 @@ import {
     pureDark,
     tertiaryBlue2,
 } from '../../../components/GlobalStyle'
+import DefaultBannerImage from '../../../assets/images/defaultProfileImage.svg'
 import plusIcon from '../../../assets/icons/ic_plus.svg'
+import map from '../../../assets/images/Frame 427321208.png'
+import share from '../../../assets/images/square-share-line-svgrepo-com 1.png'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import RightArrow from '../../../assets/images/rightArrow.svg'
 import LeftArrow from '../../../assets/images/leftArrow.svg'
-import defaultPic from '../../../assets/images/create_school_user_profile.svg'
 import { Form, Formik } from 'formik'
 import FormControl from '../../../components/FormControl'
 import { SchoolDataType } from '../../../redux/features/dashboard/dashboardDataSlice'
 import useCreateSchool from '../../../hooks/useCreateSchool'
 import { useEffect, useState } from 'react'
 import Head from '../../../components/Head/Head'
-import CreateSchool from '../CreateSchool'
 import { useAppSelector } from '../../../app/hooks'
-import CustomModal from '../../../components/Modal/CustomModal'
-import CustomMessageModal from '../../../components/Modal/CustomMessageModal'
 import ReportCreate from '../../Reports/ReportCreate/ReportCreate'
 import ReportSubmit from '../../Reports/ReportCreate/ReportSubmit'
+import { RegisterUser } from '../../pages'
+import { setUserRole } from '../../../redux/features/User/UserSlice'
 
 const ListSchool = (): JSX.Element => {
     // const { schoolData } = useSelector(
@@ -43,30 +44,24 @@ const ListSchool = (): JSX.Element => {
         setIsShowModal,
         SuccessModal,
         WarningModal,
+        AllSchools,
         getAllSchool,
         getAllSchoolPagination,
     } = useCreateSchool()
+
     const {
         statusData: { activities },
     } = useSelector((state: RootState) => state.appData.data)
     const { schoolId } = useParams()
     const [Id, setId] = useState(0)
 
+    console.log('activites fro state', activities)
     const navigate = useNavigate()
     const { loginData } = useSelector((state: RootState) => state)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | undefined>(undefined)
     const [currentPage, setCurrentPage] = useState(1)
     const pageSize = 10
-
-    const [AllSchools, setAllSchools] = useState<
-        | {
-              currentPage: number
-              totalItems: number | undefined
-              data: SchoolDataType[]
-          }
-        | undefined
-    >(undefined)
 
     const customItemRender = (
         current: any,
@@ -81,13 +76,16 @@ const ListSchool = (): JSX.Element => {
         }
         return originalElement
     }
+
     useEffect(() => {
         const fetchData = async (): Promise<void> => {
             try {
-                const response: any = await getAllSchool(
+                await getAllSchool(
                     String(loginData.data?.userDetails.countryName)
                 )
-                setAllSchools(response)
+                // console.log({ response })
+
+                // setAllSchools(response)
                 // eslint-disable-next-line @typescript-eslint/no-shadow
             } catch (error) {
                 setError('Error fetching data')
@@ -98,6 +96,7 @@ const ListSchool = (): JSX.Element => {
 
         fetchData()
     }, [])
+
     const handlePaginationChange = async (page: number): Promise<void> => {
         try {
             setLoading(true)
@@ -106,7 +105,7 @@ const ListSchool = (): JSX.Element => {
                 String(loginData.data?.userDetails.countryName),
                 page - 1
             )
-            setAllSchools(response)
+            // setAllSchools(response)
             // eslint-disable-next-line @typescript-eslint/no-shadow
         } catch (error: unknown) {
             setError('Error fetching data')
@@ -116,6 +115,7 @@ const ListSchool = (): JSX.Element => {
         setCurrentPage(page)
     }
     const { data: logindata } = useAppSelector((state) => state.loginData)
+
     useEffect(() => {
         const fetchData = async (page: number): Promise<void> => {
             try {
@@ -124,7 +124,8 @@ const ListSchool = (): JSX.Element => {
                     String(loginData.data?.userDetails.countryName),
                     page
                 )
-                setAllSchools(response)
+
+                //setAllSchools(response)
                 // eslint-disable-next-line @typescript-eslint/no-shadow
             } catch (error) {
                 setError('Error fetching data')
@@ -133,9 +134,11 @@ const ListSchool = (): JSX.Element => {
             }
         }
         fetchData(currentPage)
-        if (logindata?.userDetails.roleName === 'USER') {
-            navigate(`/school/view/${logindata.schoolId}`)
-        }
+        // if (logindata?.userDetails.roleName === 'USER' && logindata.schoolId) {
+        //     navigate(`/school/view/${logindata.schoolId}`)
+        // } else {
+        //     navigate(`/school/create/`)
+        // }
     }, [])
 
     const { selectedLanguage } = useSelector(
@@ -213,12 +216,18 @@ const ListSchool = (): JSX.Element => {
         }
     }
 
+    const { businessTypes } = useSelector(
+        (state: RootState) => state.appData.data.dropdowns
+    )
+
     const showActivities = (_activities: string): string => {
         const activitiesArr = _activities.split(',')
 
         let activitiesName = ''
         activitiesArr.map((activity) => {
-            const index = activities.findIndex((act) => act.id === activity)
+            const index = activities.findIndex(
+                (act: any) => act.id === activity
+            )
             if (index !== -1) {
                 activitiesName =
                     activitiesName === ''
@@ -228,25 +237,187 @@ const ListSchool = (): JSX.Element => {
                           }`
             }
         })
-        if (activitiesName.length > 35) {
+        if (activitiesName?.length > 35) {
             return `${activitiesName.slice(0, 35)}...`
         }
         return activitiesName
     }
 
+    const showBusinessType = (_businessType: number): string => {
+        const index = businessTypes.findIndex((business: any) => {
+            return business.id === _businessType
+        })
+
+        if (index !== -1) {
+            return (businessTypes[index] as any)[selectedLanguage]
+        }
+
+        return '--'
+    }
+    // Function to get activity name by index and language
+
+    const [schoolExist, setSchoolExist] = useState(false)
+    const initialValues = (): void => {}
+    const handleCreateSubmit = (): void => {}
+    console.log('school exist', schoolExist)
+
+    const RenderTableTitle = (): JSX.Element => {
+        return (
+            <CustomDiv>
+                <Formik
+                    initialValues={initialValues}
+                    // validationSchema={validationSchema}
+                    onSubmit={handleCreateSubmit}
+                >
+                    {(formik) => {
+                        return (
+                            <Form
+                                name="basic"
+                                // onFinish={formik.handleSubmit}
+                                autoComplete="off"
+                            >
+                                <div className="mainWrapper">
+                                    <div className="d-flex">
+                                        {' '}
+                                        <CustomButton
+                                            bgcolor={tertiaryBlue2}
+                                            textTransform="Captilize"
+                                            color={pureDark}
+                                            padding="6.5px 10px"
+                                            fontFamily={`${fontFamilyMedium}`}
+                                            width="40px"
+                                            type="submit"
+                                            title=""
+                                            fontSize="17px"
+                                            // loading={loading}
+                                            icon={
+                                                <img
+                                                    src={map}
+                                                    alt="edit icon"
+                                                    width={35}
+                                                    height={25}
+                                                />
+                                            }
+                                            clicked={() => {
+                                                store.dispatch(
+                                                    setUserRole('school')
+                                                )
+                                                navigate(`/liveSchool/list`)
+                                            }}
+                                        />
+                                        <h3
+                                            style={{
+                                                margin: 'auto auto auto 5px',
+                                            }}
+                                            className="table-heading"
+                                        >
+                                            School List
+                                        </h3>
+                                    </div>
+
+                                    <div className="FilterMainContainer">
+                                        <div className="arrowsMain">
+                                            <div className="arrowRight">
+                                                <img
+                                                    src={LeftArrow}
+                                                    alt="Date"
+                                                    width={18}
+                                                    height={12}
+                                                />
+                                            </div>
+                                            <div className="arrowLeft">
+                                                <img
+                                                    src={RightArrow}
+                                                    alt="Date"
+                                                    width={18}
+                                                    height={12}
+                                                />
+                                            </div>
+                                        </div>
+                                        <FormControl
+                                            control="startEndDate"
+                                            type="startEndDate"
+                                            name="startDate"
+                                            fontFamily={fontFamilyRegular}
+                                            padding="8px 10px"
+                                        />
+                                        <div className="todayPlusContainer">
+                                            <div className="dateToday">
+                                                <p>Today</p>
+                                            </div>
+                                            <CustomButton
+                                                bgcolor={tertiaryBlue2}
+                                                textTransform="Captilize"
+                                                color={pureDark}
+                                                padding="6.5px 0px"
+                                                fontFamily={`${fontFamilyMedium}`}
+                                                width="40px"
+                                                type="submit"
+                                                title=""
+                                                fontSize="17px"
+                                                // loading={loading}
+                                                icon={
+                                                    <img
+                                                        src={plusIcon}
+                                                        alt="edit icon"
+                                                        width={17}
+                                                        height={17}
+                                                    />
+                                                }
+                                                clicked={() => {
+                                                    store.dispatch(
+                                                        setUserRole('school')
+                                                    )
+                                                    navigate(`/user/list`)
+                                                }}
+                                            />
+                                            <CustomButton
+                                                bgcolor={tertiaryBlue2}
+                                                textTransform="Captilize"
+                                                color={pureDark}
+                                                padding="6.5px 0px"
+                                                fontFamily={`${fontFamilyMedium}`}
+                                                width="40px"
+                                                type="submit"
+                                                title=""
+                                                fontSize="17px"
+                                                // loading={loading}
+                                                icon={
+                                                    <img
+                                                        src={share}
+                                                        alt="edit icon"
+                                                        width={17}
+                                                        height={17}
+                                                    />
+                                                }
+                                                clicked={() => {
+                                                    store.dispatch(
+                                                        setUserRole('invite')
+                                                    )
+                                                    navigate(`/user/list`)
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </Form>
+                        )
+                    }}
+                </Formik>
+            </CustomDiv>
+        )
+    }
+
     const columns: ColumnsType<SchoolDataType> = [
-        {
-            title: 'Id',
-            dataIndex: 'schoolId',
-            key: 'schoolId',
-        },
         {
             title: 'Image',
             dataIndex: 'profilePicture',
             key: 'profilePicture',
             render: (Dummydatas) => {
                 if (!Dummydatas) {
-                    return <img src={defaultPic} width={44} height={44} />
+                    return (
+                        <img src={DefaultBannerImage} width={44} height={44} />
+                    )
                 } else {
                     return (
                         <img
@@ -270,17 +441,18 @@ const ListSchool = (): JSX.Element => {
             title: 'Type',
             dataIndex: 'businessType',
             key: 'businessType',
-            // render: (_, { schoolType }) => {
-            //     const item = businessTypes.find((b) => b.id === schoolType)
-            //     return <p>{item?.en}</p>
-            // },
+            render: (businessType) => {
+                return <p> {showBusinessType(businessType)}</p>
+            },
         },
         {
             title: 'Activity',
             dataIndex: 'activities',
             key: 'activities',
-            render: (DummyData) => {
-                return <p className="sub-title">{showActivities(DummyData)}</p>
+            render: (activityData) => {
+                return (
+                    <p className="sub-title">{showActivities(activityData)}</p>
+                )
             },
         },
         {
@@ -332,7 +504,10 @@ const ListSchool = (): JSX.Element => {
                     {
                         key: '1',
                         label: 'View',
-                        onClick: () => navigation(record, 'view'),
+                        onClick: () => {
+                            store.dispatch(setUserRole('school')),
+                                navigation(record, 'view')
+                        },
                     },
                     {
                         key: '2',
@@ -341,15 +516,10 @@ const ListSchool = (): JSX.Element => {
                     },
                     {
                         key: '3',
-                        label: 'Activity',
-                        onClick: () => {
-                            navigation(record, 'activity')
-                        },
-                    },
-                    {
-                        key: '4',
-                        label: 'Payment',
-                        onClick: () => navigation(record, 'payment'),
+                        label: 'Update Status',
+                        // onClick: () => {
+                        //     navigation(record, 'activity')
+                        // },
                     },
                     {
                         key: '5',
@@ -365,42 +535,8 @@ const ListSchool = (): JSX.Element => {
                     },
                     {
                         key: '6',
-                        label: 'Branches',
-                        onClick: () => navigation(record, 'branch'),
-                    },
-                    {
-                        key: '7',
-                        label: 'Franchise',
-                        onClick: () => navigation(record, 'franchise'),
-                    },
-                    {
-                        key: '8',
-                        label: 'Classes',
-                        onClick: () => navigation(record, 'class'),
-                    },
-                    {
-                        key: '9',
-                        label: 'TimeTable',
-                        onClick: () => navigation(record, 'timeTable'),
-                    },
-                    {
-                        key: '10',
-                        label: 'Memberships',
-                        onClick: () => navigation(record, 'membership'),
-                    },
-                    {
-                        key: '11',
-                        label: 'Rooms',
-                        onClick: () => navigation(record, 'rooms'),
-                    },
-                    {
-                        key: 'divider1',
-                        type: 'divider',
-                    },
-                    {
-                        key: '12',
-                        label: 'Reports',
-                        onClick: () => navigation(record, 'report'),
+                        label: 'Explore More',
+                        // onClick: () => navigation(record, 'branch'),
                     },
                 ]
                 const menu = (
@@ -437,90 +573,6 @@ const ListSchool = (): JSX.Element => {
         },
     ]
 
-    const initialValues = (): void => {}
-    const handleCreateSubmit = (): void => {}
-
-    const RenderTableTitle = (): JSX.Element => {
-        return (
-            <CustomDiv>
-                <Formik
-                    initialValues={initialValues}
-                    // validationSchema={validationSchema}
-                    onSubmit={handleCreateSubmit}
-                >
-                    {(formik) => {
-                        return (
-                            <Form
-                                name="basic"
-                                // onFinish={formik.handleSubmit}
-                                autoComplete="off"
-                            >
-                                <div className="mainWrapper">
-                                    <h3 className="table-heading">Schools</h3>
-                                    <div className="FilterMainContainer">
-                                        <div className="arrowsMain">
-                                            <div className="arrowRight">
-                                                <img
-                                                    src={LeftArrow}
-                                                    alt="Date"
-                                                    width={18}
-                                                    height={12}
-                                                />
-                                            </div>
-                                            <div className="arrowLeft">
-                                                <img
-                                                    src={RightArrow}
-                                                    alt="Date"
-                                                    width={18}
-                                                    height={12}
-                                                />
-                                            </div>
-                                        </div>
-                                        <FormControl
-                                            control="startEndDate"
-                                            type="startEndDate"
-                                            name="startDate"
-                                            fontFamily={fontFamilyRegular}
-                                            padding="8px 10px"
-                                        />
-                                        <div className="todayPlusContainer">
-                                            <div className="dateToday">
-                                                <p>Today</p>
-                                            </div>
-                                            <CustomButton
-                                                bgcolor={tertiaryBlue2}
-                                                textTransform="Captilize"
-                                                color={pureDark}
-                                                padding="6.5px 0px"
-                                                fontFamily={`${fontFamilyMedium}`}
-                                                width="40px"
-                                                type="submit"
-                                                title=""
-                                                fontSize="17px"
-                                                // loading={loading}
-                                                icon={
-                                                    <img
-                                                        src={plusIcon}
-                                                        alt="edit icon"
-                                                        width={17}
-                                                        height={17}
-                                                    />
-                                                }
-                                                clicked={() => {
-                                                    navigate(`/user/list`)
-                                                }}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </Form>
-                        )
-                    }}
-                </Formik>
-            </CustomDiv>
-        )
-    }
-
     // useEffect(() => {
     //     store.dispatch(getBranchBySchoolId())
     // }, [])
@@ -533,7 +585,7 @@ const ListSchool = (): JSX.Element => {
     // }
 
     // const rowSelection = { selectedRowKeys, onChange: onSelectChange }
-
+    console.log('AllSchools', AllSchools)
     return (
         <>
             <Head title="School List" />
@@ -545,24 +597,31 @@ const ListSchool = (): JSX.Element => {
             <ListSchoolStyle>
                 <Table
                     columns={columns}
-                    dataSource={AllSchools ? AllSchools.data : []}
+                    dataSource={AllSchools ? AllSchools?.data : []}
                     scroll={{ x: true }}
-                    pagination={{
-                        current: currentPage,
-                        total: AllSchools ? AllSchools.totalItems : 0,
-                        pageSize: pageSize,
-                        showTotal: (total, range) => (
-                            <span
-                                dangerouslySetInnerHTML={{
-                                    __html: `Page <span className='paginationVal'>${currentPage}</span> of ${Math.ceil(
-                                        total / pageSize
-                                    )}`,
-                                }}
-                            />
-                        ),
-                        onChange: (page) => handlePaginationChange(page),
-                        // itemRender: customItemRender,
-                    }}
+                    pagination={
+                        AllSchools &&
+                        AllSchools?.totalItems &&
+                        AllSchools?.totalItems > 10
+                            ? {
+                                  current: currentPage,
+                                  total: AllSchools ? AllSchools.totalItems : 0,
+                                  pageSize: pageSize,
+                                  showTotal: (total, range) => (
+                                      <span
+                                          dangerouslySetInnerHTML={{
+                                              __html: `Page <span className='paginationVal'>${currentPage}</span> of ${Math.ceil(
+                                                  total / pageSize
+                                              )}`,
+                                          }}
+                                      />
+                                  ),
+                                  onChange: (page) =>
+                                      handlePaginationChange(page),
+                                  // itemRender: customItemRender,
+                              }
+                            : false
+                    }
                 />
                 {isReportCreateModalVisible && (
                     <ReportCreate
@@ -584,6 +643,7 @@ const ListSchool = (): JSX.Element => {
                     />
                 )}
             </ListSchoolStyle>
+            {schoolExist && <RegisterUser />}
         </>
     )
 }

@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 import { useCaseForgetPassowrd, verify_otp_url } from '../utils/api_urls'
 import { OtpPropValues } from '../screens/ForgetPassword/Otp/Otp'
 import { number } from 'yup'
+import { useGlobalContext } from '../context/context'
 
 // interface Otp {
 // value: string | number
@@ -13,12 +14,13 @@ import { number } from 'yup'
 
 interface OtpResponse {
     loading: boolean
-    handleSubmit: (values: OtpPropValues) => Promise<void>
+    handleOnSubmit: (values: OtpPropValues) => Promise<void>
     error: string
 }
 const useVerifyOtp = (): OtpResponse => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
+    const { userPhoneNumber } = useGlobalContext()
     const [error, setError] = useState('')
     const toastId = useRef<any>(null)
     // const { setUserPhoneNumber, userPhoneNumber } = useGlobalContext()
@@ -47,14 +49,15 @@ const useVerifyOtp = (): OtpResponse => {
     // });
 
     // register phone handler
-    const handleSubmit = async (values: OtpPropValues): Promise<void> => {
+    const handleOnSubmit = async (values: OtpPropValues): Promise<void> => {
         // setOtp(values.phoneNumber.toString());
         console.log(values, 'otp number')
         const phoneData = {
-            phoneNumber: number,
+            phoneNumber: userPhoneNumber,
             useCase: useCaseForgetPassowrd,
             otp: values.input0 + values.input1 + values.input2 + values.input3,
         }
+        console.log({ phoneData })
         try {
             setError('')
             setLoading(true)
@@ -93,7 +96,7 @@ const useVerifyOtp = (): OtpResponse => {
     }
     return {
         loading,
-        handleSubmit,
+        handleOnSubmit,
         error,
     }
 }

@@ -20,6 +20,8 @@ interface TimeTableFormProps {
         _value: undefined | string | boolean | number,
         _timeEntryIndex?: number
     ) => void
+    minTime: string | undefined
+    maxTime: string | undefined
 }
 
 const StartBreak: React.FC<TimeTableFormProps> = ({
@@ -27,6 +29,8 @@ const StartBreak: React.FC<TimeTableFormProps> = ({
     recordIndex,
     startBreak,
     setStartTime,
+    minTime,
+    maxTime,
 }: TimeTableFormProps) => {
     const initialValues = {
         startBreak: startBreak,
@@ -52,6 +56,7 @@ const StartBreak: React.FC<TimeTableFormProps> = ({
                                         control="TimePicker"
                                         type="startBreak"
                                         name="startBreak"
+                                        value={startBreak}
                                         labelFamily={`${fontFamilyMedium}`}
                                         fontSize="16px"
                                         suffixIcon={
@@ -63,6 +68,8 @@ const StartBreak: React.FC<TimeTableFormProps> = ({
                                         max={6}
                                         placeholder="00:00:00"
                                         onChange={onChangeHandler}
+                                        minTime={minTime}
+                                        maxTime={maxTime}
                                     />
                                 </Col>
                             </Form>

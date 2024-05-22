@@ -1,7 +1,13 @@
 import Skeleton from 'react-loading-skeleton'
 import styled from 'styled-components'
 
-const CreditCardSkeleton = () => {
+const Wrapper = styled.div`
+    padding: 0 10px;
+    .credit-card {
+        margin-top: 12px;
+    }
+`
+const CreditCardSkeleton = (): any => {
     return (
         <Wrapper>
             {Array.from({ length: 4 }).map((_, index) => (
@@ -22,12 +28,4 @@ const CreditCardSkeleton = () => {
         </Wrapper>
     )
 }
-
 export default CreditCardSkeleton
-
-const Wrapper = styled.div`
-    padding: 0 10px;
-    .credit-card {
-        margin-top: 12px;
-    }
-`

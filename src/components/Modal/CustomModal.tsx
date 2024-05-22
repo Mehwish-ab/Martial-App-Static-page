@@ -47,7 +47,7 @@ const CustomModal: React.FC<CustomModalPropsTypes> = ({
                     />
                 )}
 
-                <div className="px-2">{children}</div>
+                <div>{children}</div>
             </CustomModalStyle>
         </Modal>
     )

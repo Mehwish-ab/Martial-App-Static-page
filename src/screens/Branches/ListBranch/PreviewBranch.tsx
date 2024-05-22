@@ -17,7 +17,7 @@ import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import defaltimg from '../../../assets/images/create_school_user_profile.svg'
 import useBranch from '../hooks/useBranch'
 import { useParams } from 'react-router-dom'
-
+import DefaultBannerImage from '../../../assets/images/defaultProfileImage.svg'
 const PreviewBranch = (): JSX.Element => {
     const { schoolId } = useParams()
     const {
@@ -83,16 +83,13 @@ const PreviewBranch = (): JSX.Element => {
     }
     const columns: ColumnsType<BranchDataType> = [
         {
-            title: 'Id',
-            dataIndex: 'branchId',
-            key: 'branchId',
-        },
-        {
             title: 'Image',
             render: (Dummydatas) => {
                 console.log('>>images', Dummydatas?.profilePicture)
                 if (Dummydatas.profilePicture === null) {
-                    return <img src={defaltimg} width={44} height={44} />
+                    return (
+                        <img src={DefaultBannerImage} width={44} height={44} />
+                    )
                 } else {
                     return (
                         <img

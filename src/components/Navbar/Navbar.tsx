@@ -14,8 +14,10 @@ import {
 import { MenuOutlined } from '@ant-design/icons'
 
 import { useGlobalContext } from '../../context/context'
-
-import NavigationMenu from '../NavigationMenu/NavigationMenu'
+import AdminNavigationMenu from '../NavigationMenu/adminNavigationMenu'
+import UserNavigationMenu from '../NavigationMenu/userNavigationMenu'
+import SchoolNavigationMenu from '../NavigationMenu/schoolNavigationMenu'
+import BranchesFranchiesNavigationMenu from '../NavigationMenu/branchesFranchiesNavmenu'
 import NavbarStyle, { NavbarRow2Styled, DropDownStyling } from './style'
 
 import CustomButton from '../CustomButton/CustomButton'
@@ -94,6 +96,26 @@ function Navbar(): JSX.Element {
         //   label:(deleteSchool(schoolId))
         // },
     ]
+
+    const { data: logindata } = useAppSelector((state) => state.loginData)
+    let NavigationMenu
+
+    if (
+        (logindata && logindata.userDetails.roleName === 'ADMIN ') ||
+        logindata?.userDetails.roleName === 'SUPER_ADMIN'
+    ) {
+        NavigationMenu = <AdminNavigationMenu />
+    } else if (logindata && logindata.userDetails.roleName === 'USER') {
+        NavigationMenu = <UserNavigationMenu />
+    } else if (logindata && logindata.userDetails.roleName === 'SCHOOL') {
+        NavigationMenu = <SchoolNavigationMenu />
+    } else if (
+        (logindata && logindata.userDetails.roleName === 'BRANCH') ||
+        logindata?.userDetails.roleName === 'FRANCHIES'
+    ) {
+        NavigationMenu = <BranchesFranchiesNavigationMenu />
+    }
+    console.log('naviigation menu', NavigationMenu)
     return (
         <>
             <NavbarStyle>
@@ -104,7 +126,7 @@ function Navbar(): JSX.Element {
                     onClose={() => setDrawerVisible(false)}
                     width={300}
                 >
-                    <NavigationMenu />
+                    {NavigationMenu}
                 </Drawer>
                 <div className="top-side d-flex align-items-center justify-content-between">
                     <div className="menu-toggler">

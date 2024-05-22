@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 import store from '../../store'
 import {
@@ -64,6 +64,7 @@ const initialState: InstructorDataInitialState = {
         totalItems: 0,
         totalPages: 0,
     },
+
     loading: false,
     error: '',
 }

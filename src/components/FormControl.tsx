@@ -14,6 +14,7 @@ import CustomDateRangePicker from './CustomDateRangePicker/CustomDateRangePicker
 import CustomNumberField from './CustomNumberField/CustomNumberField'
 import CustomDatePicker from './CustomDatePicker/CustomDatePicker'
 import CustomDateTimePicker from './CustomDatePicker/CustomDateTime'
+import CustomEditTimePicker from './CustomEditTimePicker/customTimePicker'
 export interface FieldStyleBasicProps {
     padding: string
     bgColor: string
@@ -66,6 +67,8 @@ const FormControl: React.FC<formControlProps> = (props) => {
             return <CustomFileInput {...rest} />
         case 'TimePicker':
             return <CustomTimePicker {...rest} />
+        case 'EditTimePicker':
+            return <CustomEditTimePicker {...rest} />
         case 'timePicker':
             return <CustomTimePickerNew {...rest} />
         case 'startEndDate':

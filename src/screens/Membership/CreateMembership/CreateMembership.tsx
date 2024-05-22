@@ -24,12 +24,14 @@ import * as Yup from 'yup'
 import { validationFinder } from '../../../utils/utilities'
 import Images from '../../Home/OverlayImages/images'
 import { getSchoolByUserId } from '../../../redux/features/dashboard/dashboardDataSlice'
+import moment from 'moment'
+import { kMaxLength } from 'buffer'
 
 const CreateMembership = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('createMembership')
     const { getLabelByKey: getLegalLabelByKey } = useScreenTranslation('legal')
     // const [isLoading, setIsLoading] = useState(false)
-    const [data, setdatas] = useState<CreateMembershipInitialValues>()
+    // const [data, setdatas] = useState<CreateMembershipInitialValues>()
     const [bannerImage, setBannerImage] = useState<File | null>(null)
     const {
         dropdowns: {
@@ -111,14 +113,31 @@ const CreateMembership = (): JSX.Element => {
     const TitleReg = new RegExp(title.pattern)
 
     const validationSchema = Yup.object({
-        title: Yup.string()
-            .required(title.notBlankMsgEn)
-            .matches(TitleReg, title.patternMsgEn),
+        title: Yup.string().required('title is required'),
+
         // address: Yup.string()
         //     .required(address.notBlankMsgEn)
         //     .matches(addressReg, address.patternMsgEn),
-        startDate: Yup.string().required('Please select  start Date'),
-        endDate: Yup.string().required('Please Select end date'),
+        startDate: Yup.string().required('Start date is required.'),
+        endDate: Yup.string()
+            .required('End date is required.')
+            .test(
+                'is-greater-than-start-date',
+                'End date must be greater than or equal to start date.',
+                function (value) {
+                    const { startDate } = this.parent // Accessing parent context
+
+                    if (!startDate || !value) {
+                        return true // Skip validation if either date is missing
+                    }
+
+                    // Compare dates using moment
+                    return (
+                        moment(value).isAfter(startDate) ||
+                        moment(value).isSame(startDate)
+                    )
+                }
+            ),
         visibility: Yup.string().required('Please select default language'),
         subscriptionType: Yup.string().required(
             'Please select default currency'
@@ -132,17 +151,73 @@ const CreateMembership = (): JSX.Element => {
         monthlySubsFee: Yup.string().required('Please enter monthlySubsFee'),
 
         annuallySubsFee: Yup.string().required('Please enter annuallySubsFee'),
-        allowStudentCancel: Yup.string().required(
-            'Please select allowStudentCancel'
-        ),
-        refundDate: Yup.string().required('Please select refundDate'),
-        bookingCancelStartDate: Yup.string().required(
-            'Please select bookingCancelStartDate'
-        ),
+        bookingCancelStartDate: Yup.string()
+            .required('Booking cancel start date is required.')
+            .test(
+                'is-greater-than-bookingStartDate',
+                'Booking cancel start date must be greater than the  start date.',
+                function (value) {
+                    const { startDate } = this.parent // Accessing parent context
 
-        bookingCancelEndDate: Yup.string().required(
-            'Please select bookingCancelEndDate'
-        ),
+                    if (!startDate || !value) {
+                        return true // Skip validation if either date is missing
+                    }
+
+                    // Compare dates using moment
+                    return (
+                        moment(value).isAfter(startDate) ||
+                        moment(value).isSame(startDate)
+                    )
+                }
+            ),
+        bookingCancelEndDate: Yup.string()
+            .required('Booking cancel end date is required.')
+            .test(
+                'is-greater-than-cancelStart',
+                'Booking cancel end date must be greater than the cancel start date.',
+                function (value) {
+                    const { bookingCancelStartDate } = this.parent
+
+                    return moment(value).isAfter(moment(bookingCancelStartDate))
+                }
+            )
+            .test(
+                'is-less-than-end-date',
+                'Booking cancel end date must be less than the End date.',
+                function (value) {
+                    const { endDate } = this.parent
+                    return moment(value).isSameOrBefore(moment(endDate))
+                }
+            ),
+        refundDate: Yup.string()
+            .required('Refund date is required.')
+            .test(
+                'is-after-bookingStartDate',
+                'Refund date must be after the Booking start date.',
+                function (value) {
+                    const { bookingCancelStartDate } = this.parent
+                    return moment(value).isAfter(moment(bookingCancelStartDate))
+                }
+            ),
+        allowStudentCancel: Yup.string()
+            .required('Refund date is required.')
+            .test(
+                'is-after-startDate',
+                'Allow StudentCancel must be greater then the  start date.',
+                function (value) {
+                    const { startDate } = this.parent
+                    return moment(value).isAfter(moment(startDate))
+                }
+            )
+            .test(
+                'is-before-endDate',
+                'Allow StudentCancel must be less then the  end date.',
+                function (value) {
+                    const { endDate } = this.parent
+                    return moment(value).isBefore(moment(endDate))
+                }
+            ),
+
         cancellationCharges: Yup.string().required(
             'Please  cancellationCharges'
         ),
@@ -150,27 +225,7 @@ const CreateMembership = (): JSX.Element => {
             .of(Yup.string().required('Select an accommodation'))
             .min(1, 'Select at least one accommodation'),
         description: Yup.string().required('Please enter description'),
-        //   latestCertification: Yup.mixed().test(
-        //     'fileType',
-        //     'Unsupported File Format',
-        //     function (value) {
-        //         if (value) {
-        //             const allowedTypes = [
-        // 'image/jpeg',
-        // 'image/png',
-        // 'image/webp',
-        // 'image/jpg',
-        // 'image/bmp',
-        // 'image/tiff',
-        //             ]
-        //             const isAllowedType = allowedTypes.includes(value.type)
-        //             return isAllowedType
-        //         }
-        //         return true
-        //     }
-        // ),
     })
-
     const showAccommodation = (_accommodate: string[]): string => {
         const AccommodateName = _accommodate.reduce(
             (a: string, accommodate_id: string) => {
@@ -217,7 +272,7 @@ const CreateMembership = (): JSX.Element => {
         values: CreateMembershipInitialValues
     ): Promise<void> => {
         try {
-            setdatas(values)
+            console.log('data sending to next screen', values)
             navigate('/membership/classes', {
                 state: {
                     data: {
@@ -365,6 +420,11 @@ const CreateMembership = (): JSX.Element => {
                                                                     placeholder={getLabelByKey(
                                                                         'subscriptionTypePlaceholder'
                                                                     )}
+                                                                    value={
+                                                                        formik
+                                                                            .values
+                                                                            .subscriptionType
+                                                                    }
                                                                     options={createOptions(
                                                                         subscriptionType
                                                                     )}
@@ -663,9 +723,7 @@ const CreateMembership = (): JSX.Element => {
                                                 placeholder={showAccommodation(
                                                     formik.values.accommodation
                                                 )}
-                                                showErrorMsgInList={false} // value={
-                                                //     formik.values.accommodation
-                                                // }
+                                                showErrorMsgInList={false}
                                             />
                                         </Col>
 

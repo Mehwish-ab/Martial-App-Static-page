@@ -8,12 +8,15 @@ import {
 
 import store from '../../store'
 import { loginDataTypes } from '../types'
+import { boolean } from 'yup'
 export interface SchoolDataType {
     schoolId: number
     userId: number
     businessName: string
     businessType: number | string
     address: string
+    latitude: number
+    longitude: number
     phoneNumber: string
     rank: boolean
     defaultLanguageId: number
@@ -34,6 +37,32 @@ export interface SchoolDataType {
     totalItems: number
     totalPages: number
     currentPage: number
+}
+
+export interface AllUserSchoolList {
+    activitiesId: string
+
+    address: string
+
+    bannerImg: string
+
+    description: string
+    emailAddress: string
+
+    hasClass: boolean
+
+    id: string
+
+    membership: boolean
+
+    name: string
+
+    phoneNumber: string
+
+    profileImg: string
+    totalItems: number
+    currentPage: number
+    totalpages: number
 }
 export interface OwnerDataTypes {
     firstName: string
@@ -56,9 +85,11 @@ const initialState: DashboardDataInitialState = {
         businessName: '',
         businessType: '0',
         address: '',
+        latitude: 0,
+        longitude: 0,
         phoneNumber: '',
         rank: false,
-        defaultCurrencyId: 0,
+        defaultCurrencyId: 1,
         defaultLanguageId: 0,
         activities: '',
         facilities: '',

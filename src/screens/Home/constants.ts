@@ -7,6 +7,8 @@ export type CreateSchoolInitialValues = {
     businessName: string
     businessType: number | string
     address: string
+    latitude: number
+    longitude: number
     businessPhoneNumber: string
     defaultLanguageId: string | number
     defaultCurrencyId: string | number

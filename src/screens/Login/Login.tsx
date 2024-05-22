@@ -4,6 +4,7 @@ import * as Yup from 'yup'
 import { Form } from 'antd'
 import FormControl from '../../components/FormControl'
 import CustomButton from '../../components/CustomButton/CustomButton'
+import ic_error from '../../assets/icons/ic_error.svg'
 import {
     fontFamilyMedium,
     lightBlue3,
@@ -26,9 +27,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import store, { RootState } from '../../redux/store'
 import MessageModal from '../../components/Common/MessageModal/MessageModal'
 import { setLoginData } from '../../redux/features/loginDataSlice'
-import useOauthLogin from '../../hooks/useOauthLogin'
 import { getSchoolByUserId } from '../../redux/features/dashboard/dashboardDataSlice'
 import logo from '../../assets/icons/ic_logo_login.svg'
+import Loader from '../../components/Loader/Loader'
+import CustomModal from '../../components/Modal/CustomModal'
+import ic_success from '../../assets/images/ic_success.svg'
+import { SchoolSuccessfulModals } from '../../hooks/PopupModalsStyling'
 
 // initial values types
 type loginValuesType = {
@@ -38,16 +42,13 @@ type loginValuesType = {
 
 const Login = (): JSX.Element => {
     const navigate = useNavigate()
-    const [terms, setTerms] = useState(false)
-    const [showTermsError] = useState(false)
     const [loading, setloading] = useState(false)
     const { getLabelByKey } = useScreenTranslation('loginScreen')
-    const { loading: oAuthLoading } = useOauthLogin()
+    const [errorModal, setErrorModal] = useState(false)
+    const [showModal, setShowModal] = useState(false)
     const { selectedLanguage } = useSelector(
         (state: RootState) => state.selectedLanguage
     )
-    // console.log("screenTranslation", screenTranslation);
-    // initial values
     const initialValues: loginValuesType = {
         emailAddress: '',
         password: '',
@@ -75,61 +76,94 @@ const Login = (): JSX.Element => {
     // login handle submit
     console.log(initialValues)
     const handleSubmit = async (values: loginValuesType): Promise<void> => {
-        if (!terms) {
-            toast(
-                <MessageModal
-                    message="Error"
-                    description="Terms and Policy's Acceptance required!"
-                    type="Error"
-                />,
-                {
-                    autoClose: 1000,
-                }
-            )
-            return
-        }
+        // if (!terms) {
+        //     toast(
+        //         <MessageModal
+        //             message="Error"
+        //             description="Terms and Policy's Acceptance required!"
+        //             type="Error"
+        //         />,
+        //         {
+        //             autoClose: 1000,
+        //         }
+        //     )
+        //     return
+        // }
         try {
             setloading(true)
-            const {
-                data: { results },
-            } = await axios.post(base_url + login_url, values)
-            localStorage.setItem(auth_token_key, JSON.stringify(results))
-            dispatch(setLoginData(results))
-            toast(
-                <MessageModal
-                    message="Successful"
-                    description="You are successfully logged in to your account."
-                    type="success"
-                />,
-                {
-                    autoClose: 1000,
-                }
+            const response = await axios.post(base_url + login_url, values)
+            console.log('login results', response.data.results)
+            localStorage.setItem(
+                auth_token_key,
+                JSON.stringify(response.data.results)
             )
+            dispatch(setLoginData(response.data.results))
+            if (response.data.responseCode === 200) {
+                setShowModal(true)
+                setTimeout(() => {
+                    setShowModal(false)
+                    if (response.data?.results.schoolId)
+                        store.dispatch(getSchoolByUserId())
+                    navigate('/welcome')
+                }, 1000)
+            }
             setloading(false)
-            if (results.schoolId) store.dispatch(getSchoolByUserId())
-            navigate('/')
         } catch (error: any) {
             setloading(false)
             if (error.code) {
-                toast(
-                    <MessageModal
-                        message={error.response.data.responseMessage}
-                        description="Please enter correct email or password"
-                        type="error"
-                    />
-                )
-                return
+                setErrorModal(true)
+                setTimeout(() => {
+                    setErrorModal(false)
+                }, 1000)
             }
-            toast(error.response.data.responseMessage, {
-                type: 'error',
-                autoClose: 1000,
-            })
         }
     }
 
     return (
         <>
             <Head title="Login" />
+            <CustomModal
+                isModalVisible={showModal || errorModal}
+                setIsModalVisible={setShowModal || setErrorModal}
+            >
+                <SchoolSuccessfulModals>
+                    <div className="mainContainer d-flex flex-column align-items-center">
+                        <img
+                            src={ic_success}
+                            alt="error Icon"
+                            width={29}
+                            height={29}
+                        />
+                        <h3 className="mainContainer-heading text-center">
+                            Account Log in Successfully!
+                        </h3>
+                        <p className="mainContainer-subText text-center">
+                            You are successfully logged in to your account.
+                        </p>
+                    </div>
+                </SchoolSuccessfulModals>
+            </CustomModal>
+            <CustomModal
+                isModalVisible={errorModal}
+                setIsModalVisible={setErrorModal}
+            >
+                <SchoolSuccessfulModals>
+                    <div className="mainContainer d-flex flex-column align-items-center">
+                        <img
+                            src={ic_error}
+                            alt="error Icon"
+                            width={29}
+                            height={29}
+                        />
+                        <h3 className="mainContainer-heading text-center">
+                            BAD_REQUEST
+                        </h3>
+                        <p className="mainContainer-subText text-center">
+                            Please enter correct email or password
+                        </p>
+                    </div>
+                </SchoolSuccessfulModals>
+            </CustomModal>
             <LoginStyle>
                 <div className="login-container overflow-auto">
                     <div className="login-container-card">
@@ -144,131 +178,147 @@ const Login = (): JSX.Element => {
                         </p>
                         <div className="login-container-card-inner">
                             <div className="login-container-card-form">
-                                <Formik
-                                    initialValues={initialValues}
-                                    validationSchema={validationSchema}
-                                    onSubmit={handleSubmit}
-                                >
-                                    {(formik) => {
-                                        return (
-                                            <Form
-                                                name="basic"
-                                                onFinish={formik.handleSubmit}
-                                                autoComplete="off"
-                                            >
-                                                <div className="login-input-fields">
-                                                    <div className="mt-20">
-                                                        <FormControl
-                                                            control="input"
-                                                            type="text"
-                                                            name="emailAddress"
-                                                            color={pureDark2}
-                                                            label={getLabelByKey(
-                                                                SCREEN_LABEL_KEYS.emailFieldTitle
-                                                            )}
-                                                            placeholder={getLabelByKey(
-                                                                SCREEN_LABEL_KEYS.emailFieldPlaceholder
-                                                            )}
-                                                            // prefix={<img src={email_icon} alt="email_icon" />}
-                                                            className={
-                                                                formik.errors
-                                                                    .emailAddress &&
-                                                                formik.touched
-                                                                    .emailAddress
-                                                                    ? 'is-invalid is-invalidEmail'
-                                                                    : 'customInput'
-                                                            }
-                                                            textalign="end"
-                                                        />
-                                                    </div>
-                                                    <div className="mt-20">
-                                                        <FormControl
-                                                            control="password"
-                                                            type="text"
-                                                            name="password"
-                                                            color={pureDark2}
-                                                            label={getLabelByKey(
-                                                                SCREEN_LABEL_KEYS.passcodeFieldTitle
-                                                            )}
-                                                            padding="10px"
-                                                            placeholder={getLabelByKey(
-                                                                SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
-                                                            )}
-                                                            suffix={
-                                                                show_password_icon
-                                                            }
-                                                            className={
-                                                                formik.errors
-                                                                    .password &&
-                                                                formik.touched
-                                                                    .password
-                                                                    ? 'is-invalid loginInvalidPassword'
-                                                                    : 'customPasswordInput loginPassword'
-                                                            }
-                                                            textalign="end"
-                                                        />
-                                                    </div>
-                                                    <div className="d-flex justify-content-between align-items-center mt-20">
-                                                        <div className="d-flex align-items-center gap-2 checkBoxstyling">
+                                {loading ? (
+                                    <Loader />
+                                ) : (
+                                    <Formik
+                                        initialValues={initialValues}
+                                        validationSchema={validationSchema}
+                                        onSubmit={handleSubmit}
+                                    >
+                                        {(formik) => {
+                                            return (
+                                                <Form
+                                                    name="basic"
+                                                    onFinish={
+                                                        formik.handleSubmit
+                                                    }
+                                                    autoComplete="off"
+                                                >
+                                                    <div className="login-input-fields">
+                                                        <div className="mt-20">
                                                             <FormControl
-                                                                control="checkbox"
-                                                                type="checkbox"
-                                                                id="rememberMe"
-                                                                name="rememberMe"
+                                                                control="input"
+                                                                type="text"
+                                                                name="emailAddress"
+                                                                color={
+                                                                    pureDark2
+                                                                }
+                                                                label={getLabelByKey(
+                                                                    SCREEN_LABEL_KEYS.emailFieldTitle
+                                                                )}
+                                                                placeholder={getLabelByKey(
+                                                                    SCREEN_LABEL_KEYS.emailFieldPlaceholder
+                                                                )}
+                                                                // prefix={<img src={email_icon} alt="email_icon" />}
+                                                                className={
+                                                                    formik
+                                                                        .errors
+                                                                        .emailAddress &&
+                                                                    formik
+                                                                        .touched
+                                                                        .emailAddress
+                                                                        ? 'is-invalid is-invalidEmail'
+                                                                        : 'customInput'
+                                                                }
+                                                                textalign="end"
                                                             />
-                                                            <p className="remeberText">
+                                                        </div>
+                                                        <div className="mt-20">
+                                                            <FormControl
+                                                                control="password"
+                                                                type="text"
+                                                                name="password"
+                                                                color={
+                                                                    pureDark2
+                                                                }
+                                                                label={getLabelByKey(
+                                                                    SCREEN_LABEL_KEYS.passcodeFieldTitle
+                                                                )}
+                                                                padding="10px"
+                                                                placeholder={getLabelByKey(
+                                                                    SCREEN_LABEL_KEYS.passcodeFieldPlaceholder
+                                                                )}
+                                                                suffix={
+                                                                    show_password_icon
+                                                                }
+                                                                className={
+                                                                    formik
+                                                                        .errors
+                                                                        .password &&
+                                                                    formik
+                                                                        .touched
+                                                                        .password
+                                                                        ? 'is-invalid loginInvalidPassword'
+                                                                        : 'customPasswordInput loginPassword'
+                                                                }
+                                                                textalign="end"
+                                                            />
+                                                        </div>
+                                                        <div className="d-flex justify-content-between align-items-center mt-20">
+                                                            <div className="d-flex align-items-center gap-2 checkBoxstyling">
+                                                                <FormControl
+                                                                    control="checkbox"
+                                                                    type="checkbox"
+                                                                    id="rememberMe"
+                                                                    name="rememberMe"
+                                                                />
+                                                                <p className="remeberText">
+                                                                    {getLabelByKey(
+                                                                        SCREEN_LABEL_KEYS.rememberMe
+                                                                    )}
+                                                                </p>
+                                                            </div>
+                                                            <p
+                                                                className="forget_password mb-0 text-end cursor-pointer"
+                                                                onClick={() =>
+                                                                    navigate(
+                                                                        '/forgot-password',
+                                                                        {
+                                                                            state: {
+                                                                                userCase:
+                                                                                    'FORGETPASSWORD',
+                                                                            },
+                                                                        }
+                                                                    )
+                                                                }
+                                                            >
                                                                 {getLabelByKey(
-                                                                    SCREEN_LABEL_KEYS.rememberMe
+                                                                    SCREEN_LABEL_KEYS.forgotPassword
                                                                 )}
                                                             </p>
                                                         </div>
-                                                        <p
-                                                            className="forget_password mb-0 text-end cursor-pointer"
-                                                            onClick={() =>
-                                                                navigate(
-                                                                    '/forgot-password',
-                                                                    {
-                                                                        state: {
-                                                                            userCase:
-                                                                                'FORGETPASSWORD',
-                                                                        },
-                                                                    }
-                                                                )
-                                                            }
-                                                        >
-                                                            {getLabelByKey(
-                                                                SCREEN_LABEL_KEYS.forgotPassword
-                                                            )}
-                                                        </p>
+                                                        <div className="mt-20 loginBtn">
+                                                            <CustomButton
+                                                                bgcolor={
+                                                                    lightBlue3
+                                                                }
+                                                                textTransform="Captilize"
+                                                                color={
+                                                                    pureDark2
+                                                                }
+                                                                padding="16.5px"
+                                                                fontFamily={
+                                                                    fontFamilyMedium
+                                                                }
+                                                                width="100%"
+                                                                type="submit"
+                                                                title={getLabelByKey(
+                                                                    SCREEN_LABEL_KEYS.loginButton
+                                                                )}
+                                                                fontSize="16px"
+                                                                loading={
+                                                                    loading
+                                                                }
+                                                            />
+                                                        </div>
                                                     </div>
-                                                    <div className="mt-20 loginBtn">
-                                                        <CustomButton
-                                                            bgcolor={lightBlue3}
-                                                            textTransform="Captilize"
-                                                            color={pureDark2}
-                                                            padding="16.5px"
-                                                            fontFamily={
-                                                                fontFamilyMedium
-                                                            }
-                                                            width="100%"
-                                                            type="submit"
-                                                            title={getLabelByKey(
-                                                                SCREEN_LABEL_KEYS.loginButton
-                                                            )}
-                                                            fontSize="16px"
-                                                            loading={
-                                                                loading ||
-                                                                oAuthLoading
-                                                            }
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </Form>
-                                        )
-                                    }}
-                                </Formik>
+                                                </Form>
+                                            )
+                                        }}
+                                    </Formik>
+                                )}
                             </div>
-
                             <div className="d-flex or-line fs-6 mt-20 align-items-center">
                                 <div className="line" />
                                 <p className="orText">
@@ -277,12 +327,12 @@ const Login = (): JSX.Element => {
                                 <div className="line" />
                             </div>
                             <OauthLogin useCase={OAUTH_USECASES.login} />
-                            <TermsAndConditions
+                            {/* <TermsAndConditions
                                 setTerms={setTerms}
                                 showTermsError={showTermsError}
                                 terms={terms}
                                 screen={'loginScreen'}
-                            />
+                            /> */}
                             <div className="signup-text mt-20">
                                 <p className="mb-0 text-center ">
                                     {getLabelByKey(SCREEN_LABEL_KEYS.register)}

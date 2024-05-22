@@ -4,6 +4,7 @@ import type { ColumnsType } from 'antd/es/table'
 import { ListMembershipStyled } from './styles'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import { CustomDiv } from './CustomDiv'
+import DefaultBannerImage from '../../../assets/images/defaultProfileImage.svg'
 import {
     fontFamilyMedium,
     fontFamilyRegular,
@@ -134,9 +135,11 @@ const ListMembership = (): JSX.Element => {
         record: MembershipDataType,
         redirectTo: string
     ): void => {
+        console.log('edit in navigation', record)
         switch (redirectTo) {
             case 'edit':
-                navigate(`/membership/update`, {
+                console.log('edit1 in navigation', record)
+                navigate(`/membership/update/${record.memberShipPlanId}`, {
                     state: {
                         MembershipEdit: record as MembershipDataType,
                     },
@@ -144,6 +147,7 @@ const ListMembership = (): JSX.Element => {
                 break
 
             case 'view':
+                console.log('view in navigation', record)
                 navigate(`/membership/information/${record.memberShipPlanId}`, {
                     state: {
                         MembershipView: record as MembershipDataType,
@@ -173,11 +177,6 @@ const ListMembership = (): JSX.Element => {
     const { loading } = useSelector((state: RootState) => state.MembershipData)
 
     const columns: ColumnsType<MembershipDataType> = [
-        {
-            title: getLabelByKey('id'),
-            dataIndex: 'memberShipPlanId',
-            key: 'memberShipPlanId',
-        },
         {
             title: getLabelByKey('membershipTitle'),
             dataIndex: 'title',
@@ -268,7 +267,7 @@ const ListMembership = (): JSX.Element => {
                     {
                         key: '2',
                         label: 'Update',
-                        onClick: () => navigation(record, 'update'),
+                        onClick: () => navigation(record, 'edit'),
                     },
                     {
                         key: '3',

@@ -4,6 +4,10 @@ export interface CreateTimeTableInitialValues {
     isRepeated: string | number
     startDate: string
     endDate: string
+    activities: string[]
+    roomId: string[]
+    instructorId: string[]
+    status: boolean
     // instructorName: string
     // emailAddress: string
     // instructorPhoneNumber: string

@@ -1,17 +1,13 @@
-import { useState } from 'react'
-
+import { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import { Form } from 'antd'
-
 import { Col, Row } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
-import { useNavigate } from 'react-router-dom'
-
+import { useNavigate, useParams } from 'react-router-dom'
 import FormControl from '../../../components/FormControl'
-import doller from '../../../assets/images/$.svg'
 import ic_success from '../../../assets/images/ic_success.svg'
-
+import * as Yup from 'yup'
 import {
     fontFamilyMedium,
     fontFamilyRegular,
@@ -20,13 +16,20 @@ import {
 } from '../../../components/GlobalStyle'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import { CreateClassStyled } from '../../Class/CreateClasses/styles'
-import { CreateMembershipInitialValues } from '../constant'
+import {
+    CreateMembershipInitialValues,
+    UpdateMembershipInitialValues,
+} from '../constant'
 import CustomModal from '../../../components/Modal/CustomModal'
-import OverlayImages from '../../Home/OverlayImages/OverlayImages'
 import { SchoolSuccessfulModals } from '../../../hooks/PopupModalsStyling'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
-import dollar from '../../../assets/images/$.svg'
 import Head from '../../../components/Head/Head'
+import useMembership from '../../../hooks/useMembership'
+import moment from 'moment'
+import { DataTypesWithIdAndMultipleLangLabel } from '../../../redux/features/types'
+import { SelectOptionsDataTypes } from '../../Home/constants'
+import CheckboxesSelect from '../../../components/CustomCheckbox/CheckboxesSelect'
+import Images from '../../Home/OverlayImages/images'
 
 const UpdateMembership = (): JSX.Element => {
     const { getLabelByKey } = useScreenTranslation('updateMembership')
@@ -34,76 +37,330 @@ const UpdateMembership = (): JSX.Element => {
     const [isLoading, setIsLoading] = useState(false)
     const [isShowModal, setIsShowModal] = useState(false)
     const navigate = useNavigate()
-    const { MembershipData } = useSelector(
-        (state: RootState) => state.MembershipData
+    const [bannerImage, setBannerImage] = useState<File | null>(null)
+    const { schoolData } = useSelector(
+        (state: RootState) => state.dashboardData
     )
+    const { getMembershipbyid, memberShipValue } = useMembership()
+    const { memberShipPlanId } = useParams()
+    const { selectedLanguage } = useSelector(
+        (state: RootState) => state.selectedLanguage
+    )
+    const {
+        dropdowns: {
+            schoolAccommodation,
+            visibility,
+            subscriptionType,
+            currency,
+        },
+    } = useSelector((state: RootState) => state.appData.data)
+    const convertedAccommodation = schoolAccommodation.map((accommodation) => ({
+        ...accommodation,
+        id: accommodation.id.toString(),
+    }))
+    useEffect(() => {
+        const fetchData = async (): Promise<void> => {
+            try {
+                if (memberShipPlanId) {
+                    //   console.log('uajl', memberShipValue)
+                    await getMembershipbyid(Number(memberShipPlanId))
+                }
 
-    const initialValues: CreateMembershipInitialValues = {
-        classIds: 0,
-        useCase: '',
-        id: 0,
-        title: '',
-        startDate: '',
-        endDate: '',
-        visibility: 0,
-        subscriptionType: 0,
-        membershipFee: '',
-        minimumStudent: 0,
-        dailySubsFee: '',
-        weeklySubsFee: '',
-        monthlySubsFee: '',
-        annuallySubsFee: '',
-        allowStudentCancel: '',
-        refundDate: '',
-        bookingCancelStartDate: '',
-        bookingCancelEndDate: '',
-        cancellationCharges: '',
-        accommodation: [],
-        description: '',
-        bannerPicture: '',
+                // eslint-disable-next-line @typescript-eslint/no-shadow
+            } catch (error) {
+                // setError('Error fetching data')
+            } finally {
+                // setLoading(false)
+            }
+        }
+
+        fetchData()
+    }, [memberShipPlanId])
+    const showAccommodation = (_accommodate: string[]): any => {
+        console.log('_accomodation', _accommodate)
+        if (_accommodate) {
+            const AccommodateName = _accommodate?.reduce(
+                (a: string, accommodate_id: string) => {
+                    const index = schoolAccommodation.findIndex(
+                        (facts: any) => facts.id === +accommodate_id
+                    )
+
+                    if (index === -1) {
+                        return a
+                    }
+
+                    const accommodateLabel = (
+                        schoolAccommodation[index] as any
+                    )[selectedLanguage]
+                    return `${a} ${accommodateLabel},`
+                },
+                ''
+            )
+            if (AccommodateName.length > 35) {
+                return `${AccommodateName.slice(0, 35)}...`
+            }
+
+            return (
+                AccommodateName || getLabelByKey('selectAccommodationOptions')
+            )
+        } else {
+            return 'Select Accomodation'
+        }
+    }
+    const createOptions = (
+        list: DataTypesWithIdAndMultipleLangLabel[]
+    ): SelectOptionsDataTypes[] => {
+        const options: SelectOptionsDataTypes[] = []
+        list.forEach((item) => {
+            const obj = {
+                label: (item as any)[selectedLanguage],
+                value: item.id,
+            }
+
+            options.push(obj)
+        })
+
+        return options
     }
 
-    const onSubmit = async (): Promise<void> => {
+    const handleSaveBanner = (file: File): void => {
+        setBannerImage(file)
+    }
+
+    console.log(memberShipPlanId, memberShipValue)
+    const initialValues: UpdateMembershipInitialValues = {
+        classIds: memberShipValue ? memberShipValue.classIds : '--',
+        useCase: '',
+        id: 0,
+        title: memberShipValue ? memberShipValue.title : '--',
+        startDate: memberShipValue
+            ? moment(memberShipValue?.startDate, 'YYYY-MM-DD').format(
+                  'dddd, MMM DD, YYYY'
+              )
+            : '',
+        endDate: memberShipValue
+            ? moment(memberShipValue?.endDate, 'YYYY-MM-DD').format(
+                  'dddd, MMM DD, YYYY'
+              )
+            : '',
+        visibility: memberShipValue ? memberShipValue.visibility : '--',
+        subscriptionType: memberShipValue
+            ? memberShipValue.subscriptionType
+            : '--',
+        membershipFee: memberShipValue ? memberShipValue.membershipFee : '--',
+        minimumStudent: memberShipValue ? memberShipValue.minimumStudent : '--',
+        dailySubsFee: memberShipValue ? memberShipValue.dailySubsFee : '--',
+        weeklySubsFee: memberShipValue ? memberShipValue.weeklySubsFee : '--',
+        monthlySubsFee: memberShipValue ? memberShipValue.monthlySubsFee : '--',
+        annuallySubsFee: memberShipValue
+            ? memberShipValue.annuallySubsFee
+            : '--',
+        allowStudentCancel: memberShipValue
+            ? moment(memberShipValue?.allowStudentCancel, 'YYYY-MM-DD').format(
+                  'dddd, MMM DD, YYYY'
+              )
+            : '',
+        refundDate: memberShipValue
+            ? moment(memberShipValue?.refundDate, 'YYYY-MM-DD').format(
+                  'dddd, MMM DD, YYYY'
+              )
+            : '',
+        bookingCancelStartDate: memberShipValue
+            ? moment(
+                  memberShipValue?.bookingCancelStartDate,
+                  'YYYY-MM-DD'
+              ).format('dddd, MMM DD, YYYY')
+            : '',
+        bookingCancelEndDate: memberShipValue
+            ? moment(
+                  memberShipValue?.bookingCancelEndDate,
+                  'YYYY-MM-DD'
+              ).format('dddd, MMM DD, YYYY')
+            : ' ',
+        cancellationCharges: memberShipValue
+            ? memberShipValue.cancellationCharges
+            : '',
+        accommodation: memberShipValue
+            ? memberShipValue.accommodation?.split(',').map(String)
+            : [],
+        description: memberShipValue ? memberShipValue.description : '',
+        bannerPicture: memberShipValue ? memberShipValue.bannerPicture : '--',
+    }
+
+    const CurrencyType = (_CurrencyType: number): string => {
+        const index = currency.findIndex(
+            (curr: any) => curr.id === _CurrencyType
+        )
+
+        if (index !== -1) {
+            const currencyInfo = currency[index] as any
+            const symbolMap: { [key: number]: string } = {
+                1: '€', // Euro
+                2: '£', // Pound
+                3: '$', // United States Dollar
+                4: 'R$', // Brazil
+            }
+
+            return symbolMap[_CurrencyType]
+        }
+
+        return '--'
+    }
+
+    const _currency = schoolData.defaultCurrencyId
+    console.log('defaultCurrencyId', schoolData)
+    const validationSchema = Yup.object({
+        title: Yup.string().required('title is required'),
+
+        // address: Yup.string()
+        //     .required(address.notBlankMsgEn)
+        //     .matches(addressReg, address.patternMsgEn),
+        startDate: Yup.string().required('Start date is required.'),
+        endDate: Yup.string()
+            .required('End date is required.')
+            .test(
+                'is-greater-than-start-date',
+                'End date must be greater than or equal to start date.',
+                function (value) {
+                    const { startDate } = this.parent // Accessing parent context
+
+                    if (!startDate || !value) {
+                        return true // Skip validation if either date is missing
+                    }
+
+                    // Compare dates using moment
+                    return (
+                        moment(value).isAfter(startDate) ||
+                        moment(value).isSame(startDate)
+                    )
+                }
+            ),
+        visibility: Yup.string().required('Please select default language'),
+        subscriptionType: Yup.string().required(
+            'Please select default currency'
+        ),
+        // belts: Yup.string().required("Please select belts"),
+        minimumStudent: Yup.string().required('Please select ranks'),
+        membershipFee: Yup.string().required('Please enter membershipFee'),
+        dailySubsFee: Yup.string().required('Please enter dailySubsFee'),
+
+        weeklySubsFee: Yup.string().required('Please enter weeklySubsFee'),
+        monthlySubsFee: Yup.string().required('Please enter monthlySubsFee'),
+
+        annuallySubsFee: Yup.string().required('Please enter annuallySubsFee'),
+        bookingCancelStartDate: Yup.string()
+            .required('Booking cancel start date is required.')
+            .test(
+                'is-greater-than-bookingStartDate',
+                'Booking cancel start date must be greater than the  start date.',
+                function (value) {
+                    const { startDate } = this.parent // Accessing parent context
+
+                    if (!startDate || !value) {
+                        return true // Skip validation if either date is missing
+                    }
+
+                    // Compare dates using moment
+                    return (
+                        moment(value).isAfter(startDate) ||
+                        moment(value).isSame(startDate)
+                    )
+                }
+            ),
+        bookingCancelEndDate: Yup.string()
+            .required('Booking cancel end date is required.')
+            .test(
+                'is-greater-than-cancelStart',
+                'Booking cancel end date must be greater than the cancel start date.',
+                function (value) {
+                    const { bookingCancelStartDate, bookingCancelEndDate } =
+                        this.parent
+                    console.log(
+                        'booking cancel start date',
+                        bookingCancelStartDate,
+                        bookingCancelEndDate
+                    )
+                    return moment(value).isAfter(moment(bookingCancelStartDate))
+                }
+            )
+            .test(
+                'is-less-than-end-date',
+                'Booking cancel end date must be less than the End date.',
+                function (value) {
+                    const { endDate } = this.parent
+                    return moment(value).isSameOrBefore(moment(endDate))
+                }
+            ),
+        refundDate: Yup.string()
+            .required('Refund date is required.')
+            .test(
+                'is-after-bookingStartDate',
+                'Refund date must be after the Booking start date.',
+                function (value) {
+                    const { bookingCancelStartDate } = this.parent
+                    return moment(value).isAfter(moment(bookingCancelStartDate))
+                }
+            ),
+        allowStudentCancel: Yup.string()
+            .required('Refund date is required.')
+            .test(
+                'is-after-startDate',
+                'Allow StudentCancel must be greater then the  start date.',
+                function (value) {
+                    const { startDate } = this.parent
+                    return moment(value).isAfter(moment(startDate))
+                }
+            )
+            .test(
+                'is-before-endDate',
+                'Allow StudentCancel must be less then the  end date.',
+                function (value) {
+                    const { endDate } = this.parent
+                    return moment(value).isBefore(moment(endDate))
+                }
+            ),
+
+        cancellationCharges: Yup.string().required(
+            'Please  cancellationCharges'
+        ),
+        accommodation: Yup.array()
+            .of(Yup.string().required('Select an accommodation'))
+            .min(1, 'Select at least one accommodation'),
+        description: Yup.string().required('Please enter description'),
+    })
+
+    const onSubmit = async (
+        values: CreateMembershipInitialValues
+    ): Promise<void> => {
         try {
-            setIsShowModal(true)
-            setTimeout(() => {
-                setIsShowModal(false)
-                navigate('/membership/list')
-            }, 3000)
-            setIsLoading(false)
+            console.log('data sending to next screen', values)
+            navigate('/membership/classes', {
+                state: {
+                    data: {
+                        ...values,
+                        memberShipPlanId: memberShipPlanId,
+                    },
+                    bannerImages: bannerImage,
+                },
+            })
         } catch (error: unknown) {}
     }
     return (
         <>
             <Head title="Membership Update" />
-
-            <CustomModal
-                isModalVisible={isShowModal}
-                setIsModalVisible={setIsShowModal}
-                showCloseBtn={true}
-            >
-                <SchoolSuccessfulModals>
-                    <div className="mainContainer d-flex flex-column align-items-center">
-                        <img
-                            src={ic_success}
-                            alt="Success Icon"
-                            width={79}
-                            height={79}
-                        />
-                        <h3 className="mainContainer-heading text-center">
-                            Update Successfully!
-                        </h3>
-                        <p className="mainContainer-subText text-center">
-                            Congratulations! on updating your profile! Your
-                            changes have been successfully saved, enhancing your
-                            experience within the Marital platform.
-                        </p>
-                    </div>
-                </SchoolSuccessfulModals>
-            </CustomModal>
             <CreateClassStyled>
-                <Formik initialValues={initialValues} onSubmit={onSubmit}>
+                <Formik
+                    initialValues={initialValues}
+                    enableReinitialize={true}
+                    validationSchema={validationSchema}
+                    onSubmit={onSubmit}
+                >
                     {(formik) => {
+                        console.log(
+                            'formik . initail',
+                            formik.values,
+                            initialValues
+                        )
                         return (
                             <Form
                                 name="basic"
@@ -131,6 +388,10 @@ const UpdateMembership = (): JSX.Element => {
                                                             fontFamily={
                                                                 fontFamilyRegular
                                                             }
+                                                            value={
+                                                                formik.values
+                                                                    .title
+                                                            }
                                                             fontSize="16px"
                                                             max={6}
                                                             placeholder={getLabelByKey(
@@ -155,9 +416,11 @@ const UpdateMembership = (): JSX.Element => {
                                                                         'startDate'
                                                                     )}
                                                                     padding="8px 10px"
-                                                                    placeholder={getLabelByKey(
-                                                                        'startDatePlaceholder'
-                                                                    )}
+                                                                    placeholder={
+                                                                        formik
+                                                                            .values
+                                                                            .startDate
+                                                                    }
                                                                 />
                                                             </Col>
                                                             <Col
@@ -175,9 +438,11 @@ const UpdateMembership = (): JSX.Element => {
                                                                         'endDate'
                                                                     )}
                                                                     padding="8px 10px"
-                                                                    placeholder={getLabelByKey(
-                                                                        'endDatePlaceholder'
-                                                                    )}
+                                                                    placeholder={
+                                                                        formik
+                                                                            .values
+                                                                            .endDate
+                                                                    }
                                                                 />
                                                             </Col>
                                                             <Col
@@ -200,6 +465,14 @@ const UpdateMembership = (): JSX.Element => {
                                                                     placeholder={getLabelByKey(
                                                                         'visibilityPlacehor'
                                                                     )}
+                                                                    value={
+                                                                        formik
+                                                                            .values
+                                                                            .visibility
+                                                                    }
+                                                                    options={createOptions(
+                                                                        visibility
+                                                                    )}
                                                                 />
                                                             </Col>
                                                             <Col
@@ -219,6 +492,14 @@ const UpdateMembership = (): JSX.Element => {
                                                                     }
                                                                     fontSize="16px"
                                                                     max={6}
+                                                                    value={
+                                                                        formik
+                                                                            .values
+                                                                            .subscriptionType
+                                                                    }
+                                                                    options={createOptions(
+                                                                        subscriptionType
+                                                                    )}
                                                                     placeholder={getLabelByKey(
                                                                         'subscriptionTypePlaceholder'
                                                                     )}
@@ -231,7 +512,7 @@ const UpdateMembership = (): JSX.Element => {
                                                                 <FormControl
                                                                     control="input"
                                                                     type="text"
-                                                                    name="membershipFees"
+                                                                    name="membershipFee"
                                                                     fontFamily={
                                                                         fontFamilyRegular
                                                                     }
@@ -242,20 +523,22 @@ const UpdateMembership = (): JSX.Element => {
                                                                     placeholder={getLabelByKey(
                                                                         'membershipFeesPlaceholder'
                                                                     )}
+                                                                    value={
+                                                                        formik
+                                                                            .values
+                                                                            .membershipFee
+                                                                    }
                                                                     suffix={
-                                                                        <img
-                                                                            src={
-                                                                                dollar
-                                                                            }
-                                                                            alt=""
-                                                                            width={
-                                                                                13
-                                                                            }
-                                                                            height={
-                                                                                27
-                                                                            }
-                                                                            //onClick={(type = "date")}
-                                                                        />
+                                                                        <span
+                                                                            style={{
+                                                                                fontSize:
+                                                                                    '20px',
+                                                                            }}
+                                                                        >
+                                                                            {CurrencyType(
+                                                                                _currency
+                                                                            )}
+                                                                        </span>
                                                                     }
                                                                 />
                                                             </Col>
@@ -273,6 +556,11 @@ const UpdateMembership = (): JSX.Element => {
                                                                     label={getLabelByKey(
                                                                         'minimumStudent'
                                                                     )}
+                                                                    value={
+                                                                        formik
+                                                                            .values
+                                                                            .minimumStudent
+                                                                    }
                                                                     padding="8px 10px"
                                                                     placeholder={getLabelByKey(
                                                                         'minimumStudentPlaceholder'
@@ -292,14 +580,27 @@ const UpdateMembership = (): JSX.Element => {
                                                                 'bannerImage'
                                                             )}
                                                         </p>
-                                                        <OverlayImages
+
+                                                        <Images
+                                                            onSaveBanner={
+                                                                handleSaveBanner
+                                                            }
+                                                            isEditable={true} // Set isEditable to true or false based on your requirement
+                                                            defaultImage={
+                                                                formik.values
+                                                                    .bannerPicture
+                                                            }
+                                                        />
+
+                                                        {/* <OverlayImages
                                                             backgroundImg={
-                                                                MembershipData?.MemberShipPicture ||
+                                                                formik.values
+                                                                    .bannerPicture ||
                                                                 ''
                                                             }
                                                             overlayImg={false}
                                                             isEditable={true}
-                                                        />
+                                                        /> */}
                                                     </Col>
                                                 </Col>
                                             </Row>
@@ -313,7 +614,7 @@ const UpdateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="input"
                                                 type="text"
-                                                name="dailySubscriptionFees"
+                                                name="dailySubsFee"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'dailySubscriptionFees'
@@ -322,21 +623,35 @@ const UpdateMembership = (): JSX.Element => {
                                                 placeholder={getLabelByKey(
                                                     'dailySubscriptionFeesPlaceholder'
                                                 )}
-                                                suffix={
-                                                    <img
-                                                        src={doller as string}
-                                                        alt=""
-                                                        width={13}
-                                                        height={27}
-                                                    />
+                                                value={
+                                                    formik.values.dailySubsFee
                                                 }
+                                                suffix={
+                                                    <span
+                                                        style={{
+                                                            fontSize: '20px',
+                                                        }}
+                                                    >
+                                                        {CurrencyType(
+                                                            _currency
+                                                        )}
+                                                    </span>
+                                                }
+                                                // suffix={
+                                                //     <img
+                                                //         src={doller as string}
+                                                //         alt=""
+                                                //         width={13}
+                                                //         height={27}
+                                                //     />
+                                                // }
                                             />
                                         </Col>
                                         <Col md="3" className="mt-20">
                                             <FormControl
                                                 control="input"
                                                 type="text"
-                                                name="weeklySubscriptionFees"
+                                                name="weeklySubsFee"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'weeklySubscriptionFees'
@@ -345,13 +660,19 @@ const UpdateMembership = (): JSX.Element => {
                                                 placeholder={getLabelByKey(
                                                     'weeklySubscriptionFeesPlaceholder'
                                                 )}
+                                                value={
+                                                    formik.values.weeklySubsFee
+                                                }
                                                 suffix={
-                                                    <img
-                                                        src={doller as string}
-                                                        alt=""
-                                                        width={13}
-                                                        height={27}
-                                                    />
+                                                    <span
+                                                        style={{
+                                                            fontSize: '20px',
+                                                        }}
+                                                    >
+                                                        {CurrencyType(
+                                                            _currency
+                                                        )}
+                                                    </span>
                                                 }
                                             />
                                         </Col>
@@ -359,22 +680,28 @@ const UpdateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="input"
                                                 type="text"
-                                                name="monthlySubscriptionFees"
+                                                name="monthlySubsFee"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'monthlySubscriptionFees'
                                                 )}
+                                                value={
+                                                    formik.values.monthlySubsFee
+                                                }
                                                 padding="8px 10px"
                                                 placeholder={getLabelByKey(
                                                     'monthlySubscriptionFeesPlaceholder'
                                                 )}
                                                 suffix={
-                                                    <img
-                                                        src={doller as string}
-                                                        alt=""
-                                                        width={13}
-                                                        height={27}
-                                                    />
+                                                    <span
+                                                        style={{
+                                                            fontSize: '20px',
+                                                        }}
+                                                    >
+                                                        {CurrencyType(
+                                                            _currency
+                                                        )}
+                                                    </span>
                                                 }
                                             />
                                         </Col>
@@ -382,7 +709,7 @@ const UpdateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="input"
                                                 type="text"
-                                                name="annuallySubscriptionFees"
+                                                name="annuallySubsFee"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'annuallySubscriptionFees'
@@ -392,21 +719,24 @@ const UpdateMembership = (): JSX.Element => {
                                                     'annuallySubscriptionFeesPlaceholder'
                                                 )}
                                                 suffix={
-                                                    <img
-                                                        src={doller as string}
-                                                        alt=""
-                                                        width={13}
-                                                        height={27}
-                                                    />
+                                                    <span
+                                                        style={{
+                                                            fontSize: '20px',
+                                                        }}
+                                                    >
+                                                        {CurrencyType(
+                                                            _currency
+                                                        )}
+                                                    </span>
                                                 }
                                             />
                                         </Col>
 
                                         <Col md="3" className="mt-20">
                                             <FormControl
-                                                control="select"
-                                                type="text"
-                                                name="allowToStudentCancel "
+                                                control="date"
+                                                type="date"
+                                                name="allowStudentCancel"
                                                 label={getLabelByKey(
                                                     'allowToStudentCancel'
                                                 )}
@@ -414,9 +744,10 @@ const UpdateMembership = (): JSX.Element => {
                                                 fontFamily={fontFamilyRegular}
                                                 fontSize="16px"
                                                 max={6}
-                                                placeholder={getLabelByKey(
-                                                    'allowToStudentCancelPlaceholder'
-                                                )}
+                                                placeholder={
+                                                    formik.values
+                                                        .allowStudentCancel
+                                                }
                                             />
                                         </Col>
 
@@ -424,15 +755,15 @@ const UpdateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="date"
                                                 type="date"
-                                                name="refundFeesDate"
+                                                name="refundDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'refundFeesDate'
                                                 )}
                                                 padding="8px 10px"
-                                                placeholder={getLabelByKey(
-                                                    'refundFeesDatePlaceholder'
-                                                )}
+                                                placeholder={
+                                                    formik.values.refundDate
+                                                }
                                             />
                                         </Col>
 
@@ -440,15 +771,16 @@ const UpdateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="date"
                                                 type="date"
-                                                name="bookingCancellationStart "
+                                                name="bookingCancelStartDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'bookingCancellationStart'
                                                 )}
                                                 padding="8px 10px"
-                                                placeholder={getLabelByKey(
-                                                    'bookingCancellationStartDate'
-                                                )}
+                                                placeholder={
+                                                    formik.values
+                                                        .bookingCancelStartDate
+                                                }
                                             />
                                         </Col>
 
@@ -456,15 +788,16 @@ const UpdateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="date"
                                                 type="date"
-                                                name="bookingCancellationEnd "
+                                                name="bookingCancelEndDate"
                                                 fontFamily={fontFamilyRegular}
                                                 label={getLabelByKey(
                                                     'bookingCancellationEnd'
                                                 )}
                                                 padding="8px 10px"
-                                                placeholder={getLabelByKey(
-                                                    'bookingCancellationEndPlaceholder'
-                                                )}
+                                                placeholder={
+                                                    formik.values
+                                                        .bookingCancelEndDate
+                                                }
                                             />
                                         </Col>
 
@@ -472,7 +805,7 @@ const UpdateMembership = (): JSX.Element => {
                                             <FormControl
                                                 control="input"
                                                 type="text"
-                                                name="cancellationCharge"
+                                                name="cancellationCharges"
                                                 fontFamily={fontFamilyRegular}
                                                 label={
                                                     <>
@@ -491,42 +824,32 @@ const UpdateMembership = (): JSX.Element => {
                                                     'cancellationChargePlaceholder'
                                                 )}
                                                 suffix={
-                                                    <img
-                                                        src={doller as string}
-                                                        alt=""
-                                                        width={13}
-                                                        height={27}
-                                                    />
+                                                    <span
+                                                        style={{
+                                                            fontSize: '20px',
+                                                        }}
+                                                    >
+                                                        {CurrencyType(
+                                                            _currency
+                                                        )}
+                                                    </span>
                                                 }
                                             />
                                         </Col>
 
-                                        <Col md="3" className="mt-20">
-                                            <FormControl
-                                                control="select"
-                                                type="text"
-                                                name="accommodate"
-                                                label={
-                                                    <>
-                                                        {getLabelByKey(
-                                                            'accommodate'
-                                                        )}{' '}
-                                                        <span>
-                                                            {getLabelByKey(
-                                                                'ifSchoolCancel'
-                                                            )}
-                                                        </span>
-                                                    </>
-                                                }
-                                                fontFamily={fontFamilyRegular}
-                                                fontSize="16px"
-                                                max={6}
-                                                placeholder={getLabelByKey(
-                                                    'selectAccommodationOptions'
+                                        <Col md="6">
+                                            <CheckboxesSelect
+                                                name="accommodation"
+                                                label={getLabelByKey(
+                                                    'accommodate'
                                                 )}
+                                                list={convertedAccommodation} // Use the converted array here                                                showErrorMsgInList={false}
+                                                placeholder={showAccommodation(
+                                                    formik.values?.accommodation
+                                                )}
+                                                showErrorMsgInList={false}
                                             />
                                         </Col>
-
                                         <Col md="12" className="mt-20">
                                             <FormControl
                                                 control="textarea"
@@ -537,6 +860,9 @@ const UpdateMembership = (): JSX.Element => {
                                                     'descriptionAndFeatures'
                                                 )}
                                                 padding="8px 10px"
+                                                value={
+                                                    formik.values.description
+                                                }
                                                 placeholder={getLabelByKey(
                                                     'descriptionAndFeaturesPlaceholder'
                                                 )}

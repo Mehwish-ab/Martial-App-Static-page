@@ -1,4 +1,9 @@
 export type ActivityInitialValues = {
-    selectBelt: string
-    latestCertification: string
+    selectBelt: number
+    latestCertification: any
+    startDate: Date
+    endDate: Date
+    experience: number
+    selectedActivities: string
+    activityId: string
 }

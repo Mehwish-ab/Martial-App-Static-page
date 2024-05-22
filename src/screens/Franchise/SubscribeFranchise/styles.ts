@@ -12,7 +12,7 @@ export const SubscribeFranchiseStyled = styled.div`
     background: #fff;
     padding: 13px 15px 20px 21px;
     border-radius: 10px;
-    height: 80vh;
+    // height: 80vh;
     h3 {
         font-size: 18px;
         font-style: normal;
@@ -40,7 +40,7 @@ export const SubscribeFranchiseStyled = styled.div`
             }
             &:hover {
                 margin-top: 20px;
-                height: 564px;
+                height: 575px;
                 border-radius: 10px;
             }
             margin-top: 74px;
@@ -124,5 +124,25 @@ export const SubscribeFranchiseStyled = styled.div`
     .pay-btn {
         position: fixed;
         right: 4%;
+        top: 5%;
+        margin-top: 20px;
+        align-items: right;
+    }
+    .carousel {
+        height: 40vh;
+        width: 50vw;
+        border: 2px solid white;
+        border-radius: 14px;
+    }
+    @media screen and (max-width: 780px) {
+        // Add your styles for smaller screens here
+        .subscriptions {
+            flex-direction: column;
+            width: 100%; // For smaller screens, stack the plans vertically
+            .plan {
+                max-width: 320px;
+                height: none;
+            }
+        }
     }
 `

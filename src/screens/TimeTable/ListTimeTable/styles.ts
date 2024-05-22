@@ -66,18 +66,18 @@ export const ListTimeTableStyled = styled.div`
         color: ${darkGery};
     }
 
-    .ant-table-tbody > tr > td:nth-child(2),
-    .ant-table-tbody > tr > th:nth-child(3),
-    .ant-table-tbody > tr > td:nth-child(3) {
+    .ant-table-tbody > tr > td:nth-child(1),
+    .ant-table-tbody > tr > th:nth-child(0),
+    .ant-table-tbody > tr > td:nth-child(2) {
         text-align: left;
     }
-    .ant-table-tbody > tr > td:nth-child(3),
-    .ant-table-tbody > tr > td:nth-child(4) {
+    .ant-table-tbody > tr > td:nth-child(2),
+    .ant-table-tbody > tr > td:nth-child(3) {
         color: #000;
         line-height: normal;
     }
 
-    .ant-table-tbody > tr > td:nth-child(2),
+    .ant-table-tbody > tr > td:nth-child(1),
     .ant-table-tbody > tr > td:first-child {
         font-family: ${fontFamilyRegular};
         font-size: 14px;
@@ -110,7 +110,7 @@ export const ListTimeTableStyled = styled.div`
         right: -3px;
         top: -7px;
     }
-    .ant-table-thead > tr > th:nth-child(7),
+    .ant-table-thead > tr > td:nth-child(3),
     .ant-table-tbody > tr > td:nth-child(7) {
         text-align: center;
     }
@@ -128,27 +128,27 @@ export const ListTimeTableStyled = styled.div`
     }
 
     @media screen and (max-width: 1120px) {
-        .ant-table-tbody > tr > td:nth-child(4),
-        .ant-table-thead > tr > th:nth-child(4) {
+        .ant-table-tbody > tr > td:nth-child(3),
+        .ant-table-thead > tr > th:nth-child(0) {
             display: none;
         }
     }
 
     @media screen and (max-width: 700px) {
-        .ant-table-tbody > tr > td:nth-child(5),
-        .ant-table-thead > tr > th:nth-child(5) {
+        .ant-table-tbody > tr > td:nth-child(4),
+        .ant-table-thead > tr > th:nth-child(1) {
             display: none;
         }
     }
     @media screen and (max-width: 620px) {
-        .ant-table-tbody > tr > td:nth-child(3),
-        .ant-table-thead > tr > th:nth-child(3) {
+        .ant-table-tbody > tr > td:nth-child(2),
+        .ant-table-thead > tr > th:nth-child(0) {
             display: none;
         }
     }
     @media screen and (max-width: 430px) {
         .ant-table-tbody > tr > td:nth-child(6),
-        .ant-table-thead > tr > th:nth-child(6) {
+        .ant-table-thead > tr > th:nth-child(2) {
             display: none;
         }
     }

@@ -1,8 +1,8 @@
-// import { useState } from 'react'
 import { Formik } from 'formik'
 import { Form } from 'antd'
 import { Col, Row } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
+import * as yup from 'yup'
 import FormControl from '../../../components/FormControl'
 import {
     fontFamilyMedium,
@@ -13,7 +13,6 @@ import {
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import { CreateClassStyled } from './styles'
 import { CreateClassInitialValues } from '../constant'
-import dollar from '../../../assets/images/$.svg'
 import Images from '../../Home/OverlayImages/images'
 import store, { RootState } from '../../../redux/store'
 import useClass from '../../../hooks/useClass'
@@ -23,10 +22,6 @@ import useScreenTranslation from '../../../hooks/useScreenTranslation'
 import Head from '../../../components/Head/Head'
 import { getInstructorByUserId } from '../../../redux/features/instructor/instructorSlice'
 import moment from 'moment'
-import {
-    RoomDataType,
-    getRoomDataByUseCase,
-} from '../../../redux/features/Room/RoomSlice'
 import useRoom from '../../../hooks/useRoom'
 
 const CreateClass = (): JSX.Element => {
@@ -72,7 +67,7 @@ const CreateClass = (): JSX.Element => {
         }
 
         fetchData()
-    }, [])
+    }, [loginData.data?.schoolId])
 
     const { handleCreateSubmit, loading, Createmodal } = useClass()
 
@@ -90,6 +85,7 @@ const CreateClass = (): JSX.Element => {
         isKid: false,
         roomId: [],
         fee: '',
+        newFee: '',
         activities: [],
         capacity: '',
         minimumStudent: '',
@@ -154,47 +150,41 @@ const CreateClass = (): JSX.Element => {
         )
         const bookingstart = moment(
             values.bookingStartDate,
-            'YYYY-MM-DDTHH:mm:ss.SSS'
+            'DD-MM-YY / h:mm A'
         )
             .utc() // Convert to UTC timezone
             .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
-        const bookingEnd = moment(
-            values.bookingEndDate,
-            'YYYY-MM-DDTHH:mm:ss.SSS'
-        )
+        const bookingEnd = moment(values.bookingEndDate, 'DD-MM-YY / h:mm A')
             .utc() // Convert to UTC timezone
             .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
-        const qrCodeStart = moment(
-            values.qrCodeStartDate,
-            'YYYY-MM-DDTHH:mm:ss.SSS'
-        )
+        const qrCodeStart = moment(values.qrCodeStartDate, 'DD-MM-YY / h:mm A')
             .utc() // Convert to UTC timezone
             .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
 
         const qrCodeEnd = moment(
             values.qrCodeEndDate,
-            'YYYY-MM-DDTHH:mm:ss.SSS'
+            'DD-MM-YY / h:mm A'
         ).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
         const studentCancel = moment(
             values.allowStudentCancel,
-            'YYYY-MM-DDTHH:mm:ss.SSS'
+            'DD-MM-YY / h:mm A'
         ).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
-        const refundfee = moment(
-            values.refundDate,
-            'YYYY-MM-DDTHH:mm:ss.SSS'
-        ).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
+        const refundfee = moment(values.refundDate, 'DD-MM-YY / h:mm A').format(
+            'YYYY-MM-DDTHH:mm:ss.SSS[Z]'
+        )
         const bookingCancleStart = moment(
             values.bookingCancelStartDate,
-            'YYYY-MM-DDTHH:mm:ss.SSS'
+            'DD-MM-YY / h:mm A'
         ).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
         const bookingCancleEnd = moment(
             values.bookingCancelEndDate,
-            'YYYY-MM-DDTHH:mm:ss.SSS'
+            'DD-MM-YY / h:mm A'
         ).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
         console.log('data', 'values', { ...values }, values)
         const formattedValues = {
             ...values,
             fee: money + values.fee,
+            newFee: money + values.newFee,
             id: schoolid,
             startDate: start,
             endDate: end,
@@ -208,8 +198,233 @@ const CreateClass = (): JSX.Element => {
             bookingCancelEndDate: bookingCancleEnd,
             cancellationCharges: money + values.cancellationCharges,
         }
+        console.log('formatted Values', formattedValues)
         await handleCreateSubmit(formattedValues, bannerImage)
     }
+
+    // Reusable function to validate date ranges
+
+    const validationHandler = (d: any): any => {
+        const originalDateFormat = 'dddd, MMM D, YYYY'
+
+        // Define the desired date format
+        const desiredDateFormat = 'DD-MM-YY / h:mm A'
+
+        // Parse the original date string using moment with the original format
+        const date = moment(d, originalDateFormat)
+
+        // Convert the date to the desired format
+        return date.format(desiredDateFormat)
+    }
+
+    const validationSchema = yup.object({
+        startDate: yup.string().required('Start date is required.'),
+        endDate: yup
+            .string()
+            .required('End date is required.')
+            .test(
+                'is-greater-than-start-date',
+                'End date must be greater than or equal to start date.',
+                function (value) {
+                    const { startDate } = this.parent // Accessing parent context
+
+                    if (!startDate || !value) {
+                        return true // Skip validation if either date is missing
+                    }
+
+                    // Compare dates using moment
+                    return (
+                        moment(value).isAfter(startDate) ||
+                        moment(value).isSame(startDate)
+                    )
+                }
+            ),
+        qrCodeStartDate: yup
+            .string()
+            .required('QR code start date is required.')
+            .test(
+                'is-greater-than-bookingStartDate',
+                'QR code start date cannot be earlier than the Booking start date.',
+                function (value) {
+                    const { bookingStartDate } = this.parent
+                    return moment(value, 'DD-MM-YY / h:mm A').isSameOrAfter(
+                        moment(bookingStartDate, 'DD-MM-YY / h:mm A')
+                    )
+                }
+            ),
+        qrCodeEndDate: yup
+            .string()
+            .required('QR code end date is required.')
+            .test(
+                'is-less-than-end-date',
+                'QR code end date cannot be later than the End date.',
+                function (value) {
+                    const { endDate } = this.parent
+
+                    return moment(value, 'DD-MM-YY / h:mm A').isSameOrBefore(
+                        moment(validationHandler(endDate), 'DD-MM-YY / h:mm A')
+                    )
+                }
+            ),
+        bookingStartDate: yup
+            .string()
+            .required('Booking start date is required.')
+            .test(
+                'is-less-than-end-date',
+                'Booking start date cannot be greater than the End date.',
+                function (value) {
+                    const { endDate } = this.parent
+                    return (
+                        moment(value, 'DD-MM-YY / h:mm A').isBefore(
+                            moment(
+                                validationHandler(endDate),
+                                'DD-MM-YY / h:mm A'
+                            )
+                        ) ||
+                        moment(value, 'DD-MM-YY / h:mm A').isSame(
+                            moment(
+                                validationHandler(endDate),
+                                'DD-MM-YY / h:mm A'
+                            )
+                        )
+                    )
+                }
+            ),
+        bookingEndDate: yup
+            .string()
+            .required('Booking end date is required.')
+            .test(
+                'is-less-than-end-date',
+                'Booking end date cannot be greater than the End date.',
+                function (value) {
+                    const { endDate } = this.parent
+                    return moment(value, 'DD-MM-YY / h:mm A').isSameOrBefore(
+                        moment(validationHandler(endDate), 'DD-MM-YY / h:mm A')
+                    )
+                }
+            ),
+        bookingCancelStartDate: yup
+            .string()
+            .required('Booking cancel start date is required.')
+            .test(
+                'is-greater-than-bookingStartDate',
+                'Booking cancel start date must be greater than the Booking start date.',
+                function (value) {
+                    const { bookingStartDate } = this.parent
+                    return moment(value, 'DD-MM-YY / h:mm A').isSameOrAfter(
+                        moment(bookingStartDate, 'DD-MM-YY / h:mm A')
+                    )
+                }
+            )
+            .test(
+                'is-less-than-end-date',
+                'Booking cancel start date must be less than the End date.',
+                function (value) {
+                    const { endDate } = this.parent
+                    return moment(value, 'DD-MM-YY / h:mm A').isSameOrBefore(
+                        moment(validationHandler(endDate), 'DD-MM-YY / h:mm A')
+                    )
+                }
+            ),
+        bookingCancelEndDate: yup
+            .string()
+            .required('Booking cancel end date is required.')
+            .test(
+                'is-greater-than-cancelStart',
+                'Booking cancel end date must be greater than the cancel start date.',
+                function (value) {
+                    const { bookingCancelStartDate } = this.parent
+
+                    return moment(value, 'DD-MM-YY / h:mm A').isAfter(
+                        moment(bookingCancelStartDate, 'DD-MM-YY / h:mm A')
+                    )
+                }
+            )
+            .test(
+                'is-greater-than-bookingStartDate',
+                'Booking cancel end date must be greater than the Booking start date.',
+                function (value) {
+                    const { bookingStartDate } = this.parent
+                    return moment(value, 'DD-MM-YY / h:mm A').isSameOrAfter(
+                        moment(bookingStartDate, 'DD-MM-YY / h:mm A')
+                    )
+                }
+            )
+            .test(
+                'is-less-than-end-date',
+                'Booking cancel end date must be less than the End date.',
+                function (value) {
+                    const { endDate } = this.parent
+                    return moment(value, 'DD-MM-YY / h:mm A').isSameOrBefore(
+                        moment(validationHandler(endDate), 'DD-MM-YY / h:mm A')
+                    )
+                }
+            ),
+        refundDate: yup
+            .string()
+            .required('Refund date is required.')
+            .test(
+                'is-after-bookingStartDate',
+                'Refund date must be after the Booking start date.',
+                function (value) {
+                    const { bookingStartDate } = this.parent
+                    return moment(value, 'DD-MM-YY / h:mm A').isAfter(
+                        moment(bookingStartDate, 'DD-MM-YY / h:mm A')
+                    )
+                }
+            ),
+        allowStudentCancel: yup
+            .string()
+            .required('Refund date is required.')
+            .test(
+                'is-after-startDate',
+                'Allow StudentCancel must be greater then the  start date.',
+                function (value) {
+                    const { startDate } = this.parent
+                    return moment(value, 'DD-MM-YY / h:mm A').isAfter(
+                        moment(
+                            validationHandler(startDate),
+                            'DD-MM-YY / h:mm A'
+                        )
+                    )
+                }
+            )
+            .test(
+                'is-before-endDate',
+                'Allow StudentCancel must be less then the  end date.',
+                function (value) {
+                    const { endDate } = this.parent
+                    return moment(value, 'DD-MM-YY / h:mm A').isBefore(
+                        moment(validationHandler(endDate), 'DD-MM-YY / h:mm A')
+                    )
+                }
+            ),
+
+        title: yup.string().required('title is required.'),
+        // instructorId: yup.array().required('Instructor is required.'),
+        isKid: yup.boolean().required('Attendent is required.'),
+        // roomId: yup.array().required('Room is required.'),
+        fee: yup
+            .number()
+            .min(0, 'Fees cannot be negative') // Define the minimum value as 0 and set the error message
+            .required('Fees is required'),
+        newFee: yup.number().min(0, 'Fees cannot be negative'), // Define the minimum value as 0 and set the error message
+        activities: yup.array().required('Activity is required.'),
+        capacity: yup
+            .number()
+            .min(0, 'Capacity cannot be negative') // Define the minimum value as 0 and set the error message
+            .required('Capacity is required'),
+        minimumStudent: yup
+            .number()
+            .min(0, 'minimumStudent cannot be negative') // Define the minimum value as 0 and set the error message
+            .required('minimumStudent is required'),
+        cancellationCharges: yup
+            .number()
+            .min(0, 'cancellation Charge cannot be negative') // Define the minimum value as 0 and set the error message
+            .required('cancellation Charge is required'),
+        accommodation: yup.array().required('Accommodation is required.'),
+        description: yup.string().required(' description is required.'),
+    })
 
     const showAccommodation = (_accommodate: string[]): string => {
         const AccommodateName = _accommodate.reduce(
@@ -261,7 +476,11 @@ const CreateClass = (): JSX.Element => {
             <Head title="Create Class" />
             {Createmodal().modalComponent}
             <CreateClassStyled>
-                <Formik initialValues={initialValues} onSubmit={submit}>
+                <Formik
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                    onSubmit={submit}
+                >
                     {(formik) => {
                         return (
                             <Form
@@ -361,6 +580,7 @@ const CreateClass = (): JSX.Element => {
                                                                     placeholder={getLabelByKey(
                                                                         'InstructorsPlaceholder'
                                                                     )}
+                                                                    selectionMode="multiple"
                                                                 >
                                                                     {instructorData.data.map(
                                                                         (
@@ -435,13 +655,14 @@ const CreateClass = (): JSX.Element => {
                                                 fontSize="16px"
                                                 max={6}
                                                 placeholder="Select Room"
+                                                selectionMode="multiple"
                                             >
                                                 {room?.data.map((Room: any) => (
                                                     <option
                                                         key={Room.roomId}
                                                         value={Room.roomId}
                                                     >
-                                                        {Room.roomNumber}
+                                                        {Room.name}
                                                     </option>
                                                 ))}
                                             </FormControl>
@@ -476,11 +697,12 @@ const CreateClass = (): JSX.Element => {
                                             <FormControl
                                                 control="input"
                                                 type="number"
-                                                name="fees"
+                                                name="newFee"
                                                 fontFamily={fontFamilyRegular}
                                                 label="New Class Fees"
                                                 padding="8px 10px"
                                                 placeholder="Enter New Class Fees"
+                                                min="0"
                                                 suffix={
                                                     <span
                                                         style={{
@@ -493,6 +715,12 @@ const CreateClass = (): JSX.Element => {
                                                     </span>
                                                 }
                                             />
+                                            {/* {formik.errors.fee &&
+                                                formik.touched.fee && (
+                                                    <div>
+                                                        {formik.errors.fee}
+                                                    </div>
+                                                )} */}
                                         </Col>
                                         <Col md="3" className="mt-20">
                                             <FormControl
@@ -711,7 +939,7 @@ const CreateClass = (): JSX.Element => {
                                                 />
                                             </Col>
                                         </Col>
-                                        <Col md="3">
+                                        <Col md="6">
                                             <CheckboxesSelect
                                                 name="accommodation"
                                                 label={getLabelByKey(

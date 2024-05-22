@@ -17,6 +17,8 @@ import {
 } from '../../../components/GlobalStyle'
 import DefaultBannerImage from '../../../assets/images/defaultProfileImage.svg'
 import plusIcon from '../../../assets/icons/ic_plus.svg'
+import map from '../../../assets/images/Frame 427321208.png'
+import share from '../../../assets/images/square-share-line-svgrepo-com 1.png'
 import actionMenuTogglerIcon from '../../../assets/icons/ic_action_menu_toggler.svg'
 import StatusActiveError from '../../../assets/images/activeBtnError.svg'
 import RightArrow from '../../../assets/images/rightArrow.svg'
@@ -275,7 +277,44 @@ const ListSchool = (): JSX.Element => {
                                 autoComplete="off"
                             >
                                 <div className="mainWrapper">
-                                    <h3 className="table-heading">Schools</h3>
+                                    <div className="d-flex">
+                                        {' '}
+                                        <CustomButton
+                                            bgcolor={tertiaryBlue2}
+                                            textTransform="Captilize"
+                                            color={pureDark}
+                                            padding="6.5px 10px"
+                                            fontFamily={`${fontFamilyMedium}`}
+                                            width="40px"
+                                            type="submit"
+                                            title=""
+                                            fontSize="17px"
+                                            // loading={loading}
+                                            icon={
+                                                <img
+                                                    src={map}
+                                                    alt="edit icon"
+                                                    width={35}
+                                                    height={25}
+                                                />
+                                            }
+                                            clicked={() => {
+                                                store.dispatch(
+                                                    setUserRole('school')
+                                                )
+                                                navigate(`/liveSchool/list`)
+                                            }}
+                                        />
+                                        <h3
+                                            style={{
+                                                margin: 'auto auto auto 5px',
+                                            }}
+                                            className="table-heading"
+                                        >
+                                            School List
+                                        </h3>
+                                    </div>
+
                                     <div className="FilterMainContainer">
                                         <div className="arrowsMain">
                                             <div className="arrowRight">
@@ -328,6 +367,32 @@ const ListSchool = (): JSX.Element => {
                                                 clicked={() => {
                                                     store.dispatch(
                                                         setUserRole('school')
+                                                    )
+                                                    navigate(`/user/list`)
+                                                }}
+                                            />
+                                            <CustomButton
+                                                bgcolor={tertiaryBlue2}
+                                                textTransform="Captilize"
+                                                color={pureDark}
+                                                padding="6.5px 0px"
+                                                fontFamily={`${fontFamilyMedium}`}
+                                                width="40px"
+                                                type="submit"
+                                                title=""
+                                                fontSize="17px"
+                                                // loading={loading}
+                                                icon={
+                                                    <img
+                                                        src={share}
+                                                        alt="edit icon"
+                                                        width={17}
+                                                        height={17}
+                                                    />
+                                                }
+                                                clicked={() => {
+                                                    store.dispatch(
+                                                        setUserRole('invite')
                                                     )
                                                     navigate(`/user/list`)
                                                 }}

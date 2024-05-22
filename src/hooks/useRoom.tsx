@@ -558,7 +558,7 @@ const useRoom = (): IUseRoom => {
                 }
             )
             console.log({ data2 })
-            if (data2.responseCode === '500') {
+            if (data2.responseCode === 500) {
                 toast(data2.responseMessage, {
                     type: 'error',
                     autoClose: 1000,
@@ -570,12 +570,27 @@ const useRoom = (): IUseRoom => {
             //   type: "success",
             //   autoClose: 1000,
             // });
+            if (data2.responseCode === 200) {
+                const updatedData = room?.data.filter(
+                    (item) => item.roomId !== data2.results.id
+                )
+
+                // If the room state is not undefined, update the state with the filtered data
+                if (room && updatedData) {
+                    setRoom({
+                        ...room, // Preserve the other properties of the current room state
+                        data: updatedData, // Set the filtered data array
+                    })
+                }
+                console.log('in delete api', updatedData, room, data2)
+            }
             setLoading(false)
             setIsShowModal(false)
             setIsShowDeleteModal(true)
             setTimeout(() => {
                 setIsShowDeleteModal(false)
-                location.reload()
+
+                // location.reload()
                 // navigate('/branch/list')
             }, 3000)
             // setData('results: ' + data2)

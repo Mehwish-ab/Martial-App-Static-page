@@ -75,7 +75,7 @@ const RenderTableTitle = (): JSX.Element => {
                             <div className="dateToday">
                                 <p>Today</p>
                             </div>
-                            <CustomButton
+                            {/* <CustomButton
                                 bgcolor={tertiaryBlue2}
                                 textTransform="Captilize"
                                 color={pureDark}
@@ -97,7 +97,7 @@ const RenderTableTitle = (): JSX.Element => {
                                 clicked={() => {
                                     navigate(`/timetable/create/${classId}`)
                                 }}
-                            />
+                            /> */}
                         </div>
                     </div>
                 </div>
@@ -129,6 +129,12 @@ const ListTimeTable: React.FC = () => {
     } = useTimetable()
     console.log('timeTableData', AllTimetable)
     const { loginData } = useSelector((state: RootState) => state)
+    const {
+        statusData: { activities },
+    } = useSelector((state: RootState) => state.appData.data)
+    const { selectedLanguage } = useSelector(
+        (state: RootState) => state.selectedLanguage
+    )
 
     // useEffect(() => {
     //     console.log('hi use effect')
@@ -204,6 +210,26 @@ const ListTimeTable: React.FC = () => {
 
         fetchData()
     }, [])
+    const showActivities = (_activities: string[]): string => {
+        console.log('activities', _activities)
+        let activitiesName = ''
+        _activities.forEach((activity) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                const activityLabel = (activities[index] as any)[
+                    selectedLanguage
+                ]
+                activitiesName =
+                    activitiesName === ''
+                        ? activityLabel
+                        : `${activitiesName}, ${activityLabel}`
+            }
+        })
+        if (activitiesName.length > 35) {
+            return `${activitiesName.slice(0, 35)}...`
+        }
+        return activitiesName || getLabelByKey('activitiesPlaceholder')
+    }
     const columns: ColumnsType<TimeTableDataType> = [
         // {
         //     title: getLabelByKey('id'),
@@ -231,6 +257,16 @@ const ListTimeTable: React.FC = () => {
             title: getLabelByKey('activities'),
             dataIndex: 'activities',
             key: 'Activities',
+            render: (record) => {
+                const selectedAct = record?.split(',').map(String)
+                return (
+                    <div className="list-item mb-0">
+                        <div className="list-item-value ">
+                            {showActivities(selectedAct)}
+                        </div>
+                    </div>
+                )
+            },
         },
         {
             title: getLabelByKey('startDate'),

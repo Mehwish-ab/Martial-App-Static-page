@@ -65,7 +65,7 @@ const CreateActivity = (): JSX.Element => {
         useCase = 'SCHOOL'
     } else if (userRole === 'instructor') {
         roleId = id
-        useCase = 'Instructor'
+        useCase = 'INSTRUCTOR'
     }
     const onSubmit = async (values: ActivityInitialValues): Promise<void> => {
         // Perform your form submission logic here

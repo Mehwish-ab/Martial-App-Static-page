@@ -36,6 +36,8 @@ import { updateUser } from '../../redux/features/admin/user/updateUserStatusSlic
 import useCreateSchool from '../../hooks/useCreateSchool'
 import { RegisterUser } from '../pages'
 import { Console } from 'console'
+import CustomModal from '../../components/Modal/CustomModal'
+import InviteUser from './InviteUser/inviteUser'
 
 const UserList = (): JSX.Element => {
     const { getAllUser, getAllUserPagination } = useUser()
@@ -57,6 +59,7 @@ const UserList = (): JSX.Element => {
     const lengths: number = 0
     const { loginData } = useSelector((state: RootState) => state)
     const { userRole } = useSelector((state: RootState) => state.UserData)
+    const [invite, sendInvitation] = useState(false)
     const handlePaginationChange = async (page: number): Promise<void> => {
         try {
             setLoading(true)
@@ -231,6 +234,34 @@ const UserList = (): JSX.Element => {
                             </button>
                         </div>
                     )
+                } else if (userRole === 'invite') {
+                    return (
+                        <div>
+                            <button
+                                style={{
+                                    background: '#006197',
+                                    fontStyle: 'normal',
+                                    fontWeight: '400',
+                                    lineHeight: 'normal',
+                                    padding: '7px 10px',
+                                    borderRadius: '4px',
+                                    height: '30px',
+                                    color: 'rgb(255, 255, 255)',
+                                    fontSize: '14px !important',
+                                    display: 'block',
+                                    position: 'relative',
+                                    textAlign: 'center',
+                                    width: '130%',
+                                }}
+                                onClick={() => {
+                                    store.dispatch(setUserListId(userId))
+                                    sendInvitation(true)
+                                }}
+                            >
+                                Send Invitation
+                            </button>
+                        </div>
+                    )
                 }
             },
         },
@@ -355,6 +386,15 @@ const UserList = (): JSX.Element => {
                 />
             </ListStudentStyling>
             {schoolExist && <RegisterUser />}
+            {invite && (
+                <CustomModal
+                    isModalVisible={invite}
+                    setIsModalVisible={sendInvitation}
+                >
+                    {' '}
+                    <InviteUser />{' '}
+                </CustomModal>
+            )}
         </>
     )
 }

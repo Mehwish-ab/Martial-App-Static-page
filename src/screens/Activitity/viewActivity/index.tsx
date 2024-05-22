@@ -39,6 +39,7 @@ const ActivityList = (): JSX.Element => {
         deletemodal,
         deleteConfirmation,
         getActivitybySchoolId,
+        getActivitybyInstructorId,
         AllActivities,
         setIsShowModal,
         handleUpdate,
@@ -141,7 +142,7 @@ const ActivityList = (): JSX.Element => {
                 }
             } else if (instructorId) {
                 try {
-                    await getActivitybySchoolId(Number(instructorId))
+                    await getActivitybyInstructorId(Number(instructorId))
 
                     //setAllActivities(response)
                     // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -162,7 +163,7 @@ const ActivityList = (): JSX.Element => {
 
     const RenderTableTitle = (): JSX.Element => {
         return (
-            <CustomDiv>
+            <CustomDiv className="mt-20 ms-4 ">
                 <Formik
                     initialValues={initialValues}
                     // validationSchema={validationSchema}

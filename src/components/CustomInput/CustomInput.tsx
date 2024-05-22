@@ -24,6 +24,7 @@ type CustomInputTypes = {
     fontSize?: string
     suffix?: null | React.ReactNode
     readyOnly?: boolean
+    min: string
     type: string
     labelMarginBottom?: string
     labelFamily?: 'EnnVisions' | 'EnnVisionsMedium' | 'EnnVisionsBold'
@@ -54,6 +55,7 @@ const CustomInput: React.FC<CustomInputTypes> = ({
     suffix = null,
     readyOnly = false,
     label,
+    min,
     labelMarginBottom = '7px',
     labelFamily = fontFamilyRegular,
     labelFont = '16px',
@@ -88,6 +90,7 @@ const CustomInput: React.FC<CustomInputTypes> = ({
                         type={type}
                         readOnly={readyOnly}
                         maxLength={maxLength}
+                        min={min}
                         placeholder={placeholder}
                         defaultValue={defaultValue}
                         {...field}

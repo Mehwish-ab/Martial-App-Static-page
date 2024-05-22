@@ -139,7 +139,7 @@ const ListMembership = (): JSX.Element => {
         switch (redirectTo) {
             case 'edit':
                 console.log('edit1 in navigation', record)
-                navigate(`/membership/update`, {
+                navigate(`/membership/update/${record.memberShipPlanId}`, {
                     state: {
                         MembershipEdit: record as MembershipDataType,
                     },

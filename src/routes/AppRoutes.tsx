@@ -75,6 +75,19 @@ import { useAppSelector } from '../app/hooks'
 import { useSelector } from 'react-redux'
 import { RootState } from '../redux/store'
 import UpgradeAccount from '../screens/UpgradeAccount'
+import PaymentAndWallet from '../screens/PaymentAndWallet/PaymentAndWallet'
+import ClassList from '../screens/Class/UserClassView/UserClassList'
+import MembershipList from '../screens/Membership/UserMemberShipView/UserMembershipList'
+import AllSchool from '../screens/UserList/AllSchoolList/AllSchool'
+import LiveSchool from '../screens/CreateSchool/LiveSchoolList/LiveSchool'
+import Welcome from '../screens/Welcome/welcome'
+import WelcomeExplore from '../screens/Explore/WelcomeExplore'
+import DetailPage from '../screens/Explore/DetailPage'
+import StudentJoinedClass from '../screens/Class/StudentJoindClasses'
+import VideoDetail from '../screens/Video/VideoDetailandPreview/videoDetail'
+import EditVideo from '../screens/Video/EditVideo/editVideo'
+import CreateVideo from '../screens/Video/CreateVideo/createVideo'
+import VideoList from '../screens/Video/VideoList/videoList'
 // import { RootState } from "../redux/store";
 
 function AppRoutes(): JSX.Element {
@@ -137,11 +150,23 @@ function AppRoutes(): JSX.Element {
                         </AppLayout>
                     }
                 />
+                <Route path={'/welcome'} element={<Welcome />} />
+                <Route path={'/Home'} element={<WelcomeExplore />} />
+                <Route path={'/details/:SchoolId'} element={<DetailPage />} />
+                <Route path={'/membership'} element={<MembershipList />} />
                 <Route
                     path="/user/list"
                     element={
                         <AppLayout>
                             <UserList />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/studentClassess"
+                    element={
+                        <AppLayout>
+                            <StudentJoinedClass />
                         </AppLayout>
                     }
                 />
@@ -162,10 +187,42 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
+                    path="/liveSchool/list"
+                    element={
+                        <AppLayout>
+                            <LiveSchool />
+                        </AppLayout>
+                    }
+                />
+                <Route
                     path="/user/school/list"
                     element={
                         <AppLayout>
                             <UserSchoolList />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/user/AllSchool"
+                    element={
+                        <AppLayout>
+                            <AllSchool />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/user/memberShip/list"
+                    element={
+                        <AppLayout>
+                            <MembershipList />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/user/class/list/:schoolID"
+                    element={
+                        <AppLayout>
+                            <ClassList />
                         </AppLayout>
                     }
                 />
@@ -556,7 +613,7 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
-                    path="/membership/update"
+                    path="/membership/update/:memberShipPlanId"
                     element={
                         <AppLayout>
                             <UpdateMembership />
@@ -628,6 +685,14 @@ function AppRoutes(): JSX.Element {
                     }
                 />
                 <Route
+                    path="/payment"
+                    element={
+                        <AppLayout>
+                            <PaymentAndWallet />
+                        </AppLayout>
+                    }
+                />
+                <Route
                     path="/settings"
                     element={
                         <AppLayout>
@@ -680,6 +745,46 @@ function AppRoutes(): JSX.Element {
                     element={
                         <AppLayout>
                             <Dashboard />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/subscriptionPlan"
+                    element={
+                        <AppLayout>
+                            <SubscribeFranchise />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/video-list"
+                    element={
+                        <AppLayout>
+                            <VideoList />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/video-create"
+                    element={
+                        <AppLayout>
+                            <CreateVideo />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/video-detail/:id"
+                    element={
+                        <AppLayout>
+                            <VideoDetail />
+                        </AppLayout>
+                    }
+                />
+                <Route
+                    path="/video/edit/:id"
+                    element={
+                        <AppLayout>
+                            <EditVideo />
                         </AppLayout>
                     }
                 />

@@ -149,7 +149,6 @@ const useInstructor = (): IUseInstructor => {
         }
     }
     const deleteInstructor = async (instructorId: number): Promise<void> => {
-        console.log('<<instructor id to delete', instructorId)
         const url = '/instructor/delete'
         try {
             setError('')

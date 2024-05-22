@@ -12,7 +12,6 @@ interface TimeTableFormProps {
     rowIndex: number
     recordIndex: number
     startTime: string | undefined
-    SendData: any
     setStartTime: (
         _recordIndex: number,
         _key: string,
@@ -26,7 +25,6 @@ const StartTime: React.FC<TimeTableFormProps> = ({
     recordIndex,
     startTime,
     setStartTime,
-    SendData,
 }: TimeTableFormProps) => {
     const initialValues = {
         startTime: startTime,
@@ -56,7 +54,7 @@ const StartTime: React.FC<TimeTableFormProps> = ({
                             >
                                 <Col md="12">
                                     <FormControl
-                                        control="TimePicker"
+                                        control="EditTimePicker"
                                         type="startTime"
                                         name="startTime"
                                         labelFamily={`${fontFamilyMedium}`}
@@ -70,7 +68,7 @@ const StartTime: React.FC<TimeTableFormProps> = ({
                                         max={6}
                                         placeholder="00:00:00"
                                         onChange={onChangeHandler}
-                                        value={SendData}
+                                        value={startTime}
                                     />
                                 </Col>
                             </Form>

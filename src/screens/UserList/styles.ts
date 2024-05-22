@@ -11,7 +11,6 @@ import {
     pureDark2,
     whiteColor,
 } from '../../components/GlobalStyle'
-
 export const ListStudentStyling = styled.div`
     background-color: #fff;
     padding: 16px 0px;

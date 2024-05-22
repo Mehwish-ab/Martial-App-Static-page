@@ -5,6 +5,7 @@ import {
     fontFamilyMedium,
     pureDark2,
     fontFamilyRegular,
+    AlizarinCrimson,
 } from '../../../components/GlobalStyle'
 
 export const CreateTimeTableStyled = styled.div`
@@ -53,20 +54,20 @@ margin: 20px 0px;
   .ant-table-thead > tr > th{
     color: ${pureDark2};
   }
-  .ant-table-thead > tr > th:first-child {
-    padding-left: 10px;
-    width: 10%;
-  }
-  .ant-table-tbody > tr > td:first-child {
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    color: ${pureDark2};
-    font-family: ${fontFamilyMedium};
-    padding-left: 10px;
-    width: 10%;
-  }
+  // .ant-table-thead > tr > th:first-child {
+  //   padding-left: 10px;
+  //   width: 10%;
+  // }
+  // .ant-table-tbody > tr > td:first-child {
+  //   font-size: 16px;
+  //   font-style: normal;
+  //   font-weight: 500;
+  //   line-height: normal;
+  //   color: ${pureDark2};
+  //   font-family: ${fontFamilyMedium};
+  //   padding-left: 10px;
+  //   width: 10%;
+  // }
 
   .timeTableBox{
     font-family: ${fontFamilyRegular};
@@ -78,6 +79,45 @@ margin: 20px 0px;
   }
  
 
+    .ant-table-tbody > tr > td:nth-child(5) div {
+        position: relative;
+        width: 107px;
+    }
+    .ant-table-tbody > tr > td:nth-child(5) .Active button {
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        padding: 7px 10px;
+        border-radius: 4px;
+        background: rgb(76, 175, 80);
+        width: 90px;
+        height: 30px;
+        color: rgb(255, 255, 255) !important;
+        font-size: 14px !important;
+        display: block;
+        position: relative;
+        text-align: center;
+    }
+    .ant-table-tbody > tr > td:nth-child(5) .De-Active button {
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        padding: 7px 10px;
+        border-radius: 4px;
+        background: ${AlizarinCrimson};
+        width: 90px;
+        height: 30px;
+        color: rgb(255, 255, 255);
+        font-size: 14px;
+        display: block;
+        position: relative;
+        text-align: center;
+    }
+    .ant-table-tbody > tr > td:nth-child(5) img {
+        position: absolute;
+        right: 6%;
+        top: -5px;
+    }
  
   .ant-table-tbody > tr > td:nth-child(6),
   .ant-table-tbody > tr > td:nth-child(6) div{
@@ -152,13 +192,17 @@ margin: 20px 0px;
     margin: 10px 0px 0px;
   }
 }
-.ant-table-row-level-0 .ant-table-cell:first-child > div{
-  padding-top: 10px;
-}
+// .ant-table-row-level-0 .ant-table-cell:first-child > div{
+//   padding-top: 10px;
+// }
 
 .ant-table-row-level-0 .ant-table-cell:nth-child(6) > div{
   padding-top: 5px;
 }
+.ant-table-row-level-0 .ant-table-cell:nth-child(5) > div{
+  padding-top: 5px;
+}
+
 
 `
 export const FilterTimeTableStyled = styled.div`

@@ -36,6 +36,7 @@ const ViewRoom = (): JSX.Element => {
                                 </div>
                             </div>
                         </Col>
+                        mzaww5br54{' '}
                         <Col md="6">
                             <div className="list-item">
                                 <div className="list-item-title">

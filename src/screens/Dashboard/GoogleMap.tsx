@@ -22,7 +22,7 @@ const Map = (): JSX.Element => {
     }, [])
 
     return (
-        <div ref={mapContainerRef} style={{ width: '100%', height: '40vh' }}>
+        <div ref={mapContainerRef} style={{ width: '100%', height: '55vh' }}>
             {' '}
         </div>
     )

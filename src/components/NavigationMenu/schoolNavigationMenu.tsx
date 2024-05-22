@@ -28,19 +28,26 @@ const SchoolNavigationMenu = (): JSX.Element => {
         trainingRoom: `/school/room/list/${loginData.data?.schoolId}`,
         transactionsHistory: '/transaction-history/list',
         listInstructor: '/instructor/list',
-        listBranch: '/branch/list',
-        listFranchise: '/franchise/list',
+        //listBranch: '/branch/list',
+        // listFranchise: '/franchise/list',
         membership: '/membership/list',
         payment: '/payment',
-        rules: '/rules/list',
+        //  rules: '/rules/list',
+        notification: '',
+        wavier: '',
+        setting: '/settings',
+        grading: '',
+        leads: '',
+        belts: '',
+        reports: '/reports/list',
         helpAndSupport: '/help-support',
         booking: '',
         language: '/language',
         qrCode: '/qr-code',
-        setting: '/settings',
+        students: '',
+        SubAccount: '',
         // user: '/user/list',
-        attendance: '',
-        reports: '/reports/list',
+        //  attendance: '',
     }
 
     const menuLinksKeys: any = {
@@ -56,6 +63,7 @@ const SchoolNavigationMenu = (): JSX.Element => {
         membership: 'membership',
         rules: 'rules',
         notification: 'notification',
+        pament: 'payment',
         transactionsHistory: 'transactionsHistory',
         subscriptionHistory: 'subscriptionHistory',
         setting: 'setting',
@@ -106,6 +114,14 @@ const SchoolNavigationMenu = (): JSX.Element => {
             ),
         },
         {
+            key: menuLinksKeys.membership,
+            label: getLabel(
+                'Membership',
+                menuLinks.membership,
+                menuLinksKeys.membership
+            ),
+        },
+        {
             key: menuLinksKeys.timeTable,
             label: getLabel(
                 'TimeTable',
@@ -121,14 +137,7 @@ const SchoolNavigationMenu = (): JSX.Element => {
                 menuLinksKeys.trainingRoom
             ),
         },
-        {
-            key: menuLinksKeys.membership,
-            label: getLabel(
-                'Memberships',
-                menuLinks.membership,
-                menuLinksKeys.membership
-            ),
-        },
+
         {
             key: menuLinksKeys.listInstructor,
             label: getLabel(
@@ -136,6 +145,15 @@ const SchoolNavigationMenu = (): JSX.Element => {
                 menuLinks.listInstructor,
                 menuLinksKeys.listInstructor
             ),
+        },
+        {
+            key: menuLinksKeys.subscriptionHistory,
+            label: getLabel(
+                'Subscription Records',
+                menuLinks.subscriptionHistory,
+                menuLinksKeys.subscriptionHistory
+            ),
+            // children: childListOfBooking,
         },
         {
             key: menuLinksKeys.transactionsHistory,
@@ -147,14 +165,15 @@ const SchoolNavigationMenu = (): JSX.Element => {
             // children: childListOfBooking,
         },
         {
-            key: menuLinksKeys.subscriptionHistory,
+            key: menuLinksKeys.payment,
             label: getLabel(
-                'Subscription History',
-                menuLinks.subscriptionHistory,
-                menuLinksKeys.subscriptionHistory
+                'Payment Options',
+                menuLinks.payment,
+                menuLinksKeys.payment
             ),
             // children: childListOfBooking,
         },
+
         {
             key: menuLinksKeys.notification,
             label: getLabel(
@@ -164,43 +183,11 @@ const SchoolNavigationMenu = (): JSX.Element => {
             ),
         },
         {
-            key: menuLinksKeys.reports,
+            key: menuLinksKeys.waviers,
             label: getLabel(
-                'Reports',
-                menuLinks.reports,
-                menuLinksKeys.reports
-            ),
-        },
-        {
-            key: menuLinksKeys.attendance,
-            label: getLabel(
-                'Attendance ',
-                menuLinks.attendance,
-                menuLinksKeys.attendance
-            ),
-        },
-        {
-            key: menuLinksKeys.qrCode,
-            label: getLabel('QR Code', menuLinks.qrCode, menuLinksKeys.qrCode),
-        },
-        {
-            key: menuLinksKeys.rules,
-            label: getLabel('Rules', menuLinks.rules, menuLinksKeys.rules),
-        },
-        {
-            key: menuLinksKeys.listBranch,
-            label: getLabel(
-                'Branches',
-                menuLinks.listBranch,
-                menuLinksKeys.listBranch
-            ),
-        },
-        {
-            key: menuLinksKeys.listFranchise,
-            label: getLabel(
-                'Franchises',
-                menuLinks.listFranchise,
-                menuLinksKeys.listFranchise
+                'Waviers',
+                menuLinks.waviers,
+                menuLinksKeys.waviers
             ),
         },
         {
@@ -213,25 +200,82 @@ const SchoolNavigationMenu = (): JSX.Element => {
             children: childListOfSetting,
         },
         {
-            key: menuLinksKeys.language,
+            key: menuLinksKeys.grading,
             label: getLabel(
-                'Language',
-                menuLinks.language,
-                menuLinksKeys.language
+                'Gradings',
+                menuLinks.grading,
+                menuLinksKeys.grading
             ),
         },
         {
-            key: menuLinksKeys.helpAndSupport,
+            key: menuLinksKeys.leads,
+            label: getLabel('Leads', menuLinks.leads, menuLinksKeys.leads),
+        },
+        {
+            key: menuLinksKeys.belts,
+            label: getLabel('Belts', menuLinks.belts, menuLinksKeys.belts),
+        },
+        {
+            key: menuLinksKeys.reports,
             label: getLabel(
-                'Help & Support',
-                menuLinks.helpAndSupport,
-                menuLinksKeys.helpAndSupport
+                'Reports',
+                menuLinks.reports,
+                menuLinksKeys.reports
             ),
         },
+        // {
+        //     key: menuLinksKeys.attendance,
+        //     label: getLabel(
+        //         'Attendance ',
+        //         menuLinks.attendance,
+        //         menuLinksKeys.attendance
+        //     ),
+        // },
+        {
+            key: menuLinksKeys.qrCode,
+            label: getLabel('QR Code', menuLinks.qrCode, menuLinksKeys.qrCode),
+        },
+        {
+            key: menuLinksKeys.rules,
+            label: getLabel('Students', menuLinks.rules, menuLinksKeys.rules),
+        },
+        // {
+        //     key: menuLinksKeys.listBranch,
+        //     label: getLabel(
+        //         'Branches',
+        //         menuLinks.listBranch,
+        //         menuLinksKeys.listBranch
+        //     ),
+        // },
+        // {
+        //     key: menuLinksKeys.listFranchise,
+        //     label: getLabel(
+        //         'Franchises',
+        //         menuLinks.listFranchise,
+        //         menuLinksKeys.listFranchise
+        //     ),
+        // },
+
+        // {
+        //     key: menuLinksKeys.language,
+        //     label: getLabel(
+        //         'Language',
+        //         menuLinks.language,
+        //         menuLinksKeys.language
+        //     ),
+        // },
+        // {
+        //     key: menuLinksKeys.helpAndSupport,
+        //     label: getLabel(
+        //         'Help & Support',
+        //         menuLinks.helpAndSupport,
+        //         menuLinksKeys.helpAndSupport
+        //     ),
+        // },
         {
             key: menuLinksKeys.customerServices,
             label: getLabel(
-                'Customer Services',
+                'Sub Account',
                 menuLinks.customerServices,
                 menuLinksKeys.customerServices
             ),

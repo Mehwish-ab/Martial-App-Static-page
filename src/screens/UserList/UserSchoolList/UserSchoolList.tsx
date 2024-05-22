@@ -26,6 +26,7 @@ import { SetStateAction, useEffect, useState } from 'react'
 import useCreateSchool from '../../../hooks/useCreateSchool'
 import CustomModal from '../../../components/Modal/CustomModal'
 import AcademiesDetails from './AcedmicDetails'
+import useScreenTranslation from '../../../hooks/useScreenTranslation'
 
 const UserList = (): JSX.Element => {
     const { getAllAppSchool, getAllSchoolPagination } = useCreateSchool()
@@ -148,6 +149,7 @@ const UserList = (): JSX.Element => {
         setViewPageVisible(true)
         console.log({ viewPageId, viewPageVisible })
     }
+
     const RenderTableTitle = (): JSX.Element => {
         return (
             <CustomDiv>
@@ -165,7 +167,7 @@ const UserList = (): JSX.Element => {
                             >
                                 <div className="mainWrapper">
                                     <h3 className="table-heading">Users</h3>
-                                    <div className="FilterMainContainer">
+                                    {/* <div className="FilterMainContainer">
                                         <div className="arrowsMain">
                                             <div className="arrowRight">
                                                 <img
@@ -196,7 +198,7 @@ const UserList = (): JSX.Element => {
                                                 <p>Today</p>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </Form>
                         )
@@ -338,10 +340,15 @@ const UserList = (): JSX.Element => {
                                                 width="fit-content"
                                                 type="button"
                                                 title="MEMBERSHIP"
-                                                disabled={item.membership}
+                                                disabled={!item.membership}
                                                 fontSize="16px"
                                                 loading={false}
                                                 margin="5px"
+                                                clicked={() =>
+                                                    navigate(
+                                                        `/user/membership/list/`
+                                                    )
+                                                }
                                             />
                                         </Col>
                                         <Col
@@ -364,9 +371,11 @@ const UserList = (): JSX.Element => {
                                                 fontSize="16px"
                                                 loading={false}
                                                 margin="5px"
-                                                // clicked={() => {
-                                                //     navigate('/class/list')
-                                                // }}
+                                                clicked={() =>
+                                                    navigate(
+                                                        `/user/class/list/${item.id}`
+                                                    )
+                                                }
                                             />
                                         </Col>
                                     </Row>

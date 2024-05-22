@@ -68,6 +68,7 @@ interface IUseActivity {
     getClassPegination: (schoolid: number, page: number) => Promise<any>
     getClassbyschoolId: (schoolid: number) => Promise<any>
     getActivitybySchoolId: (schoolid: number) => Promise<any>
+    getActivitybyInstructorId: (instructorId: number) => Promise<any>
     AllActivities: any
 }
 
@@ -193,7 +194,28 @@ const useActivity = (): IUseActivity => {
             console.log({ error })
         }
     }
-
+    const getActivitybyInstructorId = async (
+        instructorId: number
+    ): Promise<any> => {
+        try {
+            setError('')
+            setloading1(true)
+            const { data: data3 } = await axios.post(
+                '/instructor/getDetailsById',
+                { instructorId },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            console.log('dataa 3', data3)
+            setAllActivities(data3.results.activitiesData)
+            // return data3.results
+        } catch (error2: any) {
+            console.log({ error })
+        }
+    }
     const getInstructorstartenddate = async (
         startDate: string,
         endDate: string,
@@ -708,6 +730,7 @@ const useActivity = (): IUseActivity => {
         handleCreateSubmit,
         AllActivities,
         getActivitybySchoolId,
+        getActivitybyInstructorId,
         error,
         isUploadImgModalVisible,
         setIsUploadImgVisible,

@@ -40,7 +40,7 @@ export interface SchoolDataType {
 }
 
 export interface AllUserSchoolList {
-    activitiesId: number
+    activitiesId: string
 
     address: string
 

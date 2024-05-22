@@ -1,6 +1,6 @@
 import { CreateRoomsStyle } from './styles'
 import { Formik } from 'formik'
-import { Form, Space } from 'antd'
+import { Form } from 'antd'
 import { CreateRoomInitialValues } from '../constant'
 import FormControl from '../../../components/FormControl'
 import { Col, Row } from 'react-bootstrap'
@@ -13,7 +13,7 @@ import {
 import Head from '../../../components/Head/Head'
 import useRoom from '../../../hooks/useRoom'
 import { useParams } from 'react-router-dom'
-import { useState } from 'react'
+import * as Yup from 'yup'
 import useScreenTranslation from '../../../hooks/useScreenTranslation'
 
 const initialValues: CreateRoomInitialValues = {
@@ -38,6 +38,11 @@ const CreateRoom = (): JSX.Element => {
 
     const { handleCreateSubmit, Createmodal, WarningModal } = useRoom()
     const { getLabelByKey } = useScreenTranslation('createRoom')
+    const validationSchema = Yup.object().shape({
+        roomName: Yup.string().required('Room name is required'),
+        floorNumber: Yup.string().required('Floor number is required'),
+        roomNumber: Yup.string().required('Room number is required'),
+    })
     const onSubmit = async (values: CreateRoomInitialValues): Promise<void> => {
         if (schoolId) {
             await handleCreateSubmit({
@@ -70,7 +75,7 @@ const CreateRoom = (): JSX.Element => {
             <CreateRoomsStyle>
                 <Formik
                     initialValues={initialValues}
-                    // validationSchema={validationSchema}
+                    validationSchema={validationSchema}
                     onSubmit={onSubmit}
                 >
                     {(formik) => {

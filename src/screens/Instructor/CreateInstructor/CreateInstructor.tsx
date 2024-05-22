@@ -79,6 +79,7 @@ const CreateInstructor = (): JSX.Element => {
         termCondition: '',
         ranking: '',
     }
+
     const instructorName = validationFinder('BUSINESS_NAME')!
     const franchiseNameReg = new RegExp(instructorName.pattern)
     const emailAddress = validationFinder('EMAIL_ADDRESS')!
@@ -86,7 +87,7 @@ const CreateInstructor = (): JSX.Element => {
     const instructorPhoneNumber = validationFinder('PHONE_NUMBER')!
 
     const validationSchema = Yup.object({
-        in: Yup.string()
+        instructorName: Yup.string()
             .required(instructorName.notBlankMsgEn)
             .matches(franchiseNameReg, instructorName.patternMsgEn),
         address: Yup.string().required('Please enter description'),

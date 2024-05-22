@@ -34,8 +34,8 @@ interface IUseMembership {
     handleUpdate: (
         id: number,
         values: CreateMembershipInitialValues,
-        file: any,
-        bannerImages: any
+        file: any
+        // bannerImages: any
     ) => Promise<void>
     error: string
     isUploadImgModalVisible: boolean
@@ -52,12 +52,14 @@ interface IUseMembership {
     deleteMembership: (id: number) => Promise<void>
     setIsShowModal: (showModal: true) => void
     getMembershipbyid: (memberShipPlanid: number) => Promise<any>
+    memberShipValue: any
 }
 
 const useMembership = (): IUseMembership => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [isUploadImgModalVisible, setIsUploadImgVisible] = useState(false)
+    const [memberShipValue, setMemberShipValue] = useState<any>()
     const toastId = useRef<any>(null)
     const { schoolId } = useParams()
     const [isShowWarningModal, setIsShowWarningModal] = useState(false)
@@ -114,8 +116,8 @@ const useMembership = (): IUseMembership => {
             startDate: values.startDate,
             endDate: values.endDate,
             visibility: values.visibility,
-            // subscriptionType: values.subscriptionType,
-            subscriptionType: 1,
+            subscriptionType: values.subscriptionType,
+            //subscriptionType: 1,
             membershipFee: values.membershipFee,
             minimumStudent: values.minimumStudent,
             dailySubsFee: values.dailySubsFee,
@@ -188,13 +190,14 @@ const useMembership = (): IUseMembership => {
     const handleUpdate = async (
         id: number,
         values: CreateMembershipInitialValues,
-        file: any,
-        bannerImages: any
+        file: any
+        // bannerImages: any
     ): Promise<void> => {
         console.log('>> im in handleUpdate')
         const userDetails = loginData.data?.userDetails
         const payload = {
             classIds: values.classIds,
+            memberShipPlanId: id,
             id: values.id,
             title: values.title,
             startDate: values.startDate,
@@ -214,10 +217,12 @@ const useMembership = (): IUseMembership => {
             cancellationCharges: values.cancellationCharges,
             accommodation: values.accommodation,
             description: values.description,
-            ...(bannerImages === null && { bannerPicture: file }),
+            isActive: true,
+            bannerPicture: values.bannerPicture,
+            //  ...(bannerImages === null && { bannerPicture: file }),
             ...(schoolId && { schoolId }), // Add schoolId conditionally
         }
-        console.log('payload', payload, 'file', file)
+        console.log('payload', payload, 'file', values.bannerPicture)
         try {
             setError('')
             setLoading(true)
@@ -231,7 +236,7 @@ const useMembership = (): IUseMembership => {
             formData.append('file', file)
             console.log('formdata', formData)
             const { data: data1 } = await axios.post(
-                '/membership/update',
+                '/classes/membershipPlan/edit',
                 formData,
                 {
                     headers: {
@@ -240,7 +245,7 @@ const useMembership = (): IUseMembership => {
                     },
                 }
             )
-            if (data1.responseCode === '500') {
+            if (data1.responseCode === 500) {
                 toast(data1.responseMessage, {
                     type: 'error',
                     autoClose: 1000,
@@ -562,7 +567,11 @@ const useMembership = (): IUseMembership => {
                 return
             }
             setLoading(false)
-            return data.results
+            if (data.responseCode === 200) {
+                setLoading(false)
+                setMemberShipValue(data.results)
+            }
+            // return data.results
         } catch (error2: any) {
             setLoading(false)
             setError(error2)
@@ -573,6 +582,7 @@ const useMembership = (): IUseMembership => {
         loading,
         handleCreateSubmit,
         error,
+        memberShipValue,
         isUploadImgModalVisible,
         setIsUploadImgVisible,
         deletemodal,

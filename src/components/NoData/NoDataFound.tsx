@@ -1,7 +1,7 @@
 import NoDataFoundStyle from './style'
 import notFound from '../../assets/icons/data_not_found.svg'
 
-const NoDataFound = () => {
+const NoDataFound = (): any => {
     return (
         <NoDataFoundStyle>
             <article className="not-found-section d-flex flex-column justify-content-center align-items-center">

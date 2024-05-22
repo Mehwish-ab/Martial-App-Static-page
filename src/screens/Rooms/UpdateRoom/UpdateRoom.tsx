@@ -14,6 +14,7 @@ import Head from '../../../components/Head/Head'
 import { useParams } from 'react-router-dom'
 import useRoom from '../../../hooks/useRoom'
 import { useEffect, useState } from 'react'
+import * as Yup from 'yup'
 import { RoomDataType } from '../../../redux/features/Room/RoomSlice'
 
 const UpdateRoom = (): JSX.Element => {
@@ -83,6 +84,11 @@ const UpdateRoom = (): JSX.Element => {
         wFeet: Room ? Number(wFeet) : '',
         roomId: Room ? Room.roomId : '',
     }
+    const validationSchema = Yup.object().shape({
+        roomName: Yup.string().required('Room name is required'),
+        floorNumber: Yup.string().required('Floor number is required'),
+        roomNumber: Yup.string().required('Room number is required'),
+    })
     // await handleUpdate(values)
     const onSubmit = async (values: CreateRoomInitialValues): Promise<void> => {
         if (schoolId) {
@@ -114,7 +120,7 @@ const UpdateRoom = (): JSX.Element => {
                 {UpdateModal().modalComponent}
                 <Formik
                     initialValues={initialValues}
-                    // validationSchema={validationSchema}
+                    validationSchema={validationSchema}
                     onSubmit={onSubmit}
                     enableReinitialize
                 >

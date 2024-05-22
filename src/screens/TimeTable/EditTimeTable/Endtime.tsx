@@ -4,17 +4,14 @@ import { Col } from 'react-bootstrap'
 import Clock from '../../../assets/icons/ic_clock.svg'
 import { fontFamilyMedium } from '../../../components/GlobalStyle'
 import { FilterTimeTableStyled } from './styles'
-// import useTimetable from '../../../hooks/useTimetable'
 import { Formik } from 'formik'
 import { Form } from 'antd'
-// import { useAppSelector } from '../../../app/hooks'
-// import { useNavigate } from 'react-router-dom'
+import moment, { Moment } from 'moment'
 
 interface TimeTableFormProps {
     rowIndex: number
     recordIndex: number
     endTime: string | undefined
-    SendData: any
     setStartTime: (
         _recordIndex: number,
         _key: string,
@@ -28,7 +25,6 @@ const EndTime: React.FC<TimeTableFormProps> = ({
     recordIndex,
     endTime,
     setStartTime,
-    SendData,
 }: TimeTableFormProps) => {
     const initialValues = {
         endTime: endTime,
@@ -37,6 +33,7 @@ const EndTime: React.FC<TimeTableFormProps> = ({
     const onChangeHandler = (value: string): void => {
         setStartTime(recordIndex, 'endTime', value, rowIndex)
     }
+    const initialTime = endTime ? moment(endTime, 'HH:mm:ss') : null
     return (
         <>
             {/* {Createmodal().modalComponent} */}
@@ -51,10 +48,10 @@ const EndTime: React.FC<TimeTableFormProps> = ({
                             >
                                 <Col md="12">
                                     <FormControl
-                                        control="TimePicker"
+                                        control="EditTimePicker"
                                         type="endTime"
                                         name="endTime"
-                                        value={SendData}
+                                        value={initialTime}
                                         labelFamily={`${fontFamilyMedium}`}
                                         fontSize="16px"
                                         suffixIcon={

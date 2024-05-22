@@ -4,6 +4,8 @@ import logo from '../../assets/icons/ic_logo.svg'
 import { childListOfSetting } from '../Sidebar/constants'
 import { NavigationMenuStyled } from './styles'
 import { useEffect, useState } from 'react'
+import { Navigation } from 'react-minimal-side-navigation'
+import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css'
 type MenuItem = Required<MenuProps>['items'][number]
 
 const menuLinks: any = {
@@ -15,7 +17,7 @@ const menuLinks: any = {
     listInstructor: '/instructor/list',
     listBranch: '/branch/list',
     listFranchise: '/franchise/list',
-    membership: '/membership/list',
+    membership: '/user/memberShip/list',
     payment: '/payment',
     rules: '/rules/list',
     helpAndSupport: '/help-support',
@@ -268,11 +270,118 @@ const UserNavigationMenu = (): JSX.Element => {
             <div className="logo text-center">
                 <img src={logo} alt="" />
             </div>
+            <div className="mt-5">
+                <Navigation
+                    // you can use your own router's api to get pathname
+                    activeItemId="/management/members"
+                    onSelect={({ itemId }: any) => {
+                        console.log('bavigate', itemId)
+                        // maybe push to the route
+                        navigate(itemId)
+                    }}
+                    items={[
+                        {
+                            title: 'Dashboard',
+                            itemId: '/dashboard',
+                        },
+                        {
+                            title: 'School',
+                            itemId: '',
+                            subNav: [
+                                {
+                                    title: 'Enroll Now',
+                                    itemId: '/user/school/list',
+                                },
+                                {
+                                    title: 'All School',
+                                    itemId: '/user/AllSchool',
+                                },
+                            ],
+                        },
+                        {
+                            title: 'Classes',
+                            itemId: '/class/list',
+                        },
+                        {
+                            title: 'TimeTable',
+                            itemId: '/timetable/list',
+                        },
+                        { title: 'Instructors', itemId: '/instructor/list' },
+                        {
+                            title: 'Transaction History',
+                            itemId: '/transaction-history/list',
+                        },
+
+                        {
+                            title: 'Subscription History',
+                            itemId: menuLinks.subscriptionHistory,
+
+                            // children: childListOfBooking,
+                        },
+                        {
+                            title: 'Notifications',
+                            itemId: menuLinks.notification,
+                        },
+                        {
+                            title: 'Reports',
+                            itemId: menuLinks.reports,
+                        },
+                        {
+                            title: 'Attendance ',
+                            itemId: menuLinks.attendance,
+                        },
+                        {
+                            title: 'QR Code',
+                            itemId: menuLinks.qrCode,
+                        },
+                        {
+                            title: 'Rules',
+                            itemId: menuLinks.rules,
+                        },
+                        {
+                            title: 'Branches',
+                            itemId: menuLinks.listBranch,
+                        },
+                        {
+                            title: 'Franchises',
+                            itemId: menuLinks.listFranchise,
+                        },
+                        {
+                            title: 'Settings',
+                            itemId: menuLinks.setting,
+                        },
+                        {
+                            title: 'Language',
+                            itemId: menuLinks.language,
+                        },
+                        {
+                            title: 'Help & Support',
+                            itemId: menuLinks.helpAndSupport,
+                        },
+                        {
+                            title: 'Customer Services',
+                            itemId: menuLinks.customerServices,
+                        },
+                        {
+                            title: 'Upgrade Account',
+                            itemId: menuLinks.upgradeAccount,
+                        },
+                    ]}
+                />
+            </div>
+            {/* {
+                                        background: '#4DC9F5',
+                                        textAlign: 'center',
+                                        color: 'white',
+                                    } */}
+            {/* <div className="logo text-center">
+                <img src={logo} alt="" />
+            </div>
             <Menu
                 defaultSelectedKeys={[selectedKey]}
                 mode="inline"
                 items={sidebarData}
-            />
+            /> */}
         </NavigationMenuStyled>
     )
 }

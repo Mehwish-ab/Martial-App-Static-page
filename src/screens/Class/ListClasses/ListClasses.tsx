@@ -32,20 +32,27 @@ import FormControl from '../../../components/FormControl'
 import { Form, Formik } from 'formik'
 
 const ListClass = (): JSX.Element => {
-    const { ClassData } = useSelector((state: RootState) => state.ClassData)
     const navigate = useNavigate()
     const { schoolId, branchId, franchiseId } = useParams()
-    const { ClassStatus, deletemodal, deleteConfirmation, setIsShowModal } =
-        useClass()
+    const {
+        ClassStatus,
+        deletemodal,
+        deleteConfirmation,
+        setIsShowModal,
+        getInstructorstartenddate,
+        getClassPegination,
+        getClassbyschoolId,
+        classData,
+    } = useClass()
     const [Id, setId] = useState(0)
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
     const [CalculateDay, setCalculateDay] = useState(0)
     const [NextDays, setNextDays] = useState('')
     const { loginData } = useSelector((state: RootState) => state)
-    const [calenderData, setcalenderData] = useState<
-        ClassDataType[] | undefined
-    >(undefined)
+    // const [calenderData, setcalenderData] = useState<
+    //     ClassDataType[] | undefined
+    // >(undefined)
     const [Flag, setFlag] = useState(false)
     const calculateDaysDifference = (st: string, en: string): number => {
         const start = new Date(st)
@@ -62,31 +69,20 @@ const ListClass = (): JSX.Element => {
             return 1
         }
     }
-    const [AllClass, setAllClass] = useState<
-        | {
-              currentPage: number
-              totalItems: number | undefined
-              data: ClassDataType[]
-          }
-        | undefined
-    >(undefined)
+
     const [error, setError] = useState<string | undefined>(undefined)
     const [currentPage, setCurrentPage] = useState(1)
     const pageSize = 10
-    const {
-        getInstructorstartenddate,
-        getClassPegination,
-        getClassbyschoolId,
-    } = useClass()
+
     const handlePaginationChange = async (page: number): Promise<any> => {
         try {
             //setLoading(true)
             // page = page - 1
-            const response = await getClassPegination(
+            await getClassPegination(
                 Number(schoolId || loginData.data?.schoolId),
                 page - 1
             )
-            setAllClass(response)
+            // setAllClass(response)
             // eslint-disable-next-line @typescript-eslint/no-shadow
         } catch (error: unknown) {
             setError('Error fetching data')
@@ -108,8 +104,8 @@ const ListClass = (): JSX.Element => {
                     Number(schoolId || loginData.data?.schoolId)
                 )
 
-                setAllClass(res)
-                console.log({ res }, AllClass)
+                //setAllClass(res)
+                console.log({ res }, classData)
             } catch (errors) {
                 /// setError('Error fetching data')
             } finally {
@@ -123,19 +119,19 @@ const ListClass = (): JSX.Element => {
         startdate: string,
         enddate: string
     ): Promise<void> => {
-        const data = await getInstructorstartenddate(
+        console.log('in get param')
+        await getInstructorstartenddate(
             startdate,
             enddate,
-            Number(schoolId)
+            Number(schoolId || loginData.data?.schoolId)
         )
-        setcalenderData(data)
     }
 
     const handleDateChange = async (dates: any): Promise<void> => {
         setFlag(true)
-
+        console.log('datesssss', dates)
         setCalculateDay(0)
-        const [start, end] = dates.map((date: any) =>
+        const [start, end] = dates?.map((date: any) =>
             moment(date).format('YYYY-MM-DD')
         )
         setStartDate(start)
@@ -169,8 +165,8 @@ const ListClass = (): JSX.Element => {
         console.log('next date', endDate, NextDays)
         console.log('day count', CalculateDay)
 
-        const dataaa = await getparam(endDate, NextDays)
-        console.log('p', dataaa)
+        //const dataaa = await getparam(endDate, NextDays)
+        //console.log('p', dataaa)
 
         const days = moment(endDate, 'YYYY-MM-DD').add(CalculateDay, 'd')
         console.log('zx', days)
@@ -245,7 +241,18 @@ const ListClass = (): JSX.Element => {
                                                     height={12}
                                                 />
                                             </div>
-                                            <div className="arrowLeft">
+                                            <div
+                                                className="arrowLeft"
+                                                onClick={handlenextdates}
+                                            >
+                                                <img
+                                                    src={RightArrow}
+                                                    alt="Date"
+                                                    width={18}
+                                                    height={12}
+                                                />
+                                            </div>
+                                            {/* <div className="arrowLeft">
                                                 <button
                                                     onClick={handlenextdates}
                                                 >
@@ -257,7 +264,7 @@ const ListClass = (): JSX.Element => {
                                                         height={12}
                                                     />
                                                 </button>{' '}
-                                            </div>
+                                            </div> */}
                                         </div>
                                         <FormControl
                                             control="startEndDate"
@@ -265,9 +272,14 @@ const ListClass = (): JSX.Element => {
                                             name="startDate"
                                             fontFamily={fontFamilyRegular}
                                             padding="8px 10px"
-                                            onChange={(dates: any) => {
+                                            onApply={(dates: any) => {
                                                 handleDateChange(dates)
                                             }}
+                                            startDate={startDate}
+                                            endDate={endDate}
+                                            // onChange={(dates: any) => {
+                                            //     handleDateChange(dates)
+                                            // }}
                                         />
                                         <div className="todayPlusContainer">
                                             <div className="dateToday">
@@ -314,8 +326,8 @@ const ListClass = (): JSX.Element => {
             key: 'ClassTitle',
         },
         {
-            title: getLabelByKey('instructor'),
-            dataIndex: 'instructorName',
+            title: '',
+            dataIndex: 'instructorNamee',
             key: 'instructorId',
             render: (instructorName) => {
                 return <div>{instructorName}</div>
@@ -455,15 +467,15 @@ const ListClass = (): JSX.Element => {
                     //           ? []
                     //           : calenderData
                     // }
-                    dataSource={AllClass ? AllClass?.data : []}
+                    dataSource={classData ? classData?.data : []}
                     // scroll={{ x: true }}
                     pagination={
-                        AllClass &&
-                        AllClass.totalItems &&
-                        AllClass.totalItems > 10
+                        classData &&
+                        classData.totalItems &&
+                        classData.totalItems > 10
                             ? {
                                   current: currentPage,
-                                  total: AllClass ? AllClass.totalItems : 0,
+                                  total: classData ? classData.totalItems : 0,
                                   pageSize: pageSize,
                                   showTotal: (total, range) => (
                                       <span

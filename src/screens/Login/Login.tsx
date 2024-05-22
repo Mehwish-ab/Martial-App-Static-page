@@ -104,7 +104,7 @@ const Login = (): JSX.Element => {
                     setShowModal(false)
                     if (response.data?.results.schoolId)
                         store.dispatch(getSchoolByUserId())
-                    navigate('/dashboard')
+                    navigate('/welcome')
                 }, 1000)
             }
             setloading(false)

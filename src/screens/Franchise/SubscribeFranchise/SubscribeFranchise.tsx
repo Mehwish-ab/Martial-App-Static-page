@@ -1,17 +1,17 @@
 import { SubscribeFranchiseStyled } from './styles'
-import 'react-alice-carousel/lib/alice-carousel.css'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import {
     fontFamilyMedium,
     lightBlue3,
     maastrichtBlue,
 } from '../../../components/GlobalStyle'
-
 const SubscribeFranchise = (): JSX.Element => {
-    const CarouselItem = (): JSX.Element => {
+    const CarouselItem = (key: any): JSX.Element => {
         return (
-            <div className="plan">
-                <div className="plan-heading">Basic Martial Arts Plan</div>
+            <div key={key} className="plan">
+                <div className="plan-heading">
+                    Apex Martial Arts Academy Subscription Plans
+                </div>
                 <div className="plan-price">
                     £30.00<span> PerMonth</span>
                 </div>
@@ -64,17 +64,38 @@ const SubscribeFranchise = (): JSX.Element => {
             </div>
         )
     }
+    const Subsrcibedata = [
+        <CarouselItem key="1" />,
+        <CarouselItem key="2" />,
+        <CarouselItem key="3" />,
+        <CarouselItem key="4" />,
+        <CarouselItem key="5" />,
+    ]
     return (
-        <SubscribeFranchiseStyled>
-            <h3>Franchise Subscription Plans</h3>
-            <div className="subscriptions">
-                <CarouselItem />
-                <CarouselItem />
-                <CarouselItem />
-                <CarouselItem />
-                <CarouselItem />
-            </div>
-            <div className="pay-btn mt-20">
+        <>
+            <SubscribeFranchiseStyled>
+                <h3>Franchise Subscription Plans</h3>
+                <div className="subscriptions">
+                    <CarouselItem />
+                    <CarouselItem />
+                    <CarouselItem />
+                    <CarouselItem />
+                    <CarouselItem />
+                </div>
+            </SubscribeFranchiseStyled>
+            <div
+                // className="pay-btn "
+                style={{
+                    width: '310px',
+                    height: ' 50px',
+                    top: ' 868px',
+                    left: '1419px',
+                    gap: ' 0px',
+                    borderRadius: '6px 0px 0px 0px',
+                    opacity: ' 0px',
+                    alignSelf: 'center',
+                }}
+            >
                 <CustomButton
                     bgcolor={lightBlue3}
                     textTransform="Captilize"
@@ -87,7 +108,7 @@ const SubscribeFranchise = (): JSX.Element => {
                     fontSize="18px"
                 />
             </div>
-        </SubscribeFranchiseStyled>
+        </>
     )
 }
 

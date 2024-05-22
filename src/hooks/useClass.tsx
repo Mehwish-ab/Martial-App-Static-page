@@ -56,11 +56,14 @@ interface IUseClass {
     setIsShowModal: (showModal: true) => void
     getClassPegination: (schoolid: number, page: number) => Promise<any>
     getClassbyschoolId: (schoolid: number) => Promise<any>
+    getClassesbyschoolId: (schoolid: number) => Promise<any>
+    classData: any
 }
 
 const useClass = (): IUseClass => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
+    const [classData, setclassData] = useState<any>(undefined)
     const [isUploadImgModalVisible, setIsUploadImgVisible] = useState(false)
     const toastId = useRef<any>(null)
     const { schoolId } = useParams()
@@ -84,10 +87,11 @@ const useClass = (): IUseClass => {
             title: values.title || '',
             startDate: values.startDate,
             endDate: values.endDate || '',
-            instructorIds: values.instructorId,
+            instructorIds: values.instructorId.join(','),
             isKid: values.isKid,
-            roomIds: values.roomId,
+            roomIds: values.roomId.join(','),
             fee: `${values.fee}` || '',
+            newFee: `${values.newFee}` || '',
             activities: values.activities.join(','),
             capacity: values.capacity,
             minimumStudent: values.minimumStudent,
@@ -137,12 +141,13 @@ const useClass = (): IUseClass => {
                 setLoading(false)
                 return
             }
-
+            console.log('response', response.data)
             setIsShowModal(true)
             setTimeout(() => {
                 setLoading(false)
                 setIsShowModal(false)
-                navigate('/class/list')
+                navigate(`/timetable/create/${response.data.results.classId}`)
+                // navigate('/class/list')
             }, 3000)
             // toastId.current = toast(data.responseMessage, {
             //   type: "success",
@@ -182,18 +187,27 @@ const useClass = (): IUseClass => {
                     },
                 }
             )
-
-            if (data.responseCode === '500') {
+            console.log('in toastttt', data)
+            if (data.responseCode === 500) {
+                console.log('in toast', data)
+                toast('No Record Found', {
+                    type: 'error',
+                    autoClose: 1000,
+                })
                 setLoading(false)
-                return
             }
             console.log(
                 'classes info according to start date and end date',
                 data.results.data
             )
             setLoading(false)
-            return data.results.data
+            setclassData(data.results)
+            // return data.results.data
         } catch (error2: any) {
+            toast('No Record Found', {
+                type: 'error',
+                autoClose: 1000,
+            })
             console.log('error', error2)
             setLoading(false)
             setError(error2)
@@ -225,7 +239,7 @@ const useClass = (): IUseClass => {
                 data.results.data
             )
             setLoading(false)
-            return data.results
+            setclassData(data.results)
         } catch (error2: any) {
             console.log('error', error2)
             setLoading(false)
@@ -255,7 +269,39 @@ const useClass = (): IUseClass => {
                 data.results.data
             )
             setLoading(false)
-            return data.results
+            setclassData(data.results)
+            // return data.results
+        } catch (error2: any) {
+            console.log('error', error2)
+            setLoading(false)
+            setError(error2)
+        }
+    }
+    const getClassesbyschoolId = async (schoolID: number): Promise<any> => {
+        try {
+            setError('')
+            setLoading(true)
+            const { data } = await axios.post(
+                `/app/classes/getAll`,
+                { id: schoolID, isKid: true, useCase: 'SCHOOL' },
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+
+            if (data.responseCode === '500') {
+                setLoading(false)
+                return
+            }
+            console.log(
+                'classes info according to pagination',
+                data.results.data
+            )
+            setLoading(false)
+            setclassData(data.results)
+            // return data.results
         } catch (error2: any) {
             console.log('error', error2)
             setLoading(false)
@@ -272,8 +318,8 @@ const useClass = (): IUseClass => {
             title: values.title || '',
             startDate: values.startDate,
             endDate: values.endDate || '',
-            instructorIds: values.instructorId,
-            roomIds: values.roomId,
+            instructorIds: values.instructorId.join(','),
+            roomIds: values.roomId.join(','),
             fee: `${values.fee}` || '',
             activities: values.activities.join(','),
             capacity: values.capacity,
@@ -285,6 +331,7 @@ const useClass = (): IUseClass => {
             allowStudentCancel: values.allowStudentCancel,
             refundDate: values.refundDate || '',
             bookingCancelStartDate: values.bookingCancelStartDate || '',
+            newFee: values.newFee,
             bookingCancelEndDate: values.bookingCancelEndDate || '',
             cancellationCharges: `${values.cancellationCharges}` || '',
             accommodation: values.accommodation.join(','),
@@ -294,6 +341,7 @@ const useClass = (): IUseClass => {
             ...(schoolId && { schoolId }), // Add schoolId conditionally
         }
         try {
+            console.log('payload', payload)
             setError('')
             setLoading(true)
             const formData = new FormData()
@@ -314,7 +362,8 @@ const useClass = (): IUseClass => {
                     },
                 }
             )
-            if (data1.responseCode === '500') {
+
+            if (data1.responseCode === 500) {
                 toast(data1.responseMessage, {
                     type: 'error',
                     autoClose: 1000,
@@ -506,7 +555,7 @@ const useClass = (): IUseClass => {
                     },
                 }
             )
-            if (data2.responseCode === '500') {
+            if (data2.responseCode === 500) {
                 toast(data2.responseMessage, {
                     type: 'error',
                     autoClose: 1000,
@@ -524,7 +573,7 @@ const useClass = (): IUseClass => {
             setTimeout(() => {
                 setIsShowDeleteModal(false)
                 // navigate('/branch/list')
-            }, 3000)
+            }, 1000)
             // setData('results: ' + data2)
             setLoading(false)
             store.dispatch(getBranchBySchoolId())
@@ -650,7 +699,7 @@ const useClass = (): IUseClass => {
                 return
             }
             setLoading(false)
-            return data.results
+            setclassData(data.results)
         } catch (error2: any) {
             setLoading(false)
             setError(error2)
@@ -661,11 +710,13 @@ const useClass = (): IUseClass => {
         loading,
         handleCreateSubmit,
         error,
+        getClassesbyschoolId,
         isUploadImgModalVisible,
         setIsUploadImgVisible,
         deletemodal,
         Createmodal,
         UpdateModal,
+        classData,
         deleteConfirmation,
         ClassStatus,
         getClassbyid,

@@ -1,9 +1,7 @@
 import { SidebarStyle } from './style'
-
 import { Layout } from 'antd'
 import CustomButton from '../CustomButton/CustomButton'
 import { fontFamilyMedium, pureDark, tertiaryBlue } from '../GlobalStyle'
-
 import { auth_token_key } from '../../utils/api_urls'
 import { removeLoginData } from '../../redux/features/loginDataSlice'
 import { removeUserLogin } from '../../redux/features/admin/user/loginDataSlice'
@@ -13,7 +11,6 @@ import AdminNavigationMenu from '../NavigationMenu/adminNavigationMenu'
 import UserNavigationMenu from '../NavigationMenu/userNavigationMenu'
 import SchoolNavigationMenu from '../NavigationMenu/schoolNavigationMenu'
 import BranchesFranchiesNavigationMenu from '../NavigationMenu/branchesFranchiesNavmenu'
-import { useParams } from 'react-router-dom'
 import InstructorNavigationMenu from '../NavigationMenu/instructorNavigationMenu'
 const { Sider } = Layout
 

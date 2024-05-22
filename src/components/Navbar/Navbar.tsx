@@ -14,7 +14,6 @@ import {
 import { MenuOutlined } from '@ant-design/icons'
 
 import { useGlobalContext } from '../../context/context'
-
 import AdminNavigationMenu from '../NavigationMenu/adminNavigationMenu'
 import UserNavigationMenu from '../NavigationMenu/userNavigationMenu'
 import SchoolNavigationMenu from '../NavigationMenu/schoolNavigationMenu'

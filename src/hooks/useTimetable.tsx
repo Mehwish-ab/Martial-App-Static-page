@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable max-len */
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { CreateSchoolInitialValues } from '../screens/Home/constants'
 import axios from 'axios'
@@ -24,6 +24,7 @@ import { Col, Row } from 'react-bootstrap'
 import { SchoolSuccessfulModals } from './PopupModalsStyling'
 import { CreateTimeTableInitialValues } from '../screens/TimeTable/constant'
 import { TimeTableDataType } from '../redux/features/TimeTable/TimeTableSlice'
+import CustomMessageModal from '../components/Modal/CustomMessageModal'
 
 interface CommonResponseProps {
     responseCode: number
@@ -31,7 +32,6 @@ interface CommonResponseProps {
     execTime: number
     errors: null | unknown
 }
-
 interface CreateTimeSheetSlotProps extends CommonResponseProps {
     results: {
         slotId: number
@@ -56,6 +56,15 @@ interface CreateSlotsProps {
     endBreak: string
     dayOfWeek: string
 }
+interface EditSlotsProps {
+    slotId: number
+    startTime: string
+    endTime: string
+    startBreak: string
+    endBreak: string
+    dayOfWeek: string
+    isActive: boolean
+}
 
 interface IUseTimetable {
     loading: boolean
@@ -66,39 +75,22 @@ interface IUseTimetable {
     ) => Promise<any>
 
     createSlots: (props: CreateSlotsProps) => Promise<any>
+    EditSlots: (props: EditSlotsProps) => Promise<any>
     getTimetableSlot: (timeTableid: number) => Promise<any>
     getAllTimetable: (userid: number, classId: number) => Promise<any>
     getTimetableById: (timeTableId: number) => Promise<any>
     getAllUserPagination: (userid: number, page: number) => Promise<any>
-
-    //     CreateSlots: (
-    //         timeTableId: any,
-    //         StartTimee: any,
-    //         EndTimee: any,
-    //         StartBreakk: any,
-    //         EndBreakk: any,
-    //         dayOfWeekk: any
-    //     ) => Promise<any>
-    //     getTimetableSlot: (timeTableid: number) => Promise<any>
-    //     getAllTimetable: (userid: number) => Promise<any>
-    //     getTimetableById: (timeTableId: number) => Promise<any>
-
-    editSchool: (
-        _schoolId: number,
-        values: CreateSchoolInitialValues
-    ) => Promise<void>
     TimeTableStatus: (timeTableid: number, isactive: boolean) => Promise<any>
     deleteTimeTable: (timeTableid: number) => Promise<void>
     errorMessage: string
     isUploadImgModalVisible: boolean
     setIsUploadImgVisible: (param: boolean) => void
     deletemodal: () => IModalComponent
-    Createmodal: () => IModalComponent
-    UpdateModal: () => IModalComponent
+    SuccessModal: () => IModalComponent
     WarningModal: () => IModalComponent
     deleteConfirmation: (id: number) => IModalComponent
-    setIsShowModal: (showModal: true) => void
-    setIsShowWarningModal: (showModal: true) => void
+    setIsShowModal: (showModal: any) => void
+    setIsShowWarningModal: (showModal: any) => void
     AllTimetable: any
 }
 
@@ -106,7 +98,9 @@ const useTimetable = (): IUseTimetable => {
     const [loading, setLoading] = useState(false)
     const [errorMessage, setError] = useState('')
     const [isUploadImgModalVisible, setIsUploadImgVisible] = useState(false)
+    const [successMessage, setSuccessMessage] = useState('')
     const [isShowWarningModal, setIsShowWarningModal] = useState(false)
+    const [isShowSuccessModal, setIsShowSuccessModal] = useState(false)
     const [AllTimetable, setAllTimetable] = useState<
         | {
               currentPage: number
@@ -145,11 +139,12 @@ const useTimetable = (): IUseTimetable => {
             title: values.title,
             isRepeated: values.isRepeated === 1 ? true : false,
             startDate: values.startDate,
-            endDate: values.endDate,
+            endDate: valu,
             activities: values.activities.join(','),
-            roomIds: values.roomId,
-            instructorIds: values.instructorId,
+            roomIds: values.roomId.join(','),
+            instructorIds: values.instructorId.join(','),
             classId: classId,
+            status: values.status,
 
             // ...(schoolId && { schoolId }), // Add schoolId conditionally
         }
@@ -166,7 +161,7 @@ const useTimetable = (): IUseTimetable => {
                     },
                 }
             )
-            if (data2.responseCode === '500') {
+            if (data2.responseCode === 500) {
                 toast(data2.responseMessage, {
                     type: 'error',
                     autoClose: 1000,
@@ -174,14 +169,20 @@ const useTimetable = (): IUseTimetable => {
                 setLoading(false)
                 return
             }
-            setIsShowModal(false)
+            if (data2.responseCode === 200) {
+                //  setIsShowModal(true)
+                setAllTimetable(data2.results)
+                setSuccessMessage(data2.responseMessage)
+                navigate(`/timetable/slotss/${data2.results.timeTableId}`)
+            }
 
             setTimeout(() => {
+                setIsShowModal(false)
                 setLoading(false)
             }, 3000)
             console.log('data', { data: data2 })
 
-            return data2.results
+            // return data2.results
         } catch (error2: any) {
             console.log('error', { error: error2 })
             setLoading(false)
@@ -280,10 +281,10 @@ const useTimetable = (): IUseTimetable => {
                 return data3.results
             }
             setLoading(false)
-            setIsShowModal(true)
+            //setIsShowModal(true)
             setTimeout(() => {
                 setIsShowModal(false)
-                //navigate("/school/view");
+                //     //navigate("/school/view");
             }, 3000)
 
             // console.log(
@@ -292,6 +293,7 @@ const useTimetable = (): IUseTimetable => {
             //     return pic;
             //   })
             // );
+            console.log('ayzellllll', data3.results.data)
             return data3.results.data
         } catch (e: any) {
             console.log('api error', errorMessage)
@@ -370,7 +372,7 @@ const useTimetable = (): IUseTimetable => {
                     },
                 }
             )
-            if (data3.responseCode === '500') {
+            if (data3.responseCode === 500) {
                 toast(data3.responseMessage, {
                     type: 'error',
                     autoClose: 1000,
@@ -381,17 +383,6 @@ const useTimetable = (): IUseTimetable => {
                 return data3.results
             }
             setLoading(false)
-            setTimeout(() => {
-                setIsShowModal(false)
-                //navigate("/school/view");
-            }, 3000)
-
-            // console.log(
-            //   "hello",
-            //   data.map((pic: any) => {
-            //     return pic;
-            //   })
-            // );
             return data3
         } catch (e: any) {
             console.log('api error', errorMessage)
@@ -455,21 +446,29 @@ const useTimetable = (): IUseTimetable => {
             setLoading(true)
             console.log('payload', payload)
 
-            const createTimeSlotResponse: CreateTimeSheetSlotProps =
-                await axios.post('/timetable/slot/create', payload, {
+            const createTimeSlotResponse = await axios.post(
+                '/timetable/slot/create',
+                payload,
+                {
                     headers: {
                         ...authorizationToken(loginData.data as loginDataTypes),
                     },
-                })
-            if (createTimeSlotResponse.responseCode === 500) {
-                toast(createTimeSlotResponse.responseMessage, {
+                }
+            )
+            if (createTimeSlotResponse.data.responseCode === 500) {
+                toast(createTimeSlotResponse.data.responseMessage, {
                     type: 'error',
                     autoClose: 1000,
                 })
                 setLoading(false)
                 return
             }
-            setIsShowModal(true)
+            if (createTimeSlotResponse.data.responseCode === 200) {
+                setSuccessMessage(createTimeSlotResponse.data.responseMessage)
+                //  setIsShowModal(true)
+                // navigate(`timeTable/list/${classId}`)
+            }
+
             setTimeout(() => {
                 setLoading(false)
                 setIsShowModal(false)
@@ -484,7 +483,7 @@ const useTimetable = (): IUseTimetable => {
             //setIsUploadImgVisible(true);
             // navigate("/");
             // resetForm()
-            return createTimeSlotResponse.results
+            return createTimeSlotResponse.data
         } catch (error2: any) {
             console.log('error', { error: error2 })
             setLoading(false)
@@ -498,66 +497,74 @@ const useTimetable = (): IUseTimetable => {
             })
         }
     }
-    //to edit school
-    const editSchool = async (
-        _schoolId: number,
-        values: CreateSchoolInitialValues
-    ): Promise<void> => {
-        const url = edit_school_url
-        const userDetails = loginData.data?.userDetails
 
+    useEffect(() => {
+        // This effect will run whenever isShowModal changes
+        console.log('sucess modal', isShowModal, isShowSuccessModal)
+    }, [isShowModal])
+    const EditSlots = async (params: EditSlotsProps): Promise<any> => {
+        const payload = {
+            ...params,
+        }
         try {
             setError('')
             setLoading(true)
-            const payload = {
-                userId: userDetails?.id || '',
-                businessName: values.businessName,
-                businessType: values.businessType,
-                address: values.address,
-                phoneNumber: values?.businessPhoneNumber || '',
-                rank: values.rank === 1 ? true : false,
-                defaultLanguageId: values.defaultLanguageId,
-                defaultCurrencyId: values.defaultCurrencyId,
-                activities: values.selectedActivities.join(','),
-                facilities: values.selectedFacilities.join(','),
-                description: values.description,
-                stripePublicKey: '',
-                stripeSecretKey: '',
-                gclAccessToken: '',
-                gclClientId: '',
-                gclWebHook: '',
-                gclClientSecret: '',
+            console.log('payload', payload)
 
-                ...(_schoolId && { schoolId: _schoolId }), // Add schoolId conditionally
-            }
-            const { data: data2 } = await axios.post(url, payload, {
-                headers: {
-                    ...authorizationToken(loginData.data as loginDataTypes),
-                },
-            })
-            if (data2.responseCode === '500') {
+            const { data: data4 } = await axios.post(
+                '/timetable/slot/edit',
+                payload,
+                {
+                    headers: {
+                        ...authorizationToken(loginData.data as loginDataTypes),
+                    },
+                }
+            )
+            if (data4.responseCode === 500) {
+                toast(data4.responseMessage, {
+                    type: 'error',
+                    autoClose: 1000,
+                })
                 setLoading(false)
                 return
             }
-            setLoading(false)
-            setIsShowModal(true)
-            setTimeout(() => {
-                setIsShowModal(false)
-                navigate('/school/view')
-            }, 3000)
+            console.log('in showodal', isShowModal)
+            setIsShowSuccessModal(true)
+            if (data4.responseCode === 200) {
+                setIsShowSuccessModal(true)
+                setSuccessMessage(data4.responseMessage)
+                // navigate(`timeTable/list/${classId}`)
 
-            console.log({ data: data2 })
+                console.log(
+                    'in response timeee',
+                    data4.responseCode,
+                    isShowModal
+                )
+            }
+            console.log('uuuuu', isShowModal)
+            // setTimeout(() => {
+            //     setLoading(false)
+            //     setIsShowModal(false)
+            //     // navigate('/school/view')
+            // }, 3000)
+            // toastId.current = toast(data.responseMessage, {
+            //   type: "success",
+            //   autoClose: 1000,
+            // });
+            //setLoading(false);
+            console.log('slots added', { data4 })
+            //setIsUploadImgVisible(true);
+            // navigate("/");
+            // resetForm()
+            return data4.results
         } catch (error2: any) {
-            console.log({ error: error2 })
+            console.log('error', { error: error2 })
             setLoading(false)
             setError(error2.response.data.responseMessage)
-            const id = setTimeout(() => {
+            setTimeout(() => {
                 setError('')
-            }, 3000)
-            if (!setIsShowModal) {
-                clearTimeout(id)
-            }
-            toastId.current = toast(error2.response.data.errors, {
+            }, 2000)
+            toastId.current = toast(error2.message, {
                 type: 'error',
                 autoClose: 1000,
             })
@@ -656,92 +663,31 @@ const useTimetable = (): IUseTimetable => {
         }
     }
 
-    const Createmodal = (): IModalComponent => {
+    const SuccessModal = (): IModalComponent => {
+        console.log('success moadal', isShowModal)
         return {
             modalComponent: (
-                <CustomModal
-                    isModalVisible={isShowModal}
-                    setIsModalVisible={setIsShowModal}
-                    showCloseBtn={true}
-                >
-                    <SchoolSuccessfulModals>
-                        <div className="mainContainer d-flex flex-column align-items-center">
-                            <img
-                                src={ic_success}
-                                alt="Success Icon"
-                                width={79}
-                                height={79}
-                            />
-                            <h3 className="mainContainer-heading text-center">
-                                Complete Profile Successfully!
-                            </h3>
-                            <p className="mainContainer-subText text-center">
-                                Congratulations! Your profile has been
-                                successfully completed, ensuring a seamless
-                                experience within the Marital
-                            </p>
-                        </div>
-                    </SchoolSuccessfulModals>
-                </CustomModal>
+                <CustomMessageModal
+                    title="Success"
+                    description={successMessage}
+                    isModalVisible={isShowSuccessModal}
+                    setIsModalVisible={setIsShowSuccessModal}
+                    imageProp={'success'}
+                />
             ),
         }
     }
 
-    const UpdateModal = (): IModalComponent => {
-        return {
-            modalComponent: (
-                <CustomModal
-                    isModalVisible={isShowModal}
-                    setIsModalVisible={setIsShowModal}
-                    showCloseBtn={true}
-                >
-                    <SchoolSuccessfulModals>
-                        <div className="mainContainer d-flex flex-column align-items-center">
-                            <img
-                                src={ic_success}
-                                alt="Success Icon"
-                                width={79}
-                                height={79}
-                            />
-                            <h3 className="mainContainer-heading text-center">
-                                Update Profile Successfully!
-                            </h3>
-                            <p className="mainContainer-subText text-center">
-                                Congratulations! on updating your profile! Your
-                                changes have been successfully saved, enhancing
-                                your experience within the Marital platform.
-                            </p>
-                        </div>
-                    </SchoolSuccessfulModals>
-                </CustomModal>
-            ),
-        }
-    }
     const WarningModal = (): IModalComponent => {
         return {
             modalComponent: (
-                <CustomModal
+                <CustomMessageModal
+                    title="Warning"
+                    description={errorMessage}
                     isModalVisible={isShowWarningModal}
                     setIsModalVisible={setIsShowWarningModal}
-                    showCloseBtn={true}
-                >
-                    <SchoolSuccessfulModals>
-                        <div className="mainContainer d-flex flex-column align-items-center">
-                            <img
-                                src={ic_error}
-                                alt="error Icon"
-                                width={79}
-                                height={79}
-                            />
-                            <h3 className="mainContainer-heading text-center">
-                                Warning!
-                            </h3>
-                            <p className="mainContainer-subText text-center">
-                                Please remove the first Branches and Franchise.
-                            </p>
-                        </div>
-                    </SchoolSuccessfulModals>
-                </CustomModal>
+                    imageProp={'error'}
+                />
             ),
         }
     }
@@ -815,15 +761,15 @@ const useTimetable = (): IUseTimetable => {
         loading,
         setIsShowModal,
         handleCreateSubmit,
-        editSchool,
         deleteTimeTable,
+        EditSlots,
+        SuccessModal,
         errorMessage,
         isUploadImgModalVisible,
         AllTimetable,
         setIsUploadImgVisible,
         deletemodal,
-        Createmodal,
-        UpdateModal,
+
         deleteConfirmation,
         getTimetableSlot,
         getAllTimetable,

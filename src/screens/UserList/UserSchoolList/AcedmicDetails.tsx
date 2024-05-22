@@ -1,33 +1,21 @@
-import { Link, useNavigate } from 'react-router-dom'
-import { Avatar, Col, Dropdown, List, Rate, Row, Table } from 'antd'
-import CustomButton from '../../../components/CustomButton/CustomButton'
+import { useNavigate } from 'react-router-dom'
+import { List } from 'antd'
 import phoneIcon from '../../../assets/icons/ic_phone.svg'
-import emailIcon from '../../../assets/icons/ic_email.svg'
-import locationIcon from '../../../assets/icons/location-sign-svgrepo-com.svg'
-import { CardViewStyled, ImageModal } from './styles'
-import placeHolderImage from '../../../assets/images/custom_card_placeholder.png'
-import {
-    fontFamilyMedium,
-    fontFamilyRegular,
-    lightBlue3,
-    maastrichtBlue,
-} from '../../../components/GlobalStyle'
-import RightArrow from '../../../assets/images/rightArrow.svg'
-import LeftArrow from '../../../assets/images/leftArrow.svg'
-import { Form, Formik } from 'formik'
-import FormControl from '../../../components/FormControl'
+import emailIcon from '../../../assets/images/ic_email.png'
+import locationIcon from '../../../assets/images/ic_address.png'
 import { AllUserSchoolList } from '../../../redux/features/dashboard/dashboardDataSlice'
-import { CustomDiv } from '../../CreateSchool/ListSchool/CustomDiv'
-import Head from '../../../components/Head/Head'
 import useUser from '../../../hooks/useUser'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
 import { FC, useEffect, useState } from 'react'
 import useCreateSchool from '../../../hooks/useCreateSchool'
-import CustomModal from '../../../components/Modal/CustomModal'
+import Feilds from '../../../assets/images/Felids.png'
+import useScreenTranslation from '../../../hooks/useScreenTranslation'
+import { fontFamilyMedium, lightBlue3 } from '../../../components/GlobalStyle'
+import CustomButton from '../../../components/CustomButton/CustomButton'
 
 interface Item {
-    activitiesId: number
+    activitiesId: string
     address: string
     bannerImg: string
     description: string
@@ -89,10 +77,33 @@ const AcademiesDetails: FC<Props> = ({ item }): JSX.Element => {
     }
     const navigate = useNavigate()
 
-    // useEffect(() => {
-    //     store.dispatch(getAllUsers())
-    // }, [])
+    const {
+        statusData: { activities },
+    } = useSelector((state: RootState) => state.appData.data)
+    const { selectedLanguage } = useSelector(
+        (state: RootState) => state.selectedLanguage
+    )
+    const { getLabelByKey } = useScreenTranslation('updateClasses')
 
+    const showActivities = (_activities: string[]): string => {
+        let activitiesName = ''
+        _activities.forEach((activity) => {
+            const index = activities.findIndex((act) => act.id === activity)
+            if (index !== -1) {
+                const activityLabel = (activities[index] as any)[
+                    selectedLanguage
+                ]
+                activitiesName =
+                    activitiesName === ''
+                        ? activityLabel
+                        : `${activitiesName}, ${activityLabel}`
+            }
+        })
+        if (activitiesName.length > 35) {
+            return `${activitiesName.slice(0, 35)}...`
+        }
+        return activitiesName || getLabelByKey('activitiesPlaceholder')
+    }
     useEffect(() => {
         const fetchData = async (): Promise<any> => {
             try {
@@ -107,34 +118,22 @@ const AcademiesDetails: FC<Props> = ({ item }): JSX.Element => {
         }
         fetchData()
     }, [])
-    const items = [
-        {
-            key: '1',
-            label: 'Report',
-            // onClick: () => navigation(record, "view"),
-        },
-        {
-            key: '2',
-            label: 'Share',
-            // onClick: () => navigation(record, "edit"),
-        },
-    ]
-    const [modalVisible, setIsModalVisible] = useState(false)
-    const [imgId, setImgId] = useState<string>()
+    // const [modalVisible, setIsModalVisible] = useState(false)
+    // const [imgId, setImgId] = useState<string>()
 
-    const initialValues = (): void => {}
-    const handleCreateSubmit = (): void => {}
-    const handleModal = (id: string): void => {
-        setImgId(id)
-        setIsModalVisible(true)
-    }
-
+    // const initialValues = (): void => {}
+    // const handleCreateSubmit = (): void => {}
+    // const handleModal = (id: string): void => {
+    //     setImgId(id)
+    //     setIsModalVisible(true)
+    // }
+    console.log('itemmmm', item)
     return (
         <>
-            <div>
+            <div style={{ padding: '20px 6px 20px 6px' }}>
                 <div key={item.id}>
-                    <div id="bannerImg">
-                        <img
+                    <div>
+                        {/* <img
                             src={
                                 item.bannerImg
                                     ? `https://fistastore.com:444/${item.bannerImg}`
@@ -142,10 +141,10 @@ const AcademiesDetails: FC<Props> = ({ item }): JSX.Element => {
                             }
                             alt="bannerImg"
                             id={item.id}
-                            onClick={() => handleModal(item.id)}
-                        />
+                            // onClick={() => handleModal(item.id)}
+                        /> */}
 
-                        {item.id === imgId && modalVisible && (
+                        {/* {item.id === imgId && modalVisible && (
                             <CustomModal
                                 isModalVisible={modalVisible}
                                 setIsModalVisible={setIsModalVisible}
@@ -164,69 +163,99 @@ const AcademiesDetails: FC<Props> = ({ item }): JSX.Element => {
                                     id={item.id}
                                 />
                             </CustomModal>
-                        )}
+                        )} */}
                     </div>
+                    <h5>{item.name}</h5>
                     <List.Item
-                        style={{ display: 'flex', alignItems: 'center' }}
+                        style={{ display: 'flex', alignItems: 'normal' }}
                     >
-                        <List.Item.Meta title={item.name} description={null} />
+                        <div>
+                            <div
+                                style={{
+                                    fontFamily: fontFamilyMedium,
+                                    fontSize: '16px',
+                                    fontWeight: '400',
+                                }}
+                            >
+                                {' '}
+                                {showActivities(
+                                    item.activitiesId?.split(',').map(String)
+                                )}
+                            </div>
+                            <div>
+                                <img
+                                    src={locationIcon}
+                                    width={10}
+                                    height={15}
+                                    style={{
+                                        marginLeft: 'auto',
+                                        color: 'blue',
+                                    }}
+                                />{' '}
+                                {item.address}
+                            </div>
+                            <div>
+                                <img
+                                    src={emailIcon}
+                                    width={10}
+                                    height={10}
+                                    style={{
+                                        marginLeft: 'auto',
+                                        color: 'blue',
+                                    }}
+                                />
+                                {item.emailAddress}
+                            </div>
+                            <div>
+                                <img
+                                    src={phoneIcon}
+                                    width={10}
+                                    height={10}
+                                    style={{
+                                        marginLeft: 'auto',
+                                        color: 'blue',
+                                    }}
+                                />{' '}
+                                {item.phoneNumber}
+                            </div>
+                        </div>
                         {item.profileImg ? (
                             <img
                                 src={`https://fistastore.com:444${item.profileImg}`}
+                                width={54}
+                                height={54}
+                                style={{ marginLeft: 'auto' }}
+                            />
+                        ) : (
+                            <img
+                                src={Feilds}
                                 width={44}
                                 height={44}
                                 style={{ marginLeft: 'auto' }}
                             />
-                        ) : (
-                            <Avatar />
                         )}
                     </List.Item>
 
-                    <div>
-                        <img
-                            src={locationIcon}
-                            width={10}
-                            height={10}
-                            style={{
-                                marginLeft: 'auto',
-                                color: 'blue',
-                            }}
-                        />{' '}
-                        {item.address}
-                    </div>
-                    <div>
-                        <img
-                            src={emailIcon}
-                            width={10}
-                            height={10}
-                            style={{
-                                marginLeft: 'auto',
-                                color: 'blue',
-                            }}
-                        />
-                        {item.emailAddress}
-                    </div>
-                    <div>
-                        <img
-                            src={phoneIcon}
-                            width={10}
-                            height={10}
-                            style={{
-                                marginLeft: 'auto',
-                                color: 'blue',
-                            }}
-                        />{' '}
-                        {item.phoneNumber}
-                    </div>
-
-                    <div
-                        style={{
-                            borderTop: '1px solid #ccc',
-                            margin: ' 10px ',
-                            marginBottom: '10px',
-                        }}
-                    ></div>
+                    <hr className="solid" />
                     <div> {item.description}</div>
+                </div>
+                <div className="mt-3">
+                    <CustomButton
+                        bgcolor={lightBlue3}
+                        textTransform="Captilize"
+                        color="#006197"
+                        padding="10px 27px"
+                        fontFamily={`${fontFamilyMedium}`}
+                        width="140 px"
+                        type="button"
+                        title="Enroll Now"
+                        fontSize="14px"
+                        loading={false}
+                        margin="5px"
+                        clicked={() => {
+                            navigate('/subscriptionPlan')
+                        }}
+                    />
                 </div>
             </div>
         </>

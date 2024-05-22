@@ -1,30 +1,13 @@
 /* eslint-disable max-len */
 import { useState } from 'react'
 import { CardViewStyled } from './UpgradeAccount'
-import { Avatar, Dropdown, List, Rate } from 'antd'
+import { List } from 'antd'
 import school from '../../assets/icons/school.svg'
 import franchies from '../../assets/icons/franchise.png'
-import { Link, useNavigate } from 'react-router-dom'
-import FormControl from '../../components/FormControl'
-import placeHolderImage from '../../assets/images/custom_card_placeholder.png'
-import {
-    darkBlue,
-    fontFamilyMedium,
-    lightBlue3,
-    maastrichtBlue,
-    pureDark,
-} from '../../components/GlobalStyle'
-import CustomButton from '../../components/CustomButton/CustomButton'
-import RightArrow from '../../assets/images/rightArrow.svg'
-import LeftArrow from '../../assets/images/leftArrow.svg'
-import DateCalander from '../../assets/images/dateCalander.svg'
-import FilterIcon from '../../assets/icons/ic_filter.svg'
-import { CustomDiv } from './CustomDiv'
+import { useNavigate } from 'react-router-dom'
 
 const CardView = (): JSX.Element => {
     const navigate = useNavigate()
-    const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful']
-    const [value, setValue] = useState(3)
 
     const items = [
         {

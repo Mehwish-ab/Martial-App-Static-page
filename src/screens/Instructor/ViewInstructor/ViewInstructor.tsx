@@ -31,6 +31,7 @@ const ViewInstructor = (): JSX.Element => {
         (state: RootState) => state?.selectedLanguage
     )
     const instructor: InstructorDataType = location.state?.branch
+    console.log('instructor is setting')
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const getInstructor = async (): Promise<void> => {
         if (instructor) {

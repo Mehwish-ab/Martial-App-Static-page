@@ -14,13 +14,15 @@ interface TimeTableFormProps {
     rowIndex: number
     recordIndex: number
     startBreak: string | undefined
-    SendData: string
+
     setStartTime: (
         _recordIndex: number,
         _key: string,
         _value: undefined | string | boolean | number,
         _timeEntryIndex?: number
     ) => void
+    minTime: string | undefined
+    maxTime: string | undefined
 }
 
 const StartBreak: React.FC<TimeTableFormProps> = ({
@@ -28,7 +30,8 @@ const StartBreak: React.FC<TimeTableFormProps> = ({
     recordIndex,
     startBreak,
     setStartTime,
-    SendData,
+    minTime,
+    maxTime,
 }: TimeTableFormProps) => {
     const initialValues = {
         startBreak: startBreak,
@@ -56,7 +59,7 @@ const StartBreak: React.FC<TimeTableFormProps> = ({
                                         name="startBreak"
                                         labelFamily={`${fontFamilyMedium}`}
                                         fontSize="16px"
-                                        value={SendData}
+                                        value={startBreak}
                                         suffixIcon={
                                             <img
                                                 src={Clock as string}
@@ -66,6 +69,8 @@ const StartBreak: React.FC<TimeTableFormProps> = ({
                                         max={6}
                                         placeholder="00:00:00"
                                         onChange={onChangeHandler}
+                                        minTime={minTime}
+                                        maxTime={maxTime}
                                     />
                                 </Col>
                             </Form>

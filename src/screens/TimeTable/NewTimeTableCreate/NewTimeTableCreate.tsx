@@ -107,7 +107,7 @@ const NewTimeTable = (): JSX.Element => {
     const {
         getTimetableById,
         createSlots,
-        Createmodal,
+        SuccessModal,
         setIsShowModal,
         getTimetableSlot,
     } = useTimetable()

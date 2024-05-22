@@ -18,8 +18,9 @@ const EditTimeTable: React.FC = () => {
         startDate: '',
         endDate: '',
         activities: [],
-        roomId: 0,
-        instructorId: 0,
+        roomId: [],
+        instructorId: [],
+        status: false,
     }
     return (
         <>

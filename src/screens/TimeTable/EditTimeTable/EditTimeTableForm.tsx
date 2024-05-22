@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
-import { CreateTimeTableStyled } from './styles'
+import { InformationTimeTableFormStyle } from './styles'
 import { useParams } from 'react-router-dom'
 import useTimetable from '../../../hooks/useTimetable'
 
@@ -23,7 +23,7 @@ const EditTimeTableForm: React.FC = () => {
 
     return (
         <>
-            <CreateTimeTableStyled>
+            <InformationTimeTableFormStyle>
                 <h3 className="timetable-heading">Time Table</h3>
                 <Row>
                     <Col md="4">
@@ -79,7 +79,7 @@ const EditTimeTableForm: React.FC = () => {
                         </Row>
                     </Col>
                 </Row>
-            </CreateTimeTableStyled>
+            </InformationTimeTableFormStyle>
         </>
     )
 }

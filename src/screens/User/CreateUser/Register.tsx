@@ -369,7 +369,7 @@ const Register = (): JSX.Element => {
                                                                     .phoneNumber
                                                             }
                                                             onChange={(
-                                                                e: string
+                                                                e: any
                                                             ) => {
                                                                 formik.setValues(
                                                                     {

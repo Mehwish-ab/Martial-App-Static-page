@@ -324,7 +324,7 @@ const InviteUser = (): JSX.Element => {
                                                                     .phoneNumber
                                                             }
                                                             onChange={(
-                                                                e: string
+                                                                e: any
                                                             ) => {
                                                                 formik.setValues(
                                                                     {

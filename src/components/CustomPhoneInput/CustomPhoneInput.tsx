@@ -9,7 +9,7 @@ type CustomPhoneInputProps = {
     placeholder: string
     value: string
     limitMaxLength: boolean | undefined
-    handleOnChange: (value: string) => void // Update the argument type
+    handleOnChange: (value: any) => void // Update the argument type
 }
 
 const CustomPhoneInput = ({

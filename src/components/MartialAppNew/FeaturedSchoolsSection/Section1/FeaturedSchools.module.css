@@ -1,0 +1,112 @@
+.main_featured_container{
+    background-color: #F5FAFE;
+    background-image: url(../../../../assets/MartialAppNew/images/featurebg.png);
+    background-repeat: no-repeat;
+    /* background-attachment: fixed; */
+    background-position: left bottom;
+
+}
+
+.featured_text{
+    font-weight: 500;
+  font-size: 45px;
+    font-family: Ennvisions;
+}
+
+.featured_text span{
+    color: #31ADE6;
+}
+
+.featured_container{
+    height: auto;
+}
+
+.heading_container{
+      padding: 90px;
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+.heading_button button{
+padding: 14px 70px;
+border:2px solid #31ADE6;
+border-radius: 8px;
+color: #3D86AF;
+font-size: 20px;
+font-weight: 600;
+background-color: white;
+}
+
+.featured_container {
+    text-align: center;
+}
+.featured_container img{
+    width: 90vw;
+}
+
+.left_content{
+    display: flex;
+}
+.right_content{
+
+    display: flex;
+}
+
+.container_2{
+    display: flex;
+    width: 100vw;
+    height: 70vh;
+    position: relative;
+   
+  
+}
+.left_container{
+    width: 50vw;
+    height: 70vh;
+    padding: 70px 90px;
+   
+}
+.right_container{
+    width: 50vw;
+    height: 70vh;
+  
+}
+.left_container h3{
+    font-size: 45px;
+    font-weight:500;
+    margin-bottom: 30px;
+}
+
+.left_container span {
+    color: #31ADE6;
+}
+
+.left_container p {
+    font-size: 20px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.left_container img{
+   margin-top: 50px;
+}
+
+.right_container{
+    padding: 40px 70px;
+
+}
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
+}
+
+.column img{
+    margin: 30px;
+}

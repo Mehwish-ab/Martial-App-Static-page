@@ -1,0 +1,74 @@
+.main_box{
+    margin-top: 50px;
+    background-color: #F5FAFE;
+}
+.payment_heading{
+  font-size: 45px;
+  font-weight: 500;
+  margin-top: 70px;
+}
+.payment_heading span{
+ color: #31ADE6;
+}
+
+.payment_para{
+  display: flex;
+  align-items: center;
+  justify-content: center;;
+  font-size: 22px;
+  font-weight: 400;
+  margin: 50px;
+}
+
+.box{
+    display: flex;
+    position: relative;
+    width: 100vw;
+    height: 90vh;
+
+}
+
+.imagebox{
+    display: flex;
+    position: absolute;
+    left: 4%;
+}
+.overlap_box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 830px;
+    height: 620px;
+    position: absolute;
+    top: 9%;
+    right: 13%;
+    background-color: white;
+}
+.main_heading{
+    font-size: 47px;
+    font-weight: 500;
+    line-height: 56px;
+     margin-top: 20px;
+}
+.main_heading span{ 
+ color: #31ADE6;
+}
+
+.overlap_box p{
+     margin-top: 20px;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 34px;
+}
+.info_img_box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 620px;
+    height: 180px;
+    margin-top: 90px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 8px 23px #ebe6e6;
+    border-radius: 12px;
+    
+}

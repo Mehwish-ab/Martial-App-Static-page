@@ -1,0 +1,33 @@
+h1, p, span {
+font-family: Ennvisions;
+}
+.heading2{
+    color:  #1E9AD5;
+    font-weight: 900;
+}
+.heading1{
+    font-weight: 900;
+ 
+}
+
+.main_para span {
+    font-weight: bold;
+}
+
+/* .paras p{
+    margin-left: 3px;
+} */
+
+.paras span {
+    margin-left: 18px;
+    font-size: 18px;
+}
+
+.happy_user{
+    font-size: 45px;
+    font-weight: 500;
+}
+
+.happy_user span{
+color:  #1E9AD5;
+}

@@ -1,0 +1,71 @@
+.footer_columns{
+    height: 350px;
+    display: flex;
+  position: relative;
+  background-color: white;
+}
+.footer_logo{
+    width: 30%;
+    position: relative;
+    top: 0%;
+}
+.inner_div1{
+    position: absolute;
+    top: 5%;
+    left: 20%;
+}
+.footer_about{
+     position: relative;
+     top: 0%;
+    width: 40%;}
+.inner_div2{
+    position: absolute;
+    top: 5%;
+}
+.footer_list{
+     position: relative;
+     top: 0%;
+     width: 30%;}
+.inner_div3{
+    position: absolute;
+    top: 5%;
+    display: inline-flex;
+}
+.inner_div3 p{
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 34px;
+    margin-bottom: 20px;
+}
+.inner_div3 a{
+    font-size: 16px;
+    font-weight: 400;
+}
+.navigate_list{
+    width: 5 0%;
+}
+ .para{
+    font-size : 18px;
+    font-weight: 400;
+    line-height: 34px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+ } 
+ /* .heading{
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 34px;
+ } */
+.payment_img{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.support_list{
+    margin-left: 100px;
+}
+.inner_div2 h1{
+     font-size: 20px;
+    font-weight: 500;
+    line-height: 34px;
+}

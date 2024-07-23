@@ -379,7 +379,7 @@ const PersonalDetails = (): JSX.Element => {
                                                 value={
                                                     formik.values.phoneNumber
                                                 }
-                                                onChange={(e: string) => {
+                                                onChange={(e: any) => {
                                                     formik.setValues({
                                                         ...formik.values,
                                                         phoneNumber: e,

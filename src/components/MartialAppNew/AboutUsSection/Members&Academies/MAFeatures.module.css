@@ -1,0 +1,80 @@
+/* .features{
+    display: flex;
+} */
+
+.members{
+  width: 50vw;
+  height: 70vh;
+  background-image:  url(../../../../assets/MartialAppNew/images/members.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-size: 50vw 70vh;
+  margin: 0;
+  padding: 0;
+
+}
+.academies{
+  
+    width: 50vw;
+    height: 70vh;
+    background-size: cover;
+    background-size: 50vw 70vh;
+    background-image: url(../../../../assets/MartialAppNew/images/academies.png);
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+}
+
+.container{
+  display: flex;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 70vh;
+  /* background-color: #0C86BB; */
+
+  /* background-image: url(../../../../assets/MartialAppNew/images/coverimage.png);
+  background-repeat: no-repeat;
+  background-size: 100vw 70vh; */
+ 
+
+}
+.line_imgleft{
+    position: relative;
+    top: -433px;
+    left: 130px;
+
+}
+
+.line_imgright{
+    position: relative;
+    top: -433px;
+    left: 130px;
+
+}
+
+.inner_text
+{
+  left: 185px; 
+  top: 80px;
+  position: relative;
+  color: white;
+    
+}
+.inner_text p {
+font-family: Ennvisions;
+font-size: 20px;
+ 
+
+}
+
+.inner_text span{
+  color: #67C9FD;
+  margin-top: 4px;
+}
+
+.lineimg{
+ position: relative;
+    top: 85px;
+   right: 10px;
+}

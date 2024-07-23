@@ -1,0 +1,31 @@
+.aboutUsContainer{
+  background-color: #33AFE5;
+  background-repeat: no-repeat;
+  /* background-attachment: fixed; */
+  height: 550px;
+  background-position: right bottom; 
+    background-image: url("../../../../assets/MartialAppNew/images/aboutusbg.png");
+}
+
+
+.moreAboutUsP1{
+    width: 80vh;
+     color: white;
+    font-size: 48px;
+}
+
+.moreAboutUsP2{
+    
+  color: white;
+    font-size: 15px;
+}
+
+.aboutus_logo_img{
+  padding-top: 60px;
+}
+.moreAboutUsP1 p{
+  font-weight: 300;
+  font-size: 32px;
+  font-family: Ennvisions;
+
+}

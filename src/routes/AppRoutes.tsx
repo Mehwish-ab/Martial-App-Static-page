@@ -88,6 +88,7 @@ import VideoDetail from '../screens/Video/VideoDetailandPreview/videoDetail'
 import EditVideo from '../screens/Video/EditVideo/editVideo'
 import CreateVideo from '../screens/Video/CreateVideo/createVideo'
 import VideoList from '../screens/Video/VideoList/videoList'
+import MartialAppNew from '../components/MartialAppNew/MartialAppNew'
 // import { RootState } from "../redux/store";
 
 function AppRoutes(): JSX.Element {
@@ -154,6 +155,7 @@ function AppRoutes(): JSX.Element {
                 <Route path={'/Home'} element={<WelcomeExplore />} />
                 <Route path={'/details/:SchoolId'} element={<DetailPage />} />
                 <Route path={'/membership'} element={<MembershipList />} />
+                <Route path={'/MartialNew'} element={<MartialAppNew />} />
                 <Route
                     path="/user/list"
                     element={

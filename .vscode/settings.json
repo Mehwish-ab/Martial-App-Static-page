@@ -36,5 +36,6 @@
         "deletemodal",
         "formik"
     ],
-    "editor.formatOnPaste": true // Unix
+    "editor.formatOnPaste": true,
+    "npm.packageManager": "npm" // Unix
 }

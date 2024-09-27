@@ -82,16 +82,20 @@ function App(): JSX.Element {
     useEffect(() => {
         const regex = /\bregister\b/
         const register = regex.test(pathname)
-        if (pathname === '/login' || register || pathname === '/') {
+        if (
+            pathname === '/MartialNew' ||
+            pathname === '/login' ||
+            register ||
+            pathname === '/'
+        ) {
             if (loginData && schoolData?.schoolId !== 0) {
                 return navigate('/')
+            } else {
+                return navigate(`/MartialNew`)
             }
-            // else {
-            //     return navigate(`/Home`)
-            // }
         }
         if (!loginData && !publicRoutes.includes(pathname)) {
-            return navigate('/login')
+            return navigate('/MartialNew')
         }
     }, [])
 

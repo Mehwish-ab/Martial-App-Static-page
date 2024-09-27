@@ -37,7 +37,12 @@ function App(): JSX.Element {
         (state: RootState) => state.selectedLanguage
     )
 
-    const publicRoutes = ['/Home', '/membership', '/details/:SchoolId']
+    const publicRoutes = [
+        '/Home',
+        '/membership',
+        '/details/:SchoolId',
+        '/MartialNew',
+    ]
     const { profileImageURL } = useGlobalContext()
 
     const { loading: userLocationLoading } = useLocationData()
